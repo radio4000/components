@@ -1,13 +1,15 @@
 {
   "name": "@radio4000/components",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "web components for radio4000.com",
   "main": "src/index.js",
+  "module": "dist/index.esm.js",
   "type": "module",
   "private": false,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx serve ."
+    "build": "esbuild src/index.js --bundle --format=esm --minify --outfile=dist/index.esm.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
