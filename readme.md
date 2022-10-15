@@ -9,6 +9,9 @@ These components can be inserted in the HTML of any web pages, and are made to i
 No particular setup is needed, but `node` is usefull, here using the package  `serve`.
 
 ```bash
+# install dependencies
+npm install
+
 # serve locally the project root folder
-npx serve .
+npx run dev
 ```
