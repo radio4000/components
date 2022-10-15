@@ -10,6 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+      - run: npm run build
       - run: echo "Publishing to npm registry"
       - uses: JS-DevTools/npm-publish@v1
         with:
