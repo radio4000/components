@@ -3,9 +3,9 @@ import { render } from 'lit'
 
 import R4Title from './components/r4-title.js'
 import R4Favicon from './components/r4-favicon.js'
-import R4SignUp from './components/r4-sign-up'
-import R4SignIn from './components/r4-sign-in'
-import R4SignOut from './components/r4-sign-out'
+import R4SignUp from './components/r4-sign-up.js'
+import R4SignIn from './components/r4-sign-in.js'
+import R4SignOut from './components/r4-sign-out.js'
 
 customElements.define('r4-title', R4Title)
 customElements.define('r4-favicon', R4Favicon)
