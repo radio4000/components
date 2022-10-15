@@ -1,6 +1,6 @@
 {
   "name": "@radio4000/components",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "web components for radio4000.com",
   "main": "src/index.js",
   "module": "dist/index.esm.js",
@@ -31,7 +31,7 @@
     "esbuild": "^0.15.11"
   },
   "dependencies": {
-    "@radio4000/sdk": "^0.0.4",
+    "@radio4000/sdk": "^0.0.5",
     "lit": "^2.4.0",
     "wchooks": "^0.2.4"
   }
