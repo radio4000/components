@@ -1,0 +1,16 @@
+/* Universal Box Sizing with Inheritance */
+html {
+	box-sizing: border-box;
+}
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+/* page variables */
+:root {
+	--c-fg: black;
+	--c-bg: white;
+	--size-font: 16px;
+	--size: 1.3em;
+	--size-container: 42em;
+}
