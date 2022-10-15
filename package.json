@@ -4,6 +4,7 @@
   "description": "web components for radio4000.com",
   "main": "src/index.js",
   "type": "module",
+  "private": false,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
