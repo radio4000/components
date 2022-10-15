@@ -1,13 +1,10 @@
 {
   "name": "@radio4000/components",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "web components for radio4000.com",
   "main": "src/index.js",
   "module": "dist/index.esm.js",
   "type": "module",
-  "exports": {
-    "default": "./dist.index.esm.js"
-  },
   "private": false,
   "scripts": {
     "dev": "esbuild src/index.js --bundle --format=esm --sourcemap --servedir=. --outdir=.",
