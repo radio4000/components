@@ -7,6 +7,7 @@
   "type": "module",
   "private": false,
   "scripts": {
+    "dev": "npx serve ."
     "build": "esbuild src/index.js --bundle --format=esm --minify --outfile=dist/index.esm.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,5 +23,10 @@
   "bugs": {
     "url": "https://github.com/radio4000/components/issues"
   },
-  "homepage": "https://github.com/radio4000/components#readme"
+  "homepage": "https://github.com/radio4000/components#readme",
+  "dependencies": {
+    "@radio4000/sdk": "^0.0.2",
+    "lit": "^2.4.0",
+    "wchooks": "^0.2.4"
+  }
 }
