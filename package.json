@@ -31,7 +31,7 @@
     "esbuild": "^0.15.11"
   },
   "dependencies": {
-    "@radio4000/sdk": "^0.0.2",
+    "@radio4000/sdk": "^0.0.4",
     "lit": "^2.4.0",
     "wchooks": "^0.2.4"
   }
