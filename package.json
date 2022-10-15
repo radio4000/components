@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/radio4000/components/issues"
   },
-  "homepage": "https://github.com/radio4000/components#readme"
+  "homepage": "https://github.com/radio4000/components#readme",
+  "dependencies": {
+    "@radio4000/sdk": "^0.0.2"
+  }
 }
