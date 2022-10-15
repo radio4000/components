@@ -1,9 +1,9 @@
 import { html } from 'lit'
-import { signOut } from '@radio4000/sdk'
+import sdk from '@radio4000/sdk'
 
 const R4SignOut = () => {
 	return html`
-		<button type="button" @click=${() => signOut()}>Sign Out</button>
+		<button type="button" @click=${() => sdk.signOut()}>Sign Out</button>
 	`
 }
 
