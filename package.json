@@ -7,7 +7,7 @@
   "type": "module",
   "private": false,
   "scripts": {
-    "dev": "npx serve .",
+    "dev": "esbuild src/index.js --servedir= --outdir=dist/js --bundle",
     "build": "esbuild src/index.js --bundle --format=esm --minify --outfile=dist/index.esm.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
