@@ -13,7 +13,6 @@ customElements.define('r4-sign-up', Component(R4SignUp, render))
 customElements.define('r4-sign-in', Component(R4SignIn, render))
 customElements.define('r4-sign-out', Component(R4SignOut, render))
 
-
 export default {
 	R4Title,
 	R4Favicon,

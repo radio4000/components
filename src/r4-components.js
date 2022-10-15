@@ -1,4 +1,5 @@
-import Components from './index.js'
+// import Components from './index.js'
+import Components from '../index.js'
 
 const camelToDash = str => {
 	return str.replace(/([A-Z])/g, val => `-${val.toLowerCase()}`)
@@ -14,6 +15,7 @@ const slugFromName = componentName => {
 class R4Components extends HTMLElement {
 	get components() {
 		return Object.keys(Components).map(componentName => {
+			console.log(componentName)
 			const Component = Components[componentName]
 			const config = {
 				name: componentName,
