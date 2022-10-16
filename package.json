@@ -30,6 +30,6 @@
   "dependencies": {
     "@radio4000/sdk": "^0.0.5",
     "lit": "^2.4.0",
-    "wchooks": "^0.2.4"
+    "wchooks": "^0.2.5"
   }
 }
