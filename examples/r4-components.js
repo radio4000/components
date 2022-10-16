@@ -1,4 +1,3 @@
-// import Components from './index.js'
 import Components from '../index.js'
 
 const camelToDash = str => {

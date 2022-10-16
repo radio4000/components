@@ -3,13 +3,13 @@
   "version": "0.0.8",
   "description": "web components for radio4000.com",
   "main": "src/index.js",
-  "module": "dist/index.esm.js",
+  "module": "dist/index.js",
   "type": "module",
   "private": false,
   "scripts": {
-    "dev": "esbuild src/index.js --bundle --format=esm --sourcemap --servedir=. --outdir=.",
+    "dev": "esbuild src/index.js --bundle --format=esm --sourcemap --servedir=examples --outdir=examples",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "esbuild src/index.js --bundle --format=esm --outfile=dist/index.esm.js"
+    "build": "esbuild src/index.js --bundle --format=esm --outfile=dist/index.js"
   },
   "repository": {
     "type": "git",

@@ -10,7 +10,7 @@ const R4SignIn = () => {
 	}
 	return html`
 		<form @submit=${handleSignIn}>
-			<input name="email" type="email" required value="oskar@rough.dk" />
+			<input name="email" type="email" required value="" />
 			<input name="password" type="password" required />
 			<button type="submit">Sign In</button>
 		</form>
