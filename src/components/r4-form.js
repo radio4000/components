@@ -4,7 +4,7 @@ template.innerHTML = `
 		<slot name="fields"></slot>
 		<slot name="submit">
 			<fieldset>
-				<button type="submit">submit</button>
+				<button type="submit" name="submit">submit</button>
 			</fieldset>
 		</slot>
 	</form>
@@ -42,6 +42,7 @@ export default class R4Form extends HTMLElement {
 		const fieldTypes = {
 			input: 'input',
 			textarea: 'input',
+			button: null,
 		}
 
 		/* create only one field(in+out) per fieldset */
@@ -50,7 +51,9 @@ export default class R4Form extends HTMLElement {
 				const $field = $fieldset.querySelector(fieldType)
 				const fieldEventType = fieldTypes[fieldType]
 				if (!$field || !fieldEventType) return true
-				$field.addEventListener(fieldEventType, this.handleInput.bind(this))
+				if (fieldEventType) {
+					$field.addEventListener(fieldEventType, this.handleInput.bind(this))
+				}
 				const $errorOutput = this.createFieldsetOutput($field)
 				$fieldset.append($errorOutput)
 				return false
