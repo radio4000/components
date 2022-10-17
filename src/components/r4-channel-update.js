@@ -30,12 +30,26 @@ export default class R4ChannelUpdate extends R4Form {
 		this.fieldsTemplate = fieldsTemplate
 	}
 
-	async connectedCallback() {
-		super.connectedCallback()
-	}
-
-	render() {
-		super.render()
+	errors = {
+		'default': {
+			message: 'Unhandled error',
+		},
+		'22P02': {
+			message: 'invalid input syntax for type uuid',
+			field: 'id',
+		},
+		23514: {
+			message: 'The slug needs to be between 5 and 40 characters',
+			field: 'slug',
+		},
+		23505: {
+			message: 'The slug needs to be unique amond all channels',
+			field: 'slug',
+		},
+		404: {
+			message: 'This channel does not exist',
+			field: 'id',
+		}
 	}
 
 	async handleSubmit(event) {
@@ -75,41 +89,5 @@ export default class R4ChannelUpdate extends R4Form {
 		if (res && res.data) {
 			this.resetForm()
 		}
-	}
-
-	errors = {
-		'default': {
-			message: 'Unhandled error',
-		},
-		'22P02': {
-			message: 'invalid input syntax for type uuid',
-			field: 'id',
-		},
-		23514: {
-			message: 'The slug needs to be between 5 and 40 characters',
-			field: 'slug',
-		},
-		23505: {
-			message: 'The slug needs to be unique amond all channels',
-			field: 'slug',
-		},
-		404: {
-			message: 'This channel does not exist',
-			field: 'id',
-		}
-	}
-
-	/* serialize errors */
-	handleError(error) {
-		console.log('error submitting', error)
-		const { code = 'default' } = error
-		const {
-			message = 'Error submitting the form',
-			field
-		} = this.errors[code]
-
-		error.field = field
-		error.message = message
-		super.handleError(error)
 	}
 }

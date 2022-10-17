@@ -14,12 +14,21 @@ export default class R4Form extends HTMLElement {
 	/* the state of the form (state[input-name]) */
 	state = {}
 
+	errors = {
+		'default': {
+			message: 'Unhandled error',
+			field: null,
+		}
+	}
+
 	fieldsTemplate = null
 
 	connectedCallback() {
 		this.append(template.content.cloneNode(true))
 		this.$form = this.querySelector('form')
 		this.$form.addEventListener('submit', this.handleSubmit.bind(this))
+
+		this.initialState = this.getInitialState()
 
 		this.$fields = this.querySelector('slot[name="fields"')
 		if (this.fieldsTemplate) {
@@ -34,7 +43,23 @@ export default class R4Form extends HTMLElement {
 		this.bindFieldsInput(this.$fieldsets)
 		this.render()
 	}
+
 	render() {}
+
+	/* from the url params */
+	getInitialState() {
+		const urlParams = new URLSearchParams(window.location.search)
+		let config = {}
+		for (const [paramName, paramValue] of urlParams) {
+			const value = decodeURIComponent(paramValue)
+			console.log('value', value, typeof value)
+			if (value === 'null') {
+			} else if (value) {
+				config[paramName] = value
+			}
+		}
+		return config
+	}
 
 	bindFieldsInput($fieldsets) {
 		if (!$fieldsets) return
@@ -45,17 +70,28 @@ export default class R4Form extends HTMLElement {
 			button: null,
 		}
 
-		/* create only one field(in+out) per fieldset */
 		$fieldsets.forEach($fieldset => {
+			/* listen for changes,
+				 and create only one field(in+out) per fieldset */
 			Object.keys(fieldTypes).every(fieldType => {
 				const $field = $fieldset.querySelector(fieldType)
 				const fieldEventType = fieldTypes[fieldType]
 				if (!$field || !fieldEventType) return true
+
+				const $errorOutput = this.createFieldsetOutput($field)
+				$fieldset.append($errorOutput)
+
 				if (fieldEventType) {
 					$field.addEventListener(fieldEventType, this.handleInput.bind(this))
 				}
-				const $errorOutput = this.createFieldsetOutput($field)
-				$fieldset.append($errorOutput)
+
+				const initialFieldState = this.initialState[$field.name]
+				if (initialFieldState) {
+					$field.value = initialFieldState
+				}
+
+				/* return false, to stop the "every" loop,
+					 since the field type has been found and set */
 				return false
 			})
 		})
@@ -85,17 +121,35 @@ export default class R4Form extends HTMLElement {
 	}
 
 	handleError(error) {
-		const { field, message, code } = error
-		console.log('form:error', error)
+		console.info('form:error', this, error)
+		const { code = 'default' } = error
+		const { message, field } = this.errors[code]
+		error.field = field
+		error.message = message || error.message
+
 		/* reset all existing outputs */
 		this.$form.querySelectorAll('output').forEach($out => {
-			$out.innerText = ''
+			$out.innerHTML = ''
 		})
 		/* set errors on outputs */
 		const $out = this.$form.querySelector(`output[for="${field}"]`)
 		if ($out) {
-			$out.innerText = `${message} [${code}:${field}]`
+			this.renderErrorOutput($out, { message, code, field })
 		}
+	}
+	renderErrorOutput($out, { message, code, field }) {
+		const $message = document.createElement('span')
+		$message.innerText = message
+
+		const $code = document.createElement('code')
+		$code.innerText = code
+
+		const $field = document.createElement('i')
+		$code.innerText = field
+
+		$out.append($message)
+		$out.append($code)
+		$out.append($field)
 	}
 
 	disableForm() {

@@ -22,12 +22,18 @@ export default class R4ChannelCreate extends R4Form {
 		this.fieldsTemplate = fieldsTemplate
 	}
 
-	async connectedCallback() {
-		super.connectedCallback()
-	}
-
-	render() {
-		super.render()
+	errors = {
+		'default': {
+			message: 'Unhandled error',
+		},
+		23514: {
+			message: 'The slug needs to be between 5 and 40 characters',
+			field: 'slug',
+		},
+		23505: {
+			message: 'The slug needs to be unique amond all channels',
+			field: 'slug',
+		},
 	}
 
 	async handleSubmit(event) {
@@ -68,32 +74,5 @@ export default class R4ChannelCreate extends R4Form {
 			console.log('res.data', data)
 		}
 		this.resetForm()
-	}
-
-	errors = {
-		'default': {
-			message: 'Unhandled error',
-		},
-		23514: {
-			message: 'The slug needs to be between 5 and 40 characters',
-			field: 'slug',
-		},
-		23505: {
-			message: 'The slug needs to be unique amond all channels',
-			field: 'slug',
-		},
-	}
-
-	/* serialize errors */
-	handleError(error) {
-		const { code = 'default' } = error
-		const {
-			message = 'Error submitting the form',
-			field
-		} = this.errors[code]
-
-		error.field = field
-		error.message = message
-		super.handleError(error)
 	}
 }

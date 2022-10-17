@@ -22,12 +22,15 @@ export default class R4ChannelCreate extends R4Form {
 		this.fieldsTemplate = fieldsTemplate
 	}
 
-	async connectedCallback() {
-		super.connectedCallback()
-	}
-
-	render() {
-		super.render()
+	errors = {
+		'default': {
+			message: 'Unhandled error',
+			field: null,
+		},
+		'confirmation': {
+			message: 'Please confirm deletion',
+			field: 'confirmation',
+		}
 	}
 
 	async handleSubmit(event) {
@@ -56,26 +59,5 @@ export default class R4ChannelCreate extends R4Form {
 			console.log('res.data', data)
 		}
 		this.resetForm()
-	}
-
-	errors = {
-		'default': {
-			message: 'Unhandled error',
-			field: null,
-		},
-		'confirmation': {
-			message: 'Please confirm deletion',
-			field: 'confirmation',
-		}
-	}
-
-	/* serialize errors */
-	handleError(error) {
-		const { code = 'default' } = error
-		const { message, field } = this.errors[code]
-
-		error.field = field
-		error.message = message
-		super.handleError(error)
 	}
 }
