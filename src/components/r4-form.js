@@ -38,12 +38,23 @@ export default class R4Form extends HTMLElement {
 
 	bindFieldsInput($fieldsets) {
 		if (!$fieldsets) return
+
+		const fieldTypes = {
+			input: 'input',
+			textarea: 'input',
+		}
+
+		/* create only one field(in+out) per fieldset */
 		$fieldsets.forEach($fieldset => {
-			const $field = $fieldset.querySelector('input')
-			if (!$field) return
-			$field.addEventListener('input', this.handleInput.bind(this))
-			const $errorOutput = this.createFieldsetOutput($field)
-			$fieldset.append($errorOutput)
+			Object.keys(fieldTypes).every(fieldType => {
+				const $field = $fieldset.querySelector(fieldType)
+				const fieldEventType = fieldTypes[fieldType]
+				if (!$field || !fieldEventType) return true
+				$field.addEventListener(fieldEventType, this.handleInput.bind(this))
+				const $errorOutput = this.createFieldsetOutput($field)
+				$fieldset.append($errorOutput)
+				return false
+			})
 		})
 	}
 
