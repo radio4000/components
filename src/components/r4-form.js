@@ -42,6 +42,8 @@ export default class R4Form extends HTMLElement {
 			const $field = $fieldset.querySelector('input')
 			if (!$field) return
 			$field.addEventListener('input', this.handleInput.bind(this))
+			const $errorOutput = this.createFieldsetOutput($field)
+			$fieldset.append($errorOutput)
 		})
 	}
 
@@ -53,7 +55,7 @@ export default class R4Form extends HTMLElement {
 		}
 	}
 
-	createFormOutput($el) {
+	createFieldsetOutput($el) {
 		const $output = document.createElement('output')
 		$output.setAttribute('for', $el.name)
 		$output.value = ''
@@ -68,15 +70,17 @@ export default class R4Form extends HTMLElement {
 		this.enableForm()
 	}
 
-	handleError({ errcode, error }) {
+	handleError(error) {
+		const { field, message, code } = error
+		console.log('form:error', error)
 		/* reset all existing outputs */
 		this.$form.querySelectorAll('output').forEach($out => {
 			$out.innerText = ''
 		})
 		/* set errors on outputs */
-		if (errcode === 'M_ROOM_IN_USE') {
-			const $o = this.$form.querySelector('output[for="alias"]')
-			$o.innerText = error
+		const $out = this.$form.querySelector(`output[for="${field}"]`)
+		if ($out) {
+			$out.innerText = `${message} [${code}:${field}]`
 		}
 	}
 
