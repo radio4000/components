@@ -26,6 +26,10 @@ export default class R4ChannelCreate extends R4Form {
 		'default': {
 			message: 'Unhandled error',
 		},
+		'slug-taken': {
+			message: 'This slug is already in use by an other channel',
+			field: 'slug',
+		},
 		23514: {
 			message: 'The slug needs to be between 5 and 40 characters',
 			field: 'slug',
@@ -57,22 +61,28 @@ export default class R4ChannelCreate extends R4Form {
 				channel,
 				user,
 			})
-			console.log('update res', res)
 			if (res.error) {
 				this.handleError(res.error)
 			}
 		} catch (error) {
-			/* todo: fixme: sdk error (not-an-error), but it worked? */
 			if (
-				error.message === "can't access property \"id\", a3.data is null"
-			) {} else {
+				error.message === 'Sorry. This channel slug is already taken by someone else.'
+			) {
+				/* todo: fixme: sdk malformed error, no {code, message},
+					 maybe pass the supabase error directly */
+				this.handleError({
+					code: 'slug-taken',
+					message: error.message,
+				})
+			} else {
+				/* handle known errors */
 				this.handleError(error)
 			}
 		}
 		this.enableForm()
 		if (res && res.data) {
 			console.log('res.data', data)
+			this.resetForm()
 		}
-		this.resetForm()
 	}
 }

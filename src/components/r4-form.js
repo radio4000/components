@@ -88,6 +88,7 @@ export default class R4Form extends HTMLElement {
 				const initialFieldState = this.initialState[$field.name]
 				if (initialFieldState) {
 					$field.value = initialFieldState
+					$field.dispatchEvent(new Event('input')) // trigger initial value
 				}
 
 				/* return false, to stop the "every" loop,

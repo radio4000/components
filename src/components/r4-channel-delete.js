@@ -48,7 +48,7 @@ export default class R4ChannelCreate extends R4Form {
 			res = await sdk.deleteChannel({
 				id
 			})
-			if (res.error) {
+			if (res && res.error) {
 				this.handleError(res.error)
 			}
 		} catch (error) {
