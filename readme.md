@@ -2,16 +2,17 @@
 
 # web-components for radio4000
 
-These components can be inserted in the HTML of any web pages, and are made to interact with radio4000.com through the use of its javasript sdk (tat talks to supabase).
+These components can be inserted in the HTML of any web pages, and are made to interact with radio4000.com through the use of its
+[JavaScript SDK](https://github.com/radio4000/sdk), which talks to Supabase.
 
 ## Development
 
-No particular setup is needed, but `node` is usefull, here using the package  `serve`.
+No particular setup is needed, but `node` is useful, here using the package `serve`.
 
 ```bash
 # install dependencies
 npm install
 
 # serve locally the project root folder
-npx run dev
+npm run dev
 ```
