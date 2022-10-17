@@ -32,46 +32,62 @@ export default class R4ChannelCreate extends R4Form {
 
 	async handleSubmit(event) {
 		event.preventDefault()
-		/* super.handleSubmit(event) */
+		this.disableForm()
 		const {
 			data: user,
 			erro: userError,
 		} = await sdk.supabase.auth.getUser()
 
-		if (userError) {
+		if (userError || !user) {
 			return this.handleError(userError)
 		}
 
-		console.log('channel-create:submit:user', user)
 		const channel = this.state
-		const res = await sdk.createChannel({
-			channel,
-			user,
-		})
-		console.log('channel-create:submit:res', res)
-		const { error } = res
-		if (error) {
-			return this.handleError(error)
+		let res
+		try {
+			res = await sdk.createChannel({
+				channel,
+				user,
+			})
+			if (res.error) {
+				this.handleError(res.error)
+			}
+		} catch (error) {
+			/* todo: fixme: sdk error (not-an-error), but it worked? */
+			if (
+				error.message === "can't access property \"id\", a3.data is null"
+			) {} else {
+				this.handleError(error)
+			}
 		}
+		this.enableForm()
+		if (res && res.data) {
+			console.log('res.data', data)
+		}
+		this.resetForm()
 	}
 
 	errors = {
+		default : {
+			message: 'Unhandled error',
+		},
 		23514: {
 			message: 'The slug needs to be between 5 and 40 characters',
 			field: 'slug',
 		},
-		23515: {
-			message: 'duplicate key value violates unique constraint "channels_slug_key"',
+		23505: {
+			message: 'The slug needs to be unique amond all channels',
 			field: 'slug',
 		}
 	}
 
 	/* serialize errors */
 	handleError(error) {
+		const { code = 'default' } = error
 		const {
 			message = 'Error submitting the form',
 			field
-		} = this.errors[error.code]
+		} = this.errors[code]
 
 		error.field = field
 		error.message = message

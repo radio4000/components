@@ -64,8 +64,8 @@ export default class R4Form extends HTMLElement {
 
 	async handleSubmit(event) {
 		event.preventDefault()
-		console.log('form.state', this.state)
 		this.disableForm()
+		// ex: await this.submit()
 		this.resetForm()
 		this.enableForm()
 	}
