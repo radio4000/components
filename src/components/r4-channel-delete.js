@@ -30,6 +30,10 @@ export default class R4ChannelCreate extends R4Form {
 		'confirmation': {
 			message: 'Please confirm deletion',
 			field: 'confirmation',
+		},
+		23503: {
+			message: 'You appear to want to delete a channel that still has some tracks. Delete all tracks first?',
+			field: 'id',
 		}
 	}
 
@@ -43,21 +47,21 @@ export default class R4ChannelCreate extends R4Form {
 				code: 'confirmation',
 			})
 		}
+
 		let res
 		try {
-			res = await sdk.deleteChannel({
-				id
-			})
+			res = await sdk.deleteChannel(id)
 			if (res && res.error) {
-				this.handleError(res.error)
+				throw res.error
 			}
 		} catch (error) {
-			this.handleError(error)
+			this.enableForm()
+			return this.handleError(error)
 		}
-		this.enableForm()
-		if (res && res.data) {
-			console.log('res.data', data)
+
+		/* sucess deleting */
+		if (res.status === 204) {
+			this.resetForm()
 		}
-		this.resetForm()
 	}
 }

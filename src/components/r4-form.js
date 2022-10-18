@@ -52,7 +52,6 @@ export default class R4Form extends HTMLElement {
 		let config = {}
 		for (const [paramName, paramValue] of urlParams) {
 			const value = decodeURIComponent(paramValue)
-			console.log('value', value, typeof value)
 			if (value === 'null') {
 			} else if (value) {
 				config[paramName] = value

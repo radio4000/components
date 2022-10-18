@@ -55,16 +55,6 @@ export default class R4ChannelUpdate extends R4Form {
 	async handleSubmit(event) {
 		event.preventDefault()
 		this.disableForm()
-		const {
-			data: {
-				user,
-			},
-			error: userError,
-		} = await sdk.supabase.auth.getUser()
-
-		if (userError || !user) {
-			return this.handleError(userError)
-		}
 
 		const channelId = this.state.id
 		const changes = { ...this.state }
@@ -72,10 +62,7 @@ export default class R4ChannelUpdate extends R4Form {
 
 		let res
 		try {
-			res = await sdk.updateChannel({
-				id: channelId,
-				changes,
-			})
+			res = await sdk.updateChannel(channelId, changes)
 			if (res.error) {
 				if (res.status === 404) {
 					res.error.code = 404
