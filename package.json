@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "esbuild src/index.js --bundle --format=esm --sourcemap --servedir=examples --outdir=examples",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "esbuild src/index.js --bundle --format=esm --outfile=dist/index.js"
+    "build": "esbuild src/index.js --bundle --format=esm --outfile=dist/index.js",
+    "build-website": "esbuild src/index.js --bundle --format=esm --outfile=index.js"
   },
   "repository": {
     "type": "git",
