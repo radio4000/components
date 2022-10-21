@@ -114,21 +114,11 @@ class R4ListChannelsItem extends HTMLElement {
 		if (this.origin) {
 			$title = document.createElement('a')
 			const url = new URL(this.replaceUrlTokens(this.origin, this.channel))
-			/* url.searchParams.set('slug', slug)
-			url.searchParams.set('id', id)
-			url.searchParams.set('name', name)
-			url.searchParams.set('description', description) */
-
 			$title.href = url.href
 		} else {
 			$title = document.createElement('span')
 		}
 		$title.innerText = slug
-
-		const $id = document.createElement('input')
-		$id.disabled = true
-		$id.value = id
-		$id.innerText = id
 
 		this.append($title)
 		this.append($id)

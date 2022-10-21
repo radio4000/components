@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+	<title>r4-track-create</title>
+	<meta name="description" content="r4-track-create">
+	<link rel="stylesheet" href="../../styles/index.css" />
+	<script type="module" src="../../index.js"></script>
+</head>
+
+<body>
+	<r4-track-create></r4-track-create>
+	<script>
+		function handleSubmit(event) {
+			console.log('Create did submit', event.detail)
+		}
+		document.querySelector('r4-track-create').addEventListener('submit', handleSubmit)
+	</script>
+</body>
+
+</html>
