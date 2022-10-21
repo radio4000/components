@@ -17,6 +17,7 @@
 </body>
 
 <script>
+	// use the query parameter, `slug`: `?slug={channel_slug}`
 	const $el = document.querySelector('r4-channel')
 	const params = new URLSearchParams(window.location.search)
 	const slug = params.get('slug')

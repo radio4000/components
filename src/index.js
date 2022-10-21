@@ -8,6 +8,7 @@ import R4SignIn from './components/r4-sign-in.js'
 import R4SignOut from './components/r4-sign-out.js'
 import R4AuthStatus from './components/r4-auth-status.js'
 import R4User from './components/r4-user.js'
+import R4UserChannelsSelect from './components/r4-user-channels-select.js'
 import R4ListChannels from './components/r4-list-channels.js'
 
 import R4Channel from './components/r4-channel.js'
@@ -26,6 +27,7 @@ customElements.define('r4-sign-out', Component(R4SignOut, render))
 customElements.define('r4-auth-status', R4AuthStatus)
 customElements.define('r4-user', R4User)
 customElements.define('r4-list-channels', R4ListChannels)
+customElements.define('r4-user-channels-select', R4UserChannelsSelect)
 customElements.define('r4-channel', R4Channel)
 customElements.define('r4-channel-create', R4ChannelCreate)
 customElements.define('r4-channel-update', R4ChannelUpdate)
@@ -41,6 +43,7 @@ export default {
 	R4SignOut,
 	R4AuthStatus,
 	R4User,
+	R4UserChannelsSelect,
 	R4ListChannels,
 	R4Channel,
 	R4ChannelCreate,
