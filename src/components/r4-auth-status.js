@@ -6,13 +6,6 @@ import sdk from '@radio4000/sdk'
 	 can be used to display a feedback to the user.
 */
 
-/* user is "signed in" and "signed out" slots */
-const template = document.createElement('template')
-template.innerHTML = `
-	<slot name="in" hidden="true"></slot>
-	<slot name="out" hidden="true"></slot>
-`
-
 export default class R4AuthStatus extends HTMLElement {
 	static get observedAttributes() {
 		return ['auth']
@@ -21,7 +14,7 @@ export default class R4AuthStatus extends HTMLElement {
 		return this.getAttribute('auth') === 'true'
 	}
 	set auth(bool) {
-		bool ? this.setAttribute('auth', bool) : this.removeAttribute('auth')
+		this.setAttribute('auth', bool)
 	}
 	attributeChangedCallback(attrName) {
 		if (R4AuthStatus.observedAttributes.indexOf(attrName) > -1) {
@@ -31,17 +24,9 @@ export default class R4AuthStatus extends HTMLElement {
 
 	constructor() {
 		super()
+		this.setAttribute('hidden', true)
 		sdk.supabase.auth.onAuthStateChange(this.onAuthStateChange.bind(this))
-
 		this.attachShadow({ mode: "open" })
-		this.shadowRoot.append(template.content.cloneNode(true))
-		this.$in = this.shadowRoot.querySelector('[name="in"]')
-		this.$out = this.shadowRoot.querySelector('[name="out"]')
-	}
-
-	connectedCallback() {
-		this.refreshUser()
-		this.render()
 	}
 
 	onAuthStateChange() {
@@ -56,14 +41,15 @@ export default class R4AuthStatus extends HTMLElement {
 	}
 
 	render() {
+		this.shadowRoot.innerHTML = ''
 		/* if signed in (authed), show in, hide out */
-		if (!this.$in || !this.$out) return
+		const $slot = document.createElement('slot')
 		if (this.auth) {
-			this.$in.removeAttribute('hidden')
-			this.$out.setAttribute('hidden', true)
+			$slot.setAttribute('name', 'in')
 		} else {
-			this.$in.setAttribute('hidden', true)
-			this.$out.removeAttribute('hidden')
+			$slot.setAttribute('name', 'out')
 		}
+		this.shadowRoot.append($slot)
+		this.removeAttribute('hidden')
 	}
 }
