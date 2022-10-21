@@ -38,6 +38,10 @@ export default class R4ChannelCreate extends R4Form {
 			message: 'The slug is already in use by an other channel',
 			field: 'slug',
 		},
+		42501: {
+			message: 'Signin to create a channel',
+			field: 'slug',
+		}
 	}
 
 	async handleSubmit(event) {
