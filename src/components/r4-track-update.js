@@ -5,8 +5,8 @@ const fieldsTemplate = document.createElement('template')
 fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
-			<label for="channel_id">Channel ID</label>
-			<input name="channel_id" type="text" required/>
+			<label for="id">Track ID</label>
+			<input name="id" type="text" required/>
 		</fieldset>
 		<fieldset>
 			<label for="url">URL</label>
@@ -44,7 +44,7 @@ export default class R4TrackCreate extends R4Form {
 		let res = {},
 				error = null
 		try {
-			res = await sdk.createTrack(this.state.channel_id, {
+			res = await sdk.createTrack(this.state.id, {
 				url: this.state.url,
 				title: this.state.title,
 				description: this.state.description,

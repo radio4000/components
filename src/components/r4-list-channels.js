@@ -121,7 +121,6 @@ class R4ListChannelsItem extends HTMLElement {
 		$title.innerText = slug
 
 		this.append($title)
-		this.append($id)
 	}
 }
 customElements.define('r4-list-channels-item', R4ListChannelsItem)
