@@ -1,0 +1,5 @@
+r4-auth-status {}
+r4-auth-status[auth] {}
+r4-auth-status:not([auth]) {}
+r4-auth-status[auth="true"] {}
+r4-auth-status[auth="false"] {}

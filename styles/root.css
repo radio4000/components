@@ -1,0 +1,18 @@
+/* Universal Box Sizing with Inheritance */
+html {
+	box-sizing: border-box;
+}
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+:root,
+:host {
+	color: var(--color-text);
+	font-family: var(--font-family, serif);
+	font-size: var(--size-font, 17px);
+}
+
+:root {
+	background-color: var(--color-background);
+}

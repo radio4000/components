@@ -1,0 +1,13 @@
+/*
+	components global variables;
+	avaialble globally (root), and to the component's shadow doms (:host)
+*/
+:root,
+:host {
+	--size-font: 17px;
+	--size: 1.3em;
+	--size-container: 50em;
+
+	--color-text: black;
+	--color-background: white;
+}
