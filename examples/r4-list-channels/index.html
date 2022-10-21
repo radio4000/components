@@ -16,8 +16,12 @@
 	<r4-list-channels origin="https://example.org/"></r4-list-channels>
 	<script>
 		const $el = document.querySelector('r4-list-channels')
-		$el.setAttribute('origin', `${window.origin}/examples/r4-channel-update/`)
+		$el.setAttribute(
+			'origin',
+			`${window.origin}/examples/r4-channel-update/?slug={{slug}}&id={{id}}/`
+		)
 	</script>
+
 </body>
 
 </html>

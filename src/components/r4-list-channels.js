@@ -79,6 +79,7 @@ class R4ListChannelsItem extends HTMLElement {
 		return JSON.parse(this.getAttribute('channel'))
 	}
 	get origin() {
+		/* origin can have tokens: {{token_name}} */
 		return this.getAttribute('origin')
 	}
 	/* if the attribute changed, re-render */
@@ -89,6 +90,19 @@ class R4ListChannelsItem extends HTMLElement {
 			this.render()
 		}
 	}
+
+	replaceUrlTokens (url, channel) {
+		const {
+			slug = '',
+			id = '',
+			title = '',
+		} = channel
+		url = url.replace('{{slug}}', slug)
+		url = url.replace('{{id}}', id)
+		url = url.replace('{{title}}', title)
+		return url
+	}
+
 	connectedCallback() {
 		this.render()
 	}
@@ -99,11 +113,11 @@ class R4ListChannelsItem extends HTMLElement {
 		let $title
 		if (this.origin) {
 			$title = document.createElement('a')
-			const url = new URL(this.origin)
-			url.searchParams.set('slug', slug)
+			const url = new URL(this.replaceUrlTokens(this.origin, this.channel))
+			/* url.searchParams.set('slug', slug)
 			url.searchParams.set('id', id)
 			url.searchParams.set('name', name)
-			url.searchParams.set('description', description)
+			url.searchParams.set('description', description) */
 
 			$title.href = url.href
 		} else {
