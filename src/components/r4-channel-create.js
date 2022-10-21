@@ -6,7 +6,7 @@ fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
 			<label for="name">Name</label>
-			<input name="name" type="text"/>
+			<input name="name" type="text" required />
 		</fieldset>
 		<fieldset>
 			<label for="slug">Slug</label>

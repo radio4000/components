@@ -10,7 +10,7 @@ fieldsTemplate.innerHTML = `
 		</fieldset>
 		<fieldset>
 			<label for="url">URL</label>
-			<input name="url" type="url"/>
+			<input name="url" type="url" required />
 		</fieldset>
 		<fieldset>
 			<label for="title">Title</label>
