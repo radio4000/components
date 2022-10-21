@@ -42,7 +42,7 @@ export default class R4UserChannelsSelect extends HTMLElement {
 		this.$defaultOption.defaultValue = true
 		this.$defaultOption.value = ''
 		this.$defaultOption.innerText = this.channel
-		this.$defaultOption.disabled = true
+		/* this.$defaultOption.disabled = true */
 
 		this.$defaultOptroup.append(this.$defaultOption)
 
@@ -61,11 +61,14 @@ export default class R4UserChannelsSelect extends HTMLElement {
 		event.stopPropagation()
 		/* event.preventDefault() */
 		this.channel = event.target.value
+		const selectedChannel = this.channels.find((channel) => {
+			return channel.slug === this.channel
+		})
 		const inputEvent = new CustomEvent('input', {
 			bubbles: true,
 			detail: {
 				channels: this.channels,
-				channel: this.channel
+				channel: selectedChannel,
 			}
 		})
 		this.dispatchEvent(inputEvent)
