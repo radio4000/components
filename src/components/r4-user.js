@@ -34,8 +34,19 @@ export default class R4User extends HTMLElement {
 		}
 	}
 
-	/* set loading */
-	async connectedCallback() {
+	constructor() {
+		super()
+		sdk.supabase.auth.onAuthStateChange(this.onAuthStateChange.bind(this))
+	}
+
+	connectedCallback() {
+		this.refreshUser()
+	}
+	onAuthStateChange() {
+		this.refreshUser()
+	}
+
+	async refreshUser() {
 		const {
 			error,
 			data: { user },
@@ -47,7 +58,8 @@ export default class R4User extends HTMLElement {
 	render() {
 		this.innerHTML = ''
 		if (this.error) {
-			this.renderError(this.error)
+			/* this.renderError(this.error) */
+			this.renderNoUser()
 		} else if (!this.user) {
 			this.renderNoUser()
 		} else {
@@ -55,7 +67,11 @@ export default class R4User extends HTMLElement {
 		}
 	}
 	renderError() {}
-	renderNoUser() {}
+	renderNoUser() {
+		const $noUser = document.createElement('span')
+		$noUser.innerText = 'No user is siggned in.'
+		this.append($noUser)
+	}
 	renderUser(user) {
 		const $id = document.createElement('input')
 		$id.disabled = true
