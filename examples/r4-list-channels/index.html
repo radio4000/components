@@ -16,10 +16,15 @@
 	<r4-list-channels origin="https://example.org/"></r4-list-channels>
 	<script>
 		const $el = document.querySelector('r4-list-channels')
-		$el.setAttribute(
-			'origin',
-			`${window.origin}/examples/r4-channel-update/?slug={{slug}}&id={{id}}/`
-		)
+		const urls = {
+			channel: `${window.origin}/examples/r4-channel/?slug={{slug}}`,
+			channelUpdate: `${window.origin}/examples/r4-channel-update/?slug={{slug}}&id={{id}}`,
+			trackCreate: `${window.origin}/examples/r4-track-create/?channel_id={{id}}`,
+		}
+
+		$el.setAttribute('origin', urls['channel'])
+		/* $el.setAttribute('origin', urls['channelUpdate']) */
+			/* $el.setAttribute('origin', urls['trackCreate']) */
 	</script>
 
 </body>

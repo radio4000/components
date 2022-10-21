@@ -18,7 +18,7 @@ fieldsTemplate.innerHTML = `
 		</fieldset>
 		<fieldset>
 			<label for="description">Description</label>
-			<textare name="description"></textarea>
+			<textarea name="description"></textarea>
 		</fieldset>
 	</slot>
 `
