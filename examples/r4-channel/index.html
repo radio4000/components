@@ -20,7 +20,7 @@
 	const $el = document.querySelector('r4-channel')
 	const params = new URLSearchParams(window.location.search)
 	const slug = params.get('slug')
-	$el.setAttribute('slug', slug)
+	slug && $el.setAttribute('slug', slug)
 </script>
 
 </html>

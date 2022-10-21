@@ -23,7 +23,11 @@ export default class R4Channel extends HTMLElement {
 		return JSON.parse(this.getAttribute('channel'))
 	}
 	set channel(obj) {
-		this.setAttribute('channel', JSON.stringify(obj))
+		if (!obj) {
+			this.removeAttribute('channel')
+		} else {
+			this.setAttribute('channel', JSON.stringify(obj))
+		}
 	}
 
 	/* if the attribute changed, re-render */
@@ -39,16 +43,18 @@ export default class R4Channel extends HTMLElement {
 
 	/* set loading */
 	async connectedCallback() {
-		this.setAttribute('loading', true)
 		this.channel = await this.findChannel()
 	}
 
 	async findChannel() {
 		if (this.slug) {
+			this.setAttribute('loading', true)
 			const res = await sdk.findChannelBySlug(this.slug)
+			this.removeAttribute('loading')
 			return res.data
 		}
 	}
+
 	render() {
 		this.innerHTML = ''
 		if (!this.channel) {
@@ -72,8 +78,8 @@ export default class R4Channel extends HTMLElement {
 		this.append($channelDescription)
 	}
 	renderNoChannel() {
-		const $noChannel = document.createElement('slot')
-		$noChannel.setAttribute('name', 'no-channel')
+		const $noChannel = document.createElement('span')
+		$noChannel.innerText = '404 - channel not found'
 		this.append($noChannel)
 	}
 }
