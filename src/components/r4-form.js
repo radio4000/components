@@ -124,14 +124,14 @@ export default class R4Form extends HTMLElement {
 		this.dispatchEvent(submitEvent)
 
 		/*
-			 Example flow in a component extending this one:
+			 // Example flow in a component extending this one
 			 event.stopPropagation()
 			 event.preventDefault()
 			 this.disableForm()
-			 await this.myAsyncMethod()
+			 const {error, data} = await this.myAsyncMethod()
 			 this.resetForm()
 			 this.enableForm()
-			 super.handleSubmit({error,data,})
+			 super.handleSubmit({error,data})
 		 */
 	}
 
