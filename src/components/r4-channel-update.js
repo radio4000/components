@@ -53,6 +53,7 @@ export default class R4ChannelUpdate extends R4Form {
 	}
 
 	async handleSubmit(event) {
+		event.stopPropagation()
 		event.preventDefault()
 		this.disableForm()
 
@@ -60,21 +61,26 @@ export default class R4ChannelUpdate extends R4Form {
 		const changes = { ...this.state }
 		delete changes.id
 
-		let res
+		let res = {},
+				error = null
 		try {
 			res = await sdk.updateChannel(channelId, changes)
 			if (res.error) {
 				if (res.status === 404) {
 					res.error.code = 404
 				}
-				this.handleError(res.error)
+				error = res.error
+				this.handleError(error)
 			}
-		} catch (error) {
-			this.handleError(error)
+		} catch (err) {
+			this.handleError(err)
 		}
 		this.enableForm()
-		if (res && res.data) {
+
+		const { data } = res
+		if (data) {
 			this.resetForm()
 		}
+		super.handleSubmit({error, data})
 	}
 }

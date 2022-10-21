@@ -46,26 +46,33 @@ export default class R4ChannelCreate extends R4Form {
 
 	async handleSubmit(event) {
 		event.preventDefault()
+		event.stopPropagation()
+
 		this.disableForm()
 		const channel = this.state
-		let res
+		let res = {},
+				error = null
 		try {
 			res = await sdk.createChannel({
 				name: channel.name,
 				slug: channel.slug,
 			})
 			if (res.error) {
-				console.log(res.error)
-				throw res
+				error = res
+				throw error
 			}
-		} catch (error) {
-			this.handleError(error)
+		} catch (err) {
+			this.handleError(err)
 		}
-
 		this.enableForm()
-		if (res && res.data) {
-			console.log('res.data', res.data)
+
+		const { data } = res
+		if (data) {
 			this.resetForm()
 		}
+		super.handleSubmit({
+			error,
+			data,
+		})
 	}
 }

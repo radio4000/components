@@ -14,6 +14,12 @@
 
 <body>
 	<r4-channel-update></r4-channel-update>
+	<script>
+		function handleSubmit(event) {
+			console.log('Update did submit', event.detail)
+		}
+		document.querySelector('r4-channel-update').addEventListener('submit', handleSubmit)
+	</script>
 </body>
 
 </html>

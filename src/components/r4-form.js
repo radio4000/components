@@ -112,12 +112,27 @@ export default class R4Form extends HTMLElement {
 		return $output
 	}
 
-	async handleSubmit(event) {
-		event.preventDefault()
-		this.disableForm()
-		// ex: await this.submit()
-		this.resetForm()
-		this.enableForm()
+	async handleSubmit(submitData) {
+		const { error, data } = submitData
+		const submitEvent = new CustomEvent('submit', {
+			bubbles: true,
+			detail: {
+				error,
+				data,
+			}
+		})
+		this.dispatchEvent(submitEvent)
+
+		/*
+			 Example flow in a component extending this one:
+			 event.stopPropagation()
+			 event.preventDefault()
+			 this.disableForm()
+			 await this.myAsyncMethod()
+			 this.resetForm()
+			 this.enableForm()
+			 super.handleSubmit({error,data,})
+		 */
 	}
 
 	handleError(error) {
