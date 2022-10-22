@@ -51,12 +51,12 @@ export default class R4SignIn extends R4Form {
 			if (res.error) {
 				console.log(res)
 				if (res.error.message === 'Email not confirmed') {
-					res.code = 'email-not-confirmed'
+					res.error.code = 'email-not-confirmed'
 				}
 				if (res.error.message === 'Invalid login credentials') {
-					res.code = 'invalid-login-credentials'
+					res.error.code = 'invalid-login-credentials'
 				}
-				throw res
+				throw res.error
 			}
 		} catch (err) {
 			this.handleError(err)
