@@ -49,10 +49,10 @@ export default class R4User extends HTMLElement {
 	async refreshUser() {
 		const {
 			error,
-			data: { user },
-		} = await sdk.supabase.auth.getUser()
+			data,
+		} = await sdk.getUser()
 		this.error = error
-		this.user = user
+		this.user = data
 	}
 
 	render() {

@@ -39,9 +39,9 @@ export default class R4AuthStatus extends HTMLElement {
 
 	async refreshUser() {
 		const {
-			data: { user },
-		} = await sdk.supabase.auth.getUser()
-		this.auth = !!user
+			data,
+		} = await sdk.getUser()
+		this.auth = !!data
 	}
 
 	render() {

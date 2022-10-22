@@ -35,11 +35,14 @@ export default class R4TrackActions extends HTMLElement {
 		}
 
 		if (!this.user) {
-			this.user = await sdk.getUser()
-			this.renderAsyncOptions({
-				value: 'user',
-				text: `user id: ${this.user.id}`
-			})
+			const { data } = await sdk.getUser()
+			if (data) {
+				this.user = data
+				this.renderAsyncOptions({
+					value: 'user',
+					text: `user id: ${this.user.id}`
+				})
+			}
 		}
 		if (this.id && !this.track) {
 			const { error, data } = await sdk.findTrack(this.id)
