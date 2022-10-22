@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+	<title>r4-channel-actions</title>
+	<meta name="description" content="r4-channel-actions">
+	<link rel="stylesheet" href="../../styles/index.css" />
+	<script type="module" src="../../index.js"></script>
+</head>
+
+<body>
+	<r4-channel-actions></r4-channel-actions>
+	<script>
+		const params = new URLSearchParams(window.location.search)
+		const channelSlug = params.get('slug')
+
+		const onInput = ({ detail }) => {
+			if (detail) {
+				/* an example action */
+				console.log(detail)
+			}
+		}
+
+		const $channeActions = document.querySelector('r4-channel-actions')
+		$channeActions.addEventListener('input', onInput)
+		channelSlug && $channeActions.setAttribute('slug', channelSlug)
+	</script>
+</body>
+
+</html>

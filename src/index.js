@@ -21,6 +21,7 @@ import R4TrackUpdate from './components/r4-track-update.js'
 import R4Tracks from './components/r4-tracks.js'
 
 import R4Actions from './components/r4-actions.js'
+import R4ChannelActions from './components/r4-channel-actions.js'
 import R4TrackActions from './components/r4-track-actions.js'
 
 customElements.define('r4-title', R4Title)
@@ -40,6 +41,7 @@ customElements.define('r4-track-create', R4TrackCreate)
 customElements.define('r4-track-update', R4TrackUpdate)
 customElements.define('r4-tracks', R4Tracks)
 customElements.define('r4-actions', R4Actions)
+customElements.define('r4-channel-actions', R4ChannelActions)
 customElements.define('r4-track-actions', R4TrackActions)
 
 export default {
@@ -60,6 +62,7 @@ export default {
 	R4TrackUpdate,
 	R4Tracks,
 
+	R4ChannelActions,
 	R4TrackActions,
 	R4Actions, // export last in list for UX
 }

@@ -2,7 +2,7 @@ import sdk from '@radio4000/sdk'
 const template = document.createElement('template')
 template.innerHTML = `
 	<r4-actions>
-		<option value="">Track actions</option>
+		<option value="">Channel actions</option>
 		<option value="play">Play</option>
 		<option value="share">Share</option>
 	</r4-actions>
@@ -25,7 +25,7 @@ export default class R4TrackActions extends HTMLElement {
 	}
 
 	/* when the select is slected (open) the first time,
-	 lazy load some options */
+		 lazy load some options */
 	async onSelect(event) {
 		/* fix select accessibility */
 		if (event.type === 'keydown') {
