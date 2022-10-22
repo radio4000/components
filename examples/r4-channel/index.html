@@ -13,20 +13,7 @@
 </head>
 
 <body>
-	<r4-actions>
-		<option>
-			Channel actions
-		</option>
-		<option value="create-track">
-			create track
-		</option>
-		<option value="update">
-			update
-		</option>
-		<option value="delete">
-			delete
-		</option>
-	</r4-actions>
+	<r4-channel-actions></r4-channel-actions>
 	<r4-channel></r4-channel>
 	<r4-tracks></r4-tracks>
 </body>
@@ -59,7 +46,8 @@
 		}
 	}
 
-	const $actions = document.querySelector('r4-actions')
+	const $actions = document.querySelector('r4-channel-actions')
+	slug && $actions.setAttribute('slug', slug)
 	$actions.addEventListener('input', onInput)
 </script>
 

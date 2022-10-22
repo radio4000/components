@@ -10,52 +10,70 @@ template.innerHTML = `
 
 export default class R4TrackActions extends HTMLElement {
 	static get observedAttributes() {
-		return ['id']
+		return ['slug']
 	}
-	get id() {
-		return this.getAttribute('id')
+	get slug() {
+		return this.getAttribute('slug')
 	}
+
+	get canEdit() {
+		return this.getAttribute('can-edit') === 'true'
+	}
+
+	set canEdit(bool) {
+		if (bool) {
+			this.setAttribute('can-edit', bool)
+		} else {
+			this.removeAttribute('can-edit')
+		}
+	}
+
 	constructor() {
 		super()
 		this.append(template.content.cloneNode(true))
 
 		/* keydown to fix "space" as key to open the select */
-		this.addEventListener('click', this.onSelect.bind(this))
-		this.addEventListener('keydown', this.onSelect.bind(this))
+		this.addEventListener('click', this.onPush.bind(this))
+		this.addEventListener('keydown', this.onPush.bind(this))
 	}
 
 	/* when the select is slected (open) the first time,
 		 lazy load some options */
-	async onSelect(event) {
-		/* fix select accessibility */
+	async onPush(event) {
+		/* fix select accessibility "clicking the space bar" */
 		if (event.type === 'keydown') {
 			if (event.keyCode !== 32) {
 				return
 			}
 		}
 
-		if (!this.user) {
-			const { data } = await sdk.getUser()
-			if (data) {
-				this.user = data
-				this.renderAsyncOptions({
-					value: 'user',
-					text: `user id: ${this.user.id}`
-				})
-			}
+		if (!this.slug || this.channel) return
+
+		const { data, error } = await sdk.findChannelBySlug(this.slug)
+		if (!data || error) {
+			return
+		} else {
+			this.channel = data
 		}
-		if (this.id && !this.track) {
-			const { error, data } = await sdk.findTrack(this.id)
-			if (error) {
-				this.renderAsyncOptions({
-					value: 'track',
-					text: `track id: track error`
+
+		/* if can't edit, try checking if can */
+		if (!this.canEdit) {
+			this.canEdit = await sdk.canEditChannel(this.channel.id)
+
+			console.log('can edit', this.canEdit)
+			/* if can edit, render option for editors */
+			if (this.canEdit) {
+				this.renderAsyncOption({
+					value: 'create-track',
+					text: 'Create track',
 				})
-			} else if (data) {
-				this.track = data
-				this.renderAsyncOptions({
-					value: 'track',
-					text: `track id: ${this.track.id}`
+				this.renderAsyncOption({
+					value: 'update',
+					text: 'Update',
+				})
+				this.renderAsyncOption({
+					value: 'delete',
+					text: 'Delete',
 				})
 			}
 		}
@@ -68,7 +86,7 @@ export default class R4TrackActions extends HTMLElement {
 			this.renderTracks()
 		}
 	}
-	renderAsyncOptions({value, text}) {
+	renderAsyncOption({ value, text }) {
 		const $actions = this.querySelector('r4-actions select')
 
 		const $asyncOption = document.createElement('option')
