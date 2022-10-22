@@ -29,6 +29,10 @@ export default class R4AuthStatus extends HTMLElement {
 		this.attachShadow({ mode: "open" })
 	}
 
+	connectedCallback() {
+		this.render()
+	}
+
 	onAuthStateChange() {
 		this.refreshUser()
 	}
