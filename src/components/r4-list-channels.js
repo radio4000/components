@@ -120,7 +120,11 @@ class R4ListChannelsItem extends HTMLElement {
 		}
 		$title.innerText = slug
 
+		let $actions = document.createElement('r4-channel-actions')
+		$actions.setAttribute('slug', slug)
+
 		this.append($title)
+		this.append($actions)
 	}
 }
 customElements.define('r4-list-channels-item', R4ListChannelsItem)
