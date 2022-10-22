@@ -1,20 +1,64 @@
-import { html } from 'lit'
 import sdk from '@radio4000/sdk'
+import R4Form from './r4-form.js'
 
-const R4SignIn = () => {
-	async function handleSignIn(event) {
-		event.preventDefault()
-		const fd = new FormData(event.target)
-		const { data, error } = await sdk.signIn({ email: fd.get('email'), password: fd.get('password') })
-		console.log(data, error)
-	}
-	return html`
-		<form @submit=${handleSignIn}>
-			<input name="email" type="email" required value="" />
+const fieldsTemplate = document.createElement('template')
+fieldsTemplate.innerHTML = `
+	<slot name="fields">
+		<fieldset>
+			<label for="email">email</label>
+			<input name="email" type="email" required/>
+		</fieldset>
+		<fieldset>
+			<label for="password">password</label>
 			<input name="password" type="password" required />
-			<button type="submit">Sign In</button>
-		</form>
-	`
-}
+		</fieldset>
+	</slot>
+`
 
-export default R4SignIn
+
+export default class R4SignIn extends R4Form {
+	constructor() {
+		super()
+		this.fieldsTemplate = fieldsTemplate
+	}
+
+	errors = {
+		'default': {
+			message: 'Unhandled error',
+		},
+		'email-not-confirmed': {
+			field: 'email',
+		}
+	}
+
+	async handleSubmit(event) {
+		event.preventDefault()
+		event.stopPropagation()
+
+		this.disableForm()
+		let res = {},
+				error = null
+		try {
+			res = await sdk.signIn({
+				email: this.state.email,
+				password: this.state.password,
+			})
+			if (res.error) {
+				throw res.error
+			}
+		} catch (err) {
+			this.handleError(err)
+		}
+		this.enableForm()
+
+		const { data } = res
+		if (data && data.user && data.session) {
+			this.resetForm()
+		}
+
+		super.handleSubmit({
+			error,
+			data,
+		})
+	}
+}

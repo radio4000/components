@@ -25,7 +25,7 @@ import R4Actions from './components/r4-actions.js'
 customElements.define('r4-title', R4Title)
 customElements.define('r4-favicon', R4Favicon)
 customElements.define('r4-sign-up', Component(R4SignUp, render))
-customElements.define('r4-sign-in', Component(R4SignIn, render))
+customElements.define('r4-sign-in', R4SignIn)
 customElements.define('r4-sign-out', Component(R4SignOut, render))
 customElements.define('r4-auth-status', R4AuthStatus)
 customElements.define('r4-user', R4User)
