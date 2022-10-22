@@ -9,19 +9,26 @@ template.innerHTML = `
 `
 
 export default class R4TrackActions extends HTMLElement {
-	static get observedAttributes() {
-		return ['id']
-	}
 	get id() {
 		return this.getAttribute('id')
 	}
+	set id(str) {
+		if (str) {
+			this.setAttribute('id', str)
+		} else {
+			this.removeAttribute('id')
+		}
+	}
+
 	constructor() {
 		super()
-		this.append(template.content.cloneNode(true))
-
 		/* keydown to fix "space" as key to open the select */
 		this.addEventListener('click', this.onPush.bind(this))
 		this.addEventListener('keydown', this.onPush.bind(this))
+	}
+
+	connectedCallback() {
+		this.append(template.content.cloneNode(true))
 	}
 
 	/* when the select is slected (open) the first time,
@@ -34,16 +41,6 @@ export default class R4TrackActions extends HTMLElement {
 			}
 		}
 
-		if (!this.user) {
-			const {data} = await sdk.getUser()
-			if (data) {
-				this.user = data
-				this.renderAsyncOptions({
-					value: 'user',
-					text: `user id: ${this.user.id}`
-				})
-			}
-		}
 		if (this.id && !this.track) {
 			const { error, data } = await sdk.findTrack(this.id)
 			if (error) {
@@ -51,12 +48,19 @@ export default class R4TrackActions extends HTMLElement {
 					value: 'track',
 					text: `track id: track error`
 				})
-			} else if (data) {
+			} else if (data && !this.canEdit) {
 				this.track = data
-				this.renderAsyncOptions({
-					value: 'track',
-					text: `track id: ${this.track.id}`
-				})
+				this.canEdit = await sdk.canEditTrack(this.id)
+				if (this.canEdit) {
+					this.renderAsyncOptions({
+						value: 'update',
+						text: `update`
+					})
+					this.renderAsyncOptions({
+						value: 'delete',
+						text: `delete`
+					})
+				}
 			}
 		}
 	}

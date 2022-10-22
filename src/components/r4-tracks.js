@@ -98,7 +98,11 @@ class R4TracksItem extends HTMLElement {
 		$title.innerText = title
 		$title.title = id
 
+		let $actions = document.createElement('r4-track-actions')
+		$actions.setAttribute('id', id)
+
 		this.append($title)
+		this.append($actions)
 	}
 }
 customElements.define('r4-tracks-item', R4TracksItem)

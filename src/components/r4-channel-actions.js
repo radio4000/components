@@ -30,11 +30,13 @@ export default class R4TrackActions extends HTMLElement {
 
 	constructor() {
 		super()
-		this.append(template.content.cloneNode(true))
-
 		/* keydown to fix "space" as key to open the select */
 		this.addEventListener('click', this.onPush.bind(this))
 		this.addEventListener('keydown', this.onPush.bind(this))
+	}
+
+	connectedCallback() {
+		this.append(template.content.cloneNode(true))
 	}
 
 	/* when the select is slected (open) the first time,
