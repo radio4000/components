@@ -15,8 +15,12 @@
 <body>
 	<r4-user-channels-select></r4-user-channels-select>
 	<script>
-		function handleSubmit(event) {
-			console.log('channels select did input', event.detail)
+		function handleSubmit({detail}) {
+			console.log('channels select did input', detail)
+			const { channel } = detail
+			if (channel) {
+				window.location.href = `/examples/r4-channel/?slug=${channel.slug}`
+			}
 		}
 		document.querySelector('r4-user-channels-select').addEventListener('input', handleSubmit)
 	</script>
