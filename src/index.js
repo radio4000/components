@@ -19,6 +19,8 @@ import R4ChannelDelete from './components/r4-channel-delete.js'
 import R4TrackCreate from './components/r4-track-create.js'
 import R4TrackUpdate from './components/r4-track-update.js'
 
+import R4Actions from './components/r4-actions.js'
+
 customElements.define('r4-title', R4Title)
 customElements.define('r4-favicon', R4Favicon)
 customElements.define('r4-sign-up', Component(R4SignUp, render))
@@ -34,6 +36,7 @@ customElements.define('r4-channel-update', R4ChannelUpdate)
 customElements.define('r4-channel-delete', R4ChannelDelete)
 customElements.define('r4-track-create', R4TrackCreate)
 customElements.define('r4-track-update', R4TrackUpdate)
+customElements.define('r4-actions', R4Actions)
 
 export default {
 	R4Title,
@@ -51,4 +54,5 @@ export default {
 	R4ChannelDelete,
 	R4TrackCreate,
 	R4TrackUpdate,
+	R4Actions,
 }
