@@ -28,6 +28,11 @@ export default class R4SignIn extends R4Form {
 		},
 		'email-not-confirmed': {
 			field: 'email',
+			message: 'Email must be confirmed to login'
+		},
+		'invalid-login-credentials': {
+			field: 'email',
+			message: 'The Email & Password combination is incorect',
 		}
 	}
 
@@ -37,14 +42,21 @@ export default class R4SignIn extends R4Form {
 
 		this.disableForm()
 		let res = {},
-				error = null
+			error = null
 		try {
 			res = await sdk.signIn({
 				email: this.state.email,
 				password: this.state.password,
 			})
 			if (res.error) {
-				throw res.error
+				console.log(res)
+				if (res.error.message === 'Email not confirmed') {
+					res.code = 'email-not-confirmed'
+				}
+				if (res.error.message === 'Invalid login credentials') {
+					res.code = 'invalid-login-credentials'
+				}
+				throw res
 			}
 		} catch (err) {
 			this.handleError(err)
