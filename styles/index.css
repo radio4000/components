@@ -8,3 +8,6 @@
 @import url("components/r4-list-channels.css");
 @import url("components/r4-title.css");
 @import url("components/r4-user.css");
+
+/* debug dev menu list of exported components */
+@import url("components/r4-components.css");
