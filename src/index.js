@@ -18,6 +18,7 @@ import R4ChannelDelete from './components/r4-channel-delete.js'
 
 import R4TrackCreate from './components/r4-track-create.js'
 import R4TrackUpdate from './components/r4-track-update.js'
+import R4Tracks from './components/r4-tracks.js'
 
 import R4Actions from './components/r4-actions.js'
 
@@ -36,6 +37,7 @@ customElements.define('r4-channel-update', R4ChannelUpdate)
 customElements.define('r4-channel-delete', R4ChannelDelete)
 customElements.define('r4-track-create', R4TrackCreate)
 customElements.define('r4-track-update', R4TrackUpdate)
+customElements.define('r4-tracks', R4Tracks)
 customElements.define('r4-actions', R4Actions)
 
 export default {
@@ -54,5 +56,6 @@ export default {
 	R4ChannelDelete,
 	R4TrackCreate,
 	R4TrackUpdate,
+	R4Tracks,
 	R4Actions,
 }
