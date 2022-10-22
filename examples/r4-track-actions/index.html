@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+	<title>r4-track-actions</title>
+	<meta name="description" content="r4-track-actions">
+	<link rel="stylesheet" href="../../styles/index.css" />
+	<script type="module" src="../../index.js"></script>
+</head>
+
+<body>
+	<r4-track-actions></r4-track-actions>
+	<script>
+		const params = new URLSearchParams(window.location.search)
+		const trackId = params.get('id')
+
+		const onInput = ({ detail }) => {
+			if (detail) {
+				/* an example action */
+				console.log(detail)
+			}
+		}
+
+		const trackActions = document.querySelector('r4-track-actions')
+		trackActions.addEventListener('input', onInput)
+		trackId && trackActions.setAttribute('id', trackId)
+	</script>
+</body>
+
+</html>

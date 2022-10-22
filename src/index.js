@@ -21,6 +21,7 @@ import R4TrackUpdate from './components/r4-track-update.js'
 import R4Tracks from './components/r4-tracks.js'
 
 import R4Actions from './components/r4-actions.js'
+import R4TrackActions from './components/r4-track-actions.js'
 
 customElements.define('r4-title', R4Title)
 customElements.define('r4-favicon', R4Favicon)
@@ -39,6 +40,7 @@ customElements.define('r4-track-create', R4TrackCreate)
 customElements.define('r4-track-update', R4TrackUpdate)
 customElements.define('r4-tracks', R4Tracks)
 customElements.define('r4-actions', R4Actions)
+customElements.define('r4-track-actions', R4TrackActions)
 
 export default {
 	R4Title,
@@ -57,5 +59,7 @@ export default {
 	R4TrackCreate,
 	R4TrackUpdate,
 	R4Tracks,
-	R4Actions,
+
+	R4TrackActions,
+	R4Actions, // export last in list for UX
 }

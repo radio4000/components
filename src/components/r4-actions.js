@@ -17,6 +17,7 @@ export default class R4Actions extends HTMLElement {
 		})
 		this.append(this.$select)
 	}
+
 	onInput(event) {
 		event.stopPropagation()
 		event.preventDefault()
