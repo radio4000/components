@@ -14,14 +14,49 @@
 
 <body>
 	<r4-channel></r4-channel>
+
+	<r4-actions>
+		<option>
+			Channel actions
+		</option>
+		<option value="create-track">
+			create track
+		</option>
+		<option value="update">
+			update
+		</option>
+		<option value="delete">
+			delete
+		</option>
+	</r4-actions>
 </body>
 
 <script>
-	// use the query parameter, `slug`: `?slug={channel_slug}`
-	const $el = document.querySelector('r4-channel')
+	/* use the query parameter, `slug`: `?slug={channel_slug}` */
+	const $channel = document.querySelector('r4-channel')
 	const params = new URLSearchParams(window.location.search)
 	const slug = params.get('slug')
-	slug && $el.setAttribute('slug', slug)
+	slug && $channel.setAttribute('slug', slug)
+
+
+	/* add some actions to the channel */
+	const onInput = ({ detail }) => {
+		const channel = document.querySelector('r4-channel').channel
+		if (detail && channel && channel.id) {
+			if (detail === 'create-track') {
+				window.location.href = `/examples/r4-track-create/?channel_id=${channel.id}`
+			}
+			if (detail === 'update') {
+				window.location.href = `/examples/r4-channel-update/?id=${channel.id}`
+			}
+			if (detail === 'delete') {
+				window.location.href = `/examples/r4-channel-delete/?id=${channel.id}`
+			}
+		}
+	}
+
+	const $actions = document.querySelector('r4-actions')
+	$actions.addEventListener('input', onInput)
 </script>
 
 </html>

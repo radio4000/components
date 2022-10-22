@@ -14,8 +14,11 @@
 
 <body>
 	<r4-actions>
-		<option value="" disabled="true">
+		<option>
 			Actions
+		</option>
+		<option value="visit-home">
+			visit-home
 		</option>
 		<option value="visit-list-channels">
 			visit-list-channels
@@ -23,24 +26,26 @@
 		<option value="visit-channel-create">
 			visit-channel-create
 		</option>
-		</r4-actions>
-		</body>
+	</r4-actions>
+</body>
 
-		<script>
-			const onInput = ({ detail }) => {
-				if (detail) {
-					/* an example action */
-					const visitCommand = detail.split('visit-').filter(val => !!val)
-					if (visitCommand.length === 1) {
-						const command = visitCommand[0]
-						if (window.confirm(`visit -> ${command}`)) {
-							window.location.href = `/examples/r4-${command}/`
-						}
-					}
+<script>
+	const onInput = ({ detail }) => {
+		if (detail) {
+			/* an example action */
+			const visitCommand = detail.split('visit-').filter(val => !!val)
+			if (visitCommand.length === 1) {
+				const command = visitCommand[0]
+				if (command === 'home') {
+					window.location.href = `/examples/`
+				} else {
+					window.location.href = `/examples/r4-${command}/`
 				}
 			}
-			const $actions = document.querySelector('r4-actions')
-			$actions.addEventListener('input', onInput)
-		</script>
+		}
+	}
+	const $actions = document.querySelector('r4-actions')
+	$actions.addEventListener('input', onInput)
+</script>
 
 </html>
