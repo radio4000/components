@@ -57,6 +57,7 @@ export default class R4TrackCreate extends R4Form {
 				console.info('(should) fetching track title', data)
 				const $trackTitle = this.querySelector('[name="title"]')
 				$trackTitle.value = `${data.provider}@${data.id}`
+				$trackTitle.dispatchEvent(new Event('input')) // trigger value change
 			}
 		}
 	}
