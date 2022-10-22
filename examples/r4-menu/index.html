@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+	<title>r4-menu</title>
+	<meta name="description" content="r4-menu">
+	<link rel="stylesheet" href="../../styles/index.css" />
+	<script type="module" src="../../index.js"></script>
+</head>
+
+<body>
+	<r4-menu>
+		<a href="../">../</a>
+		<a href="./">./</a>
+		<a href="/">/</a>
+		<a href="../r4-actions">r4-actions</a>
+		<r4-auth-status>
+			<a href="../r4-sign-in" slot="in">r4-sign-in</a>
+			<a href="../r4-sign-out" slot="out">r4-sign-out</a>
+		</r4-auth-status>
+	</r4-menu>
+
+	<menu>
+		<li>
+			This ↑ is an example of <r4-title small="true"></r4-title> menu
+		</li>
+	</menu>
+</body>
+
+<script>
+	const $menu = document.querySelector('r4-menu')
+	$menu.setAttribute('origin', window.origin)
+</script>
+
+</html>

@@ -1,7 +1,7 @@
 export default class R4Actions extends HTMLElement {
+	/* move the children elements into the select */
 	constructor() {
 		super()
-		console.log(this)
 		this.$select = document.createElement('select')
 		this.$select.addEventListener('input', this.onInput.bind(this))
 

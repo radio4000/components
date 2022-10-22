@@ -25,6 +25,7 @@ import R4ChannelActions from './components/r4-channel-actions.js'
 import R4TrackActions from './components/r4-track-actions.js'
 
 import R4Layout from './components/r4-layout.js'
+import R4Menu from './components/r4-menu.js'
 
 customElements.define('r4-title', R4Title)
 customElements.define('r4-favicon', R4Favicon)
@@ -46,6 +47,7 @@ customElements.define('r4-actions', R4Actions)
 customElements.define('r4-channel-actions', R4ChannelActions)
 customElements.define('r4-track-actions', R4TrackActions)
 customElements.define('r4-layout', R4Layout)
+customElements.define('r4-menu', R4Menu)
 
 export default {
 	R4Title,
@@ -66,6 +68,7 @@ export default {
 	R4Tracks,
 
 	R4Layout,
+	R4Menu,
 
 	R4ChannelActions,
 	R4TrackActions,
