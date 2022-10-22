@@ -69,7 +69,7 @@ export default class R4User extends HTMLElement {
 	renderError() {}
 	renderNoUser() {
 		const $noUser = document.createElement('span')
-		$noUser.innerText = 'No user is siggned in.'
+		$noUser.innerText = 'Not signed in'
 		this.append($noUser)
 	}
 	renderUser(user) {
