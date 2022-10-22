@@ -1,18 +1,43 @@
 [![Publish Package to npm](https://github.com/radio4000/components/actions/workflows/publish-to-npm-registry.yml/badge.svg)](https://github.com/radio4000/components/actions/workflows/publish-to-npm-registry.yml)
 
-# web-components for radio4000
+# Web components for Radio4000
 
-These components can be inserted in the HTML of any web pages, and are made to interact with radio4000.com through the use of its
-[JavaScript SDK](https://github.com/radio4000/sdk), which talks to Supabase.
+These components can be inserted in the HTML of any web pages, and are made to interact with [Radio4000](https://radio4000.com) through the use of its
+[@radio4000/sdk](https://github.com/radio4000/sdk), which talks to [@radio4000/supabase](https://github.com/radio4000/supabase).
+
+- [View examples of all components](https://radio4000.github.io/components/examples/)
+
+## Usage 
+
+Depending on whether you have a build system or not, you can either import the module from NPM, from a CDN or download it locally.
+
+All methods are available on the imported `sdk` module.
+
+### With build system and NPM
+
+```js
+import sdk from '@radio4000/components'
+// use any <r4-component*> in your templates
+```
+
+### With browser via CDN
+
+```html
+<script type="module">
+  import from 'https://cdn.jsdelivr.net/npm/@radio4000/components/dist/index.min.js'
+  // use any <r4-*> component in your HTML
+</script>
+```
 
 ## Development
 
-No particular setup is needed, but `node` is useful, here using the package `serve`.
+If you'd like to help out, clone the repository, install dependencies and start the local server.
 
 ```bash
-# install dependencies
+git clone git@github.com:radio4000/components.git radio4000-components
+cd radio4000-components
 npm install
-
-# serve locally the project root folder
 npm run dev
 ```
+
+The components are in the `./src` folder and inside `./examples` you'll find demos of all components.
