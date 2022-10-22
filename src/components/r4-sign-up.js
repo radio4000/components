@@ -11,7 +11,7 @@ const R4SignUp = () => {
 	return html`
 		<form @submit=${handleSignUp}>
 			<input name="email" type="email" required placeholder="Enter your email" />
-			<input name="password" type="password" required />
+			<input name="password" type="password" autocomplete="new-password" required />
 			<button type="submit">Sign Up</button>
 		</form>
 	`
