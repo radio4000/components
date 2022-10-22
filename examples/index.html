@@ -13,17 +13,47 @@
 	<!-- <script type="module" src="../index.js"></script> -->
 	<script type="module" src="./r4-components.js"></script>
 	<style>
-		r4-components li:last-child::after {
-			content: '← start here? (Shift + TAB)';
+		r4-components a::after {
 			margin-left: 1rem;
+		}
+
+		r4-components a[href="./r4-actions/"]::after {
+			content: '← start here? (Shift + TAB)';
 			color: hotpink;
 		}
+
+		r4-components a[href="./r4-layout/"]::after {
+			content: '← how the app looks';
+			color: green;
+		}
+
+		r4-components a[href="./r4-list-channels/"]::after {
+			content: '← all channels';
+			color: black;
+		}
+
+		r4-components a[href="./r4-user-channels-select/"]::after {
+			content: '← my channels';
+			color: purple;
+		}
+
+		r4-components a[href="./r4-user/"]::after {
+			content: '← my info';
+			color: purple;
+		}
+
 	</style>
 </head>
 
 <body>
-	<p>R4Components</p>
-	<r4-components></r4-components>
+	<r4-layout>
+		<header slot="header">
+			<p>
+				R4Components
+			</p>
+		</header>
+		<r4-components slot="main"></r4-components>
+	</r4-layout>
 </body>
 
 </html>
