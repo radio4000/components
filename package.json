@@ -1,6 +1,6 @@
 {
   "name": "@radio4000/components",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "web components for radio4000.com",
   "main": "src/index.js",
   "module": "dist/index.js",
