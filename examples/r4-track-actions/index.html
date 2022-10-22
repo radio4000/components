@@ -14,6 +14,13 @@
 
 <body>
 	<r4-track-actions></r4-track-actions>
+
+	<menu>
+		<li>
+			Enter the track <a href="?id=">id</a> as a url parameter, to fetch async track actions
+		</li>
+	</menu>
+
 	<script>
 		const params = new URLSearchParams(window.location.search)
 		const trackId = params.get('id')

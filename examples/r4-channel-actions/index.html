@@ -14,6 +14,13 @@
 
 <body>
 	<r4-channel-actions></r4-channel-actions>
+
+	<menu>
+		<li>
+			Enter the channel <a href="?slug=">slug</a> as a url parameter, to fetch async channel actions
+		</li>
+	</menu>
+
 	<script>
 		const params = new URLSearchParams(window.location.search)
 		const channelSlug = params.get('slug')

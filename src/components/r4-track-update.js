@@ -5,7 +5,7 @@ const fieldsTemplate = document.createElement('template')
 fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
-			<label for="id">Track ID</label>
+			<label for="id">ID</label>
 			<input name="id" type="text" required/>
 		</fieldset>
 		<fieldset>
