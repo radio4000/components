@@ -37,13 +37,23 @@ export default class R4ChannelCreate extends R4Form {
 		}
 	}
 
+	connectedCallback() {
+		super.connectedCallback()
+		/* hide the channel id if it is there */
+		const $channelId = this.querySelector('[name="id"]')
+		if ($channelId.value) {
+			$channelId.parentElement.setAttribute('hidden', 'true')
+		}
+	}
+
 	async handleSubmit(event) {
 		event.preventDefault()
 		this.disableForm()
 
 		const { id, confirmation } = this.state
 		if (!confirmation) {
-			this.handleError({
+			this.enableForm()
+			return this.handleError({
 				code: 'confirmation',
 			})
 		}

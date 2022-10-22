@@ -147,24 +147,28 @@ export default class R4Form extends HTMLElement {
 			$out.innerHTML = ''
 		})
 		/* set errors on outputs */
-		const $out = this.$form.querySelector(`output[for="${field}"]`)
+		let  $out
+		if (field) {
+			$out = this.$form.querySelector(`output[for="${field}"]`)
+		}
+		if (!field || !$out) {
+			$out = this.$form.querySelector(`output[for="submit"]`)
+		}
 		if ($out) {
-			this.renderErrorOutput($out, { message, code, field })
+			this.renderErrorOutput($out, { message, code })
 		}
 	}
-	renderErrorOutput($out, { message, code, field }) {
+	renderErrorOutput($out, { message, code }) {
+		$out.style = 'color: var(--color-error, red);'
+
 		const $message = document.createElement('span')
 		$message.innerText = message
 
 		const $code = document.createElement('code')
 		$code.innerText = code
 
-		const $field = document.createElement('i')
-		$code.innerText = field
-
 		$out.append($message)
-		$out.append($code)
-		$out.append($field)
+		/* $out.append($code) */
 	}
 
 	disableForm() {

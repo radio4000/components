@@ -39,7 +39,7 @@ export default class R4ChannelCreate extends R4Form {
 			field: 'slug',
 		},
 		42501: {
-			message: 'Signin to create a channel',
+			message: 'Sign-in to create a channel',
 			field: 'slug',
 		}
 	}
@@ -58,8 +58,7 @@ export default class R4ChannelCreate extends R4Form {
 				slug: channel.slug,
 			})
 			if (res.error) {
-				error = res
-				throw error
+				throw res.error
 			}
 		} catch (err) {
 			this.handleError(err)

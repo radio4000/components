@@ -52,6 +52,15 @@ export default class R4ChannelUpdate extends R4Form {
 		}
 	}
 
+	connectedCallback() {
+		super.connectedCallback()
+		/* hide the channel id if it is there */
+		const $channelId = this.querySelector('[name="id"]')
+		if ($channelId.value) {
+			$channelId.parentElement.setAttribute('hidden', 'true')
+		}
+	}
+
 	async handleSubmit(event) {
 		event.stopPropagation()
 		event.preventDefault()
