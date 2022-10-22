@@ -15,8 +15,8 @@
 <body>
 	<r4-track-create></r4-track-create>
 	<script>
-		function handleSubmit(event) {
-			console.log('Create did submit', event.detail)
+		function handleSubmit({detail}) {
+			console.log('Create did submit', detail)
 		}
 		document.querySelector('r4-track-create').addEventListener('submit', handleSubmit)
 	</script>

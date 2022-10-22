@@ -15,8 +15,12 @@
 <body>
 	<r4-channel-create></r4-channel-create>
 	<script>
-		function handleSubmit(event) {
-			console.log('Create did submit', event.detail)
+		function handleSubmit({ detail }) {
+			console.log('Create did submit', detail)
+			if (window.confirm(`Channel created: @${detail.data.slug} -> visit?`)) {
+				window.location.href = `/examples/r4-channel/?slug=${detail.data.slug}`
+			}
+
 		}
 		document.querySelector('r4-channel-create').addEventListener('submit', handleSubmit)
 	</script>

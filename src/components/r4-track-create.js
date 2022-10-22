@@ -39,8 +39,10 @@ export default class R4TrackCreate extends R4Form {
 	connectedCallback() {
 		super.connectedCallback()
 		/* hide the channel id if it is there */
-		const $channelFieldset = this.querySelector('[name="channel_id"]').parentElement
-		$channelFieldset.setAttribute('hidden', 'true')
+		const $channelId = this.querySelector('[name="channel_id"]')
+		if ($channelId.value) {
+			$channelId.parentElement.setAttribute('hidden', 'true')
+		}
 	}
 
 	async handleInput(event) {
