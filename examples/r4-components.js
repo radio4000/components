@@ -14,7 +14,6 @@ const slugFromName = componentName => {
 class R4Components extends HTMLElement {
 	get components() {
 		return Object.keys(Components).map(componentName => {
-			console.log(componentName)
 			const Component = Components[componentName]
 			const config = {
 				name: componentName,
@@ -25,7 +24,7 @@ class R4Components extends HTMLElement {
 		})
 	}
 	connectedCallback() {
-		console.log('components', this.components)
+		console.info('All r4 components', this.components)
 		if (this.components && this.components.length) {
 			this.render()
 		}

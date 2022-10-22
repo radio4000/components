@@ -36,6 +36,29 @@ export default class R4TrackCreate extends R4Form {
 		},
 	}
 
+	connectedCallback() {
+		super.connectedCallback()
+		/* hide the channel id if it is there */
+		const $channelFieldset = this.querySelector('[name="channel_id"]').parentElement
+		$channelFieldset.setAttribute('hidden', 'true')
+	}
+
+	async handleInput(event) {
+		const { name, value } = event.target
+		super.handleInput(event)
+
+		/* if the `url` change, and there is no `title`, set one up */
+		if (name === 'url') {
+			const data = sdk.providers.mediaUrlParser(value)
+			console.log('url changed', data)
+			if (!this.state.title) {
+				console.info('(should) fetching track title', data)
+				const $trackTitle = this.querySelector('[name="title"]')
+				$trackTitle.value = `${data.provider}@${data.id}`
+			}
+		}
+	}
+
 	async handleSubmit(event) {
 		event.preventDefault()
 		event.stopPropagation()
