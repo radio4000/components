@@ -1,15 +1,52 @@
 import sdk from '@radio4000/sdk'
+import R4Form from './r4-form.js'
 
-export default class R4SignOut extends HTMLElement {
-	connectedCallback() {
-		this.addEventListener('click', async (event) => {
-			event.preventDefault()
-			const submitEvent = new CustomEvent('submit', {
-				bubbles: true,
-				detail: await sdk.signOut()
+export default class R4SignOut extends R4Form {
+	errors = {
+		'default': {
+			message: 'Unhandled error',
+		},
+		'not-signed-in': {
+			message: 'Not currently signed in a user'
+		}
+	}
+
+	async connectedCallback() {
+		super.connectedCallback()
+		const { data: user } = await sdk.getUser()
+		if (!user) {
+			this.disableForm()
+			this.handleError({
+				code: 'not-signed-in'
 			})
-			this.dispatchEvent(submitEvent)
+		}
+	}
+
+	async handleSubmit(event) {
+		event.preventDefault()
+		event.stopPropagation()
+
+		this.disableForm()
+		let res = {},
+			error = null
+		try {
+			res = await sdk.signOut()
+			if (res.error) {
+				throw res.error
+			}
+		} catch (err) {
+			this.handleError(err)
+		}
+		this.enableForm()
+
+		const { data } = res
+		if (data && data.user && data.session) {
+			this.resetForm()
+		}
+
+		super.handleSubmit({
+			error,
+			data,
 		})
-		this.innerHTML = `<button type="button">Sign Out</button>`
 	}
 }
