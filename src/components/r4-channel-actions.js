@@ -8,7 +8,7 @@ template.innerHTML = `
 	</r4-actions>
 `
 
-export default class R4TrackActions extends HTMLElement {
+export default class R4ChannelActions extends HTMLElement {
 	static get observedAttributes() {
 		return ['slug']
 	}

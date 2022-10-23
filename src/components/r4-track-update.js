@@ -23,7 +23,7 @@ fieldsTemplate.innerHTML = `
 	</slot>
 `
 
-export default class R4TrackCreate extends R4Form {
+export default class R4TrackUpdate extends R4Form {
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate

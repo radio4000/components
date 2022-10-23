@@ -15,7 +15,6 @@ fieldsTemplate.innerHTML = `
 	</slot>
 `
 
-
 export default class R4SignIn extends R4Form {
 	constructor() {
 		super()

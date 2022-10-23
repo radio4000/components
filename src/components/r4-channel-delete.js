@@ -16,7 +16,7 @@ fieldsTemplate.innerHTML = `
 `
 
 
-export default class R4ChannelCreate extends R4Form {
+export default class R4ChannelDelete extends R4Form {
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate
