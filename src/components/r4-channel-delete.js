@@ -17,6 +17,7 @@ fieldsTemplate.innerHTML = `
 
 
 export default class R4ChannelDelete extends R4Form {
+	submitText = 'Delete channel'
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate

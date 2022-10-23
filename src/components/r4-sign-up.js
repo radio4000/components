@@ -16,6 +16,7 @@ fieldsTemplate.innerHTML = `
 `
 
 export default class R4SignUp extends R4Form {
+	submitText = 'Sign up'
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate

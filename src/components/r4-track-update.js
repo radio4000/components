@@ -24,6 +24,8 @@ fieldsTemplate.innerHTML = `
 `
 
 export default class R4TrackUpdate extends R4Form {
+	submitText = 'Update track'
+
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate

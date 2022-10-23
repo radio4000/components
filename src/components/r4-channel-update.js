@@ -25,6 +25,7 @@ fieldsTemplate.innerHTML = `
 
 
 export default class R4ChannelUpdate extends R4Form {
+	submitText = 'Update channel'
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate

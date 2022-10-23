@@ -163,6 +163,10 @@ export default class R4Form extends HTMLElement {
 					$field.setAttribute('for', fieldName)
 				}
 
+				if (fieldName === 'submit') {
+					$field.innerText = this.submitText
+				}
+
 				/* return false, to stop the "every" loop,
 					 since the field type has been found and set */
 				return false
