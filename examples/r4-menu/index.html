@@ -19,8 +19,10 @@
 		<a href="/">/</a>
 		<a href="../r4-actions">r4-actions</a>
 		<r4-auth-status>
-			<a href="../r4-sign-in" slot="in">r4-sign-in</a>
-			<a href="../r4-sign-out" slot="out">r4-sign-out</a>
+			<a slot="in" href="../r4-sign-out">r4-sign-out</a>
+			<span slot="out">
+				sign-{<a href="../r4-sign-in">in</a>, <a href="../r4-sign-up">up</a>}
+			</span>
 		</r4-auth-status>
 	</r4-menu>
 
@@ -29,11 +31,30 @@
 			This ↑ is an example of <r4-title small="true"></r4-title> menu
 		</li>
 	</menu>
+
+	<r4-menu direction="row" pathname="/examples">
+		<a href="../r4-actions">r4-actions</a>
+		<r4-user-channels-select slot="in"></r4-user-channels-select>
+	</r4-menu>
+
+	<menu>
+		<li>
+			Example menu with <kbd>direction="row"</kbd>(CSS only)
+		</li>
+	</menu>
 </body>
 
 <script>
+	// only set the origin on the first one
 	const $menu = document.querySelector('r4-menu')
 	$menu.setAttribute('origin', window.origin)
+
+	const onSubmit = ({ detail }) => {
+		console.log('channel selected', detail)
+	}
+
+	const $select = document.querySelector('r4-user-channels-select')
+	$select && $select.addEventListener('input', onSubmit)
 </script>
 
 </html>

@@ -1,0 +1,10 @@
+r4-menu {}
+r4-menu[direction="row"] {}
+r4-menu[direction="row"] menu {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+r4-menu[direction="row"] menu li + li{
+	margin-left: 1.5rem;
+}

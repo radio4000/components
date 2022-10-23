@@ -18,10 +18,26 @@
 	<r4-layout>
 		<header slot="header">
 			<r4-title></r4-title>
-			<r4-menu></r4-menu>
+			<r4-menu direction="row">
+				<a href="/r4-channels">Explore</a>
+				<r4-auth-status>
+					<span slot="in">
+						<a href="/r4-create-track">create track</a>, <a href="/r4-sign-out">sign out</a>
+					</span>
+					<span slot="out">
+						sign-{<a href="/r4-sign-in">in</a>, <a href="/r4-sign-up">up</a>}
+					</span>
+				</r4-auth-status>
+			</r4-menu>
 		</header>
 		<r4-components slot="main"></r4-components>
 	</r4-layout>
 </body>
+
+<script>
+	const $menu = document.querySelector('r4-menu')
+	$menu.setAttribute('origin', window.origin)
+	$menu.setAttribute('pathname', window.location.pathname)
+</script>
 
 </html>

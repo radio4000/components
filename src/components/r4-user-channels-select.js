@@ -83,7 +83,6 @@ export default class R4UserChannelsSelect extends HTMLElement {
 		this.error = error
 		this.channels = data
 		if (this.channels && this.channels.length) {
-			console.log(this.channels)
 			this.refreshOptions(this.channels[0].slug)
 		}
 	}
