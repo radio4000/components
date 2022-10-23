@@ -62,7 +62,6 @@ export default class R4TrackActions extends HTMLElement {
 		if (!this.canEdit) {
 			this.canEdit = await sdk.canEditChannel(this.channel.id)
 
-			console.log('can edit', this.canEdit)
 			/* if can edit, render option for editors */
 			if (this.canEdit) {
 				this.renderAsyncOption({
