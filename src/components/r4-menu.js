@@ -36,20 +36,38 @@ export default class R4Menu extends HTMLElement {
 	/* recursively update links */
 	normalizeChildrenLinks($children) {
 		if ($children.nodeName === 'A') {
-			$children = this.normalizeLink($children)
+			$children = this.buildMenuLink($children)
 		} else if ($children.children) {
 			const $links = $children.querySelectorAll('a')
 			$links.forEach($link => {
-				$link = this.normalizeLink($link)
+				$link = this.buildMenuLink($link)
 			})
 		}
 		return $children
 	}
 
-	normalizeLink($link) {
-		console.log(this.origin, this.pathname)
-		const newHref = new URL($link.href, this.origin + this.pathname)
-		$link.href = newHref
+	navigate(relativeHref, params = []) {
+		const location = this.buildMenuURL(relativeHref, params)
+		window.location.assign(location.href)
+	}
+
+	buildMenuLink($link) {
+		$link.href = this.buildMenuURL($link.href).href
 		return $link
+	}
+
+	buildMenuURL(href, queryParams) {
+		const newUrl = new URL(href, this.origin + this.pathname)
+		if (queryParams && queryParams.length) {
+			/* fix the router re-routing to `/` for folders,
+			 and that removes the query params */
+			if (!newUrl.href.endsWith('/')) {
+				newUrl.href = newUrl.href + '/'
+			}
+			queryParams.forEach(param => {
+				newUrl.searchParams.set(param[0], param[1])
+			})
+		}
+		return newUrl
 	}
 }
