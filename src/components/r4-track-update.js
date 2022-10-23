@@ -42,16 +42,13 @@ export default class R4TrackUpdate extends R4Form {
 		event.stopPropagation()
 
 		this.disableForm()
-		let res = {},
-				error = null
+		const {id, url, title, description} = this.state
+		let res = {}
+		let error = null
 		try {
-			res = await sdk.createTrack(this.state.id, {
-				url: this.state.url,
-				title: this.state.title,
-				description: this.state.description,
-			})
+			res = await sdk.updateTrack(id, {url, title, description})
 			if (res.error) {
-				error = res
+				error = res.error
 				throw error
 			}
 		} catch (err) {
@@ -59,13 +56,10 @@ export default class R4TrackUpdate extends R4Form {
 		}
 		this.enableForm()
 
-		const { data } = res
-		if (data) {
-			this.resetForm()
-		}
-		super.handleSubmit({
-			error,
-			data,
-		})
+		console.log(res)
+		// if (data) {
+		// 	this.resetForm()
+		// }
+		super.handleSubmit({error, data})
 	}
 }
