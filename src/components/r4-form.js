@@ -23,13 +23,25 @@ export default class R4Form extends HTMLElement {
 
 	fieldsTemplate = null
 
+	get fieldNames() {
+		if (!this.$fieldsets) return []
+		const names = []
+		this.$fieldsets.forEach($fieldset => {
+			let fieldName = $fieldset.querySelector('[name]').getAttribute('name')
+			names.push(fieldName)
+		})
+		return names.filter(name => {
+			return ['submit', 'password'].indexOf(name) === -1
+		})
+	}
+
 	connectedCallback() {
 		this.append(template.content.cloneNode(true))
 		this.$form = this.querySelector('form')
 		this.$form.addEventListener('submit', this.handleSubmit.bind(this))
 
-		this.initialState = this.getInitialState()
 
+		/* build DOM for each fieldset */
 		this.$fields = this.querySelector('slot[name="fields"')
 		if (this.fieldsTemplate) {
 			const $newFieldsets = this.fieldsTemplate.content.cloneNode(true).querySelectorAll('slot[name="fields"] fieldset')
@@ -39,24 +51,46 @@ export default class R4Form extends HTMLElement {
 				})
 			}
 		}
+
 		this.$fieldsets = this.querySelectorAll('fieldset')
+		this.initialState = this.getInitialState()
 		this.bindFieldsInput(this.$fieldsets)
 		this.render()
 	}
 
 	render() {}
 
-	/* from the url params */
+	/* get initial config form state, from the URL params || DOM attributes */
 	getInitialState() {
 		const urlParams = new URLSearchParams(window.location.search)
+
+		/* the initial config to populate */
 		let config = {}
-		for (const [paramName, paramValue] of urlParams) {
-			const value = decodeURIComponent(paramValue)
-			if (value === 'null') {
-			} else if (value) {
-				config[paramName] = value
+
+		if (!this.fieldNames) return config
+
+		if (urlParams) {
+			for (const [paramName, paramValue] of urlParams) {
+
+				/* if the url param is not is the field names list, don't us */
+				if (this.fieldNames.indexOf(paramName) === -1) return
+
+				const value = decodeURIComponent(paramValue)
+				if (value === 'null') {
+				} else if (value) {
+					config[paramName] = value
+				}
 			}
 		}
+
+		/* overwrite the URL params generated config, by the DOM attributes */
+		this.fieldNames.forEach(fieldName => {
+			const fieldAttributeValue = this.getAttribute(fieldName)
+			if (fieldAttributeValue) {
+				config[fieldName] = fieldAttributeValue
+			}
+		})
+
 		return config
 	}
 
