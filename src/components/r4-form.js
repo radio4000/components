@@ -136,9 +136,9 @@ export default class R4Form extends HTMLElement {
 					$field.setAttribute('for', fieldName)
 				}
 
-					/* return false, to stop the "every" loop,
-						 since the field type has been found and set */
-					return false
+				/* return false, to stop the "every" loop,
+					 since the field type has been found and set */
+				return false
 			})
 		})
 	}
