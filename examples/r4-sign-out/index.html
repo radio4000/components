@@ -18,6 +18,11 @@
 
 <body>
 	<r4-sign-out></r4-sign-out>
+	<script>
+		document.querySelector('r4-sign-out').addEventListener('submit', (event) => {
+			console.log(event.detail)
+		})
+	</script>
 </body>
 
 </html>

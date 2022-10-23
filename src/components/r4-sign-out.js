@@ -1,10 +1,15 @@
-import { html } from 'lit'
 import sdk from '@radio4000/sdk'
 
-const R4SignOut = () => {
-	return html`
-		<button type="button" @click=${() => sdk.signOut()}>Sign Out</button>
-	`
+export default class R4SignOut extends HTMLElement {
+	connectedCallback() {
+		this.addEventListener('click', async (event) => {
+			event.preventDefault()
+			const submitEvent = new CustomEvent('submit', {
+				bubbles: true,
+				detail: await sdk.signOut()
+			})
+			this.dispatchEvent(submitEvent)
+		})
+		this.innerHTML = `<button type="button">Sign Out</button>`
+	}
 }
-
-export default R4SignOut
