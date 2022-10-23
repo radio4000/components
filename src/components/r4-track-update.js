@@ -55,11 +55,9 @@ export default class R4TrackUpdate extends R4Form {
 			this.handleError(err)
 		}
 		this.enableForm()
-
-		console.log(res)
 		// if (data) {
 		// 	this.resetForm()
 		// }
-		super.handleSubmit({error, data})
+		super.handleSubmit(res)
 	}
 }
