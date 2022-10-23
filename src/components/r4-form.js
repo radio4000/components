@@ -108,8 +108,12 @@ export default class R4Form extends HTMLElement {
 				 and create only one field(in+out) per fieldset */
 			Object.keys(fieldTypes).every(fieldType => {
 				const $field = $fieldset.querySelector(fieldType)
+				const $label = $fieldset.querySelector('label')
 				const fieldEventType = fieldTypes[fieldType]
+
 				if (!$field || !fieldEventType) return true
+
+				const fieldName = $field.getAttribute('name')
 
 				const $errorOutput = this.createFieldsetOutput($field)
 				$fieldset.append($errorOutput)
@@ -124,9 +128,17 @@ export default class R4Form extends HTMLElement {
 					$field.dispatchEvent(new Event('input')) // trigger initial value
 				}
 
-				/* return false, to stop the "every" loop,
-					 since the field type has been found and set */
-				return false
+				/* add the id on the field "input", to make the label work with minimal markup */
+				if (!$field.getAttribute('id')) {
+					$field.setAttribute('id', fieldName)
+				}
+				if (!$label.getAttribute('for')) {
+					$field.setAttribute('for', fieldName)
+				}
+
+					/* return false, to stop the "every" loop,
+						 since the field type has been found and set */
+					return false
 			})
 		})
 	}
