@@ -4,7 +4,7 @@ template.innerHTML = `
 		<slot name="fields"></slot>
 		<slot name="submit">
 			<fieldset>
-				<button type="submit" name="submit">submit</button>
+				<button type="submit" name="submit">Submit</button>
 			</fieldset>
 		</slot>
 	</form>
