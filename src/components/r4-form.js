@@ -31,7 +31,8 @@ export default class R4Form extends HTMLElement {
 			names.push(fieldName)
 		})
 		return names.filter(name => {
-			return ['submit', 'password'].indexOf(name) === -1
+			const inputsNoPrefill = ['submit', 'password', 'confirmation']
+			return inputsNoPrefill.indexOf(name) === -1
 		})
 	}
 
