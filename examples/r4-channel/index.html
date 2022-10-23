@@ -37,7 +37,7 @@
 
 
 	/* add some actions to the channel */
-	const onInput = ({ detail }) => {
+	const onChannelInput = ({ detail }) => {
 		const channel = document.querySelector('r4-channel').channel
 		if (detail && channel && channel.id) {
 			if (detail === 'create-track') {
@@ -54,7 +54,7 @@
 
 	const $actions = document.querySelector('r4-channel-actions')
 	slug && $actions.setAttribute('slug', slug)
-	$actions.addEventListener('input', onInput)
+	$actions.addEventListener('input', onChannelInput)
 </script>
 
 </html>

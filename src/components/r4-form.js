@@ -85,8 +85,10 @@ export default class R4Form extends HTMLElement {
 		if (urlParams) {
 			for (const [paramName, paramValue] of urlParams) {
 
-				/* if the url param is not is the field names list, don't us */
-				if (fieldNamesPrefill.indexOf(paramName) === -1) return
+				/* if the url param is not is the field names list, break loop */
+				if (fieldNamesPrefill.indexOf(paramName) === -1) {
+					break;
+				}
 
 				const value = decodeURIComponent(paramValue)
 				if (value === 'null') {

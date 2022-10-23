@@ -16,8 +16,8 @@ fieldsTemplate.innerHTML = `
 `
 
 
-export default class R4ChannelDelete extends R4Form {
-	submitText = 'Delete channel'
+export default class R4TrackDelete extends R4Form {
+	submitText = 'Delete track'
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate
@@ -29,21 +29,17 @@ export default class R4ChannelDelete extends R4Form {
 			field: null,
 		},
 		'confirmation': {
-			message: 'Please confirm deletion',
+			message: 'Really sure to delete this track?',
 			field: 'confirmation',
-		},
-		23503: {
-			message: 'You appear to want to delete a channel that still has some tracks. Delete all tracks first?',
-			field: 'id',
 		}
 	}
 
 	connectedCallback() {
 		super.connectedCallback()
-		/* hide the channel id if it is there */
-		const $channelId = this.querySelector('[name="id"]')
-		if ($channelId.value) {
-			$channelId.parentElement.setAttribute('hidden', 'true')
+		/* hide the track ID fieldset, if the ID is there */
+		const $trackId = this.querySelector('[name="id"]')
+		if ($trackId.value) {
+			$trackId.parentElement.setAttribute('hidden', 'true')
 		}
 	}
 
@@ -52,6 +48,7 @@ export default class R4ChannelDelete extends R4Form {
 		this.disableForm()
 
 		const { id, confirmation } = this.state
+
 		if (!confirmation) {
 			this.enableForm()
 			return this.handleError({
@@ -61,7 +58,7 @@ export default class R4ChannelDelete extends R4Form {
 
 		let res
 		try {
-			res = await sdk.deleteChannel(id)
+			res = await sdk.deleteTrack(id)
 			if (res && res.error) {
 				throw res.error
 			}
@@ -75,7 +72,6 @@ export default class R4ChannelDelete extends R4Form {
 			this.resetForm()
 			this.enableForm()
 		}
-
 		super.handleSubmit(res)
 	}
 }

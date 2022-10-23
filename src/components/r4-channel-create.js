@@ -51,8 +51,7 @@ export default class R4ChannelCreate extends R4Form {
 
 		this.disableForm()
 		const channel = this.state
-		let res = {},
-				error = null
+		let res = {}
 		try {
 			res = await sdk.createChannel({
 				name: channel.name,
@@ -70,9 +69,6 @@ export default class R4ChannelCreate extends R4Form {
 		if (data) {
 			this.resetForm()
 		}
-		super.handleSubmit({
-			error,
-			data,
-		})
+		super.handleSubmit(res)
 	}
 }
