@@ -1,5 +1,6 @@
 import sdk from '@radio4000/sdk'
 import page from 'page/page.mjs'
+import pages from '../pages/index.js'
 
 // https://github.com/visionmedia/page.js/issues/537
 page.configure({ window: window })
@@ -112,15 +113,15 @@ export default class R4App extends HTMLElement {
 	}
 
 	/* each time URL changes and needs to render a page */
-	renderPage(pageComponent, attributes) {
+	renderPage(pageName, attributes) {
 		this.$slotMain.innerHTML = ''
-		const $page = document.createElement('r4-page')
+		const $page = document.createElement(`r4-page-${pageName}`)
 		if (attributes) {
 			attributes.forEach(attribute => {
 				$page.setAttribute(attribute[0], attribute[1])
 			})
 		}
 		this.$slotMain.append($page)
-		console.log('render page:', pageComponent, this.$slotMain, attributes)
+		console.log('render page:', pageName, this.$slotMain, attributes)
 	}
 }
