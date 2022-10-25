@@ -183,10 +183,10 @@ export default class R4List extends HTMLElement {
 	}
 
 	render() {
-		if (!this.list.length) {
-			this.renderNoItems()
-		} else {
+		if (this.list && this.list.length) {
 			this.renderItems()
+		} else {
+			this.renderNoItems()
 		}
 		if (this.pagination) {
 			this.renderPagination()
@@ -221,7 +221,14 @@ export default class R4List extends HTMLElement {
 		this.$list.innerHTML = ''
 		const $ul = document.createElement('ul')
 		const $li = document.createElement('li')
-		$li.innerText = 'No channel'
+		if (this.itemTemplate) {
+			const modelName = this.itemTemplate.getAttribute('attribute')
+			if (modelName) {
+				$li.innerText = `No ${modelName}`
+			}
+		} else {
+			$li.innerText = 'No item'
+		}
 		$ul.append($li)
 		this.$list.append($ul)
 	}
@@ -247,7 +254,7 @@ export default class R4List extends HTMLElement {
 			$previous.setAttribute('disabled', true)
 		}
 
-		if (this.list.length < this.limit) {
+		if (this.list && this.list.length < this.limit) {
 			$next.setAttribute('disabled', true)
 		}
 	}

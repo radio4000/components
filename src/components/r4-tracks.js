@@ -1,108 +1,58 @@
+import R4List from './r4-list.js'
 import sdk from '@radio4000/sdk'
 
-export default class R4Tracks extends HTMLElement {
-	static get observedAttributes() {
-		return ['channel', 'limit', 'tracks']
+const itemTemplate = document.createElement('template')
+itemTemplate.setAttribute('element', 'r4-track')
+itemTemplate.setAttribute('element', 'r4-track')
+itemTemplate.innerHTML = `<r4-track id=""><r4-track/>`
+
+export default class R4Tracks extends R4List {
+	itemTemplate = itemTemplate
+	model = 'channel_track'
+
+	select = `
+		channel_id!inner(
+			slug
+		),
+		track_id(
+			id, created_at, updated_at, title, url, description
+		)
+	`
+
+	/* specific to track */
+	eq = 'channel_id.slug'
+
+	get orderConfig() {
+		return { ascending: false }
 	}
+
+	/* the channel slug */
 	get channel() {
 		return this.getAttribute('channel')
 	}
-	set channel(str) {
-		this.setAttribute('channel', str)
-	}
-	get limit() {
-		return parseFloat(this.getAttribute('limit')) || 20
-	}
-	get tracks() {
-		return JSON.parse(this.getAttribute('tracks'))
-	}
-	set tracks(list) {
-		if (list) {
-			this.setAttribute('tracks', JSON.stringify(list))
+
+	/* browse all tracks,
+		 or channel tracks */
+	async browsePage({ page, limit }) {
+		if (Boolean(this.channel)) {
+			const browseParams = this.getBrowseParams({ page, limit })
+			return this.browseChannelPage(browseParams)
 		} else {
-			this.removeAttribute('tracks')
+			return super.browsePage({ page, limit })
 		}
 	}
+	async browseChannelPage({ from, to, limitResults }) {
+		const res = await sdk.supabase
+			.from(this.model)
+			.select(this.select)
+			.limit(limitResults)
+			.order(this.orderKey, this.orderConfig)
+			.eq(this.eq, this.channel) // track specific
+			.range(from, to)
 
-	/* if the attribute changed, re-render */
-	attributeChangedCallback(attrName) {
-		if (['channel', 'limit'].indexOf(attrName) > -1) {
-			this.updateTracks()
+		if (res && res.data) {
+			res.data = res.data.map(item => item.track_id)
 		}
-		this.render()
-	}
-
-	connectedCallback() {
-		this.updateTracks()
-	}
-
-	async updateTracks() {
-		this.setAttribute('loading', true)
-		console.log(this.channel)
-		if (this.channel) {
-			this.tracks = await this.getChannelTracks(this.channel)
-		} else {
-			this.tracks = []
-		}
-		this.removeAttribute('loading')
-	}
-
-	async getChannelTracks(channel) {
-		const res = await sdk.findChannelTracks(channel)
-		return res.data
-	}
-
-	render() {
-		this.innerHTML = ''
-		if (!this.tracks) {
-			this.renderNoTracks()
-		} else {
-			this.renderTracks()
-		}
-	}
-	renderTracks() {
-		const $ul = document.createElement('ul')
-		this.tracks.forEach(track => {
-			const $li = document.createElement('li')
-			const $item = document.createElement('r4-tracks-item')
-			$item.setAttribute('track', JSON.stringify(track))
-			$li.append($item)
-			$ul.append($li)
-		})
-		this.append($ul)
-	}
-
-	renderNoTracks() {
-		const $text = document.createElement('p')
-		$text.innerText = 'No tracks'
-		this.append($text)
+		return res
 	}
 }
-
-
-class R4TracksItem extends HTMLElement {
-	static get observedAttributes() {
-		return ['track']
-	}
-	get track() {
-		return JSON.parse(this.getAttribute('track'))
-	}
-	connectedCallback() {
-		this.render()
-	}
-	render() {
-		const { id, title } = this.track
-		this.innerHTML = ''
-
-		let $title = document.createElement('span')
-		$title.innerText = title
-		$title.title = id
-
-		let $actions = document.createElement('r4-track-actions')
-		$actions.setAttribute('id', id)
-
-		this.append($title)
-		this.append($actions)
-	}
-}
-customElements.define('r4-tracks-item', R4TracksItem)
