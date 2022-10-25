@@ -18,8 +18,7 @@ export default class R4Menu extends HTMLElement {
 	}
 
 	/* move the children elements into list items */
-	constructor() {
-		super()
+	connectedCallback() {
 		this.$menu = document.createElement('menu')
 
 		Object.keys(this.children).forEach(() => {

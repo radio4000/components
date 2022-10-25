@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+	<title>r4-app</title>
+	<meta name="description" content="r4-app">
+	<link rel="stylesheet" href="../../styles/index.css" />
+	<script type="module" src="../../index.js"></script>
+</head>
+
+<body>
+	<menu>
+		<li>
+			← <r4-title small="true"></r4-title> component <a href="../">examples</a>
+		</li>
+	</menu>
+
+	<r4-app></r4-app>
+
+	<menu>
+		<li>
+			Example <r4-title></r4-title> application using the components
+		</li>
+		<li>
+			<a href="/examples/r4-app/ko003">test links</a>, <a href="/examples/r4-app/about">test link</a>
+		</li>
+	</menu>
+</body>
+
+<script>
+	const $app = document.querySelector('r4-app')
+	$app.setAttribute('origin', window.origin)
+	$app.setAttribute('pathname', window.location.pathname)
+</script>
+
+</html>
