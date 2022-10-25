@@ -16,6 +16,7 @@ import R4ChannelCreate from './components/r4-channel-create.js'
 import R4ChannelUpdate from './components/r4-channel-update.js'
 import R4ChannelDelete from './components/r4-channel-delete.js'
 
+import R4Track from './components/r4-track.js'
 import R4TrackCreate from './components/r4-track-create.js'
 import R4TrackUpdate from './components/r4-track-update.js'
 import R4TrackDelete from './components/r4-track-delete.js'
@@ -39,6 +40,7 @@ customElements.define('r4-user', R4User)
 customElements.define('r4-list', R4List)
 customElements.define('r4-channels', R4Channels)
 customElements.define('r4-user-channels-select', R4UserChannelsSelect)
+customElements.define('r4-track', R4Track)
 customElements.define('r4-channel', R4Channel)
 customElements.define('r4-channel-create', R4ChannelCreate)
 customElements.define('r4-channel-update', R4ChannelUpdate)
@@ -72,6 +74,7 @@ export default {
 	R4ChannelCreate,
 	R4ChannelUpdate,
 	R4ChannelDelete,
+	R4Track,
 	R4TrackCreate,
 	R4TrackUpdate,
 	R4TrackDelete,

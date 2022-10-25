@@ -172,7 +172,6 @@ export default class R4List extends HTMLElement {
 			} else if ($dataItem.attributes) {
 				Object.entries($dataItem.attributes).forEach(([attrIndex, attr]) => {
 					const attrValue = itemData[attr.localName]
-					console.log(itemData, attrValue)
 					if (attrValue) {
 						$dataItem.setAttribute(attr.localName, attrValue)
 					}
@@ -219,18 +218,22 @@ export default class R4List extends HTMLElement {
 	}
 	renderNoItems() {
 		this.$list.innerHTML = ''
-		const $ul = document.createElement('ul')
+		const $noItemInList = document.createElement('menu')
 		const $li = document.createElement('li')
 		if (this.itemTemplate) {
 			const modelName = this.itemTemplate.getAttribute('attribute')
+			const modelElementName = this.itemTemplate.getAttribute('element')
 			if (modelName) {
-				$li.innerText = `No ${modelName}`
+				$li.innerText = `No more ${modelName}`
+			} else if (modelElementName) {
+				console.log(this.itemTemplate)
+				$li.innerText = `No more ${modelElementName}`
 			}
 		} else {
-			$li.innerText = 'No item'
+			$li.innerText = 'No more item'
 		}
-		$ul.append($li)
-		this.$list.append($ul)
+		$noItemInList.append($li)
+		this.$list.append($noItemInList)
 	}
 	renderPagination() {
 		this.$pagination.innerHTML = ''
