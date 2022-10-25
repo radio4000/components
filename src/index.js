@@ -1,6 +1,3 @@
-import { Component } from 'wchooks'
-import { render } from 'lit'
-
 import R4Title from './components/r4-title.js'
 import R4Favicon from './components/r4-favicon.js'
 import R4SignUp from './components/r4-sign-up.js'
@@ -9,7 +6,10 @@ import R4SignOut from './components/r4-sign-out.js'
 import R4AuthStatus from './components/r4-auth-status.js'
 import R4User from './components/r4-user.js'
 import R4UserChannelsSelect from './components/r4-user-channels-select.js'
-import R4ListChannels from './components/r4-list-channels.js'
+
+import R4List from './components/r4-list.js'
+import R4Channels from './components/r4-channels.js'
+import R4Tracks from './components/r4-tracks.js'
 
 import R4Channel from './components/r4-channel.js'
 import R4ChannelCreate from './components/r4-channel-create.js'
@@ -19,7 +19,6 @@ import R4ChannelDelete from './components/r4-channel-delete.js'
 import R4TrackCreate from './components/r4-track-create.js'
 import R4TrackUpdate from './components/r4-track-update.js'
 import R4TrackDelete from './components/r4-track-delete.js'
-import R4Tracks from './components/r4-tracks.js'
 
 import R4Actions from './components/r4-actions.js'
 import R4ChannelActions from './components/r4-channel-actions.js'
@@ -33,10 +32,12 @@ customElements.define('r4-title', R4Title)
 customElements.define('r4-favicon', R4Favicon)
 customElements.define('r4-sign-up', R4SignUp)
 customElements.define('r4-sign-in', R4SignIn)
+
 customElements.define('r4-sign-out', R4SignOut)
 customElements.define('r4-auth-status', R4AuthStatus)
 customElements.define('r4-user', R4User)
-customElements.define('r4-list-channels', R4ListChannels)
+customElements.define('r4-list', R4List)
+customElements.define('r4-channels', R4Channels)
 customElements.define('r4-user-channels-select', R4UserChannelsSelect)
 customElements.define('r4-channel', R4Channel)
 customElements.define('r4-channel-create', R4ChannelCreate)
@@ -62,7 +63,11 @@ export default {
 	R4AuthStatus,
 	R4User,
 	R4UserChannelsSelect,
-	R4ListChannels,
+
+	R4List,
+	R4Channels,
+	R4Tracks,
+
 	R4Channel,
 	R4ChannelCreate,
 	R4ChannelUpdate,
@@ -70,7 +75,6 @@ export default {
 	R4TrackCreate,
 	R4TrackUpdate,
 	R4TrackDelete,
-	R4Tracks,
 
 	R4Layout,
 	R4Menu,
@@ -78,5 +82,5 @@ export default {
 
 	R4ChannelActions,
 	R4TrackActions,
-	R4Actions, // export last in list for UX
+	R4Actions, // export last in list for UX of r4-components
 }

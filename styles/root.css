@@ -6,6 +6,8 @@ html {
 	box-sizing: inherit;
 }
 
+/* the html element root,
+	 and the custom-element's root */
 :root,
 :host {
 	color: var(--color-text);
@@ -15,4 +17,11 @@ html {
 
 :root {
 	background-color: var(--color-background);
+}
+
+/* reset of browser styles */
+
+h1, h2, h3, h4, h5, h6,
+p {
+	margin-top: 0;
 }

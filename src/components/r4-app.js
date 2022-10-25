@@ -93,7 +93,9 @@ export default class R4App extends HTMLElement {
 		$menu.setAttribute('pathname', this.pathname)
 		$menu.setAttribute('direction', 'row')
 		$menu.innerHTML = `
-			<r4-title></r4-title>
+			<a href="./">
+				<r4-title></r4-title>
+			</a>
 			<a href="explore">Explore</a>
 			<r4-auth-status>
 				<span slot="in">
