@@ -13,24 +13,12 @@
 </head>
 
 <body>
-	<r4-channels
-		origin="https://example.org/"
-		page="1"
-		limit="1"
-	></r4-channels>
-	<script>
-		const $el = document.querySelector('r4-channels')
-		const urls = {
-			channel: `${window.origin}/examples/r4-channel/?slug={{slug}}`,
-			channelUpdate: `${window.origin}/examples/r4-channel-update/?slug={{slug}}&id={{id}}`,
-			trackCreate: `${window.origin}/examples/r4-track-create/?channel_id={{id}}`,
-		}
-
-		$el.setAttribute('origin', urls['channel'])
-		/* $el.setAttribute('origin', urls['channelUpdate']) */
-			/* $el.setAttribute('origin', urls['trackCreate']) */
-	</script>
-
+	<r4-channels pagination="true" limit="3"></r4-channels>
+	<menu>
+		<li>
+			This component displays a list of channels, and can be paginated
+		</li>
+	</menu>
 </body>
 
 </html>
