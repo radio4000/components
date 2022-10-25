@@ -34,16 +34,46 @@ export default class R4Tracks extends R4List {
 		return this.getAttribute('channel')
 	}
 
-	/* browse all tracks,
-		 or channel tracks */
-	async browsePage({ page, limit }) {
-		if (Boolean(this.channel)) {
-			const browseParams = this.getBrowseParams({ page, limit })
-			return this.browseChannelPage(browseParams)
-		} else {
-			return super.browsePage({ page, limit })
+	async attributeChangedCallback(attrName) {
+		super.attributeChangedCallback(attrName)
+		/* the slug changes, update the list */
+		if (['slug'].indexOf(attrName) > -1) {
+			await this.updateList()
 		}
 	}
+
+	constructor() {
+		super()
+		/* let's also observer the "slug" */
+		R4Tracks.observedAttributes.push('slug')
+	}
+
+	/* browse all tracks,or just tracks for a specific channel */
+	async browsePage({ page, limit }) {
+		/* if there is a channel attribute, even empty */
+		if (this.attributes['channel']) {
+			/* if it has a value */
+			if (this.channel) {
+				const browseParams = this.getBrowseParams({ page, limit })
+				return this.browseChannelPage(browseParams)
+			} else {
+				// noop
+				/* do nothing. channel="" attribute is empty,
+				 so don't display all tracks, wait for a channel-slug */
+			}
+		} else {
+			/* browse all tracks accross all channels */
+			const res = await super.browsePage({ page, limit })
+
+			/* serialize junction table response */
+			if (res && res.data) {
+				res.data = res.data.map(item => item.track_id)
+			}
+			return res
+		}
+	}
+
+	/* browse all tracks for a specific channel slug */
 	async browseChannelPage({ from, to, limitResults }) {
 		const res = await sdk.supabase
 			.from(this.model)
@@ -53,6 +83,7 @@ export default class R4Tracks extends R4List {
 			.eq(this.eq, this.channel) // track specific
 			.range(from, to)
 
+		/* serialize junction table response */
 		if (res && res.data) {
 			res.data = res.data.map(item => item.track_id)
 		}

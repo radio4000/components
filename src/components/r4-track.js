@@ -59,7 +59,7 @@ export default class R4Channel extends HTMLElement {
 	}
 	renderTrack() {
 		const $trackTitle = document.createElement('span')
-		$trackTitle.innerText = this.track.title
+		$trackTitle.innerText = this.track.title || this.track.id
 		this.append($trackTitle)
 	}
 	renderNoTrack() {

@@ -67,7 +67,6 @@ export default class R4List extends HTMLElement {
 		return JSON.parse(this.getAttribute('list'))
 	}
 	set list(arr = []) {
-		this.removeAttribute('loading')
 		this.setAttribute('list', JSON.stringify(arr))
 		return arr
 	}
@@ -100,7 +99,6 @@ export default class R4List extends HTMLElement {
 
 	/* set loading */
 	async connectedCallback() {
-		this.setAttribute('loading', true)
 		await this.updateList()
 	}
 
@@ -110,7 +108,11 @@ export default class R4List extends HTMLElement {
 			page: this.page,
 			limit: this.limit,
 		})
-		this.list = res.data
+		if (res) {
+			this.list = res.data
+		} else {
+			/* this.list = [] */
+		}
 	}
 
 	/* browse the list (of data models) like it is paginated;
