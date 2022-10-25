@@ -110,12 +110,12 @@ export default class R4ListChannels extends HTMLElement {
 	}
 
 	render() {
-		if (!this.channels) {
+		if (!this.channels.length) {
 			this.renderNoChannels()
 		} else {
 			this.renderChannels()
-			this.renderPagination()
 		}
+		this.renderPagination()
 	}
 	renderChannels() {
 		this.$list.innerHTML = ''
@@ -131,9 +131,12 @@ export default class R4ListChannels extends HTMLElement {
 		this.$list.append($ul)
 	}
 	renderNoChannels() {
-		const $text = document.createElement('p')
-		$text.innerText = 'No channels'
-		this.append($text)
+		this.$list.innerHTML = ''
+		const $ul = document.createElement('ul')
+		const $li = document.createElement('li')
+		$li.innerText = 'No channel'
+		$ul.append($li)
+		this.$list.append($ul)
 	}
 	renderPagination() {
 		this.$pagination.innerHTML = ''
@@ -153,11 +156,12 @@ export default class R4ListChannels extends HTMLElement {
 		this.$pagination.append($current)
 		this.$pagination.append($next)
 
+		if (this.page === 1) {
+			$previous.setAttribute('disabled', true)
+		}
+
 		if (this.channels.length < this.limit) {
 			$next.setAttribute('disabled', true)
-		}
-		if (this.page === 0) {
-			$previous.setAttribute('disabled', true)
 		}
 	}
 	onPagination(event) {
