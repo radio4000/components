@@ -6,15 +6,32 @@ template.innerHTML = `
 	<aside name="pagination"></aside>
 `
 
+/*
+	 list-channels, default `page="1"`, `limit="1"`
+ */
 export default class R4ListChannels extends HTMLElement {
+	upperLimit = 999
+
 	static get observedAttributes() {
 		return ['loading', 'limit', 'channels', 'origin', 'page']
 	}
 	get limit() {
-		return parseFloat(this.getAttribute('limit')) || 0
+		const attr = parseFloat(this.getAttribute('limit'))
+		if (!attr || attr <= 0) {
+			return  1
+		} else if (attr > this.upperLimit) {
+			return this.upperLimit
+		} else {
+			return attr
+		}
 	}
 	get page() {
-		return parseFloat(this.getAttribute('page')) || 0
+		const attr = parseFloat(this.getAttribute('page'))
+		if (!attr || attr <= 0) {
+			return 1
+		} else {
+			return attr
+		}
 	}
 	set page(digit) {
 		if (digit) {
@@ -67,34 +84,29 @@ export default class R4ListChannels extends HTMLElement {
 
 	async updateChannels() {
 		/* const res = await sdk.findChannels(this.limit) */
-		const res = await this.browseChannels()
+		const res = await this.browseChannels({
+			page: this.page,
+			limit: this.limit,
+		})
 		this.channels = res.data
 	}
 
-	async browseChannels() {
-		const {from, to} = this.getBrowseParams()
-		return sdk.supabase.from('channels').select('*').limit(this.limit).order('created_at', { ascending: true }).range(from, to)
+	async browseChannels({page, limit}) {
+		const { from, to, limitResults } = this.getBrowseParams({ page, limit })
+		return sdk.supabase.from('channels').select('*').limit(limitResults).order('created_at', { ascending: true }).range(from, to)
 	}
 
-	getBrowseParams() {
-
-		let from, to;
-
-		if (this.page) {
-			from = this.page * this.limit
-		} else {
-			from = this.page
-		}
-
-		if (this.limit) {
-			to = (this.page || 1) * this.limit
-		} else {
-			to = this.page
-		}
-
-		console.log(from, to, '||', this.page, this.limit)
-
-		return { from, to }
+	/*
+		 converts web component attributes, to supabase sdk query parameters:
+		 -> page="1" limit="1"
+		 -> from[0] to to[0] limit[0]
+	 */
+	getBrowseParams({page, limit}) {
+		let from, to, limitResults;
+		from = page - 1
+		to = from + limit - 1
+		limitResults = limit - 1
+		return { from, to, limitResults }
 	}
 
 	render() {
