@@ -13,12 +13,6 @@
 </head>
 
 <body>
-	<r4-list model="channels" select="slug" page="1" limit="1">
-		<template element="r4-channel">
-			<r4-channel slug></r4-channel>
-		</template>
-	</r4-list>
-
 	<menu>
 		<li>
 			This component, displays a list, for a data model.
@@ -49,6 +43,17 @@
 	<menu>
 		<li>
 			Here <kbd>limit="5"</kbd>, with thow pages of channels
+		</li>
+	</menu>
+
+	<r4-list model="channels" select="slug" page="1" limit="1">
+		<template element="r4-channel">
+			<r4-channel slug></r4-channel>
+		</template>
+	</r4-list>
+	<menu>
+		<li>
+			It can also use a children <kd>template</kd>, and set data to it
 		</li>
 	</menu>
 </body>
