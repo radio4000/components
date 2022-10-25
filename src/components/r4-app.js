@@ -54,24 +54,28 @@ export default class R4App extends HTMLElement {
 	}
 	/* the routes/pages handlers */
 	setupRoutes() {
-		/* first wildcard, used as a middleware */
+		/* first wildcard, used as a first middleware
+			 (calls next, to continue with the next handlers) */
 		page('*', (ctx, next) => {
-			console.log('navigated *')
+			console.log('navigated *', ctx)
 			next()
 		})
 
 		page('/', (ctx, next) => {
 			this.renderPage('home')
-			next()
 		})
 
-		page('/:channel_slug', (ctx, next) => {
+		page('explore', (ctx, next) => {
+			this.renderPage('explore')
+		})
+
+		page(':channel_slug', (ctx, next) => {
 			const { channel_slug } = ctx.params
 			this.renderPage('channel', [
 				['slug', channel_slug],
 			])
-			next()
 		})
+
 		/* last wildcard, used as a 404 catch all (no next)) */
 		page('*', (ctx,) => {
 			console.log('404 ?')
@@ -90,7 +94,7 @@ export default class R4App extends HTMLElement {
 		$menu.setAttribute('direction', 'row')
 		$menu.innerHTML = `
 			<r4-title></r4-title>
-			<a href="r4-list-channels">Explore</a>
+			<a href="explore">Explore</a>
 			<r4-auth-status>
 				<span slot="in">
 					<r4-user-channels-select></r4-user-channels-select> <a href="r4-sign-out">sign out</a>
