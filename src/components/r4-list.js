@@ -134,7 +134,7 @@ export default class R4List extends HTMLElement {
 	 */
 	getBrowseParams({page, limit}) {
 		let from, to, limitResults;
-		from = page - 1
+		from = (page - 1) * limit
 		to = from + limit - 1
 		limitResults = limit - 1
 		return { from, to, limitResults }
