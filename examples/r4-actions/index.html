@@ -13,9 +13,22 @@
 </head>
 
 <body>
+	<menu>
+		<li>
+			Welcome to <strong>
+				<r4-title></r4-title>
+			</strong>! Select an action in the <kbd>select</kbd> to get started with some of the actions available
+			on this
+			site.
+		</li>
+	</menu>
+
 	<r4-actions>
 		<option>
 			…
+		</option>
+		<option value="alert">
+			alert hello
 		</option>
 		<option value="visit-home">
 			visit-home
@@ -38,33 +51,26 @@
 		<option value="visit-channel-create">
 			visit-channel-create
 		</option>
-	</r4-actions>
+		<option value="visit-app">
+			visit-app
+		</option>
+		</r4-actions>
+		</body>
 
-	<menu>
-		<li>
-			Welcome to <strong><r4-title></r4-title></strong>! Select an action in the <kbd>select</kbd> above to get started with some of the actions available on this
-			site.
-		</li>
-	</menu>
-</body>
+		<script>
+			const onInput = ({ target, detail }) => {
 
-<script>
-	const onInput = ({ detail }) => {
-		if (detail) {
-			/* an example action */
-			const visitCommand = detail.split('visit-').filter(val => !!val)
-			if (visitCommand.length === 1) {
-				const command = visitCommand[0]
-				if (command === 'home') {
-					window.location.href = `/examples/`
-				} else {
-					window.location.href = `/examples/r4-${command}/`
+				/* if there is a know action, it will handle it,
+				otherwise take care of it here */
+				if (!target.checkAction(detail)) {
+					/* example unknown action */
+					if (detail === 'alert') {
+						alert('hello! This is an action test :}')
+					}
 				}
 			}
-		}
-	}
-	const $actions = document.querySelector('r4-actions')
-	$actions.addEventListener('input', onInput)
-</script>
+			const $actions = document.querySelector('r4-actions')
+			$actions.addEventListener('input', onInput)
+		</script>
 
 </html>
