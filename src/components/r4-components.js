@@ -40,7 +40,7 @@ class R4Components extends HTMLElement {
 			const $li = document.createElement('li')
 			const $componentLink = document.createElement('a')
 			$componentLink.innerText = component.name
-			$componentLink.href = `./${component.slug}/`
+			$componentLink.href = `../${component.slug}/`
 			$li.append($componentLink)
 			$menu.append($li)
 		})

@@ -25,3 +25,18 @@ h1, h2, h3, h4, h5, h6,
 p {
 	margin-top: 0;
 }
+
+button,
+select {
+	cursor: pointer;
+}
+
+button,
+select,
+input,
+textarea {
+	font-size: var(--size-font);
+	color: var(--color-text);
+	background-color: var(--color-background);
+	padding: calc(var(--size) / 4) calc(var(--size) / 2);
+}

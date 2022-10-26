@@ -15,39 +15,23 @@
 </head>
 
 <body>
+	<menu>
+		<li>
+			This website is a collection of <a href=".">web components</a>, used to build <r4-title></r4-title>.
+		</li>
+		<li>
+			Check out the <a href="https://github.com/radio4000/components">documentation</a>, and inspect the DOM for example details.
+		</li>
+	</menu>
 	<r4-layout>
 		<header slot="header">
 			<r4-menu direction="row">
-				<r4-title></r4-title>
-				<a href="r4-channels">Explore</a>
-				<r4-auth-status>
-					<span slot="in">
-						<r4-user-channels-select></r4-user-channels-select> <a href="r4-sign-out">sign out</a>
-					</span>
-					<span slot="out">
-						sign-{<a href="r4-sign-in">in</a>, <a href="r4-sign-up">up</a>}
-					</span>
-				</r4-auth-status>
+				<r4-title small="true"></r4-title>
+				<a href="r4-components">All Components</a>
+				<a href="r4-channels">Explore channels</a>
+				<a href="r4-actions">Actions</a>
 			</r4-menu>
 		</header>
-		<r4-components slot="main"></r4-components>
 	</r4-layout>
 </body>
-
-<script>
-	const $menu = document.querySelector('r4-menu')
-	$menu.setAttribute('origin', window.origin)
-	$menu.setAttribute('pathname', window.location.pathname)
-
-	const onSubmit = ({ detail }) => {
-		const { slug } = detail.channel
-		if (slug && $menu) {
-			$menu && $menu.navigate('r4-channel', [['slug', slug]])
-		}
-	}
-
-	const $select = document.querySelector('r4-user-channels-select')
-	$select && $select.addEventListener('input', onSubmit)
-</script>
-
 </html>

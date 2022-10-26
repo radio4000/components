@@ -5,9 +5,23 @@
 :root,
 :host {
 	--size-font: 17px;
-	--size: 1.3em;
+	--size: 1.5em;
 	--size-container: 50em;
 
 	--color-text: black;
 	--color-background: white;
+}
+
+@media screen and (min-width: 45rem) {
+	:root,
+	:host {
+		--size-font: 25px;
+	}
+}
+
+@media screen and (min-width: 60rem) {
+	:root,
+	:host {
+		--size-font: 30px;
+	}
 }
