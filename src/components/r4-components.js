@@ -1,4 +1,9 @@
-import Components from '../index.js'
+/* This component is not imported in `../../index.js` like the others,
+	 as it imports index.js to load all other components, and list them.
+	 It is intended as a way to introduce and navigate all r4 components.
+ */
+
+import Components from '../../index.js'
 
 const camelToDash = str => {
 	return str.replace(/([A-Z])/g, val => `-${val.toLowerCase()}`)
