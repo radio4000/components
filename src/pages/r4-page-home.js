@@ -10,7 +10,7 @@ template.innerHTML = `
 	<section>
 		<menu>
 			<li>
-				Start exploring <a href="channels">channels</a> and discover new content.
+				Start <a href="explore">exploring channels</a> and discover new content.
 			</li>
 		</menu>
 	</section>

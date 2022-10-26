@@ -8,7 +8,7 @@ template.innerHTML = `
 		</p>
 	</header>
 	<section>
-		<r4-list-channels></r4-list-channels>
+		<r4-channels pagination="true" limit="3"></r4-channels>
 	</section>
 `
 
