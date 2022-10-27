@@ -4,6 +4,7 @@ r4-menu[direction="row"] menu {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
+	align-items: center;
 }
 r4-menu[direction="row"] menu li + li{
 	margin-left: 1.5rem;

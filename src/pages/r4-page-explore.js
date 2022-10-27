@@ -2,7 +2,7 @@
 const template = document.createElement('template')
 template.innerHTML = `
 	<header>
-		<h1>Explore channels</h1>
+		<h1>Explore</h1>
 		<p>
 			All <r4-title ></r4-title> channels.
 		</p>

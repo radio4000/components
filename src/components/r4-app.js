@@ -1,6 +1,6 @@
 import sdk from '@radio4000/sdk'
 import page from 'page/page.mjs'
-import pages from '../pages/index.js'
+import '../pages/index.js'
 
 // https://github.com/visionmedia/page.js/issues/537
 page.configure({ window: window })
@@ -94,7 +94,7 @@ export default class R4App extends HTMLElement {
 		$menu.setAttribute('direction', 'row')
 		$menu.innerHTML = `
 			<a href="./">
-				<r4-title></r4-title>
+				<r4-title small="true"></r4-title>
 			</a>
 			<a href="explore">Explore</a>
 			<r4-auth-status>
@@ -112,6 +112,7 @@ export default class R4App extends HTMLElement {
 	/* render the original content of the slots */
 	renderSlots() {
 		const $menu = this.buildAppMenu()
+		$menu.querySelector('r4-user-channels-select').addEventListener('input', this.onChannelSelect.bind(this))
 		this.$slotHeader.append($menu)
 
 		const $player = document.createElement('r4-player')
@@ -129,5 +130,12 @@ export default class R4App extends HTMLElement {
 		}
 		this.$slotMain.append($page)
 		console.log('render page:', pageName, this.$slotMain, attributes)
+	}
+	/* events */
+	onChannelSelect({detail, target}) {
+		if (detail.channel) {
+			const { slug } = detail.channel
+			page(slug)
+		}
 	}
 }

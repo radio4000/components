@@ -2,15 +2,18 @@
 const template = document.createElement('template')
 template.innerHTML = `
 	<header>
-		<h1>Welcome to <r4-title small="true"></r4-title></h1>
+		<h1><r4-title></r4-title></h1>
 		<p>
-			Select a <r4-title small="true"></r4-title> channel to play its content.
+			Welcome to <r4-title small="true"></r4-title>!
 		</p>
 	</header>
 	<section>
 		<menu>
 			<li>
-				Start <a href="explore">exploring channels</a> and discover new content.
+				Select a <r4-title small="true"></r4-title> channel to play its content.
+			</li>
+			<li>
+				Start <a href="explore">exploring channels</a> to discover new content.
 			</li>
 		</menu>
 	</section>
