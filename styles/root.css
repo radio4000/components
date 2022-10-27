@@ -12,14 +12,30 @@ html {
 :host {
 	color: var(--color-text);
 	font-family: var(--font-family, serif);
-	font-size: var(--size-font, 17px);
-}
-
-:root {
+	font-size: var(--font-size, var(--size-font));
 	background-color: var(--color-background);
 }
 
+@media (prefers-color-scheme: dark) {
+	:root,
+	:host {
+		--color-text: white;
+		--color-background: black;
+	}
+}
+@media (prefers-color-scheme: light) {
+	:root,
+	:host {
+		--color-text: black;
+		--color-background: white;
+	}
+}
+
 /* reset of browser styles */
+
+a {
+	color: var(--color-link);
+}
 
 h1, h2, h3, h4, h5, h6,
 p {
@@ -35,7 +51,7 @@ button,
 select,
 input,
 textarea {
-	font-size: var(--size-font);
+	font-size: var(--font-size);
 	color: var(--color-text);
 	background-color: var(--color-background);
 	padding: calc(var(--size) / 4) calc(var(--size) / 2);
