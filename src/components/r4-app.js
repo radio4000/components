@@ -3,7 +3,7 @@ import page from 'page/page.mjs'
 import '../pages/index.js'
 
 // https://github.com/visionmedia/page.js/issues/537
-page.configure({ window: window })
+/* page.configure({ window: window }) */
 
 /* the app template */
 const template = document.createElement('template')
@@ -17,20 +17,21 @@ template.innerHTML = `
 
 export default class R4App extends HTMLElement {
 	static get observedAttributes() {
-		return ['origin', 'pathname']
+		return ['href']
 	}
-	get origin() {
-		return this.getAttribute('origin') || window.origin
+	get href() {
+		return this.getAttribute('href')
 	}
 	get pathname() {
-		return this.getAttribute('pathname') || '/'
+		const href = this.href || window.location.href
+		let name = new URL(href).pathname
+		if (name.endsWith('/')) {
+			name = name.slice(0, name.length - 1)
+		}
+		return name
 	}
-	get appUrl() {
-		return this.origin + this.pathname
-	}
-
 	attributeChangedCallback(attrName) {
-		if (attrName === 'pathname') {
+		if (attrName === 'href') {
 			this.setupRouter()
 		}
 	}
@@ -42,15 +43,27 @@ export default class R4App extends HTMLElement {
 
 		/* setup the routes so they are ready to handle URL navigation */
 		this.setupRouter()
-		this.setupRoutes()
 		this.renderSlots()
 		this.handleFirstUrl()
 	}
 
 	setupRouter() {
+		this.setupCLickHandler()
 		if (this.pathname) {
+			/* Get or set the base path. For example if page.js is operating within /blog/* set the base path to "/blog".
+				 its value is the value of `new URL(window.location).pathname` when on `/` of the app */
+
 			page.base(this.pathname)
+
+			/* Get or set the strict path matching mode to enable.If enabled / blog will not match "/blog/" and / blog / will not match "/blog". */
+			page.strict(false)
+
+			page.clickHandler = ((event) => {
+				debugger
+				console.log('clicked page', event)
+			})
 		}
+		this.setupRoutes()
 	}
 	/* the routes/pages handlers */
 	setupRoutes() {
@@ -61,15 +74,15 @@ export default class R4App extends HTMLElement {
 			next()
 		})
 
-		page('/', (ctx, next) => {
-			this.renderPage('home')
-		})
+		page('/', () => this.renderPage('home'))
+		page('/explore', () => this.renderPage('explore'))
 
-		page('explore', (ctx, next) => {
-			this.renderPage('explore')
-		})
+		page('/sign', () => this.renderPage('sign'))
+		page('/sign/up', () => this.renderPage('sign', [['method', 'up']]))
+		page('/sign/in', () => this.renderPage('sign', [['method', 'in']]))
+		page('/sign/out', () => this.renderPage('sign', [['method', 'out']]))
 
-		page(':channel_slug', (ctx, next) => {
+		page('/:channel_slug', (ctx, next) => {
 			const { channel_slug } = ctx.params
 			this.renderPage('channel', [
 				['slug', channel_slug],
@@ -81,6 +94,18 @@ export default class R4App extends HTMLElement {
 			console.log('404 ?')
 		})
 	}
+	setupCLickHandler() {
+		this.addEventListener('click', this.handleClick.bind(this))
+	}
+	handleClick(event) {
+		const wrappingAnchor = event.target.closest('a')
+		if (wrappingAnchor && wrappingAnchor.tagName === 'A') {
+			const destination = this.pathname + wrappingAnchor.pathname
+			console.log(destination)
+			event.preventDefault()
+			page(destination)
+		}
+	}
 	handleFirstUrl() {
 		page(window.location)
 	}
@@ -89,20 +114,19 @@ export default class R4App extends HTMLElement {
 	buildAppMenu() {
 		/* the menu */
 		const $menu = document.createElement('r4-menu')
-		$menu.setAttribute('origin', this.origin)
-		$menu.setAttribute('pathname', this.pathname)
 		$menu.setAttribute('direction', 'row')
 		$menu.innerHTML = `
-			<a href="./">
+			<a href="/">
 				<r4-title small="true"></r4-title>
 			</a>
-			<a href="explore">Explore</a>
+			<a href="/explore">Explore</a>
+			<a href="/sign">sign</a>
 			<r4-auth-status>
 				<span slot="in">
-					<r4-user-channels-select></r4-user-channels-select> <a href="r4-sign-out">sign out</a>
+					<r4-user-channels-select></r4-user-channels-select> <a href="/sign/out">sign out</a>
 				</span>
 				<span slot="out">
-					sign-{<a href="${this.appUrl}/">in</a>, <a href="r4-sign-up">up</a>}
+					sign-{<a href="/sign/in">in</a>, <a href="/sign/up">up</a>}
 				</span>
 			</r4-auth-status>
 		`
@@ -128,14 +152,18 @@ export default class R4App extends HTMLElement {
 				$page.setAttribute(attribute[0], attribute[1])
 			})
 		}
+		if (this.href) {
+			$page.setAttribute('href', this.href)
+		}
 		this.$slotMain.append($page)
 		console.log('render page:', pageName, this.$slotMain, attributes)
 	}
+
 	/* events */
 	onChannelSelect({detail, target}) {
 		if (detail.channel) {
 			const { slug } = detail.channel
-			page(slug)
+			page(`/${slug}`)
 		}
 	}
 }

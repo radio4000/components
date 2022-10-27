@@ -10,12 +10,11 @@ template.innerHTML = `
 `
 
 export default class R4PageHome extends HTMLElement {
-	/* passed from the route */
-	static get observedAttributes() {
-		return ['slug']
-	}
 	get slug() {
 		return this.getAttribute('slug')
+	}
+	get href() {
+		return this.getAttribute('href')
 	}
 	connectedCallback() {
 		this.$channel = template.content.querySelector('r4-channel')

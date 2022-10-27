@@ -9,3 +9,10 @@ r4-menu[direction="row"] menu {
 r4-menu[direction="row"] menu li + li{
 	margin-left: 1.5rem;
 }
+
+r4-menu h1,
+r4-menu h2,
+r4-menu h3,
+r4-menu h4 {
+	margin-bottom: 0;
+}

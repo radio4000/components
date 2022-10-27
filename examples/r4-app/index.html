@@ -7,6 +7,7 @@
 	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 	<title>r4-app</title>
+	<base href="/examples/r4-app/" >
 	<meta name="description" content="r4-app">
 	<link rel="stylesheet" href="../../styles/index.css" />
 	<script type="module" src="../../index.js"></script>
@@ -29,8 +30,6 @@
 
 <script>
 	const $app = document.querySelector('r4-app')
-	$app.setAttribute('origin', window.origin)
-	$app.setAttribute('pathname', window.location.pathname)
 	$app.setAttribute('href', window.location.href)
 </script>
 

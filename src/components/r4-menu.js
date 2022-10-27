@@ -22,11 +22,10 @@ export default class R4Menu extends HTMLElement {
 		this.$menu = document.createElement('menu')
 
 		Object.keys(this.children).forEach(() => {
-			let $children = this.normalizeChildrenLinks(this.children[0])
+			/* not needed now that a router is available  */
+			/* let $children = this.normalizeChildrenLinks() */
 			let $li = document.createElement('li')
-
-
-			$li.append($children)
+			$li.append(this.children[0])
 			this.$menu.append($li)
 		})
 		this.append(this.$menu)
