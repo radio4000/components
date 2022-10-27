@@ -3,20 +3,10 @@ import page from 'page'
 const template = document.createElement('template')
 template.innerHTML = `
 	<header>
-		<r4-menu direction="row">
-			<h1>Sign</h1>
-			<a href="/sign/up">up</a>
-			<a href="/sign/in">in</a>
-			<a href="/sign/out">out</a>
-		</r4-menu>
+		<h1></h1>
 	</header>
 	<main></main>
-	<footer>
-		<r4-menu direction="row">
-			<r4-title></r4-title>
-			<r4-favicon></r4-favicon>
-		</r4-menu>
-	</footer>
+	<footer></footer>
 `
 
 export default class R4PageSign extends HTMLElement {
@@ -33,6 +23,7 @@ export default class R4PageSign extends HTMLElement {
 	}
 	connectedCallback() {
 		this.append(template.content.cloneNode(true))
+		this.$title = this.querySelector('header h1')
 		this.$main = this.querySelector('main')
 		this.render(this.method)
 	}
@@ -45,12 +36,26 @@ export default class R4PageSign extends HTMLElement {
 		}
 	}
 	renderMethodPage(method) {
-		const $signForm = document.createElement(`r4-sign-${method}`)
-		this.$main && this.$main.append($signForm)
+		if (this.$main) {
+			const $signForm = document.createElement(`r4-sign-${method}`)
+			this.$main.append($signForm)
+		}
+		if (this.$title) {
+			this.$title.innerText = `Sign ${method}`
+		}
 	}
 	renderMethodSelection() {
-		const $info = document.createElement('p')
-		$info.innerText = '↑ What would you like to do?'
+		const $info = document.createElement('aside')
+		$info.innerHTML = `
+			<p>
+				To use <r4-title></r4-title>, sign into your user account.
+			</p>
+			<r4-menu direction="row">
+				<a href="/sign/up">up</a>
+				<a href="/sign/in">in</a>
+				<a href="/sign/out">out</a>
+			</r4-menu>
+		`
 		this.$main && this.$main.append($info)
 	}
 }

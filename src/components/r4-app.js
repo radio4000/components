@@ -120,7 +120,6 @@ export default class R4App extends HTMLElement {
 				<r4-title small="true"></r4-title>
 			</a>
 			<a href="/explore">Explore</a>
-			<a href="/sign">sign</a>
 			<r4-auth-status>
 				<span slot="in">
 					<r4-user-channels-select></r4-user-channels-select> <a href="/sign/out">sign out</a>
