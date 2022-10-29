@@ -13,13 +13,19 @@
 </head>
 
 <body>
-	<r4-channel-actions></r4-channel-actions>
-
 	<menu>
 		<li>
-			Enter the channel <a href="?slug=">slug</a> as a url parameter, to fetch async channel actions
+			These actions are bound to a channel by its <code>slug</code>, and are meant to be usefull actions a user might want to have with a channel.
+		</li>
+		<li>
+			Update channel, will be displayed only if the user can update the channel informations.
+		</li>
+		<li>
+			Enter the channel <a href="?slug=">slug</a> as a url parameter, to fetch async channel actions, specific to the current logged in user.
 		</li>
 	</menu>
+
+	<r4-channel-actions></r4-channel-actions>
 
 	<script>
 		const params = new URLSearchParams(window.location.search)

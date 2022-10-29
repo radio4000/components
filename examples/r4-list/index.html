@@ -15,47 +15,41 @@
 <body>
 	<menu>
 		<li>
-			This component, displays a list, for a data model.
+			This component, displays a list, for a data model (here tracks).
 		</li>
 	</menu>
-
 	<r4-list pagination="true" model="tracks" page="1" limit="1"></r4-list>
+
 	<menu>
 		<li>
-			The list can have pagination, here for <kbd>model="tracks"</kbd>
+			The list can have pagination, here for <code>model="tracks"</code>
 		</li>
 	</menu>
-
 	<section style="display: flex;">
 		<r4-list model="channels" page="1" limit="3"></r4-list>
 		<r4-list model="channels" page="2" limit="3"></r4-list>
 		<r4-list model="channels" page="3" limit="3"></r4-list>
 		<r4-list pagination="true" model="channels" page="4" limit="3"></r4-list>
 	</section>
+
 	<menu>
 		<li>
-			It is possible to increase the <kbd>limit="3"</kbd>, to display more elements in the list.
+			It is possible to increase the <kbd>limit="5"</kbd>, to display more elements in the list.
 		</li>
 	</menu>
-
 	<r4-list model="channels" page="1" limit="5"></r4-list>
 	<r4-list model="channels" page="2" limit="5" pagination="true"></r4-list>
-	<menu>
-		<li>
-			Here <kbd>limit="5"</kbd>, with thow pages of channels
-		</li>
-	</menu>
 
-	<r4-list model="channels" select="slug" page="1" limit="2" pagination="true">
-		<template element="r4-channel">
-			<r4-channel slug></r4-channel>
-		</template>
-	</r4-list>
 	<menu>
 		<li>
 			It can also use a children <kd>template</kd>, and set data to it
 		</li>
 	</menu>
+	<r4-list model="channels" select="slug" page="1" limit="2" pagination="true">
+		<template element="r4-channel">
+			<r4-channel slug></r4-channel>
+		</template>
+	</r4-list>
 </body>
 
 </html>
