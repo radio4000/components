@@ -1,6 +1,8 @@
+import R4Page from './r4-page.js'
+
 /* the app template */
-const template = document.createElement('template')
-template.innerHTML = `
+const pageTemplate = document.createElement('template')
+pageTemplate.innerHTML = `
 	<header>
 		<h1><r4-title></r4-title></h1>
 		<p>
@@ -19,8 +21,6 @@ template.innerHTML = `
 	</section>
 `
 
-export default class R4PageHome extends HTMLElement {
-	connectedCallback() {
-		this.append(template.content.cloneNode(true))
-	}
+export default class R4PageHome extends R4Page {
+	template = pageTemplate
 }

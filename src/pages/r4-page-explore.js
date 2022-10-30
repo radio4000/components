@@ -1,6 +1,8 @@
+import R4Page from './r4-page.js'
+
 /* the app template */
-const template = document.createElement('template')
-template.innerHTML = `
+const pageTemplate = document.createElement('template')
+pageTemplate.innerHTML = `
 	<header>
 		<h1>Explore</h1>
 		<p>
@@ -12,14 +14,16 @@ template.innerHTML = `
 	</section>
 `
 
-export default class R4PageHome extends HTMLElement {
+export default class R4PageHome extends R4Page {
+	template = pageTemplate
 	/* an origin with a {{slug}} token, replaced by the r4-channel,
 		 to link to our app's channel page */
 	get channelOrigin() {
-		return `/{{slug}}`
+		return `${this.href}/{{slug}}`
 	}
 	connectedCallback() {
-		this.setupAttributes(template.content)
+		this.$page = this.template.content.cloneNode(true)
+		this.setupAttributes(this.$page)
 		this.render()
 	}
 	setupAttributes(dom) {
@@ -27,8 +31,5 @@ export default class R4PageHome extends HTMLElement {
 		if (this.channelOrigin) {
 			$channels.setAttribute('origin', this.channelOrigin)
 		}
-	}
-	render() {
-		this.append(template.content.cloneNode(true))
 	}
 }

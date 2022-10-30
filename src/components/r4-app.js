@@ -22,7 +22,11 @@ export default class R4App extends HTMLElement {
 		return ['href']
 	}
 	get href() {
-		return this.getAttribute('href')
+		let hrefAttr = this.getAttribute('href') || window.location.href
+		if (hrefAttr.endsWith('/')) {
+			hrefAttr = hrefAttr.slice(0, hrefAttr.length - 1)
+		}
+		return hrefAttr
 	}
 	get pathname() {
 		const href = this.href || window.location.href
@@ -57,7 +61,8 @@ export default class R4App extends HTMLElement {
 	}
 
 	setupRouter() {
-		this.setupCLickHandler()
+		/* this.setupCLickHandler() */
+
 		if (this.pathname) {
 			/* Get or set the base path. For example if page.js is operating within /blog/* set the base path to "/blog".
 				 its value is the value of `new URL(window.location).pathname` when on `/` of the app */
@@ -119,17 +124,18 @@ export default class R4App extends HTMLElement {
 		/* the menu */
 		const $menu = document.createElement('r4-menu')
 		$menu.setAttribute('direction', 'row')
+		$menu.setAttribute('origin', this.href)
 		$menu.innerHTML = `
-			<a href="/">
+			<a href="${this.href}">
 				<r4-title small="true"></r4-title>
 			</a>
-			<a href="/explore">Explore</a>
+			<a href="${this.href + '/explore'}">Explore</a >
 			<r4-auth-status>
 				<span slot="in">
-					<r4-user-channels-select></r4-user-channels-select> <a href="/sign/out">sign out</a>
+					<r4-user-channels-select></r4-user-channels-select> <a href="${this.href + '/sign/out'}">sign out</a>
 				</span>
 				<span slot="out">
-					sign-{<a href="/sign/in">in</a>, <a href="/sign/up">up</a>}
+					sign-{<a href="${this.href + '/sign/in'}">in</a>, <a href="${this.href + '/sign/up'}">up</a>}
 				</span>
 			</r4-auth-status>
 		`
@@ -171,9 +177,11 @@ export default class R4App extends HTMLElement {
 	async onPlay({detail}) {
 		const {channel} = detail
 		if (channel) {
-			const tracks = await sdk.findChannelTracks(channel)
-			if (tracks) {
-				this.$player.setAttribute('tracks', JSON.stringify(tracks))
+			const { data } = await sdk.findChannelTracks(channel)
+			if (data) {
+				this.$player.setAttribute('tracks', JSON.stringify(data))
+			} else {
+				this.$player.removeAttribute('tracks')
 			}
 		}
 	}
