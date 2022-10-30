@@ -16,9 +16,7 @@ export default class R4PageHome extends HTMLElement {
 	/* an origin with a {{slug}} token, replaced by the r4-channel,
 		 to link to our app's channel page */
 	get channelOrigin() {
-		if (this.href) {
-			return `/{{slug}}`
-		}
+		return `/{{slug}}`
 	}
 	connectedCallback() {
 		this.setupAttributes(template.content)

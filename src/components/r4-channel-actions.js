@@ -30,7 +30,8 @@ export default class R4ChannelActions extends HTMLElement {
 
 	constructor() {
 		super()
-		/* keydown to fix "space" as key to open the select */
+		/* events click + keydown (to handle default "space" key, to open the select),
+			 and render async options */
 		this.addEventListener('click', this.onPush.bind(this))
 		this.addEventListener('keydown', this.onPush.bind(this))
 	}

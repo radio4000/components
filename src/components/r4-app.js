@@ -11,7 +11,9 @@ template.innerHTML = `
 	<r4-layout>
 		<header slot="header"></header>
 		<main slot="main"></main>
-		<aside slot="player"></aside>
+		<aside slot="player">
+			<r4-player></r4-player>
+		</aside>
 	</r4-layout>
 `
 
@@ -40,11 +42,18 @@ export default class R4App extends HTMLElement {
 		this.$slotHeader = this.querySelector('[slot="header"]')
 		this.$slotMain = this.querySelector('[slot="main"]')
 		this.$slotPlayer = this.querySelector('[slot="player"]')
+		this.$player = this.$slotPlayer.querySelector('r4-player')
+
+		this.addEventListeners()
+		this.renderSlots()
 
 		/* setup the routes so they are ready to handle URL navigation */
 		this.setupRouter()
-		this.renderSlots()
 		this.handleFirstUrl()
+	}
+
+	addEventListeners() {
+		this.addEventListener('r4-play', this.onPlay.bind(this))
 	}
 
 	setupRouter() {
@@ -57,11 +66,6 @@ export default class R4App extends HTMLElement {
 
 			/* Get or set the strict path matching mode to enable.If enabled / blog will not match "/blog/" and / blog / will not match "/blog". */
 			page.strict(false)
-
-			page.clickHandler = ((event) => {
-				debugger
-				console.log('clicked page', event)
-			})
 		}
 		this.setupRoutes()
 	}
@@ -137,9 +141,6 @@ export default class R4App extends HTMLElement {
 		const $menu = this.buildAppMenu()
 		$menu.querySelector('r4-user-channels-select').addEventListener('input', this.onChannelSelect.bind(this))
 		this.$slotHeader.append($menu)
-
-		const $player = document.createElement('r4-player')
-		this.$slotPlayer.append($player)
 	}
 
 	/* each time URL changes and needs to render a page */
@@ -163,6 +164,17 @@ export default class R4App extends HTMLElement {
 		if (detail.channel) {
 			const { slug } = detail.channel
 			page(`/${slug}`)
+		}
+	}
+
+	/* play some data */
+	async onPlay({detail}) {
+		const {channel} = detail
+		if (channel) {
+			const tracks = await sdk.findChannelTracks(channel)
+			if (tracks) {
+				this.$player.setAttribute('tracks', JSON.stringify(tracks))
+			}
 		}
 	}
 }
