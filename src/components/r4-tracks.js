@@ -2,11 +2,11 @@ import R4List from './r4-list.js'
 import sdk from '@radio4000/sdk'
 
 const itemTemplate = document.createElement('template')
-itemTemplate.innerHTML = `<r4-track><r4-track/>`
+/* This will set the whole item (track) json,
+	 as attribute "track", on the <r4-track/> element */
 itemTemplate.setAttribute('element', 'r4-track')
-/* This will set the whole item (track) json, as attribute "track"
-	 on the <r4-track/> */
 itemTemplate.setAttribute('attribute', 'track')
+itemTemplate.innerHTML = `<r4-track><r4-track/>`
 
 
 export default class R4Tracks extends R4List {

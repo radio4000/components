@@ -19,6 +19,13 @@
 		</li>
 	</menu>
 	<r4-channels pagination="true" limit="3"></r4-channels>
+
+	<menu>
+		<li>
+			It can also pass down an <code>origin="https://example.org/{{slug}}"</code>, so the children item can link to a page of themselves; where the <code>{{slug}}</code> token will be replaced by this channel's slug value.
+		</li>
+	</menu>
+	<r4-channels pagination="true" limit="1" origin="../r4-channel/?slug={{slug}}"></r4-channels>
 </body>
 
 </html>

@@ -7,13 +7,14 @@ template.innerHTML = `
 `
 
 /*
-	 list-channels, default `page="1"`, `limit="1"`
+	 list-channels, default `page="1"`, `limit="1"`;
+	 its attributes are bound to the supabase sdk model query values
  */
 export default class R4List extends HTMLElement {
 	upperLimit = 999
 
 	static get observedAttributes() {
-		return ['loading', 'limit', 'list', 'origin', 'page']
+		return ['loading', 'limit', 'list', 'page', 'origin']
 	}
 	/* should it dislay a pagination */
 	get pagination() {
@@ -69,6 +70,11 @@ export default class R4List extends HTMLElement {
 	set list(arr = []) {
 		this.setAttribute('list', JSON.stringify(arr))
 		return arr
+	}
+
+	/* a URL, that will be passed to the list item template, if requested */
+	get origin() {
+		return this.getAttribute('origin')
 	}
 
 	/* if the attribute changed, re-render */
@@ -164,11 +170,10 @@ export default class R4List extends HTMLElement {
 			const elementName = this.itemTemplate.getAttribute('element')
 			const $dataItem = $item.querySelector(elementName)
 			/* if <template element="r4-channel" attribute="channel" />
-				 set the itemData as json on <r4-channel slug={itemData}/>
+				 set the itemData as json on <r4-channel channel={itemData}/>
 			 */
 			if ($dataItem && elementName && attributeName) {
 				$dataItem.setAttribute(attributeName, JSON.stringify(itemData))
-
 				/* otherwise, if the template data item, has attributes,
 					 set their value from the item data */
 			} else if ($dataItem.attributes) {
@@ -178,6 +183,11 @@ export default class R4List extends HTMLElement {
 						$dataItem.setAttribute(attr.localName, attrValue)
 					}
 				})
+			}
+
+			/* finnally, set the "origin" attribute, if present */
+			if (this.origin) {
+				$dataItem.setAttribute('origin', this.origin)
 			}
 		}
 		return $item
@@ -273,25 +283,3 @@ export default class R4List extends HTMLElement {
 		}
 	}
 }
-
-class R4ListItem extends HTMLElement {
-	static get observedAttributes() {
-		return ['item']
-	}
-	get item() {
-		return JSON.parse(this.getAttribute('item'))
-	}
-	/* if the attribute changed, re-render */
-	attributeChangedCallback(attrName) {
-		if (attrName === 'item') {
-			this.render()
-		}
-	}
-	connectedCallback() {
-		this.render()
-	}
-	render() {
-		this.innerText = 'list item'
-	}
-}
-customElements.define('r4-list-item', R4ListItem)
