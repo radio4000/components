@@ -39,6 +39,11 @@ export default class R4Form extends HTMLElement {
 	}
 
 	connectedCallback() {
+		this.init()
+	}
+
+	init() {
+		this.innerHTML = ''
 		this.append(template.content.cloneNode(true))
 		this.$form = this.querySelector('form')
 		this.$form.addEventListener('submit', this.handleSubmit.bind(this))
@@ -59,10 +64,7 @@ export default class R4Form extends HTMLElement {
 
 		this.initialState = this.getInitialState()
 		this.bindFieldsInput(this.$fieldsets)
-		this.render()
 	}
-
-	render() {}
 
 	/*
 		 get initial state for some form fields;
