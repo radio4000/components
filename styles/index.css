@@ -10,6 +10,7 @@
 @import url("components/r4-menu.css");
 @import url("components/r4-player.css");
 @import url("components/r4-layout.css");
+@import url("components/r4-dialog.css");
 
 /* debug dev menu list of exported components */
 @import url("components/r4-components.css");

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+	<title>r4-dialog</title>
+	<meta name="description" content="r4-dialog">
+	<link rel="stylesheet" href="../../styles/index.css" />
+	<script type="module" src="../../index.js"></script>
+</head>
+
+<body>
+	<menu>
+		<li>
+			A modal dialog, showing its content when opened.
+		</li>
+	</menu>
+
+	<r4-dialog name="intro">
+		<span slot="dialog">
+			Showing now!
+		</span>
+	</r4-dialog>
+	<button name="intro" type="dialog">Open dialog</button>
+</body>
+
+<script>
+	const onClick = () => {
+		$dialog.toggle()
+	}
+	const $dialog = document.querySelector('r4-dialog[name="intro"]')
+	const $openButton = document.querySelector('button[name="intro"]')
+	$openButton.addEventListener('click', onClick)
+</script>
+
+</html>
