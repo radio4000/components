@@ -11,6 +11,10 @@ template.innerHTML = `
 `
 
 export default class R4Form extends HTMLElement {
+	/* the attributes of the children class,
+		 that should "re-set" data from attributes */
+	formObservedAttributes = []
+
 	/* the state of the form (state[input-name]) */
 	state = {}
 
@@ -36,6 +40,12 @@ export default class R4Form extends HTMLElement {
 			names.push(fieldName)
 		})
 		return names
+	}
+
+	attributeChangedCallback(attrName) {
+		if (this.formObservedAttributes.indexOf(attrName) > -1) {
+			this.init()
+		}
 	}
 
 	connectedCallback() {
@@ -102,7 +112,9 @@ export default class R4Form extends HTMLElement {
 
 		/* overwrite the URL params generated state, by the DOM attributes */
 		fieldNamesPrefill.forEach(fieldName => {
-			const fieldAttributeValue = this.getAttribute(fieldName)
+			/* firebase data model to html element dom attribute  */
+			const fieldAttributeName = fieldName.replace('_', '-')
+			const fieldAttributeValue = this.getAttribute(fieldAttributeName)
 			if (fieldAttributeValue) {
 				state[fieldName] = fieldAttributeValue
 			}

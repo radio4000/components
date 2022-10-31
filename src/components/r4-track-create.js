@@ -24,7 +24,13 @@ fieldsTemplate.innerHTML = `
 `
 
 export default class R4TrackCreate extends R4Form {
+	static get observedAttributes () {
+		return ['channel-id']
+	}
+	formObservedAttributes = R4TrackCreate.observedAttributes
+
 	submitText = 'Create track'
+
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate
