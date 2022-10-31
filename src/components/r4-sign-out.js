@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk'
+import {readUser, signOut} from '@radio4000/sdk'
 import R4Form from './r4-form.js'
 
 export default class R4SignOut extends R4Form {
@@ -14,7 +14,7 @@ export default class R4SignOut extends R4Form {
 
 	async connectedCallback() {
 		super.connectedCallback()
-		const { data: user } = await sdk.getUser()
+		const { data: user } = await readUser()
 		if (!user) {
 			this.disableForm()
 			this.handleError({
@@ -31,7 +31,7 @@ export default class R4SignOut extends R4Form {
 		let res = {},
 			error = null
 		try {
-			res = await sdk.signOut()
+			res = await signOut()
 			if (res.error) {
 				throw res.error
 			}

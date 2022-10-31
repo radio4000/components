@@ -50,7 +50,7 @@ export default class R4User extends HTMLElement {
 		const {
 			error,
 			data,
-		} = await sdk.getUser()
+		} = await sdk.users.readUser()
 		this.error = error
 		this.user = data
 	}

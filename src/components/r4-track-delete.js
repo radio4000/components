@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk'
+import {deleteTrack} from '@radio4000/sdk'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
@@ -58,7 +58,7 @@ export default class R4TrackDelete extends R4Form {
 
 		let res
 		try {
-			res = await sdk.deleteTrack(id)
+			res = await deleteTrack(id)
 			if (res && res.error) {
 				throw res.error
 			}

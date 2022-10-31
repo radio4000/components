@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk'
+import {readUserChannels} from '@radio4000/sdk'
 
 export default class R4UserChannelsSelect extends HTMLElement {
 	static get observedAttributes() {
@@ -79,7 +79,7 @@ export default class R4UserChannelsSelect extends HTMLElement {
 		const {
 			error,
 			data,
-		} = await sdk.findUserChannels()
+		} = await readUserChannels()
 		this.error = error
 		this.channels = data
 		if (this.channels && this.channels.length) {

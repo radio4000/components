@@ -109,7 +109,6 @@ export default class R4List extends HTMLElement {
 	}
 
 	async updateList() {
-		/* const res = await sdk.findChannels(this.limit) */
 		const res = await this.browsePage({
 			page: this.page,
 			limit: this.limit,
@@ -125,6 +124,7 @@ export default class R4List extends HTMLElement {
 	 components-attributes -> supbase-query */
 	async browsePage({page, limit}) {
 		const { from, to, limitResults } = this.getBrowseParams({ page, limit })
+		console.log(this.model)
 		return (
 			sdk.supabase
 				 .from(this.model)

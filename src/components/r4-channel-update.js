@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk'
+import {updateChannel} from '@radio4000/sdk'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
@@ -74,7 +74,7 @@ export default class R4ChannelUpdate extends R4Form {
 		let res = {},
 				error = null
 		try {
-			res = await sdk.updateChannel(channelId, changes)
+			res = await updateChannel(channelId, changes)
 			if (res.error) {
 				if (res.status === 404) {
 					res.error.code = 404

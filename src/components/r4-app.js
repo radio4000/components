@@ -192,7 +192,7 @@ export default class R4App extends HTMLElement {
 	async onPlay({detail}) {
 		const {channel} = detail
 		if (channel) {
-			const { data } = await sdk.findChannelTracks(channel)
+			const { data } = await sdk.tracks.readChannelTracks(channel)
 			if (data) {
 				this.$player.setAttribute('tracks', JSON.stringify(data))
 			} else {
