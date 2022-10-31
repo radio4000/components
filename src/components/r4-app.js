@@ -76,6 +76,17 @@ export default class R4App extends HTMLElement {
 	}
 	/* the routes/pages handlers */
 	setupRoutes() {
+		function parseQuery(ctx, next) {
+			const params = []
+			const urlParams = new URLSearchParams(ctx.querystring)
+			if (urlParams) {
+				for (const urlParam of urlParams) {
+					urlParam && params.push(urlParam)
+				}
+			}
+			ctx.query = params
+			next()
+		}
 		/* first wildcard, used as a first middleware
 			 (calls next, to continue with the next handlers) */
 		page('*', (ctx, next) => {
@@ -90,6 +101,10 @@ export default class R4App extends HTMLElement {
 		page('/sign/up', () => this.renderPage('sign', [['method', 'up']]))
 		page('/sign/in', () => this.renderPage('sign', [['method', 'in']]))
 		page('/sign/out', () => this.renderPage('sign', [['method', 'out']]))
+
+		page('/add', parseQuery,(ctx) => {
+			this.renderPage('add', ctx.query)
+		})
 
 		page('/:channel_slug', (ctx, next) => {
 			const { channel_slug } = ctx.params

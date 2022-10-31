@@ -1,3 +1,5 @@
+import page from 'page/page.mjs'
+
 /* the app template */
 const template = document.createElement('template')
 template.innerHTML = `
@@ -46,6 +48,9 @@ export default class R4PageHome extends HTMLElement {
 					}
 				})
 				this.dispatchEvent(playEvent)
+			}
+			if (detail === 'create-track') {
+				page(`/add?channel=${this.slug}&url=https://example.org`)
 			}
 			console.log('channel action', detail)
 		}
