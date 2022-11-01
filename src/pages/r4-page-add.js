@@ -19,6 +19,13 @@ export default class R4PageAdd extends HTMLElement {
 	get url() {
 		return this.getAttribute('url')
 	}
+	set url(str) {
+		if (str) {
+			this.setAttribute('url', str)
+		} else {
+			this.removeAttribute('url')
+		}
+	}
 	/* selected channel slug, to add track to */
 	get channel() {
 		return this.getAttribute('channel')
@@ -65,11 +72,19 @@ export default class R4PageAdd extends HTMLElement {
 		}
 	}
 
+	/* when channel slected or URL params change,
+		 update the attributes of the create track form */
 	updateAttributes() {
-		this.$trackCreate.setAttribute('channel-id', this.channelId)
-	}
-
-	addEventListener() {
+		if (this.channelId) {
+			this.$trackCreate.setAttribute('channel-id', this.channelId)
+		} else {
+			this.$trackCreate.removeAttribute('channel-id')
+		}
+		if (this.url) {
+				this.$trackCreate.setAttribute('url', this.url)
+		} else {
+			this.$trackCreate.removeAttribute('url')
+		}
 	}
 
 	onChannelSelect({ detail }) {
@@ -80,5 +95,12 @@ export default class R4PageAdd extends HTMLElement {
 	}
 	onTrackCreate({detail}) {
 		console.log('track submit', detail)
+		if (detail.data) {
+			/* remove the url, because added ? */
+			this.url = null
+			/* set the channel id attribute (since the form cleared on success) */
+			this.updateAttributes()
+			this.focus()
+		}
 	}
 }

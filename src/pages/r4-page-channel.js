@@ -62,7 +62,7 @@ export default class R4PageHome extends HTMLElement {
 				this.dispatchEvent(playEvent)
 			}
 			if (detail === 'create-track') {
-				page(`/add?channel=${this.slug}&url=https://example.org`)
+				page(`/add?channel=${this.slug}`)
 			}
 
 			if (['update', 'delete'].indexOf(detail) > -1) {

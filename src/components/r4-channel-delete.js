@@ -17,6 +17,9 @@ fieldsTemplate.innerHTML = `
 
 
 export default class R4ChannelDelete extends R4Form {
+	static get observedAttributes() {
+		return ['']
+	}
 	submitText = 'Delete channel'
 	constructor() {
 		super()
