@@ -1,7 +1,3 @@
-r4-dialog {
-	border: 1px solid red;
-}
-
-r4-dialog {
-	background-color: green;
-}
+r4-dialog {}
+/* does not work because of shadow dom */
+r4-dialog dialog::backdrop {}
