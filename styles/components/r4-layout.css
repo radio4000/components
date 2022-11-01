@@ -36,7 +36,7 @@ r4-layout [slot="main"] {
 	}
 	r4-layout [slot="main"] {
 		order: 2;
-		width: 100%;
+		flex: 1;
 	}
 	r4-layout [slot="player"] {
 		order: 3;
