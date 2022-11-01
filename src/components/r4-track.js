@@ -1,4 +1,5 @@
 import {readTrack} from '@radio4000/sdk'
+import { html, render } from 'lit-html'
 
 export default class R4Channel extends HTMLElement {
 	static get observedAttributes() {
@@ -58,9 +59,17 @@ export default class R4Channel extends HTMLElement {
 		}
 	}
 	renderTrack() {
-		const $trackTitle = document.createElement('span')
-		$trackTitle.innerText = this.track.title || this.track.id
-		this.append($trackTitle)
+		const t = this.track
+		const $track = document.createElement('article')
+		render(html`
+			${t.title || t.id}<br>
+			${t.description}
+			<small>
+				${t.tags}
+				${t.mentions}
+			</small></article>
+		`, $track)
+		this.append($track)
 	}
 	renderNoTrack() {
 		const $noTrack = document.createElement('span')
