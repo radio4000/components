@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk'
+import {supabase} from '@radio4000/sdk'
 
 const template = document.createElement('template')
 template.innerHTML = `
@@ -125,14 +125,12 @@ export default class R4List extends HTMLElement {
 	async browsePage({page, limit}) {
 		const { from, to, limitResults } = this.getBrowseParams({ page, limit })
 		console.log(this.model)
-		return (
-			sdk.supabase
-				 .from(this.model)
-				 .select(this.select)
-				 .limit(limitResults)
-				 .order(this.orderKey, this.orderConfig)
-				 .range(from, to)
-		)
+		return supabase
+			.from(this.model)
+			.select(this.select)
+			.limit(limitResults)
+			.order(this.orderKey, this.orderConfig)
+			.range(from, to)
 	}
 
 	/*

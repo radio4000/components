@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk'
+import {readChannel} from '@radio4000/sdk'
 import page from 'page/page.mjs'
 
 /* the app template */
@@ -63,7 +63,7 @@ export default class R4PageHome extends HTMLElement {
 	}
 	/* find the current channel id we want to add to */
 	async findSelectedChannel() {
-		const { data } = await sdk.findChannelBySlug(this.slug)
+		const { data } = await readChannel(this.slug)
 		if (data && data.id) {
 			return data
 		}
