@@ -67,7 +67,7 @@ export default class R4Channel extends HTMLElement {
 			<small>
 				${t.tags}
 				${t.mentions}
-			</small></article>
+			</small>
 		`, $track)
 		this.append($track)
 	}
