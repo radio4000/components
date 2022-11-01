@@ -1,4 +1,4 @@
-import {readUserChannels} from '@radio4000/sdk'
+import { readUserChannels, readUser, supabase } from '@radio4000/sdk'
 
 export default class R4UserChannelsSelect extends HTMLElement {
 	static get observedAttributes() {
@@ -25,13 +25,16 @@ export default class R4UserChannelsSelect extends HTMLElement {
 
 	/* if any observed attribute changed, re-render */
 	attributeChangedCallback(attrName) {
-		if (R4UserChannelsSelect.observedAttributes.indexOf(attrName) > -1) {
+		if (this.constructor.observedAttributes.indexOf(attrName) > -1) {
 			this.render()
 		}
 	}
 
 	constructor() {
 		super()
+
+		supabase.auth.onAuthStateChange(this.onAuthStateChange.bind(this))
+
 		this.$select = document.createElement('select')
 		this.$select.addEventListener('input', this.onInput.bind(this))
 
@@ -74,20 +77,29 @@ export default class R4UserChannelsSelect extends HTMLElement {
 		this.dispatchEvent(inputEvent)
 		this.refreshOptions(this.channel)
 	}
+	onAuthStateChange() {
+		this.refreshUserChannels()
+	}
 
 	async refreshUserChannels() {
-		const {
-			error,
-			data,
-		} = await readUserChannels()
-		this.error = error
-		this.channels = data
-		if (this.channels && this.channels.length) {
-			if (this.channel) {
-				this.refreshOptions(this.channel)
-			} else {
-				this.refreshOptions(this.channels[0].slug)
+		const { data: user } = await readUser()
+		if (user) {
+			const {
+				error,
+				data,
+			} = await readUserChannels()
+
+			this.error = error
+			this.channels = data
+			if (this.channels && this.channels.length) {
+				if (this.channel) {
+					this.refreshOptions(this.channel)
+				} else {
+					this.refreshOptions(this.channels[0].slug)
+				}
 			}
+		} else {
+			this.channels = []
 		}
 	}
 
