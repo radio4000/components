@@ -36,8 +36,7 @@ export default class R4ChannelDelete extends R4Form {
 			field: 'confirmation',
 		},
 		23503: {
-			message: 'You appear to want to delete a channel that still has some tracks. Delete all tracks first?',
-			field: 'id',
+			message: 'You appear to want to delete a channel that still has some tracks. Delete all tracks first.',
 		}
 	}
 
@@ -51,6 +50,7 @@ export default class R4ChannelDelete extends R4Form {
 	}
 
 	async handleSubmit(event) {
+		event.stopPropagation()
 		event.preventDefault()
 		this.disableForm()
 

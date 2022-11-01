@@ -69,19 +69,45 @@ export default class R4PageHome extends HTMLElement {
 		}
 	}
 	updateAttributes() {
-		this.$channel.setAttribute('slug', this.slug)
-		this.$actions.setAttribute('slug', this.slug)
-		this.$tracks.setAttribute('channel', this.slug)
-		this.$channelUpdate.setAttribute('id', this.channel.id)
-		this.$channelDelete.setAttribute('id', this.channel.id)
-		this.$channelSharer.setAttribute('slug', this.slug)
-		this.$channelSharer.setAttribute('origin', this.href + '/{{slug}}') // the slug is replaced by sharer
+		let {
+			id, // always present
+			slug, // always present, cannot be empty, like uid
+			name, // cannot be empty
+			description = '', // can be empty
+		} = this.channel
+		this.$channel.setAttribute('slug', slug)
+		this.$actions.setAttribute('slug', slug)
+		this.$tracks.setAttribute('channel', slug)
+
+		/* all channel attributes needed, for the form to update */
+		this.$channelUpdate.setAttribute('id', id)
+		this.$channelUpdate.setAttribute('slug', slug)
+		name ? (
+			this.$channelUpdate.setAttribute('name', name)
+		) : (
+			this.$channelUpdate.removeAttribute('name')
+		)
+		description ? (
+			this.$channelUpdate.setAttribute('description', description)
+		) : (
+			this.$channelUpdate.removeAttribute('description')
+		)
+
+		/* only id needed */
+		this.$channelDelete.setAttribute('id', id)
+
+		/* only slug needed for the sharer */
+		this.$channelSharer.setAttribute('slug', slug)
+		// the {{slug}} pattern is replaced by sharer, to build a correct channel url
+		this.$channelSharer.setAttribute('origin', this.href + '/{{slug}}')
 	}
 	addEventListener() {
 		this.$actions.addEventListener('input', this.onChannelAction.bind(this))
+		this.$channelUpdate.addEventListener('submit', this.onChannelUpdate.bind(this))
+		this.$channelDelete.addEventListener('submit', this.onChannelDelete.bind(this))
 	}
 
-	onChannelAction({ detail }) {
+	async onChannelAction({ detail }) {
 		if (detail) {
 			if (detail === 'play') {
 				const playEvent = new CustomEvent('r4-play', {
@@ -97,13 +123,33 @@ export default class R4PageHome extends HTMLElement {
 			}
 
 			if (['update', 'delete', 'share'].indexOf(detail) > -1) {
+				/* refresh the channel data */
+				await this.init()
 				this.openDialog(detail)
 			}
 			console.log('channel action', detail)
 		}
 	}
+	async onChannelDelete(event) {
+		/* no error? we deleted */
+		if (!event.detail) {
+			await this.init() // refresh channel data
+			this.closeDialog('delete')
+		}
+	}
+	async onChannelUpdate(event) {
+		if (!event.detail.error && !event.detail.data) {
+			await this.init() // refresh channel data
+			this.closeDialog('update')
+		}
+	}
+
 	openDialog(name) {
 		this.querySelector(`r4-dialog[name="${name}"]`).open()
+	}
+
+	async closeDialog(name) {
+		this.querySelector(`r4-dialog[name="${name}"]`).close()
 	}
 
 	render(dom) {
