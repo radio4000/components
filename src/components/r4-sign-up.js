@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk'
+import {signUp} from '@radio4000/sdk'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
@@ -44,7 +44,7 @@ export default class R4SignUp extends R4Form {
 		let res = {},
 			error = null
 		try {
-			res = await sdk.signUp({
+			res = await signUp({
 				email: this.state.email,
 				password: this.state.password,
 			})

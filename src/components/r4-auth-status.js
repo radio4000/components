@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk'
+import {supabase, readUser} from '@radio4000/sdk'
 
 /* Authentication Status for the current signed in user;
 	 this componet has two slots, to render something when signed in or out;
@@ -25,7 +25,7 @@ export default class R4AuthStatus extends HTMLElement {
 	constructor() {
 		super()
 		this.setAttribute('hidden', true)
-		sdk.supabase.auth.onAuthStateChange(this.onAuthStateChange.bind(this))
+		supabase.auth.onAuthStateChange(this.onAuthStateChange.bind(this))
 		this.attachShadow({ mode: "open" })
 	}
 
@@ -38,9 +38,7 @@ export default class R4AuthStatus extends HTMLElement {
 	}
 
 	async refreshUser() {
-		const {
-			data,
-		} = await sdk.getUser()
+		const {data} = await readUser()
 		this.auth = !!data
 	}
 

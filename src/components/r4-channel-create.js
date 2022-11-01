@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk'
+import {createChannel} from '@radio4000/sdk'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
@@ -53,7 +53,7 @@ export default class R4ChannelCreate extends R4Form {
 		const channel = this.state
 		let res = {}
 		try {
-			res = await sdk.createChannel({
+			res = await createChannel({
 				name: channel.name,
 				slug: channel.slug,
 			})

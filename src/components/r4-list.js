@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk'
+import {supabase} from '@radio4000/sdk'
 
 const template = document.createElement('template')
 template.innerHTML = `
@@ -109,7 +109,6 @@ export default class R4List extends HTMLElement {
 	}
 
 	async updateList() {
-		/* const res = await sdk.findChannels(this.limit) */
 		const res = await this.browsePage({
 			page: this.page,
 			limit: this.limit,
@@ -125,14 +124,13 @@ export default class R4List extends HTMLElement {
 	 components-attributes -> supbase-query */
 	async browsePage({page, limit}) {
 		const { from, to, limitResults } = this.getBrowseParams({ page, limit })
-		return (
-			sdk.supabase
-				 .from(this.model)
-				 .select(this.select)
-				 .limit(limitResults)
-				 .order(this.orderKey, this.orderConfig)
-				 .range(from, to)
-		)
+		console.log(this.model)
+		return supabase
+			.from(this.model)
+			.select(this.select)
+			.limit(limitResults)
+			.order(this.orderKey, this.orderConfig)
+			.range(from, to)
 	}
 
 	/*

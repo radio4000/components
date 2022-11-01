@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk'
+import {createTrack, mediaUrlParser} from '@radio4000/sdk'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
@@ -70,7 +70,7 @@ export default class R4TrackCreate extends R4Form {
 
 	async fetchTrackInfo(mediaUrl) {
 		let trackInfo = {}
-		const data = sdk.providers.mediaUrlParser(mediaUrl)
+		const data = mediaUrlParser(mediaUrl)
 		if (data.provider === 'youtube' && data.id) {
 			let res
 			try {
@@ -91,7 +91,7 @@ export default class R4TrackCreate extends R4Form {
 		let res = {},
 				error = null
 		try {
-			res = await sdk.createTrack(this.state.channel_id, {
+			res = await createTrack(this.state.channel_id, {
 				url: this.state.url,
 				title: this.state.title,
 				description: this.state.description,

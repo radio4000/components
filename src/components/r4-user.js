@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk'
+import {supabase, readUser} from '@radio4000/sdk'
 
 export default class R4User extends HTMLElement {
 	static get observedAttributes() {
@@ -36,7 +36,7 @@ export default class R4User extends HTMLElement {
 
 	constructor() {
 		super()
-		sdk.supabase.auth.onAuthStateChange(this.onAuthStateChange.bind(this))
+		supabase.auth.onAuthStateChange(this.onAuthStateChange.bind(this))
 	}
 
 	connectedCallback() {
@@ -50,7 +50,7 @@ export default class R4User extends HTMLElement {
 		const {
 			error,
 			data,
-		} = await sdk.getUser()
+		} = await readUser()
 		this.error = error
 		this.user = data
 	}
