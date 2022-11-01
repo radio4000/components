@@ -1,3 +1,4 @@
+import sdk from '@radio4000/sdk'
 import page from 'page/page.mjs'
 
 /* the app template */
@@ -24,13 +25,26 @@ template.innerHTML = `
 `
 
 export default class R4PageHome extends HTMLElement {
+	static get observedAttributes() {
+		return ['href', 'slug', 'channel']
+	}
 	get slug() {
 		return this.getAttribute('slug')
 	}
 	get href() {
 		return this.getAttribute('href')
 	}
-	connectedCallback() {
+	get channel () {
+		return JSON.parse(this.getAttribute('channel'))
+	}
+	set channel(obj) {
+		if (obj) {
+			this.setAttribute('channel', JSON.stringify(obj))
+		} else {
+			this.removeAttribute('channel')
+		}
+	}
+	async connectedCallback() {
 		const $dom = template.content.cloneNode(true)
 		this.$channel = $dom.querySelector('r4-channel')
 		this.$actions = $dom.querySelector('r4-channel-actions')
@@ -39,16 +53,27 @@ export default class R4PageHome extends HTMLElement {
 		this.$channelDelete = $dom.querySelector('r4-channel-delete')
 		this.$channelSharer = $dom.querySelector('r4-channel-sharer')
 
-		this.addAttributes()
 		this.addEventListener($dom)
+		await this.init()
 		this.render($dom)
 	}
-	addAttributes() {
+	async init() {
+		this.channel = await this.findSelectedChannel()
+		this.updateAttributes()
+	}
+	/* find the current channel id we want to add to */
+	async findSelectedChannel() {
+		const { data } = await sdk.findChannelBySlug(this.slug)
+		if (data && data.id) {
+			return data
+		}
+	}
+	updateAttributes() {
 		this.$channel.setAttribute('slug', this.slug)
 		this.$actions.setAttribute('slug', this.slug)
 		this.$tracks.setAttribute('channel', this.slug)
-		this.$channelUpdate.setAttribute('slug', this.slug)
-		this.$channelDelete.setAttribute('slug', this.slug)
+		this.$channelUpdate.setAttribute('id', this.channel.id)
+		this.$channelDelete.setAttribute('id', this.channel.id)
 		this.$channelSharer.setAttribute('slug', this.slug)
 		this.$channelSharer.setAttribute('origin', this.href + '/{{slug}}') // the slug is replaced by sharer
 	}

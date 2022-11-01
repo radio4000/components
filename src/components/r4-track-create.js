@@ -6,7 +6,7 @@ fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
 			<label for="channel_id">Channel ID</label>
-			<input name="channel_id" type="text" required/>
+			<input name="channel_id" type="text" required readonly/>
 		</fieldset>
 		<fieldset>
 			<label for="url">URL</label>
