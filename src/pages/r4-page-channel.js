@@ -10,6 +10,14 @@ template.innerHTML = `
 	<main>
 		<r4-tracks channel pagination="true"></r4-tracks>
 	</main>
+	<aside>
+		<r4-dialog name="update">
+			<r4-channel-update slot="dialog" slug></r4-channel-update>
+		</r4-dialog>
+		<r4-dialog name="delete">
+			<r4-channel-delete slot="dialog" slug></r4-channel-delete>
+		</r4-dialog>
+	</aside>
 `
 
 export default class R4PageHome extends HTMLElement {
@@ -24,6 +32,8 @@ export default class R4PageHome extends HTMLElement {
 		this.$channel = $dom.querySelector('r4-channel')
 		this.$actions = $dom.querySelector('r4-channel-actions')
 		this.$tracks = $dom.querySelector('r4-tracks')
+		this.$channelUpdate = $dom.querySelector('r4-channel-update')
+		this.$channelDelete = $dom.querySelector('r4-channel-delete')
 
 		this.addAttributes()
 		this.addEventListener($dom)
@@ -33,6 +43,8 @@ export default class R4PageHome extends HTMLElement {
 		this.$channel.setAttribute('slug', this.slug)
 		this.$actions.setAttribute('slug', this.slug)
 		this.$tracks.setAttribute('channel', this.slug)
+		this.$channelUpdate.setAttribute('slug', this.slug)
+		this.$channelDelete.setAttribute('slug', this.slug)
 	}
 	addEventListener() {
 		this.$actions.addEventListener('input', this.onChannelAction.bind(this))
@@ -52,8 +64,15 @@ export default class R4PageHome extends HTMLElement {
 			if (detail === 'create-track') {
 				page(`/add?channel=${this.slug}&url=https://example.org`)
 			}
+
+			if (['update', 'delete'].indexOf(detail) > -1) {
+				this.openDialog(detail)
+			}
 			console.log('channel action', detail)
 		}
+	}
+	openDialog(name) {
+		this.querySelector(`r4-dialog[name="${name}"]`).open()
 	}
 
 	render(dom) {
