@@ -177,7 +177,7 @@ export default class R4App extends HTMLElement {
 			$page.setAttribute('href', this.href)
 		}
 		this.$slotMain.append($page)
-		console.log('render page:', pageName, this.$slotMain, attributes)
+		console.log('render page:', pageName, attributes)
 	}
 
 	/* events */

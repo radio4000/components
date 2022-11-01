@@ -14,7 +14,7 @@ export default class R4Player extends HTMLElement {
 	}
 
 	/* if the attribute changed, re-render */
-	attributeChangedCallback(attrName, newVal) {
+	attributeChangedCallback(attrName, oldVal, newVal) {
 		if (['tracks'].indexOf(attrName) > -1) {
 			newVal && this.playTracks()
 		}

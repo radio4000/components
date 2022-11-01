@@ -13,7 +13,9 @@ template.innerHTML = `
 export default class R4Form extends HTMLElement {
 	/* the attributes of the children class,
 		 that should "re-set" data from attributes */
-	formObservedAttributes = []
+	static get observedAttributes() {
+		return []
+	}
 
 	/* the state of the form (state[input-name]) */
 	state = {}
@@ -43,7 +45,8 @@ export default class R4Form extends HTMLElement {
 	}
 
 	attributeChangedCallback(attrName) {
-		if (this.formObservedAttributes.indexOf(attrName) > -1) {
+		/* get the observed atributes of the children class */
+		if (this.constructor.observedAttributes.indexOf(attrName) > -1) {
 			this.init()
 		}
 	}

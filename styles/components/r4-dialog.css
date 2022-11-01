@@ -1,0 +1,3 @@
+r4-dialog {}
+/* does not work because of shadow dom */
+r4-dialog dialog::backdrop {}
