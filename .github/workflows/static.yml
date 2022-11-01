@@ -35,6 +35,7 @@ jobs:
       - run: npm run build
       - run: echo '<meta HTTP-EQUIV="REFRESH" content="0; url=./examples">' > dist/index.html
       - run: cp -r examples dist
+      - run: cp -r src dist
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
