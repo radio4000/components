@@ -17,6 +17,9 @@ template.innerHTML = `
 		<r4-dialog name="delete">
 			<r4-channel-delete slot="dialog" slug></r4-channel-delete>
 		</r4-dialog>
+		<r4-dialog name="share">
+			<r4-channel-sharer slot="dialog" slug></r4-channel-sharer>
+		</r4-dialog>
 	</aside>
 `
 
@@ -34,6 +37,7 @@ export default class R4PageHome extends HTMLElement {
 		this.$tracks = $dom.querySelector('r4-tracks')
 		this.$channelUpdate = $dom.querySelector('r4-channel-update')
 		this.$channelDelete = $dom.querySelector('r4-channel-delete')
+		this.$channelSharer = $dom.querySelector('r4-channel-sharer')
 
 		this.addAttributes()
 		this.addEventListener($dom)
@@ -45,6 +49,8 @@ export default class R4PageHome extends HTMLElement {
 		this.$tracks.setAttribute('channel', this.slug)
 		this.$channelUpdate.setAttribute('slug', this.slug)
 		this.$channelDelete.setAttribute('slug', this.slug)
+		this.$channelSharer.setAttribute('slug', this.slug)
+		this.$channelSharer.setAttribute('origin', this.href + '/{{slug}}') // the slug is replaced by sharer
 	}
 	addEventListener() {
 		this.$actions.addEventListener('input', this.onChannelAction.bind(this))
@@ -65,7 +71,7 @@ export default class R4PageHome extends HTMLElement {
 				page(`/add?channel=${this.slug}`)
 			}
 
-			if (['update', 'delete'].indexOf(detail) > -1) {
+			if (['update', 'delete', 'share'].indexOf(detail) > -1) {
 				this.openDialog(detail)
 			}
 			console.log('channel action', detail)
