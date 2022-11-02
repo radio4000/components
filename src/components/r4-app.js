@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk'
+import { readChannelTracks } from '@radio4000/sdk'
 import page from 'page/page.mjs'
 import '../pages/index.js'
 
@@ -192,7 +192,7 @@ export default class R4App extends HTMLElement {
 	async onPlay({detail}) {
 		const {channel} = detail
 		if (channel) {
-			const { data } = await sdk.tracks.readChannelTracks(channel)
+			const { data } = await readChannelTracks(channel)
 			if (data) {
 				this.$player.setAttribute('tracks', JSON.stringify(data))
 			} else {
