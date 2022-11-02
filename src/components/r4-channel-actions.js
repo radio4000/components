@@ -50,18 +50,11 @@ export default class R4ChannelActions extends HTMLElement {
 			}
 		}
 
-		if (!this.slug || this.channel) return
-
-		const { data, error } = await readChannel(this.slug)
-		if (!data || error) {
-			return
-		} else {
-			this.channel = data
-		}
+		if (!this.slug) return
 
 		/* if can't edit, try checking if can */
 		if (!this.canEdit) {
-			this.canEdit = await canEditChannel(this.channel.id)
+			this.canEdit = await canEditChannel(this.slug)
 
 			/* if can edit, render option for editors */
 			if (this.canEdit) {
@@ -78,14 +71,6 @@ export default class R4ChannelActions extends HTMLElement {
 					text: 'Delete',
 				})
 			}
-		}
-	}
-	render() {
-		this.innerHTML = ''
-		if (!this.tracks) {
-			this.renderNoTracks()
-		} else {
-			this.renderTracks()
 		}
 	}
 	renderAsyncOption({ value, text }) {
