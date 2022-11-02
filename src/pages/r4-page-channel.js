@@ -26,7 +26,7 @@ template.innerHTML = `
 
 export default class R4PageHome extends HTMLElement {
 	static get observedAttributes() {
-		return ['href', 'slug', 'channel']
+		return ['href', 'slug', 'channel', 'limit', 'pagination']
 	}
 	get slug() {
 		return this.getAttribute('slug')
@@ -36,6 +36,12 @@ export default class R4PageHome extends HTMLElement {
 	}
 	get channel () {
 		return JSON.parse(this.getAttribute('channel'))
+	}
+	get limit() {
+		return parseFloat(this.getAttribute('limit'))
+	}
+	get pagination() {
+		return this.getAttribute('pagination') === 'true'
 	}
 	set channel(obj) {
 		if (obj) {
@@ -77,7 +83,14 @@ export default class R4PageHome extends HTMLElement {
 		} = this.channel
 		this.$channel.setAttribute('slug', slug)
 		this.$actions.setAttribute('slug', slug)
+
 		this.$tracks.setAttribute('channel', slug)
+		if (this.limit) {
+			this.$tracks.setAttribute('limit', this.limit)
+		}
+		if (this.pagination) {
+			this.$tracks.setAttribute('pagination', this.pagination)
+		}
 
 		/* all channel attributes needed, for the form to update */
 		this.$channelUpdate.setAttribute('id', id)
@@ -120,6 +133,9 @@ export default class R4PageHome extends HTMLElement {
 			}
 			if (detail === 'create-track') {
 				page(`/add?channel=${this.slug}`)
+			}
+			if (detail === 'tracks') {
+				page(`/${this.slug}/tracks`)
 			}
 
 			if (['update', 'delete', 'share'].indexOf(detail) > -1) {

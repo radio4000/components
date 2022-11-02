@@ -111,6 +111,15 @@ export default class R4App extends HTMLElement {
 			this.renderPage('channel', [
 				['slug', channel_slug],
 			])
+			next()
+		})
+		page('/:channel_slug/tracks', (ctx, next) => {
+			const { channel_slug } = ctx.params
+			this.renderPage('channel', [
+				['slug', channel_slug],
+				['limit', 10],
+				['pagination', true]
+			])
 		})
 
 		/* last wildcard, used as a 404 catch all (no next)) */

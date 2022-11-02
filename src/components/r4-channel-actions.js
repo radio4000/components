@@ -1,9 +1,10 @@
-import {readChannel, canEditChannel} from '@radio4000/sdk'
+import { readChannel, canEditChannel } from '@radio4000/sdk'
 const template = document.createElement('template')
 template.innerHTML = `
 	<r4-actions>
 		<option value="">...</option>
 		<option value="play">Play</option>
+		<option value="tracks">Tracks</option>
 		<option value="share">Share</option>
 	</r4-actions>
 `
