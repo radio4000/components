@@ -38,7 +38,7 @@ export default class R4PageHome extends HTMLElement {
 		return JSON.parse(this.getAttribute('channel'))
 	}
 	get limit() {
-		return parseFloat(this.getAttribute('limit'))
+		return parseFloat(this.getAttribute('limit')) || 5
 	}
 	get pagination() {
 		return this.getAttribute('pagination') === 'true'
@@ -81,6 +81,7 @@ export default class R4PageHome extends HTMLElement {
 			name, // cannot be empty
 			description = '', // can be empty
 		} = this.channel
+		this.$channel.setAttribute('origin', this.href + '/{{slug}}')
 		this.$channel.setAttribute('slug', slug)
 		this.$actions.setAttribute('slug', slug)
 
