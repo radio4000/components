@@ -18,7 +18,7 @@ export default class R4Tracks extends R4List {
 			slug
 		),
 		track_id(
-			id, created_at, updated_at, title, url, description
+			id, created_at, updated_at, url, title, description, tags, mentions
 		)
 	`
 

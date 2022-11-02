@@ -9,7 +9,7 @@ template.innerHTML = `
 		<r4-channel-actions slug></r4-channel-actions>
 	</header>
 	<main>
-		<r4-tracks channel pagination="true"></r4-tracks>
+		<r4-tracks channel limit="2000" pagination="true"></r4-tracks>
 	</main>
 	<aside>
 		<r4-dialog name="update">

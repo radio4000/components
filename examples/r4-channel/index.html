@@ -23,7 +23,7 @@
 	</menu>
 	<r4-channel></r4-channel>
 	<r4-channel-actions></r4-channel-actions>
-	<r4-tracks channel=""></r4-tracks>
+	<r4-tracks limit="2000" channel=""></r4-tracks>
 </body>
 
 <script>
@@ -36,7 +36,6 @@
 
 	const $channelTracks = document.querySelector('r4-tracks')
 	slug && $channelTracks.setAttribute('channel', slug)
-
 
 	/* add some actions to the channel */
 	const onChannelInput = ({ detail }) => {
