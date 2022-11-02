@@ -110,14 +110,14 @@ export default class R4App extends HTMLElement {
 			const { channel_slug } = ctx.params
 			this.renderPage('channel', [
 				['slug', channel_slug],
+				['pagination', false]
 			])
-			next()
 		})
 		page('/:channel_slug/tracks', (ctx, next) => {
 			const { channel_slug } = ctx.params
 			this.renderPage('channel', [
 				['slug', channel_slug],
-				['limit', 10],
+				['limit', 30],
 				['pagination', true]
 			])
 		})

@@ -89,9 +89,7 @@ export default class R4PageHome extends HTMLElement {
 		if (this.limit) {
 			this.$tracks.setAttribute('limit', this.limit)
 		}
-		if (this.pagination) {
-			this.$tracks.setAttribute('pagination', this.pagination)
-		}
+		this.$tracks.setAttribute('pagination', this.pagination)
 
 		/* all channel attributes needed, for the form to update */
 		this.$channelUpdate.setAttribute('id', id)

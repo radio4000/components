@@ -36,7 +36,6 @@ export default class R4Channel extends HTMLElement {
 		return JSON.parse(this.getAttribute('channel'))
 	}
 	set channel(obj) {
-		console.log(obj)
 		if (!obj) {
 			this.removeAttribute('channel')
 		} else {
