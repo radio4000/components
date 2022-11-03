@@ -157,7 +157,7 @@ export default class R4App extends HTMLElement {
 			])
 		})
 		page('/add', this.parseQuery, (ctx) => {
-			this.renderPage('add', [ctx.query, ['slug', this.channel]])
+			this.renderPage('add', [...ctx.query, ['slug', this.channel]])
 		})
 		page('/sign', () => page('/'))
 		page('/sign/in', () => this.renderPage('sign', [['method', 'in']]))

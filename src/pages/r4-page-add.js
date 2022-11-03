@@ -38,6 +38,10 @@ export default class R4PageAdd extends HTMLElement {
 		return this.getAttribute('href')
 	}
 
+	get singleChannel() {
+		return this.getAttribute('single-channel') === 'true'
+	}
+
 	attributeChangedCallback(attrName) {
 		if ('channel' === attrName) {
 			this.init()
@@ -46,6 +50,11 @@ export default class R4PageAdd extends HTMLElement {
 
 	async connectedCallback() {
 		const $dom = template.content.cloneNode(true)
+
+		if (this.singleChannel) {
+			// remove the channel select if the app runs for one slug
+			$dom.querySelector('header').remove()
+		}
 		this.$channelsSelect = $dom.querySelector('r4-user-channels-select')
 		this.$channelsSelect.addEventListener('input', this.onChannelSelect.bind(this))
 		this.$trackCreate = $dom.querySelector('r4-track-create')
