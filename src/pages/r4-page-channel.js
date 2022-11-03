@@ -29,7 +29,7 @@ template.innerHTML = `
 
 export default class R4PageHome extends HTMLElement {
 	static get observedAttributes() {
-		return ['href', 'slug', 'channel', 'limit', 'pagination', 'track']
+		return ['href', 'slug', 'channel', 'limit', 'pagination', 'track', 'single-channel']
 	}
 	get slug() {
 		return this.getAttribute('slug')
@@ -52,6 +52,9 @@ export default class R4PageHome extends HTMLElement {
 	}
 	get pagination() {
 		return this.getAttribute('pagination') === 'true'
+	}
+	get singleChannel() {
+		return this.getAttribute('single-channel') === 'true'
 	}
 	/* a track id in this channel */
 	get track() {
@@ -90,7 +93,12 @@ export default class R4PageHome extends HTMLElement {
 			name, // cannot be empty
 			description = '', // can be empty
 		} = this.channel
-		this.$channel.setAttribute('origin', this.href + '/{{slug}}')
+		console.log('this.singleChannel', this.singleChannel)
+		if (this.singleChannel) {
+			this.$channel.setAttribute('origin', this.href)
+		} else {
+			this.$channel.setAttribute('origin', this.href + '/{{slug}}')
+		}
 		this.$channel.setAttribute('slug', slug)
 		this.$actions.setAttribute('slug', slug)
 
@@ -100,9 +108,15 @@ export default class R4PageHome extends HTMLElement {
 			this.$tracks.setAttribute('limit', this.limit)
 		}
 		if (this.href) {
-			this.$tracks.setAttribute(
-				'origin', this.href + `/${slug}/tracks/{{id}}`
-			)
+			if (this.singleChannel) {
+				this.$tracks.setAttribute(
+					'origin', this.href + '/tracks/{{id}}'
+				)
+			} else {
+				this.$tracks.setAttribute(
+					'origin', this.href + `/${slug}/tracks/{{id}}`
+				)
+			}
 		}
 
 		/* all channel attributes needed, for the form to update */
@@ -158,7 +172,11 @@ export default class R4PageHome extends HTMLElement {
 				page(`/add?channel=${this.slug}`)
 			}
 			if (detail === 'tracks') {
-				page(`/${this.slug}/tracks`)
+				if (this.singleChannel) {
+					page(`/tracks`)
+				} else {
+					page(`/${this.slug}/tracks`)
+				}
 			}
 
 			if (['update', 'delete', 'share'].indexOf(detail) > -1) {
@@ -187,7 +205,11 @@ export default class R4PageHome extends HTMLElement {
 		const name = target.getAttribute('name')
 		console.log('on page chanel dialog close', name)
 		if (name === 'track') {
-			page(`/${this.slug}/tracks`)
+			if (this.singleChannel) {
+				page('/tracks')
+			} else {
+				page(`/${this.slug}/tracks`)
+			}
 		}
 	}
 

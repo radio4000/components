@@ -1,3 +1,4 @@
+import { html, render } from 'lit-html'
 import { readChannelTracks } from '@radio4000/sdk'
 import page from 'page/page.mjs'
 import '../pages/index.js'
@@ -19,8 +20,9 @@ template.innerHTML = `
 
 export default class R4App extends HTMLElement {
 	static get observedAttributes() {
-		return ['href']
+		return ['href', 'channel']
 	}
+	/* used to build the base of links and app router */
 	get href() {
 		let hrefAttr = this.getAttribute('href') || window.location.href
 		if (hrefAttr.endsWith('/')) {
@@ -28,6 +30,7 @@ export default class R4App extends HTMLElement {
 		}
 		return hrefAttr
 	}
+	/* used to setup the base of the url handled by page.js router */
 	get pathname() {
 		const href = this.href || window.location.href
 		let name = new URL(href).pathname
@@ -35,6 +38,11 @@ export default class R4App extends HTMLElement {
 			name = name.slice(0, name.length - 1)
 		}
 		return name
+	}
+	/* if there is a channel slug,
+		 the app will adapt to run only for one channel  */
+	get channel() {
+		return this.getAttribute('channel')
 	}
 	attributeChangedCallback(attrName) {
 		if (attrName === 'href') {
@@ -76,17 +84,6 @@ export default class R4App extends HTMLElement {
 	}
 	/* the routes/pages handlers */
 	setupRoutes() {
-		function parseQuery(ctx, next) {
-			const params = []
-			const urlParams = new URLSearchParams(ctx.querystring)
-			if (urlParams) {
-				for (const urlParam of urlParams) {
-					urlParam && params.push(urlParam)
-				}
-			}
-			ctx.query = params
-			next()
-		}
 		/* first wildcard, used as a first middleware
 			 (calls next, to continue with the next handlers) */
 		page('*', (ctx, next) => {
@@ -94,6 +91,18 @@ export default class R4App extends HTMLElement {
 			next()
 		})
 
+		/* if the app has a channel slug specified, render the channel
+			 otherwise render general homepage */
+		if (this.channel) {
+			this.setupRoutesChannel()
+		} else {
+			this.setupRoutesPlatform()
+		}
+	}
+
+	/* setup all routes, when the app is used for all channels,
+	 as the radio4000.com platform */
+	setupRoutesPlatform() {
 		page('/', () => this.renderPage('home'))
 		page('/explore', () => this.renderPage('explore'))
 
@@ -102,7 +111,7 @@ export default class R4App extends HTMLElement {
 		page('/sign/in', () => this.renderPage('sign', [['method', 'in']]))
 		page('/sign/out', () => this.renderPage('sign', [['method', 'out']]))
 
-		page('/add', parseQuery,(ctx) => {
+		page('/add', this.parseQuery, (ctx) => {
 			this.renderPage('add', ctx.query)
 		})
 
@@ -137,6 +146,49 @@ export default class R4App extends HTMLElement {
 			console.log('404 ?')
 		})
 	}
+	/* setup the routes for when a r4-app[slug] is specified,
+	 so the app is setup for only this channel */
+	setupRoutesChannel() {
+		page('/', () => {
+			this.renderPage('channel', [
+				['slug', this.channel],
+				['limit', 100],
+				['pagination', true]
+			])
+		})
+		page('/add', this.parseQuery, (ctx) => {
+			this.renderPage('add', [ctx.query, ['slug', this.channel]])
+		})
+		page('/sign', () => page('/'))
+		page('/sign/in', () => this.renderPage('sign', [['method', 'in']]))
+		page('/sign/out', () => this.renderPage('sign', [['method', 'out']]))
+		page('/tracks', () => {
+			this.renderPage('channel', [
+				['slug', this.channel],
+				['limit', 300],
+				['pagination', true]
+			])
+		})
+		page('/tracks/:track_id', (ctx) => {
+			const { track_id } = ctx.params
+			this.renderPage('channel', [
+				['slug', this.channel],
+				['track', track_id]
+			])
+		})
+	}
+	parseQuery(ctx, next) {
+		const params = []
+		const urlParams = new URLSearchParams(ctx.querystring)
+		if (urlParams) {
+			for (const urlParam of urlParams) {
+				urlParam && params.push(urlParam)
+			}
+		}
+		ctx.query = params
+		next()
+	}
+
 	setupCLickHandler() {
 		this.addEventListener('click', this.handleClick.bind(this))
 	}
@@ -144,7 +196,6 @@ export default class R4App extends HTMLElement {
 		const wrappingAnchor = event.target.closest('a')
 		if (wrappingAnchor && wrappingAnchor.tagName === 'A') {
 			const destination = this.pathname + wrappingAnchor.pathname
-			console.log(destination)
 			event.preventDefault()
 			page(destination)
 		}
@@ -155,11 +206,36 @@ export default class R4App extends HTMLElement {
 
 	/* build the app's dom elements */
 	buildAppMenu() {
+		if (this.channel) {
+			return this.buildAppMenuChannel()
+		} else {
+			return this.buildAppMenuPlatform()
+		}
+	}
+	/* when on slug.4000.network */
+	buildAppMenuChannel() {
+		const $menu = document.createElement('r4-menu')
+		$menu.setAttribute('direction', 'row')
+		$menu.setAttribute('origin', this.href)
+		render(html`
+			<a href="${this.href}">
+				${this.channel}
+			</a>
+			<r4-auth-status>
+				<span slot="in">
+					<a href="${this.href + '/sign/out'}">sign out</a>
+				</span>
+			</r4-auth-status>
+		`, $menu)
+		return $menu
+	}
+	/* when on radio4000.com */
+	buildAppMenuPlatform() {
 		/* the menu */
 		const $menu = document.createElement('r4-menu')
 		$menu.setAttribute('direction', 'row')
 		$menu.setAttribute('origin', this.href)
-		$menu.innerHTML = `
+		render(html`
 			<a href="${this.href}">
 				<r4-title small="true"></r4-title>
 			</a>
@@ -172,14 +248,20 @@ export default class R4App extends HTMLElement {
 					sign-{<a href="${this.href + '/sign/in'}">in</a>, <a href="${this.href + '/sign/up'}">up</a>}
 				</span>
 			</r4-auth-status>
-		`
+		`, $menu)
 		return $menu
 	}
 
 	/* render the original content of the slots */
 	renderSlots() {
 		const $menu = this.buildAppMenu()
-		$menu.querySelector('r4-user-channels-select').addEventListener('input', this.onChannelSelect.bind(this))
+		const $channelSelect = $menu.querySelector('r4-user-channels-select')
+		if ($channelSelect) {
+			$channelSelect.addEventListener(
+				'input',
+				this.onChannelSelect.bind(this)
+			)
+		}
 		this.$slotHeader.append($menu)
 	}
 
@@ -194,9 +276,11 @@ export default class R4App extends HTMLElement {
 		}
 		if (this.href) {
 			$page.setAttribute('href', this.href)
+			if (this.channel) {
+				$page.setAttribute('single-channel', true)
+			}
 		}
 		this.$slotMain.append($page)
-		console.log('render page:', pageName, attributes)
 	}
 
 	/* events */
