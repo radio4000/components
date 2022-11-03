@@ -55,14 +55,16 @@ export default class R4PageAdd extends HTMLElement {
 			// remove the channel select if the app runs for one slug
 			$dom.querySelector('header').remove()
 		}
-		this.$channelsSelect = $dom.querySelector('r4-user-channels-select')
-		this.$channelsSelect.addEventListener('input', this.onChannelSelect.bind(this))
+		if (this.$channelsSelect) {
+			this.$channelsSelect = $dom.querySelector('r4-user-channels-select')
+			this.$channelsSelect.addEventListener('input', this.onChannelSelect.bind(this))
+		}
+
 		this.$trackCreate = $dom.querySelector('r4-track-create')
 		this.$trackCreate.addEventListener('submit', this.onTrackCreate.bind(this))
 
-		if (this.channel) {
+		if (this.channel && this.$channelsSelect) {
 			this.$channelsSelect.setAttribute('channel', this.channel)
-			/* await this.init() */
 		}
 		this.append($dom)
 	}
