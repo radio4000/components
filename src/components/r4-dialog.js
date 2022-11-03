@@ -1,9 +1,9 @@
 const template = document.createElement('template')
 template.innerHTML = `
-	<dialog>
+	<dialog part="dialog">
 		<slot name="close">
-			<form method="dialog">
-				<button>close</button>
+			<form method="dialog" part="form">
+				<button part="button">close</button>
 			</form>
 		</slot>
 		<slot name="dialog"></slot>
@@ -87,5 +87,12 @@ export default class R4Dialog extends HTMLElement {
 	/* when it is closed, for example with js, or a button in a form */
 	onClose() {
 		this.visible = false
+		const closeEvent = new CustomEvent('close', {
+			bubbles: true,
+			detail: {
+				visible: this.visible
+			}
+		})
+		this.dispatchEvent(closeEvent)
 	}
 }
