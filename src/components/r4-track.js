@@ -3,7 +3,7 @@ import { html, render } from 'lit-html'
 
 export default class R4Channel extends HTMLElement {
 	static get observedAttributes() {
-		return ['id', 'track']
+		return ['origin', 'id', 'track']
 	}
 	get id() {
 		return this.getAttribute('id')
@@ -18,6 +18,24 @@ export default class R4Channel extends HTMLElement {
 		} else {
 			this.removeAttribute('track')
 		}
+	}
+
+	/* Used to make a link to the track on the channel's homepage.
+		 It could point to different URL schemes,
+		 so handle all case, we replace the track `{{id}}` token in the string:
+		 - on root: https://radio.example.org/:track_id
+		 - on subpage: https://music.example.org/test-radio-2/:track_id
+		 - in query parameter:
+		 https://example.org/?radio=test-radio-4&track=:track_id
+	 */
+	get origin() {
+		const url = this.getAttribute('origin')
+		if (typeof url === 'string') {
+			if (this.track && this.track.id) {
+				return url.replace('{{id}}', this.track.id)
+			}
+		}
+		return url
 	}
 
 	/* if the attribute changed, re-render */
@@ -60,7 +78,15 @@ export default class R4Channel extends HTMLElement {
 	}
 	renderTrack() {
 		const t = this.track
-		const $track = document.createElement('article')
+
+		/* if there is an origin, create a link to the track */
+		let $container
+		if (this.origin) {
+			$container = document.createElement('a')
+			$container.setAttribute('href', this.origin)
+		} else {
+			$container = document.createElement('article')
+		}
 		render(html`
 			${t.title || t.id}<br>
 			${t.description}
@@ -68,8 +94,8 @@ export default class R4Channel extends HTMLElement {
 				${t.tags}
 				${t.mentions}
 			</small>
-		`, $track)
-		this.append($track)
+		`, $container)
+		this.append($container)
 	}
 	renderNoTrack() {
 		const $noTrack = document.createElement('span')
