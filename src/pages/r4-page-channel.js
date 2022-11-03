@@ -1,4 +1,4 @@
-import {readChannel} from '@radio4000/sdk'
+import { readChannel } from '@radio4000/sdk'
 import page from 'page/page.mjs'
 
 /* the app template */
@@ -9,9 +9,12 @@ template.innerHTML = `
 		<r4-channel-actions slug></r4-channel-actions>
 	</header>
 	<main>
-		<r4-tracks channel limit="2000" pagination="true"></r4-tracks>
+		<r4-tracks channel limit="5"></r4-tracks>
 	</main>
 	<aside>
+		<r4-dialog name="track">
+			<r4-track slot="dialog" id></r4-track>
+		</r4-dialog>
 		<r4-dialog name="update">
 			<r4-channel-update slot="dialog" slug></r4-channel-update>
 		</r4-dialog>
@@ -26,7 +29,7 @@ template.innerHTML = `
 
 export default class R4PageHome extends HTMLElement {
 	static get observedAttributes() {
-		return ['href', 'slug', 'channel', 'limit', 'pagination']
+		return ['href', 'slug', 'channel', 'limit', 'pagination', 'track']
 	}
 	get slug() {
 		return this.getAttribute('slug')
@@ -37,12 +40,6 @@ export default class R4PageHome extends HTMLElement {
 	get channel () {
 		return JSON.parse(this.getAttribute('channel'))
 	}
-	get limit() {
-		return parseFloat(this.getAttribute('limit')) || 5
-	}
-	get pagination() {
-		return this.getAttribute('pagination') === 'true'
-	}
 	set channel(obj) {
 		if (obj) {
 			this.setAttribute('channel', JSON.stringify(obj))
@@ -50,17 +47,29 @@ export default class R4PageHome extends HTMLElement {
 			this.removeAttribute('channel')
 		}
 	}
+	get limit() {
+		return parseFloat(this.getAttribute('limit')) || 0
+	}
+	get pagination() {
+		return this.getAttribute('pagination') === 'true'
+	}
+	/* a track id in this channel */
+	get track() {
+		return this.getAttribute('track')
+	}
 	async connectedCallback() {
 		const $dom = template.content.cloneNode(true)
 		this.$channel = $dom.querySelector('r4-channel')
 		this.$actions = $dom.querySelector('r4-channel-actions')
 		this.$tracks = $dom.querySelector('r4-tracks')
+		this.$track = $dom.querySelector('r4-track')
 		this.$channelUpdate = $dom.querySelector('r4-channel-update')
 		this.$channelDelete = $dom.querySelector('r4-channel-delete')
 		this.$channelSharer = $dom.querySelector('r4-channel-sharer')
+		this.$dialogs = $dom.querySelectorAll('r4-dialog')
 
-		this.addEventListener($dom)
-		await this.init()
+		this.addEventListeners($dom)
+		this.init()
 		this.render($dom)
 	}
 	async init() {
@@ -86,10 +95,15 @@ export default class R4PageHome extends HTMLElement {
 		this.$actions.setAttribute('slug', slug)
 
 		this.$tracks.setAttribute('channel', slug)
+		this.$tracks.setAttribute('pagination', this.pagination)
 		if (this.limit) {
 			this.$tracks.setAttribute('limit', this.limit)
 		}
-		this.$tracks.setAttribute('pagination', this.pagination)
+		if (this.href) {
+			this.$tracks.setAttribute(
+				'origin', this.href + `/${slug}/tracks/{{id}}`
+			)
+		}
 
 		/* all channel attributes needed, for the form to update */
 		this.$channelUpdate.setAttribute('id', id)
@@ -112,11 +126,21 @@ export default class R4PageHome extends HTMLElement {
 		this.$channelSharer.setAttribute('slug', slug)
 		// the {{slug}} pattern is replaced by sharer, to build a correct channel url
 		this.$channelSharer.setAttribute('origin', this.href + '/{{slug}}')
+
+		/* if a "track id" is specified, set it on the track, open track dialog modal */
+		if (this.track) {
+			console.log('this.track', this.track)
+			this.$track.setAttribute('id', this.track)
+			this.openDialog('track')
+		}
 	}
-	addEventListener() {
+	addEventListeners() {
 		this.$actions.addEventListener('input', this.onChannelAction.bind(this))
 		this.$channelUpdate.addEventListener('submit', this.onChannelUpdate.bind(this))
 		this.$channelDelete.addEventListener('submit', this.onChannelDelete.bind(this))
+		this.$dialogs.forEach($dialog => {
+			$dialog.addEventListener('close', this.onDialogClose.bind(this))
+		})
 	}
 
 	async onChannelAction({ detail }) {
@@ -159,12 +183,27 @@ export default class R4PageHome extends HTMLElement {
 		}
 	}
 
+	onDialogClose({target}) {
+		const name = target.getAttribute('name')
+		console.log('on page chanel dialog close', name)
+		if (name === 'track') {
+			page(`/${this.slug}/tracks`)
+		}
+	}
+
 	openDialog(name) {
-		this.querySelector(`r4-dialog[name="${name}"]`).open()
+		const $dialog = this.querySelector(`r4-dialog[name="${name}"]`)
+		console.log('open', name, $dialog)
+		if ($dialog) {
+			$dialog.setAttribute('visible', true)
+		}
 	}
 
 	async closeDialog(name) {
-		this.querySelector(`r4-dialog[name="${name}"]`).close()
+		const $dialog = this.querySelector(`r4-dialog[name="${name}"]`)
+		if ($dialog) {
+			$dialog.removeAttribute('visible')
+		}
 	}
 
 	render(dom) {
