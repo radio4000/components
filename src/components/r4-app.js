@@ -106,19 +106,29 @@ export default class R4App extends HTMLElement {
 			this.renderPage('add', ctx.query)
 		})
 
-		page('/:channel_slug', (ctx, next) => {
+		page('/:channel_slug', (ctx) => {
 			const { channel_slug } = ctx.params
 			this.renderPage('channel', [
 				['slug', channel_slug],
+				['limit', 5],
 				['pagination', false]
 			])
 		})
-		page('/:channel_slug/tracks', (ctx, next) => {
+		page('/:channel_slug/tracks', (ctx) => {
 			const { channel_slug } = ctx.params
 			this.renderPage('channel', [
 				['slug', channel_slug],
 				['limit', 30],
 				['pagination', true]
+			])
+		})
+		page('/:channel_slug/tracks/:track_id', (ctx) => {
+			const { channel_slug, track_id } = ctx.params
+			this.renderPage('channel', [
+				['slug', channel_slug],
+				['limit', 1],
+				['pagination', false],
+				['track', track_id]
 			])
 		})
 
