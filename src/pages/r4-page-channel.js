@@ -93,7 +93,6 @@ export default class R4PageHome extends HTMLElement {
 			name, // cannot be empty
 			description = '', // can be empty
 		} = this.channel
-		console.log('this.singleChannel', this.singleChannel)
 		if (this.singleChannel) {
 			this.$channel.setAttribute('origin', this.href)
 		} else {

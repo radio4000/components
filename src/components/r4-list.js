@@ -80,7 +80,7 @@ export default class R4List extends HTMLElement {
 	/* if the attribute changed, re-render */
 	async attributeChangedCallback(attrName) {
 		/* the page changes, update the list */
-		if (['page'].indexOf(attrName) > -1) {
+		if (['page', 'limit'].indexOf(attrName) > -1) {
 			await this.updateList()
 		}
 		/* the list of items changes, update the DOM */

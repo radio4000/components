@@ -225,6 +225,9 @@ export default class R4App extends HTMLElement {
 				<span slot="in">
 					<a href="${this.href + '/sign/out'}">sign out</a>
 				</span>
+				<span slot="out">
+					<a href="${this.href + '/sign/in'}">sign in</a>
+				</span>
 			</r4-auth-status>
 		`, $menu)
 		return $menu
