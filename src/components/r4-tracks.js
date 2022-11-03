@@ -10,6 +10,10 @@ itemTemplate.innerHTML = `<r4-track><r4-track/>`
 
 
 export default class R4Tracks extends R4List {
+	static get observedAttributes() {
+		return ['channel', ...R4List.observedAttributes]
+	}
+
 	itemTemplate = itemTemplate
 	model = 'channel_track'
 
@@ -37,17 +41,10 @@ export default class R4Tracks extends R4List {
 	async attributeChangedCallback(attrName) {
 		super.attributeChangedCallback(attrName)
 		/* the slug changes, update the list */
-		if (['slug'].indexOf(attrName) > -1) {
+		if (['channel'].indexOf(attrName) > -1) {
 			await this.updateList()
 		}
 	}
-
-	constructor() {
-		super()
-		/* let's also observer the "slug" */
-		R4Tracks.observedAttributes.push('slug')
-	}
-
 	/* browse all tracks,or just tracks for a specific channel */
 	async browsePage({ page, limit }) {
 		/* if there is a channel attribute, even empty */
