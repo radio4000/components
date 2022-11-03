@@ -1,10 +1,24 @@
 r4-dialog {}
-/* does not work because of shadow dom */
-r4-dialog dialog::backdrop {}
 
 r4-dialog::part(dialog) {
+	--bg: var(--color-background);
 	background-color: var(--color-background);
 	color: var(--color-text);
+}
+
+r4-dialog::part(dialog)::backdrop {
+	background-color: white;
+	opacity: 0.9;
+}
+@media (prefers-color-scheme: dark) {
+	r4-dialog::part(dialog)::backdrop {
+		background-color: darkslategray;
+	}
+}
+@media (prefers-color-scheme: light) {
+	r4-dialog::part(dialog)::backdrop {
+		background-color: lightslategray;
+	}
 }
 
 /* the part="form" in the shadown dom */
@@ -13,3 +27,7 @@ r4-dialog::part(form) {
 	padding-bottom: var(--size);
 	justify-content: flex-end;
 }
+
+/* no custom styles */
+r4-dialog {}
+r4-dialog[visible="true"] {}
