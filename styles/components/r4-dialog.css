@@ -1,3 +1,15 @@
 r4-dialog {}
 /* does not work because of shadow dom */
 r4-dialog dialog::backdrop {}
+
+r4-dialog::part(dialog) {
+	background-color: var(--color-background);
+	color: var(--color-text);
+}
+
+/* the part="form" in the shadown dom */
+r4-dialog::part(form) {
+	display: flex;
+	padding-bottom: var(--size);
+	justify-content: flex-end;
+}

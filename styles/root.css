@@ -42,11 +42,14 @@ p {
 	margin-top: 0;
 }
 
+/* ::part(name) to target a <dom part="name"/> inside shadow dom */
+::part(button),
 button,
 select {
 	cursor: pointer;
 }
 
+::part(button),
 button,
 select,
 input,
@@ -55,8 +58,10 @@ textarea {
 	color: var(--color-text);
 	background-color: var(--color-background);
 	padding: calc(var(--size) / 4) calc(var(--size) / 2);
+	border-color: var(--color-text);
 }
 
+::part(button)[disabled],
 button[disabled] {
 	border-color: transparent;
 }
