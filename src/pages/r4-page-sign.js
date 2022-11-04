@@ -1,5 +1,3 @@
-import page from 'page'
-
 const template = document.createElement('template')
 template.innerHTML = `
 	<header>

@@ -2,7 +2,7 @@ import { html, render } from 'lit-html'
 import { readChannel } from '@radio4000/sdk'
 import page from 'page/page.mjs'
 
-export default class R4PageHome extends HTMLElement {
+export default class R4PageChannel extends HTMLElement {
 	static get observedAttributes() {
 		return ['href', 'slug', 'channel', 'limit', 'pagination', 'track', 'single-channel']
 	}
@@ -145,7 +145,6 @@ export default class R4PageHome extends HTMLElement {
 	}
 
 	render() {
-		console.log('this.channel', this.channel)
 		if (this.channel) {
 			render(html`
 				<header>

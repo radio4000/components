@@ -54,7 +54,7 @@ export default class R4App extends HTMLElement {
 	buildAppRouter() {
 		if (this.channel) {
 			return html`
-				<r4-router href=${this.href}>
+				<r4-router href=${this.href} name="channel">
 					<r4-route path="/sign/in" page="sign" method="in"></r4-route>
 					<r4-route path="/sign/out" page="sign" method="out"></r4-route>
 					<r4-route path="/" page="channel" slug="${this.channel}" limit="5" pagination="false" single-channel="true"></r4-route>
@@ -65,7 +65,7 @@ export default class R4App extends HTMLElement {
 			`
 		} else {
 			return html`
-				<r4-router href=${this.href}>
+				<r4-router href=${this.href} name="application">
 					<r4-route path="/" page="home"></r4-route>
 					<r4-route path="/explore" page="explore"></r4-route>
 					<r4-route path="/sign" page="sign"></r4-route>
@@ -75,7 +75,7 @@ export default class R4App extends HTMLElement {
 					<r4-route path="/add" page="add"></r4-route>
 					<r4-route path="/:slug" page="channel" limit="5" pagination="false"></r4-route>
 					<r4-route path="/:slug/tracks" page="channel" limit="30" pagination="true"></r4-route>
-					<r4-route path="/:channel_slug/tracks/:track_id" page="channel" limit="1" pagination="false></r4-route>
+					<r4-route path="/:slug/tracks/:track_id" page="channel" limit="1" pagination="false"></r4-route>
 				</r4-router>
 			`
 		}
@@ -89,14 +89,21 @@ export default class R4App extends HTMLElement {
 					<a href=${this.href}>
 						<r4-title small="true"></r4-title>
 					</a>
-					<a href=${this.href + '/explore'}>Explore</a>
+					<a href="${this.href + '/explore'}">Explore</a>
 					<r4-auth-status>
 						<span slot="in">
-							<r4-user-channels-select @input=${this.onChannelSelect.bind(this)}></r4-user-channels-select>
-							<a href=${this.href + '/sign/out'}>sign out</a>
+							<a href="${this.href + '/sign/out'}">sign out</a>
 						</span>
 						<span slot="out">
-							<a href=${this.href}>sign-in</a>, <a href=${this.href + '/sign/up'}>sign-up</a>
+							<a href="${this.href + '/sign/in'}">sign in</a>
+						</span>
+					</r4-auth-status>
+					<r4-auth-status>
+						<span slot="out">
+							<a href="${this.href + '/sign/up'}">sign up</a>
+						</span>
+						<span slot="in">
+							<r4-user-channels-select @input=${this.onChannelSelect.bind(this)}/>
 						</span>
 					</r4-auth-status>
 				</r4-menu>
