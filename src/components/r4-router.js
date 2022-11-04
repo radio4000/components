@@ -49,9 +49,7 @@ export default class R4App extends HTMLElement {
 		render(html`
 			<r4-layout @r4-play=${this.onPlay.bind(this)}>
 				<header slot="header">${html`${this.buildAppMenu()}`}</header>
-				<main slot="main">
-					<r4-router></r4-router>
-				</main>
+				<main slot="main"></main>
 				<aside slot="player">
 					<r4-player></r4-player>
 				</aside>
