@@ -18,39 +18,31 @@ export default class R4App extends HTMLElement {
 		}
 		return hrefAttr
 	}
-	/* used to setup the base of the url handled by page.js router */
-	get pathname() {
-		const href = this.href || window.location.href
-		let name = new URL(href).pathname
-		if (name.endsWith('/')) {
-			name = name.slice(0, name.length - 1)
-		}
-		return name
-	}
 	/* if there is a channel slug,
 		 the app will adapt to run only for one channel  */
 	get channel() {
 		return this.getAttribute('channel')
 	}
+
 	attributeChangedCallback(attrName,) {
 		if (this.constructor.observedAttributes.indexOf(attrName) > -1) {
-			this.setupRouter()
 			this.render()
 		}
 	}
 	connectedCallback() {
 		this.render()
-		this.$slotMain = this.querySelector('[slot="main"]')
 		this.$player = this.querySelector('[slot="player"] r4-player')
-		this.handleFirstUrl()
 	}
 
 	render() {
 		render(html`
-			<r4-layout @r4-play=${this.onPlay.bind(this)}>
-				<header slot="header">${html`${this.buildAppMenu()}`}</header>
+			<r4-layout
+				@r4-play=${this.onPlay.bind(this)}
+				@click=${this.onAnchorClick.bind(this)}
+				>
+				<header slot="header">${this.buildAppMenu()}</header>
 				<main slot="main">
-					<r4-router></r4-router>
+					${this.buildAppRouter()}
 				</main>
 				<aside slot="player">
 					<r4-player></r4-player>
@@ -59,212 +51,87 @@ export default class R4App extends HTMLElement {
 		`, this)
 	}
 
-	setupRouter() {
-		/* stop to unbind both the popstate and click handlers. */
-		page.stop()
-
-		if (this.pathname) {
-			/* Get or set the base path. For example if page.js is operating within /blog/* set the base path to "/blog".
-				 its value is the value of `new URL(window.location).pathname` when on `/` of the app */
-			page.base(this.pathname)
-
-			/* Get or set the strict path matching mode to enable.If enabled / blog will not match "/blog/" and / blog / will not match "/blog". */
-		} else {
-			page.base('/')
-		}
-		page.strict(false)
-		this.setupRoutes()
-	}
-	/* the routes/pages handlers */
-	setupRoutes() {
-		/* first wildcard, used as a first middleware
-			 (calls next, to continue with the next handlers) */
-		page('*', (ctx, next) => {
-			console.log('navigated *', ctx)
-			next()
-		})
-
-		/* if the app has a channel slug specified, render the channel
-			 otherwise render general homepage */
+	buildAppRouter() {
 		if (this.channel) {
-			this.setupRoutesChannel()
+			return html`
+				<r4-router href=${this.href}>
+					<r4-route path="/sign/in" page="sign" method="in"></r4-route>
+					<r4-route path="/sign/out" page="sign" method="out"></r4-route>
+					<r4-route path="/" page="channel" slug="${this.channel}" limit="5" pagination="false" single-channel="true"></r4-route>
+					<r4-route path="/tracks" page="channel" slug=${this.channel} limit="300" pagination="true" single-channel="true"></r4-route>
+					<r4-route path="/tracks/:track_id" page="channel" slug=${this.channel} single-channel="true"></r4-route>
+					<r4-route path="/add" page="add" slug=${this.channel} single-channel="true"></r4-route>
+				</r4-router>
+			`
 		} else {
-			this.setupRoutesPlatform()
+			return html`
+				<r4-router href=${this.href}>
+					<r4-route path="/" page="home"></r4-route>
+					<r4-route path="/explore" page="explore"></r4-route>
+					<r4-route path="/sign" page="sign"></r4-route>
+					<r4-route path="/sign/up" page="sign" method="up"></r4-route>
+					<r4-route path="/sign/in" page="sign" method="in"></r4-route>
+					<r4-route path="/sign/out" page="sign" method="out"></r4-route>
+					<r4-route path="/add" page="add"></r4-route>
+					<r4-route path="/:slug" page="channel" limit="5" pagination="false"></r4-route>
+					<r4-route path="/:slug/tracks" page="channel" limit="30" pagination="true"></r4-route>
+					<r4-route path="/:channel_slug/tracks/:track_id" page="channel" limit="1" pagination="false></r4-route>
+				</r4-router>
+			`
 		}
-	}
-
-	/* setup all routes, when the app is used for all channels,
-	 as the radio4000.com platform */
-	setupRoutesPlatform() {
-		page('/', () => this.renderPage('home'))
-		page('/explore', () => this.renderPage('explore'))
-
-		page('/sign', () => this.renderPage('sign'))
-		page('/sign/up', () => this.renderPage('sign', [['method', 'up']]))
-		page('/sign/in', () => this.renderPage('sign', [['method', 'in']]))
-		page('/sign/out', () => this.renderPage('sign', [['method', 'out']]))
-
-		page('/add', this.parseQuery, (ctx) => {
-			this.renderPage('add', ctx.query)
-		})
-
-		page('/:channel_slug', (ctx) => {
-			const { channel_slug } = ctx.params
-			this.renderPage('channel', [
-				['slug', channel_slug],
-				['limit', 5],
-				['pagination', false]
-			])
-		})
-		page('/:channel_slug/tracks', (ctx) => {
-			const { channel_slug } = ctx.params
-			this.renderPage('channel', [
-				['slug', channel_slug],
-				['limit', 30],
-				['pagination', true]
-			])
-		})
-		page('/:channel_slug/tracks/:track_id', (ctx) => {
-			const { channel_slug, track_id } = ctx.params
-			this.renderPage('channel', [
-				['slug', channel_slug],
-				['limit', 1],
-				['pagination', false],
-				['track', track_id]
-			])
-		})
-
-		/* last wildcard, used as a 404 catch all (no next)) */
-		page('*', (ctx,) => {
-			console.log('404 ?')
-		})
-	}
-	/* setup the routes for when a r4-app[slug] is specified,
-	 so the app is setup for only this channel */
-	setupRoutesChannel() {
-		page('/', () => {
-			this.renderPage('channel', [
-				['slug', this.channel],
-				['limit', 5],
-				['pagination', false]
-			])
-		})
-		page('/sign', () => page('/'))
-		page('/sign/in', () => this.renderPage('sign', [['method', 'in']]))
-		page('/sign/out', () => this.renderPage('sign', [['method', 'out']]))
-		page('/add', this.parseQuery, (ctx) => {
-			this.renderPage('add', [...ctx.query, ['slug', this.channel]])
-		})
-		page('/tracks', () => {
-			this.renderPage('channel', [
-				['slug', this.channel],
-				['limit', 300],
-				['pagination', true]
-			])
-		})
-		page('/tracks/:track_id', (ctx) => {
-			const { track_id } = ctx.params
-			this.renderPage('channel', [
-				['slug', this.channel],
-				['track', track_id]
-			])
-		})
-	}
-	parseQuery(ctx, next) {
-		const params = []
-		const urlParams = new URLSearchParams(ctx.querystring)
-		if (urlParams) {
-			for (const urlParam of urlParams) {
-				urlParam && params.push(urlParam)
-			}
-		}
-		ctx.query = params
-		next()
-	}
-
-	setupCLickHandler() {
-		this.addEventListener('click', this.handleClick.bind(this))
-	}
-	handleClick(event) {
-		const wrappingAnchor = event.target.closest('a')
-		if (wrappingAnchor && wrappingAnchor.tagName === 'A') {
-			const destination = this.pathname + wrappingAnchor.pathname
-			event.preventDefault()
-			page(destination)
-		}
-	}
-	handleFirstUrl() {
-		page(window.location)
 	}
 
 	/* build the app's dom elements */
 	buildAppMenu() {
-		if (this.channel) {
-			return this.buildAppMenuChannel()
+		if (!this.channel) {
+			return html`
+				<r4-menu direction="row" origin=${this.href}>
+					<a href=${this.href}>
+						<r4-title small="true"></r4-title>
+					</a>
+					<a href=${this.href + '/explore'}>Explore</a>
+					<r4-auth-status>
+						<span slot="in">
+							<r4-user-channels-select @input=${this.onChannelSelect.bind(this)}></r4-user-channels-select>
+							<a href=${this.href + '/sign/out'}>sign out</a>
+						</span>
+						<span slot="out">
+							<a href=${this.href}>sign-in</a>, <a href=${this.href + '/sign/up'}>sign-up</a>
+						</span>
+					</r4-auth-status>
+				</r4-menu>
+			`
 		} else {
-			return this.buildAppMenuPlatform()
+			/* when on slug.4000.network */
+			return html`
+				<r4-menu direction="row" origin=${this.href}>
+					<a href="${this.href}">
+						${this.channel}
+					</a>
+					<r4-auth-status>
+						<span slot="in">
+							<a href="${this.href + '/sign/out'}">sign out</a>
+						</span>
+						<span slot="out">
+							<a href="${this.href + '/sign/in'}">sign in</a>
+						</span>
+					</r4-auth-status>
+				</r4-menu>
+			`
 		}
 	}
 
-	/* when on slug.4000.network */
-	buildAppMenuChannel() {
-		return html`
-			<r4-menu direction="row" origin=${this.href}>
-				<a href="${this.href}">
-					${this.channel}
-				</a>
-				<r4-auth-status>
-					<span slot="in">
-						<a href="${this.href + '/sign/out'}">sign out</a>
-					</span>
-					<span slot="out">
-						<a href="${this.href + '/sign/in'}">sign in</a>
-					</span>
-				</r4-auth-status>
-			</r4-menu>
-		`
-	}
-
-	/* when on radio4000.com */
-	buildAppMenuPlatform() {
-		return html`
-			<r4-menu direction="row" origin=${this.href}>
-				<a href="${this.href}">
-					<r4-title small="true"></r4-title>
-				</a>
-				<a href="${this.href + '/explore'}">Explore</a >
-				<r4-auth-status>
-					<span slot="in">
-						<r4-user-channels-select @input=${this.onChannelSelect.bind(this)}></r4-user-channels-select>
-						<a href="${this.href + '/sign/out'}">sign out</a>
-					</span>
-					<span slot="out">
-						sign-{<a href="${this.href + '/sign/in'}">in</a>, <a href="${this.href + '/sign/up'}">up</a>}
-					</span>
-				</r4-auth-status>
-			</r4-menu>
-		`
-	}
-
-	/* each time URL changes and needs to render a page */
-	renderPage(pageName, attributes) {
-		const $page = document.createElement(`r4-page-${pageName}`)
-		if (attributes) {
-			attributes.forEach(attribute => {
-				$page.setAttribute(attribute[0], attribute[1])
-			})
+	/* fix page.js not handle anchors correctly? */
+	onAnchorClick(event) {
+		const wrappingAnchor = event.target.closest('a')
+		if (wrappingAnchor && wrappingAnchor.tagName === 'A') {
+			event.preventDefault()
+			page(wrappingAnchor.pathname)
 		}
-		if (this.href) {
-			$page.setAttribute('href', this.href)
-			if (this.channel) {
-				$page.setAttribute('single-channel', true)
-			}
-		}
-		render($page, this.$slotMain)
 	}
 
 	/* events */
-	onChannelSelect({detail, target}) {
+	onChannelSelect({ detail, target }) {
 		if (detail.channel) {
 			const { slug } = detail.channel
 			page(`/${slug}`)

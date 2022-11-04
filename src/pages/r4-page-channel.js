@@ -1,31 +1,6 @@
+import { html, render } from 'lit-html'
 import { readChannel } from '@radio4000/sdk'
 import page from 'page/page.mjs'
-
-/* the app template */
-const template = document.createElement('template')
-template.innerHTML = `
-	<header>
-		<r4-channel slug></r4-channel>
-		<r4-channel-actions slug></r4-channel-actions>
-	</header>
-	<main>
-		<r4-tracks channel limit="5"></r4-tracks>
-	</main>
-	<aside>
-		<r4-dialog name="track">
-			<r4-track slot="dialog" id></r4-track>
-		</r4-dialog>
-		<r4-dialog name="update">
-			<r4-channel-update slot="dialog" slug></r4-channel-update>
-		</r4-dialog>
-		<r4-dialog name="delete">
-			<r4-channel-delete slot="dialog" slug></r4-channel-delete>
-		</r4-dialog>
-		<r4-dialog name="share">
-			<r4-channel-sharer slot="dialog" slug></r4-channel-sharer>
-		</r4-dialog>
-	</aside>
-`
 
 export default class R4PageHome extends HTMLElement {
 	static get observedAttributes() {
@@ -56,109 +31,43 @@ export default class R4PageHome extends HTMLElement {
 	get singleChannel() {
 		return this.getAttribute('single-channel') === 'true'
 	}
+
 	/* a track id in this channel */
 	get track() {
 		return this.getAttribute('track')
 	}
-	async connectedCallback() {
-		const $dom = template.content.cloneNode(true)
-		this.$channel = $dom.querySelector('r4-channel')
-		this.$actions = $dom.querySelector('r4-channel-actions')
-		this.$tracks = $dom.querySelector('r4-tracks')
-		this.$track = $dom.querySelector('r4-track')
-		this.$channelUpdate = $dom.querySelector('r4-channel-update')
-		this.$channelDelete = $dom.querySelector('r4-channel-delete')
-		this.$channelSharer = $dom.querySelector('r4-channel-sharer')
-		this.$dialogs = $dom.querySelectorAll('r4-dialog')
+	get channelOrigin() {
+		return this.singleChannel ? this.href : `${this.href}/{{slug}}`
+	}
 
-		this.addEventListeners($dom)
-		await this.init()
-		this.render($dom)
+	get tracksOrigin() {
+		if (this.singleChannel) {
+			return this.href + '/tracks/{{id}}'
+		} else {
+			return this.href + '/' + this.slug + '/tracks/{{id}}'
+		}
 	}
-	async init() {
+
+	async attributeChangedCallback(attrName) {
+		if (attrName !== 'channel') {
+			this.channel = await this.findSelectedChannel()
+		}
+		if (this.constructor.observedAttributes.indexOf(attrName) > -1) {
+			this.render()
+		}
+	}
+
+	async connectedCallback() {
 		this.channel = await this.findSelectedChannel()
-		this.updateAttributes()
+		this.render()
 	}
+
 	/* find the current channel id we want to add to */
 	async findSelectedChannel() {
 		const { data } = await readChannel(this.slug)
 		if (data && data.id) {
 			return data
 		}
-	}
-	updateAttributes() {
-		let {
-			id, // always present
-			slug, // always present, cannot be empty, like uid
-			name, // cannot be empty
-			description = '', // can be empty
-		} = this.channel
-		if (this.singleChannel) {
-			this.$channel.setAttribute('origin', this.href)
-		} else {
-			this.$channel.setAttribute('origin', this.href + '/{{slug}}')
-		}
-
-		/* set the slug on the channel, and all its data */
-		this.$channel.setAttribute('slug', slug)
-		this.$channel.channel = this.channel
-
-
-		this.$actions.setAttribute('slug', slug)
-
-		this.$tracks.setAttribute('channel', slug)
-		this.$tracks.setAttribute('pagination', this.pagination)
-		if (this.limit) {
-			this.$tracks.setAttribute('limit', this.limit)
-		}
-		if (this.href) {
-			if (this.singleChannel) {
-				this.$tracks.setAttribute(
-					'origin', this.href + '/tracks/{{id}}'
-				)
-			} else {
-				this.$tracks.setAttribute(
-					'origin', this.href + `/${slug}/tracks/{{id}}`
-				)
-			}
-		}
-
-		/* all channel attributes needed, for the form to update */
-		this.$channelUpdate.setAttribute('id', id)
-		this.$channelUpdate.setAttribute('slug', slug)
-		name ? (
-			this.$channelUpdate.setAttribute('name', name)
-		) : (
-			this.$channelUpdate.removeAttribute('name')
-		)
-		description ? (
-			this.$channelUpdate.setAttribute('description', description)
-		) : (
-			this.$channelUpdate.removeAttribute('description')
-		)
-
-		/* only id needed */
-		this.$channelDelete.setAttribute('id', id)
-
-		/* only slug needed for the sharer */
-		this.$channelSharer.setAttribute('slug', slug)
-		// the {{slug}} pattern is replaced by sharer, to build a correct channel url
-		this.$channelSharer.setAttribute('origin', this.href + '/{{slug}}')
-
-		/* if a "track id" is specified, set it on the track, open track dialog modal */
-		if (this.track) {
-			console.log('this.track', this.track)
-			this.$track.setAttribute('id', this.track)
-			this.openDialog('track')
-		}
-	}
-	addEventListeners() {
-		this.$actions.addEventListener('input', this.onChannelAction.bind(this))
-		this.$channelUpdate.addEventListener('submit', this.onChannelUpdate.bind(this))
-		this.$channelDelete.addEventListener('submit', this.onChannelDelete.bind(this))
-		this.$dialogs.forEach($dialog => {
-			$dialog.addEventListener('close', this.onDialogClose.bind(this))
-		})
 	}
 
 	async onChannelAction({ detail }) {
@@ -175,6 +84,7 @@ export default class R4PageHome extends HTMLElement {
 			if (detail === 'create-track') {
 				page(`/add?channel=${this.slug}`)
 			}
+
 			if (detail === 'tracks') {
 				if (this.singleChannel) {
 					page(`/tracks`)
@@ -185,12 +95,13 @@ export default class R4PageHome extends HTMLElement {
 
 			if (['update', 'delete', 'share'].indexOf(detail) > -1) {
 				/* refresh the channel data */
-				await this.init()
+				this.channel = await this.findSelectedChannel()
 				this.openDialog(detail)
 			}
 			console.log('channel action', detail)
 		}
 	}
+
 	async onChannelDelete(event) {
 		/* no error? we deleted */
 		if (!event.detail) {
@@ -198,6 +109,7 @@ export default class R4PageHome extends HTMLElement {
 			this.closeDialog('delete')
 		}
 	}
+
 	async onChannelUpdate(event) {
 		if (!event.detail.error && !event.detail.data) {
 			await this.init() // refresh channel data
@@ -232,7 +144,61 @@ export default class R4PageHome extends HTMLElement {
 		}
 	}
 
-	render(dom) {
-		this.append(dom)
+	render() {
+		console.log('this.channel', this.channel)
+		if (this.channel) {
+			render(html`
+				<header>
+					<r4-channel
+						origin=${this.channelOrigin}
+						slug=${this.channel.slug}
+						></r4-channel>
+					<r4-channel-actions
+						slug=${this.channel.slug}
+						@input=${this.onChannelAction.bind(this)}
+						></r4-channel-actions>
+				</header>
+				<main>
+					<r4-tracks
+						channel=${this.channel.slug}
+						limit="5"
+						origin=${this.tracksOrigin}
+						></r4-tracks>
+				</main>
+				<aside>
+					<r4-dialog name="track" @close=${this.onDialogClose.bind(this)}>
+						<r4-track
+							slot="dialog"
+							id=${this.track}
+							></r4-track>
+					</r4-dialog>
+					<r4-dialog name="update" @close=${this.onDialogClose.bind(this)}>
+						<r4-channel-update
+							slot="dialog"
+							slug=${this.channel.slug}
+							id=${this.channel.id}
+							name=${this.channel.name}
+							description=${this.channel.description}
+							submit=${this.onChannelUpdate.bind(this)}
+							></r4-channel-update>
+					</r4-dialog>
+					<r4-dialog name="delete" @close=${this.onDialogClose.bind(this)}>
+						<r4-channel-delete
+							slot="dialog"
+							slug=${this.channel.slug}
+							id=${this.channel.id}
+							submit=${this.onChannelDelete.bind(this)}
+							></r4-channel-delete>
+					</r4-dialog>
+					<r4-dialog name="share" @close=${this.onDialogClose.bind(this)}>
+						<r4-channel-sharer
+							slot="dialog"
+							origin=${this.channelOrigin}
+							slug=${this.channel.slug}
+							></r4-channel-sharer>
+					</r4-dialog>
+				</aside>
+			`, this)
+		}
 	}
 }
