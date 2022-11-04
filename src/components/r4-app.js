@@ -270,7 +270,6 @@ export default class R4App extends HTMLElement {
 
 	/* each time URL changes and needs to render a page */
 	renderPage(pageName, attributes) {
-		this.$slotMain.innerHTML = ''
 		const $page = document.createElement(`r4-page-${pageName}`)
 		if (attributes) {
 			attributes.forEach(attribute => {
@@ -283,7 +282,7 @@ export default class R4App extends HTMLElement {
 				$page.setAttribute('single-channel', true)
 			}
 		}
-		this.$slotMain.append($page)
+		render($page, this.$slotMain)
 	}
 
 	/* events */
