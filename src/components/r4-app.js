@@ -152,16 +152,16 @@ export default class R4App extends HTMLElement {
 		page('/', () => {
 			this.renderPage('channel', [
 				['slug', this.channel],
-				['limit', 100],
-				['pagination', true]
+				['limit', 5],
+				['pagination', false]
 			])
-		})
-		page('/add', this.parseQuery, (ctx) => {
-			this.renderPage('add', [...ctx.query, ['slug', this.channel]])
 		})
 		page('/sign', () => page('/'))
 		page('/sign/in', () => this.renderPage('sign', [['method', 'in']]))
 		page('/sign/out', () => this.renderPage('sign', [['method', 'out']]))
+		page('/add', this.parseQuery, (ctx) => {
+			this.renderPage('add', [...ctx.query, ['slug', this.channel]])
+		})
 		page('/tracks', () => {
 			this.renderPage('channel', [
 				['slug', this.channel],

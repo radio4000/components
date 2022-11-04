@@ -72,7 +72,7 @@ export default class R4PageHome extends HTMLElement {
 		this.$dialogs = $dom.querySelectorAll('r4-dialog')
 
 		this.addEventListeners($dom)
-		this.init()
+		await this.init()
 		this.render($dom)
 	}
 	async init() {
@@ -98,7 +98,12 @@ export default class R4PageHome extends HTMLElement {
 		} else {
 			this.$channel.setAttribute('origin', this.href + '/{{slug}}')
 		}
+
+		/* set the slug on the channel, and all its data */
 		this.$channel.setAttribute('slug', slug)
+		this.$channel.channel = this.channel
+
+
 		this.$actions.setAttribute('slug', slug)
 
 		this.$tracks.setAttribute('channel', slug)
