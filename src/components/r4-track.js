@@ -1,7 +1,7 @@
 import {readTrack} from '@radio4000/sdk'
 import { html, render } from 'lit-html'
 
-export default class R4Channel extends HTMLElement {
+export default class R4Track extends HTMLElement {
 	static get observedAttributes() {
 		return ['origin', 'id', 'track']
 	}
@@ -56,16 +56,27 @@ export default class R4Channel extends HTMLElement {
 			this.render()
 		} else if (this.id) {
 			this.track = await this.readTrack(this.id)
-		} else {
-			this.track = { title: 'No data for this track'}
 		}
 	}
 
 	async readTrack(id) {
 		this.setAttribute('loading', true)
-		const res = await readTrack(id)
+		let res = {}
+		if (id) {
+			try {
+				res = await readTrack(id)
+				if (res.error) throw res
+			} catch (error) {
+				console.log('Error reading track', error)
+			}
+		}
 		this.removeAttribute('loading')
-		return res.data
+
+		if (res.data) {
+			return res.data
+		} else {
+			return { title: 'No data for this track' }
+		}
 	}
 
 	render() {
