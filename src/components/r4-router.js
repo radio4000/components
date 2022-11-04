@@ -59,7 +59,6 @@ export default class R4Router extends HTMLElement {
 	}
 
 	renderRoute($route, ctx, next) {
-		console.log('render $route', $route)
 		const pageName = $route.getAttribute('page')
 		const $page = document.createElement(`r4-page-${pageName}`)
 		Array.from($route.attributes).filter(attribute => {
@@ -67,7 +66,13 @@ export default class R4Router extends HTMLElement {
 		}).forEach(attribute => {
 			$page.setAttribute(attribute.nodeName, attribute.nodeValue)
 		})
+		if (ctx.params) {
+			Object.keys(ctx.params).forEach(paramName => {
+				$page.setAttribute(paramName.replace('_', '-'), ctx.params[paramName])
+			})
+		}
 		$page.setAttribute('href', this.href)
+		console.log('render $page', $page)
 		render($page, this)
 	}
 	unrenderRoute($route, ctx, next) {
