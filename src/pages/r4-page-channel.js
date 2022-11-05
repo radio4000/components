@@ -1,41 +1,18 @@
-import { html, render } from 'lit-html'
+import { html, LitElement } from 'lit'
 import { readChannel } from '@radio4000/sdk'
 import page from 'page/page.mjs'
 
-export default class R4PageChannel extends HTMLElement {
-	static get observedAttributes() {
-		return ['href', 'slug', 'channel', 'limit', 'pagination', 'track', 'single-channel']
-	}
-	get slug() {
-		return this.getAttribute('slug')
-	}
-	get href() {
-		return this.getAttribute('href')
-	}
-	get channel () {
-		return JSON.parse(this.getAttribute('channel'))
-	}
-	set channel(obj) {
-		if (obj) {
-			this.setAttribute('channel', JSON.stringify(obj))
-		} else {
-			this.removeAttribute('channel')
-		}
-	}
-	get limit() {
-		return parseFloat(this.getAttribute('limit')) || 0
-	}
-	get pagination() {
-		return this.getAttribute('pagination') === 'true'
-	}
-	get singleChannel() {
-		return this.getAttribute('single-channel') === 'true'
+export default class R4PageChannel extends LitElement {
+	static properties = {
+		slug: { type: String, reflect: true },
+		href: { type: String, reflect: true },
+		channel: { type: Object, reflect: true, state: true },
+		trackId: { type: String, reflect: true, attribute: 'track-id' },
+		limit: { type: Number, reflect: true },
+		pagination: { type: Boolean, reflect: true },
+		singleChannel: { type: Boolean, reflect: true, attribute: 'single-channel' },
 	}
 
-	/* a track id in this channel */
-	get track() {
-		return this.getAttribute('track')
-	}
 	get channelOrigin() {
 		return this.singleChannel ? this.href : `${this.href}/{{slug}}`
 	}
@@ -48,18 +25,8 @@ export default class R4PageChannel extends HTMLElement {
 		}
 	}
 
-	async attributeChangedCallback(attrName) {
-		if (attrName !== 'channel') {
-			this.channel = await this.findSelectedChannel()
-		}
-		if (this.constructor.observedAttributes.indexOf(attrName) > -1) {
-			this.render()
-		}
-	}
-
-	async connectedCallback() {
+	async firstUpdated() {
 		this.channel = await this.findSelectedChannel()
-		this.render()
 	}
 
 	/* find the current channel id we want to add to */
@@ -146,58 +113,61 @@ export default class R4PageChannel extends HTMLElement {
 
 	render() {
 		if (this.channel) {
-			render(html`
+			return html`
 				<header>
 					<r4-channel
-						origin=${this.channelOrigin}
-						slug=${this.channel.slug}
+						.channel=${this.channel}
+						origin="${this.channelOrigin}"
+						slug="${this.channel.slug}"
 						></r4-channel>
 					<r4-channel-actions
-						slug=${this.channel.slug}
-						@input=${this.onChannelAction.bind(this)}
+						slug="${this.channel.slug}"
+						@input="${this.onChannelAction.bind(this)}"
 						></r4-channel-actions>
 				</header>
 				<main>
 					<r4-tracks
-						channel=${this.channel.slug}
+						channel="${this.channel.slug}"
+						origin="${this.tracksOrigin}"
 						limit="5"
-						origin=${this.tracksOrigin}
 						></r4-tracks>
 				</main>
 				<aside>
-					<r4-dialog name="track" @close=${this.onDialogClose.bind(this)}>
+					<r4-dialog name="track" @close="${this.onDialogClose.bind(this)}">
 						<r4-track
 							slot="dialog"
-							id=${this.track}
+							id="${this.trackId}"
 							></r4-track>
 					</r4-dialog>
-					<r4-dialog name="update" @close=${this.onDialogClose.bind(this)}>
+					<r4-dialog name="update" @close="${this.onDialogClose.bind(this)}">
 						<r4-channel-update
 							slot="dialog"
-							slug=${this.channel.slug}
-							id=${this.channel.id}
-							name=${this.channel.name}
-							description=${this.channel.description}
-							submit=${this.onChannelUpdate.bind(this)}
+							slug="${this.channel.slug}"
+							id="${this.channel.id}"
+							name="${this.channel.name}"
+							description="${this.channel.description}"
+							submit="${this.onChannelUpdate.bind(this)}"
 							></r4-channel-update>
 					</r4-dialog>
-					<r4-dialog name="delete" @close=${this.onDialogClose.bind(this)}>
+					<r4-dialog name="delete" @close="${this.onDialogClose.bind(this)}">
 						<r4-channel-delete
 							slot="dialog"
-							slug=${this.channel.slug}
-							id=${this.channel.id}
-							submit=${this.onChannelDelete.bind(this)}
+							id="${this.channel.id}"
+							submit="${this.onChannelDelete.bind(this)}"
 							></r4-channel-delete>
 					</r4-dialog>
-					<r4-dialog name="share" @close=${this.onDialogClose.bind(this)}>
+					<r4-dialog name="share" @close="${this.onDialogClose.bind(this)}">
 						<r4-channel-sharer
 							slot="dialog"
-							origin=${this.channelOrigin}
-							slug=${this.channel.slug}
+							origin="${this.channelOrigin}"
+							slug="${this.channel.slug}"
 							></r4-channel-sharer>
 					</r4-dialog>
 				</aside>
-			`, this)
+			`
 		}
+	}
+	createRenderRoot() {
+		return this
 	}
 }

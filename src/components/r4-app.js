@@ -1,4 +1,5 @@
 import { html, render } from 'lit-html'
+import { ref, createRef } from 'lit/directives/ref.js'
 import { readChannelTracks } from '@radio4000/sdk'
 import page from 'page/page.mjs'
 import '../pages/index.js'
@@ -29,6 +30,9 @@ export default class R4App extends HTMLElement {
 			this.render()
 		}
 	}
+
+	playerRef = createRef()
+
 	connectedCallback() {
 		this.render()
 		this.$player = this.querySelector('[slot="player"] r4-player')
@@ -37,15 +41,15 @@ export default class R4App extends HTMLElement {
 	render() {
 		render(html`
 			<r4-layout
-				@r4-play=${this.onPlay.bind(this)}
-				@click=${this.onAnchorClick.bind(this)}
+				@r4-play="${this.onPlay.bind(this)}"
+				@click="${this.onAnchorClick.bind(this)}"
 				>
 				<header slot="header">${this.buildAppMenu()}</header>
 				<main slot="main">
 					${this.buildAppRouter()}
 				</main>
 				<aside slot="player">
-					<r4-player></r4-player>
+					<r4-player ${ref(this.playerRef)}></r4-player>
 				</aside>
 			</r4-layout>
 		`, this)
@@ -151,9 +155,9 @@ export default class R4App extends HTMLElement {
 		if (channel) {
 			const { data } = await readChannelTracks(channel)
 			if (data) {
-				this.$player.setAttribute('tracks', JSON.stringify(data))
+				this.playerRef.value.setAttribute('tracks', JSON.stringify(data))
 			} else {
-				this.$player.removeAttribute('tracks')
+				this.playerRef.value.removeAttribute('tracks')
 			}
 		}
 	}
