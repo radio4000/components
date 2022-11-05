@@ -81,14 +81,14 @@ export default class R4PageChannel extends LitElement {
 						slug=${this.channel.slug}
 						name=${this.channel.name}
 						description=${this.channel.description}
-						submit=${this.onChannelUpdate}
+						@submit=${this.onChannelUpdate}
 						></r4-channel-update>
 				</r4-dialog>
 				<r4-dialog name="delete" @close=${this.onDialogClose}>
 					<r4-channel-delete
 						slot="dialog"
 						id=${this.channel.id}
-						submit=${this.onChannelDelete}
+						@submit=${this.onChannelDelete}
 						></r4-channel-delete>
 				</r4-dialog>
 				<r4-dialog name="share" @close=${this.onDialogClose}>
