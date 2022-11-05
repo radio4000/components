@@ -71,11 +71,15 @@ export default class R4Router extends HTMLElement {
 				$page.setAttribute(paramName.replace('_', '-'), ctx.params[paramName])
 			})
 		}
-		if (ctx.query) {
+		const routeQueryParams = $route.getAttribute('query-params')
+		const requestedParams = routeQueryParams ? routeQueryParams.split(',') : []
+		if (requestedParams && ctx.query) {
 			console.log('ctx.query', ctx.query)
-			ctx.query.forEach(param => {
-				$page.setAttribute(param[0], param[1])
-			})
+			ctx.query
+						 .filter(param => requestedParams.indexOf(param) > -1)
+						 .forEach(param => {
+							 $page.setAttribute(param[0], param[1])
+						 })
 		}
 		$page.setAttribute('href', this.href)
 		console.log('render $page', $page)
