@@ -1,4 +1,4 @@
-import { html, render } from 'lit-html'
+import { html, LitElement } from 'lit'
 import { ref, createRef } from 'lit/directives/ref.js'
 import { readChannelTracks } from '@radio4000/sdk'
 import page from 'page/page.mjs'
@@ -7,41 +7,36 @@ import '../pages/index.js'
 // https://github.com/visionmedia/page.js/issues/537
 /* page.configure({ window: window }) */
 
-export default class R4App extends HTMLElement {
-	static get observedAttributes() {
-		return ['href', 'channel']
-	}
-	/* used to build the base of links and app router */
-	get href() {
-		let hrefAttr = this.getAttribute('href') || window.location.href
-		if (hrefAttr.endsWith('/')) {
-			hrefAttr = hrefAttr.slice(0, hrefAttr.length - 1)
-		}
-		return hrefAttr
-	}
-	/* if there is a channel slug,
-		 the app will adapt to run only for one channel  */
-	get channel() {
-		return this.getAttribute('channel')
-	}
-
-	attributeChangedCallback(attrName,) {
-		if (this.constructor.observedAttributes.indexOf(attrName) > -1) {
-			this.render()
-		}
-	}
-
+export default class R4App extends LitElement {
 	playerRef = createRef()
 
+	static properties = {
+		singleChannel: { type: Boolean, reflect: true, attribute: 'single-channel', state: true },
+		channel: { type: String, reflect: true},
+		href: {
+			reflect: true,
+			converter: (value) => {
+				let hrefAttr = value || window.location.href
+				if (hrefAttr.endsWith('/')) {
+					hrefAttr = hrefAttr.slice(0, hrefAttr.length - 1)
+				}
+				return hrefAttr
+			}
+		},
+	}
+
 	connectedCallback() {
-		this.render()
+		super.connectedCallback()
+		this.singleChannel = this.getAttribute('single-channel')
+		this.channel = this.getAttribute('channel')
+		console.log('first updated', this)
 	}
 
 	render() {
-		render(html`
+		return html`
 			<r4-layout
-				@r4-play="${this.onPlay.bind(this)}"
-				@click="${this.onAnchorClick.bind(this)}"
+				@r4-play=${this.onPlay}
+				@click=${this.onAnchorClick}
 				>
 				<header slot="header">${this.buildAppMenu()}</header>
 				<main slot="main">
@@ -51,16 +46,17 @@ export default class R4App extends HTMLElement {
 					<r4-player ${ref(this.playerRef)}></r4-player>
 				</aside>
 			</r4-layout>
-		`, this)
+		`
 	}
 
 	buildAppRouter() {
-		if (this.channel) {
+		console.log('this.singleChannel', this.singleChannel)
+		if (this.singleChannel) {
 			return html`
 				<r4-router href=${this.href} name="channel">
 					<r4-route path="/sign/in" page="sign" method="in"></r4-route>
 					<r4-route path="/sign/out" page="sign" method="out"></r4-route>
-					<r4-route path="/" page="channel" slug="${this.channel}" limit="5" pagination="false" single-channel="true"></r4-route>
+					<r4-route path="/" page="channel" slug=${this.channel} limit="5" pagination="false" single-channel="true"></r4-route>
 					<r4-route path="/tracks" page="tracks" slug=${this.channel} limit="300" pagination="true" single-channel="true"></r4-route>
 					<r4-route path="/tracks/:track_id" page="track" slug=${this.channel} single-channel="true"></r4-route>
 					<r4-route path="/add" page="add" slug=${this.channel} single-channel="true"></r4-route>
@@ -77,8 +73,8 @@ export default class R4App extends HTMLElement {
 					<r4-route path="/sign/out" page="sign" method="out"></r4-route>
 					<r4-route path="/add" page="add"></r4-route>
 					<r4-route path="/:slug" page="channel" limit="5" pagination="false"></r4-route>
-					<r4-route path="/:slug/tracks" page="channel" limit="30" pagination="true"></r4-route>
-					<r4-route path="/:slug/tracks/:track_id" page="channel" limit="1" pagination="false"></r4-route>
+					<r4-route path="/:slug/tracks" page="tracks" limit="300" pagination="true"></r4-route>
+					<r4-route path="/:slug/tracks/:track_id" page="track"></r4-route>
 				</r4-router>
 			`
 		}
@@ -86,44 +82,52 @@ export default class R4App extends HTMLElement {
 
 	/* build the app's dom elements */
 	buildAppMenu() {
-		if (!this.channel) {
+		if (this.singleChannel) {
+			/* when on slug.4000.network */
 			return html`
-				<r4-menu direction="row" origin="${this.href}">
-					<a href="${this.href}">
-						<r4-title small="true"></r4-title>
+				<r4-menu direction="row" origin=${this.href}>
+					<a href=${this.href}>
+						${this.channel}
 					</a>
-					<a href="${this.href}/explore">Explore</a>
+					<a href=${this.href + '/add'}>
+						add
+					</a>
+					<a href=${this.href + '/tracks'}>
+						tracks
+					</a>
 					<r4-auth-status>
 						<span slot="in">
-							<a href="${this.href}/sign/out">sign out</a>
+							<a href=${this.href + '/sign/out'}>sign out</a>
 						</span>
 						<span slot="out">
-							<a href="${this.href}/sign/in">sign in</a>
-						</span>
-					</r4-auth-status>
-					<r4-auth-status>
-						<span slot="out">
-							<a href="${this.href}/sign/up">sign up</a>
-						</span>
-						<span slot="in">
-							<r4-user-channels-select @input="${this.onChannelSelect.bind(this)}"/>
+							<a href=${this.href + '/sign/in'}>sign in</a>
 						</span>
 					</r4-auth-status>
 				</r4-menu>
 			`
 		} else {
-			/* when on slug.4000.network */
+			/* when on radio4000.com */
 			return html`
 				<r4-menu direction="row" origin=${this.href}>
-					<a href="${this.href}">
-						${this.channel}
+					<a href=${this.href}>
+						<r4-title small="true"></r4-title>
 					</a>
+					<a href=${this.href + '/explore'}>Explore</a>
+					<a href=${this.href + '/add'}>Add</a>
 					<r4-auth-status>
 						<span slot="in">
-							<a href="${this.href}/sign/out">sign out</a>
+							<a href=${this.href + '/sign/out'}>sign out</a>
 						</span>
 						<span slot="out">
-							<a href="${this.href}/sign/in">sign in</a>
+							<a href=${this.href + '/sign/in'}>sign in</a>
+						</span>
+					</r4-auth-status>
+					<r4-auth-status>
+						<span slot="out">
+							<a href=${this.href + '/sign/up'}>sign up</a>
+						</span>
+						<span slot="in">
+							<r4-user-channels-select @input=${this.onChannelSelect}/>
 						</span>
 					</r4-auth-status>
 				</r4-menu>
@@ -141,9 +145,10 @@ export default class R4App extends HTMLElement {
 	}
 
 	/* events */
-	onChannelSelect({ detail, target }) {
+	onChannelSelect({ detail }) {
 		if (detail.channel) {
 			const { slug } = detail.channel
+			this.channel = slug
 			page(`/${slug}`)
 		}
 	}
@@ -159,5 +164,10 @@ export default class R4App extends HTMLElement {
 				this.playerRef.value.removeAttribute('tracks')
 			}
 		}
+	}
+
+	/* no shadow dom */
+	createRenderRoot() {
+		return this
 	}
 }

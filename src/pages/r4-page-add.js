@@ -6,6 +6,7 @@ export default class R4PageAdd extends LitElement {
 		href: { type: String, reflect: true },
 		url: { type: String, reflect: true },
 		channel: { type: String, reflect: true },
+		slug: { type: String, reflect: true },
 		channelId: { type: String, attribute: 'channel-id', reflect: true },
 		singleChannel: { type: Boolean, attribute: 'single-channel', reflect: true },
 	}
@@ -34,7 +35,7 @@ export default class R4PageAdd extends LitElement {
 
 	/* find the current channel id we want to add to */
 	async findSelectedChannel() {
-		const { data } = await readChannel(this.channel)
+		const { data } = await readChannel(this.channel || this.slug)
 		if (data && data.id) {
 			return data.id
 		}

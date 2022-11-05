@@ -61,12 +61,6 @@ export default class R4PageChannel extends LitElement {
 					></r4-channel-actions>
 			</header>
 			<aside>
-				<r4-dialog name="track" @close=${this.onDialogClose}>
-					<r4-track
-						slot="dialog"
-						id=${this.trackId}
-						></r4-track>
-				</r4-dialog>
 				<r4-dialog name="update" @close=${this.onDialogClose}>
 					<r4-channel-update
 						slot="dialog"
@@ -114,7 +108,11 @@ export default class R4PageChannel extends LitElement {
 				this.dispatchEvent(playEvent)
 			}
 			if (detail === 'create-track') {
-				page(`/add?channel=${this.slug}`)
+				if (this.singleChannel) {
+					page('/add')
+				} else {
+					page(`/add?channel=${this.slug}`)
+				}
 			}
 
 			if (detail === 'tracks') {
@@ -126,8 +124,7 @@ export default class R4PageChannel extends LitElement {
 			}
 
 			if (['update', 'delete', 'share'].indexOf(detail) > -1) {
-				/* refresh the channel data */
-				this.channel = await this.findSelectedChannel()
+				await this.init() // refresh the channel data
 				this.openDialog(detail)
 			}
 			console.log('channel action', detail)
@@ -163,7 +160,6 @@ export default class R4PageChannel extends LitElement {
 
 	openDialog(name) {
 		const $dialog = this.querySelector(`r4-dialog[name="${name}"]`)
-		console.log('open', name, $dialog)
 		if ($dialog) {
 			$dialog.setAttribute('visible', true)
 		}
