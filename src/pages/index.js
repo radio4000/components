@@ -21,5 +21,5 @@ export default {
 	R4PageSign,
 	R4PageAdd,
 	R4PageTrack,
-	R4PageTrack,
+	R4PageTracks,
 }
