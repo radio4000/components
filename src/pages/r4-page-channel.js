@@ -1,4 +1,5 @@
 import { html, LitElement } from 'lit'
+import { until } from 'lit/directives/until.js'
 import { readChannel } from '@radio4000/sdk'
 import page from 'page/page.mjs'
 
@@ -26,10 +27,14 @@ export default class R4PageChannel extends LitElement {
 	}
 
 	async firstUpdated() {
+		await this.init()
+	}
+	async init() {
 		this.channel = await this.findSelectedChannel()
+		this.requestUpdate()
 	}
 
-	/* find the current channel id we want to add to */
+	/* find data, the current channel id we want to add to */
 	async findSelectedChannel() {
 		const { data } = await readChannel(this.slug)
 		if (data && data.id) {
@@ -37,6 +42,73 @@ export default class R4PageChannel extends LitElement {
 		}
 	}
 
+	/* render */
+	render() {
+		return html`${until(this.channel ? this.renderPage() : this.renderNoPage(), this.renderLoading())}`
+	}
+	renderPage() {
+		console.log('page this.channel', this.channel)
+		return html`
+			<header>
+				<r4-channel
+					.channel=${this.channel}
+					origin=${this.channelOrigin}
+					slug=${this.channel.slug}
+					></r4-channel>
+				<r4-channel-actions
+					slug=${this.channel.slug}
+					@input=${this.onChannelAction}
+					></r4-channel-actions>
+			</header>
+			<main>
+				<r4-tracks
+					channel=${this.channel.slug}
+					origin=${this.tracksOrigin}
+					limit="5"
+					></r4-tracks>
+			</main>
+			<aside>
+				<r4-dialog name="track" @close=${this.onDialogClose}>
+					<r4-track
+						slot="dialog"
+						id="${this.trackId}"
+						></r4-track>
+				</r4-dialog>
+				<r4-dialog name="update" @close=${this.onDialogClose}>
+					<r4-channel-update
+						slot="dialog"
+						id=${this.channel.id}
+						slug=${this.channel.slug}
+						name=${this.channel.name}
+						description=${this.channel.description}
+						submit=${this.onChannelUpdate}
+						></r4-channel-update>
+				</r4-dialog>
+				<r4-dialog name="delete" @close=${this.onDialogClose}>
+					<r4-channel-delete
+						slot="dialog"
+						id=${this.channel.id}
+						submit=${this.onChannelDelete}
+						></r4-channel-delete>
+				</r4-dialog>
+				<r4-dialog name="share" @close=${this.onDialogClose}>
+					<r4-channel-sharer
+						slot="dialog"
+						origin=${this.channelOrigin}
+						slug=${this.channel.slug}
+						></r4-channel-sharer>
+				</r4-dialog>
+			</aside>
+		`
+	}
+	renderNoPage() {
+		return html`404 - No Channel with this slug`
+	}
+	renderLoading() {
+		return html`<span>Loading channel...</span>`
+	}
+
+	/* event handlers */
 	async onChannelAction({ detail }) {
 		if (detail) {
 			if (detail === 'play') {
@@ -111,62 +183,7 @@ export default class R4PageChannel extends LitElement {
 		}
 	}
 
-	render() {
-		if (this.channel) {
-			return html`
-				<header>
-					<r4-channel
-						.channel=${this.channel}
-						origin="${this.channelOrigin}"
-						slug="${this.channel.slug}"
-						></r4-channel>
-					<r4-channel-actions
-						slug="${this.channel.slug}"
-						@input="${this.onChannelAction.bind(this)}"
-						></r4-channel-actions>
-				</header>
-				<main>
-					<r4-tracks
-						channel="${this.channel.slug}"
-						origin="${this.tracksOrigin}"
-						limit="5"
-						></r4-tracks>
-				</main>
-				<aside>
-					<r4-dialog name="track" @close="${this.onDialogClose.bind(this)}">
-						<r4-track
-							slot="dialog"
-							id="${this.trackId}"
-							></r4-track>
-					</r4-dialog>
-					<r4-dialog name="update" @close="${this.onDialogClose.bind(this)}">
-						<r4-channel-update
-							slot="dialog"
-							slug="${this.channel.slug}"
-							id="${this.channel.id}"
-							name="${this.channel.name}"
-							description="${this.channel.description}"
-							submit="${this.onChannelUpdate.bind(this)}"
-							></r4-channel-update>
-					</r4-dialog>
-					<r4-dialog name="delete" @close="${this.onDialogClose.bind(this)}">
-						<r4-channel-delete
-							slot="dialog"
-							id="${this.channel.id}"
-							submit="${this.onChannelDelete.bind(this)}"
-							></r4-channel-delete>
-					</r4-dialog>
-					<r4-dialog name="share" @close="${this.onDialogClose.bind(this)}">
-						<r4-channel-sharer
-							slot="dialog"
-							origin="${this.channelOrigin}"
-							slug="${this.channel.slug}"
-							></r4-channel-sharer>
-					</r4-dialog>
-				</aside>
-			`
-		}
-	}
+	/* no shadow dom */
 	createRenderRoot() {
 		return this
 	}

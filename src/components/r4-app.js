@@ -35,7 +35,6 @@ export default class R4App extends HTMLElement {
 
 	connectedCallback() {
 		this.render()
-		this.$player = this.querySelector('[slot="player"] r4-player')
 	}
 
 	render() {
@@ -89,25 +88,25 @@ export default class R4App extends HTMLElement {
 	buildAppMenu() {
 		if (!this.channel) {
 			return html`
-				<r4-menu direction="row" origin=${this.href}>
-					<a href=${this.href}>
+				<r4-menu direction="row" origin="${this.href}">
+					<a href="${this.href}">
 						<r4-title small="true"></r4-title>
 					</a>
-					<a href="${this.href + '/explore'}">Explore</a>
+					<a href="${this.href}/explore">Explore</a>
 					<r4-auth-status>
 						<span slot="in">
-							<a href="${this.href + '/sign/out'}">sign out</a>
+							<a href="${this.href}/sign/out">sign out</a>
 						</span>
 						<span slot="out">
-							<a href="${this.href + '/sign/in'}">sign in</a>
+							<a href="${this.href}/sign/in">sign in</a>
 						</span>
 					</r4-auth-status>
 					<r4-auth-status>
 						<span slot="out">
-							<a href="${this.href + '/sign/up'}">sign up</a>
+							<a href="${this.href}/sign/up">sign up</a>
 						</span>
 						<span slot="in">
-							<r4-user-channels-select @input=${this.onChannelSelect.bind(this)}/>
+							<r4-user-channels-select @input="${this.onChannelSelect.bind(this)}"/>
 						</span>
 					</r4-auth-status>
 				</r4-menu>
@@ -121,10 +120,10 @@ export default class R4App extends HTMLElement {
 					</a>
 					<r4-auth-status>
 						<span slot="in">
-							<a href="${this.href + '/sign/out'}">sign out</a>
+							<a href="${this.href}/sign/out">sign out</a>
 						</span>
 						<span slot="out">
-							<a href="${this.href + '/sign/in'}">sign in</a>
+							<a href="${this.href}/sign/in">sign in</a>
 						</span>
 					</r4-auth-status>
 				</r4-menu>
