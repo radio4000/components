@@ -10,16 +10,16 @@ export default class R4PageAdd extends LitElement {
 		singleChannel: { type: Boolean, attribute: 'single-channel', reflect: true },
 	}
 
-	async connectedCallback() {
-		super.connectedCallback()
+	async firstUpdated() {
 		this.channelId = await this.findSelectedChannel()
+		this.requestUpdate('channel')
 	}
 
 	render() {
 		return html`
 			${!this.singleChannel ? this.renderHeader() : '' }
 			<main>
-				<r4-track-create channel-id="${this.channelId}" url="${this.url}" @submit="${this.onTrackCreate.bind(this)}"></r4-track-create>
+				<r4-track-create channel-id=${this.channelId} url=${this.url} @submit=${this.onTrackCreate}></r4-track-create>
 			</main>
 		`
 	}
@@ -27,7 +27,7 @@ export default class R4PageAdd extends LitElement {
 	renderHeader() {
 		return html`
 			<header>
-				Adding to: <r4-user-channels-select channel="${this.channel}" @input="${this.onChannelSelect.bind(this)}"></r4-user-channels-select>
+				Adding to: <r4-user-channels-select channel=${this.channel} @input=${this.onChannelSelect}></r4-user-channels-select>
 			</header>
 		`
 	}

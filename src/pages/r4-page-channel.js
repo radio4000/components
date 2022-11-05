@@ -71,7 +71,7 @@ export default class R4PageChannel extends LitElement {
 				<r4-dialog name="track" @close=${this.onDialogClose}>
 					<r4-track
 						slot="dialog"
-						id="${this.trackId}"
+						id=${this.trackId}
 						></r4-track>
 				</r4-dialog>
 				<r4-dialog name="update" @close=${this.onDialogClose}>
