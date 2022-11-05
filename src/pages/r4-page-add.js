@@ -7,16 +7,19 @@ export default class R4PageAdd extends LitElement {
 		url: { type: String, reflect: true },
 		channel: { type: String, reflect: true },
 		slug: { type: String, reflect: true },
-		channelId: { type: String, attribute: 'channel-id', reflect: true },
+		channelId: { type: String, attribute: 'channel-id', reflect: true, state: true },
 		singleChannel: { type: Boolean, attribute: 'single-channel', reflect: true },
 	}
 
-	async firstUpdated() {
+	async connectedCallback() {
+		super.connectedCallback()
 		this.channelId = await this.findSelectedChannel()
-		this.requestUpdate('channel')
+		console.log('connectedCallback', this, this.channelId, this.slug, this.channel)
+		this.requestUpdate()
 	}
 
 	render() {
+		console.log('render', this.channelId)
 		return html`
 			${!this.singleChannel ? this.renderHeader() : '' }
 			<main>
@@ -28,7 +31,7 @@ export default class R4PageAdd extends LitElement {
 	renderHeader() {
 		return html`
 			<header>
-				Adding to: <r4-user-channels-select channel=${this.channel} @input=${this.onChannelSelect}></r4-user-channels-select>
+				Adding to: <r4-user-channels-select channel=${this.channel || this.slug} @input=${this.onChannelSelect}></r4-user-channels-select>
 			</header>
 		`
 	}
@@ -41,10 +44,12 @@ export default class R4PageAdd extends LitElement {
 		}
 	}
 
-	onChannelSelect({ detail }) {
+	async onChannelSelect({ detail }) {
 		const { channel } = detail
 		if (channel) {
 			this.channel = channel.slug
+			this.channelId = await this.findSelectedChannel()
+			this.requestUpdate('channel')
 		}
 	}
 

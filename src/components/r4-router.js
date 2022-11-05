@@ -71,6 +71,12 @@ export default class R4Router extends HTMLElement {
 				$page.setAttribute(paramName.replace('_', '-'), ctx.params[paramName])
 			})
 		}
+		if (ctx.query) {
+			console.log('ctx.query', ctx.query)
+			ctx.query.forEach(param => {
+				$page.setAttribute(param[0], param[1])
+			})
+		}
 		$page.setAttribute('href', this.href)
 		console.log('render $page', $page)
 		render($page, this)

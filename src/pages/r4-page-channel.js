@@ -5,13 +5,12 @@ import page from 'page/page.mjs'
 
 export default class R4PageChannel extends LitElement {
 	static properties = {
-		slug: { type: String, reflect: true },
 		href: { type: String, reflect: true },
-		channel: { type: Object, reflect: true, state: true },
-		trackId: { type: String, reflect: true, attribute: 'track-id' },
+		slug: { type: String, reflect: true },
 		limit: { type: Number, reflect: true },
 		pagination: { type: Boolean, reflect: true },
 		singleChannel: { type: Boolean, reflect: true, attribute: 'single-channel' },
+		channel: { type: Object, reflect: true, state: true },
 	}
 
 	get channelOrigin() {
@@ -111,7 +110,7 @@ export default class R4PageChannel extends LitElement {
 				if (this.singleChannel) {
 					page('/add')
 				} else {
-					page(`/add?channel=${this.slug}`)
+					page(`/add/?channel=${this.slug}`)
 				}
 			}
 
