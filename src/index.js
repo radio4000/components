@@ -1,3 +1,6 @@
+import lib from './lib/index.js'
+
+/* all components */
 import R4Title from './components/r4-title.js'
 import R4Favicon from './components/r4-favicon.js'
 import R4SignUp from './components/r4-sign-up.js'
@@ -66,6 +69,8 @@ customElements.define('r4-router', R4Router)
 customElements.define('r4-app', R4App)
 
 export default {
+	lib,
+
 	R4Title,
 	R4Favicon,
 	R4SignUp,

@@ -5,20 +5,23 @@
 
 import Components from '../../index.js'
 
+const ComponentRoot = 'R4'
+
 const camelToDash = str => {
 	return str.replace(/([A-Z])/g, val => `-${val.toLowerCase()}`)
 }
 
 const slugFromName = componentName => {
-	const root = 'R4'
-	const camelName = componentName.split(root)[1]
+	const camelName = componentName.split(ComponentRoot)[1]
 	const dashName = camelToDash(camelName)
-	return root.toLowerCase() + dashName
+	return ComponentRoot.toLowerCase() + dashName
 }
 
 class R4Components extends HTMLElement {
 	get components() {
-		return Object.keys(Components).map(componentName => {
+		return Object.keys(Components).filter((exportClass) => {
+			return exportClass.startsWith(ComponentRoot)
+		}).map(componentName => {
 			const Component = Components[componentName]
 			const config = {
 				name: componentName,
