@@ -60,13 +60,6 @@ export default class R4PageChannel extends LitElement {
 					@input=${this.onChannelAction}
 					></r4-channel-actions>
 			</header>
-			<main>
-				<r4-tracks
-					channel=${this.channel.slug}
-					origin=${this.tracksOrigin}
-					limit="5"
-					></r4-tracks>
-			</main>
 			<aside>
 				<r4-dialog name="track" @close=${this.onDialogClose}>
 					<r4-track

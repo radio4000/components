@@ -61,8 +61,8 @@ export default class R4App extends HTMLElement {
 					<r4-route path="/sign/in" page="sign" method="in"></r4-route>
 					<r4-route path="/sign/out" page="sign" method="out"></r4-route>
 					<r4-route path="/" page="channel" slug="${this.channel}" limit="5" pagination="false" single-channel="true"></r4-route>
-					<r4-route path="/tracks" page="channel" slug=${this.channel} limit="300" pagination="true" single-channel="true"></r4-route>
-					<r4-route path="/tracks/:track_id" page="channel" slug=${this.channel} single-channel="true"></r4-route>
+					<r4-route path="/tracks" page="tracks" slug=${this.channel} limit="300" pagination="true" single-channel="true"></r4-route>
+					<r4-route path="/tracks/:track_id" page="track" slug=${this.channel} single-channel="true"></r4-route>
 					<r4-route path="/add" page="add" slug=${this.channel} single-channel="true"></r4-route>
 				</r4-router>
 			`
