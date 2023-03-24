@@ -1,4 +1,8 @@
 r4-menu {}
+r4-menu menu {
+	list-style: none;
+	padding: 0;
+}
 r4-menu[direction="row"] {}
 r4-menu[direction="row"] menu {
 	display: flex;
@@ -6,8 +10,9 @@ r4-menu[direction="row"] menu {
 	flex-wrap: wrap;
 	align-items: center;
 }
-r4-menu[direction="row"] menu li + li{
-	margin-left: 1.5rem;
+
+r4-menu[direction="row"] menu {
+	gap: 1.5rem;
 }
 
 r4-menu h1,

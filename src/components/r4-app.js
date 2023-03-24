@@ -116,15 +116,15 @@ export default class R4App extends LitElement {
 					<a href=${this.href + '/add'}>Add</a>
 					<r4-auth-status>
 						<span slot="in">
-							<a href=${this.href + '/sign/out'}>sign out</a>
+							<a href=${this.href + '/sign/out'}>Sign out</a>
 						</span>
 						<span slot="out">
-							<a href=${this.href + '/sign/in'}>sign in</a>
+							<a href=${this.href + '/sign/in'}>Sign in</a>
 						</span>
 					</r4-auth-status>
 					<r4-auth-status>
 						<span slot="out">
-							<a href=${this.href + '/sign/up'}>sign up</a>
+							<a href=${this.href + '/sign/up'}>Sign up</a>
 						</span>
 						<span slot="in">
 							<r4-user-channels-select @input=${this.onChannelSelect}/>
