@@ -18,6 +18,7 @@ All methods are available on the imported `sdk` module.
 ```js
 import sdk from '@radio4000/components'
 // use any <r4-component*> in your templates
+// use sdk methods as you please, ready to go
 ```
 
 ### With browser via CDN
@@ -31,6 +32,8 @@ import sdk from '@radio4000/components'
 
 ## Development
 
+The components are in the `./src` folder. Inside `./examples` you'll find demos of all components.
+
 If you'd like to help out, clone the repository, install dependencies and start the local server.
 
 ```bash
@@ -40,4 +43,4 @@ npm install
 npm run dev
 ```
 
-The components are in the `./src` folder and inside `./examples` you'll find demos of all components.
+The local server will build `src/index.js` to `./index.js` while the server is running.
