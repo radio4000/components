@@ -82,6 +82,10 @@ export default class R4PageAdd extends LitElement {
 			this.url = null
 			/* set the channel id attribute (since the form cleared on success) */
 			this.focus()
+			this.querySelector('form').insertAdjacentHTML(
+				'afterend',
+				'<p>Track added!</p>'
+			)
 		}
 	}
 	createRenderRoot() {
