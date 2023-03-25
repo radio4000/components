@@ -1,16 +1,6 @@
 @import url("variables.css");
 @import url("root.css");
-@import url("components/r4-auth-status.css");
-@import url("components/r4-channel-create.css");
-@import url("components/r4-channel-delete.css");
-@import url("components/r4-channel-update.css");
-@import url("components/r4-favicon.css");
-@import url("components/r4-list-channels.css");
-@import url("components/r4-title.css");
-@import url("components/r4-menu.css");
-@import url("components/r4-player.css");
-@import url("components/r4-layout.css");
-@import url("components/r4-dialog.css");
+@import url("components.css");
 
-/* debug dev menu list of exported components */
+/* Debug component menu list of exported components */
 @import url("components/r4-components.css");
