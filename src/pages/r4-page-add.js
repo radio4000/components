@@ -75,13 +75,12 @@ export default class R4PageAdd extends LitElement {
 		}
 	}
 
-	onTrackCreate({detail}) {
+	onTrackCreate({ detail }) {
 		console.log('track submit', detail)
 		if (detail.data) {
 			/* remove the url, because added ? */
 			this.url = null
 			/* set the channel id attribute (since the form cleared on success) */
-			this.updateAttributes()
 			this.focus()
 		}
 	}
