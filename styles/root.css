@@ -33,7 +33,7 @@ html {
 
 /* reset of browser styles */
 body {
-	margin: 0;
+	margin: 1rem;
 }
 a {
 	color: var(--color-link);

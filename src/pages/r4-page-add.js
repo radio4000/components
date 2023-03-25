@@ -7,23 +7,41 @@ export default class R4PageAdd extends LitElement {
 		url: { type: String, reflect: true },
 		channel: { type: String, reflect: true },
 		slug: { type: String, reflect: true },
-		channelId: { type: String, attribute: 'channel-id', reflect: true, state: true },
-		singleChannel: { type: Boolean, attribute: 'single-channel', reflect: true },
+		channelId: { type: String,
+			attribute: 'channel-id',
+			reflect: true,
+			state: true,
+		},
+		singleChannel: {
+			type: Boolean,
+			attribute: 'single-channel',
+			reflect: true,
+		},
 	}
 
 	async connectedCallback() {
 		super.connectedCallback()
 		this.channelId = await this.findSelectedChannel()
-		console.log('connectedCallback', this, this.channelId, this.slug, this.channel)
+		console.log(
+			'connectedCallback',
+			this,
+			this.channelId,
+			this.slug,
+			this.channel
+		)
 		this.requestUpdate()
 	}
 
 	render() {
 		console.log('render', this.channelId)
 		return html`
-			${!this.singleChannel ? this.renderHeader() : '' }
+			${!this.singleChannel ? this.renderHeader() : ''}
 			<main>
-				<r4-track-create channel-id=${this.channelId} url=${this.url} @submit=${this.onTrackCreate}></r4-track-create>
+				<r4-track-create
+					channel-id=${this.channelId}
+					url=${this.url}
+					@submit=${this.onTrackCreate}
+				></r4-track-create>
 			</main>
 		`
 	}
@@ -31,7 +49,11 @@ export default class R4PageAdd extends LitElement {
 	renderHeader() {
 		return html`
 			<header>
-				Adding to: <r4-user-channels-select channel=${this.channel || this.slug} @input=${this.onChannelSelect}></r4-user-channels-select>
+				Add track to:
+				<r4-user-channels-select
+					channel=${this.channel || this.slug}
+					@input=${this.onChannelSelect}
+				></r4-user-channels-select>
 			</header>
 		`
 	}
@@ -53,14 +75,17 @@ export default class R4PageAdd extends LitElement {
 		}
 	}
 
-	onTrackCreate({detail}) {
+	onTrackCreate({ detail }) {
 		console.log('track submit', detail)
 		if (detail.data) {
 			/* remove the url, because added ? */
 			this.url = null
 			/* set the channel id attribute (since the form cleared on success) */
-			this.updateAttributes()
 			this.focus()
+			this.querySelector('form').insertAdjacentHTML(
+				'afterend',
+				'<p>Track added!</p>'
+			)
 		}
 	}
 	createRenderRoot() {
