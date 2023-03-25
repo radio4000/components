@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+	<title>r4-user-channels-select</title>
+	<meta name="description" content="r4-user-channels-select">
+	<link rel="stylesheet" href="/styles/index.css" />
+	<script type="module" src="/src/index.js"></script>
+</head>
+
+<body>
+	<menu>
+		<li>
+			<a href="../r4-sign-in">sign in</a> to list and select your channels
+		</li>
+		<li>
+			Attach a <code>input</code> event, to customize what action happens when a channel is selected. In this example, it redirects to the "channel page".
+		</li>
+	</menu>
+
+	<r4-user-channels-select></r4-user-channels-select>
+
+	<script>
+		function handleSubmit({detail}) {
+			console.log('channels select did input', detail)
+			const { channel } = detail
+			if (channel) {
+				window.location.href = `/examples/r4-channel/?slug=${channel.slug}`
+			}
+		}
+		document.querySelector('r4-user-channels-select').addEventListener('input', handleSubmit)
+	</script>
+</body>
+
+</html>

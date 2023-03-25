@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+	<title>r4-channel-update</title>
+	<meta name="description" content="r4-channel-update">
+	<link rel="stylesheet" href="/styles/index.css" />
+	<script type="module" src="/src/index.js"></script>
+</head>
+
+<body>
+	<menu>
+		<li>
+			Add the channel <a href="?id=">id</a> to update its informations
+		</li>
+		<li>
+			As with all r4-forms, all fields can be pre-filled by their <kbd>name</kbd>, from the url parameters equivalents (ex: <a href="?name=test">test name</a>)
+		</li>
+	</menu>
+
+	<r4-channel-update></r4-channel-update>
+
+	<script>
+		function handleSubmit(event) {
+			console.log('Update did submit', event.detail)
+		}
+		document.querySelector('r4-channel-update').addEventListener('submit', handleSubmit)
+	</script>
+</body>
+
+</html>

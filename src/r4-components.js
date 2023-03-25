@@ -42,7 +42,7 @@ class R4Components extends HTMLElement {
 		this.components.forEach(component => {
 			const $li = document.createElement('li')
 			$li.innerHTML = `
-				<a href="${`../${component.slug}`}">${component.name}</a>
+				<a href="${`/examples/${component.slug}.html`}">${component.name}</a>
 				<small><a href="${`https://github.com/radio4000/components/blob/main/src/components/${component.slug}.js`}">(source)</a></small>
 			`
 			$menu.append($li)

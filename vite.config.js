@@ -2,9 +2,10 @@ import { defineConfig } from 'vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+	appType: 'mpa',
   build: {
     lib: {
-      entry: 'src/my-element.js',
+      entry: 'src/index.js',
       formats: ['es'],
     },
     rollupOptions: {

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+	<title>r4-track</title>
+	<meta name="description" content="r4-track">
+	<link rel="stylesheet" href="/styles/index.css" />
+	<script type="module" src="/src/index.js"></script>
+</head>
+
+<body>
+	<menu>
+		<li>
+			Enter a track <a href="?id=">id</a> as a url parameter, to read its content
+		</li>
+		<li>
+			There is also a <code>track-actions</code> component, bound to the same track id
+		</li>
+	</menu>
+	<r4-track></r4-track>
+	<r4-track-actions></r4-track-actions>
+</body>
+
+<script>
+	/* use the query parameter, `slug`: `?slug={channel_slug}` */
+	const params = new URLSearchParams(window.location.search)
+	const trackId = params.get('id')
+
+	const $channel = document.querySelector('r4-track')
+	trackId && $channel.setAttribute('id', trackId)
+
+	/* add some actions to the channel */
+	const onTrackInput = ({ detail }) => {
+		console.log('track action', detail)
+	}
+
+	const $actions = document.querySelector('r4-track-actions')
+	trackId && $actions.setAttribute('id', trackId)
+	$actions.addEventListener('input', onTrackInput)
+</script>
+
+</html>

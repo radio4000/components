@@ -38,9 +38,6 @@ import R4ChannelSharer from './components/r4-channel-sharer.js'
 import R4Router from './components/r4-router.js'
 import R4App from './components/r4-app.js'
 
-console.log('index')
-
-
 customElements.define('r4-title', R4Title)
 customElements.define('r4-favicon', R4Favicon)
 

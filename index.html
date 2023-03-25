@@ -8,7 +8,7 @@
 		<title>R4Components</title>
 		<meta name="description" content="all web-components for radio4000" />
 
-		<link rel="stylesheet" href="../styles/index.css" />
+		<link rel="stylesheet" href="/styles/index.css" />
 		<script type="module" src="/src/index.js"></script>
 		<script type="module" src="/src/r4-components.js"></script>
 	</head>
@@ -27,16 +27,9 @@
 			<header slot="header">
 				<r4-menu direction="row">
 					<a href="/"><r4-title small></r4-title> Components</a>
-					<a href="/explore">Explore channels</a>
-					<a href="/examples/r4-actions">Actions</a>
+					<a href="/examples/r4-actions.html">Actions</a>
 				</r4-menu>
 				<main>
-					<r4-router href="http://localhost:5173" name="application">
-						<r4-route path="/" page="home"></r4-route>
-						<r4-route path="/explore" page="explore"></r4-route>
-						<r4-route path="/explore" page="explore"></r4-route>
-						<r4-route path="/:slug/tracks/:track_id" page="track"></r4-route>
-					</r4-router>
 				</main>
 			</header>
 		</r4-layout>

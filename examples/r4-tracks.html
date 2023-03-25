@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+	<title>r4-tracks</title>
+	<meta name="description" content="r4-tracks">
+	<link rel="stylesheet" href="/styles/index.css" />
+	<script type="module" src="/src/index.js"></script>
+</head>
+
+<body>
+	<menu>
+		<li>
+			By default, will browse all <r4-title></r4-title> tracks.
+		</li>
+		<li>
+			Enter a <a href="?channel=">channel slug</a> as a url parameter, to fetch this channel's tracks.
+		</li>
+	</menu>
+	<r4-tracks pagination="true"></r4-tracks>
+</body>
+
+<script>
+	/* use the query parameter, `slug`: `?slug={channel_slug}` */
+	const $tracks = document.querySelector('r4-tracks')
+	const params = new URLSearchParams(window.location.search)
+	const slug = params.get('channel')
+	slug && $tracks.setAttribute('channel', slug)
+</script>
+
+</html>
