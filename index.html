@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+
+		<title>R4Components</title>
+		<meta name="description" content="all web-components for radio4000" />
+
+		<link rel="stylesheet" href="../styles/index.css" />
+		<script type="module" src="/src/index.js"></script>
+		<script type="module" src="/src/r4-components.js"></script>
+	</head>
+
+	<body>
+		<p>
+			This website showcases a collection of <a href=".">web components</a> used
+			to build <r4-title></r4-title>.
+		</p>
+		<p>
+			Check out the
+			<a href="https://github.com/radio4000/components">documentation</a>, and
+			inspect the DOM for example details.
+		</p>
+		<r4-layout>
+			<header slot="header">
+				<r4-menu direction="row">
+					<a href="/"><r4-title small></r4-title> Components</a>
+					<a href="/explore">Explore channels</a>
+					<a href="/examples/r4-actions">Actions</a>
+				</r4-menu>
+				<main>
+					<r4-router href="http://localhost:5173" name="application">
+						<r4-route path="/" page="home"></r4-route>
+						<r4-route path="/explore" page="explore"></r4-route>
+						<r4-route path="/explore" page="explore"></r4-route>
+						<r4-route path="/:slug/tracks/:track_id" page="track"></r4-route>
+					</r4-router>
+				</main>
+			</header>
+		</r4-layout>
+
+		<p>All components exported by <r4-title></r4-title>.</p>
+		<r4-components></r4-components>
+	</body>
+</html>

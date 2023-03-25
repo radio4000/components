@@ -3,7 +3,7 @@
 	 It is intended as a way to introduce and navigate all r4 components.
  */
 
-import Components from '../../index.js'
+import Components from './index.js'
 
 const ComponentRoot = 'R4'
 
