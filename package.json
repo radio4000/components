@@ -26,12 +26,16 @@
   },
   "homepage": "https://github.com/radio4000/components#readme",
   "devDependencies": {
-    "esbuild": "^0.15.11"
+    "esbuild": "^0.17.13"
   },
   "dependencies": {
-    "@radio4000/sdk": "^0.1.1",
-    "lit": "^2.4.0",
+    "@radio4000/sdk": "^0.1.6",
+    "lit": "^2.7.0",
     "page": "^1.11.6",
     "radio4000-player": "^0.6.24"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
   }
 }
