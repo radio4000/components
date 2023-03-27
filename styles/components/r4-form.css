@@ -1,0 +1,16 @@
+/* <r4-form/> is extended as a web components;
+ but always create a <form/> element and <fieldset/>*/
+form {}
+fieldset[disabled] {}
+fieldset[disabled] button[type="submit"] {
+	opacity: 0.5;
+	background-color: none;
+	cursor: not-allowed;
+}
+fieldset[disabled] button[loading] {
+	cursor: loading;
+}
+
+fieldset label[for] {
+	cursor: pointer;
+}

@@ -99,12 +99,10 @@ export default class R4Track extends HTMLElement {
 			$container = document.createElement('article')
 		}
 		render(html`
-			${t.title || t.id}<br>
-			${t.description}
-			<small>
-				${t.tags}
-				${t.mentions}
-			</small>
+			<r4-track-title>${t.title || t.id}<br></r4-track-title>
+			<r4-track-description>${t.description}</r4-track-description>
+			<r4-track-tags>${t.tags}</r4-track-tags>
+			<r4-track-mentions>${t.mentions}</r4-track-mentions>
 		`, $container)
 		this.append($container)
 	}

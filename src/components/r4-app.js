@@ -72,6 +72,7 @@ export default class R4App extends LitElement {
 					<r4-route path="/sign-in" page="sign" method="in"></r4-route>
 					<r4-route path="/sign-out" page="sign" method="out"></r4-route>
 					<r4-route path="/add" page="add" channel=${this.channel} query-params="url,channel"></r4-route>
+					<r4-route path="/new" page="new"></r4-route>
 					<r4-route path="/:slug" page="channel" limit="5" pagination="false"></r4-route>
 					<r4-route path="/:slug/tracks" page="tracks" limit="300" pagination="true"></r4-route>
 					<r4-route path="/:slug/tracks/:track_id" page="track"></r4-route>

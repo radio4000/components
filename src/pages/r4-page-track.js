@@ -10,9 +10,8 @@ export default class R4PageTrack extends LitElement {
 		track: { type: Object, reflect: true, state: true },
 	}
 
-	async firstUpdated() {
-		this.track = await this.findTrack()
-		this.requestUpdate()
+	firstUpdated() {
+		this.track = this.findTrack()
 	}
 
 	/* find data, the current channel id we want to add to */
@@ -23,16 +22,21 @@ export default class R4PageTrack extends LitElement {
 		}
 	}
 
-	/* render */
 	render() {
-		return html`${until(this.track ? this.renderPage() : this.renderNoPage(), this.renderLoading())}`
+		return html`${
+			until(
+				Promise.resolve(this.track).then((track) => {
+					return track ? this.renderPage(track) : this.renderNoPage()
+				}).catch(() => this.renderNoPage()),
+				this.renderLoading()
+			)
+		}`
 	}
-	renderPage() {
-		console.log('page this.track', this.track)
+	renderPage(track) {
 		return html`
 			<main>
 				<r4-track
-					.track=${this.track}
+					.track=${track}
 					id=${this.trackId}
 					></r4-track>
 			</main>

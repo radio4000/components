@@ -17,6 +17,9 @@ export default class R4PageHome extends LitElement {
 					<li>
 						Select a <r4-title small="true"></r4-title> channel to play its content.
 					</li>
+					<li>
+						Create a <a href="${this.href}/new">new channel</a>.
+					</li>
 				</menu>
 			</section>
 		`
