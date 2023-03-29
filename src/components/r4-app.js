@@ -2,7 +2,7 @@ import { html, LitElement } from 'lit'
 import { ref, createRef } from 'lit/directives/ref.js'
 import { readChannelTracks } from '@radio4000/sdk'
 import page from 'page/page.mjs'
-import '../pages/index.js'
+import '../pages/'
 
 // https://github.com/visionmedia/page.js/issues/537
 /* page.configure({ window: window }) */

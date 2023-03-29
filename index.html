@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+
+		<title>R4Components</title>
+		<meta name="description" content="all web-components for radio4000" />
+
+		<link rel="stylesheet" href="/styles/index.css" />
+		<script type="module" src="/src/index.js"></script>
+		<script type="module" src="/src/r4-components.js"></script>
+	</head>
+
+	<body>
+		<p>
+			<strong
+				><a href="/"><r4-title small></r4-title></a
+			></strong>
+		</p>
+		<p>
+			This website shows a collection of web components used to build
+			<r4-title></r4-title>.
+		</p>
+		<p>
+			Check out the
+			<a href="https://github.com/radio4000/components">documentation</a>, and
+			inspect the DOM for example details.
+		</p>
+
+		<details>
+			<summary>See an overview of all available components</summary>
+			<r4-components></r4-components>
+		</details>
+
+		<r4-app></r4-app>
+		<script>
+			const params = new URLSearchParams(window.location.search)
+			const channel = params.get('channel')
+			const $app = document.querySelector('r4-app')
+			$app.setAttribute('href', window.location.origin)
+			channel && $app.setAttribute('channel', channel)
+		</script>
+	</body>
+</html>
