@@ -29,7 +29,6 @@ import R4ChannelActions from './components/r4-channel-actions.js'
 import R4TrackActions from './components/r4-track-actions.js'
 
 import R4Layout from './components/r4-layout.js'
-import R4Menu from './components/r4-menu.js'
 import R4Player from './components/r4-player.js'
 import R4Dialog from './components/r4-dialog.js'
 import R4ChannelSharer from './components/r4-channel-sharer.js'
@@ -63,7 +62,6 @@ customElements.define('r4-actions', R4Actions)
 customElements.define('r4-channel-actions', R4ChannelActions)
 customElements.define('r4-track-actions', R4TrackActions)
 customElements.define('r4-layout', R4Layout)
-customElements.define('r4-menu', R4Menu)
 customElements.define('r4-player', R4Player)
 customElements.define('r4-dialog', R4Dialog)
 customElements.define('r4-channel-sharer', R4ChannelSharer)
@@ -98,7 +96,6 @@ export default {
 	R4TrackDelete,
 
 	R4Layout,
-	R4Menu,
 	R4Player,
 	R4Dialog,
 	R4ChannelSharer,

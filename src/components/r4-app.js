@@ -28,8 +28,8 @@ export default class R4App extends LitElement {
 				return hrefAttr
 			}
 		},
-		user: { type: Object },
-		userChannels: { type: Object },
+		user: { type: Object, reflect: true, state: true },
+		userChannels: { type: Object, reflect: true, state: true },
 	}
 
 	async connectedCallback() {
@@ -96,38 +96,39 @@ export default class R4App extends LitElement {
 
 	/* build the app's dom elements */
 	buildAppMenu() {
+		/* when on slug.4000.network */
 		if (this.singleChannel) {
-			/* when on slug.4000.network */
-			return html`
-				<r4-menu direction="row" origin=${this.href}>
-					<a href=${this.href}>
-						${this.channel}
-					</a>
-					<a href=${this.href + '/add'}>
-						add
-					</a>
-					<a href=${this.href + '/tracks'}>
-						tracks
-					</a>
-					<r4-auth-status>
-						<span slot="in">
-							<a href=${this.href + '/sign-out'}>sign out</a>
-						</span>
-						<span slot="out">
-							<a href=${this.href + '/sign-in'}>sign in</a>
-						</span>
-					</r4-auth-status>
-				</r4-menu>
-			`
+			return this.buildSingleChannelMenu()
 		} else {
 			/* when on radio4000.com */
-			return html`
-				<r4-menu direction="row" origin=${this.href}>
+			return this.buildMenuCMS()
+		}
+	}
+
+	buildMenuCMS() {
+		const buildAddLink = html`
+			<li>
+				${this.userChannels && this.userChannels.length ? html`<a href=${this.href + '/add'}>Add</a>` : null}
+		</li>
+		`
+
+		const buildSelect = until(
+			Promise.resolve(this.userChannels).then((channels) => {
+				return (channels && channels.length) ? html`<r4-user-channels-select @input=${this.onChannelSelect} .channels=${this.userChannels}/>` : html`<a href=${this.href + '/new'}>create channel</a>`
+			}), html`loading`
+		)
+		return html`
+			<menu>
+				<li>
 					<a href=${this.href}>
 						<r4-title small="true"></r4-title>
 					</a>
+				</li>
+				<li>
 					<a href=${this.href + '/explore'}>Explore</a>
-					<a href=${this.href + '/add'}>Add</a>
+				</li>
+				${buildAddLink}
+				<li>
 					<r4-auth-status>
 						<span slot="in">
 							<a href=${this.href + '/sign-out'}>Sign out</a>
@@ -136,19 +137,51 @@ export default class R4App extends LitElement {
 							<a href=${this.href + '/sign-in'}>Sign in</a>
 						</span>
 					</r4-auth-status>
+				</li>
+				<li>
 					<r4-auth-status>
 						<span slot="out">
 							<a href=${this.href + '/sign-up'}>Sign up</a>
 						</span>
 						<span slot="in">
-							${until(
-								Promise.resolve(this.userChannels).then((channels) => {
-									return channels ? html`<r4-user-channels-select @input=${this.onChannelSelect} .channels=${this.userChannels}/>` : null
-								}), html`loading`)}
+							${buildSelect}
 						</span>
 					</r4-auth-status>
-				</r4-menu>`
-		}
+				</li>
+			</menu>
+		`
+	}
+
+	buildSingleChannelMenu() {
+		return html`
+			<menu>
+				<li>
+					<a href=${this.href}>
+						${this.channel}
+					</a>
+				</li>
+				<li>
+					<a href=${this.href + '/add'}>
+						add
+					</a>
+				</li>
+				<li>
+					<a href=${this.href + '/tracks'}>
+						tracks
+					</a>
+				</li>
+				<li>
+					<r4-auth-status>
+						<span slot="in">
+							<a href=${this.href + '/sign-out'}>sign out</a>
+						</span>
+						<span slot="out">
+							<a href=${this.href + '/sign-in'}>sign in</a>
+						</span>
+					</r4-auth-status>
+				</li>
+			</menu>
+		`
 	}
 
 	/* fix page.js not handle anchors correctly? */
@@ -157,7 +190,7 @@ export default class R4App extends LitElement {
 		if (wrappingAnchor && wrappingAnchor.tagName === 'A') {
 			event.preventDefault()
 			page(wrappingAnchor.pathname)
-		}
+	}
 	}
 
 	/* events */
