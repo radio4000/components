@@ -1,6 +1,6 @@
 /*
 	components global variables;
-	avaialble globally (root), and to the component's shadow doms (:host)
+	available globally (root), and to the component's shadow doms (:host)
 */
 
 /*
@@ -36,16 +36,9 @@
 /*
 	variable overwrites, for larger screens
 */
-@media screen and (min-width: 45rem) {
-	:root,
-	:host {
-		--size-font: 25px;
-	}
-}
-
 @media screen and (min-width: 60rem) {
 	:root,
 	:host {
-		--size-font: 30px;
+		--size-font: 25px;
 	}
 }

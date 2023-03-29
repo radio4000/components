@@ -11,30 +11,34 @@
 		<link rel="stylesheet" href="/styles/index.css" />
 		<script type="module" src="/src/index.js"></script>
 		<script type="module" src="/src/r4-components.js"></script>
+		<style>
+			.AppDemoFrame {
+				margin-top: 1rem;
+				border: 1px solid;
+			}
+		</style>
 	</head>
 
 	<body>
 		<p>
-			<strong
-				><a href="/"><r4-title small></r4-title></a
-			></strong>
-		</p>
-		<p>
-			This website shows a collection of web components used to build
+			<strong><a href="/"><r4-title small></r4-title></a></strong>
+			shows a collection of web components used to build
 			<r4-title></r4-title>.
 		</p>
 		<p>
 			Check out the
-			<a href="https://github.com/radio4000/components">documentation</a>, and
-			inspect the DOM for example details.
+			<a href="https://github.com/radio4000/components">documentation</a>,
+			inspect the DOM for examples.
 		</p>
 
 		<details>
-			<summary>See an overview of all available components</summary>
+			<summary>Overview of all available components</summary>
 			<r4-components></r4-components>
 		</details>
 
-		<r4-app></r4-app>
+		<div class="AppDemoFrame">
+			<r4-app></r4-app>
+		</div>
 		<script>
 			const params = new URLSearchParams(window.location.search)
 			const channel = params.get('channel')

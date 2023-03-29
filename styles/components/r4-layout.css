@@ -65,7 +65,4 @@ r4-layout [slot="player"] radio4000-player {
 		margin: 0;
 		padding: 0;
 	}
-	r4-layout [slot="header"] r4-menu[direction="row"] menu li {
-		margin-left: var(--size);
-	}
 }

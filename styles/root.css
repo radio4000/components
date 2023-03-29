@@ -57,6 +57,7 @@ select,
 input,
 textarea {
 	font-size: var(--font-size);
+	font-family: var(--font-family);
 	color: var(--color-text);
 	background-color: var(--color-background);
 	padding: calc(var(--size) / 4) calc(var(--size) / 2);
