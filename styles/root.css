@@ -11,8 +11,8 @@ html {
 :root,
 :host {
 	color: var(--color-text);
-	font-family: var(--font-family, serif);
-	font-size: var(--font-size, var(--size-font));
+	font-family: var(--font-family), serif;
+	font-size: var(--font-size);
 	background-color: var(--color-background);
 }
 

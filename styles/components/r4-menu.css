@@ -14,7 +14,7 @@ r4-menu[direction="row"] menu {
 r4-menu[direction="row"] menu {}
 
 r4-menu a {
-	padding: calc(var(--size) / 2);
+	/*padding: calc(var(--size) / 2);*/
 }
 
 r4-menu h1,
