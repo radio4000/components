@@ -49,7 +49,7 @@ export default class R4PageAdd extends LitElement {
 	renderHeader() {
 		return html`
 			<header>
-				Add track to:
+				<span>Add track to</span>
 				<r4-user-channels-select
 					channel=${this.channel || this.slug}
 					@input=${this.onChannelSelect}

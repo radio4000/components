@@ -5,7 +5,7 @@ template.innerHTML = `<radio4000-player></radio4000-player>`
 
 export default class R4Player extends HTMLElement {
 	static get observedAttributes() {
-		return ['tracks']
+		return ['tracks', 'track']
 	}
 
 	get tracks() {

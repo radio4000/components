@@ -11,8 +11,10 @@ r4-menu[direction="row"] menu {
 	align-items: center;
 }
 
-r4-menu[direction="row"] menu {
-	gap: 1.5rem;
+r4-menu[direction="row"] menu {}
+
+r4-menu a {
+	padding: calc(var(--size) / 2);
 }
 
 r4-menu h1,

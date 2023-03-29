@@ -1,6 +1,11 @@
 import { html, LitElement } from 'lit'
 import { ref, createRef } from 'lit/directives/ref.js'
-import { readChannelTracks } from '@radio4000/sdk'
+import { until } from 'lit/directives/until.js'
+import {
+	readChannelTracks,
+	readUserChannels,
+	readUser
+} from '@radio4000/sdk'
 import page from 'page/page.mjs'
 import '../pages/'
 
@@ -23,13 +28,22 @@ export default class R4App extends LitElement {
 				return hrefAttr
 			}
 		},
+		user: { type: Object },
+		userChannels: { type: Object },
 	}
 
-	connectedCallback() {
+	async connectedCallback() {
 		super.connectedCallback()
 		this.singleChannel = this.getAttribute('single-channel')
 		this.channel = this.getAttribute('channel')
-		console.log('first updated', this)
+		await this.refreshUserData()
+	}
+
+	async refreshUserData() {
+		const { data: user } = await readUser()
+		const { data: channels} = await readUserChannels()
+		this.user = user
+		this.userChannels = channels
 	}
 
 	render() {
@@ -50,7 +64,6 @@ export default class R4App extends LitElement {
 	}
 
 	buildAppRouter() {
-		console.log('this.singleChannel', this.singleChannel)
 		if (this.singleChannel) {
 			return html`
 				<r4-router href=${this.href} name="channel">
@@ -128,11 +141,13 @@ export default class R4App extends LitElement {
 							<a href=${this.href + '/sign-up'}>Sign up</a>
 						</span>
 						<span slot="in">
-							<r4-user-channels-select @input=${this.onChannelSelect}/>
+							${until(
+								Promise.resolve(this.userChannels).then((channels) => {
+									return channels ? html`<r4-user-channels-select @input=${this.onChannelSelect} .channels=${this.userChannels}/>` : null
+								}), html`loading`)}
 						</span>
 					</r4-auth-status>
-				</r4-menu>
-			`
+				</r4-menu>`
 		}
 	}
 
@@ -156,11 +171,12 @@ export default class R4App extends LitElement {
 
 	/* play some data */
 	async onPlay({detail}) {
-		const {channel} = detail
+		const {channel, track} = detail
 		if (channel) {
 			const { data } = await readChannelTracks(channel)
 			if (data) {
 				this.playerRef.value.setAttribute('tracks', JSON.stringify(data))
+				this.playerRef.value.setAttribute('track', track)
 			} else {
 				this.playerRef.value.removeAttribute('tracks')
 			}

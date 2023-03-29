@@ -65,6 +65,13 @@ export default class R4PageChannel extends LitElement {
 					@input=${this.onChannelAction}
 					></r4-channel-actions>
 			</header>
+			<main>
+				<r4-tracks
+					channel=${channel.slug}
+					origin=${this.tracksOrigin}
+					limit="5"
+					></r4-tracks>
+			</main>
 			<aside>
 				<r4-dialog name="update" @close=${this.onDialogClose}>
 					<r4-channel-update

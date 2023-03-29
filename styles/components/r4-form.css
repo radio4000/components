@@ -1,6 +1,18 @@
 /* <r4-form/> is extended as a web components;
  but always create a <form/> element and <fieldset/>*/
-form {}
+form {
+	padding: calc(var(--size) / 4);
+}
+fieldset {
+	display: flex;
+	flex-direction: column;
+	border: none;
+	background-color: var(--color--background);
+	padding: calc(var(--size) / 4);
+}
+fieldset label {
+	font-weight: bold;
+}
 fieldset[disabled] {}
 fieldset[disabled] button[type="submit"] {
 	opacity: 0.5;

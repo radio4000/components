@@ -64,14 +64,6 @@ export default class R4TrackActions extends HTMLElement {
 			}
 		}
 	}
-	render() {
-		this.innerHTML = ''
-		if (!this.tracks) {
-			this.renderNoTracks()
-		} else {
-			this.renderTracks()
-		}
-	}
 	renderAsyncOptions({value, text}) {
 		const $actions = this.querySelector('r4-actions select')
 
