@@ -1,3 +1,5 @@
+import page from 'page/page.mjs'
+
 const template = document.createElement('template')
 template.innerHTML = `
 	<header>
@@ -36,6 +38,7 @@ export default class R4PageSign extends HTMLElement {
 	renderMethodPage(method) {
 		if (this.$main) {
 			const $signForm = document.createElement(`r4-sign-${method}`)
+			$signForm.addEventListener('submit', this.onSignIn.bind(this))
 			this.$main.append($signForm)
 		}
 		if (this.$title) {
@@ -55,5 +58,17 @@ export default class R4PageSign extends HTMLElement {
 			</r4-menu>
 		`
 		this.$main && this.$main.append($info)
+	}
+	onSignIn({
+		detail: {
+			data
+		}
+	}) {
+		if (this.method === 'in' && data && data.user) {
+			page('/')
+		}
+		if (this.method === 'out') {
+			page('/')
+		}
 	}
 }

@@ -75,7 +75,6 @@ export default class R4Router extends HTMLElement {
 		const routeQueryParams = $route.getAttribute('query-params')
 		const requestedParams = routeQueryParams ? routeQueryParams.split(',') : []
 		if (requestedParams && ctx.query) {
-			console.log('ctx.query', ctx.query)
 			ctx.query
 						 .filter(param => requestedParams.indexOf(param) > -1)
 						 .forEach(param => {

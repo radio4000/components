@@ -1,0 +1,10 @@
+r4-track {
+	display: flex;
+	margin-bottom: calc(var(--size) / 2);
+}
+r4-track a {
+	text-decoration: none;
+}
+r4-track-title {
+	text-decoration: underline;
+}

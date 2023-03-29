@@ -44,8 +44,7 @@ export default class R4UserChannelsSelect extends HTMLElement {
 		this.$defaultOption = document.createElement('option')
 		this.$defaultOption.defaultValue = true
 		this.$defaultOption.value = ''
-		this.$defaultOption.innerText = this.channel
-		/* this.$defaultOption.disabled = true */
+		this.$defaultOption.innerText = this.channel ? this.channel : '…'
 
 		this.$defaultOptroup.append(this.$defaultOption)
 
@@ -58,7 +57,11 @@ export default class R4UserChannelsSelect extends HTMLElement {
 	}
 
 	connectedCallback() {
-		this.refreshUserChannels()
+		if (this.channels && this.channels.length) {
+			this.refreshOptions(this.channels[0].slug)
+		} else {
+			this.refreshUserChannels()
+		}
 	}
 	onInput(event) {
 		event.stopPropagation()

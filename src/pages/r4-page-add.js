@@ -7,7 +7,8 @@ export default class R4PageAdd extends LitElement {
 		url: { type: String, reflect: true },
 		channel: { type: String, reflect: true },
 		slug: { type: String, reflect: true },
-		channelId: { type: String,
+		channelId: {
+			type: String,
 			attribute: 'channel-id',
 			reflect: true,
 			state: true,
@@ -33,23 +34,27 @@ export default class R4PageAdd extends LitElement {
 	}
 
 	render() {
-		console.log('render', this.channelId)
 		return html`
 			${!this.singleChannel ? this.renderHeader() : ''}
 			<main>
-				<r4-track-create
-					channel-id=${this.channelId}
-					url=${this.url}
-					@submit=${this.onTrackCreate}
-				></r4-track-create>
+				${this.renderAdd()}
 			</main>
+		`
+	}
+	renderAdd() {
+		return html`
+			<r4-track-create
+				channel-id=${this.channelId}
+				url=${this.url}
+				@submit=${this.onTrackCreate}
+				></r4-track-create>
 		`
 	}
 
 	renderHeader() {
 		return html`
 			<header>
-				Add track to:
+				<span>Add track to</span>
 				<r4-user-channels-select
 					channel=${this.channel || this.slug}
 					@input=${this.onChannelSelect}

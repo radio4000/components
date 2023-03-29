@@ -28,14 +28,14 @@ export default class R4PageChannel extends LitElement {
 	async firstUpdated() {
 		await this.init()
 	}
-	async init() {
-		this.channel = await this.findSelectedChannel()
-		this.requestUpdate()
+	init() {
+		// a promise for the `until` directive
+		this.channel = this.findSelectedChannel(this.slug)
 	}
 
 	/* find data, the current channel id we want to add to */
-	async findSelectedChannel() {
-		const { data } = await readChannel(this.slug)
+	async findSelectedChannel(slug) {
+		const { data } = await readChannel(slug)
 		if (data && data.id) {
 			return data
 		}
@@ -43,37 +43,54 @@ export default class R4PageChannel extends LitElement {
 
 	/* render */
 	render() {
-		return html`${until(this.channel ? this.renderPage() : this.renderNoPage(), this.renderLoading())}`
+		return html`${
+			until(
+				Promise.resolve(this.channel).then((channel) => {
+					return channel ? this.renderPage(channel) : this.renderNoPage()
+				}).catch(() => this.renderNoPage()),
+				this.renderLoading()
+			)
+		}`
 	}
-	renderPage() {
-		console.log('page this.channel', this.channel)
+	renderPage(channel) {
+		console.log('channel', channel)
 		return html`
 			<header>
 				<r4-channel
-					.channel=${this.channel}
+					.channel=${channel}
 					origin=${this.channelOrigin}
-					slug=${this.channel.slug}
+					slug=${channel.slug}
 					></r4-channel>
 				<r4-channel-actions
-					slug=${this.channel.slug}
+					slug=${channel.slug}
 					@input=${this.onChannelAction}
 					></r4-channel-actions>
 			</header>
-			<aside>
-				<r4-dialog name="update" @close=${this.onDialogClose}>
-					<r4-channel-update
-						slot="dialog"
-						id=${this.channel.id}
-						slug=${this.channel.slug}
-						name=${this.channel.name}
-						description=${this.channel.description}
+			<main>
+				${
+					/* somehow this has a silent erro */
+					/* html`<r4-tracks
+						 channel=${channel.slug}
+						 origin=${this.tracksOrigin}
+						 limit="5"
+						 ></r4-tracks>` */
+				null }
+		</main>
+		<aside>
+		<r4-dialog name="update" @close=${this.onDialogClose}>
+		<r4-channel-update
+		slot="dialog"
+		id=${channel.id}
+						slug=${channel.slug}
+						name=${channel.name}
+						description=${channel.description}
 						@submit=${this.onChannelUpdate}
 						></r4-channel-update>
 				</r4-dialog>
 				<r4-dialog name="delete" @close=${this.onDialogClose}>
 					<r4-channel-delete
 						slot="dialog"
-						id=${this.channel.id}
+						id=${channel.id}
 						@submit=${this.onChannelDelete}
 						></r4-channel-delete>
 				</r4-dialog>
@@ -81,14 +98,14 @@ export default class R4PageChannel extends LitElement {
 					<r4-channel-sharer
 						slot="dialog"
 						origin=${this.channelOrigin}
-						slug=${this.channel.slug}
+						slug=${channel.slug}
 						></r4-channel-sharer>
 				</r4-dialog>
 			</aside>
 		`
 	}
 	renderNoPage() {
-		return html`404 - No Channel with this slug`
+		return html`404 - No channel with this slug`
 	}
 	renderLoading() {
 		return html`<span>Loading channel...</span>`
@@ -123,31 +140,39 @@ export default class R4PageChannel extends LitElement {
 			}
 
 			if (['update', 'delete', 'share'].indexOf(detail) > -1) {
-				await this.init() // refresh the channel data
 				this.openDialog(detail)
 			}
 			console.log('channel action', detail)
 		}
 	}
 
-	async onChannelDelete(event) {
+	async onChannelDelete({detail}) {
 		/* no error? we deleted */
-		if (!event.detail) {
-			await this.init() // refresh channel data
+		if (!detail.data) {
 			this.closeDialog('delete')
+			page('/')
 		}
 	}
 
-	async onChannelUpdate(event) {
-		if (!event.detail.error && !event.detail.data) {
-			await this.init() // refresh channel data
+	async onChannelUpdate({detail}) {
+		debugger
+		const {
+			data: {
+				slug: newSlug
+			}
+		} = {} = detail
+		if (newSlug && newSlug !== this.slug) {
+			page(`/${newSlug}`)
+		} else {
+			this.init()
+		}
+		if (!detail.error && detail.data) {
 			this.closeDialog('update')
 		}
 	}
 
 	onDialogClose({target}) {
 		const name = target.getAttribute('name')
-		console.log('on page chanel dialog close', name)
 		if (name === 'track') {
 			if (this.singleChannel) {
 				page('/tracks')
