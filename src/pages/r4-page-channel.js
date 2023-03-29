@@ -53,6 +53,7 @@ export default class R4PageChannel extends LitElement {
 		}`
 	}
 	renderPage(channel) {
+		console.log('channel', channel)
 		return html`
 			<header>
 				<r4-channel
@@ -66,17 +67,20 @@ export default class R4PageChannel extends LitElement {
 					></r4-channel-actions>
 			</header>
 			<main>
-				<r4-tracks
-					channel=${channel.slug}
-					origin=${this.tracksOrigin}
-					limit="5"
-					></r4-tracks>
-			</main>
-			<aside>
-				<r4-dialog name="update" @close=${this.onDialogClose}>
-					<r4-channel-update
-						slot="dialog"
-						id=${channel.id}
+				${
+					/* somehow this has a silent erro */
+					/* html`<r4-tracks
+						 channel=${channel.slug}
+						 origin=${this.tracksOrigin}
+						 limit="5"
+						 ></r4-tracks>` */
+				null }
+		</main>
+		<aside>
+		<r4-dialog name="update" @close=${this.onDialogClose}>
+		<r4-channel-update
+		slot="dialog"
+		id=${channel.id}
 						slug=${channel.slug}
 						name=${channel.name}
 						description=${channel.description}
@@ -151,6 +155,7 @@ export default class R4PageChannel extends LitElement {
 	}
 
 	async onChannelUpdate({detail}) {
+		debugger
 		const {
 			data: {
 				slug: newSlug
