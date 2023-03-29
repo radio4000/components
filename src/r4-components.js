@@ -1,6 +1,6 @@
-/* This component is not imported in `../../index.js` like the others,
+/* This component is not imported in `./index.js` like the rest,
 	 as it imports index.js to load all other components, and list them.
-	 It is intended as a way to introduce and navigate all r4 components.
+	 It is intended as a way to introduce and navigate all r4 components..
  */
 
 import Components from './index.js'
