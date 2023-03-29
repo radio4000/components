@@ -13,6 +13,9 @@ fieldset {
 fieldset label {
 	font-weight: bold;
 }
+fieldset[hidden] {
+	display: none;
+}
 fieldset[disabled] {}
 fieldset[disabled] button[type="submit"] {
 	opacity: 0.5;
@@ -25,4 +28,8 @@ fieldset[disabled] button[loading] {
 
 fieldset label[for] {
 	cursor: pointer;
+}
+
+input[type="checkbox"] {
+	padding: calc(var(--size) / 4);
 }
