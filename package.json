@@ -14,7 +14,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run dev",
-    "dev": "vite",
+    "dev": "vite --port 4000",
     "build": "vite build"
   },
   "dependencies": {

@@ -15,25 +15,35 @@
 
 	<body>
 		<p>
-			This website shows a collection of web components used to build <r4-title></r4-title>.
+			<strong
+				><a href="/"><r4-title small></r4-title></a
+			></strong>
+		</p>
+		<p>
+			This website shows a collection of web components used to build
+			<r4-title></r4-title>.
 		</p>
 		<p>
 			Check out the
 			<a href="https://github.com/radio4000/components">documentation</a>, and
 			inspect the DOM for example details.
 		</p>
-		<r4-layout>
-			<header slot="header">
-				<r4-menu direction="row">
-					<a href="/"><r4-title small></r4-title> Components</a>
-					<a href="/examples/r4-actions.html">Actions</a>
-				</r4-menu>
-				<main>
-				</main>
-			</header>
-		</r4-layout>
 
-		<p>All components exported by <r4-title></r4-title>.</p>
-		<r4-components></r4-components>
+		<details>
+			<summary>See an overview of all available components</summary>
+			<r4-components></r4-components>
+		</details>
+
+		<r4-app></r4-app>
+		<script>
+			const params = new URLSearchParams(window.location.search)
+			const channel = params.get('channel')
+			const $app = document.querySelector('r4-app')
+			$app.setAttribute(
+				'href',
+				window.location.origin + window.location.pathname
+			)
+			channel && $app.setAttribute('channel', channel)
+		</script>
 	</body>
 </html>
