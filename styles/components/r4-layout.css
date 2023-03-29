@@ -57,12 +57,25 @@ r4-layout [slot="player"] radio4000-player {
 	}
 }
 
-
+r4-layout [slot="header"] menu {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
 @media screen and (min-width: 60rem) {
-	r4-layout [slot="header"] r4-menu[direction="row"] menu {
+	r4-layout [slot="header"] menu {
 		flex-direction: column;
 		align-items: flex-start;
 		margin: 0;
 		padding: 0;
 	}
+}
+
+r4-layout [slot="header"] menu a {
+	padding: calc(var(--size) / 2);
+	display: flex;
 }
