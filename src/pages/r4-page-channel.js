@@ -155,7 +155,6 @@ export default class R4PageChannel extends LitElement {
 	}
 
 	async onChannelUpdate({detail}) {
-		debugger
 		const {
 			data: {
 				slug: newSlug

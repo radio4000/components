@@ -5,11 +5,11 @@ const fieldsTemplate = document.createElement('template')
 fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
-			<label for="email">email</label>
+			<label for="email">Email</label>
 			<input name="email" type="email" required/>
 		</fieldset>
 		<fieldset>
-			<label for="password">password</label>
+			<label for="password">Password</label>
 			<input name="password" type="password" required />
 		</fieldset>
 	</slot>
