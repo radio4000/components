@@ -39,10 +39,7 @@
 			const params = new URLSearchParams(window.location.search)
 			const channel = params.get('channel')
 			const $app = document.querySelector('r4-app')
-			$app.setAttribute(
-				'href',
-				window.location.origin + window.location.pathname
-			)
+			$app.setAttribute('href', window.location.origin)
 			channel && $app.setAttribute('channel', channel)
 		</script>
 	</body>
