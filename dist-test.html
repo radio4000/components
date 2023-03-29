@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+		<title>Test</title>
+		<script type="module" src="/dist/r4.js"></script>
+	</head>
+
+	<body>
+		<p>
+			This page includes the bundled, built version of the components.<br />
+			If it works, you'll see stuff below.
+		</p>
+
+		<h3>Test 1</h3>
+		<r4-title></r4-title>
+
+		<h3>Test 2</h3>
+		<r4-channels limit="3"></r4-channels>
+
+		<h3>Test 2</h3>
+		<r4-app></r4-app>
+		<script>
+			const params = new URLSearchParams(window.location.search)
+			const channel = params.get('channel')
+			const $app = document.querySelector('r4-app')
+			$app.setAttribute('href', window.location.origin)
+			channel && $app.setAttribute('channel', channel)
+		</script>
+	</body>
+</html>
