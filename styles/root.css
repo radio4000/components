@@ -64,7 +64,7 @@ textarea {
 	border-color: var(--color-text);
 }
 
-::part(button)[disabled],
+/* ::part(button)[disabled], */
 button[disabled] {
 	border-color: transparent;
 }

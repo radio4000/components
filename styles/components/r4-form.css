@@ -19,11 +19,11 @@ fieldset[hidden] {
 fieldset[disabled] {}
 fieldset[disabled] button[type="submit"] {
 	opacity: 0.5;
-	background-color: none;
+	/* background-color: none; */
 	cursor: not-allowed;
 }
 fieldset[disabled] button[loading] {
-	cursor: loading;
+	cursor: wait;
 }
 
 fieldset label[for] {
