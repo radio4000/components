@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk'
+import {updateChannel} from '@radio4000/sdk'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
@@ -6,7 +6,7 @@ fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
 			<label for="id" required>ID</label>
-			<input name="id" type="text"/>
+			<input name="id" type="text" readonly/>
 		</fieldset>
 		<fieldset>
 			<label for="name">Name</label>
@@ -25,6 +25,10 @@ fieldsTemplate.innerHTML = `
 
 
 export default class R4ChannelUpdate extends R4Form {
+	static get observedAttributes() {
+		return ['id', 'name', 'slug', 'description']
+	}
+	submitText = 'Update channel'
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate
@@ -52,6 +56,15 @@ export default class R4ChannelUpdate extends R4Form {
 		}
 	}
 
+	connectedCallback() {
+		super.connectedCallback()
+		/* hide the channel id if it is there */
+		const $channelId = this.querySelector('[name="id"]')
+		if ($channelId.value) {
+			$channelId.parentElement.setAttribute('hidden', 'true')
+		}
+	}
+
 	async handleSubmit(event) {
 		event.stopPropagation()
 		event.preventDefault()
@@ -64,7 +77,7 @@ export default class R4ChannelUpdate extends R4Form {
 		let res = {},
 				error = null
 		try {
-			res = await sdk.updateChannel(channelId, changes)
+			res = await updateChannel(channelId, changes)
 			if (res.error) {
 				if (res.status === 404) {
 					res.error.code = 404

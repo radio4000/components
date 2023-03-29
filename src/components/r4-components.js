@@ -1,19 +1,27 @@
-import Components from '../index.js'
+/* This component is not imported in `../../index.js` like the others,
+	 as it imports index.js to load all other components, and list them.
+	 It is intended as a way to introduce and navigate all r4 components.
+ */
+
+import Components from '../../index.js'
+
+const ComponentRoot = 'R4'
 
 const camelToDash = str => {
 	return str.replace(/([A-Z])/g, val => `-${val.toLowerCase()}`)
 }
 
 const slugFromName = componentName => {
-	const root = 'R4'
-	const camelName = componentName.split(root)[1]
+	const camelName = componentName.split(ComponentRoot)[1]
 	const dashName = camelToDash(camelName)
-	return root.toLowerCase() + dashName
+	return ComponentRoot.toLowerCase() + dashName
 }
 
 class R4Components extends HTMLElement {
 	get components() {
-		return Object.keys(Components).map(componentName => {
+		return Object.keys(Components).filter((exportClass) => {
+			return exportClass.startsWith(ComponentRoot)
+		}).map(componentName => {
 			const Component = Components[componentName]
 			const config = {
 				name: componentName,
@@ -33,10 +41,10 @@ class R4Components extends HTMLElement {
 		const $menu = document.createElement('menu')
 		this.components.forEach(component => {
 			const $li = document.createElement('li')
-			const $componentLink = document.createElement('a')
-			$componentLink.innerText = component.name
-			$componentLink.href = `./${component.slug}/`
-			$li.append($componentLink)
+			$li.innerHTML = `
+				<a href="${`../${component.slug}`}">${component.name}</a>
+				<small><a href="${`https://github.com/radio4000/components/blob/main/src/components/${component.slug}.js`}">(source)</a></small>
+			`
 			$menu.append($li)
 		})
 		this.append($menu)

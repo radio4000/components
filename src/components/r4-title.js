@@ -3,20 +3,12 @@ export default class R4Title extends HTMLElement {
 		return ['size']
 	}
 	get text() {
-		return this.getAttribute('text') || 'radio4000'
-	}
-	get textSmall() {
-		return this.getAttribute('text') || 'r4'
-	}
-	get small() {
-		return this.getAttribute('small') === 'true'
+		return this.hasAttribute('small') ? 'R4' : 'Radio4000'
 	}
 
 	/* if the attribute changed, re-render */
 	attributeChangedCallback(attrName) {
-		if (
-			['text', 'text-small', 'size'].indexOf(attrName) > -1
-		) {
+		if (['small'].indexOf(attrName) > -1) {
 			this.render()
 		}
 	}

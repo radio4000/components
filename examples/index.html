@@ -11,19 +11,26 @@
 
 	<link rel="stylesheet" href="../styles/index.css" />
 	<!-- <script type="module" src="../index.js"></script> -->
-	<script type="module" src="./r4-components.js"></script>
-	<style>
-		r4-components li:last-child::after {
-			content: '← start here? (Shift + TAB)';
-			margin-left: 1rem;
-			color: hotpink;
-		}
-	</style>
+	<script type="module" src="../src/components/r4-components.js"></script>
 </head>
 
 <body>
-	<p>R4Components</p>
-	<r4-components></r4-components>
+	<p>
+		This website is a collection of <a href=".">web components</a>, used to build <r4-title small></r4-title>.
+	</p>
+	<p>
+		Check out the <a href="https://github.com/radio4000/components">documentation</a>, and inspect the DOM for example details.
+	</p>
+	</menu>
+	<r4-layout>
+		<header slot="header">
+			<r4-menu direction="row">
+				<r4-title small="true"></r4-title>
+				<a href="r4-components">All Components</a>
+				<a href="r4-channels">Explore channels</a>
+				<a href="r4-actions">Actions</a>
+			</r4-menu>
+		</header>
+	</r4-layout>
 </body>
-
 </html>

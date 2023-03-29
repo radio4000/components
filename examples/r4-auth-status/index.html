@@ -13,6 +13,17 @@
 </head>
 
 <body>
+	<menu>
+		<li>
+			This component displays if there is curently authentication, a <r4-title small="true"></r4-title> user <a
+				href="../r4-sign-out">signed in</a> or <a href="../r4-sign-in">signed out</a>
+		</li>
+		<li>
+			It can be used with children slot elements <kbd>slot="in"</kbd> and <kbd>slot="out"</kbd>, for displaying
+			content only when "signed in" or "signed out".
+		</li>
+	</menu>
+
 	<r4-auth-status>
 		<span slot="in">Signed in</span>
 		<span slot="out">Signed out</span>

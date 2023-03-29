@@ -1,11 +1,11 @@
-import sdk from '@radio4000/sdk'
+import {updateTrack} from '@radio4000/sdk'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
 fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
-			<label for="id">Track ID</label>
+			<label for="id">ID</label>
 			<input name="id" type="text" required/>
 		</fieldset>
 		<fieldset>
@@ -23,8 +23,9 @@ fieldsTemplate.innerHTML = `
 	</slot>
 `
 
+export default class R4TrackUpdate extends R4Form {
+	submitText = 'Update track'
 
-export default class R4TrackCreate extends R4Form {
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate
@@ -41,30 +42,22 @@ export default class R4TrackCreate extends R4Form {
 		event.stopPropagation()
 
 		this.disableForm()
-		let res = {},
-				error = null
+		const {id, url, title, description} = this.state
+		let res = {}
+		let error = null
 		try {
-			res = await sdk.createTrack(this.state.id, {
-				url: this.state.url,
-				title: this.state.title,
-				description: this.state.description,
-			})
+			res = await updateTrack(id, {url, title, description})
 			if (res.error) {
-				error = res
+				error = res.error
 				throw error
 			}
 		} catch (err) {
 			this.handleError(err)
 		}
 		this.enableForm()
-
-		const { data } = res
-		if (data) {
-			this.resetForm()
-		}
-		super.handleSubmit({
-			error,
-			data,
-		})
+		// if (data) {
+		// 	this.resetForm()
+		// }
+		super.handleSubmit(res)
 	}
 }

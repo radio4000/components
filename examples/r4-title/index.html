@@ -1,24 +1,29 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width">
-	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+		<title>r4-title</title>
+		<meta name="description" content="r4-title" />
+		<link rel="stylesheet" href="../../styles/index.css" />
+		<script type="module" src="../../index.js"></script>
+		<!-- <script type="module">
+			import R4Title from '../../src/components/r4-title.js'
+			customElements.define('r4-title', R4Title)
+		</script> -->
+	</head>
 
-	<title>r4-title</title>
-	<meta name="description" content="r4-title">
-	<link rel="stylesheet" href="../../styles/index.css" />
-	<script type="module" src="../../index.js"></script>
-	<!-- <script type="module">
-		import R4Title from '../../src/components/r4-title.js'
-		customElements.define('r4-title', R4Title)
-	</script> -->
-</head>
+	<body>
+		<p>The r4-title web-componet can be used to display the title of the app</p>
+		<p>
+			Also with the attribute <kbd>small="true"</kbd>, for the shot title
+			version
+		</p>
 
-<body>
-	<r4-title></r4-title>
-	<r4-title small="true"></r4-title>
-</body>
-
+		<r4-title></r4-title>
+		<br />
+		<r4-title small></r4-title>
+	</body>
 </html>

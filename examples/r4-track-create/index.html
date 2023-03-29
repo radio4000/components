@@ -13,7 +13,17 @@
 </head>
 
 <body>
+	<menu>
+		<li>
+			Select the <a href="../r4-user-channels-select">channel</a> to which you want to add a track
+		</li>
+		<li>
+			Add the <a href="?url=https://www.youtube.com/watch?v=f7xB2fFk1tQ">URL</a> of the track you would like to add
+		</li>
+	</menu>
+
 	<r4-track-create></r4-track-create>
+
 	<script>
 		function handleSubmit({detail}) {
 			console.log('Create did submit', detail)

@@ -1,0 +1,6 @@
+r4-player:not([tracks]) {
+	display: none;
+}
+r4-player[tracks] {
+	display: flex;
+}

@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk'
+import {deleteChannel} from '@radio4000/sdk'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
@@ -10,13 +10,17 @@ fieldsTemplate.innerHTML = `
 		</fieldset>
 		<fieldset>
 			<label for="confirmation">Confirmation</label>
-			<input name="confirmation" type="checkbox"/>
+			<input name="confirmation" type="checkbox" required/>
 		</fieldset>
 	</slot>
 `
 
 
-export default class R4ChannelCreate extends R4Form {
+export default class R4ChannelDelete extends R4Form {
+	static get observedAttributes() {
+		return ['id']
+	}
+	submitText = 'Delete channel'
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate
@@ -32,25 +36,35 @@ export default class R4ChannelCreate extends R4Form {
 			field: 'confirmation',
 		},
 		23503: {
-			message: 'You appear to want to delete a channel that still has some tracks. Delete all tracks first?',
-			field: 'id',
+			message: 'You appear to want to delete a channel that still has some tracks. Delete all tracks first.',
+		}
+	}
+
+	connectedCallback() {
+		super.connectedCallback()
+		/* hide the channel id if it is there */
+		const $channelId = this.querySelector('[name="id"]')
+		if ($channelId.value) {
+			$channelId.parentElement.setAttribute('hidden', 'true')
 		}
 	}
 
 	async handleSubmit(event) {
+		event.stopPropagation()
 		event.preventDefault()
 		this.disableForm()
 
 		const { id, confirmation } = this.state
 		if (!confirmation) {
-			this.handleError({
+			this.enableForm()
+			return this.handleError({
 				code: 'confirmation',
 			})
 		}
 
 		let res
 		try {
-			res = await sdk.deleteChannel(id)
+			res = await deleteChannel(id)
 			if (res && res.error) {
 				throw res.error
 			}
@@ -62,6 +76,9 @@ export default class R4ChannelCreate extends R4Form {
 		/* sucess deleting */
 		if (res.status === 204) {
 			this.resetForm()
+			this.enableForm()
 		}
+
+		super.handleSubmit(res)
 	}
 }

@@ -13,22 +13,17 @@
 </head>
 
 <body>
-	<r4-actions>
-		<option>
-			Channel actions
-		</option>
-		<option value="create-track">
-			create track
-		</option>
-		<option value="update">
-			update
-		</option>
-		<option value="delete">
-			delete
-		</option>
-	</r4-actions>
+	<menu>
+		<li>
+			Enter a channel <a href="?slug=">slug</a> as a url parameter, to read its content
+		</li>
+		<li>
+			Here, there are: <code>r4-channel</code>, <code>r4-channel-actions</code>, and <code>r4-tracks</code> components, displaying data for the same channel <code>slug</code>.
+		</li>
+	</menu>
 	<r4-channel></r4-channel>
-	<r4-tracks></r4-tracks>
+	<r4-channel-actions></r4-channel-actions>
+	<r4-tracks limit="2000" channel=""></r4-tracks>
 </body>
 
 <script>
@@ -42,9 +37,8 @@
 	const $channelTracks = document.querySelector('r4-tracks')
 	slug && $channelTracks.setAttribute('channel', slug)
 
-
 	/* add some actions to the channel */
-	const onInput = ({ detail }) => {
+	const onChannelInput = ({ detail }) => {
 		const channel = document.querySelector('r4-channel').channel
 		if (detail && channel && channel.id) {
 			if (detail === 'create-track') {
@@ -59,8 +53,9 @@
 		}
 	}
 
-	const $actions = document.querySelector('r4-actions')
-	$actions.addEventListener('input', onInput)
+	const $actions = document.querySelector('r4-channel-actions')
+	slug && $actions.setAttribute('slug', slug)
+	$actions.addEventListener('input', onChannelInput)
 </script>
 
 </html>

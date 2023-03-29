@@ -10,14 +10,20 @@
 	<meta name="description" content="r4-sign-out">
 	<link rel="stylesheet" href="../../styles/index.css" />
 	<script type="module" src="../../index.js"></script>
-	<!-- <script type="module">
-		import R4SignOut from '../../src/components/r4-sign-out.js'
-		customElements.define('r4-sign-out', R4SignOut)
-	</script> -->
 </head>
 
 <body>
+	<menu>
+		<li>
+			Sign out your <strong>user account</strong>.
+		</li>
+	</menu>
 	<r4-sign-out></r4-sign-out>
+	<script>
+		document.querySelector('r4-sign-out').addEventListener('submit', (event) => {
+			console.log('Signed out', event.detail)
+		})
+	</script>
 </body>
 
 </html>

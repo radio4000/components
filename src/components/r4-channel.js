@@ -1,24 +1,37 @@
-import sdk from '@radio4000/sdk'
+import {readChannel} from '@radio4000/sdk'
 
 export default class R4Channel extends HTMLElement {
 	static get observedAttributes() {
 		return ['origin', 'id', 'slug', 'channel']
 	}
+
+	/* Used to make a link to the channel's homepage.
+		 It could point to different URL schemes:
+		 - on root: https://radio.example.org/
+		 - on subpage: https://music.example.org/test-radio-2
+		 - in query parameter: https://example.org/?radio=test-radio-4
+		 To handle all case, we replace the `{{slug}}` token in the string
+	 */
 	get origin() {
 		const url = this.getAttribute('origin')
-		if (url === 'null') {
-			return null
-		} else if (!url) {
-			return `${window.origin}/`
+		if (typeof url === 'string') {
+			if (this.channel && this.channel.slug) {
+				return url.replace('{{slug}}', this.channel.slug)
+			}
 		}
 		return url
 	}
+
+	/* some attributes, that can be used to fetch model data,
+		 and are unique to the channel */
 	get id() {
 		return this.getAttribute('id')
 	}
 	get slug() {
 		return this.getAttribute('slug')
 	}
+
+	/* the model data, when fetched, or set from outside */
 	get channel() {
 		return JSON.parse(this.getAttribute('channel'))
 	}
@@ -36,20 +49,24 @@ export default class R4Channel extends HTMLElement {
 			this.render()
 		}
 		if (['id', 'slug'].indexOf(attrName) > -1) {
-			this.channel = await this.findChannel()
+			this.channel = await this.readChannel()
 			this.render()
 		}
 	}
 
 	/* set loading */
 	async connectedCallback() {
-		this.channel = await this.findChannel()
+		if (this.channel) {
+			this.render()
+		} else if (this.slug) {
+			this.channel = await this.readChannel()
+		}
 	}
 
-	async findChannel() {
+	async readChannel() {
 		if (this.slug) {
 			this.setAttribute('loading', true)
-			const res = await sdk.findChannelBySlug(this.slug)
+			const res = await readChannel(this.slug)
 			this.removeAttribute('loading')
 			return res.data
 		}
@@ -67,8 +84,15 @@ export default class R4Channel extends HTMLElement {
 		const $channelName = document.createElement('h1')
 		$channelName.innerText = this.channel.name
 
-		const $channelSlug = document.createElement('code')
-		$channelSlug.innerText = this.channel.slug
+		let $channelSlug
+		if (this.origin) {
+			$channelSlug = document.createElement('a')
+			$channelSlug.href = this.origin
+			$channelSlug.innerText = this.channel.slug
+		} else {
+			$channelSlug = document.createElement('code')
+			$channelSlug.innerText = this.channel.slug
+		}
 
 		const $channelDescription = document.createElement('article')
 		$channelDescription.innerText = this.channel.description

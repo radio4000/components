@@ -1,6 +1,6 @@
 {
   "name": "@radio4000/components",
-  "version": "0.0.15",
+  "version": "0.0.30",
   "description": "web components for radio4000.com",
   "main": "src/index.js",
   "module": "dist/index.js",
@@ -10,8 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run dev",
     "dev": "esbuild src/index.js --bundle --format=esm --sourcemap --servedir=. --outdir=.",
-    "build": "esbuild src/index.js --bundle --format=esm --outfile=dist/index.js",
-    "build-website": "esbuild src/index.js --bundle --format=esm --outfile=index.js"
+    "build": "esbuild src/index.js --bundle --format=esm --outfile=dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -27,11 +26,16 @@
   },
   "homepage": "https://github.com/radio4000/components#readme",
   "devDependencies": {
-    "esbuild": "^0.15.11"
+    "esbuild": "^0.17.13"
   },
   "dependencies": {
-    "@radio4000/sdk": "^0.0.16",
-    "lit": "^2.4.0",
-    "wchooks": "^0.2.5"
+    "@radio4000/sdk": "^0.1.6",
+    "lit": "^2.7.0",
+    "page": "^1.11.6",
+    "radio4000-player": "^0.6.24"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
   }
 }

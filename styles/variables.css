@@ -2,12 +2,50 @@
 	components global variables;
 	avaialble globally (root), and to the component's shadow doms (:host)
 */
+
+/*
+	default variable values, starting for small screens
+*/
 :root,
 :host {
-	--size-font: 17px;
-	--size: 1.3em;
+	/*
+		sizes variables
+ */
+	/* the base all sizes */
+	--size-font: 18px;
+	/* the max font-size, use font font-size clamp() */
+	--size-font-max: 26px;
+	/* a default size to use (with calc()) for "homgenous visual spacing" */
+	--size: 1.5em;
 	--size-container: 50em;
 
+	/*
+		color variables
+ */
 	--color-text: black;
 	--color-background: white;
+	--color-link: var(--color-text);
+
+	/*
+		css attributes variables
+ */
+	--font-size: clamp(var(--size-font), .875rem + .25vw, var(--size-font-max));
+	--font-family: serif;
+}
+
+/*
+	variable overwrites, for larger screens
+*/
+@media screen and (min-width: 45rem) {
+	:root,
+	:host {
+		--size-font: 25px;
+	}
+}
+
+@media screen and (min-width: 60rem) {
+	:root,
+	:host {
+		--size-font: 30px;
+	}
 }

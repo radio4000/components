@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 	<meta charset="utf-8">
@@ -13,7 +13,17 @@
 </head>
 
 <body>
+	<menu>
+		<li>
+			<a href="../r4-sign-in">sign in</a> to list and select your channels
+		</li>
+		<li>
+			Attach a <code>input</code> event, to customize what action happens when a channel is selected. In this example, it redirects to the "channel page".
+		</li>
+	</menu>
+
 	<r4-user-channels-select></r4-user-channels-select>
+
 	<script>
 		function handleSubmit({detail}) {
 			console.log('channels select did input', detail)

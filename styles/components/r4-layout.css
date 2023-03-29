@@ -1,0 +1,70 @@
+r4-layout {
+	display: flex;
+	flex-direction: column;
+}
+
+r4-layout [slot="player"] {
+	order: 0;
+	width: auto;
+	height: auto;
+	margin-top: .1rem;
+	position: sticky;
+	top: 0;
+	right: 0;
+	left: 0;
+}
+
+r4-layout [slot="header"] {
+	order: 1;
+}
+r4-layout [slot="main"] {
+	order: 2;
+}
+
+@media screen and (min-width: 60rem) {
+	r4-layout {
+		flex-direction: row;
+	}
+	r4-layout [slot="header"],
+	r4-layout [slot="main"],
+	r4-layout [slot="player"] r4-player[tracks] {
+		padding: calc(var(--size) / 2);
+	}
+
+	r4-layout [slot="header"] {
+		order: 1;
+	}
+	r4-layout [slot="main"] {
+		order: 2;
+		flex: 1;
+	}
+	r4-layout [slot="player"] {
+		order: 3;
+	}
+}
+
+
+/* the player  */
+r4-layout [slot="player"] radio4000-player {
+	max-height: 200px;
+}
+@media screen and (min-width: 60rem) {
+	r4-layout [slot="player"] radio4000-player {
+		max-height: none;
+		height: 70vh;
+		width: calc(var(--size-container) / 2.5);
+	}
+}
+
+
+@media screen and (min-width: 60rem) {
+	r4-layout [slot="header"] r4-menu[direction="row"] menu {
+		flex-direction: column;
+		align-items: flex-start;
+		margin: 0;
+		padding: 0;
+	}
+	r4-layout [slot="header"] r4-menu[direction="row"] menu li {
+		margin-left: var(--size);
+	}
+}

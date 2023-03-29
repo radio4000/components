@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk'
+import {createChannel} from '@radio4000/sdk'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
@@ -17,6 +17,7 @@ fieldsTemplate.innerHTML = `
 
 
 export default class R4ChannelCreate extends R4Form {
+	submitText = 'Create channel'
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate
@@ -39,7 +40,7 @@ export default class R4ChannelCreate extends R4Form {
 			field: 'slug',
 		},
 		42501: {
-			message: 'Signin to create a channel',
+			message: 'Sign-in to create a channel',
 			field: 'slug',
 		}
 	}
@@ -50,16 +51,14 @@ export default class R4ChannelCreate extends R4Form {
 
 		this.disableForm()
 		const channel = this.state
-		let res = {},
-				error = null
+		let res = {}
 		try {
-			res = await sdk.createChannel({
+			res = await createChannel({
 				name: channel.name,
 				slug: channel.slug,
 			})
 			if (res.error) {
-				error = res
-				throw error
+				throw res.error
 			}
 		} catch (err) {
 			this.handleError(err)
@@ -70,9 +69,6 @@ export default class R4ChannelCreate extends R4Form {
 		if (data) {
 			this.resetForm()
 		}
-		super.handleSubmit({
-			error,
-			data,
-		})
+		super.handleSubmit(res)
 	}
 }

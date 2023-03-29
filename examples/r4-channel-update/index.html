@@ -13,7 +13,17 @@
 </head>
 
 <body>
+	<menu>
+		<li>
+			Add the channel <a href="?id=">id</a> to update its informations
+		</li>
+		<li>
+			As with all r4-forms, all fields can be pre-filled by their <kbd>name</kbd>, from the url parameters equivalents (ex: <a href="?name=test">test name</a>)
+		</li>
+	</menu>
+
 	<r4-channel-update></r4-channel-update>
+
 	<script>
 		function handleSubmit(event) {
 			console.log('Update did submit', event.detail)

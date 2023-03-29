@@ -1,2 +1,4 @@
 r4-favicon {}
-r4-favicon svg {}
+r4-favicon svg {
+	fill: var(--color-text);
+}

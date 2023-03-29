@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk'
+import {createTrack, mediaUrlParser} from '@radio4000/sdk'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
@@ -6,7 +6,7 @@ fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
 			<label for="channel_id">Channel ID</label>
-			<input name="channel_id" type="text" required/>
+			<input name="channel_id" type="text" required readonly/>
 		</fieldset>
 		<fieldset>
 			<label for="url">URL</label>
@@ -23,8 +23,13 @@ fieldsTemplate.innerHTML = `
 	</slot>
 `
 
-
 export default class R4TrackCreate extends R4Form {
+	static get observedAttributes () {
+		return ['channel-id', 'url', 'title']
+	}
+
+	submitText = 'Create track'
+
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate
@@ -50,16 +55,32 @@ export default class R4TrackCreate extends R4Form {
 		super.handleInput(event)
 
 		/* if the `url` change, and there is no `title`, set one up */
-		if (name === 'url') {
-			const data = sdk.providers.mediaUrlParser(value)
-			console.log('url changed', data)
+		if (name === 'url' && value) {
 			if (!this.state.title) {
-				console.info('(should) fetching track title', data)
-				const $trackTitle = this.querySelector('[name="title"]')
-				$trackTitle.value = `${data.provider}@${data.id}`
-				$trackTitle.dispatchEvent(new Event('input')) // trigger value change
+				const { title } = await this.fetchTrackInfo(value)
+				if (title) {
+					/* cannot this.setAttribute('title') from here */
+					const $trackTitle = this.querySelector('[name="title"]')
+					$trackTitle.value = title
+					$trackTitle.dispatchEvent(new Event('input')) // trigger value change
+				}
 			}
 		}
+	}
+
+	async fetchTrackInfo(mediaUrl) {
+		let trackInfo = {}
+		const data = mediaUrlParser(mediaUrl)
+		if (data.provider === 'youtube' && data.id) {
+			let res
+			try {
+				res = await fetch(`https://api.radio4000.com/api/youtube?id=${data.id}`)
+				trackInfo = await res.json()
+			} catch (error) {
+			}
+			console.log('API trackInfo', trackInfo)
+		}
+		return trackInfo
 	}
 
 	async handleSubmit(event) {
@@ -70,7 +91,7 @@ export default class R4TrackCreate extends R4Form {
 		let res = {},
 				error = null
 		try {
-			res = await sdk.createTrack(this.state.channel_id, {
+			res = await createTrack(this.state.channel_id, {
 				url: this.state.url,
 				title: this.state.title,
 				description: this.state.description,

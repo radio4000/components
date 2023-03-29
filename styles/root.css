@@ -6,13 +6,64 @@ html {
 	box-sizing: inherit;
 }
 
+/* the html element root,
+	 and the custom-element's root */
 :root,
 :host {
 	color: var(--color-text);
 	font-family: var(--font-family, serif);
-	font-size: var(--size-font, 17px);
+	font-size: var(--font-size, var(--size-font));
+	background-color: var(--color-background);
 }
 
-:root {
+@media (prefers-color-scheme: dark) {
+	:root,
+	:host {
+		--color-text: white;
+		--color-background: black;
+	}
+}
+@media (prefers-color-scheme: light) {
+	:root,
+	:host {
+		--color-text: black;
+		--color-background: white;
+	}
+}
+
+/* reset of browser styles */
+body {
+	margin: 1rem;
+}
+a {
+	color: var(--color-link);
+}
+
+h1, h2, h3, h4, h5, h6,
+p {
+	margin-top: 0;
+}
+
+/* ::part(name) to target a <dom part="name"/> inside shadow dom */
+::part(button),
+button,
+select {
+	cursor: pointer;
+}
+
+::part(button),
+button,
+select,
+input,
+textarea {
+	font-size: var(--font-size);
+	color: var(--color-text);
 	background-color: var(--color-background);
+	padding: calc(var(--size) / 4) calc(var(--size) / 2);
+	border-color: var(--color-text);
+}
+
+::part(button)[disabled],
+button[disabled] {
+	border-color: transparent;
 }

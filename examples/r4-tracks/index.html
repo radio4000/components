@@ -13,14 +13,22 @@
 </head>
 
 <body>
-	<r4-tracks></r4-tracks>
+	<menu>
+		<li>
+			By default, will browse all <r4-title></r4-title> tracks.
+		</li>
+		<li>
+			Enter a <a href="?channel=">channel slug</a> as a url parameter, to fetch this channel's tracks.
+		</li>
+	</menu>
+	<r4-tracks pagination="true"></r4-tracks>
 </body>
 
 <script>
 	/* use the query parameter, `slug`: `?slug={channel_slug}` */
 	const $tracks = document.querySelector('r4-tracks')
 	const params = new URLSearchParams(window.location.search)
-	const slug = params.get('slug')
+	const slug = params.get('channel')
 	slug && $tracks.setAttribute('channel', slug)
 </script>
 
