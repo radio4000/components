@@ -4,7 +4,8 @@ import { until } from 'lit/directives/until.js'
 import {
 	readChannelTracks,
 	readUserChannels,
-	readUser
+	readUser,
+	supabase,
 } from '@radio4000/sdk'
 import page from 'page/page.mjs'
 import '../pages/'
@@ -36,7 +37,51 @@ export default class R4App extends LitElement {
 		super.connectedCallback()
 		this.singleChannel = this.getAttribute('single-channel')
 		this.channel = this.getAttribute('channel')
+		this.user = null
+		this.userChannels = null
+
 		await this.refreshUserData()
+		if (this.user) {
+			this.setupDatabaseListeners()
+		}
+	}
+
+	setupDatabaseListeners() {
+		// one channel for user channels updates
+		const userChannelsChanges = supabase.channel('user-channels-changes')
+
+		const userChannelIds = this.userChannels.map(channel => channel.id)
+		console.log('user-id', this.user.id)
+
+		userChannelsChanges.on(
+			'postgres_changes',
+			{
+				event: '*',
+				schema: 'public',
+				table: 'channels',
+				filter: `id=in.(${userChannelIds.join(',')})`,
+			},
+			(payload) => {
+				console.log('user channel(s) update', payload)
+				this.refreshUserData()
+			}
+		).subscribe(async (status) => {
+			console.log('channel subscribe event', status)
+		})
+
+		const userChannelEvents = supabase.channel('user-channels-events')
+		userChannelEvents.on(
+			'postgres_changes',
+			{
+				event: '*',
+				schema: 'public',
+				table: 'user_channel',
+				filter: `user_id=eq.${this.user.id}`,
+			},
+			(payload) => console.log('user_channels change *', payload)
+		).subscribe(async (status) => {
+			console.log('user_channels subscribe event', status)
+		})
 	}
 
 	async refreshUserData() {
