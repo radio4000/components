@@ -1,14 +1,18 @@
-import { html, render } from 'lit-html'
+import { LitElement, render } from 'lit'
+import {html, literal, unsafeStatic} from 'lit/static-html.js'
 import page from 'page/page.mjs'
 
-export default class R4Router extends HTMLElement {
-	static get observedAttributes() {
-		return ['href', 'channel']
+export default class R4Router extends LitElement {
+	static properties = {
+		href: { type: String, reflect: true },
+		channel: { type: String, reflect: true },
+		page: { type: String, reflect: true },
+		path: { type: String, reflect: true },
+		method: { type: String, reflect: true },
+
+		store: { type: Object, state: true }
 	}
-	/* used to build the base of links and app router */
-	get href() {
-		return this.getAttribute('href')
-	}
+
 	/* used to setup the base of the url handled by page.js router */
 	get pathname() {
 		const href = this.href || window.location.href
@@ -18,12 +22,16 @@ export default class R4Router extends HTMLElement {
 		}
 		return name
 	}
+
 	connectedCallback() {
 		const $routes = this.querySelectorAll('r4-route')
+		console.log('router connected store', this.store)
 		this.setupRouter()
 		this.setupRoutes($routes)
 		this.handleFirstUrl()
+		super.connectedCallback()
 	}
+
 	handleFirstUrl() {
 		page(window.location)
 	}
@@ -41,8 +49,9 @@ export default class R4Router extends HTMLElement {
 	setupRoutes($routes) {
 		$routes.forEach(this.setupRoute.bind(this))
 	}
+
 	setupRoute($route) {
-		page($route.getAttribute('path'), this.parseQuery, (ctx, next) => this.renderRoute($route, ctx, next))
+		page($route.getAttribute('path'), this.parseQuery, (ctx, next) => this.renderRoute($route, ctx))
 		page.exit($route.getAttribute('path'), (ctx, next) => this.unrenderRoute($route, ctx, next))
 	}
 
@@ -58,34 +67,38 @@ export default class R4Router extends HTMLElement {
 		next()
 	}
 
-	renderRoute($route, ctx, next) {
-		const pageName = $route.getAttribute('page')
-		const $page = document.createElement(`r4-page-${pageName}`)
-		Array.from($route.attributes).filter(attribute => {
-			return ['path', 'page'].indexOf(attribute) === -1
-		}).forEach(attribute => {
-			$page.setAttribute(attribute.nodeName, attribute.nodeValue)
-		})
-		if (ctx.params) {
-			Object.keys(ctx.params).forEach(paramName => {
-				$page.setAttribute(paramName.replace('_', '-'), ctx.params[paramName])
-			})
-		}
-		const routeQueryParams = $route.getAttribute('query-params')
-		const requestedParams = routeQueryParams ? routeQueryParams.split(',') : []
-		if (requestedParams && ctx.query) {
-			ctx.query
-						 .filter(param => requestedParams.indexOf(param) > -1)
-						 .forEach(param => {
-							 $page.setAttribute(param[0], param[1])
-						 })
-		}
-		$page.setAttribute('href', this.href)
-		console.log('render $page', $page)
-		render($page, this)
+	renderRoute($route, ctx) {
+		this.pageName = $route.getAttribute('page')
+		this.method = $route.getAttribute('method')
+		this.params = ctx.params
+
+		// @todo make this work again
+		// const routeQueryParams = $route.getAttribute('query-params')
+		// const requestedParams = routeQueryParams ? routeQueryParams.split(',') : []
+		// if (requestedParams && ctx.query) {
+		// 	ctx.query
+		// 		 .filter(param => requestedParams.indexOf(param) > -1)
+		// 		 .forEach(param => {
+		// 			 $page.setAttribute(param[0], param[1])
+		// 		 })
+		// }
+
+		this.requestUpdate()
 	}
+
+	render() {
+		const tag = literal`r4-page-${unsafeStatic(this.pageName)}`
+		return html`
+			<${tag} .store=${this.store} href=${this.href} method=${this.method} slug=${this.params.slug} track-id=${this.params.track_id}></${tag}>
+		`
+	}
+
 	unrenderRoute($route, ctx, next) {
 		console.log('unrender $route', $route)
 		next()
+	}
+
+	createRenderRoot() {
+		return this
 	}
 }

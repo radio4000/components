@@ -124,7 +124,6 @@ export default class R4List extends HTMLElement {
 	 components-attributes -> supbase-query */
 	async browsePage({page, limit}) {
 		const { from, to, limitResults } = this.getBrowseParams({ page, limit })
-		console.log(this.model)
 		return supabase
 			.from(this.model)
 			.select(this.select)

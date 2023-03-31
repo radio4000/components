@@ -8,7 +8,9 @@ export default class R4PageTracks extends LitElement {
 		slug: { type: String, reflect: true },
 		href: { type: String, reflect: true },
 		singleChannel: { type: Boolean, reflect: true, attribute: 'single-channel' },
+
 		channel: { type: Object, reflect: true, state: true },
+		store: { type: Object, state: true }
 	}
 
 	get channelOrigin() {

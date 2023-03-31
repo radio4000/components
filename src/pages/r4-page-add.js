@@ -22,14 +22,14 @@ export default class R4PageAdd extends LitElement {
 
 	async connectedCallback() {
 		super.connectedCallback()
-		this.channelId = await this.findSelectedChannel()
-		// console.log(
-		// 	'connectedCallback',
-		// 	this,
-		// 	this.channelId,
-		// 	this.slug,
-		// 	this.channel
-		// )
+
+		// Choose the channel to add the track to.
+		if (this.channel || this.slug) {
+			this.channelId = await this.findSelectedChannel()
+		} else {
+			this.channelId = this.store.userChannels[0].id
+		}
+
 		this.requestUpdate()
 	}
 
@@ -41,6 +41,20 @@ export default class R4PageAdd extends LitElement {
 			</main>
 		`
 	}
+
+	renderHeader() {
+		const slug = this.channel || this.slug || this.store.userChannels && this.store.userChannels[0].slug
+		return html`
+			<header>
+				<span>Add track to</span>
+				<r4-user-channels-select
+					channel=${slug}
+					@input=${this.onChannelSelect}
+				></r4-user-channels-select>
+			</header>
+		`
+	}
+
 	renderAdd() {
 		return html`
 			<r4-track-create
@@ -48,18 +62,6 @@ export default class R4PageAdd extends LitElement {
 				url=${this.url}
 				@submit=${this.onTrackCreate}
 				></r4-track-create>
-		`
-	}
-
-	renderHeader() {
-		return html`
-			<header>
-				<span>Add track to</span>
-				<r4-user-channels-select
-					channel=${this.channel || this.slug}
-					@input=${this.onChannelSelect}
-				></r4-user-channels-select>
-			</header>
 		`
 	}
 
