@@ -28,14 +28,15 @@ export default class R4PageChannel extends LitElement {
 	async firstUpdated() {
 		await this.init()
 	}
+
 	init() {
 		// a promise for the `until` directive
-		this.channel = this.findSelectedChannel(this.slug)
+		this.channel = this.findSelectedChannel()
 	}
 
 	/* find data, the current channel id we want to add to */
-	async findSelectedChannel(slug) {
-		const { data } = await readChannel(slug)
+	async findSelectedChannel() {
+		const {data} = await readChannel(this.slug)
 		if (data && data.id) {
 			return data
 		}
@@ -45,15 +46,16 @@ export default class R4PageChannel extends LitElement {
 	render() {
 		return html`${
 			until(
-				Promise.resolve(this.channel).then((channel) => {
+				Promise.resolve(this.findSelectedChannel()).then((channel) => {
 					return channel ? this.renderPage(channel) : this.renderNoPage()
 				}).catch(() => this.renderNoPage()),
 				this.renderLoading()
 			)
 		}`
 	}
+
 	renderPage(channel) {
-		console.log('channel', channel)
+		console.log('page-channel', this.slug, channel.slug)
 		return html`
 			<header>
 				<r4-channel

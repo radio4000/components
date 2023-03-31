@@ -42,6 +42,7 @@ export default class R4Router extends HTMLElement {
 	setupRoutes($routes) {
 		$routes.forEach(this.setupRoute.bind(this))
 	}
+
 	setupRoute($route) {
 		page($route.getAttribute('path'), this.parseQuery, (ctx, next) => this.renderRoute($route, ctx, next))
 		page.exit($route.getAttribute('path'), (ctx, next) => this.unrenderRoute($route, ctx, next))

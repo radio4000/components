@@ -24,7 +24,6 @@ export default class R4PageHome extends LitElement {
 						Create a <a href="${this.href}/new">new channel</a>.
 					</li>
 				</menu>
-				<p>count: ${this.store.count}</p>
 			</section>
 		`
 	}
