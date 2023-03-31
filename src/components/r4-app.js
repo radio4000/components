@@ -29,17 +29,29 @@ export default class R4App extends LitElement {
 				return hrefAttr
 			}
 		},
-		user: { type: Object, reflect: true, state: true },
-		userChannels: { type: Object, reflect: true, state: true },
+
+		user: {type: Object, state: true},
+		userChannels: {type: Array, state: true},
 	}
+
+	// This gets passed to all r4-pages.
+	get store() {
+		return {
+			user: this.user,
+			userChannels: this.userChannels,
+		}
+	}
+
+	set store(val) {
+		// do nothing
+	}
+
 
 	async connectedCallback() {
 		super.connectedCallback()
 		this.singleChannel = this.getAttribute('single-channel')
 		this.channel = this.getAttribute('channel')
-		this.user = null
-		this.userChannels = null
-
+		this.store = {}
 		await this.refreshUserData()
 		if (this.user) {
 			this.setupDatabaseListeners()
@@ -122,14 +134,14 @@ export default class R4App extends LitElement {
 			`
 		} else {
 			return html`
-				<r4-router href=${this.href} name="application">
+				<r4-router .store=${this.store} href=${this.href}  name="application">
 					<r4-route path="/" page="home"></r4-route>
 					<r4-route path="/explore" page="explore"></r4-route>
 					<r4-route path="/sign" page="sign"></r4-route>
 					<r4-route path="/sign-up" page="sign" method="up"></r4-route>
 					<r4-route path="/sign-in" page="sign" method="in"></r4-route>
 					<r4-route path="/sign-out" page="sign" method="out"></r4-route>
-					<r4-route path="/add" page="add" channel=${this.channel || this.userChannels[0]?.slug} query-params="url,channel"></r4-route>
+					<r4-route path="/add" page="add" channel=${this.channel || this.userChannels && this.userChannels[0].slug} query-params="url,channel"></r4-route>
 					<r4-route path="/new" page="new"></r4-route>
 					<r4-route path="/:slug" page="channel" limit="5" pagination="false"></r4-route>
 					<r4-route path="/:slug/tracks" page="tracks" limit="300" pagination="true"></r4-route>

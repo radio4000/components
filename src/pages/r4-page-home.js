@@ -5,9 +5,12 @@ export default class R4PageHome extends LitElement {
 		return this.getAttribute('href')
 	}
 	render() {
+		const authed = this.store.user
 		return html`
 			<header>
 				Welcome to <r4-title></r4-title>.
+				<br>
+				${authed ? html`<strong>${this.store.user.email}</strong>` : null}
 			</header>
 			<section>
 				<menu>
