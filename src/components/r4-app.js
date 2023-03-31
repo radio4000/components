@@ -136,7 +136,7 @@ export default class R4App extends LitElement {
 	buildAppRouter() {
 		if (this.singleChannel) {
 			return html`
-				<r4-router href=${this.href} name="channel">
+				<r4-router .store=${this.store} href=${this.href} name="channel">
 					<r4-route path="/sign-in" page="sign" method="in"></r4-route>
 					<r4-route path="/sign-out" page="sign" method="out"></r4-route>
 					<r4-route path="/" page="channel" slug=${this.channel} limit="5" pagination="false" single-channel="true"></r4-route>
@@ -258,7 +258,7 @@ export default class R4App extends LitElement {
 		if (wrappingAnchor && wrappingAnchor.tagName === 'A') {
 			event.preventDefault()
 			page(wrappingAnchor.pathname)
-	}
+		}
 	}
 
 	/* events */
