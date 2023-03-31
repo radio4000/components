@@ -2,10 +2,6 @@ import { LitElement, html } from 'lit'
 import page from 'page/page.mjs'
 
 export default class R4PageNew extends LitElement {
-	static properties = {
-		href: { type: String, reflect: true },
-	}
-
 	render() {
 		return html`
 			<main>
