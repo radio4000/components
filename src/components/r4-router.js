@@ -89,11 +89,11 @@ export default class R4Router extends HTMLElement {
 						 })
 		}
 		$page.setAttribute('href', this.href)
-		console.debug('render $page', $page)
+		console.log('render $page', $page)
 		render($page, this)
 	}
 	unrenderRoute($route, ctx, next) {
-		console.debug('unrender $route', $route)
+		console.log('unrender $route', $route)
 		next()
 	}
 }
