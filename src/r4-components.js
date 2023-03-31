@@ -32,7 +32,6 @@ class R4Components extends HTMLElement {
 		})
 	}
 	connectedCallback() {
-		console.info('All r4 components', this.components)
 		if (this.components && this.components.length) {
 			this.render()
 		}

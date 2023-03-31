@@ -51,7 +51,7 @@ export default class R4App extends LitElement {
 		const userChannelsChanges = supabase.channel('user-channels-changes')
 
 		const userChannelIds = this.userChannels.map(channel => channel.id)
-		console.log('user-id', this.user.id)
+		console.debug('user-id', this.user.id)
 
 		userChannelsChanges.on(
 			'postgres_changes',
@@ -62,11 +62,11 @@ export default class R4App extends LitElement {
 				filter: `id=in.(${userChannelIds.join(',')})`,
 			},
 			(payload) => {
-				console.log('user channel(s) update', payload)
+				console.debug('user channel(s) update', payload)
 				this.refreshUserData()
 			}
 		).subscribe(async (status) => {
-			console.log('channel subscribe event', status)
+			console.debug('channel subscribe event', status)
 		})
 
 		const userChannelEvents = supabase.channel('user-channels-events')
@@ -78,9 +78,9 @@ export default class R4App extends LitElement {
 				table: 'user_channel',
 				filter: `user_id=eq.${this.user.id}`,
 			},
-			(payload) => console.log('user_channels change *', payload)
+			(payload) => console.debug('user_channels change *', payload)
 		).subscribe(async (status) => {
-			console.log('user_channels subscribe event', status)
+			console.debug('user_channels subscribe event', status)
 		})
 	}
 

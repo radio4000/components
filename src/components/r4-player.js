@@ -30,7 +30,7 @@ export default class R4Player extends HTMLElement {
 		this.append(template.content.cloneNode(true))
 	}
 	onPlayerReady() {
-		console.log('player ready')
+		console.debug('player ready')
 		this.player = this.$player.getVueInstance()
 	}
 

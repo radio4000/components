@@ -23,13 +23,13 @@ export default class R4PageAdd extends LitElement {
 	async connectedCallback() {
 		super.connectedCallback()
 		this.channelId = await this.findSelectedChannel()
-		console.log(
-			'connectedCallback',
-			this,
-			this.channelId,
-			this.slug,
-			this.channel
-		)
+		// console.log(
+		// 	'connectedCallback',
+		// 	this,
+		// 	this.channelId,
+		// 	this.slug,
+		// 	this.channel
+		// )
 		this.requestUpdate()
 	}
 

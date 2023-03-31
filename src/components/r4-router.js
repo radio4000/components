@@ -31,7 +31,6 @@ export default class R4Router extends HTMLElement {
 	setupRouter() {
 		page.stop()
 		page.strict(false)
-		console.log(this.pathname)
 		if (this.pathname) {
 			page.base(this.pathname)
 		} else {
