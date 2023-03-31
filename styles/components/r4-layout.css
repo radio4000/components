@@ -34,6 +34,7 @@ r4-layout [slot="main"] {
 
 	r4-layout [slot="header"] {
 		order: 1;
+		min-width: 8em; /* avoid jumping while menu is loading */
 	}
 	r4-layout [slot="main"] {
 		order: 2;
