@@ -30,7 +30,8 @@ export default class R4App extends LitElement {
 		},
 
 		user: {type: Object, state: true},
-		userChannels: {type: Array, state: true},
+		userChannels: {type: Array || null, state: true},
+		count: {type: Number}
 	}
 
 	// This gets passed to all r4-pages.
@@ -38,6 +39,7 @@ export default class R4App extends LitElement {
 		return {
 			user: this.user,
 			userChannels: this.userChannels,
+			count: this.count
 		}
 	}
 
@@ -45,6 +47,10 @@ export default class R4App extends LitElement {
 		// do nothing
 	}
 
+	constructor() {
+		super()
+		this.count = 0
+	}
 
 	async connectedCallback() {
 		super.connectedCallback()
@@ -131,7 +137,9 @@ export default class R4App extends LitElement {
 				@r4-play=${this.onPlay}
 				@click=${this.onAnchorClick}
 				>
-				<header slot="header">${this.renderAppMenu()}</header>
+				<header slot="header">
+					<button @click=${() => this.count = this.count + 1}>Increment ${this.store.count}</button>
+					${this.renderAppMenu()}</header>
 				<main slot="main">
 					<p>test: ${this.user?.email}/${this.store.user?.email}</p>
 					${this.renderAppRouter()}
