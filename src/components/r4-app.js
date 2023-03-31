@@ -1,6 +1,5 @@
 import { html, LitElement } from 'lit'
 import { ref, createRef } from 'lit/directives/ref.js'
-import { until } from 'lit/directives/until.js'
 import {
 	readChannelTracks,
 	readUserChannels,
@@ -48,6 +47,7 @@ export default class R4App extends LitElement {
 
 
 	async connectedCallback() {
+		console.log('r4app')
 		super.connectedCallback()
 		this.singleChannel = this.getAttribute('single-channel')
 		this.channel = this.getAttribute('channel')
@@ -56,13 +56,32 @@ export default class R4App extends LitElement {
 		if (this.user) {
 			this.setupDatabaseListeners()
 		}
+
+		supabase.auth.onAuthStateChange((event, session) => {
+			// console.log('auth state change', event, session)
+			this.user = session?.user
+		})
+	}
+
+	async refreshUserData() {
+		console.log('refreshUserData')
+
+		// const { data: user } = await readUser()
+		const {data} = await supabase.auth.getSession()
+		this.user = data.session?.user
+
+		const { data: channels} = await readUserChannels()
+		this.userChannels = channels
 	}
 
 	setupDatabaseListeners() {
 		// one channel for user channels updates
 		const userChannelsChanges = supabase.channel('user-channels-changes')
 
-		const userChannelIds = this.userChannels.map(channel => channel.id)
+		let userChannelIds = []
+		if (this.userChannels) {
+			userChannelIds = this.userChannels.map(channel => channel.id)
+		}
 		console.debug('user-id', this.user.id)
 
 		userChannelsChanges.on(
@@ -96,13 +115,6 @@ export default class R4App extends LitElement {
 		})
 	}
 
-	async refreshUserData() {
-		const { data: user } = await readUser()
-		const { data: channels} = await readUserChannels()
-		this.user = user
-		this.userChannels = channels
-	}
-
 	render() {
 		return html`
 			<r4-layout
@@ -111,6 +123,7 @@ export default class R4App extends LitElement {
 				>
 				<header slot="header">${this.buildAppMenu()}</header>
 				<main slot="main">
+					<p>test: ${this.user?.email}/${this.store.user?.email}</p>
 					${this.buildAppRouter()}
 				</main>
 				<aside slot="player">
@@ -163,22 +176,20 @@ export default class R4App extends LitElement {
 	}
 
 	buildMenuCMS() {
-		const buildAddLink = html`
-			<li>
-				${this.userChannels && this.userChannels.length ? html`<a href=${this.href + '/add'}>Add</a>` : null}
-		</li>
-		`
+		const {user, userChannels} = this
+		const hasChannels = Boolean(userChannels && userChannels.length > 0)
+		console.log({user, hasChannels})
 
-		const buildSelect = until(
-			Promise.resolve(this.userChannels).then((channels) => {
-				return (channels && channels.length) ? html`<r4-user-channels-select @input=${this.onChannelSelect} .channels=${this.userChannels}/>` : html`<a href=${this.href + '/new'}>create channel</a>`
-			}), html`loading`
-		)
+		const buildAddLink = hasChannels ? html`<li><a href=${this.href + '/add'}>Add</a></li>` : null
+		const buildSelect = hasChannels ?
+			html`<r4-user-channels-select @input=${this.onChannelSelect} .channels=${userChannels}/>` :
+			html`<a href=${this.href + '/new'}>Create channel</a>`
+
 		return html`
 			<menu>
 				<li>
 					<a href=${this.href}>
-						<r4-title small="true"></r4-title>
+						<r4-title small></r4-title>
 					</a>
 				</li>
 				<li>
@@ -186,9 +197,9 @@ export default class R4App extends LitElement {
 				</li>
 				${buildAddLink}
 				<li>
-					<r4-auth-status>
+					<r4-auth-status ?auth=${this.user}>
 						<span slot="in">
-							<a href=${this.href + '/sign-out'}>Sign out</a>
+							<a href=${this.href + '/sign-out'}>Sign out</a> (${this.user?.email})
 						</span>
 						<span slot="out">
 							<a href=${this.href + '/sign-in'}>Sign in</a>
@@ -196,7 +207,7 @@ export default class R4App extends LitElement {
 					</r4-auth-status>
 				</li>
 				<li>
-					<r4-auth-status>
+					<r4-auth-status ?auth=${this.user}>
 						<span slot="out">
 							<a href=${this.href + '/sign-up'}>Sign up</a>
 						</span>
