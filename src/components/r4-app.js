@@ -70,7 +70,7 @@ export default class R4App extends LitElement {
 		console.debug('refreshUserData')
 
 		readUserChannels().then(({data}) => {
-			this.userChannels = data
+			this.userChannels = data.lenght ? data : null
 			this.didLoad = true
 		})
 
