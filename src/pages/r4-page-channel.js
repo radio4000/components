@@ -7,10 +7,19 @@ export default class R4PageChannel extends LitElement {
 	static properties = {
 		href: { type: String, reflect: true },
 		slug: { type: String, reflect: true },
+
 		limit: { type: Number, reflect: true },
 		pagination: { type: Boolean, reflect: true },
 		singleChannel: { type: Boolean, reflect: true, attribute: 'single-channel' },
+
 		channel: { type: Object, reflect: true, state: true },
+		store: { type: Object, state: true },
+	}
+
+	constructor()	{
+		super()
+		this.limit = 5
+		this.pagination = false
 	}
 
 	get channelOrigin() {

@@ -8,7 +8,9 @@ export default class R4PageTrack extends LitElement {
 		slug: { type: String, reflect: true },
 		trackId: { type: String, reflect: true, attribute: 'track-id' },
 		singleChannel: { type: Boolean, reflect: true, attribute: 'single-channel' },
+
 		track: { type: Object, reflect: true, state: true },
+		store: { type: Object, state: true }
 	}
 
 	firstUpdated() {

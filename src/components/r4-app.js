@@ -157,8 +157,8 @@ export default class R4App extends LitElement {
 				<r4-router .store=${this.store} href=${this.href} name="channel">
 					<r4-route path="/sign-in" page="sign" method="in"></r4-route>
 					<r4-route path="/sign-out" page="sign" method="out"></r4-route>
-					<r4-route path="/" page="channel" slug=${this.channel} limit="5" pagination="false" single-channel="true"></r4-route>
-					<r4-route path="/tracks" page="tracks" slug=${this.channel} limit="300" pagination="true" single-channel="true"></r4-route>
+					<r4-route path="/" page="channel" slug=${this.channel} single-channel="true"></r4-route>
+					<r4-route path="/tracks" page="tracks" slug=${this.channel} single-channel="true"></r4-route>
 					<r4-route path="/tracks/:track_id" page="track" slug=${this.channel} single-channel="true"></r4-route>
 					<r4-route path="/add" page="add" slug=${this.channel} single-channel="true" query-params="url"></r4-route>
 				</r4-router>
@@ -174,8 +174,8 @@ export default class R4App extends LitElement {
 					<r4-route path="/sign-out" page="sign" method="out"></r4-route>
 					<r4-route path="/add" page="add" query-params="url,channel"></r4-route>
 					<r4-route path="/new" page="new"></r4-route>
-					<r4-route path="/:slug" page="channel" limit="5" pagination="false"></r4-route>
-					<r4-route path="/:slug/tracks" page="tracks" limit="300" pagination="true"></r4-route>
+					<r4-route path="/:slug" page="channel"></r4-route>
+					<r4-route path="/:slug/tracks" page="tracks"></r4-route>
 					<r4-route path="/:slug/tracks/:track_id" page="track"></r4-route>
 				</r4-router>
 			`
@@ -209,16 +209,6 @@ export default class R4App extends LitElement {
 				${this.userChannels ? html`<li><a href=${href + '/add'}>Add</a></li>` : null}
 				<li>
 					<r4-auth-status ?auth=${user}>
-						<span slot="in">
-							<a href=${href + '/sign-out'}>Sign out</a> (${user?.email})
-						</span>
-						<span slot="out">
-							<a href=${href + '/sign-in'}>Sign in</a>
-						</span>
-					</r4-auth-status>
-				</li>
-				<li>
-					<r4-auth-status ?auth=${user}>
 						<span slot="out">
 							<a href=${href + '/sign-up'}>Sign up</a>
 						</span>
@@ -227,6 +217,16 @@ export default class R4App extends LitElement {
 								html`<r4-user-channels-select @input=${this.onChannelSelect} .channels=${userChannels} />` :
 								html`<a href=${href + '/new'}>Create channel</a>`
 							}
+						</span>
+					</r4-auth-status>
+				</li>
+				<li>
+					<r4-auth-status ?auth=${user}>
+						<span slot="in">
+							<a href=${href + '/sign-out'}>Sign out</a> (${user?.email})
+						</span>
+						<span slot="out">
+							<a href=${href + '/sign-in'}>Sign in</a>
 						</span>
 					</r4-auth-status>
 				</li>
