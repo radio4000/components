@@ -63,6 +63,8 @@ export default class R4Router extends HTMLElement {
 		const pageName = $route.getAttribute('page')
 		const $page = document.createElement(`r4-page-${pageName}`)
 
+		console.log('render route')
+
 		// Pass the store from <r4-app> to all pages.
 		$page.store = this.store
 		console.log('router store', this.store)

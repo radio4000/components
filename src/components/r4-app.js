@@ -48,13 +48,9 @@ export default class R4App extends LitElement {
 
 	async connectedCallback() {
 		super.connectedCallback()
+
 		this.singleChannel = this.getAttribute('single-channel')
 		this.channel = this.getAttribute('channel')
-		this.store = {}
-		await this.refreshUserData()
-		if (this.user) {
-			this.setupDatabaseListeners()
-		}
 
 		supabase.auth.onAuthStateChange((event, session) => {
 			console.debug('auth state change', event, session)
@@ -62,6 +58,12 @@ export default class R4App extends LitElement {
 			// if (!this.user) this.userChannels = null
 			this.refreshUserData()
 		})
+
+		await this.refreshUserData()
+
+		if (this.user) {
+			this.setupDatabaseListeners()
+		}
 	}
 
 	async refreshUserData() {
@@ -69,6 +71,7 @@ export default class R4App extends LitElement {
 
 		readUserChannels().then(({data}) => {
 			this.userChannels = data
+			this.didLoad = true
 		})
 
 		// await readUser()
@@ -120,6 +123,9 @@ export default class R4App extends LitElement {
 
 	render() {
 		console.log('r4-app', this.store)
+
+		if (!this.didLoad) return null
+
 		return html`
 			<r4-layout
 				@r4-play=${this.onPlay}
@@ -151,7 +157,7 @@ export default class R4App extends LitElement {
 			`
 		} else {
 			return html`
-				<r4-router .store=${this.store} href=${this.href}  name="application">
+				<r4-router .store=${this.store} href=${this.href} name="application">
 					<r4-route path="/" page="home"></r4-route>
 					<r4-route path="/explore" page="explore"></r4-route>
 					<r4-route path="/sign" page="sign"></r4-route>
