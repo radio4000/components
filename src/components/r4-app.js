@@ -47,7 +47,6 @@ export default class R4App extends LitElement {
 
 
 	async connectedCallback() {
-		console.log('r4app')
 		super.connectedCallback()
 		this.singleChannel = this.getAttribute('single-channel')
 		this.channel = this.getAttribute('channel')
@@ -58,20 +57,24 @@ export default class R4App extends LitElement {
 		}
 
 		supabase.auth.onAuthStateChange((event, session) => {
-			// console.log('auth state change', event, session)
+			console.debug('auth state change', event, session)
 			this.user = session?.user
+			// if (!this.user) this.userChannels = null
+			this.refreshUserData()
 		})
 	}
 
 	async refreshUserData() {
-		console.log('refreshUserData')
+		console.debug('refreshUserData')
 
-		// const { data: user } = await readUser()
-		const {data} = await supabase.auth.getSession()
-		this.user = data.session?.user
+		readUserChannels().then(({data}) => {
+			this.userChannels = data
+		})
 
-		const { data: channels} = await readUserChannels()
-		this.userChannels = channels
+		// await readUser()
+		supabase.auth.getSession().then(({data}) => {
+			this.user = data.session?.user
+		})
 	}
 
 	setupDatabaseListeners() {
@@ -116,15 +119,16 @@ export default class R4App extends LitElement {
 	}
 
 	render() {
+		console.log('r4-app', this.store)
 		return html`
 			<r4-layout
 				@r4-play=${this.onPlay}
 				@click=${this.onAnchorClick}
 				>
-				<header slot="header">${this.buildAppMenu()}</header>
+				<header slot="header">${this.renderAppMenu()}</header>
 				<main slot="main">
 					<p>test: ${this.user?.email}/${this.store.user?.email}</p>
-					${this.buildAppRouter()}
+					${this.renderAppRouter()}
 				</main>
 				<aside slot="player">
 					<r4-player ${ref(this.playerRef)}></r4-player>
@@ -133,7 +137,7 @@ export default class R4App extends LitElement {
 		`
 	}
 
-	buildAppRouter() {
+	renderAppRouter() {
 		if (this.singleChannel) {
 			return html`
 				<r4-router .store=${this.store} href=${this.href} name="channel">
@@ -154,7 +158,7 @@ export default class R4App extends LitElement {
 					<r4-route path="/sign-up" page="sign" method="up"></r4-route>
 					<r4-route path="/sign-in" page="sign" method="in"></r4-route>
 					<r4-route path="/sign-out" page="sign" method="out"></r4-route>
-					<r4-route path="/add" page="add" channel=${this.channel || this.userChannels && this.userChannels[0].slug} query-params="url,channel"></r4-route>
+					<r4-route path="/add" page="add" channel=${this.channel} query-params="url,channel"></r4-route>
 					<r4-route path="/new" page="new"></r4-route>
 					<r4-route path="/:slug" page="channel" limit="5" pagination="false"></r4-route>
 					<r4-route path="/:slug/tracks" page="tracks" limit="300" pagination="true"></r4-route>
@@ -165,54 +169,50 @@ export default class R4App extends LitElement {
 	}
 
 	/* build the app's dom elements */
-	buildAppMenu() {
+	renderAppMenu() {
 		/* when on slug.4000.network */
 		if (this.singleChannel) {
 			return this.buildSingleChannelMenu()
 		} else {
 			/* when on radio4000.com */
-			return this.buildMenuCMS()
+			return this.renderMenuCMS()
 		}
 	}
 
-	buildMenuCMS() {
-		const {user, userChannels} = this
-		const hasChannels = Boolean(userChannels && userChannels.length > 0)
-		console.log({user, hasChannels})
-
-		const buildAddLink = hasChannels ? html`<li><a href=${this.href + '/add'}>Add</a></li>` : null
-		const buildSelect = hasChannels ?
-			html`<r4-user-channels-select @input=${this.onChannelSelect} .channels=${userChannels}/>` :
-			html`<a href=${this.href + '/new'}>Create channel</a>`
+	renderMenuCMS() {
+		const {userChannels, href, user} = this
 
 		return html`
 			<menu>
 				<li>
-					<a href=${this.href}>
+					<a href=${href}>
 						<r4-title small></r4-title>
 					</a>
 				</li>
 				<li>
-					<a href=${this.href + '/explore'}>Explore</a>
+					<a href=${href + '/explore'}>Explore</a>
 				</li>
-				${buildAddLink}
+				${this.userChannels ? html`<li><a href=${href + '/add'}>Add</a></li>` : null}
 				<li>
-					<r4-auth-status ?auth=${this.user}>
+					<r4-auth-status ?auth=${user}>
 						<span slot="in">
-							<a href=${this.href + '/sign-out'}>Sign out</a> (${this.user?.email})
+							<a href=${href + '/sign-out'}>Sign out</a> (${user?.email})
 						</span>
 						<span slot="out">
-							<a href=${this.href + '/sign-in'}>Sign in</a>
+							<a href=${href + '/sign-in'}>Sign in</a>
 						</span>
 					</r4-auth-status>
 				</li>
 				<li>
-					<r4-auth-status ?auth=${this.user}>
+					<r4-auth-status ?auth=${user}>
 						<span slot="out">
-							<a href=${this.href + '/sign-up'}>Sign up</a>
+							<a href=${href + '/sign-up'}>Sign up</a>
 						</span>
 						<span slot="in">
-							${buildSelect}
+							${this.userChannels ?
+								html`<r4-user-channels-select @input=${this.onChannelSelect} .channels=${userChannels} />` :
+								html`<a href=${href + '/new'}>Create channel</a>`
+							}
 						</span>
 					</r4-auth-status>
 				</li>

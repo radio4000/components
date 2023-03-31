@@ -14,7 +14,7 @@ export default class R4AuthStatus extends LitElement {
 	static shadowRootOptions = { ...LitElement.shadowRootOptions, mode: 'open' }
 
 	render() {
-		console.log('auth', this.auth)
+		// console.log('auth', this.auth)
 		return html`
 			<slot name="in" ?hidden=${!this.auth}></slot>
 			<slot name="out" ?hidden=${this.auth}></slot>

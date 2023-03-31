@@ -20,7 +20,7 @@ export default class R4Router extends HTMLElement {
 	}
 	connectedCallback() {
 		const $routes = this.querySelectorAll('r4-route')
-		console.log(this.store)
+		console.log('router connected store', this.store)
 		this.setupRouter()
 		this.setupRoutes($routes)
 		this.handleFirstUrl()
@@ -65,6 +65,7 @@ export default class R4Router extends HTMLElement {
 
 		// Pass the store from <r4-app> to all pages.
 		$page.store = this.store
+		console.log('router store', this.store)
 
 		Array.from($route.attributes).filter(attribute => {
 			return ['path', 'page'].indexOf(attribute) === -1
@@ -86,11 +87,11 @@ export default class R4Router extends HTMLElement {
 						 })
 		}
 		$page.setAttribute('href', this.href)
-		console.log('render $page', $page)
+		console.debug('render $page', $page)
 		render($page, this)
 	}
 	unrenderRoute($route, ctx, next) {
-		console.log('unrender $route', $route)
+		console.debug('unrender $route', $route)
 		next()
 	}
 }
