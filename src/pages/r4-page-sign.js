@@ -38,7 +38,7 @@ export default class R4PageSign extends HTMLElement {
 	renderMethodPage(method) {
 		if (this.$main) {
 			const $signForm = document.createElement(`r4-sign-${method}`)
-			$signForm.addEventListener('submit', this.onSignIn.bind(this))
+			$signForm.addEventListener('submit', this.onSign.bind(this))
 			this.$main.append($signForm)
 		}
 		if (this.$title) {
@@ -59,14 +59,18 @@ export default class R4PageSign extends HTMLElement {
 		`
 		this.$main && this.$main.append($info)
 	}
-	onSignIn({
-		detail: {
-			data
+
+	onSign({ detail: { data } }) {
+		if (this.method === 'up' && data && data?.user) {
+			var el = document.createElement('p')
+			el.innerHTML = 'Check your email.<br>You have to click on the link inside the email to activate your R4 account.'
+			this.$main.appendChild(el)
 		}
-	}) {
-		if (this.method === 'in' && data && data.user) {
+
+		if (this.method === 'in' && data && data?.user) {
 			page('/')
 		}
+
 		if (this.method === 'out') {
 			page('/')
 		}
