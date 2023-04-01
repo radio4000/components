@@ -5,7 +5,6 @@ export default class R4PageAdd extends LitElement {
 	static properties = {
 		href: { type: String, reflect: true },
 		url: { type: String, reflect: true },
-		channel: { type: String, reflect: true },
 		slug: { type: String, reflect: true },
 		channelId: {
 			type: String,
@@ -19,13 +18,15 @@ export default class R4PageAdd extends LitElement {
 			reflect: true,
 		},
 		store: { type: Object },
+		params: { type: Object },
+		query: { type: Object }
 	}
 
 	async connectedCallback() {
 		super.connectedCallback()
 
 		// Choose the channel to add the track to.
-		if (this.channel || this.slug) {
+		if (this?.query?.channel || this.slug) {
 			this.channelId = await this.findSelectedChannel()
 		} else {
 			this.channelId = this.store.userChannels[0].id
@@ -44,7 +45,7 @@ export default class R4PageAdd extends LitElement {
 	}
 
 	renderHeader() {
-		const slug = this.channel || this.slug || this.store.userChannels && this.store.userChannels[0].slug
+		const slug = this?.query?.channel || this.slug || this.store.userChannels && this.store.userChannels[0].slug
 		return html`
 			<header>
 				<span><strong>Add</strong> track to</span>
@@ -68,8 +69,9 @@ export default class R4PageAdd extends LitElement {
 
 	/* find the current channel id we want to add to */
 	async findSelectedChannel() {
-		const { data } = await readChannel(this.channel || this.slug)
+		const { data } = await readChannel(this?.query?.channel || this.slug)
 		if (data && data.id) {
+			console.log('add channel id', data.id)
 			return data.id
 		}
 	}

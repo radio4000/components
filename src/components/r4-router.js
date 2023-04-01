@@ -10,7 +10,7 @@ export default class R4Router extends LitElement {
 		path: { type: String, reflect: true },
 		method: { type: String, reflect: true },
 
-		store: { type: Object, state: true }
+		store: { type: Object, state: true },
 	}
 
 	/* used to setup the base of the url handled by page.js router */
@@ -89,11 +89,9 @@ export default class R4Router extends LitElement {
 	}
 
 	render() {
-		console.log('this.params', this.params)
-		console.log('this.query', this.query)
 		const tag = literal`r4-page-${unsafeStatic(this.pageName)}`
 		const $pageDom = html`
-			<${tag} .store=${this.store} .query=${this.query} href=${this.href} method=${this.method} slug=${this.params.slug} track-id=${this.params.track_id}></${tag}>
+			<${tag} .store=${this.store} .query=${this.query} .params=${this.params} href=${this.href} slug=${this.params.slug} track-id=${this.params.track_id}></${tag}>
 		`
 		return $pageDom
 	}

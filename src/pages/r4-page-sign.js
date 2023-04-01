@@ -1,78 +1,55 @@
 import page from 'page/page.mjs'
+import { LitElement } from 'lit'
+import {html, literal, unsafeStatic} from 'lit/static-html.js'
 
-const template = document.createElement('template')
-template.innerHTML = `
-	<header>
-		<h1></h1>
-	</header>
-	<main></main>
-	<footer></footer>
-`
-
-export default class R4PageSign extends HTMLElement {
-	static get observedAttributes() {
-		return ['method']
+export default class R4PageSign extends LitElement {
+	static properties = {
+		params: { type: Object, state: true }
 	}
-	get method() {
-		return this.getAttribute('method')
-	}
-	attributeChangedCallback(attrName, newVal) {
-		if (attrName === 'method' && this.$main) {
-			this.render(newVal)
-		}
-	}
-	connectedCallback() {
-		this.append(template.content.cloneNode(true))
-		this.$title = this.querySelector('header h1')
-		this.$main = this.querySelector('main')
-		this.render(this.method)
-	}
-	render(method) {
-		this.$main.innerHTML = ''
-		if (method) {
-			this.renderMethodPage(method)
-		} else {
-			this.renderMethodSelection()
-		}
+	render() {
+		const {method} = this.params
+		return html`
+			<header>
+				Sign ${method ? method : null}
+			</header>
+			<main>
+				${method ? this.renderMethodPage(method) : this.renderMethodSelection()}
+			</main>
+		`
 	}
 	renderMethodPage(method) {
-		if (this.$main) {
-			const $signForm = document.createElement(`r4-sign-${method}`)
-			$signForm.addEventListener('submit', this.onSign.bind(this))
-			this.$main.append($signForm)
-		}
-		if (this.$title) {
-			this.$title.innerText = `Sign ${method}`
-		}
+		const tag = literal`r4-sign-${unsafeStatic(method)}`
+		return html`<${tag} @submit=${this.onSignSubmit}></${tag}>`
 	}
+
 	renderMethodSelection() {
-		const $info = document.createElement('aside')
-		$info.innerHTML = `
-			<p>
-				To use <r4-title></r4-title>, sign into your user account.
-			</p>
-			<r4-menu direction="row">
-				<a href="/sign-up">up</a>
-				<a href="/sign-in">in</a>
-				<a href="/sign-out">out</a>
-			</r4-menu>
+		return html`
+			<aside>
+				<p>
+					To use <r4-title></r4-title>, sign into your user account.
+				</p>
+				<r4-menu direction="row">
+					<a href="/sign">sign</a>
+					<a href="/sign/up">up</a>
+					<a href="/sign/in">in</a>
+					<a href="/sign/out">out</a>
+				</r4-menu>
+			</aside>
 		`
-		this.$main && this.$main.append($info)
 	}
-
-	onSign({ detail: { data } }) {
-		if (this.method === 'up' && data && data?.user) {
-			var el = document.createElement('p')
-			el.innerHTML = 'Check your email.<br>You have to click on the link inside the email to activate your R4 account.'
-			this.$main.appendChild(el)
+	onSignSubmit({
+		detail: {
+			data
 		}
-
-		if (this.method === 'in' && data && data?.user) {
+	}) {
+		if (this.params.method === 'in' && data && data.user) {
 			page('/')
 		}
-
-		if (this.method === 'out') {
+		if (this.params.method === 'out') {
 			page('/')
 		}
+	}
+	createRenderRoot() {
+		return this
 	}
 }
