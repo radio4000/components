@@ -31,7 +31,8 @@ export default class R4App extends LitElement {
 
 		user: {type: Object, state: true},
 		userChannels: {type: Array || null, state: true},
-		count: {type: Number}
+		count: {type: Number},
+		didLoad: {type: Boolean, state: true}
 	}
 
 	// This gets passed to all r4-pages.
