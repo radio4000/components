@@ -62,6 +62,9 @@ export default class R4App extends LitElement {
 
 		supabase.auth.onAuthStateChange((event, session) => {
 			// console.log('auth state change', event, session)
+			if (event === 'SIGNED_OUT') {
+				this.removeDatabaseListeners()
+			}
 			this.refreshUserData()
 		})
 
