@@ -80,6 +80,7 @@ export default class R4UserChannelsSelect extends HTMLElement {
 		this.dispatchEvent(inputEvent)
 		this.refreshOptions(this.channel)
 	}
+
 	onAuthStateChange() {
 		this.refreshUserChannels()
 	}

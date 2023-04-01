@@ -38,6 +38,7 @@
   "homepage": "https://github.com/radio4000/components#readme",
   "prettier": {
     "semi": false,
-    "singleQuote": true
+    "singleQuote": true,
+    "printWidth": 120
   }
 }

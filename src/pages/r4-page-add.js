@@ -18,6 +18,7 @@ export default class R4PageAdd extends LitElement {
 			attribute: 'single-channel',
 			reflect: true,
 		},
+		store: { type: Object },
 	}
 
 	async connectedCallback() {

@@ -1,7 +1,6 @@
 import { html, LitElement } from 'lit'
 import { until } from 'lit/directives/until.js'
 import { readChannel } from '@radio4000/sdk'
-import page from 'page/page.mjs'
 
 export default class R4PageTracks extends LitElement {
 	static properties = {

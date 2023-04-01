@@ -199,7 +199,7 @@ export default class R4PageChannel extends LitElement {
 		}
 	}
 
-	async closeDialog(name) {
+	closeDialog(name) {
 		const $dialog = this.querySelector(`r4-dialog[name="${name}"]`)
 		if ($dialog) {
 			$dialog.removeAttribute('visible')
