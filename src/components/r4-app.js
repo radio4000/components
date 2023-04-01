@@ -62,69 +62,75 @@ export default class R4App extends LitElement {
 
 		supabase.auth.onAuthStateChange((event, session) => {
 			// console.log('auth state change', event, session)
+			if (event === 'SIGNED_OUT') {
+				this.removeDatabaseListeners()
+			}
 			this.refreshUserData()
 		})
 
 		await this.refreshUserData()
-
 		if (this.user) {
 			this.setupDatabaseListeners()
 		}
 	}
 
 	async refreshUserData() {
-		console.debug('refreshUserData')
-
-		readUserChannels().then(({data}) => {
-			this.userChannels = data?.length ? data : null
-			this.didLoad = true
-		})
-
-		// await readUser()
-		supabase.auth.getSession().then(({data}) => {
-			this.user = data?.session?.user
-		})
+		console.log('refreshUserData')
+		// Run in parallel
+		return Promise.all([
+			supabase.auth.getSession().then(({data}) => {
+				this.user = data?.session?.user
+				if (this.user) {
+					this.setupDatabaseListeners()
+				}
+			}),
+			readUserChannels().then(({data}) => {
+				console.log('  fetched new user channels', data)
+				this.userChannels = data?.length ? data : undefined
+				this.didLoad = true
+			})
+		])
 	}
 
 	setupDatabaseListeners() {
-		// one channel for user channels updates
-		const userChannelsChanges = supabase.channel('user-channels-changes')
+		console.log('setting up realtime')
 
-		let userChannelIds = []
 		if (this.userChannels) {
-			userChannelIds = this.userChannels.map(channel => channel.id)
-		}
-		console.debug('user-id', this.user.id)
-
-		userChannelsChanges.on(
-			'postgres_changes',
-			{
+			const userChannelIds = this.userChannels.map(c => c.id)
+			const userChannelsChanges = supabase.channel('user-channels-changes')
+			userChannelsChanges.on('postgres_changes', {
 				event: '*',
 				schema: 'public',
 				table: 'channels',
 				filter: `id=in.(${userChannelIds.join(',')})`,
-			},
-			(payload) => {
-				console.debug('user channel(s) update', payload)
-				this.refreshUserData()
-			}
-		).subscribe(async (status) => {
-			console.debug('channel subscribe event', status)
-		})
+			}, (payload) => {
+					console.debug('dblistener: (user) channel(s)', payload)
+					this.refreshUserData()
+			}).subscribe(async (status) => {
+				console.debug('dblistener: channel subscribe event', status)
+			})
+		}
 
 		const userChannelEvents = supabase.channel('user-channels-events')
-		userChannelEvents.on(
-			'postgres_changes',
-			{
-				event: '*',
-				schema: 'public',
-				table: 'user_channel',
-				filter: `user_id=eq.${this.user.id}`,
-			},
-			(payload) => console.debug('user_channels change *', payload)
-		).subscribe(async (status) => {
-			console.debug('user_channels subscribe event', status)
+		userChannelEvents.on('postgres_changes', {
+			event: '*',
+			schema: 'public',
+			table: 'user_channel',
+			filter: `user_id=eq.${this.user.id}`,
+		}, async (payload) => {
+			console.debug('dblistener: user_channels', payload)
+			if (payload.eventType === 'INSERT' || payload.eventType === 'DELETE') {
+				this.removeDatabaseListeners()
+				await this.refreshUserData()
+				this.setupDatabaseListeners()
+			}
+		}).subscribe(async (status) => {
+			console.debug('dblistener: user_channel subscribe event', status)
 		})
+	}
+
+	removeDatabaseListeners() {
+		supabase.removeAllChannels()
 	}
 
 	render() {
