@@ -69,7 +69,6 @@ export default class R4App extends LitElement {
 		})
 
 		await this.refreshUserData()
-
 		if (this.user) {
 			this.setupDatabaseListeners()
 		}
@@ -81,6 +80,9 @@ export default class R4App extends LitElement {
 		return Promise.all([
 			supabase.auth.getSession().then(({data}) => {
 				this.user = data?.session?.user
+				if (this.user) {
+					this.setupDatabaseListeners()
+				}
 			}),
 			readUserChannels().then(({data}) => {
 				console.log('  fetched new user channels', data)
@@ -91,24 +93,23 @@ export default class R4App extends LitElement {
 	}
 
 	setupDatabaseListeners() {
-		// one channel for user channels updates
+		console.log('setting up realtime')
 
-		const userChannelIds = this.userChannels.map(c => c.id)
-
-		console.log('setting up realtime', userChannelIds)
-
-		const userChannelsChanges = supabase.channel('user-channels-changes')
-		userChannelsChanges.on('postgres_changes', {
-			event: '*',
-			schema: 'public',
-			table: 'channels',
-			filter: `id=in.(${userChannelIds.join(',')})`,
-		}, (payload) => {
-				console.debug('dblistener: (user) channel(s)', payload)
-				this.refreshUserData()
-		}).subscribe(async (status) => {
-			console.debug('dblistener: channel subscribe event', status)
-		})
+		if (this.userChannels) {
+			const userChannelIds = this.userChannels.map(c => c.id)
+			const userChannelsChanges = supabase.channel('user-channels-changes')
+			userChannelsChanges.on('postgres_changes', {
+				event: '*',
+				schema: 'public',
+				table: 'channels',
+				filter: `id=in.(${userChannelIds.join(',')})`,
+			}, (payload) => {
+					console.debug('dblistener: (user) channel(s)', payload)
+					this.refreshUserData()
+			}).subscribe(async (status) => {
+				console.debug('dblistener: channel subscribe event', status)
+			})
+		}
 
 		const userChannelEvents = supabase.channel('user-channels-events')
 		userChannelEvents.on('postgres_changes', {
