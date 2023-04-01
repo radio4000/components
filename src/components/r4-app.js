@@ -76,13 +76,13 @@ export default class R4App extends LitElement {
 		console.debug('refreshUserData')
 
 		readUserChannels().then(({data}) => {
-			this.userChannels = data.length ? data : null
+			this.userChannels = data?.length ? data : null
 			this.didLoad = true
 		})
 
 		// await readUser()
 		supabase.auth.getSession().then(({data}) => {
-			this.user = data.session?.user
+			this.user = data?.session?.user
 		})
 	}
 
