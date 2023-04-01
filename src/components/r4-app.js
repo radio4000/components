@@ -1,6 +1,7 @@
 import { html, LitElement } from 'lit'
 import { ref, createRef } from 'lit/directives/ref.js'
 import {
+	signOut,
 	readChannelTracks,
 	readUserChannels,
 	readUser,
@@ -224,7 +225,7 @@ export default class R4App extends LitElement {
 				<li>
 					<r4-auth-status ?auth=${user}>
 						<span slot="in">
-							<a href=${href + '/sign-out'}>Sign out</a> <small>(${user?.email})</small>
+							<button @click=${signOut}>Sign out</button>
 						</span>
 						<span slot="out">
 							<a href=${href + '/sign-in'}>Sign in</a>
