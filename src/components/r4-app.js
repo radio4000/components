@@ -61,9 +61,10 @@ export default class R4App extends LitElement {
 		this.channel = this.getAttribute('channel')
 
 		supabase.auth.onAuthStateChange((event, session) => {
-			console.log('auth state change', event, session?.user?.email)
+			console.log('	auth change', event, session?.user?.email)
 
 			if (event === 'SIGNED_OUT') this.removeDatabaseListeners()
+
 			this.refreshUserData()
 		})
 	}
@@ -78,17 +79,14 @@ export default class R4App extends LitElement {
 		this.user = data?.session?.user
 		this.didLoad = true
 		this.refreshUserData.running = false
-		this.setupDatabaseListeners()
+		if (this.user) this.setupDatabaseListeners()
 	}
 
 	// When this is run, `user` and `userChannels` can be undefined.
 	async setupDatabaseListeners() {
-		// Avoid setting up twice
-		if (!this.user) return this.removeDatabaseListeners()
-		if (this._realtimeChannelsEnabled) return
+		console.log('set up database listeners')
 
 		if (this.userChannels) {
-			console.log('dblistener: (user) channels')
 			const userChannelIds = this.userChannels.map(c => c.id)
 			const userChannelsChanges = supabase.channel('user-channels-changes')
 			userChannelsChanges.on('postgres_changes', {
@@ -97,14 +95,13 @@ export default class R4App extends LitElement {
 				table: 'channels',
 				filter: `id=in.(${userChannelIds.join(',')})`,
 			}, (payload) => {
-					console.log('dblistener: (user) channels', payload)
+					console.log('	db: (user) channels', payload)
 					this.refreshUserData()
 			}).subscribe(async (status) => {
-				console.log('dblistener: channel', status)
+				console.log('	db: channel', status)
 			})
 		}
 
-		console.log('dblistener: user_channel')
 		const userChannelEvents = supabase.channel('user-channels-events')
 		userChannelEvents.on('postgres_changes', {
 			event: '*',
@@ -112,27 +109,23 @@ export default class R4App extends LitElement {
 			table: 'user_channel',
 			filter: `user_id=eq.${this.user.id}`,
 		}, async (payload) => {
-			console.log('dblistener: user_channels', payload)
+			console.log('	db: user_channels', payload)
 			if (payload.eventType === 'INSERT' || payload.eventType === 'DELETE') {
 				await this.removeDatabaseListeners()
 				await this.refreshUserData()
-				this.setupDatabaseListeners()
 			}
 		}).subscribe(async (status) => {
-			console.log('dblistener: user_channel', status)
+			console.log('	db: user_channel', status)
 		})
-
-		this._realtimeChannelsEnabled = true
 	}
 
 	async removeDatabaseListeners() {
-		console.log('removing db listeners')
-		this._realtimeChannelsEnabled = false
+		console.log('removing database listeners')
 		return supabase.removeAllChannels()
 	}
 
 	render() {
-		console.log('r4-app', this.store.user?.role, this.userChannels?.length)
+		console.log('<r4-app>', this.store.user?.role, this.userChannels?.length)
 
 		if (!this.didLoad) return null
 

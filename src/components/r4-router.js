@@ -94,7 +94,7 @@ export default class R4Router extends LitElement {
 	}
 
 	unrenderRoute($route, ctx, next) {
-		console.log('unrender $route', $route)
+		console.debug('unrender $route', $route)
 		next()
 	}
 
