@@ -61,9 +61,7 @@ export default class R4App extends LitElement {
 		this.channel = this.getAttribute('channel')
 
 		supabase.auth.onAuthStateChange((event, session) => {
-			console.debug('auth state change', event, session)
-			this.user = session?.user
-			// if (!this.user) this.userChannels = null
+			// console.log('auth state change', event, session)
 			this.refreshUserData()
 		})
 
