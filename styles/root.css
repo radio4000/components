@@ -16,25 +16,17 @@ html {
 	background-color: var(--color-background);
 }
 
-@media (prefers-color-scheme: dark) {
-	:root,
-	:host {
-		--color-text: white;
-		--color-background: black;
-	}
-}
-@media (prefers-color-scheme: light) {
-	:root,
-	:host {
-		--color-text: black;
-		--color-background: white;
-	}
-}
-
 /* reset of browser styles */
 body {
-	margin: 1rem;
+	background: var(--color-background);
+	margin: var(--size);
 }
+
+h1 {
+	font-size: 1.5rem;
+	margin-bottom: 0;
+}
+
 a {
 	color: var(--color-link);
 }
@@ -67,4 +59,6 @@ textarea {
 /* ::part(button)[disabled], */
 button[disabled] {
 	border-color: transparent;
+	color: hsla(0, 0%, 0%, 0.5);
+	cursor: auto;
 }

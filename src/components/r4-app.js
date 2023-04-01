@@ -135,10 +135,9 @@ export default class R4App extends LitElement {
 				@click=${this.onAnchorClick}
 				>
 				<header slot="header">
-					<button @click=${() => this.count = this.count + 1}>Increment ${this.store.count}</button>
+					<button hidden @click=${() => this.count = this.count + 1}>Increment ${this.store.count}</button>
 					${this.renderAppMenu()}</header>
 				<main slot="main">
-					<p>test: ${this.user?.email}/${this.store.user?.email}</p>
 					${this.renderAppRouter()}
 				</main>
 				<aside slot="player">
