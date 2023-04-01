@@ -16,7 +16,7 @@ export default class R4PageExplore extends LitElement {
 				</p>
 			</header>
 			<section>
-				<r4-channels origin=${this.channelOrigin} pagination="true" limit="3"></r4-channels>
+				<r4-channels origin=${this.channelOrigin} pagination="true" limit="15"></r4-channels>
 			</section>
 		`
 	}

@@ -66,11 +66,10 @@ export default class R4PageChannel extends LitElement {
 	renderPage(channel) {
 		return html`
 			<header>
-				<r4-channel
-					.channel=${channel}
-					origin=${this.channelOrigin}
-					slug=${channel.slug}
-					></r4-channel>
+				<h1>${channel.name}</h1>
+				<p>@${channel.slug}</p>
+				<p>${channel.description}</p>
+
 				<r4-channel-actions
 					slug=${channel.slug}
 					@input=${this.onChannelAction}
