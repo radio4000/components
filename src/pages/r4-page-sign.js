@@ -17,8 +17,8 @@ export default class R4PageSign extends HTMLElement {
 		return this.getAttribute('method')
 	}
 	attributeChangedCallback(attrName, newVal) {
-		if (attrName === 'method') {
-			this.renderMethodPage(newVal)
+		if (attrName === 'method' && this.$main) {
+			this.render(newVal)
 		}
 	}
 	connectedCallback() {

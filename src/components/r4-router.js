@@ -72,25 +72,30 @@ export default class R4Router extends LitElement {
 		this.method = $route.getAttribute('method')
 		this.params = ctx.params
 
-		// @todo make this work again
-		// const routeQueryParams = $route.getAttribute('query-params')
-		// const requestedParams = routeQueryParams ? routeQueryParams.split(',') : []
-		// if (requestedParams && ctx.query) {
-		// 	ctx.query
-		// 		 .filter(param => requestedParams.indexOf(param) > -1)
-		// 		 .forEach(param => {
-		// 			 $page.setAttribute(param[0], param[1])
-		// 		 })
-		// }
+		const pageQuery = {}
+		const routeQueryParams = $route.getAttribute('query-params')
+		const requestedParams = routeQueryParams ? routeQueryParams.split(',') : []
+		console.log('requestedParams', requestedParams, ctx.query)
+		if (requestedParams && ctx.query) {
+			ctx.query
+				 .filter(param => requestedParams.indexOf(param[0]) > -1)
+				 .forEach(param => {
+					 pageQuery[param[0]] = param[1]
+				 })
+			this.query = pageQuery
+		}
 
 		this.requestUpdate()
 	}
 
 	render() {
+		console.log('this.params', this.params)
+		console.log('this.query', this.query)
 		const tag = literal`r4-page-${unsafeStatic(this.pageName)}`
-		return html`
-			<${tag} .store=${this.store} href=${this.href} method=${this.method} slug=${this.params.slug} track-id=${this.params.track_id}></${tag}>
+		const $pageDom = html`
+			<${tag} .store=${this.store} .query=${this.query} href=${this.href} method=${this.method} slug=${this.params.slug} track-id=${this.params.track_id}></${tag}>
 		`
+		return $pageDom
 	}
 
 	unrenderRoute($route, ctx, next) {
