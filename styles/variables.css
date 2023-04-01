@@ -16,7 +16,7 @@
 	/* the max font-size, use font font-size clamp() */
 	--size-font-max: 26px;
 	/* a default size to use (with calc()) for "homgenous visual spacing" */
-	--size: 1.5em;
+	--size: 1.5rem;
 	--size-container: 50em;
 	--breakpoint: 700px;
 

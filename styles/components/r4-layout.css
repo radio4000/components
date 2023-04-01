@@ -52,7 +52,7 @@ r4-layout [slot="player"] r4-player[tracks] {
 	r4-layout [slot="main"] {
 		order: 2;
 		flex: 1;
-		padding-top: var(--size);
+		/* padding-top: var(--size); */
 	}
 	r4-layout [slot="player"] {
 		order: 3;

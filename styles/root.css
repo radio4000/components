@@ -22,18 +22,15 @@ body {
 	margin: var(--size);
 }
 
-h1 {
-	font-size: 1.5rem;
-	margin-bottom: calc(var(--size) / 2);
-}
-
 a {
 	color: var(--color-link);
 }
 
 h1, h2, h3, h4, h5, h6,
 p {
+	font-size: 1rem;
 	margin-top: 0;
+	margin-bottom: calc(var(--size) / 2);
 }
 
 /* ::part(name) to target a <dom part="name"/> inside shadow dom */

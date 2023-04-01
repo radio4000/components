@@ -47,7 +47,7 @@ export default class R4PageAdd extends LitElement {
 		const slug = this.channel || this.slug || this.store.userChannels && this.store.userChannels[0].slug
 		return html`
 			<header>
-				<span>Add track to</span>
+				<span><strong>Add</strong> track to</span>
 				<r4-user-channels-select
 					channel=${slug}
 					@input=${this.onChannelSelect}
