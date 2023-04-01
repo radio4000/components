@@ -1,3 +1,7 @@
+r4-app {
+	container-type: inline-size;
+}
+
 r4-layout {
 	display: flex;
 	flex-direction: column;
@@ -5,13 +9,12 @@ r4-layout {
 	width: 100%;
 	height: 100%;
 	background: var(--color-background);
+	border: 1px solid;
 }
 
 @media (prefers-color-scheme: light) {
 	r4-layout {
 		background-color: var(--color-lightpurple);
-		padding: calc(var(--size) / 2);
-		border: 1px solid;
 	}
 }
 
@@ -33,16 +36,15 @@ r4-layout [slot="main"] {
 	order: 2;
 }
 
-@media (min-width: 60rem) {
+r4-layout [slot="main"],
+r4-layout [slot="player"] r4-player[tracks] {
+	padding: calc(var(--size) / 2);
+}
+
+@container (min-width: 700px) {
 	r4-layout {
 		flex-direction: row;
 	}
-	r4-layout [slot="header"],
-	r4-layout [slot="main"],
-	r4-layout [slot="player"] r4-player[tracks] {
-		padding: calc(var(--size) / 2);
-	}
-
 	r4-layout [slot="header"] {
 		order: 1;
 		min-width: 8em; /* avoid jumping while menu is loading */
@@ -50,6 +52,7 @@ r4-layout [slot="main"] {
 	r4-layout [slot="main"] {
 		order: 2;
 		flex: 1;
+		padding-top: var(--size);
 	}
 	r4-layout [slot="player"] {
 		order: 3;
@@ -60,48 +63,11 @@ r4-layout [slot="main"] {
 r4-layout [slot="player"] radio4000-player {
 	max-height: 200px;
 }
-@media (min-width: 60rem) {
+
+@container (min-width: 700px) {
 	r4-layout [slot="player"] radio4000-player {
 		max-height: none;
 		height: 70vh;
 		width: calc(var(--size-container) / 2.5);
 	}
-}
-
-r4-layout [slot="header"] menu {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	align-items: center;
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-r4-layout [slot="header"] menu li:last-child {
-	margin-left: auto;
-}
-
-@media (min-width: 60rem) {
-	r4-layout [slot="header"] menu {
-		flex-direction: column;
-		align-items: flex-start;
-		margin: 0;
-		padding: 0;
-		height: 100%;
-	}
-	r4-layout [slot="header"] menu li:last-child {
-		margin-left: 0;
-		margin-top: auto;
-		padding-top: calc(var(--size));
-	}
-}
-
-r4-layout [slot="header"] menu a {
-	display: flex;
-	padding: calc(var(--size) / 2);
-}
-
-[name="pagination"] > button ~ span {
-	margin: 0 0.5em;
 }

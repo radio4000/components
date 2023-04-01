@@ -18,6 +18,7 @@
 	/* a default size to use (with calc()) for "homgenous visual spacing" */
 	--size: 1.5em;
 	--size-container: 50em;
+	--breakpoint: 700px;
 
 	/*
 		color variables
