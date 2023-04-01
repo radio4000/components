@@ -22,14 +22,20 @@
 	/*
 		color variables
  */
-	--color-text: black;
-	--color-background: white;
+
+	--color-light: white;
+	--color-dark: black;
+	--color-green5: #155638;
+	--color-lightpurple: #e9d8df;
+
+	--color-text: var(--color-dark);
+	--color-background: var(--color-light);
 	--color-link: var(--color-text);
 
 	/*
 		css attributes variables
  */
-	--font-size: clamp(var(--size-font), .875rem + .25vw, var(--size-font-max));
+	--font-size: var(--size-font);
 	--font-family: serif;
 }
 
@@ -39,6 +45,21 @@
 @media screen and (min-width: 60rem) {
 	:root,
 	:host {
-		--size-font: 25px;
+		/* --size-font: 20px; */
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	:root,
+	:host {
+		--color-text: var(--color-light);
+		--color-background: var(--color-dark);
+	}
+}
+@media (prefers-color-scheme: light) {
+	:root,
+	:host {
+		--color-text: var(--color-dark);
+		--color-background: var(--color-light);
 	}
 }
