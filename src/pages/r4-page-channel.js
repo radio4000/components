@@ -64,7 +64,6 @@ export default class R4PageChannel extends LitElement {
 	}
 
 	renderPage(channel) {
-		console.log('page-channel', this.slug, channel.slug)
 		return html`
 			<header>
 				<r4-channel

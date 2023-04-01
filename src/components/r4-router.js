@@ -25,7 +25,7 @@ export default class R4Router extends LitElement {
 
 	connectedCallback() {
 		const $routes = this.querySelectorAll('r4-route')
-		console.log('router connected store', this.store)
+		// console.log('router connected store', this.store)
 		this.setupRouter()
 		this.setupRoutes($routes)
 		this.handleFirstUrl()
