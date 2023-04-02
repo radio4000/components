@@ -77,7 +77,7 @@ export default class R4PageChannel extends LitElement {
 			</header>
 			<main>
 				${
-					/* somehow this has a silent erro */
+					/* somehow this has a silent error */
 					/* html`<r4-tracks
 						 channel=${channel.slug}
 						 origin=${this.tracksOrigin}

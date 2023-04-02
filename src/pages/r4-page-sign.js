@@ -4,7 +4,8 @@ import {html, literal, unsafeStatic} from 'lit/static-html.js'
 
 export default class R4PageSign extends LitElement {
 	static properties = {
-		params: { type: Object, state: true }
+		params: { type: Object, state: true },
+		config: { type: Object, state: true },
 	}
 	render() {
 		const {method} = this.params
@@ -29,10 +30,10 @@ export default class R4PageSign extends LitElement {
 					To use <r4-title></r4-title>, sign into your user account.
 				</p>
 				<r4-menu direction="row">
-					<a href="/sign">sign</a>
-					<a href="/sign/up">up</a>
-					<a href="/sign/in">in</a>
-					<a href="/sign/out">out</a>
+					<a href=${`${this.config.href}/sign`}>sign</a>
+					<a href=${`${this.config.href}/sign/up`}>up</a>
+					<a href=${`${this.config.href}/sign/in`}>in</a>
+					<a href=${`${this.config.href}/sign/out`}>out</a>
 				</r4-menu>
 			</aside>
 		`

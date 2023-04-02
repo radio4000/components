@@ -5,9 +5,9 @@ import page from 'page/page.mjs'
 
 export default class R4PageTrack extends LitElement {
 	static properties = {
-		singleChannel: { type: Boolean, reflect: true, attribute: 'single-channel' },
 		store: { type: Object, state: true },
 		params: { type: Object, state: true },
+		config: { type: Object, state: true },
 
 		track: { type: Object, reflect: true, state: true },
 	}
@@ -113,7 +113,7 @@ export default class R4PageTrack extends LitElement {
 	onDialogClose({target}) {
 		const name = target.getAttribute('name')
 		if (name === 'track') {
-			if (this.singleChannel) {
+			if (this.config.singleChannel) {
 				page('/tracks')
 			} else {
 				page(`/${this.params.slug}/tracks`)

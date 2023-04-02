@@ -6,8 +6,8 @@ export default class R4PageAdd extends LitElement {
 		/* props */
 		store: { type: Object },
 		query: { type: Object },
-		href: { type: String, reflect: true },
-		singleChannel: { type: Boolean, attribute: 'single-channel', reflect: true},
+		config: { type: Object },
+
 		/* state */
 		channelSlug: {attribute: 'channel'},
 		channelId: { type: String, reflect: true, state: true },
@@ -66,7 +66,7 @@ export default class R4PageAdd extends LitElement {
 
 	render() {
 		return html`
-			${!this.singleChannel ? this.renderHeader() : ''}
+			${!this.config.singleChannel ? this.renderHeader() : ''}
 			<main>
 				${this.renderAdd()}
 			</main>

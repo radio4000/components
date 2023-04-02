@@ -1,8 +1,9 @@
 import {html, LitElement} from 'lit'
 
 export default class R4PageExplore extends LitElement {
-	get href() {
-		return this.getAttribute('href')
+	static properties = {
+		/* props */
+		config: { type: Object },
 	}
 	get channelOrigin() {
 		return `${this.config.href}/{{slug}}`
@@ -16,7 +17,11 @@ export default class R4PageExplore extends LitElement {
 				</p>
 			</header>
 			<section>
-				<r4-channels origin=${this.channelOrigin} pagination="true" limit="15"></r4-channels>
+				<r4-channels
+					origin=${this.channelOrigin}
+					pagination="true"
+					limit="15"
+				></r4-channels>
 			</section>
 		`
 	}

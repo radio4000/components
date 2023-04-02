@@ -2,7 +2,6 @@ import { LitElement, html } from 'lit'
 
 export default class R4PageHome extends LitElement {
 	static properties = {
-		store: { type: Object, state: true },
 		config: { type: Object, state: true },
 	}
 
