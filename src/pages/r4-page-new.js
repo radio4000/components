@@ -12,9 +12,12 @@ export default class R4PageNew extends LitElement {
 		`
 	}
 
-	onChannelCreate({detail: {data}}) {
-		console.log('some times data is null here', data)
-		page(`/${data.slug}`)
+	onChannelCreate({
+		detail: { data }
+	}) {
+		if (data) {
+			page(`/${data.slug}`)
+		}
 	}
 
 	createRenderRoot() {

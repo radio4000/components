@@ -19,6 +19,7 @@ export default class R4App extends LitElement {
 	static properties = {
 		/* public attributes, config props */
 		singleChannel: { type: Boolean, reflect: true, attribute: 'single-channel', state: true },
+		selectedSlug: { type: String, reflect: true, attribute: 'channel', state: true }, // channel slug
 		href: {
 			reflect: true,
 			converter: (value) => {
@@ -31,7 +32,6 @@ export default class R4App extends LitElement {
 		},
 
 		/* state */
-		channel: { type: String, reflect: true},
 		user: {type: Object, state: true},
 		userChannels: {type: Array || null, state: true},
 		count: {type: Number},
@@ -54,6 +54,7 @@ export default class R4App extends LitElement {
 		return {
 			singleChannel: this.singleChannel,
 			href: this.href,
+			selectedSlug: this.selectedSlug,
 		}
 	}
 	set config(val) {
@@ -69,20 +70,21 @@ export default class R4App extends LitElement {
 		super.connectedCallback()
 
 		this.singleChannel = this.getAttribute('single-channel')
-		this.channel = this.getAttribute('channel')
+		this.selectedSlug = this.getAttribute('channel')
 
-		supabase.auth.onAuthStateChange((event, session) => {
-			console.log('	auth change', event, session?.user?.email)
-
+		supabase.auth.onAuthStateChange(async (event, session) => {
 			if (event === 'SIGNED_OUT') this.removeDatabaseListeners()
-
-			this.refreshUserData()
+			await this.refreshUserData()
+			if (this.store.userChannels) {
+				if (!this.config.selectedSlug) {
+					this.selectedSlug = this.store.userChannels[0].slug
+				}
+			}
 		})
 	}
 
 	async refreshUserData() {
 		if (this.refreshUserData.running) return
-		console.log('refresh user data')
 		this.refreshUserData.running = true
 		const {data} = await supabase.auth.getSession()
 		const {data: channels} = await readUserChannels()
@@ -95,8 +97,6 @@ export default class R4App extends LitElement {
 
 	// When this is run, `user` and `userChannels` can be undefined.
 	async setupDatabaseListeners() {
-		console.log('set up database listeners')
-
 		if (this.userChannels) {
 			const userChannelIds = this.userChannels.map(c => c.id)
 			const userChannelsChanges = supabase.channel('user-channels-changes')
@@ -106,11 +106,8 @@ export default class R4App extends LitElement {
 				table: 'channels',
 				filter: `id=in.(${userChannelIds.join(',')})`,
 			}, (payload) => {
-					console.log('	db: (user) channels', payload)
 					this.refreshUserData()
-			}).subscribe(async (status) => {
-				console.log('	db: channel', status)
-			})
+			}).subscribe()
 		}
 
 		const userChannelEvents = supabase.channel('user-channels-events')
@@ -120,14 +117,11 @@ export default class R4App extends LitElement {
 			table: 'user_channel',
 			filter: `user_id=eq.${this.user.id}`,
 		}, async (payload) => {
-			console.log('	db: user_channels', payload)
 			if (payload.eventType === 'INSERT' || payload.eventType === 'DELETE') {
 				await this.removeDatabaseListeners()
 				await this.refreshUserData()
 			}
-		}).subscribe(async (status) => {
-			console.log('	db: user_channel', status)
-		})
+		}).subscribe()
 	}
 
 	async removeDatabaseListeners() {
@@ -167,8 +161,8 @@ export default class R4App extends LitElement {
 					<r4-route path="/sign/:method" page="sign"></r4-route>
 					<r4-route path="/" page="channel"></r4-route>
 					<r4-route path="/tracks" page="tracks"></r4-route>
-					<r4-route path="/tracks/:track_id" page="track"></r4-route>
-					<r4-route path="/add" page="add"></r4-route>
+					<r4-route path="/tracks/:track_id" page="track" query-params="slug,url"></r4-route>
+					<r4-route path="/add" page="add" query-params="url"></r4-route>
 				</r4-router>
 			`
 		} else {
@@ -182,7 +176,7 @@ export default class R4App extends LitElement {
 					<r4-route path="/explore" page="explore"></r4-route>
 					<r4-route path="/sign" page="sign"></r4-route>
 					<r4-route path="/sign/:method" page="sign"></r4-route>
-					<r4-route path="/add" page="add"></r4-route>
+					<r4-route path="/add" page="add" query-params="slug,url"></r4-route>
 					<r4-route path="/new" page="new"></r4-route>
 					<r4-route path="/:slug" page="channel"></r4-route>
 					<r4-route path="/:slug/tracks" page="tracks"></r4-route>
@@ -252,7 +246,7 @@ export default class R4App extends LitElement {
 			<menu>
 				<li>
 					<a href=${this.config.href}>
-						${this.channel}
+						${this.selectedSlug}
 					</a>
 				</li>
 				<li>
@@ -292,8 +286,8 @@ export default class R4App extends LitElement {
 	onChannelSelect({ detail }) {
 		if (detail.channel) {
 			const { slug } = detail.channel
-			this.channel = slug
-			page(`/${slug}`)
+			this.selectedSlug = slug
+			page(`/${this.selectedSlug}`)
 		}
 	}
 

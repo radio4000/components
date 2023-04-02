@@ -71,7 +71,6 @@ export default class R4Router extends LitElement {
 		const pageQuery = {}
 		const routeQueryParams = $route.getAttribute('query-params')
 		const requestedParams = routeQueryParams ? routeQueryParams.split(',') : []
-		console.log('requestedParams', requestedParams, ctx.query)
 		if (requestedParams && ctx.query) {
 			ctx.query
 				 .filter(param => requestedParams.indexOf(param[0]) > -1)
@@ -93,7 +92,6 @@ export default class R4Router extends LitElement {
 	}
 
 	unrenderRoute($route, ctx, next) {
-		console.debug('unrender $route', $route)
 		next()
 	}
 

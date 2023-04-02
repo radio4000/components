@@ -136,7 +136,7 @@ export default class R4PageChannel extends LitElement {
 				if (this.config.singleChannel) {
 					page('/add')
 				} else {
-					page(`/add/?channel=${this.params.slug}`)
+					page(`/add/?slug=${this.params.slug}`)
 				}
 			}
 
@@ -151,7 +151,6 @@ export default class R4PageChannel extends LitElement {
 			if (['update', 'delete', 'share'].indexOf(detail) > -1) {
 				this.openDialog(detail)
 			}
-			console.log('channel action', detail)
 		}
 	}
 

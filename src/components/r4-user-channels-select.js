@@ -24,9 +24,12 @@ export default class R4UserChannelsSelect extends HTMLElement {
 	}
 
 	/* if any observed attribute changed, re-render */
-	attributeChangedCallback(attrName) {
+	attributeChangedCallback(attrName, newVal) {
 		if (this.constructor.observedAttributes.indexOf(attrName) > -1) {
 			this.render()
+			if (attrName === 'channel') {
+				this.refreshOptions(newVal)
+			}
 		}
 	}
 

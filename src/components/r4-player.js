@@ -30,17 +30,14 @@ export default class R4Player extends HTMLElement {
 		this.append(template.content.cloneNode(true))
 	}
 	onPlayerReady() {
-		console.debug('player ready')
 		this.player = this.$player.getVueInstance()
 	}
 
 	playTracks() {
 		if (!this.player) {
-			console.info('radio4000-player not yet ready')
 			return
 		}
 
-		console.log('play tracks')
 		if (this.tracks.length) {
 			const playlist = {
 				title: '',

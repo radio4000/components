@@ -80,7 +80,6 @@ export default class R4Dialog extends HTMLElement {
 			&& event.clientX <= rect.left + rect.width
 		)
 		if (!isInDialog) {
-			console.log('isInDialog')
 			this.close()
 		}
 	}

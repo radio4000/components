@@ -1,66 +1,73 @@
 import { LitElement, html } from 'lit'
 import { readChannel } from '@radio4000/sdk'
+import page from 'page/page.mjs'
 
 export default class R4PageAdd extends LitElement {
 	static properties = {
 		/* props */
-		store: { type: Object },
-		query: { type: Object },
-		config: { type: Object },
+		store: { type: Object, state: true },
+		query: { type: Object, state: true },
+		config: { type: Object, state: true },
 
 		/* state */
-		channelSlug: {attribute: 'channel'},
-		channelId: { type: String, reflect: true, state: true },
+		selectedSlug: { type: String, state: true },
+		selectedId: { type: String, state: true },
+	}
+
+	get hasOneChannel() {
+		if (!this.store.user) return false
+		return this.store?.userChannels?.length === 1 ? true : false
 	}
 
 	get selectedSlug() {
-		this?.query?.channel || this.slug || this.store.userChannels && this.store.userChannels[0].slug
+		if (this.hasOneChannel) {
+			return this.store.userChannels[0].slug
+		} else if (this?.query?.slug) {
+			return this?.query?.slug
+		} else if (this.config.selectedSlug) {
+			return this.config.selectedSlug
+		}
+	}
+	set selectedSlug(val) {
+		return val
 	}
 
 	async connectedCallback() {
 		super.connectedCallback()
 
 		// Choose the channel to add the track to.
-		if (this?.query?.channel || this.slug) {
-			this.channelId = await this.findSelectedChannel()
-		} else {
-			this.channelId = this.store.userChannels[0].id
+		console.log('connected this.query', this.query)
+		if (this.selectedSlug) {
+			this.selectedId = await this.findSelectedChannel()
 		}
 
 		this.requestUpdate()
 	}
 
 	async onChannelSelect({ detail }) {
-		const { channel } = detail
-		console.log('channel select', channel)
-		if (channel) {
-			this.channel = channel.slug
-			this.channelId = await this.findSelectedChannel()
-			this.requestUpdate()
+		console.log('select channel', detail?.channel)
+		if (detail?.channel?.slug) {
+			this.selectedSlug = detail?.channel?.slug
 		}
+		if (detail?.channel?.id) {
+			this.selectedId = detail?.channel?.id
+		}
+		page(`/add?slug=${detail?.channel?.slug}`)
 	}
 
 	/* find the current channel id we want to add to */
 	async findSelectedChannel() {
-		console.log('find selected channel', this.query, this.params)
-		const { data } = await readChannel(this?.query?.channel || this.slug)
+		const { data } = await readChannel(this.selectedSlug)
 		if (data && data.id) {
-			console.log('add channel id', data.id)
 			return data.id
 		}
 	}
 
 	onTrackCreate({ detail }) {
-		console.log('track submit', detail)
 		if (detail.data) {
 			/* remove the url, because added ? */
-			this.url = null
 			/* set the channel id attribute (since the form cleared on success) */
 			this.focus()
-			this.querySelector('form').insertAdjacentHTML(
-				'afterend',
-				'<p>Track added!</p>'
-			)
 		}
 	}
 
@@ -74,14 +81,24 @@ export default class R4PageAdd extends LitElement {
 	}
 
 	renderHeader() {
-		const slug = this.selectedSlug
+		const $channelsSelect = html`
+			<p>${this.selectedSlug}</p>
+			<r4-user-channels-select
+				channel=${this.selectedSlug}
+				@input=${this.onChannelSelect}
+				></r4-user-channels-select>
+		`
+
+		const $channelLink = html`
+			<a href=${this.config.href + '/' + this.selectedSlug}>
+				${this.selectedSlug}
+			</a>
+		`
+
 		return html`
 			<header>
-				<span><strong>Add</strong> track to</span>
-				<r4-user-channels-select
-					channel=${slug}
-					@input=${this.onChannelSelect}
-				></r4-user-channels-select>
+				<span>Add track to</span>
+				${this.hasOneChannel ? $channelLink : $channelsSelect}
 			</header>
 		`
 	}
@@ -89,8 +106,8 @@ export default class R4PageAdd extends LitElement {
 	renderAdd() {
 		return html`
 			<r4-track-create
-				channel-id=${this.channelId}
-				url=${this?.query?.url}
+				channel-id=${this.selectedId}
+				url=${this.query.url}
 				@submit=${this.onTrackCreate}
 				></r4-track-create>
 		`
