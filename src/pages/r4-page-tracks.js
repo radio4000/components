@@ -4,23 +4,22 @@ import { readChannel } from '@radio4000/sdk'
 
 export default class R4PageTracks extends LitElement {
 	static properties = {
-		slug: { type: String, reflect: true },
-		href: { type: String, reflect: true },
-		singleChannel: { type: Boolean, reflect: true, attribute: 'single-channel' },
+		store: { type: Object, state: true },
+		params: { type: Object, state: true },
+		config: { type: Object, state: true },
 
 		channel: { type: Object, reflect: true, state: true },
-		store: { type: Object, state: true }
 	}
 
 	get channelOrigin() {
-		return this.singleChannel ? this.href : `${this.href}/{{slug}}`
+		return this.config.singleChannel ? this.config.href : `${this.config.href}/{{slug}}`
 	}
 
 	get tracksOrigin() {
-		if (this.singleChannel) {
-			return this.href + '/tracks/{{id}}'
+		if (this.config.singleChannel) {
+			return this.config.href + '/tracks/{{id}}'
 		} else {
-			return this.href + '/' + this.slug + '/tracks/{{id}}'
+			return this.config.href + '/' + this.params.slug + '/tracks/{{id}}'
 		}
 	}
 
@@ -38,7 +37,7 @@ export default class R4PageTracks extends LitElement {
 
 	init() {
 		// a promise for the `until` directive
-		this.channel = this.findSelectedChannel(this.slug)
+		this.channel = this.findSelectedChannel(this.params.slug)
 	}
 
 	render() {

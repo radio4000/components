@@ -5,7 +5,7 @@ export default class R4PageExplore extends LitElement {
 		return this.getAttribute('href')
 	}
 	get channelOrigin() {
-		return `${this.href}/{{slug}}`
+		return `${this.config.href}/{{slug}}`
 	}
 	render() {
 		return html`

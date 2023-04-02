@@ -17,8 +17,8 @@ export default class R4App extends LitElement {
 	playerRef = createRef()
 
 	static properties = {
+		/* public attributes, config props */
 		singleChannel: { type: Boolean, reflect: true, attribute: 'single-channel', state: true },
-		channel: { type: String, reflect: true},
 		href: {
 			reflect: true,
 			converter: (value) => {
@@ -30,6 +30,8 @@ export default class R4App extends LitElement {
 			}
 		},
 
+		/* state */
+		channel: { type: String, reflect: true},
 		user: {type: Object, state: true},
 		userChannels: {type: Array || null, state: true},
 		count: {type: Number},
@@ -44,8 +46,17 @@ export default class R4App extends LitElement {
 			count: this.count
 		}
 	}
-
 	set store(val) {
+		// do nothing
+	}
+
+	get config() {
+		return {
+			singleChannel: this.singleChannel,
+			href: this.href,
+		}
+	}
+	set config(val) {
 		// do nothing
 	}
 
@@ -125,8 +136,6 @@ export default class R4App extends LitElement {
 	}
 
 	render() {
-		console.log('<r4-app>', this.store.user?.role, this.userChannels?.length)
-
 		if (!this.didLoad) return null
 
 		return html`
@@ -148,19 +157,27 @@ export default class R4App extends LitElement {
 	}
 
 	renderAppRouter() {
-		if (this.singleChannel) {
+		if (this.config.singleChannel) {
 			return html`
-				<r4-router .store=${this.store} href=${this.href} name="channel" .singleChannel=${this.singleChannel}>
+				<r4-router
+					name="channel"
+					.store=${this.store}
+					.config=${this.config}
+				>
 					<r4-route path="/sign/:method" page="sign"></r4-route>
 					<r4-route path="/" page="channel"></r4-route>
 					<r4-route path="/tracks" page="tracks"></r4-route>
 					<r4-route path="/tracks/:track_id" page="track"></r4-route>
-					<r4-route path="/add" page="add" slug=${this.channel}></r4-route>
+					<r4-route path="/add" page="add"></r4-route>
 				</r4-router>
 			`
 		} else {
 			return html`
-				<r4-router .store=${this.store} href=${this.href} name="application">
+				<r4-router
+					name="application"
+					.store=${this.store}
+					.config=${this.config}
+					>
 					<r4-route path="/" page="home"></r4-route>
 					<r4-route path="/explore" page="explore"></r4-route>
 					<r4-route path="/sign" page="sign"></r4-route>
@@ -178,7 +195,7 @@ export default class R4App extends LitElement {
 	/* build the app's dom elements */
 	renderAppMenu() {
 		/* when on slug.4000.network */
-		if (this.singleChannel) {
+		if (this.config.singleChannel) {
 			return this.buildSingleChannelMenu()
 		} else {
 			/* when on radio4000.com */
@@ -234,27 +251,27 @@ export default class R4App extends LitElement {
 		return html`
 			<menu>
 				<li>
-					<a href=${this.href}>
+					<a href=${this.config.href}>
 						${this.channel}
 					</a>
 				</li>
 				<li>
-					<a href=${this.href + '/add'}>
+					<a href=${this.config.href + '/add'}>
 						add
 					</a>
 				</li>
 				<li>
-					<a href=${this.href + '/tracks'}>
+					<a href=${this.config.href + '/tracks'}>
 						tracks
 					</a>
 				</li>
 				<li>
 					<r4-auth-status>
 						<span slot="in">
-							<a href=${this.href + '/sign/out'}>sign out</a>
+							<a href=${this.config.href + '/sign/out'}>sign out</a>
 						</span>
 						<span slot="out">
-							<a href=${this.href + '/sign/in'}>sign in</a>
+							<a href=${this.config.href + '/sign/in'}>sign in</a>
 						</span>
 					</r4-auth-status>
 				</li>

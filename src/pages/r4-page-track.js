@@ -5,12 +5,11 @@ import page from 'page/page.mjs'
 
 export default class R4PageTrack extends LitElement {
 	static properties = {
-		slug: { type: String, reflect: true },
-		trackId: { type: String, reflect: true, attribute: 'track-id' },
 		singleChannel: { type: Boolean, reflect: true, attribute: 'single-channel' },
+		store: { type: Object, state: true },
+		params: { type: Object, state: true },
 
 		track: { type: Object, reflect: true, state: true },
-		store: { type: Object, state: true }
 	}
 
 	firstUpdated() {
@@ -19,7 +18,7 @@ export default class R4PageTrack extends LitElement {
 
 	/* find data, the current channel id we want to add to */
 	async findTrack() {
-		const { data } = await readTrack(this.trackId)
+		const { data } = await readTrack(this.params.track_id)
 		if (data && data.id) {
 			return data
 		}
@@ -40,10 +39,10 @@ export default class R4PageTrack extends LitElement {
 			<main>
 				<r4-track
 					.track=${track}
-					id=${this.trackId}
+					id=${this.params.track_id}
 					></r4-track>
 				<r4-track-actions
-					id=${this.trackId}
+					id=${this.params.track_id}
 					@input=${this.onTrackAction}
 					></r4-track-actions>
 			</main>
@@ -88,7 +87,7 @@ export default class R4PageTrack extends LitElement {
 				const playEvent = new CustomEvent('r4-play', {
 					bubbles: true,
 					detail: {
-						channel: this.slug,
+						channel: this.params.slug,
 						track: this.track.id,
 					}
 				})
@@ -102,7 +101,7 @@ export default class R4PageTrack extends LitElement {
 	}
 	async onTrackDelete() {
 		this.closeDialog('delete')
-		page(`/${this.slug}`)
+		page(`/${this.params.slug}`)
 	}
 
 	async onTrackUpdate({detail}) {
@@ -117,7 +116,7 @@ export default class R4PageTrack extends LitElement {
 			if (this.singleChannel) {
 				page('/tracks')
 			} else {
-				page(`/${this.slug}/tracks`)
+				page(`/${this.params.slug}/tracks`)
 			}
 		}
 	}

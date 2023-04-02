@@ -4,18 +4,14 @@ import page from 'page/page.mjs'
 
 export default class R4Router extends LitElement {
 	static properties = {
-		href: { type: String, reflect: true },
-		channel: { type: String, reflect: true },
-		page: { type: String, reflect: true },
-		path: { type: String, reflect: true },
-		method: { type: String, reflect: true },
-
+		/* props attribute */
 		store: { type: Object, state: true },
+		config: { type: Object, state: true },
 	}
 
 	/* used to setup the base of the url handled by page.js router */
 	get pathname() {
-		const href = this.href || window.location.href
+		const href = this.config.href || window.location.href
 		let name = new URL(href).pathname
 		if (name.endsWith('/')) {
 			name = name.slice(0, name.length - 1)
@@ -91,7 +87,7 @@ export default class R4Router extends LitElement {
 	render() {
 		const tag = literal`r4-page-${unsafeStatic(this.pageName)}`
 		const $pageDom = html`
-			<${tag} .store=${this.store} .query=${this.query} .params=${this.params} href=${this.href} slug=${this.params.slug} track-id=${this.params.track_id}></${tag}>
+			<${tag} .store=${this.store} .config=${this.config} .query=${this.query} .params=${this.params}></${tag}>
 		`
 		return $pageDom
 	}

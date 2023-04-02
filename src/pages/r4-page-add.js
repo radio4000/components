@@ -3,23 +3,18 @@ import { readChannel } from '@radio4000/sdk'
 
 export default class R4PageAdd extends LitElement {
 	static properties = {
-		href: { type: String, reflect: true },
-		url: { type: String, reflect: true },
-		slug: { type: String, reflect: true },
-		channelId: {
-			type: String,
-			attribute: 'channel-id',
-			reflect: true,
-			state: true,
-		},
-		singleChannel: {
-			type: Boolean,
-			attribute: 'single-channel',
-			reflect: true,
-		},
+		/* props */
 		store: { type: Object },
-		params: { type: Object },
-		query: { type: Object }
+		query: { type: Object },
+		href: { type: String, reflect: true },
+		singleChannel: { type: Boolean, attribute: 'single-channel', reflect: true},
+		/* state */
+		channelSlug: {attribute: 'channel'},
+		channelId: { type: String, reflect: true, state: true },
+	}
+
+	get selectedSlug() {
+		this?.query?.channel || this.slug || this.store.userChannels && this.store.userChannels[0].slug
 	}
 
 	async connectedCallback() {
@@ -35,53 +30,23 @@ export default class R4PageAdd extends LitElement {
 		this.requestUpdate()
 	}
 
-	render() {
-		return html`
-			${!this.singleChannel ? this.renderHeader() : ''}
-			<main>
-				${this.renderAdd()}
-			</main>
-		`
-	}
-
-	renderHeader() {
-		const slug = this?.query?.channel || this.slug || this.store.userChannels && this.store.userChannels[0].slug
-		return html`
-			<header>
-				<span><strong>Add</strong> track to</span>
-				<r4-user-channels-select
-					channel=${slug}
-					@input=${this.onChannelSelect}
-				></r4-user-channels-select>
-			</header>
-		`
-	}
-
-	renderAdd() {
-		return html`
-			<r4-track-create
-				channel-id=${this.channelId}
-				url=${this.url}
-				@submit=${this.onTrackCreate}
-				></r4-track-create>
-		`
+	async onChannelSelect({ detail }) {
+		const { channel } = detail
+		console.log('channel select', channel)
+		if (channel) {
+			this.channel = channel.slug
+			this.channelId = await this.findSelectedChannel()
+			this.requestUpdate()
+		}
 	}
 
 	/* find the current channel id we want to add to */
 	async findSelectedChannel() {
+		console.log('find selected channel', this.query, this.params)
 		const { data } = await readChannel(this?.query?.channel || this.slug)
 		if (data && data.id) {
 			console.log('add channel id', data.id)
 			return data.id
-		}
-	}
-
-	async onChannelSelect({ detail }) {
-		const { channel } = detail
-		if (channel) {
-			this.channel = channel.slug
-			this.channelId = await this.findSelectedChannel()
-			this.requestUpdate('channel')
 		}
 	}
 
@@ -97,6 +62,38 @@ export default class R4PageAdd extends LitElement {
 				'<p>Track added!</p>'
 			)
 		}
+	}
+
+	render() {
+		return html`
+			${!this.singleChannel ? this.renderHeader() : ''}
+			<main>
+				${this.renderAdd()}
+			</main>
+		`
+	}
+
+	renderHeader() {
+		const slug = this.selectedSlug
+		return html`
+			<header>
+				<span><strong>Add</strong> track to</span>
+				<r4-user-channels-select
+					channel=${slug}
+					@input=${this.onChannelSelect}
+				></r4-user-channels-select>
+			</header>
+		`
+	}
+
+	renderAdd() {
+		return html`
+			<r4-track-create
+				channel-id=${this.channelId}
+				url=${this?.query?.url}
+				@submit=${this.onTrackCreate}
+				></r4-track-create>
+		`
 	}
 	createRenderRoot() {
 		return this

@@ -2,7 +2,8 @@ import { LitElement, html } from 'lit'
 
 export default class R4PageHome extends LitElement {
 	static properties = {
-		store: { type: Object, state: true }
+		store: { type: Object, state: true },
+		config: { type: Object, state: true },
 	}
 
 	render() {
@@ -15,7 +16,7 @@ export default class R4PageHome extends LitElement {
 				<section>
 					<menu>
 						<li>
-							Start <a href="${this.href}/explore">exploring channels</a> to discover new content
+							Start <a href="${this.config.href}/explore">exploring channels</a> to discover new content
 						</li>
 						<li>
 							Play a <r4-title small="true"></r4-title> channel

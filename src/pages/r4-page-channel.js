@@ -5,15 +5,15 @@ import page from 'page/page.mjs'
 
 export default class R4PageChannel extends LitElement {
 	static properties = {
-		href: { type: String, reflect: true },
-		slug: { type: String, reflect: true },
+		store: { type: Object, state: true },
+		params: { type: Object, state: true },
+		config: { type: Object, state: true },
 
 		limit: { type: Number, reflect: true },
 		pagination: { type: Boolean, reflect: true },
 		singleChannel: { type: Boolean, reflect: true, attribute: 'single-channel' },
 
 		channel: { type: Object, reflect: true, state: true },
-		store: { type: Object, state: true },
 	}
 
 	constructor()	{
@@ -23,14 +23,14 @@ export default class R4PageChannel extends LitElement {
 	}
 
 	get channelOrigin() {
-		return this.singleChannel ? this.href : `${this.href}/{{slug}}`
+		return this.config.singleChannel ? this.config.href : `${this.config.href}/{{slug}}`
 	}
 
 	get tracksOrigin() {
-		if (this.singleChannel) {
-			return this.href + '/tracks/{{id}}'
+		if (this.config.singleChannel) {
+			return this.config.href + '/tracks/{{id}}'
 		} else {
-			return this.href + '/' + this.slug + '/tracks/{{id}}'
+			return this.config.href + '/' + this.params.slug + '/tracks/{{id}}'
 		}
 	}
 
@@ -45,7 +45,7 @@ export default class R4PageChannel extends LitElement {
 
 	/* find data, the current channel id we want to add to */
 	async findSelectedChannel() {
-		const {data} = await readChannel(this.slug)
+		const {data} = await readChannel(this.params.slug)
 		if (data && data.id) {
 			return data
 		}
@@ -127,24 +127,24 @@ export default class R4PageChannel extends LitElement {
 				const playEvent = new CustomEvent('r4-play', {
 					bubbles: true,
 					detail: {
-						channel: this.slug
+						channel: this.params.slug
 					}
 				})
 				this.dispatchEvent(playEvent)
 			}
 			if (detail === 'create-track') {
-				if (this.singleChannel) {
+				if (this.config.singleChannel) {
 					page('/add')
 				} else {
-					page(`/add/?channel=${this.slug}`)
+					page(`/add/?channel=${this.params.slug}`)
 				}
 			}
 
 			if (detail === 'tracks') {
-				if (this.singleChannel) {
+				if (this.config.singleChannel) {
 					page(`/tracks`)
 				} else {
-					page(`/${this.slug}/tracks`)
+					page(`/${this.params.slug}/tracks`)
 				}
 			}
 
@@ -169,7 +169,7 @@ export default class R4PageChannel extends LitElement {
 				slug: newSlug
 			}
 		} = {} = detail
-		if (newSlug && newSlug !== this.slug) {
+		if (newSlug && newSlug !== this.params.slug) {
 			page(`/${newSlug}`)
 		} else {
 			this.init()
@@ -182,10 +182,10 @@ export default class R4PageChannel extends LitElement {
 	onDialogClose({target}) {
 		const name = target.getAttribute('name')
 		if (name === 'track') {
-			if (this.singleChannel) {
+			if (this.config.singleChannel) {
 				page('/tracks')
 			} else {
-				page(`/${this.slug}/tracks`)
+				page(`/${this.params.slug}/tracks`)
 			}
 		}
 	}
