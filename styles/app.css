@@ -10,8 +10,7 @@ r4-layout [slot="header"] menu {
 	/* gap: calc(var(--size) / 2); */
 }
 
-r4-layout [slot="header"] menu a,
-r4-layout [slot="header"] menu r4-user-channels-select {
+r4-layout [slot="header"] menu a {
 	display: flex;
 	padding: calc(var(--size) / 2);
 }
@@ -22,18 +21,15 @@ r4-layout [slot="header"] menu r4-user-channels-select {
 		align-items: flex-start;
 		height: 100%;
 		padding-top: calc(var(--size) / 4);
-		padding-bottom: calc(var(--size) / 4);
+		padding-bottom: calc(var(--size) / 2);
 		box-sizing: border-box;
 	}
 	r4-layout [slot="header"] menu a {
-		padding: calc(var(--size) / 4) calc(var(--size) / 2);
 	}
+	r4-layout [slot="header"] menu button,
 	r4-layout [slot="header"] menu r4-user-channels-select {
-		margin-left: -3px;
+		margin-left: calc(var(--size) / 2);
 	}
-	/* r4-layout [slot="header"] menu li:last-child { */
-	/* 	margin: auto calc(var(--size) / 2) calc(var(--size) / 4) calc(var(--size) / 2); */
-	/* } */
 }
 
 /* Pagination */

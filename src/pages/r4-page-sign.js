@@ -6,15 +6,22 @@ export default class R4PageSign extends LitElement {
 	static properties = {
 		params: { type: Object, state: true },
 		config: { type: Object, state: true },
+		store: { type: Object, state: true },
 	}
+
 	render() {
 		const {method} = this.params
 		return html`
 			<header>
-				Sign ${method ? method : null}
+				<h1>Sign ${method ? method : null}</h1>
 			</header>
 			<main>
 				${method ? this.renderMethodPage(method) : this.renderMethodSelection()}
+
+				<details>
+					<summary>Forgot your password?</summary>
+					<r4-reset-password />
+				</details>
 			</main>
 		`
 	}

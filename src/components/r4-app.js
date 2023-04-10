@@ -74,6 +74,15 @@ export default class R4App extends LitElement {
 
 		supabase.auth.onAuthStateChange(async (event, session) => {
 			if (event === 'SIGNED_OUT') this.removeDatabaseListeners()
+
+			if (event === "PASSWORD_RECOVERY") {
+				const newPassword = prompt("What would you like your new password to be?");
+				if (!newPassword) return
+				const { data, error } = await supabase.auth.updateUser({ password: newPassword })
+				if (data) alert("Password updated successfully!")
+				if (error) alert("There was an error updating your password.")
+			}
+
 			await this.refreshUserData()
 			if (this.store.userChannels) {
 				if (!this.config.selectedSlug) {
@@ -163,6 +172,7 @@ export default class R4App extends LitElement {
 					<r4-route path="/tracks" page="tracks"></r4-route>
 					<r4-route path="/tracks/:track_id" page="track" query-params="slug,url"></r4-route>
 					<r4-route path="/add" page="add" query-params="url"></r4-route>
+					<r4-route path="/settings" page="settings"></r4-route>
 				</r4-router>
 			`
 		} else {
@@ -178,6 +188,7 @@ export default class R4App extends LitElement {
 					<r4-route path="/sign/:method" page="sign"></r4-route>
 					<r4-route path="/add" page="add" query-params="slug,url"></r4-route>
 					<r4-route path="/new" page="new"></r4-route>
+					<r4-route path="/settings" page="settings"></r4-route>
 					<r4-route path="/:slug" page="channel"></r4-route>
 					<r4-route path="/:slug/tracks" page="tracks"></r4-route>
 					<r4-route path="/:slug/tracks/:track_id" page="track"></r4-route>
@@ -224,6 +235,13 @@ export default class R4App extends LitElement {
 										html`<a href=${`${href}/${this.userChannels[0].slug}`}>${this.userChannels[0].name}</a>` :
 										html`<r4-user-channels-select @input=${this.onChannelSelect} .channels=${userChannels} />`
 							}
+						</span>
+					</r4-auth-status>
+				</li>
+				<li>
+					<r4-auth-status ?auth=${user}>
+						<span slot="in">
+							<a href="/settings">Settings</a>
 						</span>
 					</r4-auth-status>
 				</li>

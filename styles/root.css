@@ -1,5 +1,6 @@
 /* Universal Box Sizing with Inheritance */
-html {
+html,
+:root {
 	box-sizing: border-box;
 }
 *, *:before, *:after {
@@ -50,6 +51,7 @@ textarea {
 	color: var(--color-text);
 	background-color: var(--color-background);
 	padding: calc(var(--size) / 4) calc(var(--size) / 2);
+	border: 1px solid;
 	border-color: var(--color-text);
 }
 
@@ -58,4 +60,9 @@ button[disabled] {
 	border-color: transparent;
 	color: hsla(0, 0%, 0%, 0.5);
 	cursor: auto;
+}
+
+select,
+button {
+	border-width: 2px;
 }
