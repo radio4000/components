@@ -1,8 +1,13 @@
 r4-page-add {}
+
 r4-page-add header {
 	margin-bottom: var(--size);
 	display: flex;
 	align-items: center;
+}
+
+r4-page-add header p {
+	margin: 0;
 }
 
 r4-page-add r4-user-channels-select {

@@ -82,7 +82,7 @@ export default class R4PageAdd extends LitElement {
 
 	renderHeader() {
 		const $channelsSelect = html`
-			<p>${this.selectedSlug}</p>
+			<p>&nbsp;${this.selectedSlug}</p>
 			<r4-user-channels-select
 				channel=${this.selectedSlug}
 				@input=${this.onChannelSelect}
@@ -97,7 +97,7 @@ export default class R4PageAdd extends LitElement {
 
 		return html`
 			<header>
-				<span>Add track to</span>
+				<p>Add track to</p>
 				${this.hasOneChannel ? $channelLink : $channelsSelect}
 			</header>
 		`

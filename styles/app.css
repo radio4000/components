@@ -31,9 +31,9 @@ r4-layout [slot="header"] menu r4-user-channels-select {
 	r4-layout [slot="header"] menu r4-user-channels-select {
 		margin-left: -3px;
 	}
-	r4-layout [slot="header"] menu li:last-child {
-		margin: auto calc(var(--size) / 2) calc(var(--size) / 4) calc(var(--size) / 2);
-	}
+	/* r4-layout [slot="header"] menu li:last-child { */
+	/* 	margin: auto calc(var(--size) / 2) calc(var(--size) / 4) calc(var(--size) / 2); */
+	/* } */
 }
 
 /* Pagination */

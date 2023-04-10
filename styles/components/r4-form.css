@@ -13,7 +13,7 @@ fieldset {
 	padding: 0 0 calc(var(--size) / 2);
 }
 fieldset label {
-	font-weight: bold;
+	/* font-weight: bold; */
 }
 fieldset[hidden] {
 	display: none;
@@ -21,7 +21,6 @@ fieldset[hidden] {
 fieldset[disabled] {}
 fieldset[disabled] button[type="submit"] {
 	opacity: 0.5;
-	/* background-color: none; */
 	cursor: not-allowed;
 }
 fieldset[disabled] button[loading] {
