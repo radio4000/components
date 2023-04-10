@@ -72,7 +72,7 @@ export default class R4PageSettings extends LitElement {
 			<br/>
 
 			<form @submit=${this.changePassword}>
-				<input name="username" value=${this.store.user.email} readonly hidden autocomplete="username">
+				<input name="username" value=${this.store.user?.email} readonly hidden autocomplete="username">
 				<label>Change password
 					<input type="password" name="password" required autocomplete="new-password">
 				</label>

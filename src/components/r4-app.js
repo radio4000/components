@@ -75,6 +75,7 @@ export default class R4App extends LitElement {
 		supabase.auth.onAuthStateChange(async (event, session) => {
 			if (event === 'SIGNED_OUT') this.removeDatabaseListeners()
 
+			// @todo redirect to a /set-password page or similar instead of the prompt
 			if (event === "PASSWORD_RECOVERY") {
 				const newPassword = prompt("What would you like your new password to be?");
 				if (!newPassword) return
