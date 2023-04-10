@@ -2,11 +2,11 @@
   "name": "@radio4000/components",
   "description": "web components for radio4000.com",
   "private": false,
-  "version": "0.0.30",
+  "version": "0.0.31",
   "type": "module",
-  "main": "dist/my-element.es.js",
+  "main": "dist/r4.js",
   "exports": {
-    ".": "./dist/my-element.es.js"
+    ".": "./dist/r4.js"
   },
   "files": [
     "dist"
@@ -19,12 +19,12 @@
   },
   "dependencies": {
     "@radio4000/sdk": "^0.1.6",
-    "lit": "^2.7.0",
+    "lit": "^2.7.2",
     "page": "^1.11.6",
     "radio4000-player": "^0.6.24"
   },
   "devDependencies": {
-    "vite": "^4.2.0"
+    "vite": "^4.2.1"
   },
   "repository": {
     "type": "git",
