@@ -1,5 +1,6 @@
 /* Wasn't sure where to organize this, so here we are. */
 
+.Grid,
 r4-channels ul {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
@@ -10,6 +11,7 @@ r4-channels ul {
 	margin-bottom: var(--size);
 }
 
+.Grid > *,
 r4-channels li {
 	border: 1px solid;
 	padding: calc(var(--size) / 4);
@@ -17,17 +19,15 @@ r4-channels li {
 	/* background-color: bisque; */
 }
 
-r4-channels h1 {
-	font-size: 1rem;
-}
-
 @media (min-width: 12rem) {
+	.Grid,
 	r4-channels ul {
 		grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
 	}
 }
 
 @media (prefers-color-scheme: light) {
+	.Grid > *,
 	r4-channels li {
 		background-color: bisque;
 	}
