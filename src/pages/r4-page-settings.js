@@ -42,12 +42,14 @@ export default class R4PageSettings extends LitElement {
 	async confirmAndDelete(event) {
 		event.preventDefault()
 		if (!window.confirm('Do you really want to delete your account?')) return
-		// const {error} = await sdk.users.deleteUser()
-		const {error} = await sdk.users.readUser()
+		const {error} = await sdk.users.deleteUser()
 		if (!error) {
-			console.log('deleted user')
+			console.log('deleted user account')
+			await sdk.auth.signOut()
+			window.location.reload()
+		} else {
+			console.log('Error deleting user account', error)
 		}
-		console.log('deleted user?', error)
 	}
 
 	render() {
