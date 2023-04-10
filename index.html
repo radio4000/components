@@ -10,7 +10,7 @@
 
 		<link rel="stylesheet" href="/styles/index.css" />
 		<script type="module" src="/src/index.js"></script>
-		<script type="module" src="/src/r4-components.js"></script>
+		<script type="module" src="/src/components/r4-components.js"></script>
 		<style>
 			.AppDemoFrame {
 				resize: both;
@@ -37,7 +37,7 @@
 			const params = new URLSearchParams(window.location.search)
 			const channel = params.get('channel')
 			const $app = document.querySelector('r4-app')
-			$app.setAttribute('href', window.location.origin)
+			$app.setAttribute('href', window.location.href)
 			channel && $app.setAttribute('channel', channel)
 		</script>
 
@@ -58,6 +58,5 @@
 				<r4-components></r4-components>
 			</details>
 		</article>
-
 	</body>
 </html>
