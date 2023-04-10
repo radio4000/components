@@ -13,7 +13,6 @@
 		<script type="module" src="/src/r4-components.js"></script>
 		<style>
 			.AppDemoFrame {
-				margin-top: 1rem;
 				resize: both;
 				overflow: auto;
 				display: flex;
@@ -31,6 +30,18 @@
 	</head>
 
 	<body>
+		<div class="AppDemoFrame">
+			<r4-app></r4-app>
+		</div>
+		<script>
+			const params = new URLSearchParams(window.location.search)
+			const channel = params.get('channel')
+			const $app = document.querySelector('r4-app')
+			$app.setAttribute('href', window.location.origin)
+			channel && $app.setAttribute('channel', channel)
+		</script>
+
+		<article hidden>
 		<p>
 			<strong><a href="/"><r4-title small></r4-title></a></strong>
 			shows a collection of web components used to build
@@ -46,16 +57,7 @@
 			<summary>Overview of all available components</summary>
 			<r4-components></r4-components>
 		</details>
+		</article>
 
-		<div class="AppDemoFrame">
-			<r4-app></r4-app>
-		</div>
-		<script>
-			const params = new URLSearchParams(window.location.search)
-			const channel = params.get('channel')
-			const $app = document.querySelector('r4-app')
-			$app.setAttribute('href', window.location.origin)
-			channel && $app.setAttribute('channel', channel)
-		</script>
 	</body>
 </html>
