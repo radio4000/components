@@ -61,30 +61,29 @@ export default class R4PageSettings extends LitElement {
 				<em>${this.store?.user?.email}</em>
 			</p>
 
-			<h2>Change e-mail</h2>
 			<form @submit=${this.changeEmail}>
-				<label>E-mail
+				<label>Change email
 					<input type="email" name="email" value=${this.store.user?.email} required>
 				</label>
-				<button type="submit">Update my e-mail</button>
+				<button type="submit">Save</button>
 				${this.changeEmail.msg ? html`<p>${this.changeEmail.msg}</p>` : null}
 			</form>
 
 			<br/>
 
-			<h2>Change password</h2>
 			<form @submit=${this.changePassword}>
 				<input name="username" value=${this.store.user.email} readonly hidden autocomplete="username">
-				<label>Enter a new password
+				<label>Change password
 					<input type="password" name="password" required autocomplete="new-password">
 				</label>
-				<button type="submit">Set new password</button>
+				<button type="submit">Save</button>
 				${this.changePassword.msg ? html`<p>${this.changePassword.msg}</p>` : null}
 			</form>
 
 			<br/>
 
 			<h2>Delete account</h2>
+			<p>Deleting your account will also delete any radios and all tracks you have created.</p>
 			<form @submit=${this.confirmAndDelete}>
 				<button type="submit">Delete my account</button>
 			</form>

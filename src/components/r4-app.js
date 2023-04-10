@@ -238,15 +238,23 @@ export default class R4App extends LitElement {
 						</span>
 					</r4-auth-status>
 				</li>
+				<li>
 					<r4-auth-status ?auth=${user}>
 						<span slot="in">
-							<li><a href="/settings">Settings</a></li>
-							<li><button @click=${signOut}>Sign out</button></li>
-						</span>
-						<span slot="out">
-							<li><a href=${href + '/sign/in'}>Sign in</a></li>
+							<a href="/settings">Settings</a>
 						</span>
 					</r4-auth-status>
+				</li>
+				<li>
+					<r4-auth-status ?auth=${user}>
+						<span slot="in">
+							<button @click=${signOut}>Sign out</button>
+						</span>
+						<span slot="out">
+							<a href=${href + '/sign/in'}>Sign in</a>
+						</span>
+					</r4-auth-status>
+				</li>
 			</menu>
 		`
 	}
