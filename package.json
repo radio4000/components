@@ -15,7 +15,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run dev",
     "dev": "vite --port 4000",
-    "build": "vite build"
+    "build": "npm run build-website; npm run build-library; mv dist-lib/r4.js dist;  mv dist-lib/style.css dist/r4.css; rm -r dist-lib",
+    "build-library": "vite build --config vite-lib.config.js",
+    "build-website": "vite build --config vite.config.js"
   },
   "dependencies": {
     "@radio4000/sdk": "^0.1.6",

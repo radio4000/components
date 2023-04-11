@@ -20,19 +20,12 @@ export default defineConfig({
 		vitePluginR4AppSPA(),
 	],
 	base: './',
-	// Enable SPA mode so our /index.html with <r4-app> works across refreshes.
-	/* appType: 'spa', */
 	build: {
 		// https://vitejs.dev/guide/build.html#library-mode
-		lib: {
-			entry: resolve(__dirname, 'src/index.js'),
-			formats: ['es'],
-			fileName: 'r4',
-			name: 'r4',
-		},
 		rollupOptions: {
 			input: {
 				main: resolve(__dirname, 'index.html'),
+				examples: resolve(__dirname, 'examples/index.html'),
 
 				r4Actions: resolve(__dirname, 'examples/r4-actions.html'),
 				r4App: resolve(__dirname, 'examples/r4-app.html'),
