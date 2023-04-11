@@ -32,7 +32,9 @@ import sdk from '@radio4000/components'
 
 ## Development
 
-The components are in the `./src` folder. Inside `./examples` you'll find demos of all components.
+- The components are in the `./src` folder
+- Inside `./examples` you'll find demos of all components
+- The `./index.html` file renders the `<r4-app>` component, which requires a SPA router.
 
 If you'd like to help out, clone the repository, install dependencies and start the local server.
 
@@ -43,4 +45,12 @@ npm install
 npm run dev
 ```
 
-The local server will build `src/index.js` to `./index.js` while the server is running.
+## Build and releases
+
+To release this package under `@radio4000/components` on NPM, bump the version in package.json, create a commit, tag it. To publish on npm, create a new release on GitHub and let the GH action do the rest.
+
+To make sure the build workflows
+
+- npm run build
+- npm run dev
+- open http://localhost:4000/tests/dist-test.html
