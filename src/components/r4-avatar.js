@@ -1,7 +1,38 @@
-import {html} from 'lit'
+import { LitElement, html } from 'lit'
+import { readChannel } from '@radio4000/sdk'
+
+/**
+ * Renders an image in a predefined format for channel avatars.
+ * There are two ways to tell the component what to render
+ * 1. Pass in an `image` with the Cloudinary image id
+ * 2. Pass in a `slug` with the channel slug. This will cause a network request to happen
+ */
+export default class R4Avatar extends LitElement {
+	static properties = {
+		image: { type: String, reflective: true },
+		slug: { type: String, reflective: true },
+	}
+
+	async connectedCallback() {
+		super.connectedCallback()
+		if (this.slug) {
+			const { data } = await readChannel(this.slug)
+			this.image = data.image
+		}
+	}
+
+	render() {
+		return ResponsiveCloudinaryImage(this.image)
+	}
+
+	// Disable shadow DOM
+	createRenderRoot() {
+		return this
+	}
+}
 
 // Renders a responsive image loaded from Cloudinary.
-export default function R4ChannelAvatar(id) {
+function ResponsiveCloudinaryImage(id) {
 	if (!id) return null
 
 	const baseUrl = 'https://res.cloudinary.com/radio4000/image/upload'
