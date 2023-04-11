@@ -1,6 +1,5 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
-import Inspect from 'vite-plugin-inspect'
 
 /* treat the path '/examples/r4-app.html/' as SPA (serve the file, let js handle URL route) */
 const vitePluginR4AppSPA = (options) => ({
@@ -18,7 +17,6 @@ const vitePluginR4AppSPA = (options) => ({
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
-		Inspect(),
 		vitePluginR4AppSPA(),
 	],
 	base: './',
