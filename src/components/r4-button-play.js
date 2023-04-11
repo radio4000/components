@@ -12,7 +12,7 @@ export default class R4ButtonPlay extends LitElement {
 
 	render() {
 		return html`
-			<button @click=${this.play}>play</button>
+			<button @click=${this.play}>Play</button>
 		`
 	}
 

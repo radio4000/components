@@ -233,7 +233,7 @@ export default class R4App extends LitElement {
 				<li>
 					<r4-auth-status ?auth=${user}>
 						<span slot="out">
-							<a href=${href + '/sign/up'}>Sign up</a>
+							<a href=${href + '/sign/up'}>Create account</a>
 						</span>
 						<span slot="in">
 							${

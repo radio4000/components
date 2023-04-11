@@ -3,7 +3,7 @@ template.innerHTML = `
 	<dialog part="dialog">
 		<slot name="close">
 			<form method="dialog" part="form">
-				<button part="button">close</button>
+				<button part="button">Close</button>
 			</form>
 		</slot>
 		<slot name="dialog"></slot>
