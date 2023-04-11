@@ -12,6 +12,7 @@ export default class R4PageAdd extends LitElement {
 		/* state */
 		selectedSlug: { type: String, state: true },
 		selectedId: { type: String, state: true },
+		lastAddedTrack: { type: Object, state: true },
 	}
 
 	get hasOneChannel() {
@@ -64,9 +65,9 @@ export default class R4PageAdd extends LitElement {
 	}
 
 	onTrackCreate({ detail }) {
+		console.log(detail)
 		if (detail.data) {
-			/* remove the url, because added ? */
-			/* set the channel id attribute (since the form cleared on success) */
+			this.lastAddedTrack = detail.data
 			this.focus()
 		}
 	}
@@ -76,6 +77,9 @@ export default class R4PageAdd extends LitElement {
 			${!this.config.singleChannel ? this.renderHeader() : ''}
 			<main>
 				${this.renderAdd()}
+				${this.lastAddedTrack ?
+					html`Added track: <a href=${`/${this.selectedSlug}/tracks/${this.lastAddedTrack.id}`}>${this.lastAddedTrack.title}</a>`
+					: null}
 			</main>
 		`
 	}
