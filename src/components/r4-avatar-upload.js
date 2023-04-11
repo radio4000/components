@@ -7,6 +7,7 @@ import { LitElement, html } from 'lit'
  */
 export default class R4AvatarUpload extends LitElement {
 	static properties = {
+		tags: { type: String, reflective: true },
 		loading: { type: Boolean, state: true },
 	}
 
@@ -17,26 +18,15 @@ export default class R4AvatarUpload extends LitElement {
 		for (const file of files) {
 			this.loading = true
 
-			const formData = new FormData()
-			formData.append('upload_preset', 'tc44ivjo')
-			formData.append('file', file)
+			const res = await createImage(file, this.tags)
+			const data = await res.json()
 
-			fetch(`https://api.cloudinary.com/v1_1/radio4000/auto/upload`, {
-				method: 'POST',
-				body: formData,
+			const uploadEvent = new CustomEvent('upload', {
+				bubbles: true,
+				detail: data,
 			})
-				.then((response) => response.json())
-				.then((data) => {
-					const uploadEvent = new CustomEvent('upload', {
-						bubbles: true,
-						detail: data,
-					})
-					this.dispatchEvent(uploadEvent)
-					this.loading = false
-				})
-				.catch((err) => {
-					console.log('error uploading', err)
-				})
+			this.dispatchEvent(uploadEvent)
+			this.loading = false
 		}
 	}
 	render() {
@@ -47,4 +37,17 @@ export default class R4AvatarUpload extends LitElement {
 			</form>
 		`
 	}
+}
+
+// @todo move to sdk.channels.createImage()
+async function createImage(file, tags) {
+	const formData = new FormData()
+	formData.append('upload_preset', 'tc44ivjo')
+	formData.append('file', file)
+	if (tags) formData.append('tags', tags)
+
+	return fetch(`https://api.cloudinary.com/v1_1/radio4000/auto/upload`, {
+		method: 'POST',
+		body: formData,
+	})
 }
