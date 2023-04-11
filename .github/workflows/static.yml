@@ -33,6 +33,7 @@ jobs:
       - uses: actions/setup-node@v3
       - run: npm install
       - run: npm run build
+      - run: pushd build/examples/r4-app && ln -s index.html 404.html && popd
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
