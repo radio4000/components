@@ -29,8 +29,22 @@
 		</li>
 	</ul>
 
-	<r4-app></r4-app>
+	<div class="Resizer">
+		<r4-app></r4-app>
+	</div>
 </body>
+
+<style>
+	.Resizer {
+		display: flex;
+		flex-direction: column;
+		resize: both; overflow: auto;
+		/* border: 2px solid blue;  */
+	}
+	.Resizer r4-app {
+		height: 100%;
+	}
+</style>
 
 <script>
 	const params = new URLSearchParams(window.location.search)
