@@ -96,13 +96,20 @@ export default class R4App extends LitElement {
 	async refreshUserData() {
 		if (this.refreshUserData.running) return
 		this.refreshUserData.running = true
+
 		const {data} = await supabase.auth.getSession()
-		const {data: channels} = await readUserChannels()
-		this.userChannels = channels?.length ? channels : undefined
 		this.user = data?.session?.user
+
+		if (this.user) {
+			const {data: channels} = await readUserChannels()
+			this.userChannels = channels?.length ? channels : undefined
+			this.setupDatabaseListeners()
+		} else {
+			this.userChannels = undefined
+		}
+
 		this.didLoad = true
 		this.refreshUserData.running = false
-		if (this.user) this.setupDatabaseListeners()
 	}
 
 	// When this is run, `user` and `userChannels` can be undefined.
