@@ -9,8 +9,8 @@ import { readChannel } from '@radio4000/sdk'
  */
 export default class R4Avatar extends LitElement {
 	static properties = {
-		image: { type: String, reflective: true },
-		slug: { type: String, reflective: true },
+		image: { type: String, reflect: true },
+		slug: { type: String, reflect: true },
 	}
 
 	async connectedCallback() {
@@ -55,7 +55,7 @@ function ResponsiveCloudinaryImage(id) {
 				<source
 					srcset=${`${baseUrl}/${small},${crop},fl_lossy/${id} 1x, ${baseUrl}/${large},${crop},fl_lossy/${id} 2x`}
 				/>
-				<img src=${`${baseUrl}/${small},${crop},fl_lossy/${id}`} alt="" />
+				<img src=${`${baseUrl}/${small},${crop},fl_lossy/${id}`} alt=${`Avatar for ${id}`} />
 			</picture>
 		</figure>
 	`
