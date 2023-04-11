@@ -51,8 +51,8 @@ export default class R4PageTrack extends LitElement {
 					<r4-track-update
 						slot="dialog"
 						id=${track.id}
-						slug=${track.slug}
-						name=${track.name}
+						url=${track.url}
+						title=${track.title}
 						description=${track.description}
 						@submit=${this.onTrackUpdate}
 						></r4-channel-update>
