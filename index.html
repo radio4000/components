@@ -11,50 +11,24 @@
 		<link rel="stylesheet" href="/styles/index.css" />
 		<script type="module" src="/src/index.js"></script>
 		<script type="module" src="/src/components/r4-components.js"></script>
-		<style>
-			body {
-				margin: 1rem;
-			}
-			/* Create a resizable frame to showcase how responsive the r4-app is */
-			.AppDemoFrame {
-				resize: both;
-				overflow: auto;
-				display: flex;
-				margin: 1rem 0;
-			}
-			r4-app {
-				width: 100%;
-			}
-		</style>
 	</head>
 
 	<body>
-		<p>
-			<strong><a href="/"><r4-title small></r4-title></a></strong>
-			shows a collection of web components used to build
-			<r4-title></r4-title>.
-		</p>
-		<p>
-			Check out the <a href="https://github.com/radio4000/components">documentation</a>,
-			inspect the code for examples; Say hi <a href="https://matrix.to/#/#radio4000:matrix.org">#radio4000:matrix.org</a>.
-		</p>
-
-		<details>
-			<summary>Overview of all available components</summary>
+		<article>
+			<p>
+				<strong><a href="/"><r4-title small></r4-title></a></strong>
+				shows a collection of web components used to build
+				<r4-title></r4-title>.
+			</p>
+			<p>
+				Check out the
+				<a href="https://github.com/radio4000/components">documentation</a>,
+				inspect the DOM for examples.
+			</p>
+		</article>
+		<article>
+			<p>Overview of all available components</p>
 			<r4-components></r4-components>
-		</details>
-
-		<div class="AppDemoFrame">
-			<r4-app></r4-app>
-		</div>
-		<script>
-			// copy ?channel={slug} to the r4-app
-			const params = new URLSearchParams(window.location.search)
-			const channel = params.get('channel')
-			const $app = document.querySelector('r4-app')
-			$app.setAttribute('href', window.location.href)
-			channel && $app.setAttribute('channel', channel)
-		</script>
-
+		</article>
 	</body>
 </html>
