@@ -12,10 +12,16 @@
 	</head>
 
 	<body>
-		<p>Either give it a data-image cloudinary id, or set the `channel` property.</p>
-		<r4-avatar slug="oskar"></r4-avatar>
-		<hr />
+		<p>The r4-avatar component renders a responsive image served from Cloudinary.</p>
+
+		<p>There are two ways to tell the component what to render:</p>
+		<ul>
+			<li>Set the `image` attribute to a Cloudinary image id</li>
+			<li>Set the `slug` attribute to a channel slug. This will cause a network request.</li>
+		</ul>
 		<r4-avatar></r4-avatar>
+		<hr />
+		<r4-avatar slug="oskar"></r4-avatar>
 		<hr />
 		<r4-avatar image="drz0qs9lgscyfdztr17t"></r4-avatar>
 	</body>
