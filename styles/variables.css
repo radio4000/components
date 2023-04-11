@@ -1,6 +1,6 @@
 /*
 	components global variables;
-	avaialble globally (root), and to the component's shadow doms (:host)
+	available globally (root), and to the component's shadow doms (:host)
 */
 
 /*
@@ -16,36 +16,51 @@
 	/* the max font-size, use font font-size clamp() */
 	--size-font-max: 26px;
 	/* a default size to use (with calc()) for "homgenous visual spacing" */
-	--size: 1.5em;
+	--size: 1.5rem;
 	--size-container: 50em;
+	--breakpoint: 700px;
 
 	/*
 		color variables
  */
-	--color-text: black;
-	--color-background: white;
+
+	--color-light: white;
+	--color-dark: black;
+	--color-green5: #155638;
+	--color-lightpurple: #e9d8df;
+
+	--color-text: var(--color-dark);
+	--color-background: var(--color-light);
 	--color-link: var(--color-text);
 
 	/*
 		css attributes variables
  */
-	--font-size: clamp(var(--size-font), .875rem + .25vw, var(--size-font-max));
+	--font-size: var(--size-font);
 	--font-family: serif;
 }
 
 /*
 	variable overwrites, for larger screens
 */
-@media screen and (min-width: 45rem) {
-	:root,
-	:host {
-		--size-font: 25px;
-	}
-}
-
 @media screen and (min-width: 60rem) {
 	:root,
 	:host {
-		--size-font: 30px;
+		/* --size-font: 20px; */
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	:root,
+	:host {
+		--color-text: var(--color-light);
+		--color-background: var(--color-dark);
+	}
+}
+@media (prefers-color-scheme: light) {
+	:root,
+	:host {
+		--color-text: var(--color-dark);
+		--color-background: var(--color-light);
 	}
 }

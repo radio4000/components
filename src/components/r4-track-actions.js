@@ -54,24 +54,17 @@ export default class R4TrackActions extends HTMLElement {
 				if (this.canEdit) {
 					this.renderAsyncOptions({
 						value: 'update',
-						text: `update`
+						text: `Update`
 					})
 					this.renderAsyncOptions({
 						value: 'delete',
-						text: `delete`
+						text: `Delete`
 					})
 				}
 			}
 		}
 	}
-	render() {
-		this.innerHTML = ''
-		if (!this.tracks) {
-			this.renderNoTracks()
-		} else {
-			this.renderTracks()
-		}
-	}
+
 	renderAsyncOptions({value, text}) {
 		const $actions = this.querySelector('r4-actions select')
 

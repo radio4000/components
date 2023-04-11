@@ -1,5 +1,3 @@
-import sdk from '@radio4000/sdk'
-
 const template = document.createElement('template')
 template.innerHTML = `
 	<slot name="header"></slot>

@@ -1,6 +1,8 @@
 @import url("variables.css");
 @import url("root.css");
-@import url("components.css");
 
-/* Debug component menu list of exported components */
-@import url("components/r4-components.css");
+@import url("components/index.css");
+@import url("pages/index.css");
+@import url("grid-cards.css");
+
+@import url("app.css");

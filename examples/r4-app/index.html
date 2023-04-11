@@ -8,8 +8,8 @@
 
 	<title>r4-app</title>
 	<meta name="description" content="r4-app">
-	<link rel="stylesheet" href="../../styles/index.css" />
-	<script type="module" src="../../index.js"></script>
+	<link rel="stylesheet" href="/styles/index.css" />
+	<script type="module" src="/src/index.js"></script>
 </head>
 
 <body>
@@ -29,8 +29,22 @@
 		</li>
 	</ul>
 
-	<r4-app></r4-app>
+	<div class="Resizer">
+		<r4-app></r4-app>
+	</div>
 </body>
+
+<style>
+	.Resizer {
+		display: flex;
+		flex-direction: column;
+		resize: both; overflow: auto;
+		/* border: 2px solid blue;  */
+	}
+	.Resizer r4-app {
+		height: 100%;
+	}
+</style>
 
 <script>
 	const params = new URLSearchParams(window.location.search)
@@ -38,7 +52,7 @@
 	const $app = document.querySelector('r4-app')
 	$app.setAttribute(
 		'href',
-		window.location.origin + window.location.pathname
+		window.location.origin + '/examples/r4-app/'
 	)
 	channel && $app.setAttribute('channel', channel)
 </script>

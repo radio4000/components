@@ -1,9 +1,9 @@
-/* This component is not imported in `../../index.js` like the others,
+/* This component is not imported in `./index.js` like the rest,
 	 as it imports index.js to load all other components, and list them.
-	 It is intended as a way to introduce and navigate all r4 components.
+	 It is intended as a way to introduce and navigate all r4 components..
  */
 
-import Components from '../../index.js'
+import Components from './index.js'
 
 const ComponentRoot = 'R4'
 
@@ -32,7 +32,6 @@ class R4Components extends HTMLElement {
 		})
 	}
 	connectedCallback() {
-		console.info('All r4 components', this.components)
 		if (this.components && this.components.length) {
 			this.render()
 		}
@@ -42,7 +41,7 @@ class R4Components extends HTMLElement {
 		this.components.forEach(component => {
 			const $li = document.createElement('li')
 			$li.innerHTML = `
-				<a href="${`../${component.slug}`}">${component.name}</a>
+				<a href="/examples/${component.slug}/">${component.name}</a>
 				<small><a href="${`https://github.com/radio4000/components/blob/main/src/components/${component.slug}.js`}">(source)</a></small>
 			`
 			$menu.append($li)

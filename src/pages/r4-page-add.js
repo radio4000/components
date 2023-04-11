@@ -1,92 +1,120 @@
 import { LitElement, html } from 'lit'
 import { readChannel } from '@radio4000/sdk'
+import page from 'page/page.mjs'
 
 export default class R4PageAdd extends LitElement {
 	static properties = {
-		href: { type: String, reflect: true },
-		url: { type: String, reflect: true },
-		channel: { type: String, reflect: true },
-		slug: { type: String, reflect: true },
-		channelId: { type: String,
-			attribute: 'channel-id',
-			reflect: true,
-			state: true,
-		},
-		singleChannel: {
-			type: Boolean,
-			attribute: 'single-channel',
-			reflect: true,
-		},
+		/* props */
+		store: { type: Object, state: true },
+		query: { type: Object, state: true },
+		config: { type: Object, state: true },
+
+		/* state */
+		selectedSlug: { type: String, state: true },
+		selectedId: { type: String, state: true },
+		lastAddedTrack: { type: Object, state: true },
+	}
+
+	get hasOneChannel() {
+		if (!this.store.user) return false
+		return this.store?.userChannels?.length === 1 ? true : false
+	}
+
+	get selectedSlug() {
+		if (this.hasOneChannel) {
+			return this.store.userChannels[0].slug
+		} else if (this?.query?.slug) {
+			return this?.query?.slug
+		} else if (this.config.selectedSlug) {
+			return this.config.selectedSlug
+		}
+	}
+	set selectedSlug(val) {
+		return val
 	}
 
 	async connectedCallback() {
 		super.connectedCallback()
-		this.channelId = await this.findSelectedChannel()
-		console.log(
-			'connectedCallback',
-			this,
-			this.channelId,
-			this.slug,
-			this.channel
-		)
+
+		// Choose the channel to add the track to.
+		console.log('connected this.query', this.query)
+		if (this.selectedSlug) {
+			this.selectedId = await this.findSelectedChannel()
+		}
+
 		this.requestUpdate()
 	}
 
-	render() {
-		console.log('render', this.channelId)
-		return html`
-			${!this.singleChannel ? this.renderHeader() : ''}
-			<main>
-				<r4-track-create
-					channel-id=${this.channelId}
-					url=${this.url}
-					@submit=${this.onTrackCreate}
-				></r4-track-create>
-			</main>
-		`
-	}
-
-	renderHeader() {
-		return html`
-			<header>
-				Add track to:
-				<r4-user-channels-select
-					channel=${this.channel || this.slug}
-					@input=${this.onChannelSelect}
-				></r4-user-channels-select>
-			</header>
-		`
+	async onChannelSelect({ detail }) {
+		console.log('select channel', detail?.channel)
+		if (detail?.channel?.slug) {
+			this.selectedSlug = detail?.channel?.slug
+		}
+		if (detail?.channel?.id) {
+			this.selectedId = detail?.channel?.id
+		}
+		page(`/add?slug=${detail?.channel?.slug}`)
 	}
 
 	/* find the current channel id we want to add to */
 	async findSelectedChannel() {
-		const { data } = await readChannel(this.channel || this.slug)
+		const { data } = await readChannel(this.selectedSlug)
 		if (data && data.id) {
 			return data.id
 		}
 	}
 
-	async onChannelSelect({ detail }) {
-		const { channel } = detail
-		if (channel) {
-			this.channel = channel.slug
-			this.channelId = await this.findSelectedChannel()
-			this.requestUpdate('channel')
+	onTrackCreate({ detail }) {
+		console.log(detail)
+		if (detail.data) {
+			this.lastAddedTrack = detail.data
+			this.focus()
 		}
 	}
 
-	onTrackCreate({ detail }) {
-		console.log('track submit', detail)
-		if (detail.data) {
-			/* remove the url, because added ? */
-			this.url = null
-			/* set the channel id attribute (since the form cleared on success) */
-			this.focus()
-			this.querySelector('form').insertAdjacentHTML(
-				'afterend',
-				'<p>Track added!</p>'
-			)
-		}
+	render() {
+		return html`
+			${!this.config.singleChannel ? this.renderHeader() : ''}
+			<main>
+				${this.renderAdd()}
+				${this.lastAddedTrack ?
+					html`Added track: <a href=${`/${this.selectedSlug}/tracks/${this.lastAddedTrack.id}`}>${this.lastAddedTrack.title}</a>`
+					: null}
+			</main>
+		`
+	}
+
+	renderHeader() {
+		const $channelsSelect = html`
+			<p>&nbsp;${this.selectedSlug}</p>
+			<r4-user-channels-select
+				channel=${this.selectedSlug}
+				@input=${this.onChannelSelect}
+				></r4-user-channels-select>
+		`
+
+		const $channelLink = html`
+			<a href=${this.config.href + '/' + this.selectedSlug}>
+				${this.selectedSlug}
+			</a>
+		`
+
+		return html`
+			<header>
+				<p>Add track to</p>
+				${this.hasOneChannel ? $channelLink : $channelsSelect}
+			</header>
+		`
+	}
+
+	renderAdd() {
+		return html`
+			<r4-track-create
+				channel-id=${this.selectedId}
+				url=${this.query.url}
+				@submit=${this.onTrackCreate}
+				></r4-track-create>
+		`
 	}
 	createRenderRoot() {
 		return this

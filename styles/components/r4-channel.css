@@ -1,0 +1,8 @@
+r4-channel {
+	display: flex;
+	flex-direction: column;
+}
+
+r4-channel h1 {
+	margin-bottom: 0;
+}

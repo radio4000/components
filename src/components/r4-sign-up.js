@@ -5,12 +5,12 @@ const fieldsTemplate = document.createElement('template')
 fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
-			<label for="email">email</label>
-			<input name="email" type="email" required/>
+			<label for="email">Email</label>
+			<input name="email" type="email" required autocomplete="email" />
 		</fieldset>
 		<fieldset>
-			<label for="password">password</label>
-			<input name="password" type="password" required />
+			<label for="password">Password</label>
+			<input name="password" type="password" required autocomplete="new-password" />
 		</fieldset>
 	</slot>
 `
@@ -32,7 +32,7 @@ export default class R4SignUp extends R4Form {
 		},
 		'invalid-login-credentials': {
 			field: 'email',
-			message: 'The Email & Password combination is incorect',
+			message: 'The email & password combination is incorrect',
 		}
 	}
 

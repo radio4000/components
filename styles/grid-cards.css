@@ -1,0 +1,34 @@
+/* Wasn't sure where to organize this, so here we are. */
+
+.Grid,
+r4-channels ul {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: calc(var(--size) / 2);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	margin-bottom: var(--size);
+}
+
+.Grid > *,
+r4-channels li {
+	border: 1px solid;
+	padding: calc(var(--size) / 4);
+	margin-bottom: 0;
+	/* background-color: bisque; */
+}
+
+@media (min-width: 12rem) {
+	.Grid,
+	r4-channels ul {
+		grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	.Grid > *,
+	r4-channels li {
+		background-color: bisque;
+	}
+}

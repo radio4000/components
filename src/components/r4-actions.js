@@ -56,10 +56,10 @@ export default class R4Actions extends HTMLElement {
 
 		/* is it a known page */
 		if (visitAction === 'home') {
-			url = `/examples/`
+			url = `/`
 		} else {
 			/* or a component page */
-			url = `/examples/r4-${visitAction}/`
+			url = `/examples/r4-${visitAction}`
 		}
 		this.navigate(url)
 	}

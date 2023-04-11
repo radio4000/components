@@ -1,41 +1,46 @@
 {
   "name": "@radio4000/components",
-  "version": "0.0.30",
   "description": "web components for radio4000.com",
-  "main": "src/index.js",
-  "module": "dist/index.js",
-  "type": "module",
   "private": false,
+  "version": "0.0.32",
+  "type": "module",
+  "main": "dist/r4.js",
+  "exports": {
+    ".": "./dist/r4.js"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run dev",
-    "dev": "esbuild src/index.js --bundle --format=esm --sourcemap --servedir=. --outdir=.",
-    "build": "esbuild src/index.js --bundle --format=esm --outfile=dist/index.js"
+    "dev": "vite --port 4000",
+    "build": "npm run build-website; npm run build-library; mv dist-lib/r4.js dist;  mv dist-lib/style.css dist/r4.css; rm -r dist-lib",
+    "build-library": "vite build --config vite-lib.config.js",
+    "build-website": "vite build --config vite.config.js"
+  },
+  "dependencies": {
+    "@radio4000/sdk": "^0.1.6",
+    "lit": "^2.7.2",
+    "page": "^1.11.6",
+    "radio4000-player": "^0.6.24"
+  },
+  "devDependencies": {
+    "vite": "^4.2.1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/radio4000/components.git"
   },
-  "keywords": [
-    "radio4000"
-  ],
   "author": "radio4000",
   "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/radio4000/components/issues"
   },
   "homepage": "https://github.com/radio4000/components#readme",
-  "devDependencies": {
-    "esbuild": "^0.17.13"
-  },
-  "dependencies": {
-    "@radio4000/sdk": "^0.1.6",
-    "lit": "^2.7.0",
-    "page": "^1.11.6",
-    "radio4000-player": "^0.6.24"
-  },
   "prettier": {
     "semi": false,
-    "singleQuote": true
+    "singleQuote": true,
+    "printWidth": 120
   }
 }

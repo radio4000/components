@@ -24,9 +24,12 @@ export default class R4UserChannelsSelect extends HTMLElement {
 	}
 
 	/* if any observed attribute changed, re-render */
-	attributeChangedCallback(attrName) {
+	attributeChangedCallback(attrName, newVal) {
 		if (this.constructor.observedAttributes.indexOf(attrName) > -1) {
 			this.render()
+			if (attrName === 'channel') {
+				this.refreshOptions(newVal)
+			}
 		}
 	}
 
@@ -44,8 +47,7 @@ export default class R4UserChannelsSelect extends HTMLElement {
 		this.$defaultOption = document.createElement('option')
 		this.$defaultOption.defaultValue = true
 		this.$defaultOption.value = ''
-		this.$defaultOption.innerText = this.channel
-		/* this.$defaultOption.disabled = true */
+		this.$defaultOption.innerText = this.channel ? this.channel : '…'
 
 		this.$defaultOptroup.append(this.$defaultOption)
 
@@ -58,7 +60,11 @@ export default class R4UserChannelsSelect extends HTMLElement {
 	}
 
 	connectedCallback() {
-		this.refreshUserChannels()
+		if (this.channels && this.channels.length) {
+			this.refreshOptions(this.channels[0].slug)
+		} else {
+			this.refreshUserChannels()
+		}
 	}
 	onInput(event) {
 		event.stopPropagation()
@@ -77,6 +83,7 @@ export default class R4UserChannelsSelect extends HTMLElement {
 		this.dispatchEvent(inputEvent)
 		this.refreshOptions(this.channel)
 	}
+
 	onAuthStateChange() {
 		this.refreshUserChannels()
 	}

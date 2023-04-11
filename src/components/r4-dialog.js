@@ -3,7 +3,7 @@ template.innerHTML = `
 	<dialog part="dialog">
 		<slot name="close">
 			<form method="dialog" part="form">
-				<button part="button">close</button>
+				<button part="button">Close</button>
 			</form>
 		</slot>
 		<slot name="dialog"></slot>
@@ -80,7 +80,6 @@ export default class R4Dialog extends HTMLElement {
 			&& event.clientX <= rect.left + rect.width
 		)
 		if (!isInDialog) {
-			console.log('isInDialog')
 			this.close()
 		}
 	}

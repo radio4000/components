@@ -1,0 +1,3 @@
+/* Import styles for every r4-page-* component */
+@import url("r4-page-add.css");
+@import url("r4-page-track.css");

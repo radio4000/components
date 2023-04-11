@@ -5,7 +5,7 @@ template.innerHTML = `<radio4000-player></radio4000-player>`
 
 export default class R4Player extends HTMLElement {
 	static get observedAttributes() {
-		return ['tracks']
+		return ['tracks', 'track']
 	}
 
 	get tracks() {
@@ -30,17 +30,14 @@ export default class R4Player extends HTMLElement {
 		this.append(template.content.cloneNode(true))
 	}
 	onPlayerReady() {
-		console.log('player ready')
 		this.player = this.$player.getVueInstance()
 	}
 
 	playTracks() {
 		if (!this.player) {
-			console.info('radio4000-player not yet ready')
 			return
 		}
 
-		console.log('play tracks')
 		if (this.tracks.length) {
 			const playlist = {
 				title: '',

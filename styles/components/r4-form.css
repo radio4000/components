@@ -1,0 +1,36 @@
+/* <r4-form/> is extended as a web components;
+ but always create a <form/> element and <fieldset/>*/
+form {
+	/* padding: calc(var(--size) / 4); */
+}
+fieldset {
+	display: flex;
+	flex-direction: column;
+	border: none;
+	background-color: var(--color--background);
+	margin: 0;
+	/* padding: calc(var(--size) / 4); */
+	padding: 0 0 calc(var(--size) / 2);
+}
+fieldset label {
+	/* font-weight: bold; */
+}
+fieldset[hidden] {
+	display: none;
+}
+fieldset[disabled] {}
+fieldset[disabled] button[type="submit"] {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+fieldset[disabled] button[loading] {
+	cursor: wait;
+}
+
+fieldset label[for] {
+	cursor: pointer;
+}
+
+input[type="checkbox"] {
+	padding: calc(var(--size) / 4);
+}

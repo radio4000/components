@@ -1,24 +1,43 @@
 import { LitElement, html } from 'lit'
 
+function R4ChannelCard(channel) {
+	return html`<article class="Card">
+		<h3><a href=${`/${channel.slug}`}>${channel.name}</a></h3>
+		<p>${channel.description}</p>
+	</article>`
+}
+
 export default class R4PageHome extends LitElement {
-	get href() {
-		return this.getAttribute('href')
+	static properties = {
+		config: { type: Object, state: true },
+		store: { type: Object, state: true },
 	}
+
+	get hasOneChannel() {
+		if (!this.store.user) return false
+		return this.store?.userChannels?.length === 1 ? true : false
+	}
+
 	render() {
 		return html`
 			<header>
-				Welcome to <r4-title></r4-title>.
+				<h1><r4-title></r4-title></h1>
 			</header>
-			<section>
+			<main>
 				<menu>
 					<li>
-						Start <a href="${this.href}/explore">exploring channels</a> to discover new content.
-					</li>
-					<li>
-						Select a <r4-title small="true"></r4-title> channel to play its content.
+						<a href="${this.config.href}/explore">Explore channels</a> to discover new content
 					</li>
 				</menu>
-			</section>
+
+				<section>
+					${this.store?.userChannels?.length ? html`
+						<section class="Grid">
+							${this.store?.userChannels.map(R4ChannelCard)}
+						</section>
+					` : null}
+				</section>
+			</main>
 		`
 	}
 	createRenderRoot() {

@@ -90,10 +90,6 @@ export default class R4ChannelUpdate extends R4Form {
 		}
 		this.enableForm()
 
-		const { data } = res
-		if (data) {
-			this.resetForm()
-		}
-		super.handleSubmit({error, data})
+		super.handleSubmit({error, data: changes})
 	}
 }
