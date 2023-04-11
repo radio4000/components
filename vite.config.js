@@ -36,6 +36,7 @@ export default defineConfig({
 
 				r4Actions: resolve(__dirname, 'examples/r4-actions/index.html'),
 				r4App: resolve(__dirname, 'examples/r4-app/index.html'),
+				r4App404: resolve(__dirname, 'examples/r4-app/404.html'), // a 404 page for the app SPA, redirects to the index
 				r4AuthStatus: resolve(__dirname, 'examples/r4-auth-status/index.html'),
 				r4Channel: resolve(__dirname, 'examples/r4-channel/index.html'),
 				r4ChannelActions: resolve(__dirname, 'examples/r4-channel-actions/index.html'),
