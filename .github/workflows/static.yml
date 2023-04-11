@@ -33,6 +33,8 @@ jobs:
       - uses: actions/setup-node@v3
       - run: npm install
       - run: npm run build
+      - run: mkdir dist/examples/r4-app
+      - run: echo '<meta HTTP-EQUIV="REFRESH" content="0; url=./examples">' > dist/examples/r4-app/404.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
