@@ -29,6 +29,11 @@ export default defineConfig({
 
 				r4Actions: resolve(__dirname, 'examples/r4-actions/index.html'),
 				r4App: resolve(__dirname, 'examples/r4-app/index.html'),
+
+				r4Avatar: resolve(__dirname, 'examples/r4-avatar/index.html'),
+				r4AvatarUpload: resolve(__dirname, 'examples/r4-avatar-upload/index.html'),
+				r4AvatarUpdate: resolve(__dirname, 'examples/r4-avatar-update/index.html'),
+
 				r4AuthStatus: resolve(__dirname, 'examples/r4-auth-status/index.html'),
 				r4Channel: resolve(__dirname, 'examples/r4-channel/index.html'),
 				r4ChannelActions: resolve(__dirname, 'examples/r4-channel-actions/index.html'),

@@ -5,6 +5,9 @@
 
 import R4Actions from './r4-actions.js'
 import R4App from './r4-app.js'
+import R4Avatar from './r4-avatar.js'
+import R4AvatarUpdate from './r4-avatar-update.js'
+import R4AvatarUpload from './r4-avatar-upload.js'
 import R4AuthStatus from './r4-auth-status.js'
 import R4ButtonPlay from './r4-button-play.js'
 import R4Channel from './r4-channel.js'
@@ -36,6 +39,9 @@ import R4UserChannelsSelect from './r4-user-channels-select.js'
 
 customElements.define('r4-actions', R4Actions)
 customElements.define('r4-app', R4App)
+customElements.define('r4-avatar', R4Avatar)
+customElements.define('r4-avatar-update', R4AvatarUpdate)
+customElements.define('r4-avatar-upload', R4AvatarUpload)
 customElements.define('r4-auth-status', R4AuthStatus)
 customElements.define('r4-button-play', R4ButtonPlay)
 customElements.define('r4-channel', R4Channel)
@@ -68,6 +74,9 @@ customElements.define('r4-user-channels-select', R4UserChannelsSelect)
 export default {
 	R4Actions,
 	R4App,
+	R4Avatar,
+	R4AvatarUpdate,
+	R4AvatarUpload,
 	R4AuthStatus,
 	R4Channel,
 	R4ChannelActions,
