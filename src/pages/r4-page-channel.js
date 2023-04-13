@@ -1,25 +1,16 @@
 import { html, LitElement } from 'lit'
-import { until } from 'lit/directives/until.js'
-import { readChannel } from '@radio4000/sdk'
+import { canEditChannel, readChannel } from '@radio4000/sdk'
 import page from 'page/page.mjs'
 
-export default class R4PageChannel extends LitElement {
+// Base class to extend from
+export class ChannelPage extends LitElement {
 	static properties = {
-		store: { type: Object, state: true },
+		channel: { type: Object, state: true },
+		canEdit: { type: Boolean, state: true },
+		// from the router
 		params: { type: Object, state: true },
+		store: { type: Object, state: true },
 		config: { type: Object, state: true },
-
-		limit: { type: Number, reflect: true },
-		pagination: { type: Boolean, reflect: true },
-		singleChannel: { type: Boolean, reflect: true, attribute: 'single-channel' },
-
-		channel: { type: Object, reflect: true, state: true },
-	}
-
-	constructor()	{
-		super()
-		this.limit = 5
-		this.pagination = false
 	}
 
 	get channelOrigin() {
@@ -34,36 +25,28 @@ export default class R4PageChannel extends LitElement {
 		}
 	}
 
-	async firstUpdated() {
-		await this.init()
+	connectedCallback() {
+		super.connectedCallback()
+		this.setChannel()
 	}
 
-	init() {
-		// a promise for the `until` directive
-		this.channel = this.findSelectedChannel()
+	// Set channel from the slug in the URL.
+	async setChannel() {
+		this.channel = (await readChannel(this.params.slug)).data
+		this.canEdit = await canEditChannel(this.params.slug)
 	}
 
-	/* find data, the current channel id we want to add to */
-	async findSelectedChannel() {
-		const {data} = await readChannel(this.params.slug)
-		if (data && data.id) {
-			return data
-		}
-	}
-
-	/* render */
 	render() {
-		return html`${
-			until(
-				Promise.resolve(this.findSelectedChannel()).then((channel) => {
-					return channel ? this.renderPage(channel) : this.renderNoPage()
-				}).catch(() => this.renderNoPage()),
-				this.renderLoading()
-			)
-		}`
+		return html``
 	}
+}
 
-	renderPage(channel) {
+export default class R4PageChannel extends ChannelPage {
+	render() {
+		const {channel} = this
+		if (channel === null) return html`<p>404 - There is no channel with this slug.</p>`
+		if (!channel) return html`<p>Loading...</p>`
+
 		return html`
 			<header>
 				<r4-avatar image=${channel.image}></r4-avatar>
@@ -74,37 +57,14 @@ export default class R4PageChannel extends LitElement {
 
 				<r4-channel-actions
 					slug=${channel.slug}
+					?can-edit=${this.canEdit}
 					@input=${this.onChannelAction}
 					></r4-channel-actions>
 			</header>
 			<main>
-				${
-					/* somehow this has a silent error */
-					/* html`<r4-tracks
-						 channel=${channel.slug}
-						 origin=${this.tracksOrigin}
-						 limit="5"
-						 ></r4-tracks>` */
-				null }
-		</main>
-		<aside>
-		<r4-dialog name="update" @close=${this.onDialogClose}>
-		<r4-channel-update
-		slot="dialog"
-		id=${channel.id}
-						slug=${channel.slug}
-						name=${channel.name}
-						description=${channel.description}
-						@submit=${this.onChannelUpdate}
-						></r4-channel-update>
-				</r4-dialog>
-				<r4-dialog name="delete" @close=${this.onDialogClose}>
-					<r4-channel-delete
-						slot="dialog"
-						id=${channel.id}
-						@submit=${this.onChannelDelete}
-						></r4-channel-delete>
-				</r4-dialog>
+				<r4-tracks channel=${channel.slug} origin=${this.tracksOrigin} limit="5"></r4-tracks>
+			</main>
+			<aside>
 				<r4-dialog name="share" @close=${this.onDialogClose}>
 					<r4-channel-sharer
 						slot="dialog"
@@ -115,14 +75,8 @@ export default class R4PageChannel extends LitElement {
 			</aside>
 		`
 	}
-	renderNoPage() {
-		return html`404 - No channel with this slug`
-	}
-	renderLoading() {
-		return html`<span>Loading channel...</span>`
-	}
 
-	/* event handlers */
+	/* event handlers from <r4-channel-actions> */
 	async onChannelAction({ detail }) {
 		if (detail) {
 			if (detail === 'play') {
@@ -141,7 +95,6 @@ export default class R4PageChannel extends LitElement {
 					page(`/add/?slug=${this.params.slug}`)
 				}
 			}
-
 			if (detail === 'tracks') {
 				if (this.config.singleChannel) {
 					page(`/tracks`)
@@ -149,34 +102,12 @@ export default class R4PageChannel extends LitElement {
 					page(`/${this.params.slug}/tracks`)
 				}
 			}
-
-			if (['update', 'delete', 'share'].indexOf(detail) > -1) {
+			if (detail === 'update') {
+				page(`/${this.params.slug}/update`)
+			}
+			if (['share'].indexOf(detail) > -1) {
 				this.openDialog(detail)
 			}
-		}
-	}
-
-	async onChannelDelete({detail}) {
-		/* no error? we deleted */
-		if (!detail.data) {
-			this.closeDialog('delete')
-			page('/')
-		}
-	}
-
-	async onChannelUpdate({detail}) {
-		const {
-			data: {
-				slug: newSlug
-			}
-		} = {} = detail
-		if (newSlug && newSlug !== this.params.slug) {
-			page(`/${newSlug}`)
-		} else {
-			this.init()
-		}
-		if (!detail.error && detail.data) {
-			this.closeDialog('update')
 		}
 	}
 

@@ -198,6 +198,7 @@ export default class R4App extends LitElement {
 					<r4-route path="/new" page="new"></r4-route>
 					<r4-route path="/settings" page="settings"></r4-route>
 					<r4-route path="/:slug" page="channel"></r4-route>
+					<r4-route path="/:slug/update" page="channel-update"></r4-route>
 					<r4-route path="/:slug/tracks" page="tracks"></r4-route>
 					<r4-route path="/:slug/tracks/:track_id" page="track"></r4-route>
 				</r4-router>
