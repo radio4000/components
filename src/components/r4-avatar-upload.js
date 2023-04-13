@@ -37,6 +37,10 @@ export default class R4AvatarUpload extends LitElement {
 			</form>
 		`
 	}
+
+	createRenderRoot() {
+		return this
+	}
 }
 
 // @todo move to sdk.channels.createImage()

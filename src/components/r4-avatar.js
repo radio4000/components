@@ -9,7 +9,7 @@ import { readChannel } from '@radio4000/sdk'
  */
 export default class R4Avatar extends LitElement {
 	static properties = {
-		image: { type: String, reflect: true },
+		image: { type: String },
 		slug: { type: String, reflect: true },
 	}
 

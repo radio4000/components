@@ -42,6 +42,7 @@ export default class R4PageSettings extends LitElement {
 	async confirmAndDelete(event) {
 		event.preventDefault()
 		if (!window.confirm('Do you really want to delete your account?')) return
+		if (!window.confirm('Are you certain? Your account, channels and tracks will be deleted. We can not recover them.')) return
 		const {error} = await sdk.users.deleteUser()
 		if (!error) {
 			console.log('deleted user account')
@@ -62,7 +63,7 @@ export default class R4PageSettings extends LitElement {
 			</p>
 
 			<form @submit=${this.changeEmail}>
-				<label>Change email
+				<label>Change email<br/>
 					<input type="email" name="email" value=${this.store.user?.email} required>
 				</label>
 				<button type="submit">Save</button>
@@ -73,7 +74,7 @@ export default class R4PageSettings extends LitElement {
 
 			<form @submit=${this.changePassword}>
 				<input name="username" value=${this.store.user?.email} readonly hidden autocomplete="username">
-				<label>Change password
+				<label>Change password<br/>
 					<input type="password" name="password" required autocomplete="new-password">
 				</label>
 				<button type="submit">Save</button>
@@ -84,9 +85,12 @@ export default class R4PageSettings extends LitElement {
 
 			<h2>Delete account</h2>
 			<p>Deleting your account will also delete any radios and all tracks you have created.</p>
-			<form @submit=${this.confirmAndDelete}>
-				<button type="submit">Delete my account</button>
-			</form>
+			<details>
+				<summary>I understand, continue</summary>
+				<form @submit=${this.confirmAndDelete}>
+					<button type="submit">Delete my account</button>
+				</form>
+			</details>
 		`
 	}
 
