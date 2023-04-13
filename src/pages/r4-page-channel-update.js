@@ -1,6 +1,6 @@
 import { html } from 'lit'
-import { ChannelPage } from './r4-page-channel'
 import page from 'page/page.mjs'
+import { ChannelPage } from './base-channel'
 
 export default class R4PageChannelUpdate extends ChannelPage {
 	render() {
