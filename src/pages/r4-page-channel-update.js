@@ -1,8 +1,8 @@
 import { html } from 'lit'
 import page from 'page/page.mjs'
-import { ChannelPage } from './base-channel'
+import BaseChannel from './base-channel'
 
-export default class R4PageChannelUpdate extends ChannelPage {
+export default class R4PageChannelUpdate extends BaseChannel {
 	render() {
 		const { channel } = this
 		if (channel === null) return html`<p>404 - There is no channel with this slug.</p>`

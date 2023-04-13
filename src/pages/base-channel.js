@@ -2,7 +2,7 @@ import { html, LitElement } from 'lit'
 import { canEditChannel, readChannel } from '@radio4000/sdk'
 
 // Base class to extend from
-export class ChannelPage extends LitElement {
+export default class BaseChannel extends LitElement {
 	static properties = {
 		channel: { type: Object, state: true },
 		canEdit: { type: Boolean, state: true },
