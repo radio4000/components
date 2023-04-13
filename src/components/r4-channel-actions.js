@@ -18,7 +18,7 @@ export default class R4ChannelActions extends HTMLElement {
 	}
 
 	get canEdit() {
-		return this.getAttribute('can-edit') === 'true'
+		return this.hasAttribute('can-edit')
 	}
 
 	set canEdit(bool) {
@@ -37,8 +37,9 @@ export default class R4ChannelActions extends HTMLElement {
 		this.addEventListener('keydown', this.onPush.bind(this))
 	}
 
-	connectedCallback() {
+	async connectedCallback() {
 		this.append(template.content.cloneNode(true))
+		// this.canEdit = await canEditChannel(this.slug)
 	}
 
 	/* when the select is slected (open) the first time,
@@ -56,24 +57,26 @@ export default class R4ChannelActions extends HTMLElement {
 		/* if can't edit, try checking if can */
 		if (!this.canEdit) {
 			this.canEdit = await canEditChannel(this.slug)
+		}
 
-			/* if can edit, render option for editors */
-			if (this.canEdit) {
-				this.renderAsyncOption({
-					value: 'create-track',
-					text: 'Create track',
-				})
-				this.renderAsyncOption({
-					value: 'update',
-					text: 'Update',
-				})
-				this.renderAsyncOption({
-					value: 'delete',
-					text: 'Delete',
-				})
-			}
+		/* if can edit, render option for editors */
+		if (this.canEdit && !this.didRenderAsync) {
+			this.renderAsyncOption({
+				value: 'create-track',
+				text: 'Create track',
+			})
+			this.renderAsyncOption({
+				value: 'update',
+				text: 'Update',
+			})
+			// this.renderAsyncOption({
+			// 	value: 'delete',
+			// 	text: 'Delete',
+			// })
+			this.didRenderAsync = true
 		}
 	}
+
 	renderAsyncOption({ value, text }) {
 		const $actions = this.querySelector('r4-actions select')
 
