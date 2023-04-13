@@ -24,9 +24,10 @@ export default class BaseChannel extends LitElement {
 		}
 	}
 
-	connectedCallback() {
-		super.connectedCallback()
-		this.setChannel()
+	willUpdate(changedProperties) {
+		if (changedProperties.has('params')) {
+			this.setChannel()
+		}
 	}
 
 	// Set channel from the slug in the URL.
