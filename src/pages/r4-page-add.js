@@ -59,9 +59,7 @@ export default class R4PageAdd extends LitElement {
 	/* find the current channel id we want to add to */
 	async findSelectedChannel() {
 		const { data } = await readChannel(this.selectedSlug)
-		if (data && data.id) {
-			return data.id
-		}
+		if (data?.id) return data.id
 	}
 
 	onTrackCreate({ detail }) {
@@ -95,14 +93,13 @@ export default class R4PageAdd extends LitElement {
 
 		const $channelLink = html`
 			<a href=${this.config.href + '/' + this.selectedSlug}>
-				${this.selectedSlug}
+				<strong>${this.selectedSlug}</strong>
 			</a>
 		`
 
 		return html`
 			<header>
-				<p>Add track to</p>
-				${this.hasOneChannel ? $channelLink : $channelsSelect}
+				<p><strong>Add track to</strong> ${this.hasOneChannel ? $channelLink : $channelsSelect}</p>
 			</header>
 		`
 	}
@@ -116,6 +113,7 @@ export default class R4PageAdd extends LitElement {
 				></r4-track-create>
 		`
 	}
+
 	createRenderRoot() {
 		return this
 	}

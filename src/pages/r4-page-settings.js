@@ -84,7 +84,11 @@ export default class R4PageSettings extends LitElement {
 			<br/>
 
 			<h2>Delete account</h2>
-			<p>Deleting your account will also delete any radios and all tracks you have created.</p>
+			<p>Deleting your account will also delete these radios including any tracks.</p>
+			<ul>
+				${this.store?.userChannels?.length ?
+						this.store.userChannels.map((c) => html`<li>${c.name}</li>`) : null}
+			</ul>
 			<details>
 				<summary>I understand, continue</summary>
 				<form @submit=${this.confirmAndDelete}>

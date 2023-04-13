@@ -1,3 +1,16 @@
+r4-avatar {
+	display: block;
+}
+
 r4-avatar figure {
 	margin: 0;
+}
+
+r4-avatar img {
+	max-width: 100%;
+}
+
+r4-page-channel r4-avatar {
+	max-width: calc(var(--size) * 8);
+	margin-bottom: 0.5rem;
 }
