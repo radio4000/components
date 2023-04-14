@@ -1,4 +1,5 @@
 import { LitElement, html } from 'lit'
+import sdk from '@radio4000/sdk'
 
 /**
  * Renders a form to upload an image to Cloudinary.
@@ -32,7 +33,7 @@ export default class R4AvatarUpload extends LitElement {
 	render() {
 		return html`
 			<form method="post" enctype="multipart/form-data" @submit=${this.handleSubmit}>
-				<input type="file" name="file" />
+				<input type="file" name="file" required />
 				<button type="submit" ?disabled=${this.loading}>Upload image</button>
 			</form>
 		`
