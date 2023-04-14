@@ -21,6 +21,7 @@ import R4Dialog from './r4-dialog.js'
 import R4Favicon from './r4-favicon.js'
 import R4Layout from './r4-layout.js'
 import R4List from './r4-list.js'
+import R4Map from './r4-map.js'
 import R4Player from './r4-player.js'
 import R4ResetPassword from './r4-reset-password.js'
 import R4Router from './r4-router.js'
@@ -55,6 +56,7 @@ customElements.define('r4-dialog', R4Dialog)
 customElements.define('r4-favicon', R4Favicon)
 customElements.define('r4-layout', R4Layout)
 customElements.define('r4-list', R4List)
+customElements.define('r4-map', R4Map)
 customElements.define('r4-player', R4Player)
 customElements.define('r4-reset-password', R4ResetPassword)
 customElements.define('r4-router', R4Router)
@@ -90,6 +92,7 @@ export default {
 	R4Layout,
 	R4List,
 	R4Player,
+	R4Map,
 	R4ResetPassword,
 	R4Router,
 	R4SignIn,

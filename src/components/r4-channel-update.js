@@ -53,7 +53,7 @@ export default class R4ChannelUpdate extends R4Form {
 		404: {
 			message: 'This channel does not exist',
 			field: 'id',
-		}
+		},
 	}
 
 	connectedCallback() {
@@ -74,8 +74,9 @@ export default class R4ChannelUpdate extends R4Form {
 		const changes = { ...this.state }
 		delete changes.id
 
-		let res = {},
-				error = null
+		let res = {}
+		let	error = null
+
 		try {
 			res = await updateChannel(channelId, changes)
 			if (res.error) {
