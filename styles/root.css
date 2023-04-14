@@ -11,16 +11,16 @@ html,
 	 and the custom-element's root */
 :root,
 :host {
-	color: var(--color-text);
-	font-family: var(--font-family), serif;
-	font-size: var(--font-size);
 	background-color: var(--color-background);
+	color: var(--color-text);
+	font-family: var(--font-family);
+	font-size: var(--font-size);
 }
 
 /* reset of browser styles */
 body {
-	background: var(--color-background);
-	margin: 0;
+	/* background: var(--color-background); */
+	margin: var(--size);
 }
 
 a {
@@ -48,8 +48,8 @@ input,
 textarea {
 	font-size: var(--font-size);
 	font-family: var(--font-family);
+	background-color: var(--color-input-background);
 	color: var(--color-text);
-	background-color: var(--color-background);
 	padding: calc(var(--size) / 4) calc(var(--size) / 2);
 	border: 1px solid;
 	border-color: var(--color-text);

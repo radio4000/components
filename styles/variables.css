@@ -13,54 +13,50 @@
  */
 	/* the base all sizes */
 	--size-font: 18px;
-	/* the max font-size, use font font-size clamp() */
 	--size-font-max: 26px;
 	/* a default size to use (with calc()) for "homgenous visual spacing" */
 	--size: 1.5rem;
 	--size-container: 50em;
 	--breakpoint: 700px;
 
-	/*
-		color variables
- */
-
-	--color-light: white;
-	--color-dark: black;
+	/* colors */
+	--color-light: hsl(0deg 0% 98%);
+	--color-dark: hsl(0deg 0% 2%);
+	--color-lightgray: hsl(0deg 0% 80%);
+	--color-darkgray: hsl(0deg 0% 20%);
 	--color-green5: #155638;
 	--color-lightpurple: #e9d8df;
+	--color-bisque: hsl(32deg 100% 88%);
 
-	--color-text: var(--color-dark);
+	/* color definitions */
 	--color-background: var(--color-light);
+	--color-app-background: var(--color-background);
+	--color-text: var(--color-dark);
 	--color-link: var(--color-text);
+	--color-primary: var(--color-green5);
+	--color-secondary: var(--color-bisque);
+	--color-border: hsla(0 10% 50% / 0.5);
+	--color-input-background: var(--color-light);
 
-	/*
-		css attributes variables
- */
+	/* typography */
 	--font-size: var(--size-font);
 	--font-family: serif;
 }
 
-/*
-	variable overwrites, for larger screens
-*/
-@media screen and (min-width: 60rem) {
+@media (prefers-color-scheme: light) {
 	:root,
 	:host {
-		/* --size-font: 20px; */
+		--color-app-background: var(--color-lightpurple);
+		--color-text: var(--color-dark);
 	}
 }
 
 @media (prefers-color-scheme: dark) {
 	:root,
 	:host {
-		--color-text: var(--color-light);
 		--color-background: var(--color-dark);
-	}
-}
-@media (prefers-color-scheme: light) {
-	:root,
-	:host {
-		--color-text: var(--color-dark);
-		--color-background: var(--color-light);
+		--color-secondary: hsl(0, 9%, 10%);
+		--color-text: var(--color-lightgray);
+		/* --color-link: var(--color-primary); */
 	}
 }
