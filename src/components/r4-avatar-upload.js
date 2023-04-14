@@ -18,7 +18,7 @@ export default class R4AvatarUpload extends LitElement {
 		for (const file of files) {
 			this.loading = true
 
-			const res = await createImage(file, this.tags)
+			const res = await sdk.channels.createImage(file, this.tags)
 			const data = await res.json()
 
 			const uploadEvent = new CustomEvent('upload', {
@@ -41,17 +41,4 @@ export default class R4AvatarUpload extends LitElement {
 	createRenderRoot() {
 		return this
 	}
-}
-
-// @todo move to sdk.channels.createImage()
-async function createImage(file, tags) {
-	const formData = new FormData()
-	formData.append('upload_preset', 'tc44ivjo')
-	formData.append('file', file)
-	if (tags) formData.append('tags', tags)
-
-	return fetch(`https://api.cloudinary.com/v1_1/radio4000/auto/upload`, {
-		method: 'POST',
-		body: formData,
-	})
 }
