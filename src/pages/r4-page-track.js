@@ -9,32 +9,37 @@ export default class R4PageTrack extends LitElement {
 		params: { type: Object, state: true },
 		config: { type: Object, state: true },
 
-		track: { type: Object, reflect: true, state: true },
+		track: { type: Object, state: true },
 	}
 
-	firstUpdated() {
-		this.track = this.findTrack()
-	}
-
-	/* find data, the current channel id we want to add to */
-	async findTrack() {
-		const { data } = await readTrack(this.params.track_id)
-		if (data && data.id) {
-			return data
+	willUpdate(changedProperties) {
+		if (changedProperties.has('params')) {
+			this.fetchTrack()
 		}
 	}
 
-	render() {
-		return html`${
-			until(
-				Promise.resolve(this.track).then((track) => {
-					return track ? this.renderPage(track) : this.renderNoPage()
-				}).catch(() => this.renderNoPage()),
-				this.renderLoading()
-			)
-		}`
+	// Set channel from the slug in the URL.
+	/* find data, the current channel id we want to add to */
+	async fetchTrack() {
+		const { data } = await readTrack(this.params.track_id)
+		this.track = data
 	}
-	renderPage(track) {
+
+	render() {
+		if (!this.track) return html`<span>Loading track...</span>`
+		return this.renderPage()
+		// return html`${
+		// 	until(
+		// 		Promise.resolve(this.track).then((track) => {
+		// 			return track ? this.renderPage(track) : this.renderNoPage()
+		// 		}).catch(() => this.renderNoPage()),
+		// 		this.renderLoading()
+		// 	)
+		// }`
+	}
+
+	renderPage() {
+		const {track} = this
 		return html`
 			<main>
 				<r4-track
@@ -74,11 +79,9 @@ export default class R4PageTrack extends LitElement {
 			</aside>
 		`
 	}
+
 	renderNoPage() {
 		return html`404 - No track with this id`
-	}
-	renderLoading() {
-		return html`<span>Loading track...</span>`
 	}
 
 	async onTrackAction({ detail }) {
@@ -87,8 +90,8 @@ export default class R4PageTrack extends LitElement {
 				const playEvent = new CustomEvent('r4-play', {
 					bubbles: true,
 					detail: {
-						channel: this.params.slug,
-						track: this.track.id,
+						slug: this.params.slug,
+						track: this.track
 					}
 				})
 				this.dispatchEvent(playEvent)
@@ -99,6 +102,7 @@ export default class R4PageTrack extends LitElement {
 			}
 		}
 	}
+
 	async onTrackDelete() {
 		this.closeDialog('delete')
 		page(`/${this.params.slug}`)

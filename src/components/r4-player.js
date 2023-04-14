@@ -1,52 +1,70 @@
-import 'radio4000-player'
+// import 'radio4000-player'
+import YTPlayer from 'youtube-player'
+import { readChannel, readChannelTracks } from '@radio4000/sdk'
+import { LitElement, html } from 'lit'
+import { ref, createRef } from 'lit/directives/ref.js'
 
-const template = document.createElement('template')
-template.innerHTML = `<radio4000-player></radio4000-player>`
+function youtubeRegex() {
+	const regex = /(?:youtube\.com\/\S*(?:(?:\/e(?:mbed))?\/|watch\/?\?(?:\S*?&?v\=))|youtu\.be\/)([a-zA-Z0-9_-]{6,11})/g
+	return regex
+}
 
-export default class R4Player extends HTMLElement {
-	static get observedAttributes() {
-		return ['tracks', 'track']
+const youtubeUrlToId = (url) => {
+	const results = youtubeRegex().exec(url)
+	if (!results) {
+		return false
+	}
+	return results[1]
+}
+
+export default class R4Player extends LitElement {
+	static properties = {
+		slug: { type: String },
+
+		track: { type: Object, state: true },
+		playlist: { type: Object, state: true },
 	}
 
-	get tracks() {
-		const tracksAttr = JSON.parse(this.getAttribute('tracks'))
-		return tracksAttr || []
-	}
-
-	/* if the attribute changed, re-render */
-	attributeChangedCallback(attrName, oldVal, newVal) {
-		if (['tracks'].indexOf(attrName) > -1) {
-			newVal && this.playTracks()
-		}
-	}
+	playerRef = createRef()
 
 	connectedCallback() {
-		this.render()
-		this.$player = this.querySelector('radio4000-player')
-		this.$player.addEventListener('playerReady', this.onPlayerReady.bind(this))
+		super.connectedCallback()
 	}
 
 	render() {
-		this.append(template.content.cloneNode(true))
-	}
-	onPlayerReady() {
-		this.player = this.$player.getVueInstance()
+		return html`<div>
+			<h1>Player</h1>
+			<p>Channel: ${this.slug}</p>
+			<p>Track: ${this.track?.url}</p>
+			<div ${ref(this.playerRef)}></div>
+		</div>`
 	}
 
-	playTracks() {
-		if (!this.player) {
-			return
-		}
+	firstUpdated() {
+		this.player = YTPlayer(this.playerRef.value)
+		// this.player.on('stateChange', (event) => {
+		// 	console.log(event)
+		// })
+	}
 
-		if (this.tracks.length) {
-			const playlist = {
-				title: '',
-				image: '',
-				tracks: this.tracks,
-			}
-			this.player.updatePlaylist(playlist)
-		} else {
-			this.player.updatePlaylist({ tracks: [] })
+	async willUpdate() {
+		if (this.track) {
+			const ytid = youtubeUrlToId(this.track.url)
+			this.player.loadVideoById(ytid)
+			this.player.playVideo()
+		} else if (this.slug) {
+			console.log(this.slug)
+			const { data: channel } = await readChannel(this.slug)
+			this.channel = channel
+			const { data: tracks } = await readChannelTracks(this.slug)
+			this.tracks = tracks
+			const ytid = youtubeUrlToId(this.tracks[0].url)
+			this.player.loadVideoById(ytid)
+			this.player.playVideo()
 		}
+	}
+
+	createRenderRoot() {
+		return this
 	}
 }

@@ -39,7 +39,7 @@ export default class R4PageChannel extends BaseChannel {
 				const playEvent = new CustomEvent('r4-play', {
 					bubbles: true,
 					detail: {
-						channel: this.params.slug,
+						slug: this.params.slug,
 					},
 				})
 				this.dispatchEvent(playEvent)

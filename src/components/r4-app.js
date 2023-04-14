@@ -43,7 +43,9 @@ export default class R4App extends LitElement {
 		return {
 			user: this.user,
 			userChannels: this.userChannels,
-			count: this.count
+			count: this.count,
+			playerChannel: this.playerChannel,
+			playerTrack: this.playerTrack,
 		}
 	}
 	set store(val) {
@@ -161,7 +163,7 @@ export default class R4App extends LitElement {
 					${this.renderAppRouter()}
 				</main>
 				<aside slot="player">
-					<r4-player ${ref(this.playerRef)}></r4-player>
+					<r4-player slug=${this.store.playerChannel} .track=${this.store.playerTrack} ${ref(this.playerRef)}></r4-player>
 				</aside>
 			</r4-layout>
 		`
@@ -319,17 +321,11 @@ export default class R4App extends LitElement {
 	}
 
 	/* play some data */
-	async onPlay({detail}) {
-		const {channel, track} = detail
-		if (channel) {
-			const { data } = await readChannelTracks(channel)
-			if (data) {
-				this.playerRef.value.setAttribute('tracks', JSON.stringify(data))
-				this.playerRef.value.setAttribute('track', track)
-			} else {
-				this.playerRef.value.removeAttribute('tracks')
-			}
-		}
+	async onPlay({ detail }) {
+		const { slug, track } = detail
+		console.log('onPlay', slug, track)
+		this.playerChannel = slug
+		this.playerTrack = track
 	}
 
 	/* no shadow dom */

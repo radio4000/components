@@ -1,6 +1,10 @@
-r4-player:not([tracks]) {
-	display: none;
+r4-player:not([slug]) {
+	/* display: none; */
 }
-r4-player[tracks] {
-	display: flex;
+r4-player[channel] {
+	/* display: flex; */
+}
+
+r4-player iframe {
+	max-width: 100%;
 }
