@@ -20,7 +20,7 @@ html,
 /* reset of browser styles */
 body {
 	background: var(--color-background);
-	margin: 0;
+	margin: var(--size);
 }
 
 a {

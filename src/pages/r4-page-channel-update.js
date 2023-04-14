@@ -21,6 +21,9 @@ export default class R4PageChannelUpdate extends BaseChannel {
 					slug=${channel.slug}
 					name=${channel.name}
 					description=${channel.description}
+					url=${channel.url}
+					longitude=${channel.longitude}
+					latitude=${channel.latitude}
 					@submit=${this.onChannelUpdate}
 				></r4-channel-update>
 				<br />

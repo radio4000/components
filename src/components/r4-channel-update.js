@@ -14,21 +14,34 @@ fieldsTemplate.innerHTML = `
 		</fieldset>
 		<fieldset>
 			<label for="slug">Slug</label>
-			<input name="slug" type="text" required/>
+			<input name="slug" type="text" required minlength="3" />
 		</fieldset>
 		<fieldset>
 			<label for="description">Description</label>
 			<textarea name="description"></textarea>
 		</fieldset>
+		<fieldset>
+			<label for="url">URL</label>
+			<input name="url" type="url"/>
+		</fieldset>
+		<fieldset>
+			<label for="longitude">Longitude</label>
+			<input name="longitude" type="number" />
+		</fieldset>
+		<fieldset>
+			<label for="latitude">Latitude</label>
+			<input name="latitude" type="number" />
+		</fieldset>
 	</slot>
 `
 
-
 export default class R4ChannelUpdate extends R4Form {
 	static get observedAttributes() {
-		return ['id', 'name', 'slug', 'description']
+		return ['id', 'name', 'slug', 'description', 'url', 'longitude', 'latitude']
 	}
+
 	submitText = 'Update channel'
+
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate
