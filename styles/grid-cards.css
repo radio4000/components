@@ -13,10 +13,10 @@ r4-channels ul {
 
 .Grid > *,
 r4-channels li {
-	border: 1px solid;
+	border: 1px solid var(--color-border);
 	padding: calc(var(--size) / 4);
 	margin-bottom: 0;
-	/* background-color: bisque; */
+	background-color: var(--color-secondary);
 }
 
 @media (min-width: 12rem) {
@@ -29,6 +29,5 @@ r4-channels li {
 @media (prefers-color-scheme: light) {
 	.Grid > *,
 	r4-channels li {
-		background-color: bisque;
 	}
 }
