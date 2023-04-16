@@ -321,13 +321,40 @@ export default class R4App extends LitElement {
 	/* play some data */
 	async onPlay({detail}) {
 		const {channel, track} = detail
-		if (channel) {
-			const { data } = await readChannelTracks(channel)
-			if (data) {
-				this.playerRef.value.setAttribute('tracks', JSON.stringify(data))
-				this.playerRef.value.setAttribute('track', track)
+
+		if (channel && channel.slug) {
+			const { data: channelTracks } = await readChannelTracks(channel.slug)
+			const tracks = channelTracks.reverse()
+
+			if (tracks) {
+				this.playerRef.value.setAttribute(
+					'tracks',
+					JSON.stringify(tracks)
+				)
 			} else {
 				this.playerRef.value.removeAttribute('tracks')
+			}
+
+			if (channel.name) {
+				this.playerRef.value.setAttribute('name', channel.name)
+			} else {
+				this.playerRef.value.removeAttribute('name')
+			}
+
+			if (channel.image) {
+				const imageUrl = channel.image
+				this.playerRef.value.setAttribute('image', imageUrl)
+			} else {
+				this.playerRef.value.removeAttribute('image')
+			}
+
+			if (track && track.id) {
+				this.playerRef.value.setAttribute('track', track.id)
+			} else if (tracks) {
+				const lastTrack = tracks[tracks.length - 1]
+				this.playerRef.value.setAttribute('track', lastTrack.id)
+			} else {
+				this.playerRef.value.removeAttribute('track')
 			}
 		}
 	}
