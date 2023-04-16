@@ -1,52 +1,62 @@
 import 'radio4000-player'
+import { html, LitElement } from 'lit'
+import { ref, createRef } from 'lit/directives/ref.js'
 
-const template = document.createElement('template')
-template.innerHTML = `<radio4000-player></radio4000-player>`
+export default class R4Player extends LitElement {
+	playerRef = createRef()
 
-export default class R4Player extends HTMLElement {
-	static get observedAttributes() {
-		return ['tracks', 'track']
-	}
-
-	get tracks() {
-		const tracksAttr = JSON.parse(this.getAttribute('tracks'))
-		return tracksAttr || []
-	}
-
-	/* if the attribute changed, re-render */
-	attributeChangedCallback(attrName, oldVal, newVal) {
-		if (['tracks'].indexOf(attrName) > -1) {
-			newVal && this.playTracks()
-		}
-	}
-
-	connectedCallback() {
-		this.render()
-		this.$player = this.querySelector('radio4000-player')
-		this.$player.addEventListener('playerReady', this.onPlayerReady.bind(this))
+	static properties = {
+		tracks: { type: Array },
+		track: {},
+		name: {},
+		image: {},
 	}
 
 	render() {
-		this.append(template.content.cloneNode(true))
-	}
-	onPlayerReady() {
-		this.player = this.$player.getVueInstance()
+		return html`
+			<radio4000-player
+				${ref(this.playerRef)}
+				@playerReady=${this.onPlayerReady}
+			></radio4000-player>
+		`
 	}
 
-	playTracks() {
+	onPlayerReady() {
+		this.player = this.playerRef.value.getVueInstance()
+	}
+
+	willUpdate(changedProperties) {
+		if (
+			changedProperties.has('tracks')
+			|| changedProperties.has('track')
+		) {
+			this.play()
+		}
+	}
+
+	play() {
 		if (!this.player) {
 			return
 		}
 
 		if (this.tracks.length) {
 			const playlist = {
-				title: '',
-				image: '',
+				title: this.name,
+				image: this.image,
 				tracks: this.tracks,
 			}
 			this.player.updatePlaylist(playlist)
 		} else {
 			this.player.updatePlaylist({ tracks: [] })
 		}
+
+		if (this.track) {
+			this.player.trackId = this.track
+		}
+	}
+
+	/* no shadow dom */
+	createRenderRoot() {
+		return this
 	}
 }
