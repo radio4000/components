@@ -1,4 +1,5 @@
-import { readChannel, canEditChannel } from '@radio4000/sdk'
+import sdk from '@radio4000/sdk/src/default.js'
+
 const template = document.createElement('template')
 template.innerHTML = `
 	<r4-actions>
@@ -56,7 +57,7 @@ export default class R4ChannelActions extends HTMLElement {
 
 		/* if can't edit, try checking if can */
 		if (!this.canEdit) {
-			this.canEdit = await canEditChannel(this.slug)
+			this.canEdit = await sdk.channels.canEditChannel(this.slug)
 		}
 
 		/* if can edit, render option for editors */

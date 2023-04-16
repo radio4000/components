@@ -1,4 +1,4 @@
-import {readUser, signOut} from '@radio4000/sdk'
+import sdk from '@radio4000/sdk/src/default.js'
 import R4Form from './r4-form.js'
 
 export default class R4SignOut extends R4Form {
@@ -31,7 +31,7 @@ export default class R4SignOut extends R4Form {
 		let res = {},
 			error = null
 		try {
-			res = await signOut()
+			res = await sdk.signOut()
 			if (res.error) {
 				throw res.error
 			}

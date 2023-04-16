@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit'
-import { readChannel } from '@radio4000/sdk'
+import sdk from '@radio4000/sdk/src/default.js'
 import page from 'page/page.mjs'
 
 export default class R4PageAdd extends LitElement {
@@ -58,7 +58,7 @@ export default class R4PageAdd extends LitElement {
 
 	/* find the current channel id we want to add to */
 	async findSelectedChannel() {
-		const { data } = await readChannel(this.selectedSlug)
+		const { data } = await sdk.channels.readChannel(this.selectedSlug)
 		if (data?.id) return data.id
 	}
 

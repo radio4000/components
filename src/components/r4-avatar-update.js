@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit'
-import sdk from '@radio4000/sdk'
+import sdk from '@radio4000/sdk/src/default.js'
 
 /**
  * Give it a channel slug and it will..

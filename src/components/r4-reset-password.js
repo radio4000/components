@@ -1,5 +1,5 @@
 import {LitElement, html} from 'lit'
-import {supabase} from '@radio4000/sdk'
+import sdk from '@radio4000/sdk/src/default.js'
 
 export default class R4ResetPassword extends LitElement {
 	static properties = {
@@ -13,7 +13,7 @@ export default class R4ResetPassword extends LitElement {
 		this.loading = true
 		const email = event.target.email.value
 		if (!email) return
-		const {error} = await supabase.auth.resetPasswordForEmail(email, {redirectTo: '/settings'})
+		const {error} = await sdk.supabase.auth.resetPasswordForEmail(email, {redirectTo: '/settings'})
 		if (error) console.log(error)
 		this.msg = error ? error.message : 'Check your email to continue resetting your password'
 		this.loading = false

@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk'
+import sdk from '@radio4000/sdk/src/default.js'
 import * as lit from 'lit'
 import page from 'page/page.mjs'
 import radio4000player from 'radio4000-player'

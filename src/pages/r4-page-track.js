@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit'
 import { until } from 'lit/directives/until.js'
-import { readTrack } from '@radio4000/sdk'
+import sdk from '@radio4000/sdk/src/default.js'
 import page from 'page/page.mjs'
 
 export default class R4PageTrack extends LitElement {

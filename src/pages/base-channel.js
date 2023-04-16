@@ -1,5 +1,5 @@
 import { html, LitElement } from 'lit'
-import { canEditChannel, readChannel } from '@radio4000/sdk'
+import sdk from '@radio4000/sdk/src/default.js'
 
 // Base class to extend from
 export default class BaseChannel extends LitElement {
@@ -32,8 +32,8 @@ export default class BaseChannel extends LitElement {
 
 	// Set channel from the slug in the URL.
 	async setChannel() {
-		this.channel = (await readChannel(this.params.slug)).data
-		this.canEdit = await canEditChannel(this.params.slug)
+		this.channel = (await sdk.channels.readChannel(this.params.slug)).data
+		this.canEdit = await sdk.channels.canEditChannel(this.params.slug)
 	}
 
 	render() {
