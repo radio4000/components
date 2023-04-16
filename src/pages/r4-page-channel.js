@@ -35,11 +35,11 @@ export default class R4PageChannel extends BaseChannel {
 	/* event handlers from <r4-channel-actions> */
 	async onChannelAction({ detail }) {
 		if (detail) {
-			if (detail === 'play') {
+			if (detail === 'play' && this.channel) {
 				const playEvent = new CustomEvent('r4-play', {
 					bubbles: true,
 					detail: {
-						channel: this.params.slug,
+						channel: this.channel,
 					},
 				})
 				this.dispatchEvent(playEvent)
