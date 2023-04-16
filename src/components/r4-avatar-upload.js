@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit'
-import sdk from '@radio4000/sdk/src/default.js'
+import {sdk} from '@radio4000/sdk'
 
 /**
  * Renders a form to upload an image to Cloudinary.

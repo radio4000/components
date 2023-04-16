@@ -1,5 +1,5 @@
 import { html, LitElement } from 'lit'
-import sdk from '@radio4000/sdk/src/default.js'
+import {sdk} from '@radio4000/sdk'
 
 // Base class to extend from
 export default class BaseChannel extends LitElement {

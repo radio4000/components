@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit'
-import sdk from '@radio4000/sdk/src/default.js'
+import {sdk} from '@radio4000/sdk'
 import page from 'page/page.mjs'
 
 export default class R4PageAdd extends LitElement {

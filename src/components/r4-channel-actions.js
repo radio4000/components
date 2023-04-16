@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk/src/default.js'
+import {sdk} from '@radio4000/sdk'
 
 const template = document.createElement('template')
 template.innerHTML = `

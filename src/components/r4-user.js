@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk/src/default.js'
+import {sdk} from '@radio4000/sdk'
 
 export default class R4User extends HTMLElement {
 	static get observedAttributes() {

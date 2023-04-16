@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit'
-import sdk from '@radio4000/sdk/src/default.js'
+import {sdk} from '@radio4000/sdk'
 
 /**
  * Renders an image in a predefined format for channel avatars.

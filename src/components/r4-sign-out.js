@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk/src/default.js'
+import {sdk} from '@radio4000/sdk'
 import R4Form from './r4-form.js'
 
 export default class R4SignOut extends R4Form {

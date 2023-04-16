@@ -1,4 +1,4 @@
-import sdk from '@radio4000/sdk/src/default.js'
+import {sdk} from '@radio4000/sdk'
 import { html, render } from 'lit-html'
 
 export default class R4Track extends HTMLElement {
