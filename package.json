@@ -20,7 +20,7 @@
     "build-website": "vite build --config vite.config.js"
   },
   "dependencies": {
-    "@radio4000/sdk": "file:../sdk",
+    "@radio4000/sdk": "^0.3.4",
     "lit": "^2.7.2",
     "page": "^1.11.6",
     "radio4000-player": "^0.6.24"
