@@ -36,7 +36,12 @@
 	--color-primary: var(--color-green5);
 	--color-secondary: var(--color-bisque);
 	--color-border: hsla(0 10% 50% / 0.5);
-	--color-input-background: var(--color-light);
+	--color-input-background: var(--color-background);
+	--color-input: var(--color-text);
+	--color-input-border: var(--color-border);
+	--color-button-background: var(--color-background);
+	--color-button-border: var(--color-border);
+	--color-button: var(--color-text);
 
 	/* typography */
 	--font-size: var(--size-font);
@@ -60,3 +65,26 @@
 		/* --color-link: var(--color-primary); */
 	}
 }
+
+/* :root { */
+/* 	--color-background: cyan; */
+/* 	--color-secondary: green; */
+/* 	--color-text: purple; */
+/* } */
+
+/* $purple: hsl(260, 80%, 50%); */
+/* $red: hsl(0, 75%, 50%); */
+/* $yellow: rgba(255, 233, 87, 0.5); */
+/* $green: hsl(125, 82%, 35%); */
+/* $fadedblue: hsl(231, 48%, 95%); */
+/* $bleach: hsl(72, 100%, 98%); */
+
+/* $white: hsl(0, 0%, 100%); */
+/* $superlightgray: hsl(0, 0%, 98%); */
+/* $slightgray: hsl(0, 0%, 95%); */
+/* $lightgray: hsl(45, 5%, 90%); */
+/* $mediumlightgray: hsl(0, 0%, 85%); */
+/* $mediumgray: hsl(0, 0%, 70%); */
+/* $gray: hsl(0, 0%, 45%); */
+/* $dark: hsl(0, 0%, 30%); */
+/* $black: hsl(0, 0%, 10%); */

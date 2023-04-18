@@ -31,6 +31,3 @@ fieldset label[for] {
 	cursor: pointer;
 }
 
-input[type="checkbox"] {
-	padding: calc(var(--size) / 4);
-}
