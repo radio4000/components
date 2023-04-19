@@ -8,9 +8,6 @@
 */
 :root,
 :host {
-	/*
-		sizes variables
- */
 	/* the base all sizes */
 	--size-font: 18px;
 	--size-font-max: 26px;
@@ -33,15 +30,16 @@
 	--color-app-background: var(--color-background);
 	--color-text: var(--color-dark);
 	--color-link: var(--color-text);
-	--color-primary: var(--color-green5);
-	--color-secondary: var(--color-bisque);
 	--color-border: hsla(0 10% 50% / 0.5);
 	--color-input-background: var(--color-background);
-	--color-input: var(--color-text);
+	--color-input-text: var(--color-text);
 	--color-input-border: var(--color-border);
 	--color-button-background: var(--color-background);
+	--color-button-text: var(--color-text);
 	--color-button-border: var(--color-border);
-	--color-button: var(--color-text);
+
+	--color-primary: var(--color-green5);
+	--color-secondary: var(--color-bisque);
 
 	/* typography */
 	--font-size: var(--size-font);

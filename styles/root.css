@@ -41,6 +41,7 @@ select {
 	cursor: pointer;
 }
 
+/* Shared styles between button-like-things and inputs */
 ::part(button),
 button,
 select,
@@ -52,20 +53,23 @@ textarea {
 	border: 1px solid var(--color-border);
 }
 
+/* Inputs */
 input,
 textarea {
 	background-color: var(--color-input-background);
-	color: var(--color-input);
+	color: var(--color-input-text);
 }
 
+/* Button-like elements */
 select,
 button {
 	border-width: 2px;
 	background-color: var(--color-button-background);
-	color: var(--color-button);
+	color: var(--color-button-text);
 }
 
 /* ::part(button)[disabled], */
+select[disabled],
 button[disabled] {
 	border-color: transparent;
 	color: hsla(0, 0%, 0%, 0.5);
