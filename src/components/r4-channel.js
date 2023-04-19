@@ -1,4 +1,4 @@
-import {readChannel} from '@radio4000/sdk'
+import {sdk} from '@radio4000/sdk'
 
 export default class R4Channel extends HTMLElement {
 	static get observedAttributes() {
@@ -66,7 +66,7 @@ export default class R4Channel extends HTMLElement {
 	async readChannel() {
 		if (this.slug) {
 			this.setAttribute('loading', true)
-			const res = await readChannel(this.slug)
+			const res = await sdk.channels.readChannel(this.slug)
 			this.removeAttribute('loading')
 			return res.data
 		}

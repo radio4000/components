@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit'
 import { until } from 'lit/directives/until.js'
-import { readTrack, readChannel } from '@radio4000/sdk'
+import {sdk} from '@radio4000/sdk'
 import page from 'page/page.mjs'
 
 export default class R4PageTrack extends LitElement {
@@ -19,13 +19,13 @@ export default class R4PageTrack extends LitElement {
 
 	/* find data, the current channel id we want to add to */
 	async findTrack() {
-		const { data } = await readTrack(this.params.track_id)
+		const { data } = await sdk.tracks.readTrack(this.params.track_id)
 		if (data && data.id) {
 			return data
 		}
 	}
 	async findChannel() {
-		const { data } = await readChannel(this.params.slug)
+		const { data } = await sdk.channels.readChannel(this.params.slug)
 		if (data && data.id) {
 			return data
 		}

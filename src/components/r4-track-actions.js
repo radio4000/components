@@ -1,4 +1,4 @@
-import {readTrack, canEditTrack} from '@radio4000/sdk'
+import {sdk} from '@radio4000/sdk'
 const template = document.createElement('template')
 template.innerHTML = `
 	<r4-actions>

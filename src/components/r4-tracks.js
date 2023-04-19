@@ -1,5 +1,5 @@
 import R4List from './r4-list.js'
-import sdk from '@radio4000/sdk'
+import {sdk} from '@radio4000/sdk'
 
 const itemTemplate = document.createElement('template')
 /* This will set the whole item (track) json,

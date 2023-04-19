@@ -1,4 +1,4 @@
-import {supabase, readUser} from '@radio4000/sdk'
+import {sdk} from '@radio4000/sdk'
 
 export default class R4User extends HTMLElement {
 	static get observedAttributes() {
