@@ -8,55 +8,71 @@
 */
 :root,
 :host {
-	/*
-		sizes variables
- */
-	/* the base all sizes */
-	--size-font: 18px;
-	--size-font-max: 26px;
-	/* a default size to use (with calc()) for "homgenous visual spacing" */
+	/* a default size to use (with calc()) for "homogenous visual spacing" */
 	--size: 1.5rem;
 	--size-container: 50em;
 	--breakpoint: 700px;
 
+	/* typography */
+	--font-size: 16px;
+	--font-family: serif;
+
 	/* colors */
 	--color-light: hsl(0deg 0% 98%);
-	--color-dark: hsl(0deg 0% 2%);
 	--color-lightgray: hsl(0deg 0% 80%);
 	--color-darkgray: hsl(0deg 0% 20%);
-	--color-green5: #155638;
-	--color-lightpurple: #e9d8df;
-	--color-bisque: hsl(32deg 100% 88%);
+	--color-dark: hsl(0deg 0% 2%);
+	--color-border: hsla(0 10% 50% / 0.5);
 
 	/* color definitions */
 	--color-background: var(--color-light);
 	--color-app-background: var(--color-background);
+	--color-card-background: var(--color-background);
 	--color-text: var(--color-dark);
 	--color-link: var(--color-text);
-	--color-primary: var(--color-green5);
-	--color-secondary: var(--color-bisque);
-	--color-border: hsla(0 10% 50% / 0.5);
-	--color-input-background: var(--color-light);
 
-	/* typography */
-	--font-size: var(--size-font);
-	--font-family: serif;
+	--color-input-background: var(--color-background);
+	--color-input-text: var(--color-text);
+	--color-input-border: var(--color-border);
+
+	--color-button-background: var(--color-link);
+	--color-button-text: var(--color-background);
+	--color-button-border: var(--color-border);
 }
 
+/* Default theme */
 @media (prefers-color-scheme: light) {
 	:root,
 	:host {
-		--color-app-background: var(--color-lightpurple);
-		--color-text: var(--color-dark);
+		--color-background: hsl(0 0% 90%);
+		--color-card-background: hsl(0 0% 93%);
+		--color-text: hsl(0 0% 10%);
+		--color-link: hsl(260 80% 50%);
 	}
 }
 
 @media (prefers-color-scheme: dark) {
 	:root,
 	:host {
-		--color-background: var(--color-dark);
-		--color-secondary: hsl(0, 9%, 10%);
-		--color-text: var(--color-lightgray);
-		/* --color-link: var(--color-primary); */
+		--color-background: hsl(0 0% 10%);
+		--color-card-background: hsl(0 0% 13%);
+		--color-text: hsl(0 0% 90%);
+		--color-link: hsl(260 80% 90%);
 	}
 }
+
+/* Jellybeans theme (only dark) */
+/* :root { */
+/* 	--font-family: iosevka term, system-ui, sans-serif; */
+/* 	--color-background: rgb(21 21 21); */
+/* 	--color-app-background: rgb(48 48 44); */
+/* 	--color-card-background: rgb(78 78 68); */
+/* 	/1* --color-card-background: rgba(48 48 44); *1/ */
+/* 	--color-blue: rgb(133 150 188); */
+/* 	/1* --color-yellow: rgb(243 210 134); *1/ */
+/* 	/1* --color-red: rgb(188 108 81); *1/ */
+/* 	/1* --color-green: rgb(128 156 111); *1/ */
+/* 	--color-text: rgb(220 220 207); */
+/* 	--color-link: var(--color-blue); */
+/* } */
+
