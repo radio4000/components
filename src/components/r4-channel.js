@@ -81,17 +81,21 @@ export default class R4Channel extends HTMLElement {
 		}
 	}
 	renderChannel() {
+		const link = document.createElement('a')
+		link.href = this.origin
+
 		const $channelName = document.createElement('h1')
-		$channelName.innerText = this.channel.name
+		link.innerText = this.channel.name
+		$channelName.appendChild(link)
 
 		let $channelSlug
 		if (this.origin) {
 			$channelSlug = document.createElement('a')
 			$channelSlug.href = this.origin
-			$channelSlug.innerText = this.channel.slug
+			$channelSlug.innerText = '@' + this.channel.slug
 		} else {
 			$channelSlug = document.createElement('code')
-			$channelSlug.innerText = this.channel.slug
+			$channelSlug.innerText = '@' + this.channel.slug
 		}
 
 		const $channelDescription = document.createElement('article')

@@ -8,81 +8,63 @@
 */
 :root,
 :host {
-	/* the base all sizes */
-	--size-font: 18px;
-	--size-font-max: 26px;
-	/* a default size to use (with calc()) for "homgenous visual spacing" */
+	/* a default size to use (with calc()) for "homogenous visual spacing" */
 	--size: 1.5rem;
 	--size-container: 50em;
 	--breakpoint: 700px;
 
+	/* typography */
+	--font-size: 16px;
+	--font-family: serif;
+
 	/* colors */
 	--color-light: hsl(0deg 0% 98%);
-	--color-dark: hsl(0deg 0% 2%);
 	--color-lightgray: hsl(0deg 0% 80%);
 	--color-darkgray: hsl(0deg 0% 20%);
-	--color-green5: #155638;
-	--color-lightpurple: #e9d8df;
-	--color-bisque: hsl(32deg 100% 88%);
+	--color-dark: hsl(0deg 0% 2%);
+	--color-border: hsla(0 10% 50% / 0.5);
 
 	/* color definitions */
 	--color-background: var(--color-light);
 	--color-app-background: var(--color-background);
+	--color-card-background: var(--color-background);
 	--color-text: var(--color-dark);
 	--color-link: var(--color-text);
-	--color-border: hsla(0 10% 50% / 0.5);
+
 	--color-input-background: var(--color-background);
 	--color-input-text: var(--color-text);
 	--color-input-border: var(--color-border);
+
 	--color-button-background: var(--color-background);
 	--color-button-text: var(--color-text);
 	--color-button-border: var(--color-border);
 
-	--color-primary: var(--color-green5);
-	--color-secondary: var(--color-bisque);
-
-	/* typography */
-	--font-size: var(--size-font);
-	--font-family: serif;
+	/* --color-primary: var(--color-dark); */
+	/* --color-secondary: var(--color-dark); */
 }
 
 @media (prefers-color-scheme: light) {
 	:root,
 	:host {
-		--color-app-background: var(--color-lightpurple);
-		--color-text: var(--color-dark);
+		--color-background: hsl(0 0% 90%);
+		/* --color-app-background: hsl(0 0% 93%); */
+		/* --color-card-background: hsl(0 0% 96%); */
+		--color-text: hsl(0 0% 10%);
+		--color-link: hsl(260 80% 50%);
+
+		--color-button-background: var(--color-link);
+		--color-button-text: var(--color-background);
 	}
 }
 
 @media (prefers-color-scheme: dark) {
 	:root,
 	:host {
-		--color-background: var(--color-dark);
-		--color-secondary: hsl(0, 9%, 10%);
-		--color-text: var(--color-lightgray);
-		/* --color-link: var(--color-primary); */
+		--color-background: hsl(0 0% 10%);
+		/* --color-app-background: hsl(0 0% 13%); */
+		/* --color-card-background: hsl(0 0% 16%); */
+		--color-text: hsl(0 0% 90%);
+		--color-link: hsl(260 80% 90%);
 	}
 }
 
-/* :root { */
-/* 	--color-background: cyan; */
-/* 	--color-secondary: green; */
-/* 	--color-text: purple; */
-/* } */
-
-/* $purple: hsl(260, 80%, 50%); */
-/* $red: hsl(0, 75%, 50%); */
-/* $yellow: rgba(255, 233, 87, 0.5); */
-/* $green: hsl(125, 82%, 35%); */
-/* $fadedblue: hsl(231, 48%, 95%); */
-/* $bleach: hsl(72, 100%, 98%); */
-
-/* $white: hsl(0, 0%, 100%); */
-/* $superlightgray: hsl(0, 0%, 98%); */
-/* $slightgray: hsl(0, 0%, 95%); */
-/* $lightgray: hsl(45, 5%, 90%); */
-/* $mediumlightgray: hsl(0, 0%, 85%); */
-/* $mediumgray: hsl(0, 0%, 70%); */
-/* $gray: hsl(0, 0%, 45%); */
-/* $dark: hsl(0, 0%, 30%); */
-/* $black: hsl(0, 0%, 10%); */
