@@ -71,8 +71,9 @@ button {
 /* ::part(button)[disabled], */
 select[disabled],
 button[disabled] {
-	border-color: transparent;
-	color: hsla(0, 0%, 0%, 0.5);
+	opacity: 0.5;
+	/* border-color: transparent; */
+	/* color: hsla(0, 0%, 0%, 0.5); */
 	cursor: auto;
 }
 

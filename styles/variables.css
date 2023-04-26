@@ -35,25 +35,19 @@
 	--color-input-text: var(--color-text);
 	--color-input-border: var(--color-border);
 
-	--color-button-background: var(--color-background);
-	--color-button-text: var(--color-text);
+	--color-button-background: var(--color-link);
+	--color-button-text: var(--color-background);
 	--color-button-border: var(--color-border);
-
-	/* --color-primary: var(--color-dark); */
-	/* --color-secondary: var(--color-dark); */
 }
 
+/* Default theme */
 @media (prefers-color-scheme: light) {
 	:root,
 	:host {
 		--color-background: hsl(0 0% 90%);
-		/* --color-app-background: hsl(0 0% 93%); */
-		/* --color-card-background: hsl(0 0% 96%); */
+		--color-card-background: hsl(0 0% 93%);
 		--color-text: hsl(0 0% 10%);
 		--color-link: hsl(260 80% 50%);
-
-		--color-button-background: var(--color-link);
-		--color-button-text: var(--color-background);
 	}
 }
 
@@ -61,10 +55,24 @@
 	:root,
 	:host {
 		--color-background: hsl(0 0% 10%);
-		/* --color-app-background: hsl(0 0% 13%); */
-		/* --color-card-background: hsl(0 0% 16%); */
+		--color-card-background: hsl(0 0% 13%);
 		--color-text: hsl(0 0% 90%);
 		--color-link: hsl(260 80% 90%);
 	}
 }
+
+/* Jellybeans theme (only dark) */
+/* :root { */
+/* 	--font-family: iosevka term, system-ui, sans-serif; */
+/* 	--color-background: rgb(21 21 21); */
+/* 	--color-app-background: rgb(48 48 44); */
+/* 	--color-card-background: rgb(78 78 68); */
+/* 	/1* --color-card-background: rgba(48 48 44); *1/ */
+/* 	--color-blue: rgb(133 150 188); */
+/* 	/1* --color-yellow: rgb(243 210 134); *1/ */
+/* 	/1* --color-red: rgb(188 108 81); *1/ */
+/* 	/1* --color-green: rgb(128 156 111); *1/ */
+/* 	--color-text: rgb(220 220 207); */
+/* 	--color-link: var(--color-blue); */
+/* } */
 
