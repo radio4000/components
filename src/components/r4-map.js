@@ -22,7 +22,8 @@ export default class R4Map extends LitElement {
 		console.log('containerEl', containerEl)
 
 		const viewer = new Cesium.Viewer(containerEl, {
-			terrainProvider: Cesium.createWorldTerrain()
+			terrainProvider: Cesium.createWorldTerrain(),
+			maximumZoomDistance: 1000
 		});
 
 		const openTopoProvider = new Cesium.UrlTemplateImageryProvider({
@@ -34,47 +35,84 @@ export default class R4Map extends LitElement {
 
 		const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());
 
-		viewer.camera.flyTo({
-			destination : Cesium.Cartesian3.fromDegrees(-122.4175, 37.655, 400),
-			orientation : {
-				heading : Cesium.Math.toRadians(0.0),
-			},
-		});
+		/* viewer.camera.flyTo({
+			 destination : Cesium.Cartesian3.fromDegrees(3, 3),
+			 orientation : {
+			 heading : Cesium.Math.toRadians(0.0),
+			 },
+			 }); */
 
-		viewer.screenSpaceEventHandler.setInputAction((movement) => {
-			const cartesian = viewer.camera.pickEllipsoid(movement.position, viewer.scene.globe.ellipsoid);
-			if (cartesian) {
-				const cartographic = Cesium.Cartographic.fromCartesian(cartesian);
-				const longitude = Cesium.Math.toDegrees(cartographic.longitude);
-				const latitude = Cesium.Math.toDegrees(cartographic.latitude);
-				console.log('Clicked at: ' + longitude + ', ' + latitude);
-			}
-		}, Cesium.ScreenSpaceEventType.LEFT_CLICK)
+		viewer.screenSpaceEventHandler.setInputAction(
+			this.onMapClick.bind(this),
+			Cesium.ScreenSpaceEventType.LEFT_CLICK
+		)
 
 		return viewer
 	}
+
+	onMapClick(event) {
+		const cartesian = this.viewer.camera.pickEllipsoid(event.position, this.viewer.scene.globe.ellipsoid);
+		if (!cartesian) return
+
+		const cartographic = Cesium.Cartographic.fromCartesian(cartesian)
+		const longitude = Cesium.Math.toDegrees(cartographic.longitude)
+		const latitude = Cesium.Math.toDegrees(cartographic.latitude)
+
+		const entityId = 'user-channe-position'
+		const entity = this.viewer.entities.getById(entityId)
+
+		if (entity) {
+			this.viewer.entities.remove(entity)
+		}
+
+		const popupEntity = this.viewer.entities.add({
+			position: Cesium.Cartesian3.fromDegrees(longitude, latitude),
+			id: entityId,
+			label: {
+				text: 'New channel',
+				show: true,
+				font: '1rem sans-serif',
+				fillColor: Cesium.Color.PURPLE,
+				outlineWidth: 3,
+				style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+				verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+				heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+				pixelOffset: new Cesium.Cartesian2(0, -15),
+			},
+			point: { pixelSize: 10, color: Cesium.Color.PURPLE }
+		});
+	}
+
 	initRadioEntitiesLayer() {
 		if (!this.channels || !this.viewer) return
 		this.channels.forEach(channel => {
-			console.log('channel', channel)
-			const dataPoint = {"longitude":-122.39053,"latitude":37.61779,"height":-27.32}
-			this.viewer.entities.add({
-				description: `Location: (${dataPoint.longitude}, ${dataPoint.latitude}, ${dataPoint.height})`,
+			const radioEntity = this.viewer.entities.add({
 				position: Cesium.Cartesian3.fromDegrees(
-					dataPoint.longitude,
-					dataPoint.latitude,
-					dataPoint.height
+					channel.longitude,
+					channel.latitude
 				),
-				point: { pixelSize: 10, color: Cesium.Color.RED }
-			});
+				point: { pixelSize: 10, color: Cesium.Color.RED },
+				label: {
+					text: `@${channel.slug}`,
+					show: true,
+					font: '1rem sans-serif',
+					fillColor: Cesium.Color.RED,
+					backgroundColor: Cesium.Color.PURPLE,
+					outlineWidth: 3,
+					style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+					verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+					heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+					pixelOffset: new Cesium.Cartesian2(0, 10)
+				},
+			})
 		})
 	}
 
 	async willUpdate() {
 		if (!this.channels) {
 			const {data} = await sdk.channels.readChannels()
+			if (!data) return
 			this.channels = data.filter(c => c.longitude && c.latitude)
-			console.log(this.channels)
 		}
 	}
 
