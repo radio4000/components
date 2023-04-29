@@ -41,6 +41,16 @@ export default class R4Map extends LitElement {
 			},
 		});
 
+		viewer.screenSpaceEventHandler.setInputAction((movement) => {
+			const cartesian = viewer.camera.pickEllipsoid(movement.position, viewer.scene.globe.ellipsoid);
+			if (cartesian) {
+				const cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+				const longitude = Cesium.Math.toDegrees(cartographic.longitude);
+				const latitude = Cesium.Math.toDegrees(cartographic.latitude);
+				console.log('Clicked at: ' + longitude + ', ' + latitude);
+			}
+		}, Cesium.ScreenSpaceEventType.LEFT_CLICK)
+
 		return viewer
 	}
 	initRadioEntitiesLayer() {
