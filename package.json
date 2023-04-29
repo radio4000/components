@@ -21,12 +21,14 @@
   },
   "dependencies": {
     "@radio4000/sdk": "^0.2.0",
+    "cesium": "^1.104.0",
     "lit": "^2.7.2",
     "page": "^1.11.6",
     "radio4000-player": "^0.6.24"
   },
   "devDependencies": {
-    "vite": "^4.2.1"
+    "vite": "^4.2.1",
+    "vite-plugin-static-copy": "^0.14.0"
   },
   "repository": {
     "type": "git",
