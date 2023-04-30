@@ -58,7 +58,7 @@ export default class R4TrackDelete extends R4Form {
 
 		let res
 		try {
-			res = await deleteTrack(id)
+			res = await sdk.tracks.deleteTrack(id)
 			if (res && res.error) {
 				throw res.error
 			}

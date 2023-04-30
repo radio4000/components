@@ -44,7 +44,7 @@ export default class R4SignUp extends R4Form {
 		let res = {},
 			error = null
 		try {
-			res = await signUp({
+			res = await sdk.auth.signUp({
 				email: this.state.email,
 				password: this.state.password,
 			})

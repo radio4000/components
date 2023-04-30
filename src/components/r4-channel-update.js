@@ -77,7 +77,7 @@ export default class R4ChannelUpdate extends R4Form {
 		let res = {},
 				error = null
 		try {
-			res = await updateChannel(channelId, changes)
+			res = await sdk.channels.updateChannel(channelId, changes)
 			if (res.error) {
 				if (res.status === 404) {
 					res.error.code = 404
