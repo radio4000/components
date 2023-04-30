@@ -1,4 +1,4 @@
-import {updateTrack} from '@radio4000/sdk'
+import {sdk} from '@radio4000/sdk'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
@@ -46,7 +46,7 @@ export default class R4TrackUpdate extends R4Form {
 		let res = {}
 		let error = null
 		try {
-			res = await updateTrack(id, {url, title, description})
+			res = await sdk.tracks.updateTrack(id, {url, title, description})
 			if (res.error) {
 				error = res.error
 				throw error

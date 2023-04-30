@@ -40,28 +40,39 @@ select {
 	cursor: pointer;
 }
 
+/* Shared styles between button-like-things and inputs */
 ::part(button),
 button,
 select,
 input,
 textarea {
-	font-size: var(--font-size);
 	font-family: var(--font-family);
-	background-color: var(--color-input-background);
-	color: var(--color-text);
+	font-size: var(--font-size);
 	padding: calc(var(--size) / 4) calc(var(--size) / 2);
-	border: 1px solid;
-	border-color: var(--color-text);
+	border: 1px solid var(--color-border);
 }
 
-/* ::part(button)[disabled], */
-button[disabled] {
-	border-color: transparent;
-	color: hsla(0, 0%, 0%, 0.5);
-	cursor: auto;
+/* Inputs */
+input,
+textarea {
+	background-color: var(--color-input-background);
+	color: var(--color-input-text);
 }
 
+/* Button-like elements */
 select,
 button {
 	border-width: 2px;
+	background-color: var(--color-button-background);
+	color: var(--color-button-text);
 }
+
+/* ::part(button)[disabled], */
+select[disabled],
+button[disabled] {
+	opacity: 0.5;
+	/* border-color: transparent; */
+	/* color: hsla(0, 0%, 0%, 0.5); */
+	cursor: auto;
+}
+

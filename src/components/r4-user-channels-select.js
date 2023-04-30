@@ -1,4 +1,4 @@
-import { readUserChannels, readUser, supabase } from '@radio4000/sdk'
+import {sdk} from '@radio4000/sdk'
 
 export default class R4UserChannelsSelect extends HTMLElement {
 	static get observedAttributes() {
@@ -94,7 +94,7 @@ export default class R4UserChannelsSelect extends HTMLElement {
 			const {
 				error,
 				data,
-			} = await readUserChannels()
+			} = await sdk.channels.readUserChannels()
 
 			this.error = error
 			this.channels = data

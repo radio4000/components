@@ -1,4 +1,4 @@
-import {readTrack, canEditTrack} from '@radio4000/sdk'
+import {sdk} from '@radio4000/sdk'
 const template = document.createElement('template')
 template.innerHTML = `
 	<r4-actions>
@@ -42,7 +42,7 @@ export default class R4TrackActions extends HTMLElement {
 		}
 
 		if (this.id && !this.track) {
-			const { error, data } = await readTrack(this.id)
+			const { error, data } = await sdk.tracks.readTrack(this.id)
 			if (error) {
 				this.renderAsyncOptions({
 					value: 'track',
@@ -50,7 +50,7 @@ export default class R4TrackActions extends HTMLElement {
 				})
 			} else if (data && !this.canEdit) {
 				this.track = data
-				this.canEdit = await canEditTrack(this.id)
+				this.canEdit = await sdk.tracks.canEditTrack(this.id)
 				if (this.canEdit) {
 					this.renderAsyncOptions({
 						value: 'update',

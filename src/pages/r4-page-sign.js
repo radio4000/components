@@ -18,10 +18,10 @@ export default class R4PageSign extends LitElement {
 			<main>
 				${method ? this.renderMethodPage(method) : this.renderMethodSelection()}
 
-				<details>
+				${method === 'in' ? html`<details>
 					<summary>Forgot your password?</summary>
 					<r4-reset-password />
-				</details>
+				</details>` : null}
 			</main>
 		`
 	}

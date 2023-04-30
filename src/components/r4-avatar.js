@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit'
-import { readChannel } from '@radio4000/sdk'
+import {sdk} from '@radio4000/sdk'
 
 /**
  * Renders an image in a predefined format for channel avatars.
@@ -16,7 +16,7 @@ export default class R4Avatar extends LitElement {
 	async connectedCallback() {
 		super.connectedCallback()
 		if (this.slug) {
-			const { data } = await readChannel(this.slug)
+			const { data } = await sdk.channels.readChannel(this.slug)
 			this.image = data.image
 		}
 	}

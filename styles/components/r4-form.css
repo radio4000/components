@@ -7,7 +7,6 @@ fieldset {
 	display: flex;
 	flex-direction: column;
 	border: none;
-	background-color: var(--color--background);
 	margin: 0;
 	padding: 0;
 	/* padding: 0 0 calc(var(--size) / 2); */
@@ -37,8 +36,4 @@ fieldset[disabled] button[loading] {
 
 fieldset label[for] {
 	cursor: pointer;
-}
-
-input[type="checkbox"] {
-	/* padding: calc(var(--size) / 4); */
 }

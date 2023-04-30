@@ -1,12 +1,6 @@
 import { html, LitElement } from 'lit'
 import { ref, createRef } from 'lit/directives/ref.js'
-import {
-	signOut,
-	readChannelTracks,
-	readUserChannels,
-	readUser,
-	supabase,
-} from '@radio4000/sdk'
+import {sdk} from '@radio4000/sdk'
 import page from 'page/page.mjs'
 import '../pages/'
 
@@ -72,14 +66,14 @@ export default class R4App extends LitElement {
 		this.singleChannel = this.getAttribute('single-channel')
 		this.selectedSlug = this.getAttribute('channel')
 
-		supabase.auth.onAuthStateChange(async (event, session) => {
+		sdk.supabase.auth.onAuthStateChange(async (event, session) => {
 			if (event === 'SIGNED_OUT') this.removeDatabaseListeners()
 
 			// @todo redirect to a /set-password page or similar instead of the prompt
 			if (event === "PASSWORD_RECOVERY") {
 				const newPassword = prompt("What would you like your new password to be?");
 				if (!newPassword) return
-				const { data, error } = await supabase.auth.updateUser({ password: newPassword })
+				const { data, error } = await sdk.supabase.auth.updateUser({ password: newPassword })
 				if (data) alert("Password updated successfully!")
 				if (error) alert("There was an error updating your password.")
 			}
@@ -97,11 +91,11 @@ export default class R4App extends LitElement {
 		if (this.refreshUserData.running) return
 		this.refreshUserData.running = true
 
-		const {data} = await supabase.auth.getSession()
+		const {data} = await sdk.supabase.auth.getSession()
 		this.user = data?.session?.user
 
 		if (this.user) {
-			const {data: channels} = await readUserChannels()
+			const {data: channels} = await sdk.channels.readUserChannels()
 			this.userChannels = channels?.length ? channels : undefined
 			this.setupDatabaseListeners()
 		} else {
@@ -116,7 +110,7 @@ export default class R4App extends LitElement {
 	async setupDatabaseListeners() {
 		if (this.userChannels) {
 			const userChannelIds = this.userChannels.map(c => c.id)
-			const userChannelsChanges = supabase.channel('user-channels-changes')
+			const userChannelsChanges = sdk.supabase.channel('user-channels-changes')
 			userChannelsChanges.on('postgres_changes', {
 				event: '*',
 				schema: 'public',
@@ -127,7 +121,7 @@ export default class R4App extends LitElement {
 			}).subscribe()
 		}
 
-		const userChannelEvents = supabase.channel('user-channels-events')
+		const userChannelEvents = sdk.supabase.channel('user-channels-events')
 		userChannelEvents.on('postgres_changes', {
 			event: '*',
 			schema: 'public',
@@ -143,7 +137,7 @@ export default class R4App extends LitElement {
 
 	async removeDatabaseListeners() {
 		console.log('removing database listeners')
-		return supabase.removeAllChannels()
+		return sdk.supabase.removeAllChannels()
 	}
 
 	render() {
@@ -258,7 +252,7 @@ export default class R4App extends LitElement {
 				<li>
 					<r4-auth-status ?auth=${user}>
 						<span slot="in">
-							<button @click=${signOut}>Sign out</button>
+							<button @click=${sdk.signOut}>Sign out</button>
 						</span>
 						<span slot="out">
 							<a href=${href + '/sign/in'}>Sign in</a>
@@ -322,13 +316,40 @@ export default class R4App extends LitElement {
 	/* play some data */
 	async onPlay({detail}) {
 		const {channel, track} = detail
-		if (channel) {
-			const { data } = await readChannelTracks(channel)
-			if (data) {
-				this.playerRef.value.setAttribute('tracks', JSON.stringify(data))
-				this.playerRef.value.setAttribute('track', track)
+
+		if (channel && channel.slug) {
+			const { data: channelTracks } = await sdk.channels.readChannelTracks(channel.slug)
+			const tracks = channelTracks.reverse()
+
+			if (tracks) {
+				this.playerRef.value.setAttribute(
+					'tracks',
+					JSON.stringify(tracks)
+				)
 			} else {
 				this.playerRef.value.removeAttribute('tracks')
+			}
+
+			if (channel.name) {
+				this.playerRef.value.setAttribute('name', channel.name)
+			} else {
+				this.playerRef.value.removeAttribute('name')
+			}
+
+			if (channel.image) {
+				const imageUrl = channel.image
+				this.playerRef.value.setAttribute('image', imageUrl)
+			} else {
+				this.playerRef.value.removeAttribute('image')
+			}
+
+			if (track && track.id) {
+				this.playerRef.value.setAttribute('track', track.id)
+			} else if (tracks) {
+				const lastTrack = tracks[tracks.length - 1]
+				this.playerRef.value.setAttribute('track', lastTrack.id)
+			} else {
+				this.playerRef.value.removeAttribute('track')
 			}
 		}
 	}

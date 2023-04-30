@@ -1,4 +1,5 @@
-import {createTrack, mediaUrlParser} from '@radio4000/sdk'
+import {sdk} from '@radio4000/sdk'
+import mediaUrlParser from 'media-url-parser'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
@@ -94,12 +95,11 @@ export default class R4TrackCreate extends R4Form {
 	async handleSubmit(event) {
 		event.preventDefault()
 		event.stopPropagation()
-
 		this.disableForm()
-		let res = {},
-				error = null
+		let res = {}
+		let error = null
 		try {
-			res = await createTrack(this.state.channel_id, {
+			res = await sdk.tracks.createTrack(this.state.channel_id, {
 				url: this.state.url,
 				title: this.state.title,
 				description: this.state.description,

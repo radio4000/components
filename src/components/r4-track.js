@@ -1,4 +1,4 @@
-import {readTrack} from '@radio4000/sdk'
+import {sdk} from '@radio4000/sdk'
 import { html, render } from 'lit-html'
 
 export default class R4Track extends HTMLElement {
@@ -64,7 +64,7 @@ export default class R4Track extends HTMLElement {
 		let res = {}
 		if (id) {
 			try {
-				res = await readTrack(id)
+				res = await sdk.tracks.readTrack(id)
 				if (res.error) throw res
 			} catch (error) {
 				console.log('Error reading track', error)
