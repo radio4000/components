@@ -3,62 +3,62 @@ import { sdk } from '@radio4000/sdk'
 
 export default class R4Tuner extends LitElement {
 	static properties = {
-		frequency: { type: Number },
-		minRange: { type: Number },
-		maxRange: { type: Number },
+		value: { type: Number, reflect: true },
+		min: { type: Number, reflect: true },
+		max: { type: Number, reflect: true },
 
 		channels: { type: Array, state: true },
 		selectedChannel: { type: Object, state: true },
 	}
+
 	constructor() {
 		super()
 
-		this.frequency = 50
-		this.minRange = 88
-		this.maxRange = 108
+		// Default values.
+		this.value = 0
+		this.min = 88
+		this.max = 108
 
+		// Loads channels, sorts by slugs and adds a frequency property.
 		sdk.channels.readChannels().then((res) => {
 			console.log(res)
-
-			const stepSize = (this.maxRange - this.minRange) / res.data.length
-
+			const stepSize = (this.max - this.min) / res.data.length
 			this.channels = res.data
-				// sort alphabetically by channel.slug
 				.sort((a, b) => {
 					if (a.slug < b.slug) return -1
 				})
-				// add a "frequency" property to each channel
 				.map((channel, index) => {
-					channel.frequency = (this.minRange + index + stepSize).toFixed(1)
+					channel.frequency = (this.min + index + stepSize).toFixed(1)
 					return channel
 				})
 		})
 	}
+
 	_handleChange(event) {
-		this.frequency = event.target.value
+		this.value = event.target.value
 		let closestChannel = this.channels.reduce((prev, curr) => {
-			return Math.abs(curr.frequency - this.frequency) < Math.abs(prev.frequency - this.frequency) ? curr : prev
+			return Math.abs(curr.frequency - this.value) < Math.abs(prev.frequency - this.value) ? curr : prev
 		})
 		this.selectedChannel = closestChannel
 	}
+
 	render() {
 		return html`
-			<label
-				>Tune away
+			<label>
 				<input
 					type="range"
-					min="${this.minRange}"
-					max="${this.maxRange}"
-					value=${this.frequency}
+					min="${this.min}"
+					max="${this.max}"
+					value="${this.value}"
 					step="0.1"
 					@input="${this._handleChange}"
 				/>
 			</label>
-			<p>You are tuned to ${this.frequency} MHz: ${this.selectedChannel?.name}</p>
+			${this.value > 0 ? html` <p>You are tuned to ${this.value} MHz: ${this.selectedChannel?.name}</p>` : null}
 			<details>
 				<summary>source</summary>
 				<ul>
-					${this.channels && this.channels.map((channel) => html`<li>${channel.frequency}: ${channel.name}</li>`)}
+					${this.channels && this.channels.map((channel) => html`<li>${channel.frequency}: ${channel.slug}</li>`)}
 				</ul>
 			</details>
 		`
