@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit'
 import {ref, createRef} from 'lit/directives/ref.js';
-import sdk from '@radio4000/sdk'
+import {sdk} from '@radio4000/sdk'
 import * as Cesium from 'cesium';
 import "cesium/Build/Cesium/Widgets/widgets.css";
 
