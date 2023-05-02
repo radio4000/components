@@ -58,11 +58,11 @@ export default class R4Map extends LitElement {
 		}
 	}
 
-	updated() {
+	async updated() {
 		super.updated()
 		const $map = this.mapRef.value;
 		if ($map) {
-			this.viewer = lib.map.initMap({
+			this.viewer = await lib.map.initMap({
 				containerEl: $map
 			})
 			lib.map.addChannels({

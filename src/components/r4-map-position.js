@@ -7,6 +7,7 @@ import {
 	addNewChannel,
 	removeNewChannel,
 	addChannelOrigin,
+	removeChannelOrigin,
 	clickToCoordinates,
 } from '../lib/map'
 
@@ -21,7 +22,6 @@ export default class R4MapPosition extends LitElement {
 
 		/* state */
 		viewer: { type: Object },
-		isVisible: { type: Boolean },
 		newLongitude: { type: Number },
 		newLatitude: { type: Number },
 	}
@@ -127,32 +127,26 @@ export default class R4MapPosition extends LitElement {
 			this.newLatitude = null
 			this.newLongitude = null
 		}
-	}
-
-	setInitialCoordinates() {
-		this.isVisible = true
-		/* this.newLongitude = 44.14306640625001
-			 this.newLatitude = 10.14193168613103
-
-			 if (this.viewer) {
-			 addNewChannel({
-			 viewer: this.viewer,
-			 longitude: this.newLongitude,
-			 latitude: this.newLatitude,
-			 })
-			 } */
+		if (!this.coordinates) {
+			removeChannelOrigin({viewer: this.viewer})
+		}
 	}
 
 	onSubmit(event) {
 		event.preventDefault()
+		event.stopPropagation()
 		const positionEvent = new CustomEvent('submit', {
-			bubbles: true,
+			bubbles: false,
 			detail: {
-				longitude: this.newLongitude,
-				latitude: this.newLatitude,
+				longitude: this.newCoordinates?.longitude,
+				latitude: this.newCoordinates?.latitude,
 			}
 		})
 		this.dispatchEvent(positionEvent)
+
+		if (!this.newCoordinates) {
+			removeChannelOrigin({viewer: this.viewer})
+		}
 	}
 
 	cancelChanges() {
@@ -167,30 +161,28 @@ export default class R4MapPosition extends LitElement {
 			detail: null
 		})
 		this.dispatchEvent(deletePositionEvent)
+		this.cancelChanges()
+		/* removeChannelOrigin({viewer: this.viewer}) */
 	}
 
 	render() {
-		if (!this.coordinates && !this.isVisible) {
-			return html`<button @click=${this.setInitialCoordinates}>
-				Add map position
-			</button>`
-		} else {
-			return html`
-				<form @submit=${this.onSubmit}>
-					<fieldset>
-						<aside ${ref(this.mapRef)}></aside>
-					</fieldset>
-					${this.renderSubmit()}
-				</form>
-			`
-		}
+		return html`
+			<form @submit=${this.onSubmit}>
+				<fieldset>
+					<aside ${ref(this.mapRef)}></aside>
+				</fieldset>
+				${this.renderSubmit()}
+			</form>
+		`
 	}
 	renderSubmit() {
 		return html`
-			<fieldset type="submit">
-				${ this.coordinates ? html`<button name="delete" @click=${this.deletePosition}>Delete</button>` : null}
-		${ this.newCoordinates ? html`<button name="cancel" @click=${this.cancelChanges}>Cancel</button>` : null}
-				${this.newCoordinates ? html`<button type="submit" name="submit">Save</button>` : null}
+			<fieldset type="buttons">
+				${this.coordinates ? html`<button type="button" name="delete" @click=${this.deletePosition}>Remove position</button>` : null}
+				${this.newCoordinates ? html`
+					<button type="button" name="cancel" @click=${this.cancelChanges}>Cancel</button>
+					<button type="submit" name="submit">Save</button>
+				` : null}
 			</fieldset>
 			`
 		}

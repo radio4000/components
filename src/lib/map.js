@@ -5,6 +5,9 @@ import "cesium/Build/Cesium/Widgets/widgets.css"
 /* window.CESIUM_BASE_URL = window.location.href */
 window.CESIUM_BASE_URL = '/static/Cesium/';
 
+const newChannelEntityId = 'channel-user-new-position'
+const originChannelEntityId = 'channel-user-origin-position'
+
 const OSMImageryProviderOpenTopoURL = 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png'
 
 const mapCredit = '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> | <a href="https://opentopomap.org/about" target="_blank" rel="noopener">OpenTopoMap</a>'
@@ -52,30 +55,30 @@ const addChannels = ({
 	channels = [],
 	viewer,
 }) => {
-		if (!channels || !viewer || !viewer.entities) return
-		channels.forEach(channel => {
-			if (!channel.longitude || !channel.latitude ) return
+	if (!channels || !viewer || !viewer.entities) return
+	channels.forEach(channel => {
+		if (!channel.longitude || !channel.latitude ) return
 
-			const radioEntity = viewer.entities.add({
-				position: Cesium.Cartesian3.fromDegrees(
-					channel.longitude,
-					channel.latitude
-				),
-				point: { pixelSize: 10, color: Cesium.Color.RED },
-				label: {
-					text: `@${channel.slug}`,
-					show: true,
-					font: '1rem sans-serif',
-					fillColor: Cesium.Color.RED,
-					backgroundColor: Cesium.Color.PURPLE,
-					outlineWidth: 3,
-					style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-					verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-					heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-					pixelOffset: new Cesium.Cartesian2(0, 10)
-				},
-			})
+		const radioEntity = viewer.entities.add({
+			position: Cesium.Cartesian3.fromDegrees(
+				channel.longitude,
+				channel.latitude
+			),
+			point: { pixelSize: 10, color: Cesium.Color.RED },
+			label: {
+				text: `@${channel.slug}`,
+				show: true,
+				font: '1rem sans-serif',
+				fillColor: Cesium.Color.RED,
+				backgroundColor: Cesium.Color.PURPLE,
+				outlineWidth: 3,
+				style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+				verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+				heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+				pixelOffset: new Cesium.Cartesian2(0, 10)
+			},
 		})
+	})
 }
 
 const addNewChannel = ({
@@ -83,7 +86,7 @@ const addNewChannel = ({
 	longitude,
 	latitude,
 }) => {
-	const entityId = 'channel-user-position'
+	const entityId = newChannelEntityId
 	const entity = viewer.entities.getById(entityId)
 
 	// if there is already a channel, remove its position
@@ -112,19 +115,20 @@ const addNewChannel = ({
 const removeNewChannel = ({
 	viewer,
 }) => {
-	const entityId = 'channel-user-position'
+	const entityId = newChannelEntityId
 	const entity = viewer.entities.getById(entityId)
 	if (entity) {
 		viewer.entities.remove(entity)
 	}
 }
 
+/* channel origin is the origin channel position */
 const addChannelOrigin = ({
 	viewer,
 	longitude,
 	latitude,
 }) => {
-	const entityId = 'original-channel-user-position'
+	const entityId = originChannelEntityId
 	const entity = viewer.entities.getById(entityId)
 
 	// if there is already a channel, remove its position
@@ -150,6 +154,17 @@ const addChannelOrigin = ({
 	})
 }
 
+const removeChannelOrigin = ({
+	viewer,
+}) => {
+	const entityId = originChannelEntityId
+	const entity = viewer.entities.getById(entityId)
+
+	if (entity) {
+		viewer.entities.remove(entity)
+	}
+}
+
 const clickToCoordinates = ({
 	event,
 	viewer,
@@ -160,7 +175,7 @@ const clickToCoordinates = ({
 		event.position,
 		viewer.scene.globe.ellipsoid
 	)
-	if (!cartesian) return
+	if (!cartesian) return {}
 
 	const cartographic = Cesium.Cartographic.fromCartesian(cartesian)
 	const longitude = Cesium.Math.toDegrees(cartographic.longitude)
@@ -179,5 +194,6 @@ export {
 	addNewChannel,
 	removeNewChannel,
 	addChannelOrigin,
+	removeChannelOrigin,
 	clickToCoordinates,
 }
