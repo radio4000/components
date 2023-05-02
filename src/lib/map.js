@@ -15,13 +15,14 @@ const mapCredit = '© <a href="https://www.openstreetmap.org/copyright" target="
 /* initialize a Cesium world map globe */
 const initMap = async ({
 	containerEl,
-	longitude = 0,
-	latitude = 0,
+	longitude = null,
+	latitude = null,
 }) => {
 	const terrainProvider = await Cesium.createWorldTerrainAsync()
 	const viewer = new Cesium.Viewer(containerEl, {
 		terrainProvider: terrainProvider,
-		maximumZoomDistance: 1000
+		maximumZoomDistance: 10,
+		selectionIndicator: true,
 	})
 
 	const openTopoProvider = new Cesium.UrlTemplateImageryProvider({
@@ -33,9 +34,11 @@ const initMap = async ({
 
 	/* const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings()) */
 
-	/* viewer.camera.flyTo({
-		 destination : Cesium.Cartesian3.fromDegrees(longitude, latitude)
-		 }); */
+	if (longitude && latitude) {
+		viewer.camera.flyTo({
+			destination : Cesium.Cartesian3.fromDegrees(longitude, latitude, 5000)
+		});
+	}
 
 	return viewer
 }
@@ -50,16 +53,27 @@ const initMapOnClick = ({
 	)
 }
 
+const initOnChannelEntityClick = ({
+	viewer,
+	callback,
+}) => {
+	viewer.selectedEntityChanged.addEventListener(callback)
+}
+
 /* add radio channels, to a cesium layer */
 const addChannels = ({
 	channels = [],
 	viewer,
+	slug = null,
 }) => {
 	if (!channels || !viewer || !viewer.entities) return
 	channels.forEach(channel => {
 		if (!channel.longitude || !channel.latitude ) return
 
+		const selected = slug === channel.slug
+
 		const radioEntity = viewer.entities.add({
+			name: channel.slug, // used as ID for click handler
 			position: Cesium.Cartesian3.fromDegrees(
 				channel.longitude,
 				channel.latitude
@@ -78,6 +92,10 @@ const addChannels = ({
 				pixelOffset: new Cesium.Cartesian2(0, 10)
 			},
 		})
+
+		if (selected) {
+			viewer.selectedEntity = radioEntity
+		}
 	})
 }
 
@@ -190,6 +208,7 @@ export {
 	Cesium,
 	initMap,
 	initMapOnClick,
+	initOnChannelEntityClick,
 	addChannels,
 	addNewChannel,
 	removeNewChannel,

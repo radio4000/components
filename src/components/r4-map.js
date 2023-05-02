@@ -9,45 +9,37 @@ import lib from '../lib/'
 export default class R4Map extends LitElement {
 	static properties = {
 		channels: { type: Array, state: true },
+		slug: { type: String },
+		longitude: { type: Number },
+		latitude: { type: Number },
+		href: { type: String },
+	}
+
+	get channelOrigin() {
+		const href = this.href || window.location
+		return `${href}/{{slug}}`
 	}
 
 	mapRef = createRef();
 
-	initMap({containerEl}) {
-		this.viewer = lib.map.initMap({containerEl})
+	async initMap({containerEl}) {
+		const viewer = await lib.map.initMap({
+			containerEl,
+			longitude: this.longitude,
+			latitude: this.latitude
+		})
+		viewer.selectedEntityChanged.addEventListener(this.onChannelClick.bind(this))
+		return viewer
 	}
 
-	onMapClick(event) {
-		const cartesian = this.viewer.camera.pickEllipsoid(event.position, this.viewer.scene.globe.ellipsoid);
-		if (!cartesian) return
-
-		const cartographic = Cesium.Cartographic.fromCartesian(cartesian)
-		const longitude = Cesium.Math.toDegrees(cartographic.longitude)
-		const latitude = Cesium.Math.toDegrees(cartographic.latitude)
-
-		const entityId = 'user-channe-position'
-		const entity = this.viewer.entities.getById(entityId)
-
-		if (entity) {
-			this.viewer.entities.remove(entity)
+	onChannelClick = (selectedEntity) => {
+		if (lib.map.Cesium.defined(selectedEntity)) {
+			if (lib.map.Cesium.defined(selectedEntity.name)) {
+				this.slug = selectedEntity.name
+			}
+		} else {
+			this.slug = null
 		}
-
-		const popupEntity = this.viewer.entities.add({
-			position: Cesium.Cartesian3.fromDegrees(longitude, latitude),
-			id: entityId,
-			label: {
-				text: 'New channel',
-				show: true,
-				font: '1rem sans-serif',
-				fillColor: Cesium.Color.PURPLE,
-				outlineWidth: 3,
-				style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-				verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-				heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-				pixelOffset: new Cesium.Cartesian2(0, -15),
-			},
-			point: { pixelSize: 10, color: Cesium.Color.PURPLE }
-		});
 	}
 
 	async willUpdate() {
@@ -61,13 +53,15 @@ export default class R4Map extends LitElement {
 	async updated() {
 		super.updated()
 		const $map = this.mapRef.value;
-		if ($map) {
-			this.viewer = await lib.map.initMap({
+		console.log('updated slug', this.slug)
+		if ($map && !this.viewer) {
+			this.viewer = await this.initMap({
 				containerEl: $map
 			})
 			lib.map.addChannels({
 				channels: this.channels,
 				viewer: this.viewer,
+				slug: this.slug
 			})
 		}
 	}
@@ -82,7 +76,19 @@ export default class R4Map extends LitElement {
 					<p>@${c.slug} &rarr; ${c.longitude}/${c.latitude}</p>
 				`)}
 			</div>
-			<aside ${ref(this.mapRef)}></aside>
+			<main ${ref(this.mapRef)}></main>
+			${this.renderSelectedChannel()}
+		`
+	}
+	renderSelectedChannel() {
+		if (!this.slug || !this.channelOrigin) return
+		return html`
+			<aside>
+				<r4-channel
+					origin=${this.channelOrigin}
+					slug=${this.slug}
+					></r4-channel>
+			</aside>
 		`
 	}
 
