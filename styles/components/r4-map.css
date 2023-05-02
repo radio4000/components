@@ -1,0 +1,22 @@
+.cesium-viewer-cesiumWidgetContainer {
+	visibility: visible;
+}
+
+/* .cesium-viewer-selectionIndicatorContainer, */
+.cesium-viewer-bottom,
+.cesium-viewer-infoBoxContainer,
+.cesium-viewer-toolbar,
+.cesium-viewer-animationContainer,
+.cesium-viewer-timelineContainer,
+.cesium-viewer-fullscreenContainer {
+	display: none;
+}
+
+.cesium-selection-wrapper svg {
+	fill: purple;
+}
+
+r4-map-position {}
+r4-map-position fieldset[type="buttons"] {
+	flex-direction: row;
+}

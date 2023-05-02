@@ -1,6 +1,10 @@
 import {sdk} from '@radio4000/sdk'
 import R4Form from './r4-form.js'
 
+const positionStep = 0.0000001
+const positionMin = -120
+const positionMax = 120
+
 const fieldsTemplate = document.createElement('template')
 fieldsTemplate.innerHTML = `
 	<slot name="fields">
@@ -14,21 +18,34 @@ fieldsTemplate.innerHTML = `
 		</fieldset>
 		<fieldset>
 			<label for="slug">Slug</label>
-			<input name="slug" type="text" required/>
+			<input name="slug" type="text" required minlength="3" />
 		</fieldset>
 		<fieldset>
 			<label for="description">Description</label>
 			<textarea name="description"></textarea>
 		</fieldset>
+		<fieldset>
+			<label for="url">URL</label>
+			<input name="url" type="url"/>
+		</fieldset>
+		<fieldset>
+			<label for="longitude">Longitude</label>
+			<input name="longitude" type="number" step="${positionStep}" min="${positionMin}" max="${positionMax}"/>
+		</fieldset>
+		<fieldset>
+			<label for="latitude">Latitude</label>
+			<input name="latitude" type="number" step="${positionStep}"/>
+		</fieldset>
 	</slot>
 `
 
-
 export default class R4ChannelUpdate extends R4Form {
 	static get observedAttributes() {
-		return ['id', 'name', 'slug', 'description']
+		return ['id', 'name', 'slug', 'description', 'url', 'longitude', 'latitude']
 	}
+
 	submitText = 'Update channel'
+
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate
@@ -53,7 +70,7 @@ export default class R4ChannelUpdate extends R4Form {
 		404: {
 			message: 'This channel does not exist',
 			field: 'id',
-		}
+		},
 	}
 
 	connectedCallback() {
@@ -74,8 +91,9 @@ export default class R4ChannelUpdate extends R4Form {
 		const changes = { ...this.state }
 		delete changes.id
 
-		let res = {},
-				error = null
+		let res = {}
+		let	error = null
+
 		try {
 			res = await sdk.channels.updateChannel(channelId, changes)
 			if (res.error) {

@@ -19,7 +19,6 @@ html,
 
 /* reset of browser styles */
 body {
-	/* background: var(--color-background); */
 	margin: var(--size);
 }
 
