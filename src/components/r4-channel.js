@@ -80,6 +80,7 @@ export default class R4Channel extends HTMLElement {
 			this.renderChannel()
 		}
 	}
+
 	renderChannel() {
 		const link = document.createElement('a')
 		link.href = this.origin
@@ -105,6 +106,7 @@ export default class R4Channel extends HTMLElement {
 		this.append($channelSlug)
 		this.append($channelDescription)
 	}
+
 	renderNoChannel() {
 		const $noChannel = document.createElement('span')
 		$noChannel.innerText = '404 - channel not found'
