@@ -1,15 +1,10 @@
 import { LitElement, html } from 'lit'
 import {ref, createRef} from 'lit/directives/ref.js';
 import {sdk} from '@radio4000/sdk'
-import * as Cesium from 'cesium';
-import "cesium/Build/Cesium/Widgets/widgets.css";
-
-// simple passthrough of current href to CESIUM_BASE_URL
-/* window.CESIUM_BASE_URL = window.location.href */
-window.CESIUM_BASE_URL = '/static/Cesium/';
+import lib from '../lib/'
 
 /**
- *
+ * a world globe with all radio channels with coordinates
  */
 export default class R4Map extends LitElement {
 	static properties = {
@@ -18,36 +13,8 @@ export default class R4Map extends LitElement {
 
 	mapRef = createRef();
 
-	initMap(containerEl) {
-		console.log('containerEl', containerEl)
-
-		const viewer = new Cesium.Viewer(containerEl, {
-			terrainProvider: Cesium.createWorldTerrain(),
-			maximumZoomDistance: 1000
-		});
-
-		const openTopoProvider = new Cesium.UrlTemplateImageryProvider({
-			url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-			credit: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> | <a href="https://opentopomap.org/about" target="_blank" rel="noopener">OpenTopoMap</a>'
-		});
-
-		viewer.imageryLayers.addImageryProvider(openTopoProvider);
-
-		const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings());
-
-		/* viewer.camera.flyTo({
-			 destination : Cesium.Cartesian3.fromDegrees(3, 3),
-			 orientation : {
-			 heading : Cesium.Math.toRadians(0.0),
-			 },
-			 }); */
-
-		viewer.screenSpaceEventHandler.setInputAction(
-			this.onMapClick.bind(this),
-			Cesium.ScreenSpaceEventType.LEFT_CLICK
-		)
-
-		return viewer
+	initMap({containerEl}) {
+		this.viewer = lib.map.initMap({containerEl})
 	}
 
 	onMapClick(event) {
@@ -83,31 +50,6 @@ export default class R4Map extends LitElement {
 		});
 	}
 
-	initRadioEntitiesLayer() {
-		if (!this.channels || !this.viewer) return
-		this.channels.forEach(channel => {
-			const radioEntity = this.viewer.entities.add({
-				position: Cesium.Cartesian3.fromDegrees(
-					channel.longitude,
-					channel.latitude
-				),
-				point: { pixelSize: 10, color: Cesium.Color.RED },
-				label: {
-					text: `@${channel.slug}`,
-					show: true,
-					font: '1rem sans-serif',
-					fillColor: Cesium.Color.RED,
-					backgroundColor: Cesium.Color.PURPLE,
-					outlineWidth: 3,
-					style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-					verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-					heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-					pixelOffset: new Cesium.Cartesian2(0, 10)
-				},
-			})
-		})
-	}
-
 	async willUpdate() {
 		if (!this.channels) {
 			const {data} = await sdk.channels.readChannels()
@@ -118,10 +60,15 @@ export default class R4Map extends LitElement {
 
 	updated() {
 		super.updated()
-		const map = this.mapRef.value;
-		if (map) {
-			this.viewer = this.initMap(map)
-			this.initRadioEntitiesLayer()
+		const $map = this.mapRef.value;
+		if ($map) {
+			this.viewer = lib.map.initMap({
+				containerEl: $map
+			})
+			lib.map.addChannels({
+				channels: this.channels,
+				viewer: this.viewer,
+			})
 		}
 	}
 

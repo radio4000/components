@@ -29,12 +29,13 @@ export default class R4PageChannelUpdate extends BaseChannel {
 				<br />
 				<r4-avatar-update slug=${channel.slug}></r4-avatar-update>
 				<br />
+				<r4-map-position @onSubmit=${this.onMapSubmit}></r4-map-position>
 				<details>
 					<summary>Delete channel</summary>
 					<r4-channel-delete id=${channel.id} @submit=${this.onChannelDelete}></r4-channel-delete>
 				</details>
 			</main>
-		`
+				`
 	}
 
 	async onChannelDelete({ detail }) {
@@ -55,6 +56,10 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		if (!detail.error && detail.data) {
 			// we good
 		}
+	}
+
+	onMapSubmit(event) {
+		console.log('map submit', event)
 	}
 
 	createRenderRoot() {
