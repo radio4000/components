@@ -6,6 +6,7 @@ export default class R4Tuner extends LitElement {
 		value: { type: Number, reflect: true },
 		min: { type: Number, reflect: true },
 		max: { type: Number, reflect: true },
+		showSource: { type: Boolean },
 
 		channels: { type: Array, state: true },
 		selectedChannel: { type: Object, state: true },
@@ -62,7 +63,7 @@ export default class R4Tuner extends LitElement {
 				? html` <p>You are tuned to ${this.selectedChannel.frequency} MHz: @${this.selectedChannel?.slug}</p>`
 				: null}
 
-			<details>
+			<details ?hidden=${!this.showSource}>
 				<summary>View all frequencies</summary>
 				<table>
 					<tr>
