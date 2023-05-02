@@ -11,3 +11,9 @@
 .cesium-viewer-fullscreenContainer {
 	display: none;
 }
+
+
+r4-map-position {}
+r4-map-position fieldset[type="submit"] {
+	flex-direction: row;
+}

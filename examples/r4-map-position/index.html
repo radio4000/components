@@ -13,7 +13,35 @@
 		<p>The r4-map-position component</p>
 
 		<p>Renders a world map to position a channel on it, using latitude/longitude coordinates.</p>
+		<p>
+			If the <code>longitude</code> and <code>latitude</code> attributes are set, it will position a point, on the map, as the orginal position of the channel being edited: <a href="?longitude=44.14306640625001&latitude=10.14193168613103">example</a>.
+		</p>
 
 		<r4-map-position></r4-map-position>
+
+		<script>
+			/*
+				 Channel coordinates:
+				 longitude: 44.14306640625001
+				 latitude: 10.14193168613103
+			 */
+			const $map = document.querySelector('r4-map-position')
+			$map.addEventListener('input', (event) => {
+				console.log('input', event)
+			})
+
+			$map.addEventListener('submit', (event) => {
+				console.log('submit', event)
+			})
+
+			const params = new URLSearchParams(window.location.search)
+			const longitude = params.get('longitude')
+			const latitude = params.get('latitude')
+
+			if (longitude && latitude) {
+				$map.setAttribute('longitude', longitude)
+				$map.setAttribute('latitude', latitude)
+			}
+		</script>
 	</body>
 </html>

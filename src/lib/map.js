@@ -12,6 +12,8 @@ const mapCredit = '© <a href="https://www.openstreetmap.org/copyright" target="
 /* initialize a Cesium world map globe */
 const initMap = async ({
 	containerEl,
+	longitude = 0,
+	latitude = 0,
 }) => {
 	const terrainProvider = await Cesium.createWorldTerrainAsync()
 	const viewer = new Cesium.Viewer(containerEl, {
@@ -29,10 +31,7 @@ const initMap = async ({
 	/* const buildingTileset = viewer.scene.primitives.add(Cesium.createOsmBuildings()) */
 
 	/* viewer.camera.flyTo({
-		 destination : Cesium.Cartesian3.fromDegrees(3, 3),
-		 orientation : {
-		 heading : Cesium.Math.toRadians(0.0),
-		 },
+		 destination : Cesium.Cartesian3.fromDegrees(longitude, latitude)
 		 }); */
 
 	return viewer
@@ -53,7 +52,7 @@ const addChannels = ({
 	channels = [],
 	viewer,
 }) => {
-		if (!channels || !viewer) return
+		if (!channels || !viewer || !viewer.entities) return
 		channels.forEach(channel => {
 			if (!channel.longitude || !channel.latitude ) return
 
@@ -96,7 +95,7 @@ const addNewChannel = ({
 		position: Cesium.Cartesian3.fromDegrees(longitude, latitude),
 		id: entityId,
 		label: {
-			text: 'New channel',
+			text: 'New position',
 			show: true,
 			font: '1rem sans-serif',
 			fillColor: Cesium.Color.PURPLE,
@@ -110,10 +109,53 @@ const addNewChannel = ({
 	})
 }
 
+const removeNewChannel = ({
+	viewer,
+}) => {
+	const entityId = 'channel-user-position'
+	const entity = viewer.entities.getById(entityId)
+	if (entity) {
+		viewer.entities.remove(entity)
+	}
+}
+
+const addChannelOrigin = ({
+	viewer,
+	longitude,
+	latitude,
+}) => {
+	const entityId = 'original-channel-user-position'
+	const entity = viewer.entities.getById(entityId)
+
+	// if there is already a channel, remove its position
+	if (entity) {
+		viewer.entities.remove(entity)
+	}
+
+	const popupEntity = viewer.entities.add({
+		position: Cesium.Cartesian3.fromDegrees(longitude, latitude),
+		id: entityId,
+		label: {
+			text: 'My position',
+			show: true,
+			font: '1rem sans-serif',
+			fillColor: Cesium.Color.RED,
+			outlineWidth: 3,
+			style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+			verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+			heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+			pixelOffset: new Cesium.Cartesian2(0, -15),
+		},
+		point: { pixelSize: 10, color: Cesium.Color.RED }
+	})
+}
+
 const clickToCoordinates = ({
 	event,
 	viewer,
 }) => {
+	if (!event.position) return
+
 	const cartesian = viewer.camera.pickEllipsoid(
 		event.position,
 		viewer.scene.globe.ellipsoid
@@ -135,5 +177,7 @@ export {
 	initMapOnClick,
 	addChannels,
 	addNewChannel,
+	removeNewChannel,
+	addChannelOrigin,
 	clickToCoordinates,
 }

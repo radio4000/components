@@ -1,6 +1,10 @@
 import {sdk} from '@radio4000/sdk'
 import R4Form from './r4-form.js'
 
+const positionStep = 0.0000001
+const positionMin = -120
+const positionMax = 120
+
 const fieldsTemplate = document.createElement('template')
 fieldsTemplate.innerHTML = `
 	<slot name="fields">
@@ -26,11 +30,11 @@ fieldsTemplate.innerHTML = `
 		</fieldset>
 		<fieldset>
 			<label for="longitude">Longitude</label>
-			<input name="longitude" type="number" />
+			<input name="longitude" type="number" step="${positionStep}" min="${positionMin}" max="${positionMax}"/>
 		</fieldset>
 		<fieldset>
 			<label for="latitude">Latitude</label>
-			<input name="latitude" type="number" />
+			<input name="latitude" type="number" step="${positionStep}"/>
 		</fieldset>
 	</slot>
 `
