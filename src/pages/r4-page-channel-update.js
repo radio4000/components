@@ -16,7 +16,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 
 		return html`
 			<header>
-				<h1>&larr; <a href=${`/${currentUserChannel.slug}`}>${currentUserChannel.name}</a></h1>
+				<h1>&larr; <a href=${`${this.config.href}/${currentUserChannel.slug}`}>${currentUserChannel.name}</a></h1>
 				<p>@${currentUserChannel.slug}</p>
 				<p>${currentUserChannel.description}</p>
 			</header>

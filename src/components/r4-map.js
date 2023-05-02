@@ -53,7 +53,6 @@ export default class R4Map extends LitElement {
 	async updated() {
 		super.updated()
 		const $map = this.mapRef.value;
-		console.log('updated slug', this.slug)
 		if ($map && !this.viewer) {
 			this.viewer = await this.initMap({
 				containerEl: $map

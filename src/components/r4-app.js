@@ -146,7 +146,6 @@ export default class R4App extends LitElement {
 		return html`
 			<r4-layout
 				@r4-play=${this.onPlay}
-				@click=${this.onAnchorClick}
 				>
 				<header slot="header">
 					<button hidden @click=${() => this.count = this.count + 1}>Increment ${this.store.count}</button>
@@ -245,7 +244,7 @@ export default class R4App extends LitElement {
 				<li>
 					<r4-auth-status ?auth=${user}>
 						<span slot="in">
-							<a href="/settings">Settings</a>
+							<a href=${`${this.config.href}/settings`}>Settings</a>
 						</span>
 					</r4-auth-status>
 				</li>
@@ -293,15 +292,6 @@ export default class R4App extends LitElement {
 				</li>
 			</menu>
 		`
-	}
-
-	/* fix page.js not handle anchors correctly? */
-	onAnchorClick(event) {
-		const wrappingAnchor = event.target.closest('a')
-		if (wrappingAnchor && wrappingAnchor.tagName === 'A') {
-			event.preventDefault()
-			page(wrappingAnchor.pathname)
-		}
 	}
 
 	/* events */

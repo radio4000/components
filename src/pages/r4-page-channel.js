@@ -41,7 +41,7 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	renderMap() {
-		const mapUrl = `${this.config.href}/map?longitude=${this.coordinates.longitude}&latitude=${this.coordinates.latitude}&slug=${this.channel.slug}`
+		const mapUrl = `${this.config.href}/map/?longitude=${this.coordinates.longitude}&latitude=${this.coordinates.latitude}&slug=${this.channel.slug}`
 		return html`(<a href=${mapUrl}>map</a>)`
 	}
 
