@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+		<title>r4-tuner</title>
+		<meta name="description" content="r4-avatar" />
+		<link rel="stylesheet" href="/styles/index.css" />
+		<script type="module" src="/src/index.js"></script>
+	</head>
+
+	<body>
+		<p>&lt;r4-tuner&gt;</p>
+		<p>The element supports the following attributes, similar to a HTML range input:</p>
+		<ul>
+			<li>value</li>
+			<li>min</li>
+			<li>max</li>
+			<li>showSource (shows a table of available channels + frequencies, defaults to false)</li>
+		</ul>
+		<p>
+			It will load all radio channels, map them to the range you give it and allow you to tune into different
+			frequencies. It will "snap" to the closest channel.
+		</p>
+		<p>You can access the selected channel on the property <code>selectedChannel</code>.</p>
+
+		<r4-tuner></r4-tuner>
+	</body>
+</html>
