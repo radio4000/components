@@ -54,3 +54,11 @@ To make sure the build workflows
 - npm run build
 - npm run dev
 - open http://localhost:4000/tests/dist-test.html
+
+## Creating a new component
+
+- create a `./src/components/r4-*.js` file
+- export default HTMLElement
+- import and export it in `./src/components/index.js`
+- create an demo in `./examples/r4-*/index.html`
+- reference the demo HTML page in `./vite.config.js`
