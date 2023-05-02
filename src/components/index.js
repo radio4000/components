@@ -30,6 +30,7 @@ import R4SignUp from './r4-sign-up.js'
 import R4Title from './r4-title.js'
 import R4Track from './r4-track.js'
 import R4TrackActions from './r4-track-actions.js'
+import R4ChannelCard from './r4-channel-card.js'
 import R4TrackCreate from './r4-track-create.js'
 import R4TrackDelete from './r4-track-delete.js'
 import R4TrackUpdate from './r4-track-update.js'
@@ -46,6 +47,7 @@ customElements.define('r4-auth-status', R4AuthStatus)
 customElements.define('r4-button-play', R4ButtonPlay)
 customElements.define('r4-channel', R4Channel)
 customElements.define('r4-channel-actions', R4ChannelActions)
+customElements.define('r4-channel-card', R4ChannelCard)
 customElements.define('r4-channel-create', R4ChannelCreate)
 customElements.define('r4-channel-delete', R4ChannelDelete)
 customElements.define('r4-channel-sharer', R4ChannelSharer)
@@ -80,6 +82,7 @@ export default {
 	R4AuthStatus,
 	R4Channel,
 	R4ChannelActions,
+	R4ChannelCard,
 	R4ChannelCreate,
 	R4ChannelDelete,
 	R4ChannelSharer,
@@ -105,3 +108,4 @@ export default {
 	R4User,
 	R4UserChannelsSelect,
 }
+

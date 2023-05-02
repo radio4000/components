@@ -10,11 +10,8 @@ export default class R4PageChannel extends BaseChannel {
 
 		return html`
 			<header>
-				<h1>${channel.name}</h1>
-				<p>@${channel.slug}</p>
-				<p>${channel.description}</p>
 				<r4-avatar image=${channel.image}></r4-avatar>
-
+				<r4-channel .channel=${channel}></r4-channel>
 				<r4-channel-actions
 					slug=${channel.slug}
 					?can-edit=${this.canEdit}
