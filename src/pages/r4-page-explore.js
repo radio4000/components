@@ -12,9 +12,8 @@ export default class R4PageExplore extends LitElement {
 		return html`
 			<header>
 				<h1>Explore</h1>
-				<p>
-					All <r4-title ></r4-title> channels.
-				</p>
+				<p>All <r4-title ></r4-title> channels.</p>
+				<p>View the <a href="/map">R4 Map</a>.</p>
 			</header>
 			<section>
 				<r4-channels

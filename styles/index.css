@@ -1,8 +1,11 @@
+/* Styles for all <r4-*> elements */
 @import url("variables.css");
 @import url("root.css");
 
+/* Styles for all <r4-*> elements */
 @import url("components/index.css");
-@import url("pages/index.css");
-@import url("grid-cards.css");
 
+/* Styles for <r4-app> and pages */
+@import url("pages/index.css");
 @import url("app.css");
+@import url("grid-cards.css");

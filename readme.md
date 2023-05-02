@@ -16,7 +16,7 @@ All methods are available on the imported `sdk` module.
 ### With build system and NPM
 
 ```js
-import sdk from '@radio4000/components'
+import {sdk} from '@radio4000/components'
 // use any <r4-component*> in your templates
 // use sdk methods as you please, ready to go
 ```

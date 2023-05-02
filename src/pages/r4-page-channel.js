@@ -3,6 +3,12 @@ import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
 
 export default class R4PageChannel extends BaseChannel {
+	get coordinates() {
+		return {
+			longitude: this.channel.longitude,
+			latitude: this.channel.latitude,
+		}
+	}
 	render() {
 		const { channel } = this
 		if (channel === null) return html`<p>404 - There is no channel with this slug.</p>`
@@ -10,8 +16,13 @@ export default class R4PageChannel extends BaseChannel {
 
 		return html`
 			<header>
+				<h1>${channel.name}</h1>
+				<p>
+					@${channel.slug}
+					${ this.coordinates? this.renderMap() : null}
+				</p>
+				<p>${channel.description}</p>
 				<r4-avatar image=${channel.image}></r4-avatar>
-				<r4-channel .channel=${channel}></r4-channel>
 				<r4-channel-actions
 					slug=${channel.slug}
 					?can-edit=${this.canEdit}
@@ -27,6 +38,11 @@ export default class R4PageChannel extends BaseChannel {
 				</r4-dialog>
 			</aside>
 		`
+	}
+
+	renderMap() {
+		const mapUrl = `${this.config.href}/map?longitude=${this.coordinates.longitude}&latitude=${this.coordinates.latitude}&slug=${this.channel.slug}`
+		return html`(<a href=${mapUrl}>map</a>)`
 	}
 
 	/* event handlers from <r4-channel-actions> */
