@@ -88,6 +88,7 @@ export default defineConfig({
 				r4TrackDelete: resolve(__dirname, 'examples/r4-track-delete/index.html'),
 				r4TrackUpdate: resolve(__dirname, 'examples/r4-track-update/index.html'),
 				r4Tracks: resolve(__dirname, 'examples/r4-tracks/index.html'),
+				r4Tuner: resolve(__dirname, 'examples/r4-tuner/index.html'),
 				r4User: resolve(__dirname, 'examples/r4-user/index.html'),
 				r4UserChannelsSelect: resolve(__dirname, 'examples/r4-user-channels-select/index.html'),
 			},
