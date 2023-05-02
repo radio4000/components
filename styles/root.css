@@ -18,8 +18,17 @@ html,
 }
 
 /* reset of browser styles */
+html {
+	min-height: 100%;
+}
+html,
 body {
-	margin: var(--size);
+	display: flex;
+	flex-direction: column;;
+	flex-grow: 1;
+}
+body {
+	margin: 0;
 }
 
 a {
@@ -75,4 +84,3 @@ button[disabled] {
 	/* color: hsla(0, 0%, 0%, 0.5); */
 	cursor: auto;
 }
-

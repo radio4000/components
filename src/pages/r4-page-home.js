@@ -1,8 +1,8 @@
 import { LitElement, html } from 'lit'
 
-function R4ChannelCard(channel) {
+function R4ChannelCard(channel, baseUrl) {
 	return html`<article class="Card">
-		<h3><a href=${`/${channel.slug}`}>${channel.name}</a></h3>
+		<h3><a href=${`${baseUrl}/${channel.slug}`}>${channel.name}</a></h3>
 		<p>${channel.description}</p>
 	</article>`
 }
@@ -33,7 +33,7 @@ export default class R4PageHome extends LitElement {
 				<section>
 					${this.store?.userChannels?.length ? html`
 						<section class="Grid">
-							${this.store?.userChannels.map(R4ChannelCard)}
+							${this.store?.userChannels.map((channel) => R4ChannelCard(channel, this.config.href))}
 						</section>
 					` : null}
 				</section>
