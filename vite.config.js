@@ -63,6 +63,7 @@ export default defineConfig({
 
 				r4AuthStatus: resolve(__dirname, 'examples/r4-auth-status/index.html'),
 				r4Channel: resolve(__dirname, 'examples/r4-channel/index.html'),
+				r4ChannelCard: resolve(__dirname, 'examples/r4-channel-card/index.html'),
 				r4ChannelActions: resolve(__dirname, 'examples/r4-channel-actions/index.html'),
 				r4ChannelCreate: resolve(__dirname, 'examples/r4-channel-create/index.html'),
 				r4ChannelDelete: resolve(__dirname, 'examples/r4-channel-delete/index.html'),
