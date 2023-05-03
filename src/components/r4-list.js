@@ -165,7 +165,10 @@ export default class R4List extends HTMLElement {
 		if (this.itemTemplate) {
 			const attributeName = this.itemTemplate.getAttribute('attribute')
 			const elementName = this.itemTemplate.getAttribute('element')
+			const propertyName = this.itemTemplate.getAttribute('property')
 			const $dataItem = $item.querySelector(elementName)
+
+
 			/* if <template element="r4-channel" attribute="channel" />
 				 set the itemData as json on <r4-channel channel={itemData}/>
 			 */
@@ -173,7 +176,9 @@ export default class R4List extends HTMLElement {
 				$dataItem.setAttribute(attributeName, JSON.stringify(itemData))
 				/* otherwise, if the template data item, has attributes,
 					 set their value from the item data */
-			} else if ($dataItem.attributes) {
+			} else if ($dataItem && propertyName) {
+				$dataItem[propertyName] = itemData
+			} else if ($dataItem?.attributes) {
 				Object.entries($dataItem.attributes).forEach(([attrIndex, attr]) => {
 					const attrValue = itemData[attr.localName]
 					if (attrValue) {
@@ -233,7 +238,7 @@ export default class R4List extends HTMLElement {
 			const modelName = this.itemTemplate.getAttribute('attribute')
 			const modelElementName = this.itemTemplate.getAttribute('element')
 			if (modelName) {
-				$li.innerText = `No more ${modelName}`
+				$li.innerText = `No more ${modelName}s`
 			} else if (modelElementName) {
 				console.log(this.itemTemplate)
 				$li.innerText = `No more ${modelElementName}`
