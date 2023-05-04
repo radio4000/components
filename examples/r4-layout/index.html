@@ -54,16 +54,21 @@
 			]
 		}
 
+		/* open the layout */
 		const onClick = () => {
 			const $layout = document.querySelector('r4-layout')
+			const $player = document.querySelector('r4-player')
 			if ($layout.getAttribute('is-playing')) {
 				$layout.removeAttribute('is-playing')
-				$layout.removeAttribute('tracks')
+				$player.removeAttribute('tracks')
 			} else {
 				$layout.setAttribute('is-playing', true)
-				$layout.setAttribute('tracks', JSON.stringify(playlist.tracks))
+				$player.setAttribute('tracks', JSON.stringify(playlist.tracks))
+				/* connot set player playing, from here */
 			}
 		}
+
+		// register a click event on a test button
 		const $playBtn = document.querySelector('button[name="toggle"]')
 		$playBtn.addEventListener('click', onClick)
 	</script>

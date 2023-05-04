@@ -41,7 +41,7 @@ r4-layout[ui-state="minimize"] radio4000-player .Layout-footer {
 	when the radio4000-player is less than a certain size,
 	hide all its elements, but the controls */
 @container (max-width: 400px) {
-	radio4000-player .Layout-aside,
+	radio4000-player .Layout-aside,z
 	radio4000-player .Layout-main,
 	radio4000-player .Layout-header {
 		display: none;

@@ -29,29 +29,22 @@ export default class R4Layout extends LitElement {
 		document.removeEventListener('fullscreenchange', this.onFullscreen)
 	}
 
-	willUpdate(changedProperties) {
-		if (changedProperties.has('isPlaying')) {
-			if (!this.isPlaying) {
-				this.uiState = this.uiStates.Close
-			}
+	willUpdate(changedProps) {
+		changedProps.has('isPlaying') && this.onIsPlaying()
+		changedProps.has('uiState') && this.onUiState()
+	}
 
-			if (this.isPlaying && this.uiState === this.uiStates[0]) {
-				this.uiState = this.uiStates.Dock
-			}
+	onIsPlaying() {
+		if (!this.isPlaying) {
+			this.uiState = this.uiStates.Close
 		}
 
-		if (changedProperties.has('uiState')) {
-			if (this.isPlaying) {
-
-			}
-			this.onUiState()
+		if (this.isPlaying && this.uiState === this.uiStates.Close) {
+			this.uiState = this.uiStates.Dock
 		}
 	}
 
 	onUiState() {
-		console.log('onUistate changed', this.uiState)
-		const previousUiState = 'test'
-
 		// handle fullscreen in/out
 		if (this.uiState === this.uiStates.Fullscreen) {
 			this.playerRef.value.requestFullscreen()
@@ -59,21 +52,16 @@ export default class R4Layout extends LitElement {
 			window.exitFullscreen()
 		}
 
-		console.log(this.uiState, this.uiStates.Close, this.isPlaying)
+		console.log('onUiState', this.uiState, this.isPlaying)
 		// first time you close, it hides player
 		if (this.uiState === this.uiStates.Close) {
-			const stopPlayEvent = new CustomEvent('r4-play', {
-				bubbles: true,
-				detail: null
-			})
-			this.dispatchEvent(stopPlayEvent)
-
-			// second time, it stops the playback
-			if (previousUiState === 'close') {
-
-				/* this.isPlaying = false */
-				/* this.removeAttribute('tracks') */
-				/* console.log('stopPlayEvent', stopPlayEvent) */
+			if (this.isPlaying) {
+				const stopPlayEvent = new CustomEvent('r4-play', {
+					bubbles: true,
+					detail: null
+				})
+				this.dispatchEvent(stopPlayEvent)
+				this.isPlaying = false
 			}
 		}
 	}

@@ -307,7 +307,6 @@ export default class R4App extends LitElement {
 	/* play some data */
 	async onPlay(event) {
 		const {detail} = event
-		console.log('onPlay', detail)
 		if (!detail) {
 			return this.stop()
 		}
@@ -355,6 +354,7 @@ export default class R4App extends LitElement {
 	stop() {
 		/* stop the global playing state */
 		this.isPlaying = false
+		console.log('stop: this.isPlaying', this.isPlaying)
 
 		/* clean the `r4-player` component (so it hides) */
 		this.playerRef.value.removeAttribute('track')

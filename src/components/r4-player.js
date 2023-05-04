@@ -7,7 +7,7 @@ export default class R4Player extends LitElement {
 	playerRef = createRef()
 
 	static properties = {
-		isPlaying: {type: Boolean, attribute: 'is-playing', reflect: true},
+		isPlaying: {type: Boolean, attribute: 'is-playing', reflect: true },
 		tracks: { type: Array },
 		track: {},
 		name: {},
@@ -24,23 +24,19 @@ export default class R4Player extends LitElement {
 	}
 
 	onPlayerReady() {
-		this.player = this.playerRef.value.getVueInstance()
-
+		const $playerRef = this.playerRef.value
+		this.$player = $playerRef.getVueInstance()
+		this.$playButton = $playerRef.querySelector('input.PlayPause-state')
 		if (this.tracks) {
 			this.play()
 		}
 	}
 
-	willUpdate(changedProperties) {
-		if (
-			changedProperties.has('tracks')
-			|| changedProperties.has('track')
-		) {
+	willUpdate(changedProps) {
+		if (changedProps.has('tracks') || changedProps.has('track')) {
 			this.play()
 		}
-
-		if (changedProperties.has('is-playing')) {
-			console.log('willUpdate@is-playing', this.isPlaying)
+		if (changedProps.has('isPlaying')) {
 			if (this.isPlaying) {
 				this.play()
 			} else {
@@ -50,8 +46,7 @@ export default class R4Player extends LitElement {
 	}
 
 	play() {
-		console.log('r4-player play')
-		if (!this.player) {
+		if (!this.$player) {
 			return
 		}
 
@@ -61,22 +56,24 @@ export default class R4Player extends LitElement {
 				image: this.image,
 				tracks: this.tracks,
 			}
-			this.player.updatePlaylist(playlist)
+			this.$player.updatePlaylist(playlist)
 		} else {
-			this.player.updatePlaylist({ tracks: [] })
+			this.$player.updatePlaylist({ tracks: [] })
 		}
 
 		if (this.track) {
-			this.player.trackId = this.track
+			this.$player.trackId = this.track
+			if (this.$playButton.checked === false) {
+				this.$playButton.click()
+			}
 		}
 	}
 	pause() {
 		console.log('r4-player pause')
 		/* click the radio400-player button */
-		const $playToggleBtn = this.playerRef.querySelector('input.PlayPause-state')
 		// when in play mode, toggle pause
-		if ($playToggleBtn.checked === true) {
-			$playToggleBtn.click()
+		if (this.$playButton.checked === true) {
+			this.$playButton.click()
 		}
 	}
 
