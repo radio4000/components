@@ -1,7 +1,6 @@
 /* <r4-form/> is extended as a web components;
  but always create a <form/> element and <fieldset/>*/
-form {
-}
+form {}
 fieldset {
 	display: flex;
 	flex-direction: column;

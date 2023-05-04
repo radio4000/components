@@ -1,5 +1,4 @@
-/* Wasn't sure where to organize this, so here we are. */
-
+/* Creates a responsive grid layout. */
 .Grid {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
@@ -10,6 +9,7 @@
 	margin-bottom: var(--size);
 }
 
+/* Adjust the min value as you please and make the media query match */
 @media (min-width: 12rem) {
 	.Grid {
 		grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
