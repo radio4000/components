@@ -28,8 +28,8 @@ export default class R4App extends LitElement {
 		/* state */
 		user: {type: Object, state: true},
 		userChannels: {type: Array || null, state: true},
-		count: {type: Number},
-		didLoad: {type: Boolean, state: true}
+		didLoad: {type: Boolean, state: true},
+		isPlaying: {type: Boolean, attribute: 'is-playing', reflects: true},
 	}
 
 	// This gets passed to all r4-pages.
@@ -37,7 +37,6 @@ export default class R4App extends LitElement {
 		return {
 			user: this.user,
 			userChannels: this.userChannels,
-			count: this.count
 		}
 	}
 	set store(val) {
@@ -57,7 +56,6 @@ export default class R4App extends LitElement {
 
 	constructor() {
 		super()
-		this.count = 0
 	}
 
 	async connectedCallback() {
@@ -146,16 +144,19 @@ export default class R4App extends LitElement {
 		return html`
 			<r4-layout
 				@r4-play=${this.onPlay}
+				?is-playing=${this.isPlaying}
 				>
 				<header slot="header">
-					<button hidden @click=${() => this.count = this.count + 1}>Increment ${this.store.count}</button>
-					${this.renderAppMenu()}</header>
+					${this.renderAppMenu()}
+				</header>
 				<main slot="main">
 					${this.renderAppRouter()}
 				</main>
-				<aside slot="player">
-					<r4-player ${ref(this.playerRef)}></r4-player>
-				</aside>
+				<r4-player
+					slot="player"
+					${ref(this.playerRef)}
+					?is-playing=${this.isPlaying}
+					></r4-player>
 			</r4-layout>
 		`
 	}
@@ -304,10 +305,17 @@ export default class R4App extends LitElement {
 	}
 
 	/* play some data */
-	async onPlay({detail}) {
+	async onPlay(event) {
+		const {detail} = event
+		console.log('onPlay', detail)
+		if (!detail) {
+			return this.stop()
+		}
+
 		const {channel, track} = detail
 
 		if (channel && channel.slug) {
+			this.isPlaying = true
 			const { data: channelTracks } = await sdk.channels.readChannelTracks(channel.slug)
 			const tracks = channelTracks.reverse()
 
@@ -344,8 +352,19 @@ export default class R4App extends LitElement {
 		}
 	}
 
-	/* no shadow dom */
-	createRenderRoot() {
+	stop() {
+		/* stop the global playing state */
+		this.isPlaying = false
+
+		/* clean the `r4-player` component (so it hides) */
+		this.playerRef.value.removeAttribute('track')
+		this.playerRef.value.removeAttribute('image')
+		this.playerRef.value.removeAttribute('name')
+		this.playerRef.value.removeAttribute('tracks')
+	}
+
+		/* no shadow dom */
+		createRenderRoot() {
 		return this
 	}
 }

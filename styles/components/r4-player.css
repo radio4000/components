@@ -1,6 +1,49 @@
-r4-player:not([tracks]) {
+radio4000-player {
+	max-height: 10rem;
+	height: auto;
+}
+
+r4-layout[ui-state="fullscreen"] radio4000-player {
+	max-height: none;
+	height: 100%;
+}
+r4-layout[ui-state="minimize"] radio4000-player {
+	min-height: unset;
+	height: unset;
+	max-height: 10rem;
+}
+r4-layout[ui-state="minimize"] radio4000-player .Layout-main,
+r4-layout[ui-state="minimize"] radio4000-player .Layout-header {
 	display: none;
 }
-r4-player[tracks] {
-	display: flex;
+r4-layout[ui-state="minimize"] radio4000-player .Layout-footer {
+	min-height: unset;
+}
+
+@media (min-width: 700px) {
+	r4-layout[ui-state="dock"] radio4000-player {
+		min-height: unset;
+		max-height: unset;
+		height: 100%;
+		max-width: 33vw;
+	}
+	r4-layout[ui-state="dock"] r4-layout-playback {
+		position: relative;
+	}
+	r4-layout[ui-state="dock"] r4-layout-controls {
+		position: absolute;
+		top: 0;
+		left: -100%;
+	}
+}
+
+/*
+	when the radio4000-player is less than a certain size,
+	hide all its elements, but the controls */
+@container (max-width: 400px) {
+	radio4000-player .Layout-aside,
+	radio4000-player .Layout-main,
+	radio4000-player .Layout-header {
+		display: none;
+	}
 }

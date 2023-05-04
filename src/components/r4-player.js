@@ -1,11 +1,13 @@
 import 'radio4000-player'
-import { html, LitElement } from 'lit'
+import { html, LitElement, css } from 'lit'
 import { ref, createRef } from 'lit/directives/ref.js'
+import styles from '../styles/components/r4-player.js'
 
 export default class R4Player extends LitElement {
 	playerRef = createRef()
 
 	static properties = {
+		isPlaying: {type: Boolean, attribute: 'is-playing', reflect: true},
 		tracks: { type: Array },
 		track: {},
 		name: {},
@@ -23,6 +25,10 @@ export default class R4Player extends LitElement {
 
 	onPlayerReady() {
 		this.player = this.playerRef.value.getVueInstance()
+
+		if (this.tracks) {
+			this.play()
+		}
 	}
 
 	willUpdate(changedProperties) {
@@ -32,14 +38,24 @@ export default class R4Player extends LitElement {
 		) {
 			this.play()
 		}
+
+		if (changedProperties.has('is-playing')) {
+			console.log('willUpdate@is-playing', this.isPlaying)
+			if (this.isPlaying) {
+				this.play()
+			} else {
+				this.pause()
+			}
+		}
 	}
 
 	play() {
+		console.log('r4-player play')
 		if (!this.player) {
 			return
 		}
 
-		if (this.tracks.length) {
+		if (this.tracks && this.tracks.length) {
 			const playlist = {
 				title: this.name,
 				image: this.image,
@@ -52,6 +68,15 @@ export default class R4Player extends LitElement {
 
 		if (this.track) {
 			this.player.trackId = this.track
+		}
+	}
+	pause() {
+		console.log('r4-player pause')
+		/* click the radio400-player button */
+		const $playToggleBtn = this.playerRef.querySelector('input.PlayPause-state')
+		// when in play mode, toggle pause
+		if ($playToggleBtn.checked === true) {
+			$playToggleBtn.click()
 		}
 	}
 

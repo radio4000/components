@@ -1,26 +1,49 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width">
-	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
-	<title>r4-player</title>
-	<meta name="description" content="r4-favicon">
-	<link rel="stylesheet" href="/styles/index.css" />
-	<script type="module" src="/src/index.js"></script>
-</head>
+		<title>r4-player</title>
+		<meta name="description" content="r4-favicon">
+		<link rel="stylesheet" href="/styles/index.css" />
+		<script type="module" src="/src/index.js"></script>
+	</head>
 
-<body>
-	<menu>
-		<li>
-		</li>
-		<li>
-		</li>
-	</menu>
+	<body>
+		<menu>
+			<li>
+				The <code>r4-player</code> component is used to wrap a <a href="https://github.com/internet4000/radio4000-player">radio4000-player</a> player.
+			</li>
+		</menu>
 
-	<r4-player></r4-player>
-</body>
+		<r4-player></r4-player>
 
+		<script>
+			// Create a playlist.
+			const playlist = {
+				title: 'A title for this list',
+				image: 'https://78.media.tumblr.com/5080191d7d19fe64da558f2b4324563e/tumblr_p8eoiltn1t1twkjb3o1_1280.png',
+				tracks: [
+					{
+						id: '1',
+						title: 'Randomfunk.ogg',
+						url: 'https://ia801409.us.archive.org/5/items/DWK051/Rare_and_Cheese_-_01_-_Randomfunk.ogg'
+					},
+					{
+						id: '2',
+						title: 'Rare and Cheese - Jazzpolice',
+						url: 'https://ia801409.us.archive.org/5/items/DWK051/Rare_and_Cheese_-_02_-_Jazzpolice.ogg'
+					}
+				]
+			}
+
+			// Get access to the Vue component behind the web component to access methods,
+			// and update player with our new playlist.
+			const $player = document.querySelector('r4-player')
+			$player.setAttribute('tracks', JSON.stringify(playlist.tracks))
+		</script>
+	</body>
 </html>
