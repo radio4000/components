@@ -1,4 +1,4 @@
-/* Universal Box Sizing with Inheritance */
+/* Universal Box Sizing with inheritance */
 html,
 :root {
 	box-sizing: border-box;
@@ -18,69 +18,15 @@ html,
 }
 
 /* reset of browser styles */
-html {
-	min-height: 100%;
-}
 html,
 body {
 	display: flex;
 	flex-direction: column;;
 	flex-grow: 1;
 }
+html {
+	min-height: 100%;
+}
 body {
 	margin: 0;
-}
-
-a {
-	color: var(--color-link);
-}
-
-h1, h2, h3, h4, h5, h6,
-p {
-	font-size: 1rem;
-	margin-top: 0;
-	margin-bottom: calc(var(--size) / 2);
-}
-
-/* ::part(name) to target a <dom part="name"/> inside shadow dom */
-::part(button),
-button,
-select {
-	cursor: pointer;
-}
-
-/* Shared styles between button-like-things and inputs */
-::part(button),
-button,
-select,
-input,
-textarea {
-	font-family: var(--font-family);
-	font-size: var(--font-size);
-	padding: calc(var(--size) / 4) calc(var(--size) / 2);
-	border: 1px solid var(--color-border);
-}
-
-/* Inputs */
-input,
-textarea {
-	background-color: var(--color-input-background);
-	color: var(--color-input-text);
-}
-
-/* Button-like elements */
-select,
-button {
-	border-width: 2px;
-	background-color: var(--color-button-background);
-	color: var(--color-button-text);
-}
-
-/* ::part(button)[disabled], */
-select[disabled],
-button[disabled] {
-	opacity: 0.5;
-	/* border-color: transparent; */
-	/* color: hsla(0, 0%, 0%, 0.5); */
-	cursor: auto;
 }

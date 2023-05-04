@@ -1,7 +1,6 @@
 /* <r4-form/> is extended as a web components;
  but always create a <form/> element and <fieldset/>*/
 form {
-	/* padding: calc(var(--size) / 4); */
 }
 fieldset {
 	display: flex;
@@ -9,7 +8,6 @@ fieldset {
 	border: none;
 	margin: 0;
 	padding: 0;
-	/* padding: 0 0 calc(var(--size) / 2); */
 }
 fieldset {
 	margin-bottom: calc(var(--size) / 2);

@@ -1,11 +1,13 @@
-/* Styles for all <r4-*> elements */
 @import url("variables.css");
-@import url("root.css");
+
+/* Root or base styles, not scoped to any component */
+/* @import url("root.css"); */
+@import url("typography.css");
+/* @import url("buttons.css"); */
 
 /* Styles for all <r4-*> elements */
 @import url("components/index.css");
 
 /* Styles for <r4-app> and pages */
-@import url("pages/index.css");
 @import url("app.css");
-@import url("grid-cards.css");
+/* @import url("grid.css"); */

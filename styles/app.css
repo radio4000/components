@@ -12,7 +12,7 @@ r4-layout [slot="header"] menu {
 
 r4-layout [slot="header"] menu a {
 	display: flex;
-	padding: calc(var(--size) / 2);
+	padding: calc(var(--size) / 3);
 }
 
 @container (min-width: 700px) {
@@ -28,11 +28,16 @@ r4-layout [slot="header"] menu a {
 	}
 	r4-layout [slot="header"] menu button,
 	r4-layout [slot="header"] menu r4-user-channels-select {
-		margin-left: calc(var(--size) / 2);
+		margin-left: calc(var(--size) / 3);
 	}
 }
 
 /* Pagination */
 [name="pagination"] > button ~ span {
 	margin: 0 0.5em;
+}
+
+r4-page-channel r4-avatar {
+	max-width: calc(var(--size) * 8);
+	margin-bottom: 0.5rem;
 }
