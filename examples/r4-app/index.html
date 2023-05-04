@@ -36,10 +36,13 @@
 
 <style>
 	.Resizer {
+		/* border: 2px solid blue;  */
 		display: flex;
 		flex-direction: column;
-		resize: both; overflow: auto;
-		/* border: 2px solid blue;  */
+		resize: both;
+
+		/* adding overflow kills sticky children */
+		/* overflow: auto; */
 	}
 	.Resizer r4-app {
 		height: 100%;

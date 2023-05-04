@@ -146,7 +146,7 @@ export default class R4App extends LitElement {
 				@r4-play=${this.onPlay}
 				?is-playing=${this.isPlaying}
 				>
-				<header slot="header">
+				<header slot="menu">
 					${this.renderAppMenu()}
 				</header>
 				<main slot="main">

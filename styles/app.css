@@ -1,5 +1,5 @@
 /* Menu */
-r4-layout [slot="header"] menu {
+r4-layout [slot="menu"] menu {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -10,13 +10,13 @@ r4-layout [slot="header"] menu {
 	/* gap: calc(var(--size) / 2); */
 }
 
-r4-layout [slot="header"] menu a {
+r4-layout [slot="menu"] menu a {
 	display: flex;
 	padding: calc(var(--size) / 2);
 }
 
 @container (min-width: 700px) {
-	r4-layout [slot="header"] menu {
+	r4-layout [slot="menu"] menu {
 		flex-direction: column;
 		align-items: flex-start;
 		height: 100%;
@@ -24,10 +24,10 @@ r4-layout [slot="header"] menu a {
 		padding-bottom: calc(var(--size) / 2);
 		box-sizing: border-box;
 	}
-	r4-layout [slot="header"] menu a {
+	r4-layout [slot="menu"] menu a {
 	}
-	r4-layout [slot="header"] menu button,
-	r4-layout [slot="header"] menu r4-user-channels-select {
+	r4-layout [slot="menu"] menu button,
+	r4-layout [slot="menu"] menu r4-user-channels-select {
 		margin-left: calc(var(--size) / 2);
 	}
 }

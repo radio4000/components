@@ -21,6 +21,12 @@ export default class R4Layout extends LitElement {
 			Minimize: 'minimize',
 			Fullscreen: 'fullscreen',
 		}
+		this.uiStatesUnicodes = {
+			[this.uiStates.Close]: '⊗',
+			[this.uiStates.Dock]: '↕',
+			[this.uiStates.Minimize]: '⊼',
+			[this.uiStates.Fullscreen]: '⇱',
+		}
 		this.uiState = this.uiStates.Close
 		document.addEventListener('fullscreenchange', this.onFullscreen.bind(this))
 	}
@@ -31,7 +37,7 @@ export default class R4Layout extends LitElement {
 
 	willUpdate(changedProps) {
 		changedProps.has('isPlaying') && this.onIsPlaying()
-		changedProps.has('uiState') && this.onUiState()
+		changedProps.has('uiState') && this.onUiState(changedProps.get('uiState'))
 	}
 
 	onIsPlaying() {
@@ -48,11 +54,11 @@ export default class R4Layout extends LitElement {
 		// handle fullscreen in/out
 		if (this.uiState === this.uiStates.Fullscreen) {
 			this.playerRef.value.requestFullscreen()
-		} else if (window.fullscreen) {
-			window.exitFullscreen()
+		}
+		if (window.fullScreen && this.uiState !== this.uiStates.Fullscreen) {
+			document.exitFullscreen()
 		}
 
-		console.log('onUiState', this.uiState, this.isPlaying)
 		// first time you close, it hides player
 		if (this.uiState === this.uiStates.Close) {
 			if (this.isPlaying) {
@@ -68,15 +74,17 @@ export default class R4Layout extends LitElement {
 
 	onFullscreen(event) {
 		if (!document.fullscreenElement) {
-			this.uiState = this.uiStates.Dock
+			if (this.uiState === this.uiStates.Fullscreen) {
+				this.uiState = this.uiStates.Minimize
+			}
 		}
 	}
 
 	render() {
 		return html`
-			<r4-layout-header>
-				<slot name="header"></slot>
-			</r4-layout-header>
+			<r4-layout-menu>
+				<slot name="menu"></slot>
+			</r4-layout-menu>
 			<r4-layout-main>
 				<slot name="main"></slot>
 			</r4-layout-main>
@@ -107,8 +115,10 @@ export default class R4Layout extends LitElement {
 				<button
 					@click=${this.onControlClick}
 					value=${value}
+					title=${name}
+					name=${name}
 				>
-					${name}
+					${this.uiStatesUnicodes[name]}
 				</button>
 			</li>
 		`

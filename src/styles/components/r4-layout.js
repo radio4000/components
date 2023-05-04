@@ -11,7 +11,11 @@ const host = css`
 	background: var(--color-app-background);
 	}
 `
-
+const mainSlot = css`
+	slot[name="main"]::slotted(*) {
+	padding: var(--size);
+	}
+`
 const playerSlot = css`
 	/* only is r4-layout[is-playing] display player slot */
 	:host(:not([is-playing])) slot[name="player"]::slotted(*) {
@@ -22,7 +26,7 @@ const playerSlot = css`
 	:host([ui-state="fullscreen"]) slot[name="player"]::slotted(*) {}
 `
 const layoutOrder = css`
-	r4-layout-header {
+	r4-layout-menu {
 	order: 1;
 	}
 	r4-layout-main {
@@ -35,7 +39,7 @@ const layoutOrder = css`
 	:host {
 	flex-direction: row;
 	}
-	r4-layout-header {
+	r4-layout-menu {
 	order: 1;
 	min-width: 8em; /* avoid jumping while menu is loading */
 	}
@@ -87,26 +91,80 @@ const stateMinimize = css`
 	:host([ui-state="minimize"]) radio4000-player .Layout-main {
 	display: none;
 	}
+
+	:host([ui-state="minimize"]) r4-layout-playback {
+	position: sticky;
+	top: 0;
+	}
+	:host([ui-state="minimize"]) r4-layout-controls {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	transform: translateY(100%);
+	}
+
+	:host([ui-state="minimize"]) r4-layout-menu {
+	position: sticky;
+	bottom: 0;
+	left: 0;
+	order: 3;
+	background-color: var(--color-background);
+	}
+
+	@media (min-width: 700px) {
+	:host([ui-state="minimize"]) r4-layout-playback {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	}
+	:host([ui-state="minimize"]) r4-layout-controls {
+	position: absolute;
+	top: 0;
+	left: 0;
+	}
+	}
 `
 
 const stateFullscreen = css`
 	:host([ui-state="fullscreen"]) slot[name="player"]::slotted(*) {
 	height: 100vh;
 	}
-	:host([ui-state="fullscreen"]) slot[name="controls"] {
-	display: none;
+	:host([ui-state="fullscreen"]) r4-layout-playback {
+	position: relative;
+	}
+	:host([ui-state="fullscreen"]) r4-layout-controls {
+	z-index: 1;
+	position: absolute;
+	top: 0;
+	right: 0;
 	}
 `
 
 const stateDock = css`
-	@media (min-width: 700px) {
 	:host([ui-state="dock"]) r4-layout-playback {
 	position: relative;
+	display: flex;
+	flex-direction: column;
 	}
+	:host([ui-state="dock"]) r4-layout-controls {
+	justify-content: flex-end;
+	align-items: flex-start;
+	display: flex;;
+	order: 2;
+	}
+	:host([ui-state="dock"]) r4-layout-menu {
+	position: sticky;
+	top: 0;
+	left: 0;
+	background-color: var(--color-background);
+	}
+
+	@media (min-width: 700px) {
 	:host([ui-state="dock"]) r4-layout-controls {
 	position: absolute;
 	top: 0;
-	left: -5rem;
+	left: 0;
+	transform: translateX(-100%);
 	}
 	:host([ui-state="dock"]) r4-layout-controls menu {
 	flex-direction: column;
@@ -116,6 +174,7 @@ const stateDock = css`
 
 export default [
 	host,
+	mainSlot,
 	playerSlot,
 	layoutOrder,
 	r4LayoutControlsMenu,
