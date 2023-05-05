@@ -10,9 +10,12 @@
 	</head>
 
 	<body>
-		<p>The r4-search component</p>
+		<p>The r4-search component searches channels by default:</p>
 		<r4-search></r4-search>
 		<!-- <r4-search-results .items="${this.items}"></r4-search-results> -->
+
+		<p>You can set the `model` attribute to search a different table, like "tracks".</p>
+		<r4-search table="tracks"></r4-search>
 
 		<script>
 			const $search = document.querySelector('r4-search')
