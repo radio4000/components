@@ -10,6 +10,11 @@ const host = css`
 	border: 1px solid var(--color-border);
 	background: var(--color-app-background);
 	}
+	@media (min-width: 700px) {
+	:host {
+	flex-direction: row;
+	}
+	}
 `
 const mainSlot = css`
 	slot[name="main"]::slotted(*) {
@@ -32,24 +37,36 @@ const layoutOrder = css`
 	r4-layout-main {
 	order: 2;
 	}
+	r4-layout-panel {
+	order: 1;
+	}
 	r4-layout-playback {
 	order: 0;
+	z-index: 2;
 	}
 	@container (min-width: 700px) {
-	:host {
-	flex-direction: row;
-	}
 	r4-layout-menu {
 	order: 1;
-	min-width: 8em; /* avoid jumping while menu is loading */
 	}
 	r4-layout-main {
 	order: 2;
 	flex: 1;
 	}
-	r4-layout-playback {
-	order: 3;
+	:host([ui-state="dock"]) r4-layout-playback {
+	order: 2;
 	}
+	:host([ui-state="dock"]) r4-layout-panel {
+	order: 1;
+	}
+	}
+`
+
+const r4LayoutPanel = css`
+	r4-layout-panel {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	flex-grow: 1;
 	}
 `
 
@@ -75,6 +92,9 @@ const stateClose = css`
 `
 
 const stateMinimize = css`
+	:host([ui-state="minimize"]) {
+	position: relative;
+	}
 	:host([ui-state="minimize"]) r4-player {
 	max-width: 10vw;
 	}
@@ -112,15 +132,30 @@ const stateMinimize = css`
 	}
 
 	@media (min-width: 700px) {
-	:host([ui-state="minimize"]) r4-layout-playback {
-	position: fixed;
-	bottom: 0;
-	right: 0;
+	:host([ui-state="minimize"]){
+	flex-wrap: wrap;
+	justify-content: flex-end;
 	}
+
+	:host([ui-state="minimize"]) r4-layout-panel {
+	width: 100%;
+	}
+
+	:host([ui-state="minimize"]) r4-layout-playback {
+	display: flex;
+	justify-content: flex-end;
+	}
+
 	:host([ui-state="minimize"]) r4-layout-controls {
 	position: absolute;
-	top: 0;
-	left: 0;
+	bottom: 0;
+	left: unset;
+	top: unset;
+	right: 0;
+	transform: translateY(100%);
+	}
+	:host([ui-state="minimize"]) r4-layout-menu {
+	order: 1;
 	}
 	}
 `
@@ -160,6 +195,12 @@ const stateDock = css`
 	}
 
 	@media (min-width: 700px) {
+	:host([ui-state="dock"]) r4-layout-playback {
+	max-height: 100vh;
+	position: sticky;
+	top: 0;
+	right: 0;
+	}
 	:host([ui-state="dock"]) r4-layout-controls {
 	position: absolute;
 	top: 0;
@@ -178,6 +219,7 @@ export default [
 	playerSlot,
 	layoutOrder,
 	r4LayoutControlsMenu,
+	r4LayoutPanel,
 	stateClose,
 	stateMinimize,
 	stateFullscreen,
