@@ -251,7 +251,7 @@ export default class R4App extends LitElement {
 				<li>
 					<r4-auth-status ?auth=${user}>
 						<span slot="in">
-							<button @click=${sdk.signOut}>Sign out</button>
+							<button @click=${sdk.auth.signOut}>Sign out</button>
 						</span>
 						<span slot="out">
 							<a href=${href + '/sign/in'}>Sign in</a>

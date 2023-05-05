@@ -31,7 +31,7 @@ export default class R4SignOut extends R4Form {
 		let res = {},
 			error = null
 		try {
-			res = await sdk.signOut()
+			res = await sdk.auth.signOut()
 			if (res.error) {
 				throw res.error
 			}
