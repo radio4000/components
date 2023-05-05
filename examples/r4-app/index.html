@@ -29,20 +29,12 @@
 		</li>
 	</ul>
 
-	<div class="Resizer">
-		<r4-app></r4-app>
-	</div>
+	<r4-app></r4-app>
 </body>
 
 <style>
-	.Resizer {
-		display: flex;
-		flex-direction: column;
-		resize: both; overflow: auto;
-		/* border: 2px solid blue;  */
-	}
-	.Resizer r4-app {
-		height: 100%;
+	r4-app {
+		min-height: 100vh;
 	}
 </style>
 

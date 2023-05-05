@@ -7,6 +7,7 @@ export default class R4Layout extends LitElement {
 
 	static properties = {
 		isPlaying: {type: Boolean, attribute: 'is-playing', reflect: true},
+		isTop: {type: Boolean},
 		uiState: {type: String, attribute: 'ui-state', reflect: true},
 		uiStates: {type: Object},
 	}
@@ -21,17 +22,47 @@ export default class R4Layout extends LitElement {
 			Minimize: 'minimize',
 			Fullscreen: 'fullscreen',
 		}
+		this.uiStatesUnicodes = {
+			[this.uiStates.Close]: '⊗',
+			[this.uiStates.Dock]: '↕',
+			[this.uiStates.Minimize]: '⊼',
+			[this.uiStates.Fullscreen]: '⇱',
+		}
 		this.uiState = this.uiStates.Close
 		document.addEventListener('fullscreenchange', this.onFullscreen.bind(this))
+
+		this.topObserver = this.initTopOberserver()
 	}
 
 	disconnectedCallback() {
 		document.removeEventListener('fullscreenchange', this.onFullscreen)
+		// remove the observer
+		// this.topObserver
 	}
 
 	willUpdate(changedProps) {
 		changedProps.has('isPlaying') && this.onIsPlaying()
-		changedProps.has('uiState') && this.onUiState()
+		changedProps.has('uiState') && this.onUiState(changedProps.get('uiState'))
+	}
+
+	initTopOberserver() {
+		console.log('listen to top', this)
+		/* check is the player is pinned to the top */
+		const observer = new IntersectionObserver(([e]) => {
+			console.log('intersection', e)
+			if (e.intersectionRatio === 1) {
+				this.isTop = true
+				console.log('intersection istop true')
+			} else {
+				this.isTop = false
+				console.log('intersection istop false')
+			}
+		}, {
+			threshold: [1]
+		})
+
+		observer.observe(this)
+		return observer
 	}
 
 	onIsPlaying() {
@@ -48,11 +79,11 @@ export default class R4Layout extends LitElement {
 		// handle fullscreen in/out
 		if (this.uiState === this.uiStates.Fullscreen) {
 			this.playerRef.value.requestFullscreen()
-		} else if (window.fullscreen) {
-			window.exitFullscreen()
+		}
+		if (window.fullScreen && this.uiState !== this.uiStates.Fullscreen) {
+			document.exitFullscreen()
 		}
 
-		console.log('onUiState', this.uiState, this.isPlaying)
 		// first time you close, it hides player
 		if (this.uiState === this.uiStates.Close) {
 			if (this.isPlaying) {
@@ -68,18 +99,22 @@ export default class R4Layout extends LitElement {
 
 	onFullscreen(event) {
 		if (!document.fullscreenElement) {
-			this.uiState = this.uiStates.Dock
+			if (this.uiState === this.uiStates.Fullscreen) {
+				this.uiState = this.uiStates.Minimize
+			}
 		}
 	}
 
 	render() {
 		return html`
-			<r4-layout-header>
-				<slot name="header"></slot>
-			</r4-layout-header>
-			<r4-layout-main>
-				<slot name="main"></slot>
-			</r4-layout-main>
+			<r4-layout-panel>
+				<r4-layout-menu>
+					<slot name="menu"></slot>
+				</r4-layout-menu>
+				<r4-layout-main>
+					<slot name="main"></slot>
+				</r4-layout-main>
+			</r4-layout-panel>
 			<r4-layout-playback ${ref(this.playerRef)}>
 				<r4-layout-controls>
 					<slot name="controls">
@@ -107,8 +142,10 @@ export default class R4Layout extends LitElement {
 				<button
 					@click=${this.onControlClick}
 					value=${value}
+					title=${name}
+					name=${name}
 				>
-					${name}
+					${this.uiStatesUnicodes[name]}
 				</button>
 			</li>
 		`

@@ -1,3 +1,14 @@
+r4-map {
+	display: flex;
+	flex-direction: column;
+}
+r4-map r4-channel {
+	position: sticky;
+	bottom: 0;
+	left: 0;
+	background-color: hotpink;
+}
+
 .cesium-viewer-cesiumWidgetContainer {
 	visibility: visible;
 }

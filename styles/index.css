@@ -4,10 +4,7 @@
 /* @import url("root.css"); */
 @import url("typography.css");
 /* @import url("buttons.css"); */
+/* @import url("grid.css"); */
 
 /* Styles for all <r4-*> elements */
 @import url("components/index.css");
-
-/* Styles for <r4-app> and pages */
-@import url("app.css");
-@import url("grid.css");
