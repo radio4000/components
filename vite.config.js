@@ -79,6 +79,7 @@ export default defineConfig({
 				r4Player: resolve(__dirname, 'examples/r4-player/index.html'),
 				r4ResetPassword: resolve(__dirname, 'examples/r4-reset-password/index.html'),
 				r4Router: resolve(__dirname, 'examples/r4-router/index.html'),
+				r4Search: resolve(__dirname, 'examples/r4-search/index.html'),
 				r4SignIn: resolve(__dirname, 'examples/r4-sign-in/index.html'),
 				r4SignOut: resolve(__dirname, 'examples/r4-sign-out/index.html'),
 				r4SignUp: resolve(__dirname, 'examples/r4-sign-up/index.html'),

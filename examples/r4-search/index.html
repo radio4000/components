@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+		<title>r4-search</title>
+		<link rel="stylesheet" href="/styles/index.css" />
+		<script type="module" src="/src/index.js"></script>
+	</head>
+
+	<body>
+		<p>The r4-search component</p>
+		<r4-search></r4-search>
+		<!-- <r4-search-results .items="${this.items}"></r4-search-results> -->
+
+		<script>
+			const $search = document.querySelector('r4-search')
+			// const $results = document.querySelector('r4-search-results')
+
+			$search.addEventListener('input', (event) => {
+				console.log(event.target.value)
+			})
+		</script>
+	</body>
+</html>

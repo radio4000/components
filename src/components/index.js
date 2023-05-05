@@ -26,6 +26,7 @@ import R4MapPosition from './r4-map-position.js'
 import R4Player from './r4-player.js'
 import R4ResetPassword from './r4-reset-password.js'
 import R4Router from './r4-router.js'
+import R4Search from './r4-search.js'
 import R4SignIn from './r4-sign-in.js'
 import R4SignOut from './r4-sign-out.js'
 import R4SignUp from './r4-sign-up.js'
@@ -65,6 +66,7 @@ customElements.define('r4-map-position', R4MapPosition)
 customElements.define('r4-player', R4Player)
 customElements.define('r4-reset-password', R4ResetPassword)
 customElements.define('r4-router', R4Router)
+customElements.define('r4-search', R4Search)
 customElements.define('r4-sign-in', R4SignIn)
 customElements.define('r4-sign-out', R4SignOut)
 customElements.define('r4-sign-up', R4SignUp)
@@ -103,6 +105,7 @@ export default {
 	R4MapPosition,
 	R4ResetPassword,
 	R4Router,
+	R4Search,
 	R4SignIn,
 	R4SignOut,
 	R4SignUp,
