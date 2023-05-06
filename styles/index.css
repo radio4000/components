@@ -2,9 +2,9 @@
 
 /* Root or base styles, not scoped to any component */
 /* @import url("root.css"); */
-@import url("typography.css");
+/* @import url("typography.css"); */
 /* @import url("buttons.css"); */
-/* @import url("grid.css"); */
+@import url("grid.css");
 
 /* Styles for all <r4-*> elements */
 @import url("components/index.css");
