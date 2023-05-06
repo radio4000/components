@@ -46,21 +46,16 @@ export default class R4Layout extends LitElement {
 	}
 
 	initTopOberserver() {
-		console.log('listen to top', this)
-		/* check is the player is pinned to the top */
+		/* check if the player at the top of the viewport/screen */
 		const observer = new IntersectionObserver(([e]) => {
-			console.log('intersection', e)
 			if (e.intersectionRatio === 1) {
 				this.isTop = true
-				console.log('intersection istop true')
 			} else {
 				this.isTop = false
-				console.log('intersection istop false')
 			}
 		}, {
 			threshold: [1]
 		})
-
 		observer.observe(this)
 		return observer
 	}

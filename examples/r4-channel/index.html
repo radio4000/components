@@ -18,9 +18,10 @@
 			Enter a channel <a href="?slug=">slug</a> as a url parameter, to read its content
 		</li>
 		<li>
-			Here, there are: <code>r4-channel</code>, <code>r4-channel-actions</code>, and <code>r4-tracks</code> components, displaying data for the same channel <code>slug</code>.
+			Here, there are: <code>r4-channel-card</code>, <code>r4-channel</code>, <code>r4-channel-actions</code>, and <code>r4-tracks</code> components, displaying data for the same channel <code>slug</code>.
 		</li>
 	</menu>
+	<r4-channel-card></r4-channel-card>
 	<r4-channel></r4-channel>
 	<r4-channel-actions></r4-channel-actions>
 	<r4-tracks limit="2000" channel=""></r4-tracks>
@@ -30,6 +31,9 @@
 	/* use the query parameter, `slug`: `?slug={channel_slug}` */
 	const params = new URLSearchParams(window.location.search)
 	const slug = params.get('slug')
+
+	const $card = document.querySelector('r4-channel-card')
+	slug && $card.setAttribute('slug', slug)
 
 	const $channel = document.querySelector('r4-channel')
 	slug && $channel.setAttribute('slug', slug)

@@ -39,10 +39,10 @@ const layoutOrder = css`
 	}
 	r4-layout-panel {
 	order: 1;
+	z-index: 1;
 	}
 	r4-layout-playback {
 	order: 0;
-	z-index: 2;
 	}
 	@container (min-width: 700px) {
 	r4-layout-menu {
@@ -54,9 +54,11 @@ const layoutOrder = css`
 	}
 	:host([ui-state="dock"]) r4-layout-playback {
 	order: 2;
+	z-index: 0;
 	}
 	:host([ui-state="dock"]) r4-layout-panel {
 	order: 1;
+	z-index: 0;
 	}
 	}
 `
@@ -67,6 +69,8 @@ const r4LayoutPanel = css`
 	flex-direction: column;
 	min-height: 100vh;
 	flex-grow: 1;
+
+	background-color: var(--color-background);
 	}
 `
 
@@ -99,10 +103,6 @@ const stateMinimize = css`
 	max-width: 10vw;
 	}
 	:host([ui-state="minimize"]) radio4000-player {
-	/* height: auto; */
-	/* max-height: calc(var(--size) * 2); */
-	}
-	:host([ui-state="minimize"]) radio4000-player {
 	min-height: auto;
 	/* youtube guidelines for video */
 	max-height: 200px;
@@ -112,9 +112,21 @@ const stateMinimize = css`
 	display: none;
 	}
 
+	:host([ui-state="minimize"]) radio4000-player .ProviderPlayer {
+	min-height: none;
+	min-width: none;
+	}
+	:host([ui-state="minimize"]) radio4000-player .Layout {
+	flex-direction: row;
+	}
+	:host([ui-state="minimize"]) radio4000-player .Layout-main {
+
+	}
+
 	:host([ui-state="minimize"]) r4-layout-playback {
 	position: sticky;
 	top: 0;
+	z-index: 2;
 	}
 	:host([ui-state="minimize"]) r4-layout-controls {
 	position: absolute;
@@ -177,15 +189,16 @@ const stateFullscreen = css`
 
 const stateDock = css`
 	:host([ui-state="dock"]) r4-layout-playback {
-	position: relative;
+	position: sticky;
+	top: 0;
 	display: flex;
 	flex-direction: column;
 	}
 	:host([ui-state="dock"]) r4-layout-controls {
 	justify-content: flex-end;
 	align-items: flex-start;
-	display: flex;;
-	order: 2;
+	display: flex;
+	order: 0;
 	}
 	:host([ui-state="dock"]) r4-layout-menu {
 	position: sticky;

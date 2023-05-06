@@ -63,6 +63,7 @@ export default defineConfig({
 
 				r4AuthStatus: resolve(__dirname, 'examples/r4-auth-status/index.html'),
 				r4Channel: resolve(__dirname, 'examples/r4-channel/index.html'),
+				r4ChannelCard: resolve(__dirname, 'examples/r4-channel-card/index.html'),
 				r4ChannelActions: resolve(__dirname, 'examples/r4-channel-actions/index.html'),
 				r4ChannelCreate: resolve(__dirname, 'examples/r4-channel-create/index.html'),
 				r4ChannelDelete: resolve(__dirname, 'examples/r4-channel-delete/index.html'),
@@ -88,6 +89,7 @@ export default defineConfig({
 				r4TrackDelete: resolve(__dirname, 'examples/r4-track-delete/index.html'),
 				r4TrackUpdate: resolve(__dirname, 'examples/r4-track-update/index.html'),
 				r4Tracks: resolve(__dirname, 'examples/r4-tracks/index.html'),
+				r4Tuner: resolve(__dirname, 'examples/r4-tuner/index.html'),
 				r4User: resolve(__dirname, 'examples/r4-user/index.html'),
 				r4UserChannelsSelect: resolve(__dirname, 'examples/r4-user-channels-select/index.html'),
 			},

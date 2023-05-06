@@ -1,9 +1,9 @@
 import R4List from './r4-list.js'
 
 const template = document.createElement('template')
-template.setAttribute('element', 'r4-channel')
-template.setAttribute('attribute', 'channel')
-template.innerHTML = `<r4-channel><r4-channel/>`
+template.setAttribute('element', 'r4-channel-card')
+template.setAttribute('property', 'channel')
+template.innerHTML = `<r4-channel-card></r4-channel-card>`
 
 export default class R4ListChannels extends R4List {
 	itemTemplate = template

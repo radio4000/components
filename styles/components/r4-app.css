@@ -23,8 +23,12 @@ r4-layout [slot="menu"] menu a {
 	padding: calc(var(--size) / 2);
 }
 r4-layout[ui-state="dock"] radio4000-player {
-	min-height: 100vh;
+	min-height: 80vh;
 }
+/* put the player buttons at the top of the player, in dock mode mobile */
+r4-layout[ui-state="dock"] radio4000-player .Layout-footer { order: 1; }
+r4-layout[ui-state="dock"] radio4000-player .Layout-header { order: 3; }
+r4-layout[ui-state="dock"] radio4000-player .Layout-section { order: 2 }
 @media (min-width: 700px) {
 	r4-layout[ui-state="minimize"] radio4000-player {
 		position: sticky;
@@ -34,6 +38,11 @@ r4-layout[ui-state="dock"] radio4000-player {
 		left: unset;
 		/* transform: translateY(100%); */
 	}
+
+	/* put the player buttons at normal position */
+	r4-layout[ui-state="dock"] radio4000-player .Layout-footer { order: 3; }
+	r4-layout[ui-state="dock"] radio4000-player .Layout-header { order: 1; }
+	r4-layout[ui-state="dock"] radio4000-player .Layout-section { order: 2; }
 }
 
 /* Pagination */

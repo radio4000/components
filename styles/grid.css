@@ -3,10 +3,9 @@
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	gap: calc(var(--size) / 2);
-	margin: 0;
+	margin: 0 0 var(--size);
 	padding: 0;
 	list-style: none;
-	margin-bottom: var(--size);
 }
 
 /* Adjust the min value as you please and make the media query match */
@@ -15,3 +14,4 @@
 		grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
 	}
 }
+

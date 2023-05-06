@@ -32,10 +32,12 @@ import R4SignUp from './r4-sign-up.js'
 import R4Title from './r4-title.js'
 import R4Track from './r4-track.js'
 import R4TrackActions from './r4-track-actions.js'
+import R4ChannelCard from './r4-channel-card.js'
 import R4TrackCreate from './r4-track-create.js'
 import R4TrackDelete from './r4-track-delete.js'
 import R4TrackUpdate from './r4-track-update.js'
 import R4Tracks from './r4-tracks.js'
+import R4Tuner from './r4-tuner.js'
 import R4User from './r4-user.js'
 import R4UserChannelsSelect from './r4-user-channels-select.js'
 
@@ -48,6 +50,7 @@ customElements.define('r4-auth-status', R4AuthStatus)
 customElements.define('r4-button-play', R4ButtonPlay)
 customElements.define('r4-channel', R4Channel)
 customElements.define('r4-channel-actions', R4ChannelActions)
+customElements.define('r4-channel-card', R4ChannelCard)
 customElements.define('r4-channel-create', R4ChannelCreate)
 customElements.define('r4-channel-delete', R4ChannelDelete)
 customElements.define('r4-channel-sharer', R4ChannelSharer)
@@ -72,6 +75,7 @@ customElements.define('r4-track-create', R4TrackCreate)
 customElements.define('r4-track-delete', R4TrackDelete)
 customElements.define('r4-track-update', R4TrackUpdate)
 customElements.define('r4-tracks', R4Tracks)
+customElements.define('r4-tuner', R4Tuner)
 customElements.define('r4-user', R4User)
 customElements.define('r4-user-channels-select', R4UserChannelsSelect)
 
@@ -84,6 +88,7 @@ export default {
 	R4AuthStatus,
 	R4Channel,
 	R4ChannelActions,
+	R4ChannelCard,
 	R4ChannelCreate,
 	R4ChannelDelete,
 	R4ChannelSharer,
@@ -108,6 +113,8 @@ export default {
 	R4TrackDelete,
 	R4TrackUpdate,
 	R4Tracks,
+	R4Tuner,
 	R4User,
 	R4UserChannelsSelect,
 }
+
