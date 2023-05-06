@@ -5,29 +5,15 @@ r4-channel {
 r4-channel-card {
 	display: flex;
 	flex-direction: column;
-	/* display: grid; */
-	/* grid-template-rows: 1fr auto; */
-	/* grid-template-columns: 1fr auto; */
-	border: 1px solid var(--color-border);
-	margin-bottom: var(--size);
 	background-color: var(--color-card-background);
+	border: 1px solid var(--color-border);
 }
 r4-channel-card > div {
 	padding: calc(var(--size) / 2);
-	max-width: 50ch;
 }
-r4-channel-cardr4-avatar img {}
-r4-channel-card h1  {
+r4-channel-card h1,
+r4-channel-card figure {
 	margin: 0;
 }
-r4-channel-card p:last-child {
-	margin-top: 1em;
-}
-r4-channel-card .slug a {
-	text-decoration: none;
-	color: var(--color-text);
-}
-r4-channel-card button {
-	align-self: flex-start;
-	margin-left: auto;
-}
+r4-channel-card .slug a {}
+r4-channel-card button {}
