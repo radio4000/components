@@ -7,5 +7,4 @@
 
 /* Styles for <r4-app> and pages */
 @import url("pages/index.css");
-@import url("app.css");
 @import url("grid-cards.css");

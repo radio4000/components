@@ -18,20 +18,60 @@
 			The layout is a component with three <code>slot</code> elements, to display content in different DOM sub trees.
 		</li>
 		<li>
-			Slots name are <code>header</code>, <code>main</code>, <code>player</code>.
+			Slots name are <code>menu</code>, <code>main</code>, <code>player</code>.
+		</li>
+		<li>
+			<button name="toggle">toggle "play"</button>
 		</li>
 	</menu>
 	<r4-layout>
-		<header slot="header">
-			An example header slot usage.
+		<header slot="menu">
+			An example menu slot usage.
 		</header>
 		<main slot="main">
 			And the main slot is here.
 		</main>
 		<aside slot="player">
-			Player ▶ slot?
+			<r4-player></r4-player>
 		</aside>
 	</r4-layout>
+
+	<script>
+		const playlist = {
+			title: 'A title for this list',
+			image: 'https://78.media.tumblr.com/5080191d7d19fe64da558f2b4324563e/tumblr_p8eoiltn1t1twkjb3o1_1280.png',
+			tracks: [
+				{
+					id: '1',
+					title: 'Randomfunk.ogg',
+					url: 'https://ia801409.us.archive.org/5/items/DWK051/Rare_and_Cheese_-_01_-_Randomfunk.ogg'
+				},
+				{
+					id: '2',
+					title: 'Rare and Cheese - Jazzpolice',
+					url: 'https://ia801409.us.archive.org/5/items/DWK051/Rare_and_Cheese_-_02_-_Jazzpolice.ogg'
+				}
+			]
+		}
+
+		/* open the layout */
+		const onClick = () => {
+			const $layout = document.querySelector('r4-layout')
+			const $player = document.querySelector('r4-player')
+			if ($layout.getAttribute('is-playing')) {
+				$layout.removeAttribute('is-playing')
+				$player.removeAttribute('tracks')
+			} else {
+				$layout.setAttribute('is-playing', true)
+				$player.setAttribute('tracks', JSON.stringify(playlist.tracks))
+				/* connot set player playing, from here */
+			}
+		}
+
+		// register a click event on a test button
+		const $playBtn = document.querySelector('button[name="toggle"]')
+		$playBtn.addEventListener('click', onClick)
+	</script>
 </body>
 
 </html>

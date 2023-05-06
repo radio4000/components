@@ -1,1 +1,51 @@
-r4-app {}
+r4-app {
+	/* Enable container queries for this element */
+	display: block;
+	container-type: inline-size;
+}
+
+ /* these styles are about the app,
+		and cannot be in the shadow dom regarding each components */
+/* Menu */
+r4-layout [slot="menu"] menu {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	/* gap: calc(var(--size) / 2); */
+}
+
+r4-layout [slot="menu"] menu a {
+	display: flex;
+	padding: calc(var(--size) / 2);
+}
+r4-layout[ui-state="dock"] radio4000-player {
+	min-height: 80vh;
+}
+/* put the player buttons at the top of the player, in dock mode mobile */
+r4-layout[ui-state="dock"] radio4000-player .Layout-footer { order: 1; }
+r4-layout[ui-state="dock"] radio4000-player .Layout-header { order: 3; }
+r4-layout[ui-state="dock"] radio4000-player .Layout-section { order: 2 }
+@media (min-width: 700px) {
+	r4-layout[ui-state="minimize"] radio4000-player {
+		position: sticky;
+		top: 0;
+		right: 0;
+		bottom: unset;
+		left: unset;
+		/* transform: translateY(100%); */
+	}
+
+	/* put the player buttons at normal position */
+	r4-layout[ui-state="dock"] radio4000-player .Layout-footer { order: 3; }
+	r4-layout[ui-state="dock"] radio4000-player .Layout-header { order: 1; }
+	r4-layout[ui-state="dock"] radio4000-player .Layout-section { order: 2; }
+}
+
+/* Pagination */
+[name="pagination"] > button ~ span {
+	margin: 0 0.5em;
+}
