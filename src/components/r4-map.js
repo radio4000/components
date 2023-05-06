@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit'
 import {ref, createRef} from 'lit/directives/ref.js';
 import {sdk} from '@radio4000/sdk'
 import lib from '../lib/'
+import {defined as CesiumDefined} from 'cesium'
 
 /**
  * a world globe with all radio channels with coordinates
@@ -33,8 +34,8 @@ export default class R4Map extends LitElement {
 	}
 
 	onChannelClick = (selectedEntity) => {
-		if (lib.map.Cesium.defined(selectedEntity)) {
-			if (lib.map.Cesium.defined(selectedEntity.name)) {
+		if (CesiumDefined(selectedEntity)) {
+			if (CesiumDefined(selectedEntity.name)) {
 				this.slug = selectedEntity.name
 			}
 		} else {

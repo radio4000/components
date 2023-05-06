@@ -1,4 +1,5 @@
-import * as Cesium from 'cesium'
+// import * as Cesium from 'cesium'
+import {Viewer, Math as CesiumMath, VerticalOrigin, HeightReference, createWorldTerrainAsync, UrlTemplateImageryProvider, Cartesian2, Cartesian3, ScreenSpaceEventType, Color, LabelStyle} from 'cesium'
 import "cesium/Build/Cesium/Widgets/widgets.css"
 
 // simple passthrough of current href to CESIUM_BASE_URL
@@ -18,14 +19,14 @@ const initMap = async ({
 	longitude = null,
 	latitude = null,
 }) => {
-	const terrainProvider = await Cesium.createWorldTerrainAsync()
-	const viewer = new Cesium.Viewer(containerEl, {
+	const terrainProvider = await createWorldTerrainAsync()
+	const viewer = new Viewer(containerEl, {
 		terrainProvider: terrainProvider,
 		maximumZoomDistance: 10,
 		selectionIndicator: true,
 	})
 
-	const openTopoProvider = new Cesium.UrlTemplateImageryProvider({
+	const openTopoProvider = new UrlTemplateImageryProvider({
 		url: OSMImageryProviderOpenTopoURL,
 		credit: mapCredit,
 	})
@@ -36,7 +37,7 @@ const initMap = async ({
 
 	if (longitude && latitude) {
 		viewer.camera.flyTo({
-			destination : Cesium.Cartesian3.fromDegrees(longitude, latitude, 5000)
+			destination : Cartesian3.fromDegrees(longitude, latitude, 5000)
 		});
 	}
 
@@ -49,7 +50,7 @@ const initMapOnClick = ({
 }) => {
 	viewer.screenSpaceEventHandler.setInputAction(
 		callback,
-		Cesium.ScreenSpaceEventType.LEFT_CLICK
+		ScreenSpaceEventType.LEFT_CLICK
 	)
 }
 
@@ -74,22 +75,22 @@ const addChannels = ({
 
 		const radioEntity = viewer.entities.add({
 			name: channel.slug, // used as ID for click handler
-			position: Cesium.Cartesian3.fromDegrees(
+			position: Cartesian3.fromDegrees(
 				channel.longitude,
 				channel.latitude
 			),
-			point: { pixelSize: 10, color: Cesium.Color.RED },
+			point: { pixelSize: 10, color: Color.RED },
 			label: {
 				text: `@${channel.slug}`,
 				show: true,
 				font: '1rem sans-serif',
-				fillColor: Cesium.Color.RED,
-				backgroundColor: Cesium.Color.PURPLE,
+				fillColor: Color.RED,
+				backgroundColor: Color.PURPLE,
 				outlineWidth: 3,
-				style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-				verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-				heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-				pixelOffset: new Cesium.Cartesian2(0, 10)
+				style: LabelStyle.FILL_AND_OUTLINE,
+				verticalOrigin: VerticalOrigin.BOTTOM,
+				heightReference: HeightReference.CLAMP_TO_GROUND,
+				pixelOffset: new Cartesian2(0, 10)
 			},
 		})
 
@@ -113,20 +114,20 @@ const addNewChannel = ({
 	}
 
 	const popupEntity = viewer.entities.add({
-		position: Cesium.Cartesian3.fromDegrees(longitude, latitude),
+		position: Cartesian3.fromDegrees(longitude, latitude),
 		id: entityId,
 		label: {
 			text: 'New position',
 			show: true,
 			font: '1rem sans-serif',
-			fillColor: Cesium.Color.PURPLE,
+			fillColor: Color.PURPLE,
 			outlineWidth: 3,
-			style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-			verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-			heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-			pixelOffset: new Cesium.Cartesian2(0, -15),
+			style: LabelStyle.FILL_AND_OUTLINE,
+			verticalOrigin: VerticalOrigin.BOTTOM,
+			heightReference: HeightReference.CLAMP_TO_GROUND,
+			pixelOffset: new Cartesian2(0, -15),
 		},
-		point: { pixelSize: 10, color: Cesium.Color.PURPLE }
+		point: { pixelSize: 10, color: Color.PURPLE }
 	})
 }
 
@@ -155,20 +156,20 @@ const addChannelOrigin = ({
 	}
 
 	const popupEntity = viewer.entities.add({
-		position: Cesium.Cartesian3.fromDegrees(longitude, latitude),
+		position: Cartesian3.fromDegrees(longitude, latitude),
 		id: entityId,
 		label: {
 			text: 'My position',
 			show: true,
 			font: '1rem sans-serif',
-			fillColor: Cesium.Color.RED,
+			fillColor: Color.RED,
 			outlineWidth: 3,
-			style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-			verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-			heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-			pixelOffset: new Cesium.Cartesian2(0, -15),
+			style: LabelStyle.FILL_AND_OUTLINE,
+			verticalOrigin: VerticalOrigin.BOTTOM,
+			heightReference: HeightReference.CLAMP_TO_GROUND,
+			pixelOffset: new Cartesian2(0, -15),
 		},
-		point: { pixelSize: 10, color: Cesium.Color.RED }
+		point: { pixelSize: 10, color: Color.RED }
 	})
 }
 
@@ -195,9 +196,9 @@ const clickToCoordinates = ({
 	)
 	if (!cartesian) return {}
 
-	const cartographic = Cesium.Cartographic.fromCartesian(cartesian)
-	const longitude = Cesium.Math.toDegrees(cartographic.longitude)
-	const latitude = Cesium.Math.toDegrees(cartographic.latitude)
+	const cartographic = Cartographic.fromCartesian(cartesian)
+	const longitude = CesiumMath.toDegrees(cartographic.longitude)
+	const latitude = CesiumMath.toDegrees(cartographic.latitude)
 	return {
 		longitude,
 		latitude,
@@ -205,7 +206,7 @@ const clickToCoordinates = ({
 }
 
 export {
-	Cesium,
+	// Cesium,
 	initMap,
 	initMapOnClick,
 	initOnChannelEntityClick,
