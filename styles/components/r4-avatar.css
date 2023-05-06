@@ -2,12 +2,7 @@ r4-avatar {
 	display: block;
 }
 
-r4-avatar figure {
-	margin: 0;
-}
-
 r4-avatar img {
 	display: block;
 	max-width: 100%;
 }
-

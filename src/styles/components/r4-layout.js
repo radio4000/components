@@ -2,29 +2,28 @@ import {css} from 'lit';
 
 const host = css`
 	:host {
-	display: flex;
-	flex-direction: column;
-	flex-grow: 1;
-	width: 100%;
-	height: 100%;
-	border: 1px solid var(--color-border);
-	background: var(--color-app-background);
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		width: 100%;
+		height: 100%;
+		border: 1px solid var(--color-border);
 	}
 	@media (min-width: 700px) {
-	:host {
-	flex-direction: row;
-	}
+		:host {
+			flex-direction: row;
+		}
 	}
 `
 const mainSlot = css`
 	slot[name="main"]::slotted(*) {
-	padding: var(--size);
+		padding: var(--size);
 	}
 `
 const playerSlot = css`
 	/* only is r4-layout[is-playing] display player slot */
 	:host(:not([is-playing])) slot[name="player"]::slotted(*) {
-	display: none;
+		display: none;
 	}
 
 	:host([ui-state="minimize"]) slot[name="player"]::slotted(*) {}
@@ -69,7 +68,6 @@ const r4LayoutPanel = css`
 	flex-direction: column;
 	min-height: 100vh;
 	flex-grow: 1;
-
 	background-color: var(--color-background);
 	}
 `
