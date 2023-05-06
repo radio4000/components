@@ -7,6 +7,7 @@ import { sdk } from '@radio4000/sdk'
  * It actively searches the database on every keypress, see https://supabase.com/docs/guides/database/full-text-search
  * Results are rendered with <r4-search-results>
  */
+
 export default class R4Search extends LitElement {
 	static properties = {
 		value: { type: String, reflect: true },
@@ -14,21 +15,49 @@ export default class R4Search extends LitElement {
 		results: { type: Array },
 	}
 
+	onSubmit(event) {
+		event.preventDefault()
+	}
+
 	async onInput(event) {
 		const value = event.target.value
 		if (value.length === 0) this.results = null
-		if (value.length < 3) return
-		const { data } = await sdk.supabase
-			.from(this.table ?? 'channels')
+		if (value.length < 2) return
+
+		let res
+		if (this.table === 'tracks') {
+			res = await this.searchTracks(value)
+		} else {
+			res = await this.searchChannels(value)
+		}
+		console.log('search results', res)
+		this.results = res.data ?? []
+	}
+
+	searchChannels(value) {
+		return sdk.supabase
+			.from('channels')
 			.select()
 			.textSearch('fts', `'${value}'`)
-		this.results = data ?? null
-		console.log('search results', data)
+	}
+
+	searchTracks(value) {
+		return sdk.supabase
+			.from('channel_track')
+			.select(`
+				channel_id!inner(
+					slug
+				),
+				track_id!inner(
+					id, title, description, tags, mentions, fts
+				)
+			`)
+			.textSearch('track_id.fts', `'${value}'`)
 	}
 
 	render() {
 		return html`
-			<form>
+			<form @submit="${this.onSubmit}">
 				<input type="search" @input="${this.onInput}" />
 				<svg class="aa-input-icon" viewBox="654 -372 1664 1664">
 					<path
@@ -44,7 +73,7 @@ export default class R4Search extends LitElement {
 						<li>
 							${index}:
 							${this.table === 'tracks'
-								? html`${item.title}, <small>${item.description}</small>`
+								? html`${item.track_id.title}, <small>${item.track_id.description}</small> (from ${item.channel_id.slug})`
 								: html`<r4-channel-card .channel="${item}"></r4-channel-card>`}
 						</li>
 					`
