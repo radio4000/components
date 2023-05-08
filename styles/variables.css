@@ -24,55 +24,17 @@
 	--color-dark: hsl(0deg 0% 2%);
 	--color-border: hsla(0 10% 50% / 0.5);
 
-	/* color definitions */
-	--color-background: var(--color-light);
-	--color-app-background: var(--color-background);
-	--color-card-background: var(--color-background);
-	--color-text: var(--color-dark);
-	--color-link: var(--color-text);
+	/* Available abstractions. Use these to create themes. */
+	/* --color-link: red; */
+	/* --color-app-background: var(--color-background); */
+	/* --color-card-background: var(--color-background); */
 
-	--color-input-background: var(--color-background);
-	--color-input-text: var(--color-text);
-	--color-input-border: var(--color-border);
+	/* --color-input-background: var(--color-background); */
+	/* --color-input-text: var(--color-text); */
+	/* --color-input-border: green; */
 
-	--color-button-background: var(--color-link);
-	--color-button-text: var(--color-background);
-	--color-button-border: var(--color-border);
+	/* --color-button-background: var(--color-link); */
+	/* --color-button-text: var(--color-background); */
+	/* --color-button-border: var(--color-border); */
 }
-
-/* Default theme */
-@media (prefers-color-scheme: light) {
-	:root,
-	:host {
-		--color-background: hsl(0 0% 90%);
-		--color-card-background: hsl(0 0% 93%);
-		--color-text: hsl(0 0% 10%);
-		--color-link: hsl(260 80% 50%);
-	}
-}
-
-@media (prefers-color-scheme: dark) {
-	:root,
-	:host {
-		--color-background: hsl(0 0% 10%);
-		--color-card-background: hsl(0 0% 13%);
-		--color-text: hsl(0 0% 90%);
-		--color-link: hsl(260 80% 90%);
-	}
-}
-
-/* Jellybeans theme (only dark) */
-/* :root { */
-/* 	--font-family: iosevka term, system-ui, sans-serif; */
-/* 	--color-background: rgb(21 21 21); */
-/* 	--color-app-background: rgb(48 48 44); */
-/* 	--color-card-background: rgb(78 78 68); */
-/* 	/1* --color-card-background: rgba(48 48 44); *1/ */
-/* 	--color-blue: rgb(133 150 188); */
-/* 	/1* --color-yellow: rgb(243 210 134); *1/ */
-/* 	/1* --color-red: rgb(188 108 81); *1/ */
-/* 	/1* --color-green: rgb(128 156 111); *1/ */
-/* 	--color-text: rgb(220 220 207); */
-/* 	--color-link: var(--color-blue); */
-/* } */
 

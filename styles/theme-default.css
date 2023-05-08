@@ -1,0 +1,21 @@
+/* Default theme */
+@media (prefers-color-scheme: light) {
+	:root,
+	:host {
+		--color-background: hsl(0 0% 91%);
+		--color-card-background: hsl(0 0% 93%);
+		--color-text: hsl(0 0% 10%);
+		--color-link: hsl(260 80% 50%);
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	:root,
+	:host {
+		--color-background: hsl(0 0% 10%);
+		--color-card-background: hsl(0 0% 13%);
+		--color-text: hsl(0 0% 90%);
+		--color-link: hsl(260 80% 90%);
+	}
+}
+

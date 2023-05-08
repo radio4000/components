@@ -1,0 +1,52 @@
+/* Inspired by the Jellybeans programming color scheme theme. Dark only. */
+:root {
+	--color-red: rgb(188 108 81);
+	--color-green: rgb(128 156 111);
+	--color-blue: rgb(133 150 188);
+	--color-yellow: rgb(243 210 134);
+
+	--color-gray1: rgb(21 21 21);
+	--color-gray2: rgb(48 48 44);
+	--color-gray3: rgb(78 78 68);
+
+	--font-family: iosevka term, system-ui, sans-serif;
+	--color-background: var(--color-gray1);
+	--color-app-background: var(--color-gray2);
+	--color-card-background: var(--color-gray2);
+	--color-input-background: var(--color-gray2);
+	--color-button-background: var(--color-gray3);
+	--color-text: rgb(220 220 207);
+	--color-link: var(--color-blue);
+	--color-border: transparent;
+}
+
+[slot="menu"] a {
+	color: var(--green);
+}
+
+h1 {
+	font-size: 1.25rem;
+	margin: 0 0 1rem;
+}
+
+h1,
+h1 a {
+	color: var(--color-red);
+}
+
+r4-channel-card h1 {
+	margin-bottom: 0;
+}
+
+r4-channel-card h1 + p {
+	margin-top: 0;
+}
+
+button:hover {
+	background: var(--color-link);
+}
+
+figure {
+	margin: 0 0 1rem;
+}
+
