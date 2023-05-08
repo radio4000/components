@@ -15,7 +15,8 @@
 	--color-card-background: var(--color-gray2);
 	--color-input-background: var(--color-gray2);
 	--color-button-background: var(--color-gray3);
-	--color-text: rgb(220 220 207);
+	/* --color-text: rgb(220 220 207); */
+	--color-text: #e8e8d3;
 	--color-link: var(--color-blue);
 	--color-border: transparent;
 }
@@ -50,3 +51,16 @@ figure {
 	margin: 0 0 1rem;
 }
 
+/* Quick dark-mode for the player */
+radio4000-player {
+	background: var(--color-background);
+	color: var(--color-text);
+}
+radio4000-player .Layout .Header,
+radio4000-player .Layout .PlayerControl,
+radio4000-player .Layout .PlayerControl .Btn {
+	background: transparent;
+}
+radio4000-player .Layout .TrackItem {
+	color: inherit;
+}
