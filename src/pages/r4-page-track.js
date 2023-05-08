@@ -44,14 +44,14 @@ export default class R4PageTrack extends LitElement {
 	renderPage(track) {
 		return html`
 			<main>
-				<r4-track
-					.track=${track}
-					id=${this.params.track_id}
-					></r4-track>
 				<r4-track-actions
 					id=${this.params.track_id}
 					@input=${this.onTrackAction}
 					></r4-track-actions>
+				<r4-track
+					.track=${track}
+					id=${this.params.track_id}
+					></r4-track>
 			</main>
 			<aside>
 				<r4-dialog name="update" @close=${this.onDialogClose}>

@@ -13,7 +13,7 @@ export default class BaseChannel extends LitElement {
 	}
 
 	get channelOrigin() {
-		return this.config.singleChannel ? this.config.href : `${this.config.href}/{{slug}}`
+		return this.config.singleChannel ? this.config.href : `${this.config.href}/${this.channel.slug}`
 	}
 
 	get tracksOrigin() {

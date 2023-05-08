@@ -4,9 +4,11 @@ import BaseChannel from './base-channel'
 
 export default class R4PageChannel extends BaseChannel {
 	get coordinates() {
-		return {
-			longitude: this.channel.longitude,
-			latitude: this.channel.latitude,
+		if (this.channel.longitude && this.channel.latitude) {
+			return {
+				longitude: this.channel.longitude,
+				latitude: this.channel.latitude,
+			}
 		}
 	}
 	render() {
@@ -15,26 +17,37 @@ export default class R4PageChannel extends BaseChannel {
 		if (!channel) return html`<p>Loading...</p>`
 
 		return html`
-			<header>
-				<h1>${channel.name}</h1>
-				<p>
-					@${channel.slug}
-					${ this.coordinates? this.renderMap() : null}
-				</p>
-				<p>${channel.description}</p>
-				<r4-avatar image=${channel.image}></r4-avatar>
+			<aside>
+				<a href=${this.channelOrigin + '/player'}>
+					<r4-avatar image=${channel.image}></r4-avatar>
+				</a>
+			</aside>
+			<aside>
 				<r4-channel-actions
 					slug=${channel.slug}
 					?can-edit=${this.canEdit}
 					@input=${this.onChannelAction}
-				></r4-channel-actions>
+					></r4-channel-actions>
+				<r4-button-play .channel=${channel}></r4-button-play>
+			</aside>
+			<header>
+				<h1>${channel.name}</h1>
+				<p>${channel.description}</p>
+				<p>
+					@${channel.slug}
+					${ this.coordinates? this.renderMap() : null}
+				</p>
 			</header>
 			<main>
 				<r4-tracks channel=${channel.slug} origin=${this.tracksOrigin} limit="5"></r4-tracks>
 			</main>
 			<aside>
 				<r4-dialog name="share" @close=${this.onDialogClose}>
-					<r4-channel-sharer slot="dialog" origin=${this.channelOrigin} slug=${channel.slug}></r4-channel-sharer>
+					<r4-channel-sharer
+						slot="dialog"
+						origin=${this.channelOrigin}
+						slug=${channel.slug}
+					></r4-channel-sharer>
 				</r4-dialog>
 			</aside>
 		`

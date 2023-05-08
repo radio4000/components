@@ -17,7 +17,8 @@ const host = css`
 `
 const mainSlot = css`
 	slot[name="main"]::slotted(*) {
-		padding: var(--size);
+	padding: var(--size);
+	min-height: 100%;
 	}
 `
 const playerSlot = css`

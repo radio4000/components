@@ -77,6 +77,7 @@ export default defineConfig({
 				r4Map: resolve(__dirname, 'examples/r4-map/index.html'),
 				r4MapPosition: resolve(__dirname, 'examples/r4-map-position/index.html'),
 				r4Player: resolve(__dirname, 'examples/r4-player/index.html'),
+				r4ButonPlay: resolve(__dirname, 'examples/r4-button-play/index.html'),
 				r4ResetPassword: resolve(__dirname, 'examples/r4-reset-password/index.html'),
 				r4Router: resolve(__dirname, 'examples/r4-router/index.html'),
 				r4SignIn: resolve(__dirname, 'examples/r4-sign-in/index.html'),

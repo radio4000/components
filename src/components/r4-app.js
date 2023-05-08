@@ -168,9 +168,10 @@ export default class R4App extends LitElement {
 					name="channel"
 					.store=${this.store}
 					.config=${this.config}
-				>
+					>
 					<r4-route path="/sign/:method" page="sign"></r4-route>
 					<r4-route path="/" page="channel"></r4-route>
+					<r4-route path="/player" page="channel-player"></r4-route>
 					<r4-route path="/tracks" page="tracks"></r4-route>
 					<r4-route path="/tracks/:track_id" page="track" query-params="slug,url"></r4-route>
 					<r4-route path="/add" page="add" query-params="url"></r4-route>
@@ -194,6 +195,7 @@ export default class R4App extends LitElement {
 					<r4-route path="/map" page="map" query-params="slug,longitude,latitude"></r4-route>
 					<r4-route path="/:slug" page="channel"></r4-route>
 					<r4-route path="/:slug/update" page="channel-update"></r4-route>
+					<r4-route path="/:slug/player" page="channel-player"></r4-route>
 					<r4-route path="/:slug/tracks" page="tracks"></r4-route>
 					<r4-route path="/:slug/tracks/:track_id" page="track"></r4-route>
 				</r4-router>
@@ -355,7 +357,7 @@ export default class R4App extends LitElement {
 		/* stop the global playing state */
 		this.isPlaying = false
 		console.log('stop: this.isPlaying', this.isPlaying)
-
+1
 		/* clean the `r4-player` component (so it hides) */
 		this.playerRef.value.removeAttribute('track')
 		this.playerRef.value.removeAttribute('image')
