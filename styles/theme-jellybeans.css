@@ -52,15 +52,15 @@ figure {
 }
 
 /* Quick dark-mode for the player */
-radio4000-player {
+r4-player radio4000-player {
 	background: var(--color-background);
 	color: var(--color-text);
 }
-radio4000-player .Layout .Header,
-radio4000-player .Layout .PlayerControl,
-radio4000-player .Layout .PlayerControl .Btn {
+r4-player radio4000-player .Layout .Header,
+r4-player radio4000-player .Layout .PlayerControl,
+r4-player radio4000-player .Layout .PlayerControl .Btn {
 	background: transparent;
 }
-radio4000-player .Layout .TrackItem {
+r4-player radio4000-player .Layout .TrackItem {
 	color: inherit;
 }
