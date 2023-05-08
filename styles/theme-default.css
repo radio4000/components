@@ -1,4 +1,15 @@
-/* Default theme */
+/* The default theme for R4 and components */
+
+/* Shared between light and dark color schemes */
+:root,
+:host {
+	/* --color-light: hsl(0deg 0% 98%); */
+	/* --color-lightgray: hsl(0deg 0% 80%); */
+	/* --color-darkgray: hsl(0deg 0% 20%); */
+	/* --color-dark: hsl(0deg 0% 2%); */
+	/* --color-border: hsla(0 10% 50% / 0.5); */
+}
+
 @media (prefers-color-scheme: light) {
 	:root,
 	:host {

@@ -17,24 +17,15 @@
 	--font-size: 16px;
 	--font-family: serif;
 
-	/* colors */
-	--color-light: hsl(0deg 0% 98%);
-	--color-lightgray: hsl(0deg 0% 80%);
-	--color-darkgray: hsl(0deg 0% 20%);
-	--color-dark: hsl(0deg 0% 2%);
-	--color-border: hsla(0 10% 50% / 0.5);
-
-	/* Available abstractions. Use these to create themes. */
-	/* --color-link: red; */
-	/* --color-app-background: var(--color-background); */
-	/* --color-card-background: var(--color-background); */
-
-	/* --color-input-background: var(--color-background); */
-	/* --color-input-text: var(--color-text); */
-	/* --color-input-border: green; */
-
-	/* --color-button-background: var(--color-link); */
-	/* --color-button-text: var(--color-background); */
-	/* --color-button-border: var(--color-border); */
+	/* Available abstractions. Use these, if you find it helpful, to create themes. */
+	/* --color-link: ; */
+	/* --color-app-background: ; */
+	/* --color-card-background: ; */
+	/* --color-input-background: ; */
+	/* --color-input-text: ; */
+	/* --color-input-border: ; */
+	/* --color-button-background: ; */
+	/* --color-button-text: ; */
+	/* --color-button-border: ; */
 }
 
