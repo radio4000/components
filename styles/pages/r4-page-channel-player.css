@@ -12,6 +12,10 @@ r4-page-channel-player r4-avatar {
 	/* bottom: 0; */
 }
 
+r4-page-channel-player r4-avatar figure {
+	margin: 0;
+}
+
 r4-page-channel-player r4-avatar img {
 	width: 100%;
 	height: 100%;
@@ -19,7 +23,9 @@ r4-page-channel-player r4-avatar img {
 }
 
 r4-page-channel-player r4-button-play {
-	position: sticky;
+	opacity: 0.5;
+	position: absolute;
+	top: 0;
 	bottom: 0;
 	width: 100%;
 	display: flex;
