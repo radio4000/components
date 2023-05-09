@@ -74,6 +74,7 @@ export default class R4PageChannelTrack extends LitElement {
 						slot="dialog"
 						id=${track.id}
 						url=${track.url}
+						discogsUrl=${track.discogs_url}
 						title=${track.title}
 						description=${track.description}
 						@submit=${this.onTrackUpdate}
@@ -125,7 +126,7 @@ export default class R4PageChannelTrack extends LitElement {
 	}
 	async onTrackDelete() {
 		this.closeDialog('delete')
-		page(`/${this.params.slug}`)
+		page(`/${this.params.slug}/tracks`)
 	}
 
 	async onTrackUpdate({detail}) {

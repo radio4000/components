@@ -101,6 +101,7 @@ export default class R4Track extends HTMLElement {
 		render(html`
 			<r4-track-title>${t.title || t.id}<br></r4-track-title>
 			<r4-track-description>${t.description}</r4-track-description>
+			${t.discogs_url && html`<r4-track-discogs-url><a href="${t.discogs_url}">View on Discogs</a></r4-track-discogs-url>`}
 			<r4-track-tags>${t.tags}</r4-track-tags>
 			<r4-track-mentions>${t.mentions}</r4-track-mentions>
 		`, $container)

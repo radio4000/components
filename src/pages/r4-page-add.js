@@ -35,9 +35,6 @@ export default class R4PageAdd extends LitElement {
 
 	async connectedCallback() {
 		super.connectedCallback()
-
-		// Choose the channel to add the track to.
-		console.log('connected this.query', this.query)
 		if (this.selectedSlug) {
 			this.selectedId = await this.findSelectedChannel()
 		}
@@ -63,7 +60,6 @@ export default class R4PageAdd extends LitElement {
 	}
 
 	onTrackCreate({ detail }) {
-		console.log(detail)
 		if (detail.data) {
 			this.lastAddedTrack = detail.data
 			this.focus()
@@ -76,7 +72,7 @@ export default class R4PageAdd extends LitElement {
 			<main>
 				${this.renderAdd()}
 				${this.lastAddedTrack ?
-					html`Added track: <a href=${`/${this.selectedSlug}/tracks/${this.lastAddedTrack.id}`}>${this.lastAddedTrack.title}</a>`
+					html`Added track: <a href=${`${this.config.href}/${this.selectedSlug}/tracks/${this.lastAddedTrack.id}`}>${this.lastAddedTrack.title}</a>`
 					: null}
 			</main>
 		`
