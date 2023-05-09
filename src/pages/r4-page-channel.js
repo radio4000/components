@@ -34,7 +34,7 @@ export default class R4PageChannel extends BaseChannel {
 			<r4-page-header>
 				<r4-channel-name>${channel.name}</r4-channel-name>
 				<r4-channel-slug>
-					@${channel.slug}
+					@<a href=${this.channelOrigin}>${channel.slug}</a>
 				</r4-channel-slug>
 
 				<r4-channel-description>${channel.description}</r4-channel-description>

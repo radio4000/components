@@ -2,7 +2,7 @@ import { html, LitElement } from 'lit'
 import { until } from 'lit/directives/until.js'
 import {sdk} from '@radio4000/sdk'
 
-export default class R4PageTracks extends LitElement {
+export default class R4PageChannelTracks extends LitElement {
 	static properties = {
 		store: { type: Object, state: true },
 		params: { type: Object, state: true },
@@ -21,6 +21,10 @@ export default class R4PageTracks extends LitElement {
 		} else {
 			return this.config.href + '/' + this.params.slug + '/tracks/{{id}}'
 		}
+	}
+
+	buildChannelHref(channel) {
+		return `${this.config.href}/${channel.slug}`
 	}
 
 	async firstUpdated() {
@@ -54,11 +58,10 @@ export default class R4PageTracks extends LitElement {
 	renderPage(channel) {
 		return html`
 			<header>
-				<r4-channel
-					.channel=${channel}
-					origin=${this.channelOrigin}
-					slug=${channel.slug}
-					></r4-channel>
+				<code>@</code>
+				<a href=${this.buildChannelHref(channel)}>${channel.slug}</a>
+				<code>/</code>
+				<a href=${this.buildChannelHref(channel) + '/tracks'}>tracks</a>
 			</header>
 			<main>
 				<r4-tracks

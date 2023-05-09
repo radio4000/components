@@ -7,7 +7,7 @@ export default class R4PageChannelPlayer extends BaseChannel {
 		return html`
 			<r4-page-header>
 				<r4-channel-slug>
-					@${this.channel.slug}
+					@<a href=${this.channelOrigin}>${this.channel.slug}</a>
 				</r4-channel-slug>
 			</r4-page-header>
 

@@ -1,17 +1,17 @@
-r4-page {
-	display: flex;
-	border: 1rem solid red;
-}
 r4-page-actions {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
 	margin-bottom: var(--size);
-	max-width: 60vw;
 	align-self: center;
 	flex-grow: 1;
 	width: 100%;
+}
+@container (min-width: 700px) {
+	r4-page-actions {
+		max-width: 40vw;
+	}
 }
 r4-page-header {
 	display: flex;

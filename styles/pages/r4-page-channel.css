@@ -14,8 +14,12 @@ r4-page-channel r4-channel-coordinates {
 r4-page-channel r4-channel-description {
 	display: flex;
 	white-space: pre-wrap;
-	max-width: 50vw;
 	align-self: center;
+}
+@container (min-width: 700px) {
+	r4-page-channel r4-channel-description {
+		max-width: 50vw;
+	}
 }
 r4-page-channel r4-channel-coordinates a {
 	font-size: var(--size-font-h3);
@@ -39,6 +43,7 @@ r4-page-channel r4-tracks {
 }
 r4-page-channel r4-tracks ul {
 	list-style: none;
+	padding: 0;
 }
 r4-page-channel r4-track a {
 	text-decoration: none;

@@ -8,8 +8,8 @@ import R4PageMap from './r4-page-map.js'
 import R4PageNew from './r4-page-new.js'
 import R4PageSettings from './r4-page-settings'
 import R4PageSign from './r4-page-sign.js'
-import R4PageTrack from './r4-page-track'
-import R4PageTracks from './r4-page-tracks'
+import R4PageChannelTrack from './r4-page-channel-track'
+import R4PageChannelTracks from './r4-page-channel-tracks'
 
 customElements.define('r4-page-sign', R4PageSign)
 customElements.define('r4-page-home', R4PageHome)
@@ -21,8 +21,8 @@ customElements.define('r4-page-settings', R4PageSettings)
 customElements.define('r4-page-channel', R4PageChannel)
 customElements.define('r4-page-channel-update', R4PageChannelUpdate)
 customElements.define('r4-page-channel-player', R4PageChannelPlayer)
-customElements.define('r4-page-track', R4PageTrack)
-customElements.define('r4-page-tracks', R4PageTracks)
+customElements.define('r4-page-channel-track', R4PageChannelTrack)
+customElements.define('r4-page-channel-tracks', R4PageChannelTracks)
 
 export default {
 	R4PageAdd,
@@ -35,6 +35,6 @@ export default {
 	R4PageNew,
 	R4PageSettings,
 	R4PageSign,
-	R4PageTrack,
-	R4PageTracks,
+	R4PageChannelTrack,
+	R4PageChannelTracks,
 }

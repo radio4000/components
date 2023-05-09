@@ -31,13 +31,19 @@ const layoutMain = css`
 		position: relative;
 	}
 `
+
 const mainSlot = css`
 	slot[name="main"]::slotted(*) {
-		padding: var(--size);
 		min-height: 100%;
 		display: flex;
 		flex-direction: column;
 		flex-grow: 1;
+		padding: calc(var(--size) / 3);
+	}
+	@container (min-width: 700px) {
+		slot[name="main"]::slotted(*) {
+			padding: var(--size);
+		}
 	}
 `
 
