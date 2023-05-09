@@ -14,8 +14,8 @@ fieldsTemplate.innerHTML = `
 			<input name="url" type="url" required />
 		</fieldset>
 		<fieldset>
-			<label for="discogs_url">Discogs URL</label>
-			<input name="discogs_url" type="url" />
+			<label for="discogsUrl">Discogs URL</label>
+			<input name="discogsUrl" type="url" />
 		</fieldset>
 		<fieldset>
 			<label for="title">Title</label>
@@ -80,8 +80,8 @@ export default class R4TrackCreate extends R4Form {
 			}
 		}
 
-		if (name === 'discogs_url' && value) {
-			console.log('Should fetch & display discogs data')
+		if (name === 'discogsUrl' && value) {
+			console.log('@todo fetch & display discogs data')
 		}
 	}
 
@@ -111,7 +111,7 @@ export default class R4TrackCreate extends R4Form {
 				url: this.state.url,
 				title: this.state.title,
 				description: this.state.description,
-				discogs_url: this.state.discogs_url,
+				discogs_url: this.state.discogsUrl
 			})
 			if (res.error) {
 				error = res
