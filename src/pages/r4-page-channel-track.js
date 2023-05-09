@@ -125,7 +125,7 @@ export default class R4PageChannelTrack extends LitElement {
 	}
 	async onTrackDelete() {
 		this.closeDialog('delete')
-		page(`/${this.params.slug}`)
+		page(`/${this.params.slug}/tracks`)
 	}
 
 	async onTrackUpdate({detail}) {
