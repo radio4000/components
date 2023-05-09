@@ -86,6 +86,7 @@ export default {
 	R4AvatarUpdate,
 	R4AvatarUpload,
 	R4AuthStatus,
+	R4ButtonPlay,
 	R4Channel,
 	R4ChannelActions,
 	R4ChannelCard,
@@ -117,4 +118,3 @@ export default {
 	R4User,
 	R4UserChannelsSelect,
 }
-

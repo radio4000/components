@@ -1,0 +1,19 @@
+r4-page-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: var(--size);
+	align-self: center;
+	flex-grow: 1;
+	width: 100%;
+}
+@container (min-width: 700px) {
+	r4-page-actions {
+		max-width: 40vw;
+	}
+}
+r4-page-header {
+	display: flex;
+	flex-direction: column;
+}

@@ -1,0 +1,7 @@
+r4-page-channel-track {}
+
+r4-page-channel-track header,
+r4-page-channel-track main,
+r4-page-channel-track aside {
+	margin-bottom: calc(var(--size) / 2);
+}

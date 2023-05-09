@@ -8,14 +8,20 @@
 */
 :root,
 :host {
+	/* typography */
+	--font-size: 16px;
+	--font-family: serif;
+
 	/* a default size to use (with calc()) for "homogenous visual spacing" */
 	--size: 1.5rem;
 	--size-container: 50em;
 	--breakpoint: 700px;
 
-	/* typography */
-	--font-size: 16px;
-	--font-family: serif;
+	--size-font-h0: 1rem;
+	--size-font-h1: 2.2rem;
+	--size-font-h2: 1.9rem;
+	--size-font-h3: 1.7rem;
+	--size-font-h4: 1.5rem;
 
 	/* Available abstractions. Use these, if you find it helpful, to create themes. */
 	/* --color-link: ; */
@@ -28,4 +34,3 @@
 	/* --color-button-text: ; */
 	/* --color-button-border: ; */
 }
-
