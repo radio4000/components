@@ -66,8 +66,8 @@ export default class R4PageSettings extends LitElement {
 				<label>Change email<br/>
 					<input type="email" name="email" value=${this.store.user?.email} required>
 				</label>
-				<button type="submit">Save</button>
-				${this.changeEmail.msg ? html`<p>${this.changeEmail.msg}</p>` : null}
+						<button type="submit">Save</button>
+						${this.changeEmail.msg ? html`<p>${this.changeEmail.msg}</p>` : null}
 			</form>
 
 			<br/>
@@ -87,7 +87,7 @@ export default class R4PageSettings extends LitElement {
 			<p>Deleting your account will also delete these radios including any tracks.</p>
 			<ul>
 				${this.store?.userChannels?.length ?
-						this.store.userChannels.map((c) => html`<li>${c.name}</li>`) : null}
+						this.store.userChannels.map((c) => html`<li><a href=${this.config.href + '/' + c.slug}>${c.slug}</a></li>`) : null}
 			</ul>
 			<details>
 				<summary>I understand, continue</summary>
@@ -95,7 +95,7 @@ export default class R4PageSettings extends LitElement {
 					<button type="submit">Delete my account</button>
 				</form>
 			</details>
-		`
+						`
 	}
 
 	createRenderRoot() {

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+
+		<title>r4-button-play</title>
+		<meta name="description" content="r4-button-play" />
+		<link rel="stylesheet" href="/styles/index.css" />
+		<script type="module" src="/src/index.js"></script>
+	</head>
+
+	<body>
+		<p>The r4-button-play component renders a button that will play a channel by it slug, or a specific track from that channel, by its id.</p>
+		<p>It is also possible to pass it directly a <code>.channel</code> object.</p>
+
+		<r4-button-play slug="oskar"></r4-button-play>
+
+		<script>
+			const onPlay = ({detail}) => {
+				console.log('r4-play event', detail)
+			}
+
+			const $button = document.querySelector('r4-button-play')
+			$button.addEventListener('r4-play', onPlay)
+		</script>
+	</body>
+</html>

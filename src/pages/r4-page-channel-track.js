@@ -3,7 +3,7 @@ import { until } from 'lit/directives/until.js'
 import {sdk} from '@radio4000/sdk'
 import page from 'page/page.mjs'
 
-export default class R4PageTrack extends LitElement {
+export default class R4PageChannelTrack extends LitElement {
 	static properties = {
 		store: { type: Object, state: true },
 		params: { type: Object, state: true },
@@ -31,29 +31,44 @@ export default class R4PageTrack extends LitElement {
 		}
 	}
 
+	buildChannelHref(channel) {
+		return `${this.config.href}/${channel.slug}`
+	}
+
 	render() {
 		return html`${
 			until(
-				Promise.resolve(this.track).then((track) => {
-					return track ? this.renderPage(track) : this.renderNoPage()
+				Promise.all([this.track, this.channel]).then(([track, channel]) => {
+					return track ? this.renderPage(track, channel) : this.renderNoPage()
 				}).catch(() => this.renderNoPage()),
 				this.renderLoading()
 			)
 		}`
 	}
-	renderPage(track) {
+	renderPage(track, channel) {
+		const track_id = this.params.track_id
 		return html`
+			<header>
+				<code>@</code>
+				<a href=${this.buildChannelHref(channel)}>${channel.slug}</a>
+				<code>/</code>
+				<a href=${this.buildChannelHref(channel) + '/tracks'}>tracks</a>
+				<code>/</code>
+				<a href=${this.buildChannelHref(channel) + '/tracks' + '/' + track_id}>
+					${track_id}
+				</a>
+			</header>
 			<main>
 				<r4-track
 					.track=${track}
 					id=${this.params.track_id}
 					></r4-track>
+			</main>
+			<aside>
 				<r4-track-actions
 					id=${this.params.track_id}
 					@input=${this.onTrackAction}
 					></r4-track-actions>
-			</main>
-			<aside>
 				<r4-dialog name="update" @close=${this.onDialogClose}>
 					<r4-track-update
 						slot="dialog"

@@ -13,6 +13,7 @@ export default class R4Map extends LitElement {
 		longitude: { type: Number },
 		latitude: { type: Number },
 		href: { type: String },
+		isReady: { type: Boolean, attribute: 'is-ready', reflect: true },
 	}
 
 	get channelOrigin() {
@@ -62,6 +63,7 @@ export default class R4Map extends LitElement {
 				viewer: this.viewer,
 				slug: this.slug
 			})
+			this.isReady = true
 		}
 	}
 

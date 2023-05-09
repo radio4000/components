@@ -15,13 +15,40 @@ const host = css`
 		}
 	}
 `
-const mainSlot = css`
-	slot[name="main"]::slotted(*) {
-		padding: var(--size);
+const details = css`
+	r4-layout-playback details {
+		height: 100%;
+	}
+	r4-layout-playback details summary {
+		display: none;
 	}
 `
+
+const layoutMain = css`
+	r4-layout-main {
+		flex-grow: 1;
+		display: flex;
+		position: relative;
+	}
+`
+
+const mainSlot = css`
+	slot[name="main"]::slotted(*) {
+		min-height: 100%;
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		padding: calc(var(--size) / 3);
+	}
+	@container (min-width: 700px) {
+		slot[name="main"]::slotted(*) {
+			padding: var(--size);
+		}
+	}
+`
+
+/* only is r4-layout[is-playing] display player slot */
 const playerSlot = css`
-	/* only is r4-layout[is-playing] display player slot */
 	:host(:not([is-playing])) slot[name="player"]::slotted(*) {
 		display: none;
 	}
@@ -29,6 +56,7 @@ const playerSlot = css`
 	:host([ui-state="minimize"]) slot[name="player"]::slotted(*) {}
 	:host([ui-state="fullscreen"]) slot[name="player"]::slotted(*) {}
 `
+
 const layoutOrder = css`
 	r4-layout-menu {
 	order: 1;
@@ -64,11 +92,11 @@ const layoutOrder = css`
 
 const r4LayoutPanel = css`
 	r4-layout-panel {
-	display: flex;
-	flex-direction: column;
-	min-height: 100vh;
-	flex-grow: 1;
-	background-color: var(--color-background);
+		display: flex;
+		flex-grow: 1;
+		flex-direction: column;
+		min-height: 100vh;
+		background-color: var(--color-background);
 	}
 `
 
@@ -203,6 +231,7 @@ const stateDock = css`
 	top: 0;
 	left: 0;
 	background-color: var(--color-background);
+	z-index: 1;
 	}
 
 	@media (min-width: 700px) {
@@ -226,6 +255,8 @@ const stateDock = css`
 
 export default [
 	host,
+	details,
+	layoutMain,
 	mainSlot,
 	playerSlot,
 	layoutOrder,

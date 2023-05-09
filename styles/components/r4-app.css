@@ -49,3 +49,9 @@ r4-layout[ui-state="dock"] radio4000-player .Layout-section { order: 2 }
 [name="pagination"] > button ~ span {
 	margin: 0 0.5em;
 }
+
+r4-app r4-router {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}

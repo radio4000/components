@@ -67,6 +67,7 @@ export default class R4Layout extends LitElement {
 
 		if (this.isPlaying && this.uiState === this.uiStates.Close) {
 			this.uiState = this.uiStates.Dock
+
 		}
 	}
 
@@ -111,18 +112,30 @@ export default class R4Layout extends LitElement {
 				</r4-layout-main>
 			</r4-layout-panel>
 			<r4-layout-playback ${ref(this.playerRef)}>
+				${this.isPlaying ? this.renderPlayback() : null}
+			</r4-layout-playback>
+		`
+	}
+
+	renderPlayback() {
+		return html`
+			<details open="true">
+				<summary></summary>
 				<r4-layout-controls>
 					<slot name="controls">
 						${this.renderControls()}
 					</slot>
 				</r4-layout-controls>
-				<slot name="player"></slot>
-			</r4-layout-playback>
+				${this.renderPlayer()}
+			</details>
 		`
 	}
 
+	renderPlayer() {
+		return html`<slot name="player"></slot>`
+	}
+
 	renderControls() {
-		if (!this.isPlaying) return
 		return html`
 			<menu>
 				${Object.entries(this.uiStates).map(this.renderUiState.bind(this))}
