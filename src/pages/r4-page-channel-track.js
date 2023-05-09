@@ -74,6 +74,7 @@ export default class R4PageChannelTrack extends LitElement {
 						slot="dialog"
 						id=${track.id}
 						url=${track.url}
+						discogs_url=${track.discogs_url}
 						title=${track.title}
 						description=${track.description}
 						@submit=${this.onTrackUpdate}

@@ -17,6 +17,10 @@ fieldsTemplate.innerHTML = `
 			<input name="title" type="text" required/>
 		</fieldset>
 		<fieldset>
+			<label for="discogs_url">Discogs URL</label>
+			<input name="discogs_url" type="url"/>
+		</fieldset>
+		<fieldset>
 			<label for="description">Description</label>
 			<textarea name="description"></textarea>
 		</fieldset>
@@ -42,11 +46,11 @@ export default class R4TrackUpdate extends R4Form {
 		event.stopPropagation()
 
 		this.disableForm()
-		const {id, url, title, description} = this.state
+		const {id, url, title, description, discogs_url} = this.state
 		let res = {}
 		let error = null
 		try {
-			res = await sdk.tracks.updateTrack(id, {url, title, description})
+			res = await sdk.tracks.updateTrack(id, {url, title, description, discogs_url})
 			if (res.error) {
 				error = res.error
 				throw error
