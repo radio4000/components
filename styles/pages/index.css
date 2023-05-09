@@ -1,2 +1,4 @@
 /* Import styles for every r4-page-* component */
+@import url("r4-page.css");
+@import url("r4-page-channel.css");
 @import url("r4-page-channel-player.css");

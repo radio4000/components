@@ -1,0 +1,52 @@
+r4-page-channel {
+	display: flex;
+	flex-direction: column;
+}
+r4-page-channel r4-channel-name {
+	font-size: var(--size-font-h1);
+	font-weight: bold;
+	text-align: center;
+}
+r4-page-channel r4-channel-slug,
+r4-page-channel r4-channel-coordinates {
+	text-align: center;
+}
+r4-page-channel r4-channel-description {
+	display: flex;
+	white-space: pre-wrap;
+	max-width: 50vw;
+	align-self: center;
+}
+r4-page-channel r4-channel-coordinates a {
+	font-size: var(--size-font-h3);
+	text-decoration: none;
+	padding: var(--size);
+}
+
+r4-page-channel r4-avatar {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+r4-page-channel r4-tracks {
+	align-self: center;
+}
+@container (min-width: 700px) {
+	r4-page-channel r4-tracks {
+		max-width: 50vw;
+	}
+}
+r4-page-channel r4-tracks ul {
+	list-style: none;
+}
+r4-page-channel r4-track a {
+	text-decoration: none;
+}
+r4-page-channel r4-track {
+	display: flex;
+	margin-bottom: var(--size);
+}
+r4-page-channel r4-track r4-track-title {
+	font-weight: bold;
+}

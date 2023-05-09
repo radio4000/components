@@ -1,0 +1,15 @@
+r4-page {
+	display: flex;
+	border: 1rem solid red;
+}
+r4-page-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: var(--size);
+}
+r4-page-header {
+	display: flex;
+	flex-direction: column;
+}

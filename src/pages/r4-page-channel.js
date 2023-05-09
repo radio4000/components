@@ -17,45 +17,50 @@ export default class R4PageChannel extends BaseChannel {
 		if (!channel) return html`<p>Loading...</p>`
 
 		return html`
-			<aside>
-				<a href=${this.channelOrigin + '/player'}>
-					<r4-avatar image=${channel.image}></r4-avatar>
-				</a>
-			</aside>
-			<aside>
+			<r4-page-actions>
 				<r4-channel-actions
 					slug=${channel.slug}
 					?can-edit=${this.canEdit}
 					@input=${this.onChannelAction}
 					></r4-channel-actions>
-				<r4-button-play .channel=${channel}></r4-button-play>
-			</aside>
-			<header>
-				<h1>${channel.name}</h1>
-				<p>${channel.description}</p>
-				<p>
-					@${channel.slug}
+
+				<r4-channel-coordinates>
 					${ this.coordinates? this.renderMap() : null}
-				</p>
-			</header>
-			<main>
-				<r4-tracks channel=${channel.slug} origin=${this.tracksOrigin} limit="5"></r4-tracks>
-			</main>
+				</r4-channel-coordinates>
+
+				<r4-button-play .channel=${channel}></r4-button-play>
+			</r4-page-actions>
+
+			<r4-page-header>
+				<r4-channel-name>${channel.name}</r4-channel-name>
+				<r4-channel-slug>
+					@${channel.slug}
+				</r4-channel-slug>
+
+				<r4-channel-description>${channel.description}</r4-channel-description>
+			</r4-page-header>
+
 			<aside>
-				<r4-dialog name="share" @close=${this.onDialogClose}>
-					<r4-channel-sharer
-						slot="dialog"
-						origin=${this.channelOrigin}
-						slug=${channel.slug}
-					></r4-channel-sharer>
-				</r4-dialog>
+				<a href=${this.channelOrigin + '/player'}>
+					<r4-avatar image=${channel.image}></r4-avatar>
+				</a>
 			</aside>
+
+			<r4-tracks channel=${channel.slug} origin=${this.tracksOrigin} limit="5"></r4-tracks>
+
+			<r4-dialog name="share" @close=${this.onDialogClose}>
+				<r4-channel-sharer
+					slot="dialog"
+					origin=${this.channelOrigin}
+					slug=${channel.slug}
+					></r4-channel-sharer>
+			</r4-dialog>
 		`
 	}
 
 	renderMap() {
 		const mapUrl = `${this.config.href}/map/?longitude=${this.coordinates.longitude}&latitude=${this.coordinates.latitude}&slug=${this.channel.slug}`
-		return html`(<a href=${mapUrl}>map</a>)`
+		return html`<a href=${mapUrl}>✵</a>`
 	}
 
 	/* event handlers from <r4-channel-actions> */
