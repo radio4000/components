@@ -8,6 +8,10 @@ r4-page-actions {
 	align-items: center;
 	justify-content: space-between;
 	margin-bottom: var(--size);
+	max-width: 60vw;
+	align-self: center;
+	flex-grow: 1;
+	width: 100%;
 }
 r4-page-header {
 	display: flex;

@@ -5,6 +5,12 @@ export default class R4PageChannelPlayer extends BaseChannel {
 	render() {
 		if (!this.channel) return
 		return html`
+			<r4-page-header>
+				<r4-channel-slug>
+					@${this.channel.slug}
+				</r4-channel-slug>
+			</r4-page-header>
+
 			<a href=${this.channelOrigin}>
 				<r4-avatar
 					slug=${this.channel.slug}

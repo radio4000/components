@@ -225,6 +225,7 @@ const stateDock = css`
 	top: 0;
 	left: 0;
 	background-color: var(--color-background);
+	z-index: 1;
 	}
 
 	@media (min-width: 700px) {
