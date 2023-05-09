@@ -37,6 +37,10 @@ export default class R4PageChannel extends BaseChannel {
 					@<a href=${this.channelOrigin}>${channel.slug}</a>
 				</r4-channel-slug>
 
+				<r4-channel-url>
+					<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
+				</r4-channel-url>
+
 				<r4-channel-description>${channel.description}</r4-channel-description>
 			</r4-page-header>
 

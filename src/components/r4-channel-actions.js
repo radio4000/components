@@ -68,11 +68,7 @@ export default class R4ChannelActions extends HTMLElement {
 			})
 			this.renderAsyncOption({
 				value: 'update',
-				text: 'Update',
-			})
-			this.renderAsyncOption({
-				value: 'delete',
-				text: 'Delete',
+				text: 'Settings',
 			})
 			this.didRenderAsync = true
 		}

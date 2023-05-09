@@ -8,6 +8,7 @@ r4-page-channel r4-channel-name {
 	text-align: center;
 }
 r4-page-channel r4-channel-slug,
+r4-page-channel r4-channel-url,
 r4-page-channel r4-channel-coordinates {
 	text-align: center;
 }
