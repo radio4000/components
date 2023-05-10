@@ -30,6 +30,10 @@ export default class R4App extends LitElement {
 		userChannels: {type: Array || null, state: true},
 		didLoad: {type: Boolean, state: true},
 		isPlaying: {type: Boolean, attribute: 'is-playing', reflects: true},
+
+		/* state for global usage */
+		store: {type: Object, state: true},
+		config: {type: Object, state: true},
 	}
 
 	// This gets passed to all r4-pages.
@@ -37,6 +41,8 @@ export default class R4App extends LitElement {
 		return {
 			user: this.user,
 			userChannels: this.userChannels,
+			followers: this.followers,
+			followings: this.followings,
 		}
 	}
 	set store(val) {
@@ -52,6 +58,15 @@ export default class R4App extends LitElement {
 	}
 	set config(val) {
 		// do nothing
+	}
+
+	get selectedChannel() {
+		if (
+			!this.config.selectedSlug ||
+			!this.store?.user ||
+			!this.store?.userChannels
+		) return null
+		return this.store.userChannels.find(c => c.slug === this.config.selectedSlug)
 	}
 
 	constructor() {
@@ -77,11 +92,6 @@ export default class R4App extends LitElement {
 			}
 
 			await this.refreshUserData()
-			if (this.store.userChannels) {
-				if (!this.config.selectedSlug) {
-					this.selectedSlug = this.store.userChannels[0].slug
-				}
-			}
 		})
 	}
 
@@ -92,10 +102,24 @@ export default class R4App extends LitElement {
 		const {data} = await sdk.supabase.auth.getSession()
 		this.user = data?.session?.user
 
+
 		if (this.user) {
+			// load user channels
 			const {data: channels} = await sdk.channels.readUserChannels()
 			this.userChannels = channels?.length ? channels : undefined
 			this.setupDatabaseListeners()
+
+			// load current channel followers/followings
+			if (!this.config.selectedSlug) {
+				this.selectedSlug = this.store.userChannels[0].slug
+			}
+			if (this.selectedChannel) {
+				const {data: followers} = await sdk.channels.readFollowers(this.selectedChannel.id)
+				const {data: followings} = await sdk.channels.readFollowings(this.selectedChannel.id)
+				this.followers = followers
+				this.followings = followings
+			}
+
 		} else {
 			this.userChannels = undefined
 		}
