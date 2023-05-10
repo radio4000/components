@@ -15,7 +15,6 @@
 	--color-card-background: var(--color-gray2);
 	--color-input-background: var(--color-gray2);
 	--color-button-background: var(--color-gray3);
-	/* --color-text: rgb(220 220 207); */
 	--color-text: #e8e8d3;
 	--color-link: var(--color-blue);
 	--color-border: transparent;
@@ -23,6 +22,9 @@
 
 [slot="menu"] a {
 	color: var(--green);
+}
+[slot="menu"] a:hover {
+	color: var(--color-link);
 }
 
 h1 {
@@ -43,7 +45,8 @@ r4-channel-card h1 + p {
 	margin-top: 0;
 }
 
-button:hover {
+button:hover,
+select:hover {
 	background: var(--color-link);
 }
 
