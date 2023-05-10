@@ -30,25 +30,24 @@ export default class R4PageChannel extends BaseChannel {
 
 		return html`
 		<menu>
-
 			<r4-page-actions>
-				<r4-channel-actions
-					slug=${channel.slug}
-					?can-edit=${this.canEdit}
-					@input=${this.onChannelAction}
-				></r4-channel-actions>
+				<r4-button-play .channel=${channel}></r4-button-play>
 
-				${this.followsYou ? html`<p>follows you</p>` : html`<p>doesn't follow you</p>`}
 				${this.alreadyFollowing ?
 					html`<button @click=${this.unfollow}>Unfollow</button>` :
 					html`<button @click=${this.follow}>Follow</button>`
 				}
+				${this.followsYou ? html`<p>follows you</p>` : html`<p>doesn't follow you</p>`}
 
 				<r4-channel-coordinates>
 					${ this.coordinates? this.renderMap() : null}
 				</r4-channel-coordinates>
 
-				<r4-button-play .channel=${channel}></r4-button-play>
+				<r4-channel-actions
+					slug=${channel.slug}
+					?can-edit=${this.canEdit}
+					@input=${this.onChannelAction}
+				></r4-channel-actions>
 			</r4-page-actions>
 
 			<r4-page-header>
