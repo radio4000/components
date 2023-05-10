@@ -22,7 +22,10 @@ export default class R4PageChannel extends BaseChannel {
 					slug=${channel.slug}
 					?can-edit=${this.canEdit}
 					@input=${this.onChannelAction}
-					></r4-channel-actions>
+				></r4-channel-actions>
+
+				${this.isFollower ? html`<p>is-follower</p>` : html`<p>not-follower</p>`}
+				${this.isFollowed ? html`<p>is-followed</p>` : html`<p>not-followed</p>`}
 
 				<r4-channel-coordinates>
 					${ this.coordinates? this.renderMap() : null}

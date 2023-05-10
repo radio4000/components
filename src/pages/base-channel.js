@@ -5,7 +5,10 @@ import {sdk} from '@radio4000/sdk'
 export default class BaseChannel extends LitElement {
 	static properties = {
 		channel: { type: Object, state: true },
-		canEdit: { type: Boolean, state: true },
+		canEdit: { type: Boolean, state: true, reflect: true },
+		isFollowing: { type: Boolean, state: true, reflect: true },
+		isFollower: { type: Boolean, state: true, reflect: true },
+
 		// from the router
 		params: { type: Object, state: true },
 		store: { type: Object, state: true },
@@ -24,10 +27,23 @@ export default class BaseChannel extends LitElement {
 		}
 	}
 
+	get isFollower() {
+		return (
+			this.store?.followers?.find(({slug}) => slug === this.params.slug)
+		)
+	}
+
+	get isFollowed() {
+		return (
+			this.store?.following?.find(({slug}) => slug === this.params.slug)
+		)
+	}
+
 	willUpdate(changedProperties) {
 		if (changedProperties.has('params')) {
 			this.setChannel()
 		}
+		console.log('base channel willUpdate', this.store, this.isAFollower, this.isBeingFollowed)
 	}
 
 	// Set channel from the slug in the URL.
