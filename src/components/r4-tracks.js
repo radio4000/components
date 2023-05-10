@@ -39,7 +39,7 @@ export default class R4Tracks extends R4List {
 	}
 
 	async attributeChangedCallback(attrName) {
-		super.attributeChangedCallback(attrName)
+		super.attributeChangedCallback(...arguments)
 		/* the slug changes, update the list */
 		if (['channel'].indexOf(attrName) > -1) {
 			await this.updateList()

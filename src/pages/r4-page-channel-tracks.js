@@ -6,6 +6,7 @@ export default class R4PageChannelTracks extends LitElement {
 	static properties = {
 		store: { type: Object, state: true },
 		params: { type: Object, state: true },
+		query: { type: Object, state: true },
 		config: { type: Object, state: true },
 
 		channel: { type: Object, reflect: true, state: true },
@@ -67,8 +68,10 @@ export default class R4PageChannelTracks extends LitElement {
 				<r4-tracks
 					channel=${channel.slug}
 					origin=${this.tracksOrigin}
-					limit="10"
+					limit=${this.query.limit || 10}
+					page=${this.query.page || 1}
 					pagination="true"
+					@r4-list=${this.onNavigateList}
 					></r4-tracks>
 			</main>
 		`
@@ -83,5 +86,22 @@ export default class R4PageChannelTracks extends LitElement {
 	/* no shadow dom */
 	createRenderRoot() {
 		return this
+	}
+
+	onNavigateList({detail}) {
+		/* `page` here, is usually globaly the "router", beware */
+		const {page: currentPage, limit, list} = detail
+		const newPageURL = new URL(window.location)
+
+		limit && newPageURL.searchParams.set('limit', limit)
+		currentPage && newPageURL.searchParams.set('page', currentPage)
+
+		if (window.location.href !== newPageURL.href) {
+			history.replaceState({}, window.title, newPageURL.href)
+			/*
+				 do not use page, as it would reload the initial html
+				 page(newPageURL.href)
+			 */
+		}
 	}
 }

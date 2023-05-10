@@ -78,10 +78,12 @@ export default class R4List extends HTMLElement {
 	}
 
 	/* if the attribute changed, re-render */
-	async attributeChangedCallback(attrName) {
+	async attributeChangedCallback(attrName, oldVal, newVal) {
 		/* the page changes, update the list */
 		if (['page', 'limit'].indexOf(attrName) > -1) {
-			await this.updateList()
+			if (oldVal !== newVal) {
+				await this.updateList()
+			}
 		}
 		/* the list of items changes, update the DOM */
 		if (['list'].indexOf(attrName) > -1) {
@@ -118,10 +120,20 @@ export default class R4List extends HTMLElement {
 		} else {
 			/* this.list = [] */
 		}
+
+		const listEvent = new CustomEvent('r4-list', {
+			bubbles: true,
+			detail: {
+				page: this.page,
+				limit: this.limit,
+				list: this.list,
+			}
+		})
+		this.dispatchEvent(listEvent)
 	}
 
 	/* browse the list (of data models) like it is paginated;
-	 components-attributes -> supbase-query */
+		 components-attributes -> supbase-query */
 	async browsePage({page, limit}) {
 		const { from, to, limitResults } = this.getBrowseParams({ page, limit })
 		return sdk.supabase
@@ -240,7 +252,6 @@ export default class R4List extends HTMLElement {
 			if (modelName) {
 				$li.innerText = `No more ${modelName}s`
 			} else if (modelElementName) {
-				console.log(this.itemTemplate)
 				$li.innerText = `No more ${modelElementName}`
 			}
 		} else {
