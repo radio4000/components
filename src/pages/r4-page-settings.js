@@ -41,7 +41,7 @@ export default class R4PageSettings extends LitElement {
 
 	async confirmAndDelete(event) {
 		event.preventDefault()
-		if (!window.confirm('Do you really want to delete your account?')) return
+		if (!window.confirm('Do you really want to delete your account, channels and tracks?')) return
 		if (!window.confirm('Are you certain? Your account, channels and tracks will be deleted. We can not recover them.')) return
 		const {error} = await sdk.users.deleteUser()
 		if (!error) {
