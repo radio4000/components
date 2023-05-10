@@ -70,6 +70,7 @@ export default defineConfig({
 				r4ChannelSharer: resolve(__dirname, 'examples/r4-channel-sharer/index.html'),
 				r4ChannelUpdate: resolve(__dirname, 'examples/r4-channel-update/index.html'),
 				r4ChannelFollowers: resolve(__dirname, 'examples/r4-channel-followers/index.html'),
+				r4ChannelFollowings: resolve(__dirname, 'examples/r4-channel-followings/index.html'),
 				r4Channels: resolve(__dirname, 'examples/r4-channels/index.html'),
 				r4Dialog: resolve(__dirname, 'examples/r4-dialog/index.html'),
 				r4Favicon: resolve(__dirname, 'examples/r4-favicon/index.html'),
