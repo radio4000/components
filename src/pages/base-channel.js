@@ -6,8 +6,8 @@ export default class BaseChannel extends LitElement {
 	static properties = {
 		channel: { type: Object, state: true },
 		canEdit: { type: Boolean, state: true, reflect: true },
-		isFollowing: { type: Boolean, state: true, reflect: true },
-		isFollower: { type: Boolean, state: true, reflect: true },
+		alreadyFollowing: { type: Boolean, state: true, reflect: true },
+		followsYou: { type: Boolean, state: true, reflect: true },
 
 		// from the router
 		params: { type: Object, state: true },
