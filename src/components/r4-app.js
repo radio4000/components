@@ -107,7 +107,6 @@ export default class R4App extends LitElement {
 			// load user channels
 			const {data: channels} = await sdk.channels.readUserChannels()
 			this.userChannels = channels?.length ? channels : undefined
-			this.setupDatabaseListeners()
 
 			// load current channel followers/followings
 			if (!this.config.selectedSlug) {
@@ -120,6 +119,11 @@ export default class R4App extends LitElement {
 				this.followings = followings
 			}
 
+			/* finally set the db listeners for changes in "user data";
+				 it needs to have access to all user state, and selectedChannel
+			 */
+			this.setupDatabaseListeners()
+
 		} else {
 			this.userChannels = undefined
 		}
@@ -130,6 +134,11 @@ export default class R4App extends LitElement {
 
 	// When this is run, `user` and `userChannels` can be undefined.
 	async setupDatabaseListeners() {
+		// always cleanup existing listeners
+		console.log('setup listeners')
+		console.log('setup cleaning listeners')
+		await this.removeDatabaseListeners()
+
 		if (this.userChannels) {
 			const userChannelIds = this.userChannels.map(c => c.id)
 			const userChannelsChanges = sdk.supabase.channel('user-channels-changes')
@@ -139,8 +148,9 @@ export default class R4App extends LitElement {
 				table: 'channels',
 				filter: `id=in.(${userChannelIds.join(',')})`,
 			}, (payload) => {
-					this.refreshUserData()
+				this.refreshUserData()
 			}).subscribe()
+			console.info('listen@user-channels-changes')
 		}
 
 		const userChannelEvents = sdk.supabase.channel('user-channels-events')
@@ -151,10 +161,29 @@ export default class R4App extends LitElement {
 			filter: `user_id=eq.${this.user.id}`,
 		}, async (payload) => {
 			if (payload.eventType === 'INSERT' || payload.eventType === 'DELETE') {
-				await this.removeDatabaseListeners()
+				/* need to remove listeners, because the userChannels changed
+					 (so to listen to changes in the new ones) */
 				await this.refreshUserData()
 			}
 		}).subscribe()
+		console.info('listen@user-channels-events')
+
+		if (this.selectedChannel?.id) {
+			console.table('id', this.selectedChannel?.id)
+			const userFavoriteEvents = sdk.supabase.channel('user-channel-favorites')
+			userFavoriteEvents.on('postgres_changes', {
+				event: '*',
+				schema: 'public',
+				table: 'followers',
+				filter: `follower_id=eq.${this.selectedChannel.id}`,
+			}, async (payload) => {
+				console.log('event@fav update', payload)
+				if (payload.eventType === 'INSERT' || payload.eventType === 'DELETE') {
+					await this.refreshUserData()
+				}
+			}).subscribe()
+			console.info('listen@user-channel-favorites')
+		}
 	}
 
 	async removeDatabaseListeners() {
