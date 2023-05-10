@@ -1,6 +1,7 @@
 import { html } from 'lit'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
+import {sdk} from '@radio4000/sdk'
 
 export default class R4PageChannel extends BaseChannel {
 	get coordinates() {
@@ -11,12 +12,34 @@ export default class R4PageChannel extends BaseChannel {
 			}
 		}
 	}
+
+	get alreadyFollowing() {
+		const followings = this.store.followings.map(c => c.channel_id.slug)
+		return followings.includes(this.channel.slug)
+	}
+
+	follow() {
+		const userChannel = this.store.userChannels.find(c => c.slug === this.config.selectedSlug)
+		return sdk.channels.followChannel(userChannel.id, this.channel.id)
+	}
+
+	unfollow() {
+		const userChannel = this.store.userChannels.find(c => c.slug === this.config.selectedSlug)
+		return sdk.channels.unfollowChannel(userChannel.id, this.channel.id)
+	}
+
 	render() {
 		const { channel } = this
 		if (channel === null) return html`<p>404 - There is no channel with this slug.</p>`
 		if (!channel) return html`<p>Loading...</p>`
 
 		return html`
+		<menu>
+			${this.alreadyFollowing ?
+				html`<button @click=${this.unfollow}>Unfollow</button>` :
+				html`<button @click=${this.follow}>Follow</button>`
+			}
+
 			<r4-page-actions>
 				<r4-channel-actions
 					slug=${channel.slug}
