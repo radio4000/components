@@ -21,7 +21,7 @@ export default class R4PageExplore extends LitElement {
 					@r4-list=${this.onNavigateList}
 					origin=${this.channelOrigin}
 					pagination="true"
-					limit=${this.query.limit || 15}
+					limit=${this.query.limit || 6}
 					page=${this.query.page || 1}
 				></r4-channels>
 			</section>
