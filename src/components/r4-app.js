@@ -172,7 +172,7 @@ export default class R4App extends LitElement {
 					<r4-route path="/sign/:method" page="sign"></r4-route>
 					<r4-route path="/" page="channel"></r4-route>
 					<r4-route path="/player" page="channel-player"></r4-route>
-					<r4-route path="/tracks" page="channel-tracks"></r4-route>
+					<r4-route path="/tracks" page="channel-tracks" query-params="page,limit"></r4-route>
 					<r4-route path="/tracks/:track_id" page="channel-track" query-params="slug,url"></r4-route>
 					<r4-route path="/add" page="add" query-params="url"></r4-route>
 					<r4-route path="/settings" page="settings"></r4-route>
@@ -186,7 +186,7 @@ export default class R4App extends LitElement {
 					.config=${this.config}
 					>
 					<r4-route path="/" page="home"></r4-route>
-					<r4-route path="/explore" page="explore"></r4-route>
+					<r4-route path="/explore" page="explore" query-params="page,limit"></r4-route>
 					<r4-route path="/sign" page="sign"></r4-route>
 					<r4-route path="/sign/:method" page="sign"></r4-route>
 					<r4-route path="/add" page="add" query-params="slug,url"></r4-route>
@@ -196,7 +196,7 @@ export default class R4App extends LitElement {
 					<r4-route path="/:slug" page="channel"></r4-route>
 					<r4-route path="/:slug/update" page="channel-update"></r4-route>
 					<r4-route path="/:slug/player" page="channel-player"></r4-route>
-					<r4-route path="/:slug/tracks" page="channel-tracks"></r4-route>
+					<r4-route path="/:slug/tracks" page="channel-tracks" query-params="page,limit"></r4-route>
 					<r4-route path="/:slug/tracks/:track_id" page="channel-track"></r4-route>
 				</r4-router>
 			`
