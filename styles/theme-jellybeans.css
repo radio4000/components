@@ -1,0 +1,69 @@
+/* Inspired by the Jellybeans programming color scheme theme. Dark only. */
+:root {
+	--color-red: rgb(188 108 81);
+	--color-green: rgb(128 156 111);
+	--color-blue: rgb(133 150 188);
+	--color-yellow: rgb(243 210 134);
+
+	--color-gray1: rgb(21 21 21);
+	--color-gray2: rgb(48 48 44);
+	--color-gray3: rgb(78 78 68);
+
+	--font-family: iosevka term, system-ui, sans-serif;
+	--color-background: var(--color-gray1);
+	--color-app-background: var(--color-gray2);
+	--color-card-background: var(--color-gray2);
+	--color-input-background: var(--color-gray2);
+	--color-button-background: var(--color-gray3);
+	--color-text: #e8e8d3;
+	--color-link: var(--color-blue);
+	--color-border: transparent;
+}
+
+[slot="menu"] a {
+	color: var(--green);
+}
+[slot="menu"] a:hover {
+	color: var(--color-link);
+}
+
+h1 {
+	font-size: 1.25rem;
+	margin: 0 0 1rem;
+}
+
+h1,
+h1 a {
+	color: var(--color-red);
+}
+
+r4-channel-card h1 {
+	margin-bottom: 0;
+}
+
+r4-channel-card h1 + p {
+	margin-top: 0;
+}
+
+button:hover,
+select:hover {
+	background: var(--color-link);
+}
+
+figure {
+	margin: 0 0 1rem;
+}
+
+/* Quick dark-mode for the player */
+r4-player radio4000-player {
+	background: var(--color-background);
+	color: var(--color-text);
+}
+r4-player radio4000-player .Layout .Header,
+r4-player radio4000-player .Layout .PlayerControl,
+r4-player radio4000-player .Layout .PlayerControl .Btn {
+	background: transparent;
+}
+r4-player radio4000-player .Layout .TrackItem {
+	color: inherit;
+}
