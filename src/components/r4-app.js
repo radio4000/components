@@ -186,7 +186,7 @@ export default class R4App extends LitElement {
 					.config=${this.config}
 					>
 					<r4-route path="/" page="home"></r4-route>
-					<r4-route path="/explore" page="explore"></r4-route>
+					<r4-route path="/explore" page="explore" query-params="page,limit"></r4-route>
 					<r4-route path="/sign" page="sign"></r4-route>
 					<r4-route path="/sign/:method" page="sign"></r4-route>
 					<r4-route path="/add" page="add" query-params="slug,url"></r4-route>
