@@ -27,23 +27,19 @@ export default class BaseChannel extends LitElement {
 		}
 	}
 
-	get isFollower() {
-		return (
-			this.store?.followers?.find(({slug}) => slug === this.params.slug)
-		)
+	get alreadyFollowing() {
+		return this.store.followings?.map(c => c.slug).includes(this.channel?.slug)
 	}
 
-	get isFollowed() {
-		return (
-			this.store?.following?.find(({slug}) => slug === this.params.slug)
-		)
+	get followsYou() {
+		return this.store.followers?.map(c => c.slug).includes(this.config.selectedSlug)
 	}
 
 	willUpdate(changedProperties) {
 		if (changedProperties.has('params')) {
 			this.setChannel()
 		}
-		console.log('base channel willUpdate', this.store, this.isAFollower, this.isBeingFollowed)
+		console.log('base channel willUpdate', this.alreadyFollowing, this.followsYou, this.store)
 	}
 
 	// Set channel from the slug in the URL.

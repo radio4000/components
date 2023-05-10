@@ -13,11 +13,6 @@ export default class R4PageChannel extends BaseChannel {
 		}
 	}
 
-	get alreadyFollowing() {
-		const followings = this.store.followings.map(c => c.channel_id.slug)
-		return followings.includes(this.channel.slug)
-	}
-
 	follow() {
 		const userChannel = this.store.userChannels.find(c => c.slug === this.config.selectedSlug)
 		return sdk.channels.followChannel(userChannel.id, this.channel.id)
@@ -35,10 +30,6 @@ export default class R4PageChannel extends BaseChannel {
 
 		return html`
 		<menu>
-			${this.alreadyFollowing ?
-				html`<button @click=${this.unfollow}>Unfollow</button>` :
-				html`<button @click=${this.follow}>Follow</button>`
-			}
 
 			<r4-page-actions>
 				<r4-channel-actions
@@ -47,8 +38,11 @@ export default class R4PageChannel extends BaseChannel {
 					@input=${this.onChannelAction}
 				></r4-channel-actions>
 
-				${this.isFollower ? html`<p>is-follower</p>` : html`<p>not-follower</p>`}
-				${this.isFollowed ? html`<p>is-followed</p>` : html`<p>not-followed</p>`}
+				${this.followsYou ? html`<p>follows you</p>` : html`<p>doesn't follow you</p>`}
+				${this.alreadyFollowing ?
+					html`<button @click=${this.unfollow}>Unfollow</button>` :
+					html`<button @click=${this.follow}>Follow</button>`
+				}
 
 				<r4-channel-coordinates>
 					${ this.coordinates? this.renderMap() : null}
