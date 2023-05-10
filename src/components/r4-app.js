@@ -28,6 +28,8 @@ export default class R4App extends LitElement {
 		/* state */
 		user: {type: Object, state: true},
 		userChannels: {type: Array || null, state: true},
+		followers: {type: Array || null, state: true},
+		followings: {type: Array || null, state: true},
 		didLoad: {type: Boolean, state: true},
 		isPlaying: {type: Boolean, attribute: 'is-playing', reflects: true},
 
