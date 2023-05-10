@@ -12,6 +12,17 @@ r4-page-channel r4-channel-url,
 r4-page-channel r4-channel-coordinates {
 	text-align: center;
 }
+r4-channel-url a {
+	word-break: break-all;
+	display: inline-flex;
+	padding: calc(var(--size) / 4);
+}
+@container (min-width: 700px) {
+	r4-channel-url {
+		max-width: 70vw;
+		align-self: center;
+	}
+}
 r4-page-channel r4-channel-description {
 	display: flex;
 	white-space: pre-wrap;
