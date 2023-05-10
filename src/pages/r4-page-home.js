@@ -22,7 +22,7 @@ export default class R4PageHome extends LitElement {
 				${this.store?.userChannels?.length ? html`
 					<section>
 						<h2>Your channel follows:</h2>
-						${this.store?.followings?.map(({following_channel_id: channel}) => this.renderChannelCard(channel, this.config.href))}
+						${this.store?.followings?.map(({channel_id: channel}) => this.renderChannelCard(channel, this.config.href))}
 					</section>
 		` : null}
 			</main>
