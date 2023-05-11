@@ -114,6 +114,7 @@ export default class R4App extends LitElement {
 			if (!this.config.selectedSlug) {
 				this.selectedSlug = this.store.userChannels[0].slug
 			}
+
 			if (this.selectedChannel) {
 				const {data: followers} = await sdk.channels.readFollowers(this.selectedChannel.id)
 				const {data: followings} = await sdk.channels.readFollowings(this.selectedChannel.id)
@@ -128,6 +129,8 @@ export default class R4App extends LitElement {
 
 		} else {
 			this.userChannels = undefined
+			this.followers = undefined
+			this.followings = undefined
 		}
 
 		this.didLoad = true
