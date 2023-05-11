@@ -14,11 +14,13 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	follow() {
+		if (!this.store.user || !this.store.userChannels) return
 		const userChannel = this.store.userChannels.find(c => c.slug === this.config.selectedSlug)
 		return sdk.channels.followChannel(userChannel.id, this.channel.id)
 	}
 
 	unfollow() {
+		if (!this.store.user || !this.store.userChannels) return
 		const userChannel = this.store.userChannels.find(c => c.slug === this.config.selectedSlug)
 		return sdk.channels.unfollowChannel(userChannel.id, this.channel.id)
 	}

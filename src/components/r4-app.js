@@ -4,9 +4,6 @@ import {sdk} from '@radio4000/sdk'
 import page from 'page/page.mjs'
 import '../pages/'
 
-// https://github.com/visionmedia/page.js/issues/537
-/* page.configure({ window: window }) */
-
 export default class R4App extends LitElement {
 	playerRef = createRef()
 
@@ -140,8 +137,6 @@ export default class R4App extends LitElement {
 	// When this is run, `user` and `userChannels` can be undefined.
 	async setupDatabaseListeners() {
 		// always cleanup existing listeners
-		console.log('setup listeners')
-		console.log('setup cleaning listeners')
 		await this.removeDatabaseListeners()
 
 		if (this.userChannels) {
@@ -155,7 +150,6 @@ export default class R4App extends LitElement {
 			}, (payload) => {
 				this.refreshUserData()
 			}).subscribe()
-			console.info('listen@user-channels-changes')
 		}
 
 		const userChannelEvents = sdk.supabase.channel('user-channels-events')
@@ -171,10 +165,8 @@ export default class R4App extends LitElement {
 				await this.refreshUserData()
 			}
 		}).subscribe()
-		console.info('listen@user-channels-events')
 
 		if (this.selectedChannel?.id) {
-			console.table('id', this.selectedChannel?.id)
 			const userFavoriteEvents = sdk.supabase.channel('user-channel-favorites')
 			userFavoriteEvents.on('postgres_changes', {
 				event: '*',
@@ -187,12 +179,10 @@ export default class R4App extends LitElement {
 					await this.refreshUserData()
 				}
 			}).subscribe()
-			console.info('listen@user-channel-favorites')
 		}
 	}
 
 	async removeDatabaseListeners() {
-		console.log('removing database listeners')
 		return sdk.supabase.removeAllChannels()
 	}
 

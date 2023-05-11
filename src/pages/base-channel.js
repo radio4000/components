@@ -33,10 +33,12 @@ export default class BaseChannel extends LitElement {
 	}
 
 	get alreadyFollowing() {
+		if (!this.store.user) return
 		return this.store.followings?.map(c => c.slug).includes(this.channel?.slug)
 	}
 
 	get followsYou() {
+		if (!this.store.user) return
 		return this.store.followers?.map(c => c.slug).includes(this.config.selectedSlug)
 	}
 

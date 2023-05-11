@@ -1,6 +1,7 @@
 import { html, LitElement } from 'lit'
 import { until } from 'lit/directives/until.js'
 import {sdk} from '@radio4000/sdk'
+import page from 'page/page.mjs'
 
 export default class R4PageChannelTracks extends LitElement {
 	static properties = {
@@ -97,11 +98,7 @@ export default class R4PageChannelTracks extends LitElement {
 		currentPage && newPageURL.searchParams.set('page', currentPage)
 
 		if (window.location.href !== newPageURL.href) {
-			history.replaceState({}, window.title, newPageURL.href)
-			/*
-				 do not use page, as it would reload the initial html
-				 page(newPageURL.href)
-			 */
+			page(newPageURL.pathname + newPageURL.search)
 		}
 	}
 }
