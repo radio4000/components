@@ -16,6 +16,8 @@ import R4ChannelCreate from './r4-channel-create.js'
 import R4ChannelDelete from './r4-channel-delete.js'
 import R4ChannelSharer from './r4-channel-sharer.js'
 import R4ChannelUpdate from './r4-channel-update.js'
+import R4ChannelFollowers from './r4-channel-followers.js'
+import R4ChannelFollowings from './r4-channel-followings.js'
 import R4Channels from './r4-channels.js'
 import R4Dialog from './r4-dialog.js'
 import R4Favicon from './r4-favicon.js'
@@ -55,6 +57,8 @@ customElements.define('r4-channel-create', R4ChannelCreate)
 customElements.define('r4-channel-delete', R4ChannelDelete)
 customElements.define('r4-channel-sharer', R4ChannelSharer)
 customElements.define('r4-channel-update', R4ChannelUpdate)
+customElements.define('r4-channel-followers', R4ChannelFollowers)
+customElements.define('r4-channel-followings', R4ChannelFollowings)
 customElements.define('r4-channels', R4Channels)
 customElements.define('r4-dialog', R4Dialog)
 customElements.define('r4-favicon', R4Favicon)
@@ -94,6 +98,8 @@ export default {
 	R4ChannelDelete,
 	R4ChannelSharer,
 	R4ChannelUpdate,
+	R4ChannelFollowers,
+	R4ChannelFollowings,
 	R4Channels,
 	R4Dialog,
 	R4Favicon,

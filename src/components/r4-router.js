@@ -2,6 +2,9 @@ import { LitElement, render } from 'lit'
 import {html, literal, unsafeStatic} from 'lit/static-html.js'
 import page from 'page/page.mjs'
 
+// https://github.com/visionmedia/page.js/issues/537
+page.configure({ window: window })
+
 export default class R4Router extends LitElement {
 	static properties = {
 		/* props attribute */
@@ -13,9 +16,9 @@ export default class R4Router extends LitElement {
 	get pathname() {
 		const href = this.config.href || window.location.href
 		let name = new URL(href).pathname
-		if (name.endsWith('/')) {
-			name = name.slice(0, name.length - 1)
-		}
+		/* if (name.endsWith('/')) {
+			 name = name.slice(0, name.length - 1)
+			 } */
 		return name
 	}
 
@@ -29,7 +32,8 @@ export default class R4Router extends LitElement {
 	}
 
 	handleFirstUrl() {
-		page(window.location)
+		const initialURL = new URL(window.location.href)
+		page(initialURL.pathname + initialURL.search)
 	}
 
 	setupRouter() {
@@ -47,7 +51,7 @@ export default class R4Router extends LitElement {
 	}
 
 	setupRoute($route) {
-		page($route.getAttribute('path'), this.parseQuery, (ctx, next) => this.renderRoute($route, ctx))
+		page($route.getAttribute('path'), this.parseQuery.bind(this), (ctx, next) => this.renderRoute($route, ctx))
 		page.exit($route.getAttribute('path'), (ctx, next) => this.unrenderRoute($route, ctx, next))
 	}
 
@@ -84,6 +88,7 @@ export default class R4Router extends LitElement {
 	}
 
 	render() {
+		if (!this.pageName) return
 		const tag = literal`r4-page-${unsafeStatic(this.pageName)}`
 		const $pageDom = html`
 			<${tag} .store=${this.store} .config=${this.config} .query=${this.query} .params=${this.params}></${tag}>

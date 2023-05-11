@@ -1,4 +1,5 @@
 import {html, LitElement} from 'lit'
+import page from 'page/page.mjs'
 
 export default class R4PageExplore extends LitElement {
 	static properties = {
@@ -40,7 +41,7 @@ export default class R4PageExplore extends LitElement {
 		currentPage && newPageURL.searchParams.set('page', currentPage)
 
 		if (window.location.href !== newPageURL.href) {
-			history.replaceState({}, window.title, newPageURL.href)
+			page(newPageURL.pathname + newPageURL.search)
 		}
 	}
 }
