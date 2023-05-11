@@ -19,6 +19,11 @@ export default class BaseChannel extends LitElement {
 		return this.config.singleChannel ? this.config.href : `${this.config.href}/${this.channel.slug}`
 	}
 
+	buildChannelHref(channel) {
+		return `${this.config.href}/${channel.slug}`
+	}
+
+
 	get tracksOrigin() {
 		if (this.config.singleChannel) {
 			return this.config.href + '/tracks/{{id}}'
@@ -39,7 +44,6 @@ export default class BaseChannel extends LitElement {
 		if (changedProperties.has('params')) {
 			this.setChannel()
 		}
-		console.log('base channel willUpdate', this.alreadyFollowing, this.followsYou, this.store)
 	}
 
 	// Set channel from the slug in the URL.

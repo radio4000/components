@@ -229,6 +229,8 @@ export default class R4App extends LitElement {
 					<r4-route path="/player" page="channel-player"></r4-route>
 					<r4-route path="/tracks" page="channel-tracks" query-params="page,limit"></r4-route>
 					<r4-route path="/tracks/:track_id" page="channel-track" query-params="slug,url"></r4-route>
+					<r4-route path="//followers" page="channel-followers" query-params="page,limit"></r4-route>
+					<r4-route path="/followings" page="channel-followings" query-params="page,limit"></r4-route>
 					<r4-route path="/add" page="add" query-params="url"></r4-route>
 					<r4-route path="/settings" page="settings"></r4-route>
 				</r4-router>
@@ -253,6 +255,8 @@ export default class R4App extends LitElement {
 					<r4-route path="/:slug/player" page="channel-player"></r4-route>
 					<r4-route path="/:slug/tracks" page="channel-tracks" query-params="page,limit"></r4-route>
 					<r4-route path="/:slug/tracks/:track_id" page="channel-track"></r4-route>
+					<r4-route path="/:slug/followers" page="channel-followers" query-params="page,limit"></r4-route>
+					<r4-route path="/:slug/followings" page="channel-followings" query-params="page,limit"></r4-route>
 				</r4-router>
 			`
 		}

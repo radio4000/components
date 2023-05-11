@@ -76,9 +76,9 @@ export default class R4PageChannel extends BaseChannel {
 					slot="dialog"
 					origin=${this.channelOrigin}
 					slug=${channel.slug}
-					></r4-channel-sharer>
-			</r4-dialog>
-		`
+	></r4-channel-sharer>
+	</r4-dialog>
+	`
 	}
 
 	renderMap() {
@@ -115,6 +115,12 @@ export default class R4PageChannel extends BaseChannel {
 			if (detail === 'update') {
 				page(`/${this.params.slug}/update`)
 			}
+			if (detail === 'followings') {
+				page(`/${this.params.slug}/followings`)
+			}
+			if (detail === 'followers') {
+				page(`/${this.params.slug}/followers`)
+			}
 			if (['share'].indexOf(detail) > -1) {
 				this.openDialog(detail)
 			}
@@ -141,7 +147,7 @@ export default class R4PageChannel extends BaseChannel {
 
 	closeDialog(name) {
 		const $dialog = this.querySelector(`r4-dialog[name="${name}"]`)
-		if ($dialog) {
+	if ($dialog) {
 			$dialog.removeAttribute('visible')
 		}
 	}
