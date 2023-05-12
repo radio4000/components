@@ -28,6 +28,7 @@
     "radio4000-player": "^0.6.24"
   },
   "devDependencies": {
+    "prettier": "^2.8.8",
     "vite": "^4.2.1",
     "vite-plugin-static-copy": "^0.14.0"
   },
