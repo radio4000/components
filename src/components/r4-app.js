@@ -291,7 +291,7 @@ export default class R4App extends LitElement {
 									html`<a href=${href + '/new'}>Create channel</a>` :
 									this.userChannels.length === 1 ?
 										html`<a href=${`${href}/${this.userChannels[0].slug}`}>${this.userChannels[0].name}</a>` :
-										html`<r4-user-channels-select @input=${this.onChannelSelect} .channels=${userChannels} />`
+										html`<r4-user-channels-select @input=${this.onChannelSelect} .channels=${userChannels}></r4-user-channels-select>`
 							}
 						</span>
 					</r4-auth-status>

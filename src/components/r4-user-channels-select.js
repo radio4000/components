@@ -33,9 +33,7 @@ export default class R4UserChannelsSelect extends HTMLElement {
 		}
 	}
 
-	constructor() {
-		super()
-
+	connectedCallback() {
 		supabase.auth.onAuthStateChange(this.onAuthStateChange.bind(this))
 
 		this.$select = document.createElement('select')
@@ -57,9 +55,7 @@ export default class R4UserChannelsSelect extends HTMLElement {
 		this.$select.append(this.$channelsOptgroup)
 
 		this.append(this.$select)
-	}
 
-	connectedCallback() {
 		if (this.channels && this.channels.length) {
 			this.refreshOptions(this.channels[0].slug)
 		} else {
