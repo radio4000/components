@@ -12,6 +12,7 @@ export default class R4Search extends LitElement {
 		value: { type: String, reflect: true },
 		table: { type: String, reflect: true },
 		results: { type: Array },
+		href: { type: String, reflect: true },
 	}
 
 	onSubmit(event) {
@@ -84,7 +85,7 @@ export class R4TrackSearch extends R4Search {
 	}
 
 	renderResult(item, index) {
-		const href = window.location + `${item.channel_id.slug}/tracks/${item.track_id.id}`
+		const href = this.href + `/${item.channel_id.slug}/tracks/${item.track_id.id}`
 		return html` ${index}.
 			<a href=${href}>${item.track_id.title}</a>
 			<small>${item.track_id.description}</small> (from ${item.channel_id.slug})`
