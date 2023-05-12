@@ -69,6 +69,16 @@ export default class R4Search extends LitElement {
 	}
 }
 
+export class R4ChannelSearch extends R4Search {
+	label = 'Search channels'
+	query(value) {
+		return sdk.supabase.from('channels').select().textSearch('fts', `'${value}':*`)
+	}
+	renderResult(item) {
+		return html`<r4-channel-card .channel="${item}"></r4-channel-card>`
+	}
+}
+
 export class R4TrackSearch extends R4Search {
 	label = 'Search tracks'
 
@@ -84,7 +94,7 @@ export class R4TrackSearch extends R4Search {
 			`
 		)
 		if (this.slug) query = query.eq('channel_id.slug', this.slug)
-		return query.textSearch('track_id.fts', `'${value}'`)
+		return query.textSearch('track_id.fts', `'${value}':*`)
 	}
 
 	renderResult(item, index) {
@@ -95,12 +105,3 @@ export class R4TrackSearch extends R4Search {
 	}
 }
 
-export class R4ChannelSearch extends R4Search {
-	label = 'Search channels'
-	query(value) {
-		return sdk.supabase.from('channels').select().textSearch('fts', `'${value}'`)
-	}
-	renderResult(item) {
-		return html`<r4-channel-card .channel="${item}"></r4-channel-card>`
-	}
-}
