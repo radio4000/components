@@ -91,8 +91,7 @@ export default class R4List extends HTMLElement {
 		}
 	}
 
-	constructor() {
-		super()
+	connectedCallback() {
 		this.append(template.content.cloneNode(true))
 		this.$list = this.querySelector('[name="list"')
 		this.$pagination = this.querySelector('[name="pagination"')
@@ -103,11 +102,7 @@ export default class R4List extends HTMLElement {
 		if (!this.itemTemplate) {
 			this.itemTemplate = this.querySelector('template')
 		}
-	}
-
-	/* set loading */
-	async connectedCallback() {
-		await this.updateList()
+		this.updateList()
 	}
 
 	async updateList() {
