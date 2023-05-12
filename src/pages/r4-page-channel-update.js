@@ -1,7 +1,7 @@
 import { html } from 'lit'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
-import {sdk} from '@radio4000/sdk'
+import { sdk } from '@radio4000/sdk'
 
 export default class R4PageChannelUpdate extends BaseChannel {
 	render() {
@@ -10,7 +10,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		if (!channel) return html`<p>Loading...</p>`
 		// if (!this.canEdit) return html`<p>You don't have permission to edit this channel.</p>`
 
-		const currentUserChannel = this.store.userChannels.find(channel => {
+		const currentUserChannel = this.store.userChannels.find((channel) => {
 			return channel.id === this.channel.id
 		})
 
@@ -39,13 +39,13 @@ export default class R4PageChannelUpdate extends BaseChannel {
 					longitude=${currentUserChannel.longitude}
 					latitude=${currentUserChannel.latitude}
 				></r4-map-position>
-				<br/>
+				<br />
 				<details>
 					<summary>Delete channel</summary>
 					<r4-channel-delete id=${currentUserChannel.id} @submit=${this.onChannelDelete}></r4-channel-delete>
 				</details>
 			</main>
-				`
+		`
 	}
 
 	async onChannelDelete({ detail }) {
@@ -68,9 +68,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		}
 	}
 
-	async onMapSubmit({
-		detail
-	}) {
+	async onMapSubmit({ detail }) {
 		const channelId = this.channel.id
 		if (!channelId) return
 
@@ -87,7 +85,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 					latitude: null,
 				})
 			}
-		} catch(error) {
+		} catch (error) {
 			console.log('error saving map data', error)
 		}
 	}

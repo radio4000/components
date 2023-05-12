@@ -75,7 +75,10 @@ export default class R4App extends LitElement {
 	async connectedCallback() {
 		super.connectedCallback()
 
+		// is the app running in "single visible channel" mode?
 		this.singleChannel = this.getAttribute('single-channel')
+
+		// which channel is currently selected in UI (or forced as single visible one)
 		this.selectedSlug = this.getAttribute('channel')
 
 		sdk.supabase.auth.onAuthStateChange(async (event, session) => {
@@ -174,7 +177,6 @@ export default class R4App extends LitElement {
 				table: 'followers',
 				filter: `follower_id=eq.${this.selectedChannel.id}`,
 			}, async (payload) => {
-				console.log('event@fav update', payload)
 				if (payload.eventType === 'INSERT' || payload.eventType === 'DELETE') {
 					await this.refreshUserData()
 				}
@@ -322,7 +324,7 @@ export default class R4App extends LitElement {
 			<menu>
 				<li>
 					<a href=${this.config.href}>
-						${this.selectedSlug}
+						${this.config.selectedSlug ? this.config.selectedSlug : html`<r4-title small></r4-title>`}
 					</a>
 				</li>
 				<li>

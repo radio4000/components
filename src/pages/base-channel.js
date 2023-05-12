@@ -50,8 +50,13 @@ export default class BaseChannel extends LitElement {
 
 	// Set channel from the slug in the URL.
 	async setChannel() {
-		this.channel = (await sdk.channels.readChannel(this.params.slug)).data
-		this.canEdit = await sdk.channels.canEditChannel(this.params.slug)
+		if (this.config.singleChannel && this.config.selectedSlug) {
+			this.channel = (await sdk.channels.readChannel(this.config.selectedSlug)).data
+			this.canEdit = await sdk.channels.canEditChannel(this.config.selectedSlug)
+		} else {
+			this.channel = (await sdk.channels.readChannel(this.params.slug)).data
+			this.canEdit = await sdk.channels.canEditChannel(this.params.slug)
+		}
 	}
 
 	render() {

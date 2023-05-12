@@ -1,7 +1,7 @@
 import { html } from 'lit'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
-import {sdk} from '@radio4000/sdk'
+import { sdk } from '@radio4000/sdk'
 
 export default class R4PageChannel extends BaseChannel {
 	get coordinates() {
@@ -15,13 +15,13 @@ export default class R4PageChannel extends BaseChannel {
 
 	follow() {
 		if (!this.store.user || !this.store.userChannels) return
-		const userChannel = this.store.userChannels.find(c => c.slug === this.config.selectedSlug)
+		const userChannel = this.store.userChannels.find((c) => c.slug === this.config.selectedSlug)
 		return sdk.channels.followChannel(userChannel.id, this.channel.id)
 	}
 
 	unfollow() {
 		if (!this.store.user || !this.store.userChannels) return
-		const userChannel = this.store.userChannels.find(c => c.slug === this.config.selectedSlug)
+		const userChannel = this.store.userChannels.find((c) => c.slug === this.config.selectedSlug)
 		return sdk.channels.unfollowChannel(userChannel.id, this.channel.id)
 	}
 
@@ -31,32 +31,28 @@ export default class R4PageChannel extends BaseChannel {
 		if (!channel) return html`<p>Loading...</p>`
 
 		return html`
-		<menu>
-			<r4-page-actions>
-				<r4-button-play .channel=${channel}></r4-button-play>
+			<menu>
+				<r4-page-actions>
+					<r4-button-play .channel=${channel}></r4-button-play>
 
-				${this.alreadyFollowing ?
-					html`<button @click=${this.unfollow}>Unfollow</button>` :
-					html`<button @click=${this.follow}>Follow</button>`
-				}
-				${this.followsYou ? html`<p>follows you</p>` : html`<p>doesn't follow you</p>`}
+					${this.alreadyFollowing
+						? html`<button @click=${this.unfollow}>Unfollow</button>`
+						: html`<button @click=${this.follow}>Follow</button>`}
+					${this.followsYou ? html`<p>follows you</p>` : html`<p>doesn't follow you</p>`}
 
-				<r4-channel-coordinates>
-					${ this.coordinates? this.renderMap() : null}
-				</r4-channel-coordinates>
+					<r4-channel-coordinates> ${this.coordinates ? this.renderMap() : null} </r4-channel-coordinates>
 
-				<r4-channel-actions
-					slug=${channel.slug}
-					?can-edit=${this.canEdit}
-					@input=${this.onChannelAction}
-				></r4-channel-actions>
-			</r4-page-actions>
+					<r4-channel-actions
+						slug=${channel.slug}
+						?can-edit=${this.canEdit}
+						@input=${this.onChannelAction}
+					></r4-channel-actions>
+				</r4-page-actions>
+			</menu>
 
 			<r4-page-header>
 				<r4-channel-name>${channel.name}</r4-channel-name>
-				<r4-channel-slug>
-					@<a href=${this.channelOrigin}>${channel.slug}</a>
-				</r4-channel-slug>
+				<r4-channel-slug> @<a href=${this.channelOrigin}>${channel.slug}</a> </r4-channel-slug>
 
 				<r4-channel-url>
 					<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
@@ -74,13 +70,9 @@ export default class R4PageChannel extends BaseChannel {
 			<r4-tracks channel=${channel.slug} origin=${this.tracksOrigin} limit="5"></r4-tracks>
 
 			<r4-dialog name="share" @close=${this.onDialogClose}>
-				<r4-channel-sharer
-					slot="dialog"
-					origin=${this.channelOrigin}
-					slug=${channel.slug}
-	></r4-channel-sharer>
-	</r4-dialog>
-	`
+				<r4-channel-sharer slot="dialog" origin=${this.channelOrigin} slug=${channel.slug}></r4-channel-sharer>
+			</r4-dialog>
+		`
 	}
 
 	renderMap() {
@@ -149,7 +141,7 @@ export default class R4PageChannel extends BaseChannel {
 
 	closeDialog(name) {
 		const $dialog = this.querySelector(`r4-dialog[name="${name}"]`)
-	if ($dialog) {
+		if ($dialog) {
 			$dialog.removeAttribute('visible')
 		}
 	}
