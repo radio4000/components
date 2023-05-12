@@ -56,9 +56,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 	}
 
 	async onChannelUpdate({ detail }) {
-		const {
-			data: { slug: newSlug },
-		} = ({} = detail)
+		const {data: { slug: newSlug }} = ({} = detail)
 
 		if (newSlug && newSlug !== this.params.slug) {
 			page(`/${newSlug}`)

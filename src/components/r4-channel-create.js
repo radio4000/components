@@ -56,11 +56,11 @@ export default class R4ChannelCreate extends R4Form {
 		const channel = this.state
 		let res = {}
 		try {
-			const {data: user} = await readUser()
+			const {data: user} = await sdk.users.readUser()
 			if (!user) {
 				throw { code: 'sign-in' }
 			}
-			res = await createChannel({
+			res = await sdk.channels.createChannel({
 				name: channel.name,
 				slug: channel.slug,
 				userId: user.id,

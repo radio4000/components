@@ -28,7 +28,7 @@ export default class R4Dialog extends HTMLElement {
 	}
 
 	/* if the attribute changed, re-render */
-	attributeChangedCallback(attrName, newVal) {
+	attributeChangedCallback(attrName) {
 		if (['visible'].indexOf(attrName) > -1) {
 			this.toggleDialog()
 		}
@@ -60,7 +60,7 @@ export default class R4Dialog extends HTMLElement {
 	}
 	toggleDialog() {
 		if (this.visible) {
- 			this.$dialog.showModal()
+			this.$dialog.showModal()
 		} else {
 			this.$close.click()
 		}

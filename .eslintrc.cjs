@@ -4,7 +4,7 @@ module.exports = {
         "es2021": true
     },
     "extends": [
-			// 'eslint:recommended',
+			'eslint:recommended',
 			'plugin:wc/recommended',
 			'plugin:lit/recommended',
 		],
@@ -15,5 +15,6 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
+			"no-unused-vars": "warn",
     }
 }

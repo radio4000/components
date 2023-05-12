@@ -32,7 +32,7 @@ export default class R4PageSettings extends LitElement {
 	async changePassword(event) {
 		event.preventDefault()
 		const password = event.target.password.value
-		const { data, error } = await sdk.supabase.auth.updateUser({password})
+		const {error} = await sdk.supabase.auth.updateUser({password})
 		this.changePassword.msg = error ? 'Could not update password' : 'Password updated!'
 		if (error) {
 			console.log('error changing password', error)

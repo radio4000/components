@@ -1,6 +1,5 @@
 import { LitElement, html } from 'lit'
 import {ref, createRef} from 'lit/directives/ref.js';
-import {sdk} from '@radio4000/sdk'
 import {
 	initMap,
 	initMapOnClick,

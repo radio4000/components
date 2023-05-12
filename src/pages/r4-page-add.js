@@ -29,9 +29,9 @@ export default class R4PageAdd extends LitElement {
 			return this.config.selectedSlug
 		}
 	}
-	set selectedSlug(val) {
-		return val
-	}
+	// set selectedSlug(val) {
+	// 	return val
+	// }
 
 	async connectedCallback() {
 		super.connectedCallback()

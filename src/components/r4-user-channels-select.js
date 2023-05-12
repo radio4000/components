@@ -34,7 +34,7 @@ export default class R4UserChannelsSelect extends HTMLElement {
 	}
 
 	connectedCallback() {
-		supabase.auth.onAuthStateChange(this.onAuthStateChange.bind(this))
+		sdk.supabase.auth.onAuthStateChange(this.onAuthStateChange.bind(this))
 
 		this.$select = document.createElement('select')
 		this.$select.addEventListener('input', this.onInput.bind(this))
@@ -85,7 +85,7 @@ export default class R4UserChannelsSelect extends HTMLElement {
 	}
 
 	async refreshUserChannels() {
-		const { data: user } = await readUser()
+		const { data: user } = await sdk.users.readUser()
 		if (user) {
 			const {
 				error,

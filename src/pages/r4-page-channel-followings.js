@@ -1,19 +1,18 @@
-import { html, LitElement } from 'lit'
-import { until } from 'lit/directives/until.js'
-import {sdk} from '@radio4000/sdk'
+import {html} from 'lit'
+import {until} from 'lit/directives/until.js'
 import BaseChannel from './base-channel'
 import page from 'page/page.mjs'
 
 export default class R4PageChannelFollowings extends BaseChannel {
 	render() {
-		return html`${
-			until(
-				Promise.resolve(this.channel).then((channel) => {
+		return html`${until(
+			Promise.resolve(this.channel)
+				.then((channel) => {
 					return channel ? this.renderPage(channel) : this.renderNoPage()
-				}).catch(() => this.renderNoPage()),
-				this.renderLoading()
-			)
-		}`
+				})
+				.catch(() => this.renderNoPage()),
+			this.renderLoading()
+		)}`
 	}
 
 	renderPage(channel) {
@@ -33,7 +32,7 @@ export default class R4PageChannelFollowings extends BaseChannel {
 					page=${this.query.page || 1}
 					pagination="true"
 					@r4-list=${this.onNavigateList}
-					></r4-channel-followings>
+				></r4-channel-followings>
 			</main>
 		`
 	}
