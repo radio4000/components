@@ -12,7 +12,12 @@ export default class R4Search extends LitElement {
 		value: { type: String, reflect: true },
 		table: { type: String, reflect: true },
 		results: { type: Array },
+
+		// To construct a link that works where this component is used
 		href: { type: String, reflect: true },
+
+		// Only needed for r4-track-search
+		slug: { type: String, reflect: true },
 	}
 
 	onSubmit(event) {
@@ -27,7 +32,6 @@ export default class R4Search extends LitElement {
 		if (value.length < 2) return
 		// Query and set results
 		const res = await this.query(value)
-		console.log('Seaching', value, res)
 		this.results = res.data ?? []
 	}
 
@@ -69,10 +73,8 @@ export class R4TrackSearch extends R4Search {
 	label = 'Search tracks'
 
 	query(value) {
-		return sdk.supabase
-			.from('channel_track')
-			.select(
-				`
+		let query = sdk.supabase.from('channel_track').select(
+			`
 				channel_id!inner(
 					slug
 				),
@@ -80,8 +82,9 @@ export class R4TrackSearch extends R4Search {
 					id, title, description, tags, mentions, fts
 				)
 			`
-			)
-			.textSearch('track_id.fts', `'${value}'`)
+		)
+		if (this.slug) query = query.eq('channel_id.slug', this.slug)
+		return query.textSearch('track_id.fts', `'${value}'`)
 	}
 
 	renderResult(item, index) {
