@@ -19,15 +19,19 @@
 		<p>Also see <a href="/examples/r4-channel-search/">r4-channel-search</a></p>
 
 		<script>
+			const params = new URLSearchParams(window.location.search)
+			const value = params.get('value')
+			const slug = params.get('slug')
+
 			const $search = document.querySelector('r4-track-search')
 			const $search2 = document.querySelector('r4-track-search[slug]')
 
-			const params = new URLSearchParams(window.location.search)
+			if (value) {
+				$search.setAttribute('value', params.get('value'))
+				$search2.setAttribute('value', params.get('value'))
+			}
 
-			$search.setAttribute('value', params.get('value'))
-			$search2.setAttribute('value', params.get('value'))
-
-			$search2.setAttribute('slug', params.get('slug'))
+			if (slug) $search2.setAttribute('slug', params.get('slug'))
 
 			// How to catch the input event from search components.
 			$search.addEventListener('input', (event) => {
