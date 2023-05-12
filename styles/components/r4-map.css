@@ -1,3 +1,36 @@
+r4-map {
+	display: flex;
+	flex-direction: column;
+	transition: opacity 333ms ease-in-out;
+}
+r4-map:not([is-ready]) {
+	opacity: 0;
+}
+r4-map[is-ready] {
+	opacity: 1;
+}
+r4-map r4-channel {
+	position: sticky;
+	bottom: 0;
+	left: 0;
+	background-color: var(--color-background);
+	padding: calc(var(--size) / 3);
+	max-height: 20vh;
+	overflow: scroll;
+}
+r4-map r4-channel h1 {
+	margin-top: 0;
+}
+
+r4-map .cesium-viewer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 0;
+}
+
 .cesium-viewer-cesiumWidgetContainer {
 	visibility: visible;
 }

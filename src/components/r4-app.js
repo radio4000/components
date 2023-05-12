@@ -4,9 +4,6 @@ import {sdk} from '@radio4000/sdk'
 import page from 'page/page.mjs'
 import '../pages/'
 
-// https://github.com/visionmedia/page.js/issues/537
-/* page.configure({ window: window }) */
-
 export default class R4App extends LitElement {
 	playerRef = createRef()
 
@@ -28,8 +25,14 @@ export default class R4App extends LitElement {
 		/* state */
 		user: {type: Object, state: true},
 		userChannels: {type: Array || null, state: true},
-		count: {type: Number},
-		didLoad: {type: Boolean, state: true}
+		followers: {type: Array || null, state: true},
+		followings: {type: Array || null, state: true},
+		didLoad: {type: Boolean, state: true},
+		isPlaying: {type: Boolean, attribute: 'is-playing', reflects: true},
+
+		/* state for global usage */
+		store: {type: Object, state: true},
+		config: {type: Object, state: true},
 	}
 
 	// This gets passed to all r4-pages.
@@ -37,7 +40,8 @@ export default class R4App extends LitElement {
 		return {
 			user: this.user,
 			userChannels: this.userChannels,
-			count: this.count
+			followers: this.followers,
+			followings: this.followings,
 		}
 	}
 	set store(val) {
@@ -55,9 +59,17 @@ export default class R4App extends LitElement {
 		// do nothing
 	}
 
+	get selectedChannel() {
+		if (
+			!this.config.selectedSlug ||
+			!this.store?.user ||
+			!this.store?.userChannels
+		) return null
+		return this.store.userChannels.find(c => c.slug === this.config.selectedSlug)
+	}
+
 	constructor() {
 		super()
-		this.count = 0
 	}
 
 	async connectedCallback() {
@@ -79,11 +91,6 @@ export default class R4App extends LitElement {
 			}
 
 			await this.refreshUserData()
-			if (this.store.userChannels) {
-				if (!this.config.selectedSlug) {
-					this.selectedSlug = this.store.userChannels[0].slug
-				}
-			}
 		})
 	}
 
@@ -94,12 +101,33 @@ export default class R4App extends LitElement {
 		const {data} = await sdk.supabase.auth.getSession()
 		this.user = data?.session?.user
 
+
 		if (this.user) {
+			// load user channels
 			const {data: channels} = await sdk.channels.readUserChannels()
 			this.userChannels = channels?.length ? channels : undefined
+
+			// load current channel followers/followings
+			if (!this.config.selectedSlug) {
+				this.selectedSlug = this.store.userChannels[0].slug
+			}
+
+			if (this.selectedChannel) {
+				const {data: followers} = await sdk.channels.readFollowers(this.selectedChannel.id)
+				const {data: followings} = await sdk.channels.readFollowings(this.selectedChannel.id)
+				this.followers = followers
+				this.followings = followings
+			}
+
+			/* finally set the db listeners for changes in "user data";
+				 it needs to have access to all user state, and selectedChannel
+			 */
 			this.setupDatabaseListeners()
+
 		} else {
 			this.userChannels = undefined
+			this.followers = undefined
+			this.followings = undefined
 		}
 
 		this.didLoad = true
@@ -108,6 +136,9 @@ export default class R4App extends LitElement {
 
 	// When this is run, `user` and `userChannels` can be undefined.
 	async setupDatabaseListeners() {
+		// always cleanup existing listeners
+		await this.removeDatabaseListeners()
+
 		if (this.userChannels) {
 			const userChannelIds = this.userChannels.map(c => c.id)
 			const userChannelsChanges = sdk.supabase.channel('user-channels-changes')
@@ -117,7 +148,7 @@ export default class R4App extends LitElement {
 				table: 'channels',
 				filter: `id=in.(${userChannelIds.join(',')})`,
 			}, (payload) => {
-					this.refreshUserData()
+				this.refreshUserData()
 			}).subscribe()
 		}
 
@@ -129,14 +160,29 @@ export default class R4App extends LitElement {
 			filter: `user_id=eq.${this.user.id}`,
 		}, async (payload) => {
 			if (payload.eventType === 'INSERT' || payload.eventType === 'DELETE') {
-				await this.removeDatabaseListeners()
+				/* need to remove listeners, because the userChannels changed
+					 (so to listen to changes in the new ones) */
 				await this.refreshUserData()
 			}
 		}).subscribe()
+
+		if (this.selectedChannel?.id) {
+			const userFavoriteEvents = sdk.supabase.channel('user-channel-favorites')
+			userFavoriteEvents.on('postgres_changes', {
+				event: '*',
+				schema: 'public',
+				table: 'followers',
+				filter: `follower_id=eq.${this.selectedChannel.id}`,
+			}, async (payload) => {
+				console.log('event@fav update', payload)
+				if (payload.eventType === 'INSERT' || payload.eventType === 'DELETE') {
+					await this.refreshUserData()
+				}
+			}).subscribe()
+		}
 	}
 
 	async removeDatabaseListeners() {
-		console.log('removing database listeners')
 		return sdk.supabase.removeAllChannels()
 	}
 
@@ -146,16 +192,19 @@ export default class R4App extends LitElement {
 		return html`
 			<r4-layout
 				@r4-play=${this.onPlay}
+				?is-playing=${this.isPlaying}
 				>
-				<header slot="header">
-					<button hidden @click=${() => this.count = this.count + 1}>Increment ${this.store.count}</button>
-					${this.renderAppMenu()}</header>
+				<header slot="menu">
+					${this.renderAppMenu()}
+				</header>
 				<main slot="main">
 					${this.renderAppRouter()}
 				</main>
-				<aside slot="player">
-					<r4-player ${ref(this.playerRef)}></r4-player>
-				</aside>
+				<r4-player
+					slot="player"
+					${ref(this.playerRef)}
+					?is-playing=${this.isPlaying}
+					></r4-player>
 			</r4-layout>
 		`
 	}
@@ -167,11 +216,14 @@ export default class R4App extends LitElement {
 					name="channel"
 					.store=${this.store}
 					.config=${this.config}
-				>
+					>
 					<r4-route path="/sign/:method" page="sign"></r4-route>
 					<r4-route path="/" page="channel"></r4-route>
-					<r4-route path="/tracks" page="tracks"></r4-route>
-					<r4-route path="/tracks/:track_id" page="track" query-params="slug,url"></r4-route>
+					<r4-route path="/player" page="channel-player"></r4-route>
+					<r4-route path="/tracks" page="channel-tracks" query-params="page,limit"></r4-route>
+					<r4-route path="/tracks/:track_id" page="channel-track" query-params="slug,url"></r4-route>
+					<r4-route path="//followers" page="channel-followers" query-params="page,limit"></r4-route>
+					<r4-route path="/followings" page="channel-followings" query-params="page,limit"></r4-route>
 					<r4-route path="/add" page="add" query-params="url"></r4-route>
 					<r4-route path="/settings" page="settings"></r4-route>
 				</r4-router>
@@ -184,7 +236,7 @@ export default class R4App extends LitElement {
 					.config=${this.config}
 					>
 					<r4-route path="/" page="home"></r4-route>
-					<r4-route path="/explore" page="explore"></r4-route>
+					<r4-route path="/explore" page="explore" query-params="page,limit"></r4-route>
 					<r4-route path="/sign" page="sign"></r4-route>
 					<r4-route path="/sign/:method" page="sign"></r4-route>
 					<r4-route path="/add" page="add" query-params="slug,url"></r4-route>
@@ -193,8 +245,11 @@ export default class R4App extends LitElement {
 					<r4-route path="/map" page="map" query-params="slug,longitude,latitude"></r4-route>
 					<r4-route path="/:slug" page="channel"></r4-route>
 					<r4-route path="/:slug/update" page="channel-update"></r4-route>
-					<r4-route path="/:slug/tracks" page="tracks"></r4-route>
-					<r4-route path="/:slug/tracks/:track_id" page="track"></r4-route>
+					<r4-route path="/:slug/player" page="channel-player"></r4-route>
+					<r4-route path="/:slug/tracks" page="channel-tracks" query-params="page,limit"></r4-route>
+					<r4-route path="/:slug/tracks/:track_id" page="channel-track"></r4-route>
+					<r4-route path="/:slug/followers" page="channel-followers" query-params="page,limit"></r4-route>
+					<r4-route path="/:slug/followings" page="channel-followings" query-params="page,limit"></r4-route>
 				</r4-router>
 			`
 		}
@@ -304,10 +359,16 @@ export default class R4App extends LitElement {
 	}
 
 	/* play some data */
-	async onPlay({detail}) {
+	async onPlay(event) {
+		const {detail} = event
+		if (!detail) {
+			return this.stop()
+		}
+
 		const {channel, track} = detail
 
 		if (channel && channel.slug) {
+			this.isPlaying = true
 			const { data: channelTracks } = await sdk.channels.readChannelTracks(channel.slug)
 			const tracks = channelTracks.reverse()
 
@@ -344,8 +405,20 @@ export default class R4App extends LitElement {
 		}
 	}
 
-	/* no shadow dom */
-	createRenderRoot() {
+	stop() {
+		/* stop the global playing state */
+		this.isPlaying = false
+		console.log('stop: this.isPlaying', this.isPlaying)
+1
+		/* clean the `r4-player` component (so it hides) */
+		this.playerRef.value.removeAttribute('track')
+		this.playerRef.value.removeAttribute('image')
+		this.playerRef.value.removeAttribute('name')
+		this.playerRef.value.removeAttribute('tracks')
+	}
+
+		/* no shadow dom */
+		createRenderRoot() {
 		return this
 	}
 }

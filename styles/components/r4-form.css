@@ -1,15 +1,12 @@
 /* <r4-form/> is extended as a web components;
  but always create a <form/> element and <fieldset/>*/
-form {
-	/* padding: calc(var(--size) / 4); */
-}
+form {}
 fieldset {
 	display: flex;
 	flex-direction: column;
 	border: none;
 	margin: 0;
 	padding: 0;
-	/* padding: 0 0 calc(var(--size) / 2); */
 }
 fieldset {
 	margin-bottom: calc(var(--size) / 2);

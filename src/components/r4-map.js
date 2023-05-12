@@ -13,6 +13,7 @@ export default class R4Map extends LitElement {
 		longitude: { type: Number },
 		latitude: { type: Number },
 		href: { type: String },
+		isReady: { type: Boolean, attribute: 'is-ready', reflect: true },
 	}
 
 	get channelOrigin() {
@@ -62,6 +63,7 @@ export default class R4Map extends LitElement {
 				viewer: this.viewer,
 				slug: this.slug
 			})
+			this.isReady = true
 		}
 	}
 
@@ -69,12 +71,6 @@ export default class R4Map extends LitElement {
 		if (!this.channels) return html`<p>Loading...</p>`
 
 		return html`
-			<div>
-			<p>List of channels with coordinates. Create a map like on radio4000.com/map</p>
-				${this.channels.map(c => html`
-					<p>@${c.slug} &rarr; ${c.longitude}/${c.latitude}</p>
-				`)}
-			</div>
 			<main ${ref(this.mapRef)}></main>
 			${this.renderSelectedChannel()}
 		`

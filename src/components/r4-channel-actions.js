@@ -6,6 +6,8 @@ template.innerHTML = `
 		<option value="">...</option>
 		<option value="play">Play</option>
 		<option value="tracks">Tracks</option>
+		<option value="followings">Followings</option>
+		<option value="followers">Followers</option>
 		<option value="share">Share</option>
 	</r4-actions>
 `
@@ -68,11 +70,7 @@ export default class R4ChannelActions extends HTMLElement {
 			})
 			this.renderAsyncOption({
 				value: 'update',
-				text: 'Update',
-			})
-			this.renderAsyncOption({
-				value: 'delete',
-				text: 'Delete',
+				text: 'Settings',
 			})
 			this.didRenderAsync = true
 		}

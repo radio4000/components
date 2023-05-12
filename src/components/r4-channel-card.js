@@ -43,10 +43,10 @@ export default class R4ChannelCard extends LitElement {
 			</a>
 			<div>
 				<h1><a href="${this.url}">${channel.slug}</a></h1>
-				<p class="slug">@<a href="${this.url}">${channel.slug}</a></p>
-				<p class="desc">${channel.description}</p>
+				<p><a href="${this.url}">@${channel.slug}</a></p>
+				<p>${channel.description}</p>
 			</div>
-			<button @click="${this.play}">▶</button>
+			<r4-button-play .channel=${channel}></r4-button-play>
 		`
 	}
 

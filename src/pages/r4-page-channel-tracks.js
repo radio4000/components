@@ -1,11 +1,13 @@
 import { html, LitElement } from 'lit'
 import { until } from 'lit/directives/until.js'
 import {sdk} from '@radio4000/sdk'
+import page from 'page/page.mjs'
 
-export default class R4PageTracks extends LitElement {
+export default class R4PageChannelTracks extends LitElement {
 	static properties = {
 		store: { type: Object, state: true },
 		params: { type: Object, state: true },
+		query: { type: Object, state: true },
 		config: { type: Object, state: true },
 
 		channel: { type: Object, reflect: true, state: true },
@@ -21,6 +23,10 @@ export default class R4PageTracks extends LitElement {
 		} else {
 			return this.config.href + '/' + this.params.slug + '/tracks/{{id}}'
 		}
+	}
+
+	buildChannelHref(channel) {
+		return `${this.config.href}/${channel.slug}`
 	}
 
 	async firstUpdated() {
@@ -54,18 +60,19 @@ export default class R4PageTracks extends LitElement {
 	renderPage(channel) {
 		return html`
 			<header>
-				<r4-channel
-					.channel=${channel}
-					origin=${this.channelOrigin}
-					slug=${channel.slug}
-					></r4-channel>
+				<code>@</code>
+				<a href=${this.buildChannelHref(channel)}>${channel.slug}</a>
+				<code>/</code>
+				<a href=${this.buildChannelHref(channel) + '/tracks'}>tracks</a>
 			</header>
 			<main>
 				<r4-tracks
 					channel=${channel.slug}
 					origin=${this.tracksOrigin}
-					limit="10"
+					limit=${this.query.limit || 10}
+					page=${this.query.page || 1}
 					pagination="true"
+					@r4-list=${this.onNavigateList}
 					></r4-tracks>
 			</main>
 		`
@@ -80,5 +87,18 @@ export default class R4PageTracks extends LitElement {
 	/* no shadow dom */
 	createRenderRoot() {
 		return this
+	}
+
+	onNavigateList({detail}) {
+		/* `page` here, is usually globaly the "router", beware */
+		const {page: currentPage, limit, list} = detail
+		const newPageURL = new URL(window.location)
+
+		limit && newPageURL.searchParams.set('limit', limit)
+		currentPage && newPageURL.searchParams.set('page', currentPage)
+
+		if (window.location.href !== newPageURL.href) {
+			page(newPageURL.pathname + newPageURL.search)
+		}
 	}
 }

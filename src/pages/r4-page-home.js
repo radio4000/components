@@ -1,45 +1,53 @@
 import { LitElement, html } from 'lit'
 
-function R4ChannelCard(channel, baseUrl) {
-	return html`<article class="Card">
-		<h3><a href=${`${baseUrl}/${channel.slug}`}>${channel.name}</a></h3>
-		<p>${channel.description}</p>
-	</article>`
-}
-
 export default class R4PageHome extends LitElement {
 	static properties = {
 		config: { type: Object, state: true },
 		store: { type: Object, state: true },
 	}
 
-	get hasOneChannel() {
-		if (!this.store.user) return false
-		return this.store?.userChannels?.length === 1 ? true : false
-	}
-
 	render() {
 		return html`
 			<header>
-				<h1><r4-title></r4-title></h1>
+				${!this.store.user ? html`Welcome to <r4-title></r4-title>!` : null}
 			</header>
 			<main>
-				<menu>
-					<li>
-						<a href="${this.config.href}/explore">Explore channels</a> to discover new content
-					</li>
-				</menu>
-
-				<section>
-					${this.store?.userChannels?.length ? html`
-						<section class="Grid">
-							${this.store?.userChannels.map((channel) => R4ChannelCard(channel, this.config.href))}
-						</section>
-					` : null}
-				</section>
+				${this.store.user ? this.renderMenuUser() : this.renderMenuNoUser()}
+				${this.store?.userChannels?.length ? html`
+					<section>
+						<h2>You channel:</h2>
+						${this.store?.userChannels.map((channel) => this.renderChannelCard(channel, this.config.href))}
+					</section>
+				` : null}
+				${this.store?.userChannels?.length ? html`
+					<section>
+						<h2>Your channel follows:</h2>
+						${this.store?.followings?.map((channel) => this.renderChannelCard(channel, this.config.href))}
+					</section>
+		` : null}
 			</main>
 		`
 	}
+
+	renderChannelCard(channel) {
+		const channelOrigin = `${this.config.href}/${channel.slug}`
+		return html`<r4-channel-card .channel=${channel} origin=${channelOrigin}></r4-channel-card>`
+	}
+
+	renderMenuNoUser() {
+		return html`
+			<menu>
+				<li>
+					<a href="${this.config.href}/explore">Explore channels</a> to discover new content
+				</li>
+			</menu>
+		`
+	}
+
+	renderMenuUser() {
+		return html``
+	}
+
 	createRenderRoot() {
 		return this
 	}

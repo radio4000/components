@@ -1,4 +1,2 @@
 r4-channels {}
-r4-channels li {
-	margin-bottom: calc(var(--size) / 2);
-}
+r4-channels li {}

@@ -1,7 +1,6 @@
-/* Wasn't sure where to organize this, so here we are. */
-
+/* Creates a responsive grid layout. */
 .Grid,
-r4-channels ul {
+r4-channels main > ul {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	gap: calc(var(--size) / 2);
@@ -10,9 +9,11 @@ r4-channels ul {
 	list-style: none;
 }
 
+/* Adjust the min value as you please and make the media query match */
 @media (min-width: 12rem) {
 	.Grid,
-	r4-channels ul {
+	r4-channels main > ul {
 		grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
 	}
 }
+

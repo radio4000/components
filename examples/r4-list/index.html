@@ -20,6 +20,12 @@
 	</menu>
 	<r4-list pagination="true" model="tracks" page="1" limit="1"></r4-list>
 
+	<script>
+		document.querySelector('r4-list').addEventListener('r4-list', (event) => {
+			console.log('r4-list event on first r4-list DOM element', event.detail)
+		})
+	</script>
+
 	<menu>
 		<li>
 			The list can have pagination, here for <code>model="tracks"</code>

@@ -89,19 +89,13 @@ export default class R4Track extends HTMLElement {
 	}
 	renderTrack() {
 		const t = this.track
-
-		/* if there is an origin, create a link to the track */
-		let $container
-		if (this.origin) {
-			$container = document.createElement('a')
-			$container.setAttribute('href', this.origin)
-		} else {
-			$container = document.createElement('article')
-		}
+		const $container = document.createElement('article')
 		render(html`
-			<r4-track-title>${t.title || t.id}<br></r4-track-title>
+		<article>
+			<a href=${this.origin}><r4-track-title>${t.title || t.id}<br></r4-track-title></a>
 			<r4-track-description>${t.description}</r4-track-description>
-			<r4-track-tags>${t.tags}</r4-track-tags>
+			${t.discogs_url && html`<r4-track-discogs-url><a href="${t.discogs_url}">View on Discogs</a></r4-track-discogs-url>`}
+			<r4-track-tags>${t.tags.map(tag => html`<span>${tag}</span>`)}</r4-track-tags>
 			<r4-track-mentions>${t.mentions}</r4-track-mentions>
 		`, $container)
 		this.append($container)

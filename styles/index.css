@@ -1,11 +1,12 @@
-/* Styles for all <r4-*> elements */
 @import url("variables.css");
+
+/* Root or base styles, not scoped to any component */
 @import url("root.css");
-
-/* Styles for all <r4-*> elements */
+@import url("typography.css");
+@import url("buttons.css");
+@import url("grid.css");
 @import url("components/index.css");
-
-/* Styles for <r4-app> and pages */
 @import url("pages/index.css");
-@import url("app.css");
-@import url("grid-cards.css");
+
+@import url("theme-default.css");
+/* @import url("theme-jellybeans.css"); */

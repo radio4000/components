@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+	<title>r4-channel-followers</title>
+	<meta name="description" content="r4-channel-followers">
+	<link rel="stylesheet" href="/styles/index.css" />
+	<script type="module" src="/src/index.js"></script>
+</head>
+
+<body>
+	<menu>
+		<li>
+			By default, will browse all channels, followers of a channel.
+		</li>
+		<li>
+			Enter a <a href="?channel-id=">channel id</a> as a url parameter, to fetch this channel's followers.
+		</li>
+	</menu>
+	<r4-channel-followers pagination="true"></r4-channel-followers>
+</body>
+
+<script>
+	/* use the query parameter, `slug`: `?slug={channel_slug}` */
+	const $followers = document.querySelector('r4-channel-followers')
+	const params = new URLSearchParams(window.location.search)
+	const id = params.get('channel-id')
+	id && $followers.setAttribute('channel-id', id)
+</script>
+
+</html>

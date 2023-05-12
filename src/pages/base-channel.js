@@ -5,7 +5,10 @@ import {sdk} from '@radio4000/sdk'
 export default class BaseChannel extends LitElement {
 	static properties = {
 		channel: { type: Object, state: true },
-		canEdit: { type: Boolean, state: true },
+		canEdit: { type: Boolean, state: true, reflect: true },
+		alreadyFollowing: { type: Boolean, state: true, reflect: true },
+		followsYou: { type: Boolean, state: true, reflect: true },
+
 		// from the router
 		params: { type: Object, state: true },
 		store: { type: Object, state: true },
@@ -13,8 +16,13 @@ export default class BaseChannel extends LitElement {
 	}
 
 	get channelOrigin() {
-		return this.config.singleChannel ? this.config.href : `${this.config.href}/{{slug}}`
+		return this.config.singleChannel ? this.config.href : `${this.config.href}/${this.channel.slug}`
 	}
+
+	buildChannelHref(channel) {
+		return `${this.config.href}/${channel.slug}`
+	}
+
 
 	get tracksOrigin() {
 		if (this.config.singleChannel) {
@@ -22,6 +30,16 @@ export default class BaseChannel extends LitElement {
 		} else {
 			return this.config.href + '/' + this.params.slug + '/tracks/{{id}}'
 		}
+	}
+
+	get alreadyFollowing() {
+		if (!this.store.user) return
+		return this.store.followings?.map(c => c.slug).includes(this.channel?.slug)
+	}
+
+	get followsYou() {
+		if (!this.store.user) return
+		return this.store.followers?.map(c => c.slug).includes(this.config.selectedSlug)
 	}
 
 	willUpdate(changedProperties) {
