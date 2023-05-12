@@ -66,6 +66,7 @@ export default class R4PageChannelTracks extends LitElement {
 				<a href=${this.buildChannelHref(channel) + '/tracks'}>tracks</a>
 			</header>
 			<main>
+				<p>Search tracks <r4-track-search href=${this.config.href}></p>
 				<r4-tracks
 					channel=${channel.slug}
 					origin=${this.tracksOrigin}

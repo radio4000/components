@@ -28,6 +28,7 @@ import R4MapPosition from './r4-map-position.js'
 import R4Player from './r4-player.js'
 import R4ResetPassword from './r4-reset-password.js'
 import R4Router from './r4-router.js'
+import {R4ChannelSearch, R4TrackSearch} from './r4-search.js'
 import R4SignIn from './r4-sign-in.js'
 import R4SignOut from './r4-sign-out.js'
 import R4SignUp from './r4-sign-up.js'
@@ -59,6 +60,7 @@ customElements.define('r4-channel-sharer', R4ChannelSharer)
 customElements.define('r4-channel-update', R4ChannelUpdate)
 customElements.define('r4-channel-followers', R4ChannelFollowers)
 customElements.define('r4-channel-followings', R4ChannelFollowings)
+customElements.define('r4-channel-search', R4ChannelSearch)
 customElements.define('r4-channels', R4Channels)
 customElements.define('r4-dialog', R4Dialog)
 customElements.define('r4-favicon', R4Favicon)
@@ -78,6 +80,7 @@ customElements.define('r4-track-actions', R4TrackActions)
 customElements.define('r4-track-create', R4TrackCreate)
 customElements.define('r4-track-delete', R4TrackDelete)
 customElements.define('r4-track-update', R4TrackUpdate)
+customElements.define('r4-track-search', R4TrackSearch)
 customElements.define('r4-tracks', R4Tracks)
 customElements.define('r4-tuner', R4Tuner)
 customElements.define('r4-user', R4User)
@@ -100,6 +103,7 @@ export default {
 	R4ChannelUpdate,
 	R4ChannelFollowers,
 	R4ChannelFollowings,
+	R4ChannelSearch,
 	R4Channels,
 	R4Dialog,
 	R4Favicon,
@@ -120,6 +124,7 @@ export default {
 	R4TrackDelete,
 	R4TrackUpdate,
 	R4Tracks,
+	R4TrackSearch,
 	R4Tuner,
 	R4User,
 	R4UserChannelsSelect,
