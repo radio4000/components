@@ -21,37 +21,35 @@ export default class R4Search extends LitElement {
 
 	async onInput(event) {
 		const value = event.target.value
+
+		// Clear results if input is.
 		if (value.length === 0) this.results = null
+
+		// Only search once we have +3 characters.
 		if (value.length < 2) return
 
-		let res
-		if (this.table === 'tracks') {
-			res = await this.searchTracks(value)
-		} else {
-			res = await this.searchChannels(value)
-		}
+		const res = this.table === 'tracks' ? await this.searchTracks(value) : await this.searchChannels(value)
 		console.log('search results', res)
 		this.results = res.data ?? []
 	}
 
 	searchChannels(value) {
-		return sdk.supabase
-			.from('channels')
-			.select()
-			.textSearch('fts', `'${value}'`)
+		return sdk.supabase.from('channels').select().textSearch('fts', `'${value}'`)
 	}
 
 	searchTracks(value) {
 		return sdk.supabase
 			.from('channel_track')
-			.select(`
+			.select(
+				`
 				channel_id!inner(
 					slug
 				),
 				track_id!inner(
 					id, title, description, tags, mentions, fts
 				)
-			`)
+			`
+			)
 			.textSearch('track_id.fts', `'${value}'`)
 	}
 
@@ -73,7 +71,8 @@ export default class R4Search extends LitElement {
 						<li>
 							${index}:
 							${this.table === 'tracks'
-								? html`${item.track_id.title}, <small>${item.track_id.description}</small> (from ${item.channel_id.slug})`
+								? html`${item.track_id.title}, <small>${item.track_id.description}</small> (from
+										${item.channel_id.slug})`
 								: html`<r4-channel-card .channel="${item}"></r4-channel-card>`}
 						</li>
 					`
