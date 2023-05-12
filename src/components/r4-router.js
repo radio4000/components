@@ -90,9 +90,8 @@ export default class R4Router extends LitElement {
 	render() {
 		if (!this.pageName) return
 		const tag = literal`r4-page-${unsafeStatic(this.pageName)}`
-		const $pageDom = html`
-			<${tag} .store=${this.store} .config=${this.config} .query=${this.query} .params=${this.params}></${tag}>
-		`
+		// eslint-disable-next-line
+		const $pageDom = html`<${tag} .store=${this.store} .config=${this.config} .query=${this.query} .params=${this.params}></${tag}>`
 		return $pageDom
 	}
 

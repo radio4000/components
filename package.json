@@ -13,6 +13,7 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint src",
     "start": "npm run dev",
     "dev": "vite --port 4000",
     "build": "npm run build-website; npm run build-library; mv dist-lib/r4.js dist;  mv dist-lib/style.css dist/r4.css; rm -r dist-lib",
@@ -28,6 +29,9 @@
     "radio4000-player": "^0.6.24"
   },
   "devDependencies": {
+    "eslint": "^8.40.0",
+    "eslint-plugin-lit": "^1.8.3",
+    "eslint-plugin-wc": "^1.5.0",
     "prettier": "^2.8.8",
     "vite": "^4.2.1",
     "vite-plugin-static-copy": "^0.14.0"
@@ -45,6 +49,7 @@
   "prettier": {
     "semi": false,
     "singleQuote": true,
+    "bracketSpacing": false,
     "printWidth": 120
   }
 }

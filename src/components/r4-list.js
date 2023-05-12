@@ -69,7 +69,6 @@ export default class R4List extends HTMLElement {
 	}
 	set list(arr = []) {
 		this.setAttribute('list', JSON.stringify(arr))
-		return arr
 	}
 
 	/* a URL, that will be passed to the list item template, if requested */
