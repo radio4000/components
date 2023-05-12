@@ -11,16 +11,14 @@
 
 	<body>
 		<p>The r4-search component searches channels by default:</p>
-		<r4-search></r4-search>
-		<!-- <r4-search-results .items="${this.items}"></r4-search-results> -->
-
-		<p>You can set the `model` attribute to search a different table, like "tracks".</p>
-		<r4-search table="tracks"></r4-search>
+		<h2>Search channels</h2>
+		<r4-channel-search></r4-channel-search>
+		<h2>Search tracks</h2>
+		<r4-track-search></r4-track-search>
 
 		<script>
-			const $search = document.querySelector('r4-search')
-			// const $results = document.querySelector('r4-search-results')
-
+			// How to catch the input event from search components.
+			const $search = document.querySelector('r4-track-search')
 			$search.addEventListener('input', (event) => {
 				console.log(event.target.value)
 			})
