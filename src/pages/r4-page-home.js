@@ -9,7 +9,7 @@ export default class R4PageHome extends LitElement {
 	render() {
 		return html`
 			<header>
-				${!this.store.user ? html`Welcome to <r4-title></r4-title>!` : null}
+				${!this.store.user ? html`<h1>Welcome to <r4-title></r4-title>!</h1>` : null}
 			</header>
 			<main>
 				${this.store.user ? this.renderMenuUser() : this.renderMenuNoUser()}

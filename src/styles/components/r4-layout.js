@@ -42,7 +42,7 @@ const mainSlot = css`
 	}
 	@container (min-width: 700px) {
 		slot[name="main"]::slotted(*) {
-			padding: var(--size);
+			padding: calc(var(--size) / 2);
 		}
 	}
 `
