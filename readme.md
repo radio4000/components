@@ -16,16 +16,15 @@ All methods are available on the imported `sdk` module.
 ### With build system and NPM
 
 ```js
-import {sdk} from '@radio4000/components'
+import '@radio4000/components'
 // use any <r4-component*> in your templates
-// use sdk methods as you please, ready to go
 ```
 
 ### With browser via CDN
 
 ```html
 <script type="module">
-  import from 'https://cdn.jsdelivr.net/npm/@radio4000/components/dist/index.min.js'
+  import 'https://cdn.jsdelivr.net/npm/@radio4000/components'
   // use any <r4-*> component in your HTML
 </script>
 ```
@@ -47,7 +46,7 @@ npm run dev
 
 ## Build and releases
 
-To release this package under `@radio4000/components` on NPM, bump the version in package.json, create a commit, tag it. To publish on npm, create a new release on GitHub and let the GH action do the rest.
+To release this package under `@radio4000/components` on NPM, bump the version in package.json, create a commit, tag it. Create a new release on Github and let the Github action publish it.
 
 To make sure the build workflows
 
@@ -62,3 +61,4 @@ To make sure the build workflows
 - import and export it in `./src/components/index.js`
 - create an demo in `./examples/r4-*/index.html`
 - reference the demo HTML page in `./vite.config.js`
+
