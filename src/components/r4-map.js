@@ -15,6 +15,7 @@ import Style from 'ol/style/Style'
 import Stroke from 'ol/style/Stroke'
 import Fill from 'ol/style/Fill'
 import Circle from 'ol/style/Circle'
+import {transform} from 'ol/proj'
 
 /**
  * A world map with all radio channels that have coordinates
@@ -118,12 +119,13 @@ export default class R4Map extends LitElement {
 
 	onClick(event) {
 		// this.addMarker(event.coordinate)
+		const coordinate = transform(event.coordinate, 'EPSG:3857', 'EPSG:4326')
 		this.dispatchEvent(
 			new CustomEvent('r4-map-click', {
 				bubbles: true,
 				detail: {
-					longitude: event.coordinate[0],
-					latitude: event.coordinate[1],
+					longitude: coordinate[0],
+					latitude: coordinate[1],
 				},
 			})
 		)
