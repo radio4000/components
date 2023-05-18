@@ -23,7 +23,7 @@ export default class R4Map extends LitElement {
 		// The channel that is currently selected on the map.
 		channel: {type: Object, state: true},
 
-		// Set these to center the initial map position.
+		// Optional, initial map position
 		longitude: {type: Number},
 		latitude: {type: Number},
 
@@ -39,6 +39,7 @@ export default class R4Map extends LitElement {
 
 	constructor() {
 		super()
+		// Default values
 		this.longitude = 0
 		this.latitude = 0
 	}
@@ -52,6 +53,7 @@ export default class R4Map extends LitElement {
 		this.createMap()
 		this.isReady = true
 
+		// Fetch channels and set markers for each.
 		if (!this.channels) {
 			const {data} = await sdk.channels.readChannels()
 			if (!data) return
@@ -61,12 +63,12 @@ export default class R4Map extends LitElement {
 	}
 
 	createMap() {
-		const raster = new TileLayer({
+		const rasterLayer = new TileLayer({
 			source: new OSM(),
 		})
 		this.map = new Map({
 			target: this.querySelector('main'),
-			layers: [raster],
+			layers: [rasterLayer],
 			view: new View({
 				center: [this.longitude, this.latitude],
 				zoom: 4,

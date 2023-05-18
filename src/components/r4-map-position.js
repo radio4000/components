@@ -1,7 +1,7 @@
 import {LitElement, html} from 'lit'
 
 /**
- * A world globe with the posibility to position a radio channel
+ * A world map with the posibility to position a radio channel
  */
 export default class R4MapPosition extends LitElement {
 	static properties = {
@@ -10,8 +10,8 @@ export default class R4MapPosition extends LitElement {
 		latitude: {type: Number},
 
 		/* state */
-		newLongitude: {type: Number},
-		newLatitude: {type: Number},
+		newLongitude: {type: Number, state: true},
+		newLatitude: {type: Number, stateu: true},
 	}
 
 	precision = 3
@@ -28,17 +28,19 @@ export default class R4MapPosition extends LitElement {
 	/* the new coordinates for this channel's position */
 	get newCoordinates() {
 		if (!this.newLongitude || !this.newLatitude) return null
-		/*
-			 precision difference from map click and db storage
-			 db: -0.0238691
-			 click: -0.023869118833876747
-		 */
 		return {
 			longitude: this.parseCoordinate(this.newLongitude),
 			latitude: this.parseCoordinate(this.newLatitude),
 		}
 	}
 
+	/**
+	 * Precision difference from map click and db storage.
+	 * click gives -0.023869118833876747
+	 * db wants -0.0238691
+	 * @param {number} coordinate
+	 * @returns
+	 */
 	parseCoordinate(coordinate) {
 		return +coordinate.toFixed(this.precision)
 	}
@@ -107,8 +109,6 @@ export default class R4MapPosition extends LitElement {
 
 	renderSubmit() {
 		return html`
-		<p>coords: ${this.coordinates?.longitude}, ${this.coordinates?.latitude}</p>
-		<p>new coords: ${this.newCoordinates?.longitude}, ${this.newCoordinates?.latitude}</p>
 			<fieldset type="buttons">
 				${this.coordinates
 					? html`<button type="button" name="delete" @click=${this.deletePosition}>Remove position</button>`
@@ -116,7 +116,9 @@ export default class R4MapPosition extends LitElement {
 				${this.newCoordinates
 					? html`
 							<button type="button" name="cancel" @click=${this.cancelChanges}>Cancel</button>
-							<button type="submit" name="submit">Save</button>
+							<button type="submit" name="submit">
+								Save ${this.newCoordinates?.longitude}, ${this.newCoordinates?.latitude}
+							</button>
 					  `
 					: null}
 			</fieldset>
