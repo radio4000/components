@@ -68,26 +68,23 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		}
 	}
 
-	async onMapSubmit({
-		detail
-	}) {
+	async onMapSubmit({detail}) {
 		const channelId = this.channel.id
 		if (!channelId) return
 
-		let res
 		try {
 			if (detail) {
-				res = await sdk.channels.updateChannel(channelId, {
+				await sdk.channels.updateChannel(channelId, {
 					longitude: detail.longitude,
 					latitude: detail.latitude,
 				})
 			} else {
-				res = await sdk.channels.updateChannel(channelId, {
+				await sdk.channels.updateChannel(channelId, {
 					longitude: null,
 					latitude: null,
 				})
 			}
-		} catch(error) {
+		} catch (error) {
 			console.log('error saving map data', error)
 		}
 	}

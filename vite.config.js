@@ -1,6 +1,5 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
-import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 /* treat the path '/examples/r4-app.html/' as SPA (serve the file, let js handle URL route) */
 const vitePluginR4AppSPA = (options) => ({
@@ -15,36 +14,10 @@ const vitePluginR4AppSPA = (options) => ({
 	}
 })
 
-/* https://github.com/dustinmichels/cesium-vite-example */
-const cesiumSrcDir = 'node_modules/cesium/Build/Cesium'
-const cesiumDestDir = 'static/Cesium'
-
-const vitePluginCesiumMap = () => viteStaticCopy({
-		targets: [
-			{
-				src: `${cesiumSrcDir}/Workers`,
-				dest: cesiumDestDir,
-			},
-			{
-				src: `${cesiumSrcDir}/ThirdParty`,
-				dest: cesiumDestDir,
-			},
-			{
-				src: `${cesiumSrcDir}/Assets`,
-				dest: cesiumDestDir,
-			},
-			{
-				src: `${cesiumSrcDir}/Widgets`,
-				dest: cesiumDestDir,
-			},
-		],
-})
-
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
 		vitePluginR4AppSPA(),
-		vitePluginCesiumMap(),
 	],
 	base: './',
 	build: {
