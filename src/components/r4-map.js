@@ -150,9 +150,8 @@ export default class R4Map extends LitElement {
 	onClick(event) {
 		// this.addMarker(event.coordinate)
 		const coordinate = event.coordinate
-		console.log('clicked', coordinate)
+		// console.log('clicked', coordinate)
 		this.clickedCoordinate = coordinate
-		this.overlay.setPosition(coordinate)
 		this.dispatchEvent(
 			new CustomEvent('r4-map-click', {
 				bubbles: true,
@@ -184,7 +183,7 @@ export default class R4Map extends LitElement {
 			<r4-map-popup class="ol-popup">
 				<button class="ol-popup-closer">✖</button>
 				<r4-popup-content>
-					<p>You clicked here:</p>
+					${this.channel ? html`<h2><a href=${this.channelOrigin}>${this.channel.name}</a></h2>` : null}
 					<code>${toStringHDMS(this.clickedCoordinate)}</code>
 				</r4-popup-content>
 			</r4-map-popup>
