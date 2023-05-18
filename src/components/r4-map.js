@@ -2,8 +2,8 @@ import {LitElement, html} from 'lit'
 import {sdk} from '@radio4000/sdk'
 
 import 'ol/ol.css'
-import {Map, View, Feature} from 'ol'
-import OSM from 'ol/source/OSM'
+import {Map, View, Feature, Overlay} from 'ol'
+import {OSM} from 'ol/source'
 import VectorSource from 'ol/source/Vector'
 import VectorLayer from 'ol/layer/Vector'
 import TileLayer from 'ol/layer/Tile'
@@ -15,7 +15,8 @@ import Style from 'ol/style/Style'
 import Stroke from 'ol/style/Stroke'
 import Fill from 'ol/style/Fill'
 import Circle from 'ol/style/Circle'
-import {transform, useGeographic} from 'ol/proj'
+import {useGeographic} from 'ol/proj'
+import {toStringHDMS} from 'ol/coordinate'
 
 // Switch default coordinate system to lon/lat
 useGeographic()
@@ -34,6 +35,8 @@ export default class R4Map extends LitElement {
 		// Optional, initial map position
 		longitude: {type: Number},
 		latitude: {type: Number},
+
+		clickedCoordinates: {type: Array, state: true},
 
 		// For building the channel origin URL.
 		href: {type: String},
@@ -71,6 +74,29 @@ export default class R4Map extends LitElement {
 	}
 
 	createMap() {
+		// Create an overlay to anchor the popup to the map.
+		const popup = this.querySelector('r4-map-popup')
+		const popupButton = this.querySelector('r4-map-popup button')
+		this.overlay = new Overlay({
+			element: popup,
+			autoPan: {
+				animation: {
+					duration: 250,
+				},
+			},
+		})
+
+		/**
+		 * Add a click handler to hide the popup.
+		 * @return {boolean} Don't follow the href.
+		 */
+		popupButton.onclick = () => {
+			console.log('close?!')
+			this.overlay.setPosition(undefined)
+			popupButton.blur()
+			return false
+		}
+
 		const rasterLayer = new TileLayer({
 			source: new OSM(),
 		})
@@ -81,6 +107,7 @@ export default class R4Map extends LitElement {
 				center: [this.longitude, this.latitude],
 				zoom: this.longitude ? 6 : 2,
 			}),
+			overlays: [this.overlay],
 		})
 
 		// Sync map state with the URL
@@ -88,7 +115,7 @@ export default class R4Map extends LitElement {
 			this.map.addInteraction(new Link())
 		}
 
-		this.map.on('click', this.onClick.bind(this))
+		this.map.on('singleclick', this.onClick.bind(this))
 
 		// Handle hover aka pointermove on features
 		const select = new Select({
@@ -121,7 +148,11 @@ export default class R4Map extends LitElement {
 	}
 
 	onClick(event) {
-		this.addMarker(event.coordinate)
+		// this.addMarker(event.coordinate)
+		const coordinate = event.coordinate
+		console.log('clicked', coordinate)
+		this.clickedCoordinate = coordinate
+		this.overlay.setPosition(coordinate)
 		this.dispatchEvent(
 			new CustomEvent('r4-map-click', {
 				bubbles: true,
@@ -140,6 +171,9 @@ export default class R4Map extends LitElement {
 		if (details) {
 			// Schedule a re-render so we see the clicked channel.
 			this.channel = details
+			const coordinate = [details.longitude, details.latitude]
+			this.clickedCoordinate = coordinate
+			this.overlay.setPosition(coordinate)
 			this.requestUpdate()
 		}
 	}
@@ -147,6 +181,13 @@ export default class R4Map extends LitElement {
 	render() {
 		return html`
 			<main></main>
+			<r4-map-popup class="ol-popup">
+				<button class="ol-popup-closer">✖</button>
+				<r4-popup-content>
+					<p>You clicked here:</p>
+					<code>${toStringHDMS(this.clickedCoordinate)}</code>
+				</r4-popup-content>
+			</r4-map-popup>
 			<aside>
 				${this.channel
 					? html`<r4-channel
