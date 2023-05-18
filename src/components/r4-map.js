@@ -96,6 +96,11 @@ export default class R4Map extends LitElement {
 	}
 
 	addMarker(coordinate, details) {
+		const feature = new Feature({
+			geometry: new Point(transform(coordinate, 'EPSG:4326', 'EPSG:3857')),
+			details,
+		})
+		const source = new VectorSource({features: [feature]})
 		const circle = new Style({
 			image: new Circle({
 				radius: 6,
@@ -108,11 +113,6 @@ export default class R4Map extends LitElement {
 				}),
 			}),
 		})
-		const feature = new Feature({
-			geometry: new Point(coordinate),
-			details,
-		})
-		const source = new VectorSource({features: [feature]})
 		const vectorLayer = new VectorLayer({source, style: [circle]})
 		this.map.addLayer(vectorLayer)
 	}

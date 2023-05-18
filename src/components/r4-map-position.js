@@ -14,45 +14,6 @@ export default class R4MapPosition extends LitElement {
 		newLatitude: {type: Number, stateu: true},
 	}
 
-	precision = 3
-
-	/* the coordinates of the original channel position */
-	get coordinates() {
-		if (!this.longitude || !this.latitude) return null
-		return {
-			longitude: this.parseCoordinate(this.longitude),
-			latitude: this.parseCoordinate(this.latitude),
-		}
-	}
-
-	/* the new coordinates for this channel's position */
-	get newCoordinates() {
-		if (!this.newLongitude || !this.newLatitude) return null
-		return {
-			longitude: this.parseCoordinate(this.newLongitude),
-			latitude: this.parseCoordinate(this.newLatitude),
-		}
-	}
-
-	/**
-	 * Precision difference from map click and db storage.
-	 * click gives -0.023869118833876747
-	 * db wants -0.0238691
-	 * @param {number} coordinate
-	 * @returns
-	 */
-	parseCoordinate(coordinate) {
-		return +coordinate.toFixed(this.precision)
-	}
-
-	get sameCoordinates() {
-		if (!this.coordinates || !this.newCoordinates) return false
-		return (
-			this.coordinates.longitude === this.newCoordinates.longitude &&
-			this.coordinates.latitude === this.newCoordinates.latitude
-		)
-	}
-
 	onMapClick(event) {
 		const {longitude, latitude} = event.detail
 		this.newLatitude = latitude
@@ -65,17 +26,17 @@ export default class R4MapPosition extends LitElement {
 		const positionEvent = new CustomEvent('submit', {
 			bubbles: false,
 			detail: {
-				longitude: this.newCoordinates?.longitude,
-				latitude: this.newCoordinates?.latitude,
+				longitude: this.newLongitude,
+				latitude: this.newLatitude,
 			},
 		})
 		this.dispatchEvent(positionEvent)
-		// if (!this.newCoordinates) removeChannelOrigin({viewer: this.viewer})
+		// if (!this.newLongitude || !this.newLatitude) removeChannelOrigin({viewer: this.viewer})
 	}
 
 	cancelChanges() {
-		this.newLatitude = null
 		this.newLongitude = null
+		this.newLatitude = null
 		// removeNewChannel({viewer: this.viewer})
 	}
 
@@ -106,15 +67,13 @@ export default class R4MapPosition extends LitElement {
 	renderSubmit() {
 		return html`
 			<fieldset type="buttons">
-				${this.coordinates
+				${this.longitude && this.latitude
 					? html`<button type="button" name="delete" @click=${this.deletePosition}>Remove position</button>`
 					: null}
-				${this.newCoordinates
+				${this.newLongitude && this.newLatitude
 					? html`
 							<button type="button" name="cancel" @click=${this.cancelChanges}>Cancel</button>
-							<button type="submit" name="submit">
-								Save ${this.newCoordinates?.longitude}, ${this.newCoordinates?.latitude}
-							</button>
+							<button type="submit" name="submit">Save ${this.newLongitude}, ${this.newLatitude}</button>
 					  `
 					: null}
 			</fieldset>

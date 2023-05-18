@@ -65,9 +65,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		}
 	}
 
-	async onMapSubmit({
-		detail
-	}) {
+	async onMapSubmit({detail}) {
 		const channelId = this.channel.id
 		if (!channelId) return
 
