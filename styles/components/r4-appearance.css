@@ -1,0 +1,8 @@
+r4-appearance {
+	display: flex;
+}
+
+r4-appearance button[aria-selected] {
+	background: var(--color-text);
+	color: var(--color-background);
+}
