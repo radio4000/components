@@ -1,6 +1,16 @@
 r4-channel {
 	display: block;
 }
+r4-name {
+	display: block;
+	font-weight: bold;
+}
+r4-description {
+	display: block;
+}
+r4-slug {
+	display: inline-block;
+}
 
 r4-channel-card {
 	display: flex;
@@ -11,13 +21,40 @@ r4-channel-card {
 r4-channel-card > div {
 	padding: calc(var(--size) / 2);
 }
-r4-channel-card h1,
 r4-channel-card figure {
 	margin: 0;
 }
-r4-channel-card r4-slug {}
-r4-channel-card r4-description {}
-r4-description {
-	display: block;
+r4-channel-card r4-name {
 }
-r4-channel-card r4-button-play {}
+r4-channel-card r4-slug {
+}
+r4-channel-card r4-description {
+	font-size: smaller;
+}
+r4-channel-card r4-button-play {
+	margin-left: -1px;
+	margin-bottom: -1px;
+}
+
+/* mini version used in search results */
+r4-channel-card[size='mini'] {
+	position: relative;
+	flex-direction: row;
+}
+r4-channel-card[size='mini'] r4-avatar img {
+	height: 5rem;
+}
+r4-channel-card[size='mini'] r4-avatar:empty {
+	width: 5rem;
+}
+r4-channel-card[size='mini'] r4-button-play {
+	position: absolute;
+	left: 0.25rem;
+	bottom: 0.25rem;
+}
+
+/* placeholder "image" */
+r4-channel-card r4-avatar:empty {
+	background: var(--color-border);
+	padding-bottom: 100%;
+}

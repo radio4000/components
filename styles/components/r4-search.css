@@ -27,3 +27,11 @@ r4-search-form svg {
 	z-index: 1;
 	transition: left .25s cubic-bezier(.165,.84,.4,1);
 }
+
+r4-search-form + ul {
+	list-style: none;
+	padding: 0;
+}
+r4-search-form + ul r4-channel-card {
+	margin-bottom: 0.5em;
+}

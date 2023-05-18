@@ -13,11 +13,11 @@ export default class R4PageExplore extends LitElement {
 	render() {
 		return html`
 			<header>
-				<h1>Explore</h1>
-				<p>All <r4-title ></r4-title> channels.</p>
+				<h1>Explore all Radio4000 channels</h1>
 				<p>View the <a href=${`${this.config.href}/map`}>R4 Map</a>.</p>
 			</header>
 			<section>
+				<r4-channel-search href=${this.config.href}></r4-channel-search>
 				<r4-channels
 					@r4-list=${this.onNavigateList}
 					origin=${this.channelOrigin}
@@ -31,7 +31,6 @@ export default class R4PageExplore extends LitElement {
 	createRenderRoot() {
 		return this
 	}
-
 	onNavigateList({detail}) {
 		/* `page` here, is usually globaly the "router", beware */
 		const {page: currentPage, limit, list} = detail

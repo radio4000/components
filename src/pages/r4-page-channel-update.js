@@ -1,24 +1,27 @@
-import { html } from 'lit'
+import {html} from 'lit'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
 import {sdk} from '@radio4000/sdk'
 
 export default class R4PageChannelUpdate extends BaseChannel {
 	render() {
-		const { channel } = this
+		const {channel} = this
 		if (channel === null) return html`<p>404 - There is no channel with this slug.</p>`
 		if (!channel) return html`<p>Loading...</p>`
 		// if (!this.canEdit) return html`<p>You don't have permission to edit this channel.</p>`
 
-		const currentUserChannel = this.store.userChannels.find(channel => {
+		const currentUserChannel = this.store.userChannels.find((channel) => {
 			return channel.id === this.channel.id
 		})
 
 		return html`
 			<header>
-				<h1>&larr; <a href=${`${this.config.href}/${currentUserChannel.slug}`}>${currentUserChannel.name}</a></h1>
-				<p>@${currentUserChannel.slug}</p>
-				<p>${currentUserChannel.description}</p>
+				<p>
+					<code>@</code>
+					<a href=${this.buildChannelHref(channel)}>${channel.slug}</a>
+					<code>/</code>
+					update
+				</p>
 			</header>
 			<main>
 				<r4-channel-update
@@ -39,16 +42,16 @@ export default class R4PageChannelUpdate extends BaseChannel {
 					longitude=${currentUserChannel.longitude}
 					latitude=${currentUserChannel.latitude}
 				></r4-map-position>
-				<br/>
+				<br />
 				<details>
 					<summary>Delete channel</summary>
 					<r4-channel-delete id=${currentUserChannel.id} @submit=${this.onChannelDelete}></r4-channel-delete>
 				</details>
 			</main>
-				`
+		`
 	}
 
-	async onChannelDelete({ detail }) {
+	async onChannelDelete({detail}) {
 		/* no error? we deleted */
 		if (!detail.data) {
 			page('/')
@@ -56,8 +59,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 	}
 
 	async onChannelUpdate({ detail }) {
-		const {data: { slug: newSlug }} = ({} = detail)
-
+		const newSlug = detail?.data?.slug
 		if (newSlug && newSlug !== this.params.slug) {
 			page(`/${newSlug}`)
 		}

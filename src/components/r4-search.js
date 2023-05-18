@@ -82,7 +82,8 @@ export class R4ChannelSearch extends R4Search {
 		return sdk.supabase.from('channels').select().textSearch('fts', `'${value}':*`)
 	}
 	renderResult(item) {
-		return html`<r4-channel-card .channel="${item}"></r4-channel-card>`
+		return html`<r4-channel-card size="mini" origin=${this.href} .channel="${item}"></r4-channel-card>`
+		// return html`<r4-channel-card .channel="${item}"></r4-channel-card>`
 	}
 }
 

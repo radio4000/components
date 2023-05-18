@@ -42,7 +42,7 @@ export default class R4ChannelCard extends LitElement {
 				<r4-avatar image=${channel.image}></r4-avatar>
 			</a>
 			<div>
-				<h1><a href="${this.url}">${channel.slug}</a></h1>
+				<r4-name aria-heading="1"><a href="${this.url}">${channel.slug}</a></r4-name>
 				<r4-slug><a href="${this.url}">@${channel.slug}</a></r4-slug>
 				<r4-description>${channel.description}</r4-description>
 			</div>

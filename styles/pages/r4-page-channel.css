@@ -45,12 +45,16 @@ r4-page-channel r4-avatar {
 	align-items: center;
 }
 
+r4-page-channel r4-avatar figure {
+	margin: 1rem 0 0;
+}
+
 r4-page-channel r4-tracks {
 	align-self: center;
 }
 @container (min-width: 700px) {
 	r4-page-channel r4-tracks {
-		max-width: 50vw;
+		max-width: 40vw;
 	}
 }
 r4-page-channel r4-tracks ul {
@@ -66,4 +70,9 @@ r4-page-channel r4-track {
 }
 r4-page-channel r4-track r4-track-title {
 	font-weight: bold;
+}
+
+r4-page-channel > footer {
+	display: flex;
+	place-content: center;
 }

@@ -31,6 +31,11 @@ export default class R4PageChannel extends BaseChannel {
 		if (!channel) return html`<p>Loading...</p>`
 
 		return html`
+			<header>
+				<code>@</code>
+				<a href=${this.buildChannelHref(channel)}>${channel.slug}</a>
+			</header>
+
 			<r4-page-actions>
 				<r4-button-play .channel=${channel}></r4-button-play>
 
@@ -69,9 +74,11 @@ export default class R4PageChannel extends BaseChannel {
 
 			<r4-tracks channel=${channel.slug} origin=${this.tracksOrigin} limit="5"></r4-tracks>
 
-			<p>
-				<a href="${`${this.channelOrigin}/tracks`}">All tracks</a>
-			</p>
+			<footer>
+				<p>
+					<a href="${`${this.channelOrigin}/tracks`}">All tracks</a>
+				</p>
+			</footer>
 
 			<r4-dialog name="share" @close=${this.onDialogClose}>
 				<r4-channel-sharer slot="dialog" origin=${this.channelOrigin} slug=${channel.slug}></r4-channel-sharer>
