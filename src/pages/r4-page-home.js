@@ -15,8 +15,10 @@ export default class R4PageHome extends LitElement {
 				${this.store.user ? this.renderMenuUser() : this.renderMenuNoUser()}
 				${this.store?.userChannels?.length ? html`
 					<section>
-						<h2>You channel:</h2>
-						${this.store?.userChannels.map((channel) => this.renderChannelCard(channel, this.config.href))}
+						<h2>Your channel:</h2>
+						<div class="Grid">
+							${this.store?.userChannels.map((channel) => this.renderChannelCard(channel, this.config.href))}
+						</div>
 					</section>
 				` : null}
 				${this.store?.userChannels?.length ? html`

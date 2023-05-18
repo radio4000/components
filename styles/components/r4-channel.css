@@ -15,5 +15,9 @@ r4-channel-card h1,
 r4-channel-card figure {
 	margin: 0;
 }
-r4-channel-card .slug a {}
-r4-channel-card button {}
+r4-channel-card r4-slug {}
+r4-channel-card r4-description {}
+r4-description {
+	display: block;
+}
+r4-channel-card r4-button-play {}

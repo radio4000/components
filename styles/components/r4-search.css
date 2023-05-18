@@ -3,14 +3,23 @@ r4-search-form {
 	gap: 0.25em;
 	position: relative;
 }
+r4-search-form input[type="search"]::-webkit-search-cancel-button {
+  display: none;
+}
+r4-search-form label {
+	display: block;
+	font-size: smaller;
+}
+r4-search-form input {
+	padding-left: 2em;
+}
 r4-search-form svg {
 	pointer-events: none;
-	height: 1.2em;
-	width: 1.2em;
+	height: 1em;
+	width: 1em;
 	position: absolute;
-	top: 50%;
-	left: 0.8em;
-	/* right: 0.3em; */
+	bottom: 0;
+	left: 0.5em;
 	transform: translateY(-50%);
 	fill: currentColor;
 	color: var(--color-input-border);
@@ -18,24 +27,3 @@ r4-search-form svg {
 	z-index: 1;
 	transition: left .25s cubic-bezier(.165,.84,.4,1);
 }
-r4-search-form input[type="search"]::-webkit-search-cancel-button {
-  display: none;
-}
-r4-search-form label {
-	display: block;
-}
-r4-search-form input r4-{
-	transition: width .2s cubic-bezier(.165,.84,.4,1);
-}
-r4-search-form input:not(:focus) {
-	color: transparent;
-	width: 3em;
-}
-r4-search-form input:focus {
-	width: calc(var(--size) * 8);
-}
-r4-search-form input:focus + svg {
-	left: calc(var(--size) * 7);
-	color: initial;
-}
-
