@@ -55,7 +55,6 @@ export default class R4MapPosition extends LitElement {
 
 	onMapClick(event) {
 		const {longitude, latitude} = event.detail
-		console.log('selected position', event.detail)
 		this.newLatitude = latitude
 		this.newLongitude = longitude
 	}
@@ -71,19 +70,16 @@ export default class R4MapPosition extends LitElement {
 			},
 		})
 		this.dispatchEvent(positionEvent)
-		console.log('submit position', positionEvent)
 		// if (!this.newCoordinates) removeChannelOrigin({viewer: this.viewer})
 	}
 
 	cancelChanges() {
-		console.log('cancel changes')
 		this.newLatitude = null
 		this.newLongitude = null
 		// removeNewChannel({viewer: this.viewer})
 	}
 
 	deletePosition() {
-		console.log('delete position')
 		const deletePositionEvent = new CustomEvent('submit', {
 			bubbles: true,
 			detail: null,

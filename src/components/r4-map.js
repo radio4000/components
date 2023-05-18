@@ -1,7 +1,7 @@
 import {LitElement, html} from 'lit'
 import {sdk} from '@radio4000/sdk'
 
-import "ol/ol.css";
+import 'ol/ol.css'
 import {Map, View, Feature} from 'ol'
 import OSM from 'ol/source/OSM'
 import VectorSource from 'ol/source/Vector'
@@ -11,6 +11,10 @@ import {Point} from 'ol/geom'
 import {Select} from 'ol/interaction'
 import Link from 'ol/interaction/Link.js'
 import {pointerMove} from 'ol/events/condition'
+import Style from 'ol/style/Style'
+import Stroke from 'ol/style/Stroke'
+import Fill from 'ol/style/Fill'
+import Circle from 'ol/style/Circle'
 
 /**
  * A world map with all radio channels that have coordinates
@@ -71,7 +75,7 @@ export default class R4Map extends LitElement {
 			layers: [rasterLayer],
 			view: new View({
 				center: [this.longitude, this.latitude],
-				zoom: 4,
+				zoom: this.longitude ? 6 : 2,
 			}),
 		})
 
@@ -91,27 +95,29 @@ export default class R4Map extends LitElement {
 	}
 
 	addMarker(coordinate, details) {
+		const circle = new Style({
+			image: new Circle({
+				radius: 6,
+				stroke: new Stroke({
+					color: 'black',
+					width: 2,
+				}),
+				fill: new Fill({
+					color: '#ffcd46',
+				}),
+			}),
+		})
 		const feature = new Feature({
 			geometry: new Point(coordinate),
 			details,
 		})
-		// feature.setStyle(
-		// 	new Style({
-		// 		image: new Icon({
-		// 			color: '#ffcd46',
-		// 			crossOrigin: 'anonymous',
-		// 			src: 'https://openlayers.org/en/v4.6.5/examples/data/dot.png',
-		// 		}),
-		// 	})
-		// )
 		const source = new VectorSource({features: [feature]})
-		const vectorLayer = new VectorLayer({source})
+		const vectorLayer = new VectorLayer({source, style: [circle]})
 		this.map.addLayer(vectorLayer)
 	}
 
 	onClick(event) {
-		console.log('clicked map', event.coordinate)
-		this.addMarker(event.coordinate)
+		// this.addMarker(event.coordinate)
 		this.dispatchEvent(
 			new CustomEvent('r4-map-click', {
 				bubbles: true,
@@ -128,7 +134,6 @@ export default class R4Map extends LitElement {
 		if (!feature) return
 		const details = feature.get('details')
 		if (details) {
-			console.log('selected map feature', details?.name, details?.longitude, details?.latitude)
 			// Schedule a re-render so we see the clicked channel.
 			this.channel = details
 			this.requestUpdate()

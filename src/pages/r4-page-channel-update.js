@@ -56,8 +56,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 	}
 
 	async onChannelUpdate({ detail }) {
-		const {data: { slug: newSlug }} = ({} = detail)
-
+		const newSlug = detail?.data?.slug
 		if (newSlug && newSlug !== this.params.slug) {
 			page(`/${newSlug}`)
 		}
@@ -84,7 +83,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 					latitude: null,
 				})
 			}
-		} catch(error) {
+		} catch (error) {
 			console.log('error saving map data', error)
 		}
 	}
