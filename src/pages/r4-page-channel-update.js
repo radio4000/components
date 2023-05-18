@@ -72,15 +72,14 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		const channelId = this.channel.id
 		if (!channelId) return
 
-		let res
 		try {
 			if (detail) {
-				res = await sdk.channels.updateChannel(channelId, {
+				await sdk.channels.updateChannel(channelId, {
 					longitude: detail.longitude,
 					latitude: detail.latitude,
 				})
 			} else {
-				res = await sdk.channels.updateChannel(channelId, {
+				await sdk.channels.updateChannel(channelId, {
 					longitude: null,
 					latitude: null,
 				})
