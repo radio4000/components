@@ -23,7 +23,7 @@ export default class R4ResetPassword extends LitElement {
 		return html`
 			<form @submit=${this.submit}>
 				<label>Email <input type="email" name="email" value=${this.email} autocomplete="username" required></label>
-				<button type="submit" ?disabled=${this.loading}>${this.loading ? 'Sending...' : 'Send a password reset request'}</button>
+				<button type="submit" ?disabled=${this.loading}>${this.loading ? 'Sending...' : 'Send password reset email'}</button>
 				${this.msg ? html`<p>${this.msg}</p>` : null}
 			</form>
 		`

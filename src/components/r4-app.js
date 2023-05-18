@@ -279,12 +279,9 @@ export default class R4App extends LitElement {
 				<li>
 					<a href=${href + '/explore'}>Explore</a>
 				</li>
-				${this.userChannels ? html`<li><a href=${href + '/add'}>Add</a></li>` : null}
+				${this.userChannels ? html`<li><a href=${href + '/add'}>+Add</a></li>` : null}
 				<li>
 					<r4-auth-status ?auth=${user}>
-						<span slot="out">
-							<a href=${href + '/sign/up'}>Create radio</a>
-						</span>
 						<span slot="in">
 							${
 								!this.userChannels ?
@@ -300,6 +297,9 @@ export default class R4App extends LitElement {
 					<r4-auth-status ?auth=${user}>
 						<span slot="in">
 							<a href=${`${this.config.href}/settings`}>Settings</a>
+						</span>
+						<span slot="out">
+							<a href=${href + '/sign/up'}>Create new radio</a>
 						</span>
 					</r4-auth-status>
 				</li>

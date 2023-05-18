@@ -2,9 +2,8 @@ const template = document.createElement('template')
 template.innerHTML = `
 	<form>
 		<fieldset>
-			<label for="channel_url" id="channel_url">Channel URL
-				<input readonly name="channel_url" type="url"/>
-			</label>
+			<label for="channel_url" id="channel_url">Channel URL</label>
+			<input readonly name="channel_url" type="url"/>
 		</fieldset>
 		<fieldset>
 			<label for="channel_iframe" id="channel_iframe">Channel Iframe</label>

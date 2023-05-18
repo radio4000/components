@@ -44,6 +44,9 @@ export default class R4PageHome extends LitElement {
 				<li>
 					<a href="${this.config.href}/explore">Explore channels</a> to discover new content
 				</li>
+				<li>
+					<a href=${this.config.href + '/sign/up'}>Sign up</a> to start your own radio
+				</li>
 			</menu>
 		`
 	}

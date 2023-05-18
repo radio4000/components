@@ -34,9 +34,9 @@ export default class R4PageChannelUpdate extends BaseChannel {
 					latitude=${currentUserChannel.latitude}
 					@submit=${this.onChannelUpdate}
 				></r4-channel-update>
-				<br />
+				<h2>Avatar</h2>
 				<r4-avatar-update slug=${currentUserChannel.slug}></r4-avatar-update>
-				<br />
+				<h2>Map</h2>
 				<r4-map-position
 					@submit=${this.onMapSubmit}
 					longitude=${currentUserChannel.longitude}
