@@ -126,7 +126,7 @@ const stateMinimize = css`
 	position: relative;
 	}
 	:host([ui-state="minimize"]) r4-player {
-	max-width: 10vw;
+	width: 10vw;
 	}
 	:host([ui-state="minimize"]) radio4000-player {
 	min-height: auto;

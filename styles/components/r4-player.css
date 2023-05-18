@@ -37,7 +37,7 @@ r4-layout[ui-state="minimize"] radio4000-player .Layout-footer {
 		min-height: unset;
 		max-height: unset;
 		height: 100%;
-		max-width: 33vw;
+		width: 33vw;
 	}
 	r4-layout[ui-state="dock"] r4-layout-playback {
 		position: relative;
