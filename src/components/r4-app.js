@@ -103,6 +103,11 @@ export default class R4App extends LitElement {
 
 
 		if (this.user) {
+			// Load account settings and set prefered theme.
+			const {data: account} = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
+			if (account?.theme) document.documentElement.setAttribute('data-color-scheme', account.theme)
+			console.log('account', account)
+
 			// load user channels
 			const {data: channels} = await sdk.channels.readUserChannels()
 			this.userChannels = channels?.length ? channels : undefined
