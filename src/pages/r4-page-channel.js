@@ -31,7 +31,7 @@ export default class R4PageChannel extends BaseChannel {
 		if (!channel) return html`<p>Loading...</p>`
 
 		return html`
-			<header>
+			<header hidden>
 				<code>@</code>
 				<a href=${this.buildChannelHref(channel)}>${channel.slug}</a>
 			</header>
@@ -58,11 +58,9 @@ export default class R4PageChannel extends BaseChannel {
 			<r4-page-header>
 				<r4-channel-name>${channel.name}</r4-channel-name>
 				<r4-channel-slug>@<a href=${this.channelOrigin}>${channel.slug}</a> </r4-channel-slug>
-
-				<r4-channel-url>
+				${channel.url ? html`<r4-channel-url>
 					<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
-				</r4-channel-url>
-
+				</r4-channel-url>` : null}
 				<r4-channel-description>${channel.description}</r4-channel-description>
 			</r4-page-header>
 
