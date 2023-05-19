@@ -15,7 +15,8 @@ export default class R4Router extends LitElement {
 	/* used to setup the base of the url handled by page.js router */
 	get pathname() {
 		const href = this.config.href || window.location.href
-		let name = new URL(href).pathname
+		const name = new URL(href).pathname
+		console.log('pathname', name)
 		/* if (name.endsWith('/')) {
 			 name = name.slice(0, name.length - 1)
 			 } */
@@ -33,13 +34,14 @@ export default class R4Router extends LitElement {
 
 	handleFirstUrl() {
 		const initialURL = new URL(window.location.href)
-		page(initialURL.pathname + initialURL.search)
+		const url = initialURL.pathname + initialURL.search
+		page(url)
 	}
 
 	setupRouter() {
 		page.stop()
 		page.strict(false)
-		if (this.pathname) {
+		if (this.pathname && this.pathname !== '/') {
 			page.base(this.pathname)
 		} else {
 			page.base('')
