@@ -40,7 +40,7 @@ export default class R4PageExplore extends LitElement {
 		currentPage && newPageURL.searchParams.set('page', currentPage)
 
 		if (window.location.href !== newPageURL.href) {
-			page(newPageURL.pathname + newPageURL.search)
+			page.redirect(newPageURL.pathname + newPageURL.search)
 		}
 	}
 }
