@@ -1,5 +1,5 @@
-import { html, LitElement } from 'lit'
-import { ref, createRef } from 'lit/directives/ref.js'
+import {html, LitElement} from 'lit'
+import {ref, createRef} from 'lit/directives/ref.js'
 import {sdk} from '@radio4000/sdk'
 import page from 'page/page.mjs'
 import '../pages/'
@@ -9,8 +9,8 @@ export default class R4App extends LitElement {
 
 	static properties = {
 		/* public attributes, config props */
-		singleChannel: { type: Boolean, reflect: true, attribute: 'single-channel', state: true },
-		selectedSlug: { type: String, reflect: true, attribute: 'channel', state: true }, // channel slug
+		singleChannel: {type: Boolean, reflect: true, attribute: 'single-channel', state: true},
+		selectedSlug: {type: String, reflect: true, attribute: 'channel', state: true}, // channel slug
 		href: {
 			reflect: true,
 			converter: (value) => {
@@ -19,7 +19,7 @@ export default class R4App extends LitElement {
 					hrefAttr = hrefAttr.slice(0, hrefAttr.length - 1)
 				}
 				return hrefAttr
-			}
+			},
 		},
 
 		/* state */
@@ -60,16 +60,15 @@ export default class R4App extends LitElement {
 	}
 
 	get selectedChannel() {
-		if (
-			!this.config.selectedSlug ||
-			!this.store?.user ||
-			!this.store?.userChannels
-		) return null
-		return this.store.userChannels.find(c => c.slug === this.config.selectedSlug)
+		if (!this.config.selectedSlug || !this.store?.user || !this.store?.userChannels) return null
+		return this.store.userChannels.find((c) => c.slug === this.config.selectedSlug)
 	}
 
 	constructor() {
 		super()
+
+		const theme = localStorage.getItem('r4.theme')
+		if (theme) document.documentElement.setAttribute('data-color-scheme', theme)
 	}
 
 	async connectedCallback() {
@@ -82,12 +81,12 @@ export default class R4App extends LitElement {
 			if (event === 'SIGNED_OUT') this.removeDatabaseListeners()
 
 			// @todo redirect to a /set-password page or similar instead of the prompt
-			if (event === "PASSWORD_RECOVERY") {
-				const newPassword = prompt("What would you like your new password to be?");
+			if (event === 'PASSWORD_RECOVERY') {
+				const newPassword = prompt('What would you like your new password to be?')
 				if (!newPassword) return
-				const { data, error } = await sdk.supabase.auth.updateUser({ password: newPassword })
-				if (data) alert("Password updated successfully!")
-				if (error) alert("There was an error updating your password.")
+				const {data, error} = await sdk.supabase.auth.updateUser({password: newPassword})
+				if (data) alert('Password updated successfully!')
+				if (error) alert('There was an error updating your password.')
 			}
 
 			await this.refreshUserData()
@@ -101,8 +100,14 @@ export default class R4App extends LitElement {
 		const {data} = await sdk.supabase.auth.getSession()
 		this.user = data?.session?.user
 
-
 		if (this.user) {
+			// Load account settings and set prefered theme.
+			const {data: account} = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
+			if (account?.theme) {
+				localStorage.setItem('r4.theme', account.theme)
+				document.documentElement.setAttribute('data-color-scheme', account.theme)
+			}
+
 			// load user channels
 			const {data: channels} = await sdk.channels.readUserChannels()
 			this.userChannels = channels?.length ? channels : undefined
@@ -123,7 +128,6 @@ export default class R4App extends LitElement {
 				 it needs to have access to all user state, and selectedChannel
 			 */
 			this.setupDatabaseListeners()
-
 		} else {
 			this.userChannels = undefined
 			this.followers = undefined
@@ -140,45 +144,63 @@ export default class R4App extends LitElement {
 		await this.removeDatabaseListeners()
 
 		if (this.userChannels) {
-			const userChannelIds = this.userChannels.map(c => c.id)
+			const userChannelIds = this.userChannels.map((c) => c.id)
 			const userChannelsChanges = sdk.supabase.channel('user-channels-changes')
-			userChannelsChanges.on('postgres_changes', {
-				event: '*',
-				schema: 'public',
-				table: 'channels',
-				filter: `id=in.(${userChannelIds.join(',')})`,
-			}, (payload) => {
-				this.refreshUserData()
-			}).subscribe()
+			userChannelsChanges
+				.on(
+					'postgres_changes',
+					{
+						event: '*',
+						schema: 'public',
+						table: 'channels',
+						filter: `id=in.(${userChannelIds.join(',')})`,
+					},
+					(payload) => {
+						this.refreshUserData()
+					}
+				)
+				.subscribe()
 		}
 
 		const userChannelEvents = sdk.supabase.channel('user-channels-events')
-		userChannelEvents.on('postgres_changes', {
-			event: '*',
-			schema: 'public',
-			table: 'user_channel',
-			filter: `user_id=eq.${this.user.id}`,
-		}, async (payload) => {
-			if (payload.eventType === 'INSERT' || payload.eventType === 'DELETE') {
-				/* need to remove listeners, because the userChannels changed
+		userChannelEvents
+			.on(
+				'postgres_changes',
+				{
+					event: '*',
+					schema: 'public',
+					table: 'user_channel',
+					filter: `user_id=eq.${this.user.id}`,
+				},
+				async (payload) => {
+					if (payload.eventType === 'INSERT' || payload.eventType === 'DELETE') {
+						/* need to remove listeners, because the userChannels changed
 					 (so to listen to changes in the new ones) */
-				await this.refreshUserData()
-			}
-		}).subscribe()
+						await this.refreshUserData()
+					}
+				}
+			)
+			.subscribe()
 
 		if (this.selectedChannel?.id) {
 			const userFavoriteEvents = sdk.supabase.channel('user-channel-favorites')
-			userFavoriteEvents.on('postgres_changes', {
-				event: '*',
-				schema: 'public',
-				table: 'followers',
-				filter: `follower_id=eq.${this.selectedChannel.id}`,
-			}, async (payload) => {
-				console.log('event@fav update', payload)
-				if (payload.eventType === 'INSERT' || payload.eventType === 'DELETE') {
-					await this.refreshUserData()
-				}
-			}).subscribe()
+			userFavoriteEvents
+				.on(
+					'postgres_changes',
+					{
+						event: '*',
+						schema: 'public',
+						table: 'followers',
+						filter: `follower_id=eq.${this.selectedChannel.id}`,
+					},
+					async (payload) => {
+						console.log('event@fav update', payload)
+						if (payload.eventType === 'INSERT' || payload.eventType === 'DELETE') {
+							await this.refreshUserData()
+						}
+					}
+				)
+				.subscribe()
 		}
 	}
 
@@ -190,21 +212,10 @@ export default class R4App extends LitElement {
 		if (!this.didLoad) return null
 
 		return html`
-			<r4-layout
-				@r4-play=${this.onPlay}
-				?is-playing=${this.isPlaying}
-				>
-				<header slot="menu">
-					${this.renderAppMenu()}
-				</header>
-				<main slot="main">
-					${this.renderAppRouter()}
-				</main>
-				<r4-player
-					slot="player"
-					${ref(this.playerRef)}
-					?is-playing=${this.isPlaying}
-					></r4-player>
+			<r4-layout @r4-play=${this.onPlay} ?is-playing=${this.isPlaying}>
+				<header slot="menu">${this.renderAppMenu()}</header>
+				<main slot="main">${this.renderAppRouter()}</main>
+				<r4-player slot="player" ${ref(this.playerRef)} ?is-playing=${this.isPlaying}></r4-player>
 			</r4-layout>
 		`
 	}
@@ -212,11 +223,7 @@ export default class R4App extends LitElement {
 	renderAppRouter() {
 		if (this.config.singleChannel) {
 			return html`
-				<r4-router
-					name="channel"
-					.store=${this.store}
-					.config=${this.config}
-					>
+				<r4-router name="channel" .store=${this.store} .config=${this.config}>
 					<r4-route path="/sign/:method" page="sign"></r4-route>
 					<r4-route path="/" page="channel"></r4-route>
 					<r4-route path="/player" page="channel-player"></r4-route>
@@ -230,11 +237,7 @@ export default class R4App extends LitElement {
 			`
 		} else {
 			return html`
-				<r4-router
-					name="application"
-					.store=${this.store}
-					.config=${this.config}
-					>
+				<r4-router name="application" .store=${this.store} .config=${this.config}>
 					<r4-route path="/" page="home"></r4-route>
 					<r4-route path="/explore" page="explore" query-params="page,limit"></r4-route>
 					<r4-route path="/sign" page="sign"></r4-route>
@@ -279,20 +282,18 @@ export default class R4App extends LitElement {
 				<li>
 					<a href=${href + '/explore'}>Explore</a>
 				</li>
-				${this.userChannels ? html`<li><a href=${href + '/add'}>Add</a></li>` : null}
+				${this.userChannels ? html`<li><a href=${href + '/add'}>+Add</a></li>` : null}
 				<li>
 					<r4-auth-status ?auth=${user}>
-						<span slot="out">
-							<a href=${href + '/sign/up'}>Create radio</a>
-						</span>
 						<span slot="in">
-							${
-								!this.userChannels ?
-									html`<a href=${href + '/new'}>Create channel</a>` :
-									this.userChannels.length === 1 ?
-										html`<a href=${`${href}/${this.userChannels[0].slug}`}>${this.userChannels[0].name}</a>` :
-										html`<r4-user-channels-select @input=${this.onChannelSelect} .channels=${userChannels}></r4-user-channels-select>`
-							}
+							${!this.userChannels
+								? html`<a href=${href + '/new'}>Create channel</a>`
+								: this.userChannels.length === 1
+								? html`<a href=${`${href}/${this.userChannels[0].slug}`}>${this.userChannels[0].name}</a>`
+								: html`<r4-user-channels-select
+										@input=${this.onChannelSelect}
+										.channels=${userChannels}
+								  ></r4-user-channels-select>`}
 						</span>
 					</r4-auth-status>
 				</li>
@@ -300,6 +301,9 @@ export default class R4App extends LitElement {
 					<r4-auth-status ?auth=${user}>
 						<span slot="in">
 							<a href=${`${this.config.href}/settings`}>Settings</a>
+						</span>
+						<span slot="out">
+							<a href=${href + '/sign/up'}>Create new radio</a>
 						</span>
 					</r4-auth-status>
 				</li>
@@ -321,19 +325,13 @@ export default class R4App extends LitElement {
 		return html`
 			<menu>
 				<li>
-					<a href=${this.config.href}>
-						${this.selectedSlug}
-					</a>
+					<a href=${this.config.href}> ${this.selectedSlug} </a>
 				</li>
 				<li>
-					<a href=${this.config.href + '/add'}>
-						add
-					</a>
+					<a href=${this.config.href + '/add'}> add </a>
 				</li>
 				<li>
-					<a href=${this.config.href + '/tracks'}>
-						tracks
-					</a>
+					<a href=${this.config.href + '/tracks'}> tracks </a>
 				</li>
 				<li>
 					<r4-auth-status>
@@ -350,9 +348,9 @@ export default class R4App extends LitElement {
 	}
 
 	/* events */
-	onChannelSelect({ detail }) {
+	onChannelSelect({detail}) {
 		if (detail.channel) {
-			const { slug } = detail.channel
+			const {slug} = detail.channel
 			this.selectedSlug = slug
 			page(`/${this.selectedSlug}`)
 		}
@@ -369,14 +367,11 @@ export default class R4App extends LitElement {
 
 		if (channel && channel.slug) {
 			this.isPlaying = true
-			const { data: channelTracks } = await sdk.channels.readChannelTracks(channel.slug)
+			const {data: channelTracks} = await sdk.channels.readChannelTracks(channel.slug)
 			const tracks = channelTracks.reverse()
 
 			if (tracks) {
-				this.playerRef.value.setAttribute(
-					'tracks',
-					JSON.stringify(tracks)
-				)
+				this.playerRef.value.setAttribute('tracks', JSON.stringify(tracks))
 			} else {
 				this.playerRef.value.removeAttribute('tracks')
 			}
@@ -409,7 +404,7 @@ export default class R4App extends LitElement {
 		/* stop the global playing state */
 		this.isPlaying = false
 		console.log('stop: this.isPlaying', this.isPlaying)
-1
+		1
 		/* clean the `r4-player` component (so it hides) */
 		this.playerRef.value.removeAttribute('track')
 		this.playerRef.value.removeAttribute('image')
@@ -417,8 +412,8 @@ export default class R4App extends LitElement {
 		this.playerRef.value.removeAttribute('tracks')
 	}
 
-		/* no shadow dom */
-		createRenderRoot() {
+	/* no shadow dom */
+	createRenderRoot() {
 		return this
 	}
 }

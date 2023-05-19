@@ -5,6 +5,7 @@
 
 import R4Actions from './r4-actions.js'
 import R4App from './r4-app.js'
+import R4ColorScheme from './r4-color-scheme.js'
 import R4Avatar from './r4-avatar.js'
 import R4AvatarUpdate from './r4-avatar-update.js'
 import R4AvatarUpload from './r4-avatar-upload.js'
@@ -46,6 +47,7 @@ import R4UserChannelsSelect from './r4-user-channels-select.js'
 
 customElements.define('r4-actions', R4Actions)
 customElements.define('r4-app', R4App)
+customElements.define('r4-color-scheme', R4ColorScheme)
 customElements.define('r4-avatar', R4Avatar)
 customElements.define('r4-avatar-update', R4AvatarUpdate)
 customElements.define('r4-avatar-upload', R4AvatarUpload)
@@ -89,6 +91,7 @@ customElements.define('r4-user-channels-select', R4UserChannelsSelect)
 export default {
 	R4Actions,
 	R4App,
+	R4ColorScheme,
 	R4Avatar,
 	R4AvatarUpdate,
 	R4AvatarUpload,

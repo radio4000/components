@@ -1,13 +1,13 @@
-import { LitElement, html } from 'lit'
+import {LitElement, html} from 'lit'
 import {sdk} from '@radio4000/sdk'
 // import page from 'page/page.mjs'
 
 export default class R4PageSettings extends LitElement {
 	static properties = {
 		/* props */
-		store: { type: Object, state: true },
-		query: { type: Object, state: true },
-		config: { type: Object, state: true },
+		store: {type: Object, state: true},
+		query: {type: Object, state: true},
+		config: {type: Object, state: true},
 	}
 
 	get hasOneChannel() {
@@ -22,8 +22,10 @@ export default class R4PageSettings extends LitElement {
 			console.log('nothing to update')
 			return
 		}
-		const { error } = await sdk.supabase.auth.updateUser({email})
-		this.changeEmail.msg = error ? 'Could not update your email' : 'Please confirm the link sent to both your new and old email'
+		const {error} = await sdk.supabase.auth.updateUser({email})
+		this.changeEmail.msg = error
+			? 'Could not update your email'
+			: 'Please confirm the link sent to both your new and old email'
 		if (error) {
 			console.log(error)
 		}
@@ -42,7 +44,8 @@ export default class R4PageSettings extends LitElement {
 	async confirmAndDelete(event) {
 		event.preventDefault()
 		if (!window.confirm('Do you really want to delete your account, channels and tracks?')) return
-		if (!window.confirm('Are you certain? Your account, channels and tracks will be deleted. We can not recover them.')) return
+		if (!window.confirm('Are you certain? Your account, channels and tracks will be deleted. We can not recover them.'))
+			return
 		const {error} = await sdk.users.deleteUser()
 		if (!error) {
 			console.log('deleted user account')
@@ -63,39 +66,53 @@ export default class R4PageSettings extends LitElement {
 			</p>
 
 			<form @submit=${this.changeEmail}>
-				<label>Change email<br/>
-					<input type="email" name="email" value=${this.store.user?.email} required>
+				<label
+					>Change email<br />
+					<input type="email" name="email" value=${this.store.user?.email} required />
 				</label>
-						<button type="submit">Save</button>
-						${this.changeEmail.msg ? html`<p>${this.changeEmail.msg}</p>` : null}
+				<button type="submit">Save</button>
+				${this.changeEmail.msg ? html`<p>${this.changeEmail.msg}</p>` : null}
 			</form>
 
-			<br/>
+			<br />
 
 			<form @submit=${this.changePassword}>
-				<input name="username" value=${this.store.user?.email} readonly hidden autocomplete="username">
-				<label>Change password<br/>
-					<input type="password" name="password" required autocomplete="new-password">
+				<input name="username" value=${this.store.user?.email} readonly hidden autocomplete="username" />
+				<label
+					>Change password<br />
+					<input type="password" name="password" required autocomplete="new-password" />
 				</label>
 				<button type="submit">Save</button>
 				${this.changePassword.msg ? html`<p>${this.changePassword.msg}</p>` : null}
 			</form>
 
 			<br/>
+			<h2>Appearance</h2>
+			<r4-color-scheme .user=${this.store.user}></r4-color-scheme>
 
-			<h2>Delete account</h2>
-			<p>Deleting your account will also delete these radios including any tracks.</p>
-			<ul>
-				${this.store?.userChannels?.length ?
-						this.store.userChannels.map((c) => html`<li><a href=${this.config.href + '/' + c.slug}>${c.slug}</a></li>`) : null}
-			</ul>
+			<br/>
+
 			<details>
-				<summary>I understand, continue</summary>
-				<form @submit=${this.confirmAndDelete}>
-					<button type="submit">Delete my account</button>
-				</form>
+				<summary>Delete account</summary>
+				<ul>
+					<li>Your user account will be deleted</li>
+					${this.store?.userChannels?.length
+						? this.store.userChannels.map(
+								(c) =>
+									html`<li>
+										<a href=${this.config.href + '/' + c.slug}>${c.slug}</a> and all its tracks will be deleted
+									</li>`
+						  )
+						: null}
+				</ul>
+				<details>
+					<summary>I understand, continue</summary>
+					<form @submit=${this.confirmAndDelete}>
+						<button type="submit">Delete my account</button>
+					</form>
+				</details>
 			</details>
-						`
+		`
 	}
 
 	createRenderRoot() {
