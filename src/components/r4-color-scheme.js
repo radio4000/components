@@ -42,6 +42,7 @@ export default class R4ColorScheme extends LitElement {
 	async save(value) {
 		this.theme = value
 		document.documentElement.setAttribute(this.attrName, value)
+		localStorage.setItem('r4.theme', value)
 		if (this.user) {
 			const update = await sdk.supabase.from('accounts').update({theme: value}).eq('id', this.user.id)
 			console.log('updated account theme', update)

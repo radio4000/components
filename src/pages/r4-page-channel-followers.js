@@ -58,7 +58,8 @@ export default class R4PageChannelFollowers extends BaseChannel {
 		currentPage && newPageURL.searchParams.set('page', currentPage)
 
 		if (window.location.href !== newPageURL.href) {
-			page(newPageURL.pathname + newPageURL.search)
+			console.log('navigating', window.location.href, newPageURL.href)
+			page.redirect(newPageURL.pathname + newPageURL.search)
 		}
 	}
 }
