@@ -88,7 +88,7 @@ export default class R4PageSettings extends LitElement {
 
 			<br/>
 			<h2>Appearance</h2>
-			<r4-appearance .user=${this.store.user}></r4-appearance>
+			<r4-color-scheme .user=${this.store.user}></r4-color-scheme>
 
 			<br/>
 

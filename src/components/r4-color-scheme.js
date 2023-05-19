@@ -5,7 +5,7 @@ import {sdk} from '@radio4000/sdk'
  * Renders controls to set your prefered color scheme
  * If the `user` property is set, settings will be persisted to Supabase.
  */
-export default class R4ThemeSwitcher extends LitElement {
+export default class R4ColorScheme extends LitElement {
 	static properties = {
 		user: {type: Object, state: true},
 		account: {type: Object, state: true},
