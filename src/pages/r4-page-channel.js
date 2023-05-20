@@ -46,6 +46,7 @@ export default class R4PageChannel extends BaseChannel {
 						slug=${channel.slug}
 						?can-edit=${this.canEdit}
 						@input=${this.onChannelAction}
+						?single-channel=${this.config.singleChannel}
 					></r4-channel-actions>
 				</r4-page-actions>
 			</menu>

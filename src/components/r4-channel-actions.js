@@ -1,4 +1,4 @@
-import {sdk} from '@radio4000/sdk'
+import { sdk } from '@radio4000/sdk'
 
 const template = document.createElement('template')
 template.innerHTML = `
@@ -32,6 +32,10 @@ export default class R4ChannelActions extends HTMLElement {
 		}
 	}
 
+	get singleChannel() {
+		return this.hasAttribute('single-channel')
+	}
+
 	constructor() {
 		super()
 		/* events click + keydown (to handle default "space" key, to open the select),
@@ -41,8 +45,12 @@ export default class R4ChannelActions extends HTMLElement {
 	}
 
 	async connectedCallback() {
-		this.append(template.content.cloneNode(true))
-		// this.canEdit = await canEditChannel(this.slug)
+		const $dom = template.content.cloneNode(true)
+		if (this.singleChannel) {
+			$dom.querySelector('option[value="followings"]').remove()
+			$dom.querySelector('option[value="followers"]').remove()
+		}
+		this.append($dom)
 	}
 
 	/* when the select is slected (open) the first time,
