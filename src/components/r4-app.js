@@ -113,8 +113,8 @@ export default class R4App extends LitElement {
 			this.userChannels = channels?.length ? channels : undefined
 
 			// load current channel followers/followings
-			if (!this.config.selectedSlug) {
-				this.selectedSlug = this.store.userChannels[0].slug
+			if (!this.config.selectedSlug && this.userChannels) {
+				this.selectedSlug = this.userChannels[0].slug
 			}
 
 			if (this.selectedChannel) {
