@@ -53,8 +53,6 @@ export default class R4PageChannelTrack extends BaseChannel {
 					.track=${track}
 					id=${this.params.track_id}
 					></r4-track>
-			</main>
-			<aside>
 				<r4-track-actions
 					id=${this.params.track_id}
 					@input=${this.onTrackAction}
@@ -84,7 +82,7 @@ export default class R4PageChannelTrack extends BaseChannel {
 						slug=${track.slug}
 						></r4-track-sharer>
 				</r4-dialog>
-			</aside>
+			</main>
 		`
 	}
 	renderNoPage() {
