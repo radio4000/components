@@ -6,19 +6,20 @@ const vitePluginR4AppSPA = (options) => ({
 	name: 'vite-plugin-r4-app-spa',
 	configureServer(server) {
 		server.middlewares.use((req, res, next) => {
-			if (req.originalUrl.startsWith('/examples/r4-app')) {
+			if (req.originalUrl === '/examples/r4-app-single') {
+				req.url = '/examples/r4-app-single/'
+			}
+			if (req.originalUrl === '/examples/r4-app') {
 				req.url = '/examples/r4-app/'
 			}
 			next()
 		})
-	}
+	},
 })
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [
-		vitePluginR4AppSPA(),
-	],
+	plugins: [vitePluginR4AppSPA()],
 	base: './',
 	build: {
 		// https://vitejs.dev/guide/build.html#library-mode
@@ -29,6 +30,7 @@ export default defineConfig({
 
 				r4Actions: resolve(__dirname, 'examples/r4-actions/index.html'),
 				r4App: resolve(__dirname, 'examples/r4-app/index.html'),
+				r4AppSingle: resolve(__dirname, 'examples/r4-app-single/index.html'),
 				r4Appearance: resolve(__dirname, 'examples/r4-color-scheme/index.html'),
 
 				r4Avatar: resolve(__dirname, 'examples/r4-avatar/index.html'),
@@ -51,6 +53,7 @@ export default defineConfig({
 				r4Layout: resolve(__dirname, 'examples/r4-layout/index.html'),
 				r4List: resolve(__dirname, 'examples/r4-list/index.html'),
 				r4Map: resolve(__dirname, 'examples/r4-map/index.html'),
+				r4Search: resolve(__dirname, 'examples/r4-search/index.html'),
 				r4MapPosition: resolve(__dirname, 'examples/r4-map-position/index.html'),
 				r4Player: resolve(__dirname, 'examples/r4-player/index.html'),
 				r4ButtonPlay: resolve(__dirname, 'examples/r4-button-play/index.html'),
@@ -72,6 +75,6 @@ export default defineConfig({
 				r4User: resolve(__dirname, 'examples/r4-user/index.html'),
 				r4UserChannelsSelect: resolve(__dirname, 'examples/r4-user-channels-select/index.html'),
 			},
-		}
+		},
 	},
 })
