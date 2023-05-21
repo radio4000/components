@@ -1,22 +1,22 @@
-import {LitElement, html} from 'lit'
-import {sdk} from '@radio4000/sdk'
+import { LitElement, html } from 'lit'
+import { sdk } from '@radio4000/sdk'
 
 import 'ol/ol.css'
-import {Map, View, Feature, Overlay} from 'ol'
-import {OSM} from 'ol/source'
+import { Map, View, Feature, Overlay } from 'ol'
+import { OSM } from 'ol/source'
 import VectorSource from 'ol/source/Vector'
 import VectorLayer from 'ol/layer/Vector'
 import TileLayer from 'ol/layer/Tile'
-import {Point} from 'ol/geom'
-import {Select} from 'ol/interaction'
+import { Point } from 'ol/geom'
+import { Select } from 'ol/interaction'
 import Link from 'ol/interaction/Link.js'
-import {pointerMove} from 'ol/events/condition'
+import { pointerMove } from 'ol/events/condition'
 import Style from 'ol/style/Style'
 import Stroke from 'ol/style/Stroke'
 import Fill from 'ol/style/Fill'
 import Circle from 'ol/style/Circle'
-import {useGeographic} from 'ol/proj'
-import {toStringHDMS} from 'ol/coordinate'
+import { useGeographic } from 'ol/proj'
+import { toStringHDMS } from 'ol/coordinate'
 
 // Switch default coordinate system to lon/lat
 useGeographic()
@@ -27,25 +27,25 @@ useGeographic()
 export default class R4Map extends LitElement {
 	static properties = {
 		// List of channels with coordinates.
-		channels: {type: Array, state: true},
+		channels: { type: Array, state: true },
 
 		// The channel that is currently selected on the map.
-		channel: {type: Object, state: true},
+		channel: { type: Object, state: true },
 
 		// Optional, initial map position
-		longitude: {type: Number},
-		latitude: {type: Number},
+		longitude: { type: Number },
+		latitude: { type: Number },
 
-		clickedCoordinates: {type: Array, state: true},
+		clickedCoordinates: { type: Array, state: true },
 
 		// For building the channel origin URL.
-		href: {type: String},
+		href: { type: String },
 
 		// True when the map has been created.
-		isReady: {type: Boolean, attribute: 'is-ready', reflect: true},
+		isReady: { type: Boolean, attribute: 'is-ready', reflect: true },
 
 		// Syncs the map state to the URL. False by default.
-		url: {type: Boolean, attribute: 'url'},
+		url: { type: Boolean, attribute: 'url' },
 	}
 
 	constructor() {
@@ -57,7 +57,7 @@ export default class R4Map extends LitElement {
 
 	get channelOrigin() {
 		const href = this.href || window.location
-		return `${href}/{{slug}}`
+		return `${href}/${this.channel.slug}`
 	}
 
 	async firstUpdated() {
@@ -66,7 +66,7 @@ export default class R4Map extends LitElement {
 
 		// Fetch channels and set markers for each.
 		if (!this.channels) {
-			const {data} = await sdk.channels.readChannels()
+			const { data } = await sdk.channels.readChannels()
 			if (!data) return
 			this.channels = data.filter((c) => c.longitude && c.latitude)
 			this.channels.forEach((c) => this.addMarker([c.longitude, c.latitude], c))
@@ -130,7 +130,7 @@ export default class R4Map extends LitElement {
 			geometry: new Point(coordinate),
 			details,
 		})
-		const source = new VectorSource({features: [feature]})
+		const source = new VectorSource({ features: [feature] })
 		const circle = new Style({
 			image: new Circle({
 				radius: 6,
@@ -143,7 +143,7 @@ export default class R4Map extends LitElement {
 				}),
 			}),
 		})
-		const vectorLayer = new VectorLayer({source, style: [circle]})
+		const vectorLayer = new VectorLayer({ source, style: [circle] })
 		this.map.addLayer(vectorLayer)
 	}
 
