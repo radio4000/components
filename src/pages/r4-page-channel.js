@@ -1,4 +1,4 @@
-import {html} from 'lit'
+import { html } from 'lit'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
 import { sdk } from '@radio4000/sdk'
@@ -26,44 +26,40 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	render() {
-		const {channel} = this
+		const { channel } = this
 		if (channel === null) return html`<p>404 - There is no channel with this slug.</p>`
 		if (!channel) return html`<p>Loading...</p>`
 
 		return html`
-			<menu>
-				<r4-page-actions>
-					<r4-button-play .channel=${channel}></r4-button-play>
+			<r4-page-actions>
+				<r4-button-play .channel=${channel}></r4-button-play>
 
-					<r4-channel-social>${this.renderSocial()}</r4-channel-social>
+				<r4-channel-social>${this.renderSocial()}</r4-channel-social>
 
-					${this.coordinates && !this.config.singleChannel
-						? html`<r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates>`
-						: null}
+				${this.coordinates && !this.config.singleChannel
+					? html`<r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates>`
+					: null}
 
-					<r4-channel-actions
-						slug=${channel.slug}
-						?can-edit=${this.canEdit}
-						?single-channel=${this.config.singleChannel}
-						@input=${this.onChannelAction}
-					></r4-channel-actions>
-				</r4-page-actions>
-			</menu>
+				<r4-channel-actions
+					slug=${channel.slug}
+					?can-edit=${this.canEdit}
+					?single-channel=${this.config.singleChannel}
+					@input=${this.onChannelAction}
+				></r4-channel-actions>
+			</r4-page-actions>
 
 			<r4-page-header>
 				<r4-channel-name>${channel.name}</r4-channel-name>
 				<r4-channel-slug>@<a href=${this.channelOrigin}>${channel.slug}</a> </r4-channel-slug>
-				${channel.url ? html`<r4-channel-url>
-					<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
-				</r4-channel-url>` : null}
+				${channel.url
+					? html`<r4-channel-url>
+							<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
+					  </r4-channel-url>`
+					: null}
 				<r4-channel-description>${channel.description}</r4-channel-description>
 			</r4-page-header>
 
-			<aside>
-				<a href=${this.channelOrigin + '/player'}>
-					<r4-avatar image=${channel.image}></r4-avatar>
-				</a>
-			</aside>
+			${channel.image ? this.renderChannelImage() : null}
 
 			<r4-tracks channel=${channel.slug} origin=${this.tracksOrigin} limit="5"></r4-tracks>
 
@@ -90,13 +86,21 @@ export default class R4PageChannel extends BaseChannel {
 		}
 	}
 
+	renderChannelImage() {
+		return html`<aside>
+			<a href=${this.channelOrigin + '/player'}>
+				<r4-avatar image=${this.channel.image}></r4-avatar>
+			</a>
+		</aside>`
+	}
+
 	renderMap() {
 		const mapUrl = `${this.config.href}/map/?longitude=${this.coordinates.longitude}&latitude=${this.coordinates.latitude}&slug=${this.channel.slug}`
 		return html`<a href=${mapUrl}>✵</a>`
 	}
 
 	/* event handlers from <r4-channel-actions> */
-	async onChannelAction({detail}) {
+	async onChannelAction({ detail }) {
 		if (detail) {
 			if (detail === 'play' && this.channel) {
 				const playEvent = new CustomEvent('r4-play', {
@@ -136,7 +140,7 @@ export default class R4PageChannel extends BaseChannel {
 		}
 	}
 
-	onDialogClose({target}) {
+	onDialogClose({ target }) {
 		const name = target.getAttribute('name')
 		if (name === 'track') {
 			if (this.config.singleChannel) {
