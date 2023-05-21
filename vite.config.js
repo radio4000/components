@@ -6,10 +6,9 @@ const vitePluginR4AppSPA = (options) => ({
 	name: 'vite-plugin-r4-app-spa',
 	configureServer(server) {
 		server.middlewares.use((req, res, next) => {
-			if (req.originalUrl === '/examples/r4-app-single') {
-				req.url = '/examples/r4-app-single/'
-			}
-			if (req.originalUrl === '/examples/r4-app') {
+			/* make a tmp URL */
+			const { pathname } = new URL('https://localhost' + req.originalUrl)
+			if (pathname === '/examples/r4-app') {
 				req.url = '/examples/r4-app/'
 			}
 			next()
