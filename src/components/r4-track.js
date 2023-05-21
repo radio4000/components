@@ -1,4 +1,4 @@
-import {sdk} from '@radio4000/sdk'
+import { sdk } from '@radio4000/sdk'
 import { html, render } from 'lit-html'
 
 export default class R4Track extends HTMLElement {
@@ -90,14 +90,19 @@ export default class R4Track extends HTMLElement {
 	renderTrack() {
 		const t = this.track
 		const $container = document.createElement('article')
-		render(html`
-		<article>
-			<a href=${this.origin}><r4-track-title>${t.title || t.id}<br></r4-track-title></a>
-			<r4-track-description>${t.description}</r4-track-description>
-			${t.discogs_url && html`<r4-track-discogs-url><a href="${t.discogs_url}">View on Discogs</a></r4-track-discogs-url>`}
-			<r4-track-tags>${t.tags.map(tag => html`<span>${tag}</span>`)}</r4-track-tags>
-			<r4-track-mentions>${t.mentions}</r4-track-mentions>
-		`, $container)
+		render(
+			html`
+				<a href=${this.origin}
+					><r4-track-title>${t.title || t.id}<br /></r4-track-title
+				></a>
+				<r4-track-description>${t.description}</r4-track-description>
+				${t.discogs_url &&
+				html`<r4-track-discogs-url><a href="${t.discogs_url}">View on Discogs</a></r4-track-discogs-url>`}
+				<r4-track-tags>${t.tags.map((tag) => html`<span>${tag}</span>`)}</r4-track-tags>
+				<r4-track-mentions>${t.mentions}</r4-track-mentions>
+			`,
+			$container
+		)
 		this.append($container)
 	}
 	renderNoTrack() {
