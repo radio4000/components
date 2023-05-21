@@ -1,13 +1,12 @@
 import 'radio4000-player'
 import { html, LitElement, css } from 'lit'
 import { ref, createRef } from 'lit/directives/ref.js'
-import styles from '../styles/components/r4-player.js'
 
 export default class R4Player extends LitElement {
 	playerRef = createRef()
 
 	static properties = {
-		isPlaying: {type: Boolean, attribute: 'is-playing', reflect: true },
+		isPlaying: { type: Boolean, attribute: 'is-playing', reflect: true },
 		tracks: { type: Array },
 		track: {},
 		name: {},
@@ -15,12 +14,7 @@ export default class R4Player extends LitElement {
 	}
 
 	render() {
-		return html`
-			<radio4000-player
-				${ref(this.playerRef)}
-				@playerReady=${this.onPlayerReady}
-			></radio4000-player>
-		`
+		return html` <radio4000-player ${ref(this.playerRef)} @playerReady=${this.onPlayerReady}></radio4000-player> `
 	}
 
 	onPlayerReady() {
@@ -69,7 +63,6 @@ export default class R4Player extends LitElement {
 		}
 	}
 	pause() {
-		console.log('r4-player pause')
 		/* click the radio400-player button */
 		// when in play mode, toggle pause
 		if (this.$playButton.checked === true) {
