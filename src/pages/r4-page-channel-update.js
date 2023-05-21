@@ -1,7 +1,7 @@
 import {html} from 'lit'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
-import {sdk} from '@radio4000/sdk'
+import { sdk } from '@radio4000/sdk'
 
 export default class R4PageChannelUpdate extends BaseChannel {
 	render() {
@@ -68,7 +68,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		}
 	}
 
-	async onMapSubmit({detail}) {
+	async onMapSubmit({ detail }) {
 		const channelId = this.channel.id
 		if (!channelId) return
 

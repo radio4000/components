@@ -1,9 +1,10 @@
 import { html, LitElement } from 'lit'
 import { until } from 'lit/directives/until.js'
-import {sdk} from '@radio4000/sdk'
+import { sdk } from '@radio4000/sdk'
 import page from 'page/page.mjs'
+import BaseChannel from './base-channel'
 
-export default class R4PageChannelTracks extends LitElement {
+export default class R4PageChannelTracks extends BaseChannel {
 	static properties = {
 		store: { type: Object, state: true },
 		params: { type: Object, state: true },
@@ -13,20 +14,12 @@ export default class R4PageChannelTracks extends LitElement {
 		channel: { type: Object, reflect: true, state: true },
 	}
 
-	get channelOrigin() {
-		return this.config.singleChannel ? this.config.href : `${this.config.href}/{{slug}}`
-	}
-
 	get tracksOrigin() {
 		if (this.config.singleChannel) {
 			return this.config.href + '/tracks/{{id}}'
 		} else {
 			return this.config.href + '/' + this.params.slug + '/tracks/{{id}}'
 		}
-	}
-
-	buildChannelHref(channel) {
-		return `${this.config.href}/${channel.slug}`
 	}
 
 	async firstUpdated() {
@@ -43,27 +36,31 @@ export default class R4PageChannelTracks extends LitElement {
 
 	init() {
 		// a promise for the `until` directive
-		this.channel = this.findSelectedChannel(this.params.slug)
+		if (this.config.singleChannel) {
+			this.channel = this.findSelectedChannel(this.config.selectedSlug)
+		} else {
+			this.channel = this.findSelectedChannel(this.params.slug)
+		}
 	}
 
 	render() {
-		return html`${
-			until(
-				Promise.resolve(this.channel).then((channel) => {
+		return html`${until(
+			Promise.resolve(this.channel)
+				.then((channel) => {
 					return channel ? this.renderPage(channel) : this.renderNoPage()
-				}).catch(() => this.renderNoPage()),
-				this.renderLoading()
-			)
-		}`
+				})
+				.catch(() => this.renderNoPage()),
+			this.renderLoading()
+		)}`
 	}
 
 	renderPage(channel) {
 		return html`
 			<header>
 				<code>@</code>
-				<a href=${this.buildChannelHref(channel)}>${channel.slug}</a>
+				<a href=${this.channelOrigin}>${channel.slug}</a>
 				<code>/</code>
-				<a href=${this.buildChannelHref(channel) + '/tracks'}>tracks</a>
+				<a href=${this.channelOrigin + '/tracks'}>tracks</a>
 			</header>
 			<main>
 				<br/>
@@ -75,7 +72,7 @@ export default class R4PageChannelTracks extends LitElement {
 					page=${this.query.page || 1}
 					pagination="true"
 					@r4-list=${this.onNavigateList}
-					></r4-tracks>
+				></r4-tracks>
 			</main>
 		`
 	}
@@ -91,9 +88,9 @@ export default class R4PageChannelTracks extends LitElement {
 		return this
 	}
 
-	onNavigateList({detail}) {
+	onNavigateList({ detail }) {
 		/* `page` here, is usually globaly the "router", beware */
-		const {page: currentPage, limit, list} = detail
+		const { page: currentPage, limit, list } = detail
 		const newPageURL = new URL(window.location)
 
 		limit && newPageURL.searchParams.set('limit', limit)

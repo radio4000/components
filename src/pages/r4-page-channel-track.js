@@ -1,9 +1,10 @@
 import { html, LitElement } from 'lit'
 import { until } from 'lit/directives/until.js'
-import {sdk} from '@radio4000/sdk'
+import { sdk } from '@radio4000/sdk'
 import page from 'page/page.mjs'
+import BaseChannel from './base-channel'
 
-export default class R4PageChannelTrack extends LitElement {
+export default class R4PageChannelTrack extends BaseChannel {
 	static properties = {
 		store: { type: Object, state: true },
 		params: { type: Object, state: true },
@@ -14,7 +15,6 @@ export default class R4PageChannelTrack extends LitElement {
 
 	firstUpdated() {
 		this.track = this.findTrack()
-		this.channel = this.findChannel()
 	}
 
 	/* find data, the current channel id we want to add to */
@@ -24,37 +24,27 @@ export default class R4PageChannelTrack extends LitElement {
 			return data
 		}
 	}
-	async findChannel() {
-		const { data } = await sdk.channels.readChannel(this.params.slug)
-		if (data && data.id) {
-			return data
-		}
-	}
-
-	buildChannelHref(channel) {
-		return `${this.config.href}/${channel.slug}`
-	}
 
 	render() {
-		return html`${
-			until(
-				Promise.all([this.track, this.channel]).then(([track, channel]) => {
+		return html`${until(
+			Promise.all([this.track, this.channel])
+				.then(([track, channel]) => {
 					return track ? this.renderPage(track, channel) : this.renderNoPage()
-				}).catch(() => this.renderNoPage()),
-				this.renderLoading()
-			)
-		}`
+				})
+				.catch(() => this.renderNoPage()),
+			this.renderLoading()
+		)}`
 	}
 	renderPage(track, channel) {
 		const track_id = this.params.track_id
 		return html`
 			<header>
 				<code>@</code>
-				<a href=${this.buildChannelHref(channel)}>${channel.slug}</a>
+				<a href=${this.channelOrigin}>${channel.slug}</a>
 				<code>/</code>
-				<a href=${this.buildChannelHref(channel) + '/tracks'}>tracks</a>
+				<a href=${this.channelOrigin + '/tracks'}>tracks</a>
 				<code>/</code>
-				<a href=${this.buildChannelHref(channel) + '/tracks' + '/' + track_id}>
+				<a href=${this.channelOrigin + '/tracks' + '/' + track_id}>
 					${track_id}
 				</a>
 			</header>
@@ -114,7 +104,7 @@ export default class R4PageChannelTrack extends LitElement {
 					detail: {
 						channel: channel,
 						track: track,
-					}
+					},
 				})
 				this.dispatchEvent(playEvent)
 			}
@@ -129,13 +119,13 @@ export default class R4PageChannelTrack extends LitElement {
 		page(`/${this.params.slug}/tracks`)
 	}
 
-	async onTrackUpdate({detail}) {
+	async onTrackUpdate({ detail }) {
 		if (!detail.error && detail.data) {
 			this.closeDialog('update')
 		}
 	}
 
-	onDialogClose({target}) {
+	onDialogClose({ target }) {
 		const name = target.getAttribute('name')
 		if (name === 'track') {
 			if (this.config.singleChannel) {

@@ -9,7 +9,7 @@
 :root,
 :host {
 	/* typography */
-	--font-size: 16px;
+	--font-size: var(--size-font);
 	--font-family: serif;
 
 	/* a default size to use (with calc()) for "homogenous visual spacing" */

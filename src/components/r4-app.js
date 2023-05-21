@@ -1,6 +1,6 @@
-import {html, LitElement} from 'lit'
-import {ref, createRef} from 'lit/directives/ref.js'
-import {sdk} from '@radio4000/sdk'
+import { html, LitElement } from 'lit'
+import { ref, createRef } from 'lit/directives/ref.js'
+import { sdk } from '@radio4000/sdk'
 import page from 'page/page.mjs'
 import '../pages/'
 
@@ -23,16 +23,16 @@ export default class R4App extends LitElement {
 		},
 
 		/* state */
-		user: {type: Object, state: true},
-		userChannels: {type: Array || null, state: true},
-		followers: {type: Array || null, state: true},
-		followings: {type: Array || null, state: true},
-		didLoad: {type: Boolean, state: true},
-		isPlaying: {type: Boolean, attribute: 'is-playing', reflects: true},
+		user: { type: Object, state: true },
+		userChannels: { type: Array || null, state: true },
+		followers: { type: Array || null, state: true },
+		followings: { type: Array || null, state: true },
+		didLoad: { type: Boolean, state: true },
+		isPlaying: { type: Boolean, attribute: 'is-playing', reflects: true },
 
 		/* state for global usage */
-		store: {type: Object, state: true},
-		config: {type: Object, state: true},
+		store: { type: Object, state: true },
+		config: { type: Object, state: true },
 	}
 
 	// This gets passed to all r4-pages.
@@ -74,7 +74,10 @@ export default class R4App extends LitElement {
 	async connectedCallback() {
 		super.connectedCallback()
 
+		// is the app running in "single visible channel" mode?
 		this.singleChannel = this.getAttribute('single-channel')
+
+		// which channel is currently selected in UI (or forced as single visible one)
 		this.selectedSlug = this.getAttribute('channel')
 
 		sdk.supabase.auth.onAuthStateChange(async (event, session) => {
@@ -84,7 +87,7 @@ export default class R4App extends LitElement {
 			if (event === 'PASSWORD_RECOVERY') {
 				const newPassword = prompt('What would you like your new password to be?')
 				if (!newPassword) return
-				const {data, error} = await sdk.supabase.auth.updateUser({password: newPassword})
+				const { data, error } = await sdk.supabase.auth.updateUser({ password: newPassword })
 				if (data) alert('Password updated successfully!')
 				if (error) alert('There was an error updating your password.')
 			}
@@ -97,7 +100,7 @@ export default class R4App extends LitElement {
 		if (this.refreshUserData.running) return
 		this.refreshUserData.running = true
 
-		const {data} = await sdk.supabase.auth.getSession()
+		const { data } = await sdk.supabase.auth.getSession()
 		this.user = data?.session?.user
 
 		if (this.user) {
@@ -109,7 +112,7 @@ export default class R4App extends LitElement {
 			}
 
 			// load user channels
-			const {data: channels} = await sdk.channels.readUserChannels()
+			const { data: channels } = await sdk.channels.readUserChannels()
 			this.userChannels = channels?.length ? channels : undefined
 
 			// load current channel followers/followings
@@ -118,8 +121,8 @@ export default class R4App extends LitElement {
 			}
 
 			if (this.selectedChannel) {
-				const {data: followers} = await sdk.channels.readFollowers(this.selectedChannel.id)
-				const {data: followings} = await sdk.channels.readFollowings(this.selectedChannel.id)
+				const { data: followers } = await sdk.channels.readFollowers(this.selectedChannel.id)
+				const { data: followings } = await sdk.channels.readFollowings(this.selectedChannel.id)
 				this.followers = followers
 				this.followings = followings
 			}
@@ -194,7 +197,6 @@ export default class R4App extends LitElement {
 						filter: `follower_id=eq.${this.selectedChannel.id}`,
 					},
 					async (payload) => {
-						console.log('event@fav update', payload)
 						if (payload.eventType === 'INSERT' || payload.eventType === 'DELETE') {
 							await this.refreshUserData()
 						}
@@ -270,7 +272,7 @@ export default class R4App extends LitElement {
 	}
 
 	renderMenuCMS() {
-		const {userChannels, href, user} = this
+		const { userChannels, href, user } = this
 
 		return html`
 			<menu>
@@ -325,7 +327,9 @@ export default class R4App extends LitElement {
 		return html`
 			<menu>
 				<li>
-					<a href=${this.config.href}> ${this.selectedSlug} </a>
+					<a href=${this.config.href}>
+						${this.config.selectedSlug ? this.config.selectedSlug : html`<r4-title small></r4-title>`}
+					</a>
 				</li>
 				<li>
 					<a href=${this.config.href + '/add'}> add </a>
@@ -358,12 +362,12 @@ export default class R4App extends LitElement {
 
 	/* play some data */
 	async onPlay(event) {
-		const {detail} = event
+		const { detail } = event
 		if (!detail) {
 			return this.stop()
 		}
 
-		const {channel, track} = detail
+		const { channel, track } = detail
 
 		if (channel && channel.slug) {
 			this.isPlaying = true
@@ -403,8 +407,7 @@ export default class R4App extends LitElement {
 	stop() {
 		/* stop the global playing state */
 		this.isPlaying = false
-		console.log('stop: this.isPlaying', this.isPlaying)
-		1
+
 		/* clean the `r4-player` component (so it hides) */
 		this.playerRef.value.removeAttribute('track')
 		this.playerRef.value.removeAttribute('image')

@@ -16,18 +16,17 @@ export default class R4PageChannelFollowings extends BaseChannel {
 	}
 
 	renderPage(channel) {
-		const channelOrigin = this.buildChannelHref(channel)
 		return html`
 			<header>
 				<code>@</code>
-				<a href=${channelOrigin}>${channel.slug}</a>
+				<a href=${this.channelOrigin}>${channel.slug}</a>
 				<code>/</code>
-				<a href=${channelOrigin + '/followings'}>followings</a>
+				<a href=${this.channelOrigin + '/followings'}>followings</a>
 			</header>
 			<main>
 				<r4-channel-followings
 					channel-id=${channel.id}
-					origin=${channelOrigin}
+					origin=${this.channelOrigin}
 					limit=${this.query.limit || 10}
 					page=${this.query.page || 1}
 					pagination="true"
@@ -48,9 +47,9 @@ export default class R4PageChannelFollowings extends BaseChannel {
 		return this
 	}
 
-	onNavigateList({detail}) {
+	onNavigateList({ detail }) {
 		/* `page` here, is usually globaly the "router", beware */
-		const {page: currentPage, limit, list} = detail
+		const { page: currentPage, limit, list } = detail
 		const newPageURL = new URL(window.location)
 
 		limit && newPageURL.searchParams.set('limit', limit)

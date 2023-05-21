@@ -1,7 +1,7 @@
 import {html} from 'lit'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
-import {sdk} from '@radio4000/sdk'
+import { sdk } from '@radio4000/sdk'
 
 export default class R4PageChannel extends BaseChannel {
 	get coordinates() {
@@ -31,29 +31,24 @@ export default class R4PageChannel extends BaseChannel {
 		if (!channel) return html`<p>Loading...</p>`
 
 		return html`
-			<header hidden>
-				<code>@</code>
-				<a href=${this.buildChannelHref(channel)}>${channel.slug}</a>
-			</header>
+			<menu>
+				<r4-page-actions>
+					<r4-button-play .channel=${channel}></r4-button-play>
 
-			<r4-page-actions>
-				<r4-button-play .channel=${channel}></r4-button-play>
+					<r4-channel-social>${this.renderSocial()}</r4-channel-social>
 
-				<div>
-					${this.alreadyFollowing
-						? html`<button @click=${this.unfollow}>Unfollow</button>`
-						: html`<button @click=${this.follow}>Follow</button>`}
-					${this.followsYou ? 'follows you' : null}
-				</div>
+					${this.coordinates && !this.config.singleChannel
+						? html`<r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates>`
+						: null}
 
-				<r4-channel-coordinates> ${this.coordinates ? this.renderMap() : null} </r4-channel-coordinates>
-
-				<r4-channel-actions
-					slug=${channel.slug}
-					?can-edit=${this.canEdit}
-					@input=${this.onChannelAction}
-				></r4-channel-actions>
-			</r4-page-actions>
+					<r4-channel-actions
+						slug=${channel.slug}
+						?can-edit=${this.canEdit}
+						?single-channel=${this.config.singleChannel}
+						@input=${this.onChannelAction}
+					></r4-channel-actions>
+				</r4-page-actions>
+			</menu>
 
 			<r4-page-header>
 				<r4-channel-name>${channel.name}</r4-channel-name>
@@ -82,6 +77,17 @@ export default class R4PageChannel extends BaseChannel {
 				<r4-channel-sharer slot="dialog" origin=${this.channelOrigin} slug=${channel.slug}></r4-channel-sharer>
 			</r4-dialog>
 		`
+	}
+
+	renderSocial() {
+		if (!this.config.singleChannel) {
+			return html`
+				<button @click=${this.alreadyFollowing ? this.unfollow : this.follow}>
+					${this.alreadyFollowing ? 'Unfollow' : 'Follow'}
+				</button>
+				<span>${this.followsYou ? 'follows you' : "doesn't follow you"}</span>
+			`
+		}
 	}
 
 	renderMap() {
