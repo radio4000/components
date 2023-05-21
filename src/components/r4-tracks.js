@@ -1,5 +1,5 @@
 import R4List from './r4-list.js'
-import {sdk} from '@radio4000/sdk'
+import { sdk } from '@radio4000/sdk'
 
 const itemTemplate = document.createElement('template')
 /* This will set the whole item (track) json,
@@ -7,7 +7,6 @@ const itemTemplate = document.createElement('template')
 itemTemplate.setAttribute('element', 'r4-track')
 itemTemplate.setAttribute('attribute', 'track')
 itemTemplate.innerHTML = `<r4-track><r4-track/>`
-
 
 export default class R4Tracks extends R4List {
 	static get observedAttributes() {
@@ -59,14 +58,7 @@ export default class R4Tracks extends R4List {
 				 so don't display all tracks, wait for a channel-slug */
 			}
 		} else {
-			/* browse all tracks accross all channels */
-			const res = await super.browsePage({ page, limit })
-
-			/* serialize junction table response */
-			if (res && res.data) {
-				res.data = res.data.map(item => item.track_id)
-			}
-			return res
+			/* do nothing if not channel (otherwise there is transicient data) */
 		}
 	}
 
@@ -82,7 +74,7 @@ export default class R4Tracks extends R4List {
 
 		/* serialize junction table response */
 		if (res && res.data) {
-			res.data = res.data.map(item => item.track_id)
+			res.data = res.data.map((item) => item.track_id)
 		}
 		return res
 	}
