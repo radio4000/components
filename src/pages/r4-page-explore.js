@@ -1,4 +1,4 @@
-import {html, LitElement} from 'lit'
+import { html, LitElement } from 'lit'
 import page from 'page/page.mjs'
 
 export default class R4PageExplore extends LitElement {
@@ -13,11 +13,13 @@ export default class R4PageExplore extends LitElement {
 	render() {
 		return html`
 			<header>
-				<h1>Explore all Radio4000 channels</h1>
-				<p>View the <a href=${`${this.config.href}/map`}>R4 Map</a>.</p>
+				<h1>Explore channels</h1>
+				<menu>
+					<li><a href=${`${this.config.href}/search`}>search</a></li>
+					<li><a href=${`${this.config.href}/map`}>map</a></li>
+				</menu>
 			</header>
-			<section>
-				<r4-channel-search href=${this.config.href}></r4-channel-search>
+			<main>
 				<r4-channels
 					@r4-list=${this.onNavigateList}
 					origin=${this.channelOrigin}
@@ -25,15 +27,15 @@ export default class R4PageExplore extends LitElement {
 					limit=${this.query.limit || 6}
 					page=${this.query.page || 1}
 				></r4-channels>
-			</section>
+			</main>
 		`
 	}
 	createRenderRoot() {
 		return this
 	}
-	onNavigateList({detail}) {
+	onNavigateList({ detail }) {
 		/* `page` here, is usually globaly the "router", beware */
-		const {page: currentPage, limit, list} = detail
+		const { page: currentPage, limit, list } = detail
 		const newPageURL = new URL(window.location)
 
 		limit && newPageURL.searchParams.set('limit', limit)
