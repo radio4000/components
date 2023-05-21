@@ -1,11 +1,11 @@
-import {html} from 'lit'
+import { html } from 'lit'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
 import { sdk } from '@radio4000/sdk'
 
 export default class R4PageChannelUpdate extends BaseChannel {
 	render() {
-		const {channel} = this
+		const { channel } = this
 		if (channel === null) return html`<p>404 - There is no channel with this slug.</p>`
 		if (!channel) return html`<p>Loading...</p>`
 		// if (!this.canEdit) return html`<p>You don't have permission to edit this channel.</p>`
@@ -18,7 +18,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 			<header>
 				<p>
 					<code>@</code>
-					<a href=${this.buildChannelHref(channel)}>${channel.slug}</a>
+					<a href=${this.channelOrigin}>${channel.slug}</a>
 					<code>/</code>
 					update
 				</p>
@@ -51,7 +51,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		`
 	}
 
-	async onChannelDelete({detail}) {
+	async onChannelDelete({ detail }) {
 		/* no error? we deleted */
 		if (!detail.data) {
 			page('/')
