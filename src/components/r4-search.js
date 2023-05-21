@@ -23,7 +23,7 @@ export default class R4Search extends LitElement {
 	connectedCallback() {
 		super.connectedCallback()
 		// If the element has an initial value, search for it.
-		if (this.value) this.onInput({target: {value: this.value}})
+		if (this.value) this.onInput({ target: { value: this.value } })
 	}
 
 	onSubmit(event) {
@@ -106,12 +106,12 @@ export class R4TrackSearch extends R4Search {
 	}
 
 	renderResult(item, index) {
-		const href = this.href + `/${item.channel_id.slug}/tracks/${item.track_id.id}`
-		return html` ${index}.
+		const href = this.href + `/tracks/${item.track_id.id}`
+		return html`
+			${index}.
 			<a href=${href}>${item.track_id.title}</a>
 			<small>${item.track_id.description}</small>
 			${this.slug ? html`(from ${item.channel_id.slug})` : ''}
 		`
 	}
 }
-
