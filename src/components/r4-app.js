@@ -9,8 +9,8 @@ export default class R4App extends LitElement {
 
 	static properties = {
 		/* public attributes, config props */
-		singleChannel: {type: Boolean, reflect: true, attribute: 'single-channel', state: true},
-		selectedSlug: {type: String, reflect: true, attribute: 'channel', state: true}, // channel slug
+		singleChannel: { type: Boolean, reflect: true, attribute: 'single-channel', state: true },
+		selectedSlug: { type: String, reflect: true, attribute: 'channel', state: true }, // channel slug
 		href: {
 			reflect: true,
 			converter: (value) => {
@@ -105,7 +105,7 @@ export default class R4App extends LitElement {
 
 		if (this.user) {
 			// Load account settings and set prefered theme.
-			const {data: account} = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
+			const { data: account } = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
 			if (account?.theme) {
 				localStorage.setItem('r4.theme', account.theme)
 				document.documentElement.setAttribute('data-color-scheme', account.theme)
@@ -248,6 +248,7 @@ export default class R4App extends LitElement {
 					<r4-route path="/new" page="new"></r4-route>
 					<r4-route path="/settings" page="settings"></r4-route>
 					<r4-route path="/map" page="map" query-params="slug,longitude,latitude"></r4-route>
+					<r4-route path="/search" page="search" query-params="query"></r4-route>
 					<r4-route path="/:slug" page="channel"></r4-route>
 					<r4-route path="/:slug/update" page="channel-update"></r4-route>
 					<r4-route path="/:slug/player" page="channel-player"></r4-route>
@@ -352,9 +353,9 @@ export default class R4App extends LitElement {
 	}
 
 	/* events */
-	onChannelSelect({detail}) {
+	onChannelSelect({ detail }) {
 		if (detail.channel) {
-			const {slug} = detail.channel
+			const { slug } = detail.channel
 			this.selectedSlug = slug
 			page(`/${this.selectedSlug}`)
 		}
@@ -371,7 +372,7 @@ export default class R4App extends LitElement {
 
 		if (channel && channel.slug) {
 			this.isPlaying = true
-			const {data: channelTracks} = await sdk.channels.readChannelTracks(channel.slug)
+			const { data: channelTracks } = await sdk.channels.readChannelTracks(channel.slug)
 			const tracks = channelTracks.reverse()
 
 			if (tracks) {

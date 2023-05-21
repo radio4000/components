@@ -7,6 +7,7 @@ import R4PageChannelFollowers from './r4-page-channel-followers.js'
 import R4PageExplore from './r4-page-explore.js'
 import R4PageHome from './r4-page-home.js'
 import R4PageMap from './r4-page-map.js'
+import R4PageSearch from './r4-page-search.js'
 import R4PageNew from './r4-page-new.js'
 import R4PageSettings from './r4-page-settings'
 import R4PageSign from './r4-page-sign.js'
@@ -17,6 +18,7 @@ customElements.define('r4-page-sign', R4PageSign)
 customElements.define('r4-page-home', R4PageHome)
 customElements.define('r4-page-explore', R4PageExplore)
 customElements.define('r4-page-map', R4PageMap)
+customElements.define('r4-page-search', R4PageSearch)
 customElements.define('r4-page-new', R4PageNew)
 customElements.define('r4-page-add', R4PageAdd)
 customElements.define('r4-page-settings', R4PageSettings)
@@ -36,6 +38,7 @@ export default {
 	R4PageExplore,
 	R4PageHome,
 	R4PageMap,
+	R4PageSearch,
 	R4PageNew,
 	R4PageSettings,
 	R4PageSign,
