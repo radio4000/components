@@ -31,7 +31,17 @@ export default class R4PageChannel extends BaseChannel {
 		if (!channel) return html`<p>Loading...</p>`
 
 		return html`
-			<r4-page-actions>
+			<header>
+				<code>@</code>
+				<a href=${this.channelOrigin}>${channel.slug}</a>
+				<code>/</code>
+				<r4-channel-actions
+					slug=${channel.slug}
+					?can-edit=${this.canEdit}
+					?single-channel=${this.config.singleChannel}
+					@input=${this.onChannelAction}
+				></r4-channel-actions>
+
 				<r4-button-play .channel=${channel}></r4-button-play>
 
 				<r4-channel-social>${this.renderSocial()}</r4-channel-social>
@@ -39,24 +49,16 @@ export default class R4PageChannel extends BaseChannel {
 				${this.coordinates && !this.config.singleChannel
 					? html`<r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates>`
 					: null}
-
-				<r4-channel-actions
-					slug=${channel.slug}
-					?can-edit=${this.canEdit}
-					?single-channel=${this.config.singleChannel}
-					@input=${this.onChannelAction}
-				></r4-channel-actions>
-			</r4-page-actions>
+			</header>
 
 			<r4-page-header>
 				<r4-channel-name>${channel.name}</r4-channel-name>
-				<r4-channel-slug>@<a href=${this.channelOrigin}>${channel.slug}</a> </r4-channel-slug>
+				<r4-channel-description>${channel.description}</r4-channel-description>
 				${channel.url
 					? html`<r4-channel-url>
 							<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
 					  </r4-channel-url>`
 					: null}
-				<r4-channel-description>${channel.description}</r4-channel-description>
 			</r4-page-header>
 
 			${channel.image ? this.renderChannelImage() : null}

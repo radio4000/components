@@ -1,3 +1,4 @@
+/* for all pages */
 r4-page-actions {
 	display: flex;
 	flex-wrap: wrap;
@@ -18,4 +19,3 @@ r4-page-header {
 	display: flex;
 	flex-direction: column;
 }
-
