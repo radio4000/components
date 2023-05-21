@@ -35,18 +35,17 @@ export default class R4PageChannel extends BaseChannel {
 				<r4-page-actions>
 					<r4-button-play .channel=${channel}></r4-button-play>
 
-					${this.alreadyFollowing
-						? html`<button @click=${this.unfollow}>Unfollow</button>`
-						: html`<button @click=${this.follow}>Follow</button>`}
-					${this.followsYou ? html`<p>follows you</p>` : html`<p>doesn't follow you</p>`}
+					<r4-channel-social>${this.renderSocial()}</r4-channel-social>
 
-					<r4-channel-coordinates> ${this.coordinates ? this.renderMap() : null} </r4-channel-coordinates>
+					${this.coordinates && !this.config.singleChannel
+						? html`<r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates>`
+						: null}
 
 					<r4-channel-actions
 						slug=${channel.slug}
 						?can-edit=${this.canEdit}
-						@input=${this.onChannelAction}
 						?single-channel=${this.config.singleChannel}
+						@input=${this.onChannelAction}
 					></r4-channel-actions>
 				</r4-page-actions>
 			</menu>
@@ -54,11 +53,9 @@ export default class R4PageChannel extends BaseChannel {
 			<r4-page-header>
 				<r4-channel-name>${channel.name}</r4-channel-name>
 				<r4-channel-slug> @<a href=${this.channelOrigin}>${channel.slug}</a> </r4-channel-slug>
-
 				<r4-channel-url>
 					<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
 				</r4-channel-url>
-
 				<r4-channel-description>${channel.description}</r4-channel-description>
 			</r4-page-header>
 
@@ -74,6 +71,17 @@ export default class R4PageChannel extends BaseChannel {
 				<r4-channel-sharer slot="dialog" origin=${this.channelOrigin} slug=${channel.slug}></r4-channel-sharer>
 			</r4-dialog>
 		`
+	}
+
+	renderSocial() {
+		if (!this.config.singleChannel) {
+			return html`
+				<button @click=${this.alreadyFollowing ? this.unfollow : this.follow}>
+					${this.alreadyFollowing ? 'Unfollow' : 'Follow'}
+				</button>
+				<span>${this.followsYou ? 'follows you' : "doesn't follow you"}</span>
+			`
+		}
 	}
 
 	renderMap() {

@@ -43,7 +43,6 @@ export default class R4PageAdd extends LitElement {
 	}
 
 	async onChannelSelect({ detail }) {
-		console.log('select channel', detail?.channel)
 		if (detail?.channel?.slug) {
 			this.selectedSlug = detail?.channel?.slug
 		}

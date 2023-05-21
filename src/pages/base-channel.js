@@ -1,5 +1,5 @@
 import { html, LitElement } from 'lit'
-import {sdk} from '@radio4000/sdk'
+import { sdk } from '@radio4000/sdk'
 
 // Base class to extend from
 export default class BaseChannel extends LitElement {
@@ -19,11 +19,6 @@ export default class BaseChannel extends LitElement {
 		return this.config.singleChannel ? this.config.href : `${this.config.href}/${this.channel.slug}`
 	}
 
-	buildChannelHref(channel) {
-		return `${this.config.href}/${channel.slug}`
-	}
-
-
 	get tracksOrigin() {
 		if (this.config.singleChannel) {
 			return this.config.href + '/tracks/{{id}}'
@@ -34,12 +29,12 @@ export default class BaseChannel extends LitElement {
 
 	get alreadyFollowing() {
 		if (!this.store.user) return
-		return this.store.followings?.map(c => c.slug).includes(this.channel?.slug)
+		return this.store.followings?.map((c) => c.slug).includes(this.channel?.slug)
 	}
 
 	get followsYou() {
 		if (!this.store.user) return
-		return this.store.followers?.map(c => c.slug).includes(this.config.selectedSlug)
+		return this.store.followers?.map((c) => c.slug).includes(this.config.selectedSlug)
 	}
 
 	willUpdate(changedProperties) {
