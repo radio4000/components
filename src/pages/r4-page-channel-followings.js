@@ -1,6 +1,5 @@
-import { html, LitElement } from 'lit'
-import { until } from 'lit/directives/until.js'
-import { sdk } from '@radio4000/sdk'
+import {html} from 'lit'
+import {until} from 'lit/directives/until.js'
 import BaseChannel from './base-channel'
 import page from 'page/page.mjs'
 
@@ -57,7 +56,7 @@ export default class R4PageChannelFollowings extends BaseChannel {
 		currentPage && newPageURL.searchParams.set('page', currentPage)
 
 		if (window.location.href !== newPageURL.href) {
-			page(newPageURL.pathname + newPageURL.search)
+			page.redirect(newPageURL.pathname + newPageURL.search)
 		}
 	}
 }

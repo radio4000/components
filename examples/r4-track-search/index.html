@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+		<title>r4-track-search</title>
+		<link rel="stylesheet" href="/styles/index.css" />
+		<script type="module" src="/src/index.js"></script>
+	</head>
+
+	<body>
+		<h2>Search all tracks on R4</h2>
+		<r4-track-search></r4-track-search>
+
+		<h2>Search tracks in a specific channel</h2>
+		<r4-track-search slug="ko002"></r4-track-search>
+
+		<p>Also see <a href="/examples/r4-channel-search/">r4-channel-search</a></p>
+
+		<script>
+			const params = new URLSearchParams(window.location.search)
+			const value = params.get('value')
+			const slug = params.get('slug')
+
+			const $search = document.querySelector('r4-track-search')
+			const $search2 = document.querySelector('r4-track-search[slug]')
+
+			if (value) {
+				$search.setAttribute('value', params.get('value'))
+				$search2.setAttribute('value', params.get('value'))
+			}
+
+			if (slug) $search2.setAttribute('slug', params.get('slug'))
+
+			// How to catch the input event from search components.
+			$search.addEventListener('input', (event) => {
+				console.log(event.target.value)
+			})
+		</script>
+	</body>
+</html>

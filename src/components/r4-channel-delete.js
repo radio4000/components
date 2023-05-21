@@ -64,7 +64,7 @@ export default class R4ChannelDelete extends R4Form {
 
 		let res
 		try {
-			res = await deleteChannel(id)
+			res = await sdk.channels.deleteChannel(id)
 			if (res && res.error) {
 				throw res.error
 			}

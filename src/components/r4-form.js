@@ -107,6 +107,7 @@ export default class R4Form extends HTMLElement {
 
 				const value = decodeURIComponent(paramValue)
 				if (value === 'null') {
+					//
 				} else if (value) {
 					state[paramName] = value
 				}

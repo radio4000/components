@@ -1,0 +1,37 @@
+r4-search-form {
+	display: block;
+	gap: 0.25em;
+	position: relative;
+}
+r4-search-form input[type="search"]::-webkit-search-cancel-button {
+  display: none;
+}
+r4-search-form label {
+	display: block;
+	font-size: smaller;
+}
+r4-search-form input {
+	padding-left: 2em;
+}
+r4-search-form svg {
+	pointer-events: none;
+	height: 1em;
+	width: 1em;
+	position: absolute;
+	bottom: 0;
+	left: 0.5em;
+	transform: translateY(-50%);
+	fill: currentColor;
+	color: var(--color-input-border);
+	opacity: 0.5;
+	z-index: 1;
+	transition: left .25s cubic-bezier(.165,.84,.4,1);
+}
+
+r4-search-form + ul {
+	list-style: none;
+	padding: 0;
+}
+r4-search-form + ul r4-channel-card {
+	margin-bottom: 0.5em;
+}

@@ -9,20 +9,24 @@ export default class R4PageHome extends LitElement {
 	render() {
 		return html`
 			<header>
-				${!this.store.user ? html`Welcome to <r4-title></r4-title>!` : null}
+				${!this.store.user ? html`<h1>Welcome to <r4-title></r4-title>!</h1>` : null}
 			</header>
 			<main>
 				${this.store.user ? this.renderMenuUser() : this.renderMenuNoUser()}
 				${this.store?.userChannels?.length ? html`
 					<section>
-						<h2>You channel:</h2>
-						${this.store?.userChannels.map((channel) => this.renderChannelCard(channel, this.config.href))}
+						<h2>Your channel:</h2>
+						<div class="Grid">
+							${this.store?.userChannels.map((channel) => this.renderChannelCard(channel, this.config.href))}
+						</div>
 					</section>
 				` : null}
 				${this.store?.userChannels?.length ? html`
 					<section>
 						<h2>Your channel follows:</h2>
-						${this.store?.followings?.map((channel) => this.renderChannelCard(channel, this.config.href))}
+						<div class="Grid">
+							${this.store?.followings?.map((channel) => this.renderChannelCard(channel, this.config.href))}
+						</div>
 					</section>
 		` : null}
 			</main>
@@ -39,6 +43,9 @@ export default class R4PageHome extends LitElement {
 			<menu>
 				<li>
 					<a href="${this.config.href}/explore">Explore channels</a> to discover new content
+				</li>
+				<li>
+					<a href=${this.config.href + '/sign/up'}>Sign up</a> to start your own radio
 				</li>
 			</menu>
 		`

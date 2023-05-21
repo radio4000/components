@@ -1,21 +1,22 @@
-import { LitElement, render } from 'lit'
+import {LitElement} from 'lit'
 import {html, literal, unsafeStatic} from 'lit/static-html.js'
 import page from 'page/page.mjs'
 
 // https://github.com/visionmedia/page.js/issues/537
-page.configure({ window: window })
+page.configure({window: window})
 
 export default class R4Router extends LitElement {
 	static properties = {
 		/* props attribute */
-		store: { type: Object, state: true },
-		config: { type: Object, state: true },
+		store: {type: Object, state: true},
+		config: {type: Object, state: true},
 	}
 
 	/* used to setup the base of the url handled by page.js router */
 	get pathname() {
 		const href = this.config.href || window.location.href
-		let name = new URL(href).pathname
+		const name = new URL(href).pathname
+		console.log('pathname', name)
 		/* if (name.endsWith('/')) {
 			 name = name.slice(0, name.length - 1)
 			 } */
@@ -33,13 +34,14 @@ export default class R4Router extends LitElement {
 
 	handleFirstUrl() {
 		const initialURL = new URL(window.location.href)
-		page(initialURL.pathname + initialURL.search)
+		const url = initialURL.pathname + initialURL.search
+		page(url)
 	}
 
 	setupRouter() {
 		page.stop()
 		page.strict(false)
-		if (this.pathname) {
+		if (this.pathname && this.pathname !== '/') {
 			page.base(this.pathname)
 		} else {
 			page.base('')
@@ -51,7 +53,7 @@ export default class R4Router extends LitElement {
 	}
 
 	setupRoute($route) {
-		page($route.getAttribute('path'), this.parseQuery.bind(this), (ctx, next) => this.renderRoute($route, ctx))
+		page($route.getAttribute('path'), this.parseQuery.bind(this), (ctx) => this.renderRoute($route, ctx))
 		page.exit($route.getAttribute('path'), (ctx, next) => this.unrenderRoute($route, ctx, next))
 	}
 
@@ -77,10 +79,10 @@ export default class R4Router extends LitElement {
 		const requestedParams = routeQueryParams ? routeQueryParams.split(',') : []
 		if (requestedParams && ctx.query) {
 			ctx.query
-				 .filter(param => requestedParams.indexOf(param[0]) > -1)
-				 .forEach(param => {
-					 pageQuery[param[0]] = param[1]
-				 })
+				.filter((param) => requestedParams.indexOf(param[0]) > -1)
+				.forEach((param) => {
+					pageQuery[param[0]] = param[1]
+				})
 			this.query = pageQuery
 		}
 
@@ -90,9 +92,8 @@ export default class R4Router extends LitElement {
 	render() {
 		if (!this.pageName) return
 		const tag = literal`r4-page-${unsafeStatic(this.pageName)}`
-		const $pageDom = html`
-			<${tag} .store=${this.store} .config=${this.config} .query=${this.query} .params=${this.params}></${tag}>
-		`
+		// eslint-disable-next-line
+		const $pageDom = html`<${tag} .store=${this.store} .config=${this.config} .query=${this.query} .params=${this.params}></${tag}>`
 		return $pageDom
 	}
 

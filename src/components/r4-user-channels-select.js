@@ -33,10 +33,8 @@ export default class R4UserChannelsSelect extends HTMLElement {
 		}
 	}
 
-	constructor() {
-		super()
-
-		supabase.auth.onAuthStateChange(this.onAuthStateChange.bind(this))
+	connectedCallback() {
+		sdk.supabase.auth.onAuthStateChange(this.onAuthStateChange.bind(this))
 
 		this.$select = document.createElement('select')
 		this.$select.addEventListener('input', this.onInput.bind(this))
@@ -57,9 +55,7 @@ export default class R4UserChannelsSelect extends HTMLElement {
 		this.$select.append(this.$channelsOptgroup)
 
 		this.append(this.$select)
-	}
 
-	connectedCallback() {
 		if (this.channels && this.channels.length) {
 			this.refreshOptions(this.channels[0].slug)
 		} else {
@@ -89,7 +85,7 @@ export default class R4UserChannelsSelect extends HTMLElement {
 	}
 
 	async refreshUserChannels() {
-		const { data: user } = await readUser()
+		const { data: user } = await sdk.users.readUser()
 		if (user) {
 			const {
 				error,

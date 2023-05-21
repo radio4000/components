@@ -1,4 +1,4 @@
-import { html } from 'lit'
+import {html} from 'lit'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
 import { sdk } from '@radio4000/sdk'
@@ -26,7 +26,7 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	render() {
-		const { channel } = this
+		const {channel} = this
 		if (channel === null) return html`<p>404 - There is no channel with this slug.</p>`
 		if (!channel) return html`<p>Loading...</p>`
 
@@ -52,10 +52,10 @@ export default class R4PageChannel extends BaseChannel {
 
 			<r4-page-header>
 				<r4-channel-name>${channel.name}</r4-channel-name>
-				<r4-channel-slug> @<a href=${this.channelOrigin}>${channel.slug}</a> </r4-channel-slug>
-				<r4-channel-url>
+				<r4-channel-slug>@<a href=${this.channelOrigin}>${channel.slug}</a> </r4-channel-slug>
+				${channel.url ? html`<r4-channel-url>
 					<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
-				</r4-channel-url>
+				</r4-channel-url>` : null}
 				<r4-channel-description>${channel.description}</r4-channel-description>
 			</r4-page-header>
 
@@ -66,6 +66,12 @@ export default class R4PageChannel extends BaseChannel {
 			</aside>
 
 			<r4-tracks channel=${channel.slug} origin=${this.tracksOrigin} limit="5"></r4-tracks>
+
+			<footer>
+				<p>
+					<a href="${`${this.channelOrigin}/tracks`}">All tracks</a>
+				</p>
+			</footer>
 
 			<r4-dialog name="share" @close=${this.onDialogClose}>
 				<r4-channel-sharer slot="dialog" origin=${this.channelOrigin} slug=${channel.slug}></r4-channel-sharer>
@@ -90,7 +96,7 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	/* event handlers from <r4-channel-actions> */
-	async onChannelAction({ detail }) {
+	async onChannelAction({detail}) {
 		if (detail) {
 			if (detail === 'play' && this.channel) {
 				const playEvent = new CustomEvent('r4-play', {
@@ -130,7 +136,7 @@ export default class R4PageChannel extends BaseChannel {
 		}
 	}
 
-	onDialogClose({ target }) {
+	onDialogClose({target}) {
 		const name = target.getAttribute('name')
 		if (name === 'track') {
 			if (this.config.singleChannel) {

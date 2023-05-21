@@ -20,13 +20,16 @@ export default class R4PageSign extends LitElement {
 
 				${method === 'in' ? html`<details>
 					<summary>Forgot your password?</summary>
-					<r4-reset-password />
+					<br/>
+					<p>Enter your email address below and we’ll send you password reset instructions.</p>
+					<r4-reset-password></r4-reset-password>
 				</details>` : null}
 			</main>
 		`
 	}
 	renderMethodPage(method) {
 		const tag = literal`r4-sign-${unsafeStatic(method)}`
+		// eslint-disable-next-line
 		return html`<${tag} @submit=${this.onSignSubmit}></${tag}>`
 	}
 

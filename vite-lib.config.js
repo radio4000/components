@@ -6,7 +6,7 @@ export default defineConfig({
 	build: {
 		// https://vitejs.dev/guide/build.html#library-mode
 		lib: {
-			entry: resolve(__dirname, 'src/index.js'),
+			entry: resolve('src/index.js'),
 			name: 'r4',
 			fileName: 'r4',
 			formats: ['es'],

@@ -14,7 +14,7 @@ export default class R4SignOut extends R4Form {
 
 	async connectedCallback() {
 		super.connectedCallback()
-		const { data: user } = await readUser()
+		const { data: user } = await sdk.users.readUser()
 		if (!user) {
 			this.disableForm()
 			this.handleError({

@@ -9,8 +9,8 @@ export default class R4App extends LitElement {
 
 	static properties = {
 		/* public attributes, config props */
-		singleChannel: { type: Boolean, reflect: true, attribute: 'single-channel', state: true },
-		selectedSlug: { type: String, reflect: true, attribute: 'channel', state: true }, // channel slug
+		singleChannel: {type: Boolean, reflect: true, attribute: 'single-channel', state: true},
+		selectedSlug: {type: String, reflect: true, attribute: 'channel', state: true}, // channel slug
 		href: {
 			reflect: true,
 			converter: (value) => {
@@ -66,6 +66,9 @@ export default class R4App extends LitElement {
 
 	constructor() {
 		super()
+
+		const theme = localStorage.getItem('r4.theme')
+		if (theme) document.documentElement.setAttribute('data-color-scheme', theme)
 	}
 
 	async connectedCallback() {
@@ -101,13 +104,20 @@ export default class R4App extends LitElement {
 		this.user = data?.session?.user
 
 		if (this.user) {
+			// Load account settings and set prefered theme.
+			const {data: account} = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
+			if (account?.theme) {
+				localStorage.setItem('r4.theme', account.theme)
+				document.documentElement.setAttribute('data-color-scheme', account.theme)
+			}
+
 			// load user channels
 			const { data: channels } = await sdk.channels.readUserChannels()
 			this.userChannels = channels?.length ? channels : undefined
 
 			// load current channel followers/followings
-			if (!this.config.selectedSlug) {
-				this.selectedSlug = this.store.userChannels[0].slug
+			if (!this.config.selectedSlug && this.userChannels) {
+				this.selectedSlug = this.userChannels[0].slug
 			}
 
 			if (this.selectedChannel) {
@@ -274,18 +284,18 @@ export default class R4App extends LitElement {
 				<li>
 					<a href=${href + '/explore'}>Explore</a>
 				</li>
-				${this.userChannels ? html`<li><a href=${href + '/add'}>Add</a></li>` : null}
+				${this.userChannels ? html`<li><a href=${href + '/add'}>+Add</a></li>` : null}
 				<li>
 					<r4-auth-status ?auth=${user}>
-						<span slot="out">
-							<a href=${href + '/sign/up'}>Create account</a>
-						</span>
 						<span slot="in">
 							${!this.userChannels
 								? html`<a href=${href + '/new'}>Create channel</a>`
 								: this.userChannels.length === 1
 								? html`<a href=${`${href}/${this.userChannels[0].slug}`}>${this.userChannels[0].name}</a>`
-								: html`<r4-user-channels-select @input=${this.onChannelSelect} .channels=${userChannels} />`}
+								: html`<r4-user-channels-select
+										@input=${this.onChannelSelect}
+										.channels=${userChannels}
+								  ></r4-user-channels-select>`}
 						</span>
 					</r4-auth-status>
 				</li>
@@ -294,12 +304,15 @@ export default class R4App extends LitElement {
 						<span slot="in">
 							<a href=${`${this.config.href}/settings`}>Settings</a>
 						</span>
+						<span slot="out">
+							<a href=${href + '/sign/up'}>Create new radio</a>
+						</span>
 					</r4-auth-status>
 				</li>
 				<li>
 					<r4-auth-status ?auth=${user}>
 						<span slot="in">
-							<button @click=${sdk.auth.signOut}>Sign out</button>
+							<button title="Sign out" @click=${sdk.auth.signOut}>&#xf08b;</button>
 						</span>
 						<span slot="out">
 							<a href=${href + '/sign/in'}>Sign in</a>
@@ -339,9 +352,9 @@ export default class R4App extends LitElement {
 	}
 
 	/* events */
-	onChannelSelect({ detail }) {
+	onChannelSelect({detail}) {
 		if (detail.channel) {
-			const { slug } = detail.channel
+			const {slug} = detail.channel
 			this.selectedSlug = slug
 			page(`/${this.selectedSlug}`)
 		}
@@ -358,7 +371,7 @@ export default class R4App extends LitElement {
 
 		if (channel && channel.slug) {
 			this.isPlaying = true
-			const { data: channelTracks } = await sdk.channels.readChannelTracks(channel.slug)
+			const {data: channelTracks} = await sdk.channels.readChannelTracks(channel.slug)
 			const tracks = channelTracks.reverse()
 
 			if (tracks) {
@@ -394,6 +407,7 @@ export default class R4App extends LitElement {
 	stop() {
 		/* stop the global playing state */
 		this.isPlaying = false
+
 		/* clean the `r4-player` component (so it hides) */
 		this.playerRef.value.removeAttribute('track')
 		this.playerRef.value.removeAttribute('image')

@@ -26,9 +26,9 @@ textarea {
 /* Button-like elements */
 select,
 button {
-	border-width: 2px;
 	background-color: var(--color-button-background);
 	color: var(--color-button-text);
+	border-color: var(--color-text);
 }
 
 /* ::part(button)[disabled], */

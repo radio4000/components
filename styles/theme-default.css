@@ -3,34 +3,60 @@
 /* Shared between light and dark color schemes */
 :root,
 :host {
+	--font-family: system-ui, sans-serif;
 	--color-light: hsl(0deg 0% 98%);
 	--color-lightgray: hsl(0deg 0% 80%);
-	--color-darkgray: hsl(0deg 0% 20%);
-	--color-dark: hsl(0deg 0% 2%);
+	--color-darkgray: hsl(0deg 0% 15%);
+	--color-dark: hsl(0deg 0% 10%);
 }
 
-@media (prefers-color-scheme: light) {
-	:root,
-	:host {
-		--color-background: var(--color-light);
-		--color-card-background: var(--color-lightgray);
-		--color-input-background: hsl(0 0% 93%);
-		--color-button-background: hsl(0 0% 93%);
-		--color-text: hsl(0 0% 10%);
-		--color-link: hsl(260 80% 50%);
-		--color-border: hsla(0 10% 50% / 0.5);
-	}
+/* light is default */
+:root,
+:host {
+	--color-background: var(--color-light);
+	--color-card-background: var(--color-lightgray);
+	--color-input-background: hsl(0 0% 93%);
+	--color-button-background: hsl(0 0% 93%);
+	--color-text: hsl(0 0% 10%);
+	--color-link: hsl(260 80% 50%);
+	--color-border: hsla(0 10% 50% / 0.5);
 }
 
 @media (prefers-color-scheme: dark) {
 	:root,
 	:host {
-		--color-background: hsl(0 0% 10%);
-		--color-card-background: hsl(0 0% 15%);
-		--color-input-background: hsl(0 0% 15%);
-		--color-button-background: hsl(0 0% 15%);
+		--color-background: var(--color-dark);
+		--color-card-background: var(--color-darkgray);
+		--color-input-background: var(--color-darkgray);
+		--color-button-background: var(--color-darkgray);
 		--color-border: hsl(0 0% 5%);
 		--color-text: hsl(0 0% 90%);
 		--color-link: hsl(260 80% 90%);
 	}
+}
+
+/* For account settings to overwrite system settings we need to duplicate the variables here */
+[data-color-scheme='light'] {
+	--color-background: var(--color-light);
+	--color-card-background: var(--color-lightgray);
+	--color-input-background: hsl(0 0% 93%);
+	--color-button-background: hsl(0 0% 93%);
+	--color-text: hsl(0 0% 10%);
+	--color-link: hsl(260 80% 50%);
+	--color-border: hsla(0 10% 50% / 0.5);
+}
+/* and here */
+[data-color-scheme='dark'] {
+	--color-background: hsl(0 0% 10%);
+	--color-card-background: var(--color-darkgray);
+	--color-input-background: var(--color-darkgray);
+	--color-button-background: var(--color-darkgray);
+	--color-border: hsl(0 0% 5%);
+	--color-text: hsl(0 0% 90%);
+	--color-link: hsl(260 80% 90%);
+}
+
+label {
+	font-size: smaller;
+	font-weight: bold;
 }

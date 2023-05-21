@@ -63,10 +63,12 @@ export default class R4PageChannelTracks extends BaseChannel {
 				<a href=${this.channelOrigin + '/tracks'}>tracks</a>
 			</header>
 			<main>
+				<br/>
+				<r4-track-search href=${this.config.href}></r4-track-search>
 				<r4-tracks
 					channel=${channel.slug}
 					origin=${this.tracksOrigin}
-					limit=${this.query.limit || 10}
+					limit=${this.query.limit || 15}
 					page=${this.query.page || 1}
 					pagination="true"
 					@r4-list=${this.onNavigateList}

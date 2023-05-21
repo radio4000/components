@@ -1,6 +1,5 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
-import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 /* treat the path '/examples/r4-app.html/' as SPA (serve the file, let js handle URL route) */
 const vitePluginR4AppSPA = (options) => ({
@@ -15,36 +14,10 @@ const vitePluginR4AppSPA = (options) => ({
 	}
 })
 
-/* https://github.com/dustinmichels/cesium-vite-example */
-const cesiumSrcDir = 'node_modules/cesium/Build/Cesium'
-const cesiumDestDir = 'static/Cesium'
-
-const vitePluginCesiumMap = () => viteStaticCopy({
-		targets: [
-			{
-				src: `${cesiumSrcDir}/Workers`,
-				dest: cesiumDestDir,
-			},
-			{
-				src: `${cesiumSrcDir}/ThirdParty`,
-				dest: cesiumDestDir,
-			},
-			{
-				src: `${cesiumSrcDir}/Assets`,
-				dest: cesiumDestDir,
-			},
-			{
-				src: `${cesiumSrcDir}/Widgets`,
-				dest: cesiumDestDir,
-			},
-		],
-})
-
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
 		vitePluginR4AppSPA(),
-		vitePluginCesiumMap(),
 	],
 	base: './',
 	build: {
@@ -56,6 +29,7 @@ export default defineConfig({
 
 				r4Actions: resolve(__dirname, 'examples/r4-actions/index.html'),
 				r4App: resolve(__dirname, 'examples/r4-app/index.html'),
+				r4Appearance: resolve(__dirname, 'examples/r4-color-scheme/index.html'),
 
 				r4Avatar: resolve(__dirname, 'examples/r4-avatar/index.html'),
 				r4AvatarUpload: resolve(__dirname, 'examples/r4-avatar-upload/index.html'),
@@ -82,6 +56,8 @@ export default defineConfig({
 				r4ButtonPlay: resolve(__dirname, 'examples/r4-button-play/index.html'),
 				r4ResetPassword: resolve(__dirname, 'examples/r4-reset-password/index.html'),
 				r4Router: resolve(__dirname, 'examples/r4-router/index.html'),
+				r4ChannelSearch: resolve(__dirname, 'examples/r4-channel-search/index.html'),
+				r4TrackSearch: resolve(__dirname, 'examples/r4-track-search/index.html'),
 				r4SignIn: resolve(__dirname, 'examples/r4-sign-in/index.html'),
 				r4SignOut: resolve(__dirname, 'examples/r4-sign-out/index.html'),
 				r4SignUp: resolve(__dirname, 'examples/r4-sign-up/index.html'),
