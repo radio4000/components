@@ -31,45 +31,47 @@ export default class R4PageChannel extends BaseChannel {
 		if (!channel) return html`<p>Loading...</p>`
 
 		return html`
-			<header>
-				<code>@</code>
-				<a href=${this.channelOrigin}>${channel.slug}</a>
-				<code>/</code>
-				<r4-channel-actions
-					slug=${channel.slug}
-					?can-edit=${this.canEdit}
-					?single-channel=${this.config.singleChannel}
-					@input=${this.onChannelAction}
-				></r4-channel-actions>
+			<menu>
+				<li><code>@</code></li>
+				<li><a href=${this.channelOrigin}>${channel.slug}</a></li>
+				<li><code>/</code></li>
+				<li>
+					<r4-channel-actions
+						slug=${channel.slug}
+						?can-edit=${this.canEdit}
+						?single-channel=${this.config.singleChannel}
+						@input=${this.onChannelAction}
+					></r4-channel-actions>
+				</li>
+				<li><r4-button-play .channel=${channel}></r4-button-play></li>
+				<li><r4-channel-social>${this.renderSocial()}</r4-channel-social></li>
+				<li>
+					${this.coordinates && !this.config.singleChannel
+						? html`<r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates>`
+						: null}
+				</li>
+			</menu>
 
-				<r4-button-play .channel=${channel}></r4-button-play>
+			<r4-channel-name>
+				<h1>${channel.name}</h1>
+			</r4-channel-name>
 
-				<r4-channel-social>${this.renderSocial()}</r4-channel-social>
+			<r4-channel-description>${channel.description}</r4-channel-description>
 
-				${this.coordinates && !this.config.singleChannel
-					? html`<r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates>`
-					: null}
-			</header>
-
-			<r4-page-header>
-				<r4-channel-name>${channel.name}</r4-channel-name>
-				<r4-channel-description>${channel.description}</r4-channel-description>
-				${channel.url
-					? html`<r4-channel-url>
-							<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
-					  </r4-channel-url>`
-					: null}
-			</r4-page-header>
-
+			${channel.url
+				? html`<r4-channel-url>
+						<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
+				  </r4-channel-url>`
+				: null}
 			${channel.image ? this.renderChannelImage() : null}
 
-			<r4-tracks channel=${channel.slug} origin=${this.tracksOrigin} limit="5"></r4-tracks>
-
-			<footer>
-				<p>
-					<a href="${`${this.channelOrigin}/tracks`}">All tracks</a>
-				</p>
-			</footer>
+			<ul>
+				<li>
+					Last 5 tracks:
+					<r4-tracks channel=${channel.slug} origin=${this.tracksOrigin} limit="5"></r4-tracks>
+				</li>
+				<li><a href="${`${this.channelOrigin}/tracks`}">All tracks</a></li>
+			</ul>
 
 			<r4-dialog name="share" @close=${this.onDialogClose}>
 				<r4-channel-sharer slot="dialog" origin=${this.channelOrigin} slug=${channel.slug}></r4-channel-sharer>
