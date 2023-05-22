@@ -12,8 +12,8 @@ export default class R4ButtonPlay extends LitElement {
 		/* a channel's slug */
 		slug: { type: String, reflect: true },
 
-		/* a track id */
-		track: { type: Object, reflect: true },
+		/* a track object */
+		track: { type: Object },
 
 		/* the channel data object */
 		channel: { type: Object, state: true },
