@@ -6,7 +6,7 @@ const itemTemplate = document.createElement('template')
 	 as attribute "track", on the <r4-track/> element */
 itemTemplate.setAttribute('element', 'r4-track')
 itemTemplate.setAttribute('attribute', 'track')
-itemTemplate.innerHTML = `<r4-track><r4-track/>`
+itemTemplate.innerHTML = `<r4-track></r4-track>`
 
 export default class R4Tracks extends R4List {
 	static get observedAttributes() {

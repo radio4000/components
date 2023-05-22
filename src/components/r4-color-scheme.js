@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit'
+import { LitElement, html } from 'lit'
 import { sdk } from '@radio4000/sdk'
 
 /**
@@ -12,12 +12,6 @@ export default class R4ColorScheme extends LitElement {
 		theme: { type: String, state: true },
 		themes: { type: Array, state: true },
 	}
-
-	static styles = css`
-		menu {
-			margin: 0;
-		}
-	`
 
 	// The attribute to set on <html> element
 	attrName = 'data-color-scheme'

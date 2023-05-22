@@ -1,13 +1,13 @@
-import {LitElement, html} from 'lit'
-import {sdk} from '@radio4000/sdk'
+import { LitElement, html } from 'lit'
+import { sdk } from '@radio4000/sdk'
 // import page from 'page/page.mjs'
 
 export default class R4PageSettings extends LitElement {
 	static properties = {
 		/* props */
-		store: {type: Object, state: true},
-		query: {type: Object, state: true},
-		config: {type: Object, state: true},
+		store: { type: Object, state: true },
+		query: { type: Object, state: true },
+		config: { type: Object, state: true },
 	}
 
 	get hasOneChannel() {
@@ -22,7 +22,7 @@ export default class R4PageSettings extends LitElement {
 			console.log('nothing to update')
 			return
 		}
-		const {error} = await sdk.supabase.auth.updateUser({email})
+		const { error } = await sdk.supabase.auth.updateUser({ email })
 		this.changeEmail.msg = error
 			? 'Could not update your email'
 			: 'Please confirm the link sent to both your new and old email'
@@ -34,7 +34,7 @@ export default class R4PageSettings extends LitElement {
 	async changePassword(event) {
 		event.preventDefault()
 		const password = event.target.password.value
-		const {error} = await sdk.supabase.auth.updateUser({password})
+		const { error } = await sdk.supabase.auth.updateUser({ password })
 		this.changePassword.msg = error ? 'Could not update password' : 'Password updated!'
 		if (error) {
 			console.log('error changing password', error)
@@ -46,7 +46,7 @@ export default class R4PageSettings extends LitElement {
 		if (!window.confirm('Do you really want to delete your account, channels and tracks?')) return
 		if (!window.confirm('Are you certain? Your account, channels and tracks will be deleted. We can not recover them.'))
 			return
-		const {error} = await sdk.users.deleteUser()
+		const { error } = await sdk.users.deleteUser()
 		if (!error) {
 			console.log('deleted user account')
 			await sdk.auth.signOut()
@@ -65,6 +65,7 @@ export default class R4PageSettings extends LitElement {
 				<em>${this.store?.user?.email}</em>
 			</p>
 
+			<h2>Account</h2>
 			<form @submit=${this.changeEmail}>
 				<label
 					>Change email<br />
@@ -73,8 +74,6 @@ export default class R4PageSettings extends LitElement {
 				<button type="submit">Save</button>
 				${this.changeEmail.msg ? html`<p>${this.changeEmail.msg}</p>` : null}
 			</form>
-
-			<br />
 
 			<form @submit=${this.changePassword}>
 				<input name="username" value=${this.store.user?.email} readonly hidden autocomplete="username" />
@@ -86,12 +85,10 @@ export default class R4PageSettings extends LitElement {
 				${this.changePassword.msg ? html`<p>${this.changePassword.msg}</p>` : null}
 			</form>
 
-			<br/>
 			<h2>Appearance</h2>
 			<r4-color-scheme .user=${this.store.user}></r4-color-scheme>
 
-			<br/>
-
+			<h2>Danger zone</h2>
 			<details>
 				<summary>Delete account</summary>
 				<ul>

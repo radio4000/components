@@ -16,9 +16,9 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	get tracksOrigin() {
 		if (this.config.singleChannel) {
-			return this.config.href + '/tracks/{{id}}'
+			return this.config.href + '/tracks/'
 		} else {
-			return this.config.href + '/' + this.params.slug + '/tracks/{{id}}'
+			return this.config.href + '/' + this.params.slug + '/tracks/'
 		}
 	}
 

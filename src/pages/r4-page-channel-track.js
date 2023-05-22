@@ -57,13 +57,13 @@ export default class R4PageChannelTrack extends BaseChannel {
 				</nav-item>
 			</nav>
 			<main>
+				<r4-button-play
+					.channel=${channel}
+					.track=${track}></r4-button-play>
 				<r4-track
 					.track=${track}
 					id=${this.params.track_id}
 					></r4-track>
-				<r4-button-play
-					.channel=${channel}
-					.track=${track}></r4-button-play>
 			</main>
 			<aside>
 				<r4-dialog name="update" @close=${this.onDialogClose}>
