@@ -1,18 +1,16 @@
 import { html, LitElement } from 'lit'
 import { ref, createRef } from 'lit/directives/ref.js'
-import styles from '../styles/components/r4-layout.js'
 
 export default class R4Layout extends LitElement {
-	static styles = [...styles]
-
 	static properties = {
-		isPlaying: {type: Boolean, attribute: 'is-playing', reflect: true},
-		isTop: {type: Boolean},
-		uiState: {type: String, attribute: 'ui-state', reflect: true},
-		uiStates: {type: Object},
+		isPlaying: { type: Boolean, attribute: 'is-playing', reflect: true },
+		isTop: { type: Boolean },
+		uiState: { type: String, attribute: 'ui-state', reflect: true },
+		uiStates: { type: Object },
 	}
 
 	playerRef = createRef()
+	detailsRef = createRef()
 
 	constructor() {
 		super()
@@ -47,15 +45,18 @@ export default class R4Layout extends LitElement {
 
 	initTopOberserver() {
 		/* check if the player at the top of the viewport/screen */
-		const observer = new IntersectionObserver(([e]) => {
-			if (e.intersectionRatio === 1) {
-				this.isTop = true
-			} else {
-				this.isTop = false
+		const observer = new IntersectionObserver(
+			([e]) => {
+				if (e.intersectionRatio === 1) {
+					this.isTop = true
+				} else {
+					this.isTop = false
+				}
+			},
+			{
+				threshold: [1],
 			}
-		}, {
-			threshold: [1]
-		})
+		)
 		observer.observe(this)
 		return observer
 	}
@@ -67,7 +68,6 @@ export default class R4Layout extends LitElement {
 
 		if (this.isPlaying && this.uiState === this.uiStates.Close) {
 			this.uiState = this.uiStates.Dock
-
 		}
 	}
 
@@ -80,12 +80,16 @@ export default class R4Layout extends LitElement {
 			document.exitFullscreen()
 		}
 
+		if (this.detailsRef.value && this.uiState !== this.uiStates.Close) {
+			this.detailsRef.value.setAttribute('open', true)
+		}
+
 		// first time you close, it hides player
 		if (this.uiState === this.uiStates.Close) {
 			if (this.isPlaying) {
 				const stopPlayEvent = new CustomEvent('r4-play', {
 					bubbles: true,
-					detail: null
+					detail: null,
 				})
 				this.dispatchEvent(stopPlayEvent)
 				this.isPlaying = false
@@ -103,67 +107,41 @@ export default class R4Layout extends LitElement {
 
 	render() {
 		return html`
-			<r4-layout-panel>
-				<r4-layout-menu>
+			<r4-layout-playback ${ref(this.playerRef)} part="playback">
+				${this.isPlaying ? this.renderPlayback() : null}
+			</r4-layout-playback>
+			<r4-layout-panel part="panel">
+				<r4-layout-menu part="menu">
 					<slot name="menu"></slot>
 				</r4-layout-menu>
-				<r4-layout-main>
+				<r4-layout-main part="main">
 					<slot name="main"></slot>
 				</r4-layout-main>
 			</r4-layout-panel>
-			<r4-layout-playback ${ref(this.playerRef)}>
-				${this.isPlaying ? this.renderPlayback() : null}
-			</r4-layout-playback>
 		`
 	}
 
 	renderPlayback() {
 		return html`
-			<details open="true">
-				<summary></summary>
-				<r4-layout-controls>
-					<slot name="controls">
-						${this.renderControls()}
-					</slot>
-				</r4-layout-controls>
-				${this.renderPlayer()}
+			<details open="true" part="playback-details" ${ref(this.detailsRef)}>
+				<summary part="playback-summary">
+					<slot name="playback-controls"> ${Object.entries(this.uiStates).map(this.renderUiState.bind(this))} </slot>
+				</summary>
+				<slot name="player"></slot>
 			</details>
-		`
-	}
-
-	renderPlayer() {
-		return html`<slot name="player"></slot>`
-	}
-
-	renderControls() {
-		return html`
-			<menu>
-				${Object.entries(this.uiStates).map(this.renderUiState.bind(this))}
-			</menu>
 		`
 	}
 
 	renderUiState(uiState) {
 		const [value, name] = uiState
 		return html`
-			<li>
-				<button
-					@click=${this.onControlClick}
-					value=${value}
-					title=${name}
-					name=${name}
-				>
-					${this.uiStatesUnicodes[name]}
-				</button>
-			</li>
+			<button @click=${this.onControlClick} value=${value} title=${name} name=${name} part="controls-button">
+				${this.uiStatesUnicodes[name]}
+			</button>
 		`
 	}
 
-	onControlClick({
-		target: {
-			value: uiStateNext
-		}
-	}) {
+	onControlClick({ target: { value: uiStateNext } }) {
 		this.uiState = this.uiStates[uiStateNext]
 	}
 }

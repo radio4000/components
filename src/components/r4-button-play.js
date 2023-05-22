@@ -13,12 +13,11 @@ export default class R4ButtonPlay extends LitElement {
 		slug: { type: String, reflect: true },
 
 		/* a track id */
-		track: { type: String, reflect: true },
+		track: { type: Object, reflect: true },
 
 		/* the channel data object */
 		channel: { type: Object, state: true },
 	}
-
 
 	async connectedCallback() {
 		super.connectedCallback()
@@ -41,13 +40,7 @@ export default class R4ButtonPlay extends LitElement {
 
 	render() {
 		const { channel } = this
-		return html`
-			<button
-				@click="${this.play}"
-				>
-				${!channel ? 'Loading...' : '▶'}
-			</button>
-		`
+		return html` <button @click="${this.play}">${!channel ? 'Loading...' : '▶'}</button> `
 	}
 
 	createRenderRoot() {

@@ -9,8 +9,8 @@ export default class R4App extends LitElement {
 
 	static properties = {
 		/* public attributes, config props */
-		singleChannel: {type: Boolean, reflect: true, attribute: 'single-channel', state: true},
-		selectedSlug: {type: String, reflect: true, attribute: 'channel', state: true}, // channel slug
+		singleChannel: { type: Boolean, reflect: true, attribute: 'single-channel', state: true },
+		selectedSlug: { type: String, reflect: true, attribute: 'channel', state: true }, // channel slug
 		href: {
 			reflect: true,
 			converter: (value) => {
@@ -105,7 +105,7 @@ export default class R4App extends LitElement {
 
 		if (this.user) {
 			// Load account settings and set prefered theme.
-			const {data: account} = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
+			const { data: account } = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
 			if (account?.theme) {
 				localStorage.setItem('r4.theme', account.theme)
 				document.documentElement.setAttribute('data-color-scheme', account.theme)
@@ -211,11 +211,11 @@ export default class R4App extends LitElement {
 	}
 
 	render() {
-		if (!this.didLoad) return null
+		if (!this.didLoad) return html`<progress value=${0} max="100"></progress> `
 
 		return html`
 			<r4-layout @r4-play=${this.onPlay} ?is-playing=${this.isPlaying}>
-				<header slot="menu">${this.renderAppMenu()}</header>
+				${!this.config.singleChannel ? this.renderAppMenu() : null}
 				<main slot="main">${this.renderAppRouter()}</main>
 				<r4-player slot="player" ${ref(this.playerRef)} ?is-playing=${this.isPlaying}></r4-player>
 			</r4-layout>
@@ -223,138 +223,21 @@ export default class R4App extends LitElement {
 	}
 
 	renderAppRouter() {
-		if (this.config.singleChannel) {
-			return html`
-				<r4-router name="channel" .store=${this.store} .config=${this.config}>
-					<r4-route path="/sign/:method" page="sign"></r4-route>
-					<r4-route path="/" page="channel"></r4-route>
-					<r4-route path="/player" page="channel-player"></r4-route>
-					<r4-route path="/tracks" page="channel-tracks" query-params="page,limit"></r4-route>
-					<r4-route path="/tracks/:track_id" page="channel-track" query-params="slug,url"></r4-route>
-					<r4-route path="//followers" page="channel-followers" query-params="page,limit"></r4-route>
-					<r4-route path="/followings" page="channel-followings" query-params="page,limit"></r4-route>
-					<r4-route path="/add" page="add" query-params="url"></r4-route>
-					<r4-route path="/settings" page="settings"></r4-route>
-				</r4-router>
-			`
-		} else {
-			return html`
-				<r4-router name="application" .store=${this.store} .config=${this.config}>
-					<r4-route path="/" page="home"></r4-route>
-					<r4-route path="/explore" page="explore" query-params="page,limit"></r4-route>
-					<r4-route path="/sign" page="sign"></r4-route>
-					<r4-route path="/sign/:method" page="sign"></r4-route>
-					<r4-route path="/add" page="add" query-params="slug,url"></r4-route>
-					<r4-route path="/new" page="new"></r4-route>
-					<r4-route path="/settings" page="settings"></r4-route>
-					<r4-route path="/map" page="map" query-params="slug,longitude,latitude"></r4-route>
-					<r4-route path="/:slug" page="channel"></r4-route>
-					<r4-route path="/:slug/update" page="channel-update"></r4-route>
-					<r4-route path="/:slug/player" page="channel-player"></r4-route>
-					<r4-route path="/:slug/tracks" page="channel-tracks" query-params="page,limit"></r4-route>
-					<r4-route path="/:slug/tracks/:track_id" page="channel-track"></r4-route>
-					<r4-route path="/:slug/followers" page="channel-followers" query-params="page,limit"></r4-route>
-					<r4-route path="/:slug/followings" page="channel-followings" query-params="page,limit"></r4-route>
-				</r4-router>
-			`
-		}
+		return renderRouter({ config: this.config, store: this.store })
 	}
 
-	/* build the app's dom elements */
 	renderAppMenu() {
-		/* when on slug.4000.network */
-		if (this.config.singleChannel) {
-			return this.buildSingleChannelMenu()
-		} else {
-			/* when on radio4000.com */
-			return this.renderMenuCMS()
-		}
-	}
-
-	renderMenuCMS() {
-		const { userChannels, href, user } = this
-
 		return html`
-			<menu>
-				<li>
-					<a href=${href}>
-						<r4-title small></r4-title>
-					</a>
-				</li>
-				<li>
-					<a href=${href + '/explore'}>Explore</a>
-				</li>
-				${this.userChannels ? html`<li><a href=${href + '/add'}>+Add</a></li>` : null}
-				<li>
-					<r4-auth-status ?auth=${user}>
-						<span slot="in">
-							${!this.userChannels
-								? html`<a href=${href + '/new'}>Create channel</a>`
-								: this.userChannels.length === 1
-								? html`<a href=${`${href}/${this.userChannels[0].slug}`}>${this.userChannels[0].name}</a>`
-								: html`<r4-user-channels-select
-										@input=${this.onChannelSelect}
-										.channels=${userChannels}
-								  ></r4-user-channels-select>`}
-						</span>
-					</r4-auth-status>
-				</li>
-				<li>
-					<r4-auth-status ?auth=${user}>
-						<span slot="in">
-							<a href=${`${this.config.href}/settings`}>Settings</a>
-						</span>
-						<span slot="out">
-							<a href=${href + '/sign/up'}>Create new radio</a>
-						</span>
-					</r4-auth-status>
-				</li>
-				<li>
-					<r4-auth-status ?auth=${user}>
-						<span slot="in">
-							<button title="Sign out" @click=${sdk.auth.signOut}>&#xf08b;</button>
-						</span>
-						<span slot="out">
-							<a href=${href + '/sign/in'}>Sign in</a>
-						</span>
-					</r4-auth-status>
-				</li>
-			</menu>
-		`
-	}
-
-	buildSingleChannelMenu() {
-		return html`
-			<menu>
-				<li>
-					<a href=${this.config.href}>
-						${this.config.selectedSlug ? this.config.selectedSlug : html`<r4-title small></r4-title>`}
-					</a>
-				</li>
-				<li>
-					<a href=${this.config.href + '/add'}> add </a>
-				</li>
-				<li>
-					<a href=${this.config.href + '/tracks'}> tracks </a>
-				</li>
-				<li>
-					<r4-auth-status>
-						<span slot="in">
-							<a href=${this.config.href + '/sign/out'}>sign out</a>
-						</span>
-						<span slot="out">
-							<a href=${this.config.href + '/sign/in'}>sign in</a>
-						</span>
-					</r4-auth-status>
-				</li>
-			</menu>
+			<header slot="menu">
+				<a href=${this.config.href}><r4-title small></r4-title></a>
+			</header>
 		`
 	}
 
 	/* events */
-	onChannelSelect({detail}) {
+	onChannelSelect({ detail }) {
 		if (detail.channel) {
-			const {slug} = detail.channel
+			const { slug } = detail.channel
 			this.selectedSlug = slug
 			page(`/${this.selectedSlug}`)
 		}
@@ -371,7 +254,7 @@ export default class R4App extends LitElement {
 
 		if (channel && channel.slug) {
 			this.isPlaying = true
-			const {data: channelTracks} = await sdk.channels.readChannelTracks(channel.slug)
+			const { data: channelTracks } = await sdk.channels.readChannelTracks(channel.slug)
 			const tracks = channelTracks.reverse()
 
 			if (tracks) {
@@ -419,4 +302,52 @@ export default class R4App extends LitElement {
 	createRenderRoot() {
 		return this
 	}
+}
+
+/* the default routers:
+	 - one for the channel in CMS mode (all channels are accessible)
+	 - one for when only one channel should be displayed in the UI
+ */
+function renderRouter({ store, config, singleChannel }) {
+	const routerData = { store, config }
+	return singleChannel ? renderRouterSingleChannel(routerData) : renderRouterCMS(routerData)
+}
+
+function renderRouterSingleChannel({ store, config }) {
+	return html`
+		<r4-router name="channel" .store=${store} .config=${config}>
+			<r4-route path="/sign/:method" page="sign"></r4-route>
+			<r4-route path="/" page="channel"></r4-route>
+			<r4-route path="/player" page="channel-player"></r4-route>
+			<r4-route path="/tracks" page="channel-tracks" query-params="page,limit"></r4-route>
+			<r4-route path="/tracks/:track_id" page="channel-track" query-params="slug,url"></r4-route>
+			<r4-route path="//followers" page="channel-followers" query-params="page,limit"></r4-route>
+			<r4-route path="/followings" page="channel-followings" query-params="page,limit"></r4-route>
+			<r4-route path="/add" page="add" query-params="url"></r4-route>
+			<r4-route path="/settings" page="settings"></r4-route>
+		</r4-router>
+	`
+}
+
+function renderRouterCMS({ store, config }) {
+	return html`
+		<r4-router name="application" .store=${store} .config=${config}>
+			<r4-route path="/" page="home"></r4-route>
+			<r4-route path="/explore" page="explore" query-params="page,limit"></r4-route>
+			<r4-route path="/sign" page="sign"></r4-route>
+			<r4-route path="/sign/:method" page="sign"></r4-route>
+			<r4-route path="/add" page="add" query-params="slug,url"></r4-route>
+			<r4-route path="/new" page="new"></r4-route>
+			<r4-route path="/settings" page="settings"></r4-route>
+			<r4-route path="/map" page="map" query-params="slug,longitude,latitude"></r4-route>
+			<r4-route path="/search" page="search" query-params="query"></r4-route>
+			<r4-route path="/:slug" page="channel"></r4-route>
+			<r4-route path="/:slug/update" page="channel-update"></r4-route>
+			<r4-route path="/:slug/player" page="channel-player"></r4-route>
+			<r4-route path="/:slug/tracks" page="channel-tracks" query-params="page,limit"></r4-route>
+			<r4-route path="/:slug/tracks/:track_id" page="channel-track"></r4-route>
+			<r4-route path="/:slug/followers" page="channel-followers" query-params="page,limit"></r4-route>
+			<r4-route path="/:slug/followings" page="channel-followings" query-params="page,limit"></r4-route>
+		</r4-router>
+	`
 }

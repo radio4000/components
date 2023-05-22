@@ -1,8 +1,0 @@
-r4-color-scheme {
-	display: flex;
-}
-
-r4-color-scheme button[aria-selected] {
-	background: var(--color-text);
-	color: var(--color-background);
-}

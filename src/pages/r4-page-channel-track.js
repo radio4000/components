@@ -38,27 +38,34 @@ export default class R4PageChannelTrack extends BaseChannel {
 	renderPage(track, channel) {
 		const track_id = this.params.track_id
 		return html`
-			<header>
-				<code>@</code>
-				<a href=${this.channelOrigin}>${channel.slug}</a>
-				<code>/</code>
-				<a href=${this.channelOrigin + '/tracks'}>tracks</a>
-				<code>/</code>
-				<a href=${this.channelOrigin + '/tracks' + '/' + track_id}>
-					${track_id}
-				</a>
-			</header>
+			<nav>
+				<nav-item>
+					<code>@</code>
+					<a href=${this.channelOrigin}>${channel.slug}</a>
+					<code>/</code>
+					<a href=${this.channelOrigin + '/tracks'}>tracks</a>
+					<code>/</code>
+					<a href=${this.channelOrigin + '/tracks' + '/' + track_id}>
+						${track_id}
+					</a>
+				</nav-item>
+				<nav-item>
+					<r4-track-actions
+						id=${this.params.track_id}
+						@input=${this.onTrackAction}
+						></r4-track-actions>
+				</nav-item>
+			</nav>
 			<main>
+				<r4-button-play
+					.channel=${channel}
+					.track=${track}></r4-button-play>
 				<r4-track
 					.track=${track}
 					id=${this.params.track_id}
 					></r4-track>
 			</main>
 			<aside>
-				<r4-track-actions
-					id=${this.params.track_id}
-					@input=${this.onTrackAction}
-					></r4-track-actions>
 				<r4-dialog name="update" @close=${this.onDialogClose}>
 					<r4-track-update
 						slot="dialog"

@@ -16,9 +16,9 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	get tracksOrigin() {
 		if (this.config.singleChannel) {
-			return this.config.href + '/tracks/{{id}}'
+			return this.config.href + '/tracks/'
 		} else {
-			return this.config.href + '/' + this.params.slug + '/tracks/{{id}}'
+			return this.config.href + '/' + this.params.slug + '/tracks/'
 		}
 	}
 
@@ -56,12 +56,14 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	renderPage(channel) {
 		return html`
-			<header>
-				<code>@</code>
-				<a href=${this.channelOrigin}>${channel.slug}</a>
-				<code>/</code>
-				<a href=${this.channelOrigin + '/tracks'}>tracks</a>
-			</header>
+			<nav>
+				<nav-item>
+					<code>@</code>
+					<a href=${this.channelOrigin}>${channel.slug}</a>
+					<code>/</code>
+					<a href=${this.channelOrigin + '/tracks'}>tracks</a>
+				</nav-item>
+			</nav>
 			<main>
 				<br />
 				<r4-track-search href=${this.channelOrigin}></r4-track-search>

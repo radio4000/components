@@ -1,62 +1,83 @@
-/* The default theme for R4 and components */
+/*
+	A minimal default theme, with mostly:
+	- required defaults to make the work (though it should without CSS
+*/
 
-/* Shared between light and dark color schemes */
-:root,
-:host {
-	--font-family: system-ui, sans-serif;
-	--color-light: hsl(0deg 0% 98%);
-	--color-lightgray: hsl(0deg 0% 80%);
-	--color-darkgray: hsl(0deg 0% 15%);
-	--color-dark: hsl(0deg 0% 10%);
+/* these imports are to make the player layout & map work */
+@import url('components/r4-layout.css');
+@import url('components/r4-map.css');
+
+/* these changes are "user personalisation" for color themes */
+r4-app {
+	/* sizes */
+	--s-font: 18px;
+	--s: 1.5rem;
+	--s-youtube: 200px;
+
+	/* reference functional variables using the colors */
+	--c-fg: inherit;
+	--c-bg: inherit;
+	--c-link: inherit;
+
+	/* colors */
+	--c-light: white;
+	--c-dark: black;
+	--c-light--accent: green;
+	--c-dark--accent: orange;
 }
 
-/* light is default */
-:root,
-:host {
-	--color-background: var(--color-light);
-	--color-card-background: var(--color-lightgray);
-	--color-input-background: hsl(0 0% 93%);
-	--color-button-background: hsl(0 0% 93%);
-	--color-text: hsl(0 0% 10%);
-	--color-link: hsl(260 80% 50%);
-	--color-border: hsla(0 10% 50% / 0.5);
-}
-
+/* apply the variables for each "theme cases" */
+/* these are the "theme browser settings" */
 @media (prefers-color-scheme: dark) {
-	:root,
-	:host {
-		--color-background: var(--color-dark);
-		--color-card-background: var(--color-darkgray);
-		--color-input-background: var(--color-darkgray);
-		--color-button-background: var(--color-darkgray);
-		--color-border: hsl(0 0% 5%);
-		--color-text: hsl(0 0% 90%);
-		--color-link: hsl(260 80% 90%);
+	r4-app {
+		--c-fg: var(--c-light);
+		--c-bg: var(--c-dark);
+		--c-link: var(--c-dark--accent);
+	}
+}
+@media (prefers-color-scheme: light) {
+	r4-app {
+		--c-fg: var(--c-dark);
+		--c-bg: var(--c-light);
+		--c-link: var(--c-light--accent);
 	}
 }
 
 /* For account settings to overwrite system settings we need to duplicate the variables here */
-[data-color-scheme='light'] {
-	--color-background: var(--color-light);
-	--color-card-background: var(--color-lightgray);
-	--color-input-background: hsl(0 0% 93%);
-	--color-button-background: hsl(0 0% 93%);
-	--color-text: hsl(0 0% 10%);
-	--color-link: hsl(260 80% 50%);
-	--color-border: hsla(0 10% 50% / 0.5);
+html[data-color-scheme='os'] r4-app {
+	/* this is the default */
 }
-/* and here */
-[data-color-scheme='dark'] {
-	--color-background: hsl(0 0% 10%);
-	--color-card-background: var(--color-darkgray);
-	--color-input-background: var(--color-darkgray);
-	--color-button-background: var(--color-darkgray);
-	--color-border: hsl(0 0% 5%);
-	--color-text: hsl(0 0% 90%);
-	--color-link: hsl(260 80% 90%);
+html[data-color-scheme='dark'] r4-app {
+	--c-fg: var(--c-light);
+	--c-bg: var(--c-dark);
+	--c-link: var(--c-dark--accent);
+}
+html[data-color-scheme='light'] r4-app {
+	--c-fg: var(--c-dark);
+	--c-bg: var(--c-light);
+	--c-link: var(--c-light--accent);
 }
 
-label {
-	font-size: smaller;
-	font-weight: bold;
+/* and the customization using the variables */
+r4-app {
+	color: var(--c-fg);
+	background-color: var(--c-bg);
+	font-size: var(--s-font);
+	padding: calc(var(--s) / 3);
+	display: flex;
+	flex-direction: column;
+}
+
+/* style the links generally */
+r4-app a {
+	color: var(--c-link);
+}
+
+/*
+	can start targetting "more specific customization"
+*/
+
+/* make the panel min height, the viewport, so "route change" don't make the UI jump */
+r4-app r4-layout::part(panel) {
+	min-height: 100vh;
 }

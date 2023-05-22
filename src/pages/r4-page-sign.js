@@ -1,6 +1,6 @@
 import page from 'page/page.mjs'
 import { LitElement } from 'lit'
-import {html, literal, unsafeStatic} from 'lit/static-html.js'
+import { html, literal, unsafeStatic } from 'lit/static-html.js'
 
 export default class R4PageSign extends LitElement {
 	static properties = {
@@ -10,21 +10,13 @@ export default class R4PageSign extends LitElement {
 	}
 
 	render() {
-		const {method} = this.params
+		const { method } = this.params
 		return html`
 			<header>
 				<h1>Sign ${method ? method : null}</h1>
 			</header>
-			<main>
-				${method ? this.renderMethodPage(method) : this.renderMethodSelection()}
-
-				${method === 'in' ? html`<details>
-					<summary>Forgot your password?</summary>
-					<br/>
-					<p>Enter your email address below and we’ll send you password reset instructions.</p>
-					<r4-reset-password></r4-reset-password>
-				</details>` : null}
-			</main>
+			<main>${method ? this.renderMethodPage(method) : this.renderMethodSelection()}</main>
+			${this.renderAside()}
 		`
 	}
 	renderMethodPage(method) {
@@ -36,9 +28,7 @@ export default class R4PageSign extends LitElement {
 	renderMethodSelection() {
 		return html`
 			<aside>
-				<p>
-					To use <r4-title></r4-title>, sign into your user account.
-				</p>
+				<p>To use <r4-title></r4-title>, sign into your user account.</p>
 				<r4-menu direction="row">
 					<a href=${`${this.config.href}/sign`}>sign</a>
 					<a href=${`${this.config.href}/sign/up`}>up</a>
@@ -48,11 +38,20 @@ export default class R4PageSign extends LitElement {
 			</aside>
 		`
 	}
-	onSignSubmit({
-		detail: {
-			data
+
+	renderAside() {
+		if (this.params.method === 'in') {
+			return html`<details>
+				<summary>Forgot your password?</summary>
+				<br />
+				<p>Enter your email address below and we’ll send you password reset instructions.</p>
+				<r4-reset-password></r4-reset-password>
+			</details>`
 		}
-	}) {
+	}
+
+	/* submitting the curent methods's form */
+	onSignSubmit({ detail: { data } }) {
 		if (this.params.method === 'in' && data && data.user) {
 			page('/')
 		}
@@ -60,7 +59,20 @@ export default class R4PageSign extends LitElement {
 			page('/')
 		}
 	}
+
+	/* no shadow dom */
 	createRenderRoot() {
 		return this
+	}
+
+	/* handy redirects */
+	connectedCallback() {
+		super.connectedCallback()
+		if (this.store.user && this.params.method === 'in') {
+			page('/sign/out')
+		}
+		if (!this.store.user && this.params.method === 'out') {
+			page('/sign/in')
+		}
 	}
 }

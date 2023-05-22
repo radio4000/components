@@ -1,60 +1,25 @@
-import {sdk} from '@radio4000/sdk'
-import { html, render } from 'lit-html'
+import { sdk } from '@radio4000/sdk'
+import { LitElement, html } from 'lit'
 
-export default class R4Track extends HTMLElement {
-	static get observedAttributes() {
-		return ['origin', 'id', 'track']
-	}
-	get id() {
-		return this.getAttribute('id')
-	}
-
-	get track() {
-		return JSON.parse(this.getAttribute('track'))
-	}
-	set track(obj) {
-		if (obj) {
-			this.setAttribute('track', JSON.stringify(obj))
-		} else {
-			this.removeAttribute('track')
-		}
-	}
-
-	/* Used to make a link to the track on the channel's homepage.
-		 It could point to different URL schemes,
-		 so handle all case, we replace the track `{{id}}` token in the string:
-		 - on root: https://radio.example.org/:track_id
-		 - on subpage: https://music.example.org/test-radio-2/:track_id
-		 - in query parameter:
-		 https://example.org/?radio=test-radio-4&track=:track_id
-	 */
-	get origin() {
-		const url = this.getAttribute('origin')
-		if (typeof url === 'string') {
-			if (this.track && this.track.id) {
-				return url.replace('{{id}}', this.track.id)
-			}
-		}
-		return url
+export default class R4Track extends LitElement {
+	static properties = {
+		origin: { type: String },
+		id: { type: String },
+		track: { type: Object },
 	}
 
 	/* if the attribute changed, re-render */
-	async attributeChangedCallback(attrName) {
+	async willUpdate(attrName) {
 		if (['id'].indexOf(attrName) > -1) {
 			this.track = await this.readTrack(this.id)
-			this.render()
-		}
-		if (['track'].indexOf(attrName) > -1) {
-			this.render()
 		}
 	}
 
 	/* set loading */
 	async connectedCallback() {
+		super.connectedCallback()
 		/* if there is already a track json data, render that */
-		if (this.track) {
-			this.render()
-		} else if (this.id) {
+		if (!this.track && this.id) {
 			this.track = await this.readTrack(this.id)
 		}
 	}
@@ -80,29 +45,26 @@ export default class R4Track extends HTMLElement {
 	}
 
 	render() {
-		this.innerHTML = ''
-		if (!this.track) {
-			this.renderNoTrack()
-		} else {
-			this.renderTrack()
-		}
+		return this.track ? this.renderTrack() : this.renderNoTrack()
 	}
+
 	renderTrack() {
 		const t = this.track
-		const $container = document.createElement('article')
-		render(html`
-		<article>
-			<a href=${this.origin}><r4-track-title>${t.title || t.id}<br></r4-track-title></a>
+		return html`
+			<a href=${this.origin + t.id}><r4-track-title>${t.title || t.id}</r4-track-title></a>
 			<r4-track-description>${t.description}</r4-track-description>
-			${t.discogs_url && html`<r4-track-discogs-url><a href="${t.discogs_url}">View on Discogs</a></r4-track-discogs-url>`}
-			<r4-track-tags>${t.tags.map(tag => html`<span>${tag}</span>`)}</r4-track-tags>
+			${t.discogs_url &&
+			html`<r4-track-discogs-url><a href="${t.discogs_url}">View on Discogs</a></r4-track-discogs-url>`}
+			<r4-track-tags>${t.tags.map((tag) => html`<span>${tag}</span>`)}</r4-track-tags>
 			<r4-track-mentions>${t.mentions}</r4-track-mentions>
-		`, $container)
-		this.append($container)
+		`
 	}
 	renderNoTrack() {
-		const $noTrack = document.createElement('span')
-		$noTrack.innerText = '404 - track not found'
-		this.append($noTrack)
+		return html`Track not found`
+	}
+
+	// Disable shadow DOM
+	createRenderRoot() {
+		return this
 	}
 }

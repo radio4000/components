@@ -1,5 +1,5 @@
-import {LitElement, html, css} from 'lit'
-import {sdk} from '@radio4000/sdk'
+import { LitElement, html } from 'lit'
+import { sdk } from '@radio4000/sdk'
 
 /**
  * Renders controls to set your prefered color scheme
@@ -7,19 +7,19 @@ import {sdk} from '@radio4000/sdk'
  */
 export default class R4ColorScheme extends LitElement {
 	static properties = {
-		user: {type: Object, state: true},
-		account: {type: Object, state: true},
-		theme: {type: String, state: true},
+		user: { type: Object, state: true },
+		account: { type: Object, state: true },
+		theme: { type: String, state: true },
+		themes: { type: Array, state: true },
 	}
-
-	static styles = css`
-		menu {
-			margin: 0;
-		}
-	`
 
 	// The attribute to set on <html> element
 	attrName = 'data-color-scheme'
+
+	constructor() {
+		super()
+		this.themes = ['os', 'dark', 'light']
+	}
 
 	connectedCallback() {
 		super.connectedCallback()
@@ -28,12 +28,12 @@ export default class R4ColorScheme extends LitElement {
 
 	// Restores theme from user account.
 	async restoreTheme() {
-		const {data} = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
+		const { data } = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
 		this.save(data?.theme || '')
 
 		// If there is no account, it is time to create it.
 		if (!data) {
-			const res = await sdk.supabase.from('accounts').insert({id: this.user.id}).single()
+			const res = await sdk.supabase.from('accounts').insert({ id: this.user.id }).single()
 			console.log('inserted new account', res)
 		}
 	}
@@ -44,17 +44,17 @@ export default class R4ColorScheme extends LitElement {
 		document.documentElement.setAttribute(this.attrName, value)
 		localStorage.setItem('r4.theme', value)
 		if (this.user) {
-			const update = await sdk.supabase.from('accounts').update({theme: value}).eq('id', this.user.id)
-			console.log('updated account theme', update)
+			const update = await sdk.supabase.from('accounts').update({ theme: value }).eq('id', this.user.id)
 		}
 	}
 
 	render() {
-		return html`
-			<button ?aria-selected=${this.theme === 'light'} @click=${() => this.save('light')}>🌕 Always light</button>
-			<button ?aria-selected=${this.theme === 'dark'} @click=${() => this.save('dark')}>🌑 Always dark</button>
-			<button ?aria-selected=${this.theme === ''} @click=${() => this.save('')}>🌗 Same as OS</button>
-		`
+		return this.themes.map((name) => {
+			const selected = this.theme === name
+			return html`
+				<button ?disabled=${selected} ?aria-selected=${selected} @click=${() => this.save(name)}>${name}</button>
+			`
+		})
 	}
 
 	// Disable shadow DOM

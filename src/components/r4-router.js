@@ -1,15 +1,15 @@
-import {LitElement} from 'lit'
-import {html, literal, unsafeStatic} from 'lit/static-html.js'
+import { LitElement } from 'lit'
+import { html, literal, unsafeStatic } from 'lit/static-html.js'
 import page from 'page/page.mjs'
 
 // https://github.com/visionmedia/page.js/issues/537
-page.configure({window: window})
+page.configure({ window: window })
 
 export default class R4Router extends LitElement {
 	static properties = {
 		/* props attribute */
-		store: {type: Object, state: true},
-		config: {type: Object, state: true},
+		store: { type: Object, state: true },
+		config: { type: Object, state: true },
 	}
 
 	/* used to setup the base of the url handled by page.js router */

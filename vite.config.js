@@ -6,19 +6,19 @@ const vitePluginR4AppSPA = (options) => ({
 	name: 'vite-plugin-r4-app-spa',
 	configureServer(server) {
 		server.middlewares.use((req, res, next) => {
-			if (req.originalUrl.startsWith('/examples/r4-app')) {
+			/* make a tmp URL */
+			const { pathname } = new URL('https://localhost' + req.originalUrl)
+			if (pathname.startsWith('/examples/r4-app/')) {
 				req.url = '/examples/r4-app/'
 			}
 			next()
 		})
-	}
+	},
 })
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [
-		vitePluginR4AppSPA(),
-	],
+	plugins: [vitePluginR4AppSPA()],
 	base: './',
 	build: {
 		// https://vitejs.dev/guide/build.html#library-mode
@@ -72,6 +72,6 @@ export default defineConfig({
 				r4User: resolve(__dirname, 'examples/r4-user/index.html'),
 				r4UserChannelsSelect: resolve(__dirname, 'examples/r4-user-channels-select/index.html'),
 			},
-		}
+		},
 	},
 })
