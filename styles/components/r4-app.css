@@ -1,21 +1,17 @@
+/*
+	The application's required styles
+*/
 r4-app {
 	/* Enable container queries for this element */
 	display: inline-block;
 	container-type: inline-size;
 }
 
-/* r4-app r4-router { */
-/* 	display: flex; */
-/* 	flex-direction: column; */
-/* 	flex-grow: 1; */
-/* } */
-
-/*
-
-	for no-wrap on the r4-menu[horizontal]  */
+/* all "menu" are by default horizontal, and scrollable */
 r4-app menu {
 	display: flex;
 	flex-wrap: nowrap;
+	align-items: center;
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -30,6 +26,7 @@ r4-app menu li {
 	margin: calc(var(--size) / 3);
 }
 
+/* all images in the app should now have some default responsiveness */
 r4-app img {
 	display: block;
 	max-width: 100%;
