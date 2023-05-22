@@ -29,7 +29,6 @@ export default defineConfig({
 
 				r4Actions: resolve(__dirname, 'examples/r4-actions/index.html'),
 				r4App: resolve(__dirname, 'examples/r4-app/index.html'),
-				r4AppSingle: resolve(__dirname, 'examples/r4-app-single/index.html'),
 				r4Appearance: resolve(__dirname, 'examples/r4-color-scheme/index.html'),
 
 				r4Avatar: resolve(__dirname, 'examples/r4-avatar/index.html'),
