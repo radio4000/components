@@ -134,7 +134,7 @@ export default class R4App extends LitElement {
 		const { data: account } = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
 		if (account?.theme) {
 			localStorage.setItem('r4.theme', account.theme)
-			document.documentElement.setAttribute('color-scheme', account.theme)
+			this.setAttribute('color-scheme', account.theme)
 		}
 	}
 
