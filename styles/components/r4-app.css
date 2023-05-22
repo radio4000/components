@@ -22,7 +22,7 @@ r4-app menu {
 }
 
 /* give some space to menu li? */
-r4-app menu li {
+r4-app li {
 	margin: calc(var(--size) / 3);
 }
 
