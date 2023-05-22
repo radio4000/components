@@ -34,7 +34,9 @@ r4-map-position r4-map > main {
 r4-map-position fieldset[type='buttons'] {
 	flex-direction: row;
 }
-
+.ol-viewport {
+	min-height: 200px;
+}
 .ol-popup {
 	position: absolute;
 	background-color: white;

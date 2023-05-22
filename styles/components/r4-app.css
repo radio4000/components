@@ -15,7 +15,7 @@ r4-app {
 	for no-wrap on the r4-menu[horizontal]  */
 r4-app menu {
 	display: flex;
-	flex-wrap: no-wrap;
+	flex-wrap: nowrap;
 	list-style: none;
 	margin: 0;
 	padding: 0;
