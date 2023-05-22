@@ -25,7 +25,7 @@ export default class R4PageHome extends LitElement {
 				${this.store?.userChannels?.length
 					? html`
 							<section>
-								<h2>Your channel:</h2>
+								<h2>Your channel${this.store?.userChannels?.length > 1 ? 's' : ''}</h2>
 								<ul>
 									${this.store?.userChannels.map((channel) => this.renderChannelCard(channel, href))}
 								</ul>
@@ -35,7 +35,7 @@ export default class R4PageHome extends LitElement {
 				${this.store?.userChannels?.length
 					? html`
 							<section>
-								<h2>Your channel follows:</h2>
+								<h2>Your channel follows</h2>
 								<ul>
 									${this.store?.followings?.map((channel) => this.renderChannelCard(channel, href))}
 								</ul>
