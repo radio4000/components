@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit'
-import {sdk} from '@radio4000/sdk'
+import { sdk } from '@radio4000/sdk'
 
 /**
  * Renders an image in a predefined format for channel avatars.
@@ -36,27 +36,25 @@ function ResponsiveCloudinaryImage(id) {
 	if (!id) return null
 
 	const baseUrl = 'https://res.cloudinary.com/radio4000/image/upload'
-	const small = 'w_250,h_250'
-	const large = 'w_500,h_500'
+	const small = 'w_50,h_50'
+	const large = 'w_50,h_50'
 	const crop = 'c_thumb,q_60'
 	// const imageUrl = `${baseUrl}/${image}`
 
 	return html`
-		<figure>
-			<picture>
-				<source
-					type="image/webp"
-					srcset=${`${baseUrl}/${small},${crop},fl_awebp/${id}.webp 1x, ${baseUrl}/${large},${crop},fl_awebp/${id}.webp 2x`}
-				/>
-				<source
-					media="(max-width: 500px)"
-					srcset=${`${baseUrl}/${small},${crop}/${id}.jpg 1x, ${baseUrl}/${large},${crop}/${id}.jpg 2x`}
-				/>
-				<source
-					srcset=${`${baseUrl}/${small},${crop},fl_lossy/${id} 1x, ${baseUrl}/${large},${crop},fl_lossy/${id} 2x`}
-				/>
-				<img src=${`${baseUrl}/${small},${crop},fl_lossy/${id}`} alt=${`Avatar for ${id}`} />
-			</picture>
-		</figure>
+		<picture>
+			<source
+				type="image/webp"
+				srcset=${`${baseUrl}/${small},${crop},fl_awebp/${id}.webp 1x, ${baseUrl}/${large},${crop},fl_awebp/${id}.webp 2x`}
+			/>
+			<source
+				media="(max-width: 500px)"
+				srcset=${`${baseUrl}/${small},${crop}/${id}.jpg 1x, ${baseUrl}/${large},${crop}/${id}.jpg 2x`}
+			/>
+			<source
+				srcset=${`${baseUrl}/${small},${crop},fl_lossy/${id} 1x, ${baseUrl}/${large},${crop},fl_lossy/${id} 2x`}
+			/>
+			<img src=${`${baseUrl}/${small},${crop},fl_lossy/${id}`} alt=${`Avatar for ${id}`} />
+		</picture>
 	`
 }

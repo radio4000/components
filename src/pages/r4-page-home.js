@@ -15,9 +15,9 @@ export default class R4PageHome extends LitElement {
 					? html`
 							<section>
 								<h2>Your channel:</h2>
-								<menu>
+								<ul>
 									${this.store?.userChannels.map((channel) => this.renderChannelCard(channel, this.config.href))}
-								</menu>
+								</ul>
 							</section>
 					  `
 					: null}
@@ -25,9 +25,9 @@ export default class R4PageHome extends LitElement {
 					? html`
 							<section>
 								<h2>Your channel follows:</h2>
-								<menu>
+								<ul>
 									${this.store?.followings?.map((channel) => this.renderChannelCard(channel, this.config.href))}
-								</menu>
+								</ul>
 							</section>
 					  `
 					: null}

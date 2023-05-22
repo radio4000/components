@@ -1,4 +1,4 @@
-import {sdk} from '@radio4000/sdk'
+import { sdk } from '@radio4000/sdk'
 
 const template = document.createElement('template')
 template.innerHTML = `
@@ -40,7 +40,7 @@ export default class R4List extends HTMLElement {
 	get limit() {
 		const attr = parseFloat(this.getAttribute('limit'))
 		if (!attr || attr <= 0) {
-			return  1
+			return 1
 		} else if (attr > this.upperLimit) {
 			return this.upperLimit
 		} else {
@@ -121,14 +121,14 @@ export default class R4List extends HTMLElement {
 				page: this.page,
 				limit: this.limit,
 				list: this.list,
-			}
+			},
 		})
 		this.dispatchEvent(listEvent)
 	}
 
 	/* browse the list (of data models) like it is paginated;
 		 components-attributes -> supbase-query */
-	async browsePage({page, limit}) {
+	async browsePage({ page, limit }) {
 		const { from, to, limitResults } = this.getBrowseParams({ page, limit })
 		return sdk.supabase
 			.from(this.model)
@@ -143,8 +143,8 @@ export default class R4List extends HTMLElement {
 		 -> page="1" limit="1"
 		 -> from[0] to to[0] limit[0]
 	 */
-	getBrowseParams({page, limit}) {
-		let from, to, limitResults;
+	getBrowseParams({ page, limit }) {
+		let from, to, limitResults
 		from = (page - 1) * limit
 		to = from + limit - 1
 		limitResults = limit - 1
@@ -173,7 +173,6 @@ export default class R4List extends HTMLElement {
 			const elementName = this.itemTemplate.getAttribute('element')
 			const propertyName = this.itemTemplate.getAttribute('property')
 			const $dataItem = $item.querySelector(elementName)
-
 
 			/* if <template element="r4-channel" attribute="channel" />
 				 set the itemData as json on <r4-channel channel={itemData}/>
@@ -257,6 +256,9 @@ export default class R4List extends HTMLElement {
 	renderPagination() {
 		this.$pagination.innerHTML = ''
 
+		const $label = document.createElement('label')
+		$label.innerText = 'Page'
+
 		const $previous = document.createElement('button')
 		$previous.setAttribute('name', 'before')
 		$previous.innerText = 'before'
@@ -268,6 +270,7 @@ export default class R4List extends HTMLElement {
 		const $current = document.createElement('span')
 		$current.innerText = this.page
 
+		this.$pagination.append($label)
 		this.$pagination.append($previous)
 		this.$pagination.append($current)
 		this.$pagination.append($next)

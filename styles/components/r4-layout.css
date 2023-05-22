@@ -4,10 +4,9 @@ r4-layout {
 	flex-direction: column;
 }
 
-/* make the panel the full viewport height,
-so on page change, all interface does not jump */
+/* can make the panel the full viewport height,
+	 so on page change, all interface does not jump */
 r4-layout::part(panel) {
-	min-height: 100vh;
 }
 
 /* basic styles for details and summary of the playback layout part */
