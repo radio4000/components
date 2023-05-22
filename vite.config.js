@@ -51,7 +51,6 @@ export default defineConfig({
 				r4Layout: resolve(__dirname, 'examples/r4-layout/index.html'),
 				r4List: resolve(__dirname, 'examples/r4-list/index.html'),
 				r4Map: resolve(__dirname, 'examples/r4-map/index.html'),
-				r4Search: resolve(__dirname, 'examples/r4-search/index.html'),
 				r4MapPosition: resolve(__dirname, 'examples/r4-map-position/index.html'),
 				r4Player: resolve(__dirname, 'examples/r4-player/index.html'),
 				r4ButtonPlay: resolve(__dirname, 'examples/r4-button-play/index.html'),
