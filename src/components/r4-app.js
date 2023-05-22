@@ -60,15 +60,8 @@ export default class R4App extends LitElement {
 	}
 
 	get selectedChannel() {
-		if (!this.config.selectedSlug || !this.store?.user || !this.store?.userChannels) return null
-		return this.store.userChannels.find((c) => c.slug === this.config.selectedSlug)
-	}
-
-	constructor() {
-		super()
-
-		const theme = localStorage.getItem('r4.theme')
-		if (theme) document.documentElement.setAttribute('data-color-scheme', theme)
+		if (!this.config.selectedSlug || !this.user || !this.userChannels) return null
+		return this.userChannels.find((c) => c.slug === this.selectedSlug)
 	}
 
 	async connectedCallback() {
@@ -104,12 +97,7 @@ export default class R4App extends LitElement {
 		this.user = data?.session?.user
 
 		if (this.user) {
-			// Load account settings and set prefered theme.
-			const { data: account } = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
-			if (account?.theme) {
-				localStorage.setItem('r4.theme', account.theme)
-				document.documentElement.setAttribute('data-color-scheme', account.theme)
-			}
+			// this.setTheme()
 
 			// load user channels
 			const { data: channels } = await sdk.channels.readUserChannels()
@@ -139,6 +127,15 @@ export default class R4App extends LitElement {
 
 		this.didLoad = true
 		this.refreshUserData.running = false
+	}
+
+	async setTheme() {
+		// Load account settings and set prefered theme.
+		const { data: account } = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
+		if (account?.theme) {
+			localStorage.setItem('r4.theme', account.theme)
+			this.setAttribute('color-scheme', account.theme)
+		}
 	}
 
 	// When this is run, `user` and `userChannels` can be undefined.
