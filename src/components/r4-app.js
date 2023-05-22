@@ -104,12 +104,7 @@ export default class R4App extends LitElement {
 		this.user = data?.session?.user
 
 		if (this.user) {
-			// Load account settings and set prefered theme.
-			const { data: account } = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
-			if (account?.theme) {
-				localStorage.setItem('r4.theme', account.theme)
-				document.documentElement.setAttribute('data-color-scheme', account.theme)
-			}
+			// this.setTheme()
 
 			// load user channels
 			const { data: channels } = await sdk.channels.readUserChannels()
@@ -139,6 +134,15 @@ export default class R4App extends LitElement {
 
 		this.didLoad = true
 		this.refreshUserData.running = false
+	}
+
+	async setTheme() {
+		// Load account settings and set prefered theme.
+		const { data: account } = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
+		if (account?.theme) {
+			localStorage.setItem('r4.theme', account.theme)
+			document.documentElement.setAttribute('color-scheme', account.theme)
+		}
 	}
 
 	// When this is run, `user` and `userChannels` can be undefined.
