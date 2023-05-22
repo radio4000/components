@@ -63,6 +63,7 @@ export default class R4PageChannelTrack extends BaseChannel {
 				<r4-track
 					.track=${track}
 					id=${this.params.track_id}
+					origin=${this.trackOrigin}
 					></r4-track>
 			</main>
 			<aside>
