@@ -261,15 +261,10 @@ export default class R4App extends LitElement {
 		}
 	}
 
-	/* build the app's dom elements */
 	renderAppMenu() {
-		/* when on slug.4000.network */
-		const { selectedSlug, href, singleChannel } = this.config
 		return html`
 			<header slot="menu">
-				<h1>
-					<a href=${href}><r4-title small></r4-title></a>
-				</h1>
+				<a href=${this.config.href}><r4-title small></r4-title></a>
 			</header>
 		`
 	}

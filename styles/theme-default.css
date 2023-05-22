@@ -1,92 +1,83 @@
 /*
-	The application's required styles
-	- imports component styles at the end of the file
+	A minimal default theme, with mostly:
+	- required defaults to make the work (though it should without CSS
 */
 
-/* variables */
+/* these imports are to make the player layout & map work */
+@import url('components/r4-layout.css');
+@import url('components/r4-map.css');
+
+/* these changes are "user personalisation" for color themes */
 r4-app {
-	/* typography */
-	--font-size: var(--size-font);
-	--font-family: serif;
+	/* sizes */
+	--s-font: 18px;
+	--s: 1.5rem;
+	--s-youtube: 200px;
 
-	/* a default size to use (with calc()) for "homogenous visual spacing" */
-	--size: 1.5rem;
-	--size-container: 50em;
-	--breakpoint: 700px;
+	/* reference functional variables using the colors */
+	--c-fg: inherit;
+	--c-bg: inherit;
+	--c-link: inherit;
 
-	--size-font-h0: 1rem;
-	--size-font-h1: 2.2rem;
-	--size-font-h2: 1.9rem;
-	--size-font-h3: 1.7rem;
-	--size-font-h4: 1.5rem;
+	/* colors */
+	--c-light: white;
+	--c-dark: black;
+	--c-light--accent: green;
+	--c-dark--accent: orange;
 }
 
-/* Universal Box Sizing with inheritance */
-r4-app {
-	box-sizing: border-box;
+/* apply the variables for each "theme cases" */
+/* these are the "theme browser settings" */
+@media (prefers-color-scheme: dark) {
+	r4-app {
+		--c-fg: var(--c-light);
+		--c-bg: var(--c-dark);
+		--c-link: var(--c-dark--accent);
+	}
 }
-r4-app *,
-r4-app *:before,
-r4-app *:after {
-	box-sizing: inherit;
-}
-
-/* the html element root,
-	 and the custom-element's root */
-r4-app {
-	background-color: var(--color-background);
-	color: var(--color-text);
-	font-family: var(--font-family);
-	font-size: var(--font-size);
+@media (prefers-color-scheme: light) {
+	r4-app {
+		--c-fg: var(--c-dark);
+		--c-bg: var(--c-light);
+		--c-link: var(--c-light--accent);
+	}
 }
 
+/* For account settings to overwrite system settings we need to duplicate the variables here */
+html[data-color-scheme='os'] r4-app {
+	/* this is the default */
+}
+html[data-color-scheme='dark'] r4-app {
+	--c-fg: var(--c-light);
+	--c-bg: var(--c-dark);
+	--c-link: var(--c-dark--accent);
+}
+html[data-color-scheme='light'] r4-app {
+	--c-fg: var(--c-dark);
+	--c-bg: var(--c-light);
+	--c-link: var(--c-light--accent);
+}
+
+/* and the customization using the variables */
 r4-app {
-	/* Enable container queries for this element */
+	color: var(--c-fg);
+	background-color: var(--c-bg);
+	font-size: var(--s-font);
+	padding: calc(var(--s) / 3);
 	display: flex;
-	container-type: inline-size;
+	flex-direction: column;
 }
 
-/* all "menu" are by default horizontal, and scrollable */
-r4-app menu {
-	display: flex;
-	flex-wrap: nowrap;
-	align-items: center;
-	list-style: none;
-	margin: 0;
-	padding: 0;
-
-	/* allow an overflow horizontal with scroll bar hidden */
-	overflow-x: scroll;
-	scrollbar-width: none;
-}
-
-/* give some space to menu li? */
-r4-app li {
-	margin: calc(var(--size) / 3);
-}
-
-/* all images in the app should now have some default responsiveness */
-r4-app img {
-	display: inline-block;
-	max-width: 100%;
-}
-
-r4-app h1,
-r4-app h2,
-r4-app h3,
-r4-app h4,
-r4-app h5,
-r4-app h6,
-r4-app p {
-	font-size: 1rem;
-	margin: 0;
-	/* margin-top: 1em; */
-	margin-bottom: 1em;
-	/* margin-bottom: calc(var(--size) / 2); */
-}
-
+/* style the links generally */
 r4-app a {
-	color: var(--color-link);
+	color: var(--c-link);
 }
 
-@import url('components/index.css');
+/*
+	can start targetting "more specific customization"
+*/
+
+/* make the panel min height, the viewport, so "route change" don't make the UI jump */
+r4-app r4-layout::part(panel) {
+	min-height: 100vh;
+}
