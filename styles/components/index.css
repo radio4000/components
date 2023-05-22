@@ -1,6 +1,6 @@
 /* Import styles for every r4-* component */
-@import url('r4-channel.css');
 @import url('r4-dialog.css');
 @import url('r4-map.css');
 @import url('r4-app.css');
 @import url('r4-layout.css');
+@import url('r4-form.css');

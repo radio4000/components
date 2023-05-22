@@ -1,6 +1,3 @@
-r4-dialog {
-}
-
 r4-dialog::part(dialog) {
 	--bg: var(--color-background);
 	background-color: var(--color-background);
@@ -27,10 +24,4 @@ r4-dialog::part(form) {
 	display: flex;
 	padding-bottom: var(--size);
 	justify-content: flex-end;
-}
-
-/* no custom styles */
-r4-dialog {
-}
-r4-dialog[visible='true'] {
 }

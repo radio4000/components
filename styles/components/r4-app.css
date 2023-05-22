@@ -1,9 +1,47 @@
 /*
 	The application's required styles
 */
+
+/* variables */
+r4-app {
+	/* typography */
+	--font-size: var(--size-font);
+	--font-family: serif;
+
+	/* a default size to use (with calc()) for "homogenous visual spacing" */
+	--size: 1.5rem;
+	--size-container: 50em;
+	--breakpoint: 700px;
+
+	--size-font-h0: 1rem;
+	--size-font-h1: 2.2rem;
+	--size-font-h2: 1.9rem;
+	--size-font-h3: 1.7rem;
+	--size-font-h4: 1.5rem;
+}
+
+/* Universal Box Sizing with inheritance */
+r4-app {
+	box-sizing: border-box;
+}
+r4-app *,
+r4-app *:before,
+r4-app *:after {
+	box-sizing: inherit;
+}
+
+/* the html element root,
+	 and the custom-element's root */
+r4-app {
+	background-color: var(--color-background);
+	color: var(--color-text);
+	font-family: var(--font-family);
+	font-size: var(--font-size);
+}
+
 r4-app {
 	/* Enable container queries for this element */
-	display: inline-block;
+	display: flex;
 	container-type: inline-size;
 }
 
@@ -30,4 +68,22 @@ r4-app li {
 r4-app img {
 	display: block;
 	max-width: 100%;
+}
+
+r4-app h1,
+r4-app h2,
+r4-app h3,
+r4-app h4,
+r4-app h5,
+r4-app h6,
+r4-app p {
+	font-size: 1rem;
+	margin: 0;
+	/* margin-top: 1em; */
+	margin-bottom: 1em;
+	/* margin-bottom: calc(var(--size) / 2); */
+}
+
+r4-app a {
+	color: var(--color-link);
 }

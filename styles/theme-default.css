@@ -1,8 +1,7 @@
 /* The default theme for R4 and components */
 
 /* Shared between light and dark color schemes */
-:root,
-:host {
+r4-app {
 	--font-family: system-ui, sans-serif;
 	--color-light: hsl(0deg 0% 98%);
 	--color-lightgray: hsl(0deg 0% 80%);
@@ -11,8 +10,7 @@
 }
 
 /* light is default */
-:root,
-:host {
+r4-app {
 	--color-background: var(--color-light);
 	--color-card-background: var(--color-lightgray);
 	--color-input-background: hsl(0 0% 93%);
@@ -23,8 +21,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-	:root,
-	:host {
+	r4-app {
 		--color-background: var(--color-dark);
 		--color-card-background: var(--color-darkgray);
 		--color-input-background: var(--color-darkgray);
@@ -36,7 +33,7 @@
 }
 
 /* For account settings to overwrite system settings we need to duplicate the variables here */
-[data-color-scheme='light'] {
+[data-color-scheme='light'] r4-app {
 	--color-background: var(--color-light);
 	--color-card-background: var(--color-lightgray);
 	--color-input-background: hsl(0 0% 93%);
@@ -46,7 +43,7 @@
 	--color-border: hsla(0 10% 50% / 0.5);
 }
 /* and here */
-[data-color-scheme='dark'] {
+[data-color-scheme='dark'] r4-app {
 	--color-background: hsl(0 0% 10%);
 	--color-card-background: var(--color-darkgray);
 	--color-input-background: var(--color-darkgray);
@@ -56,7 +53,7 @@
 	--color-link: hsl(260 80% 90%);
 }
 
-label {
+r4-app label {
 	font-size: smaller;
 	font-weight: bold;
 }

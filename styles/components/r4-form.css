@@ -4,57 +4,55 @@
 	 Also, <r4-form/> is extended as a web components;
 	but always create a <form/> element and <fieldset/> children*/
 
-form {
+r4-app form {
 }
-fieldset {
+r4-app fieldset {
 	display: flex;
 	flex-direction: column;
 	border: none;
 	margin: 0;
 	padding: 0;
 }
-fieldset {
+r4-app fieldset {
 	margin-bottom: calc(var(--size) / 2);
 }
-fieldset:has(legend) {
-}
-fieldset legend {
+r4-app fieldset legend {
 	display: block;
 	font-weight: bold;
 	padding-top: calc(var(--size) / 2);
 	padding-bottom: calc(var(--size) / 2);
 }
 
-fieldset[hidden] {
+r4-app fieldset[hidden] {
 	display: none;
 }
-fieldset[disabled] {
+r4-app fieldset[disabled] {
 }
-fieldset[disabled] button[type='submit'] {
+r4-app fieldset[disabled] button[type='submit'] {
 	opacity: 0.5;
 	cursor: not-allowed;
 }
-fieldset[disabled] button[loading] {
+r4-app fieldset[disabled] button[loading] {
 	cursor: wait;
 }
 
-fieldset label[for] {
+r4-app fieldset label[for] {
 	cursor: pointer;
 }
 
 /* part="button" is used for r4-dialog buttons */
-::part(button),
-button,
-select {
+r4-app *::part(button),
+r4-app button,
+r4-app select {
 	cursor: pointer;
 }
 
 /* Shared styles between button-like-things and inputs */
-::part(button),
-button,
-select,
-input,
-textarea {
+r4-app *::part(button),
+r4-app button,
+r4-app select,
+r4-app input,
+r4-app textarea {
 	font-family: var(--font-family);
 	font-size: var(--font-size);
 	padding: calc(var(--size) / 4) calc(var(--size) / 2);
@@ -62,23 +60,23 @@ textarea {
 }
 
 /* Inputs */
-input,
-textarea {
+r4-app input,
+r4-app textarea {
 	background-color: var(--color-input-background);
 	color: var(--color-input-text);
 }
 
 /* Button-like elements */
-select,
-button {
+r4-app select,
+r4-app button {
 	background-color: var(--color-button-background);
 	color: var(--color-button-text);
 	border-color: var(--color-text);
 }
 
 /* ::part(button)[disabled], */
-select[disabled],
-button[disabled] {
+r4-app select[disabled],
+r4-app button[disabled] {
 	opacity: 0.5;
 	/* border-color: transparent; */
 	/* color: hsla(0, 0%, 0%, 0.5); */

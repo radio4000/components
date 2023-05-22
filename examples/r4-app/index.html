@@ -23,19 +23,26 @@
 	</ul>
 
 	<r4-app></r4-app>
+
+	<!-- default styles, like on r4.com (here there are example text on top) -->
+	<style>
+		r4-app r4-layout {
+			min-height: 100vh;
+		}
+	</style>
+
+	<!-- initialize the app  -->
+	<script>
+		const params = new URLSearchParams(window.location.search)
+		const channel = params.get('channel')
+		const singleChannel = params.get('single-channel')
+		const $app = document.querySelector('r4-app')
+		$app.setAttribute(
+			'href',
+			window.location.origin + '/examples/r4-app/'
+		)
+		channel && $app.setAttribute('channel', channel)
+		singleChannel && $app.setAttribute('single-channel', true)
+	</script>
 </body>
-
-<script>
-	const params = new URLSearchParams(window.location.search)
-	const channel = params.get('channel')
-	const singleChannel = params.get('single-channel')
-	const $app = document.querySelector('r4-app')
-	$app.setAttribute(
-		'href',
-		window.location.origin + '/examples/r4-app/'
-	)
-	channel && $app.setAttribute('channel', channel)
-	singleChannel && $app.setAttribute('single-channel', true)
-</script>
-
 </html>
