@@ -32,9 +32,11 @@ export default class R4PageChannel extends BaseChannel {
 
 		return html`
 			<menu>
-				<li><code>@</code></li>
-				<li><a href=${this.channelOrigin}>${channel.slug}</a></li>
-				<li><code>/</code></li>
+				<li>
+					<code>@</code>
+					<a href=${this.channelOrigin}>${channel.slug}</a>
+					<code>/</code>
+				</li>
 				<li>
 					<r4-channel-actions
 						slug=${channel.slug}
