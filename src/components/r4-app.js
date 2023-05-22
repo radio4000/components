@@ -60,15 +60,8 @@ export default class R4App extends LitElement {
 	}
 
 	get selectedChannel() {
-		if (!this.config.selectedSlug || !this.store?.user || !this.store?.userChannels) return null
-		return this.store.userChannels.find((c) => c.slug === this.config.selectedSlug)
-	}
-
-	constructor() {
-		super()
-
-		const theme = localStorage.getItem('r4.theme')
-		if (theme) document.documentElement.setAttribute('data-color-scheme', theme)
+		if (!this.config.selectedSlug || !this.user || !this.userChannels) return null
+		return this.userChannels.find((c) => c.slug === this.selectedSlug)
 	}
 
 	async connectedCallback() {

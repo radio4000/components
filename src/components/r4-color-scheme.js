@@ -14,7 +14,7 @@ export default class R4ColorScheme extends LitElement {
 	}
 
 	// The attribute to set on <html> element
-	attrName = 'data-color-scheme'
+	attrName = 'color-scheme'
 
 	constructor() {
 		super()

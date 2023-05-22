@@ -32,6 +32,13 @@ export default class R4Layout extends LitElement {
 		this.topObserver = this.initTopOberserver()
 	}
 
+	connectedCallback() {
+		super.connectedCallback()
+
+		const theme = localStorage.getItem('r4.theme')
+		if (theme) this.parentElement.setAttribute('color-scheme', theme)
+	}
+
 	disconnectedCallback() {
 		document.removeEventListener('fullscreenchange', this.onFullscreen)
 		// remove the observer
