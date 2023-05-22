@@ -39,9 +39,9 @@ export default class R4ChannelCard extends LitElement {
 		if (!channel) return html`Loading...`
 		return html`
 			<r4-button-play .channel=${channel}></r4-button-play>
-			<r4-avatar image=${channel.image}></r4-avatar>
-			<r4-name aria-heading="1"><a href="${this.url}">${channel.slug}</a></r4-name>
 			<r4-slug><a href="${this.url}">@${channel.slug}</a></r4-slug>
+			<r4-avatar image=${channel.image}></r4-avatar>
+			<r4-name aria-heading="1">${channel.name}</r4-name>
 			<r4-description>${channel.description}</r4-description>
 		`
 	}

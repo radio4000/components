@@ -38,8 +38,8 @@ export default class R4PageChannelTrack extends BaseChannel {
 	renderPage(track, channel) {
 		const track_id = this.params.track_id
 		return html`
-			<menu>
-				<li>
+			<nav>
+				<nav-item>
 					<code>@</code>
 					<a href=${this.channelOrigin}>${channel.slug}</a>
 					<code>/</code>
@@ -48,14 +48,14 @@ export default class R4PageChannelTrack extends BaseChannel {
 					<a href=${this.channelOrigin + '/tracks' + '/' + track_id}>
 						${track_id}
 					</a>
-				</li>
-				<li>
+				</nav-item>
+				<nav-item>
 					<r4-track-actions
 						id=${this.params.track_id}
 						@input=${this.onTrackAction}
 						></r4-track-actions>
-				</li>
-			</menu>
+				</nav-item>
+			</nav>
 			<main>
 				<r4-track
 					.track=${track}

@@ -56,14 +56,14 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	renderPage(channel) {
 		return html`
-			<menu>
-				<li>
+			<nav>
+				<nav-item>
 					<code>@</code>
 					<a href=${this.channelOrigin}>${channel.slug}</a>
 					<code>/</code>
 					<a href=${this.channelOrigin + '/tracks'}>tracks</a>
-				</li>
-			</menu>
+				</nav-item>
+			</nav>
 			<main>
 				<br />
 				<r4-track-search href=${this.channelOrigin}></r4-track-search>

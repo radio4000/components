@@ -215,7 +215,7 @@ export default class R4App extends LitElement {
 
 		return html`
 			<r4-layout @r4-play=${this.onPlay} ?is-playing=${this.isPlaying}>
-				<header slot="menu">${this.renderAppMenu()}</header>
+				${!this.config.singleChannel ? this.renderAppMenu() : null}
 				<main slot="main">${this.renderAppRouter()}</main>
 				<r4-player slot="player" ${ref(this.playerRef)} ?is-playing=${this.isPlaying}></r4-player>
 			</r4-layout>
@@ -264,91 +264,13 @@ export default class R4App extends LitElement {
 	/* build the app's dom elements */
 	renderAppMenu() {
 		/* when on slug.4000.network */
-		if (this.config.singleChannel) {
-			return this.buildSingleChannelMenu()
-		} else {
-			/* when on radio4000.com */
-			return this.renderMenuCMS()
-		}
-	}
-
-	renderMenuCMS() {
-		const { userChannels, href, user } = this
-
+		const { selectedSlug, href, singleChannel } = this.config
 		return html`
-			<menu>
-				<li>
-					<a href=${href}>
-						<r4-title small></r4-title>
-					</a>
-				</li>
-				<li>
-					<a href=${href + '/explore'}>Explore</a>
-				</li>
-				${this.userChannels ? html`<li><a href=${href + '/add'}>+Add</a></li>` : null}
-				<li>
-					<r4-auth-status ?auth=${user}>
-						<span slot="in">
-							${!this.userChannels
-								? html`<a href=${href + '/new'}>Create channel</a>`
-								: this.userChannels.length === 1
-								? html`<a href=${`${href}/${this.userChannels[0].slug}`}>${this.userChannels[0].name}</a>`
-								: html`<r4-user-channels-select
-										@input=${this.onChannelSelect}
-										.channels=${userChannels}
-								  ></r4-user-channels-select>`}
-						</span>
-					</r4-auth-status>
-				</li>
-				<li>
-					<r4-auth-status ?auth=${user}>
-						<span slot="in">
-							<a href=${`${this.config.href}/settings`}>Settings</a>
-						</span>
-						<span slot="out">
-							<a href=${href + '/sign/up'}>Create new radio</a>
-						</span>
-					</r4-auth-status>
-				</li>
-				<li>
-					<r4-auth-status ?auth=${user}>
-						<span slot="in">
-							<button title="Sign out" @click=${sdk.auth.signOut}>&#xf08b;</button>
-						</span>
-						<span slot="out">
-							<a href=${href + '/sign/in'}>Sign in</a>
-						</span>
-					</r4-auth-status>
-				</li>
-			</menu>
-		`
-	}
-
-	buildSingleChannelMenu() {
-		return html`
-			<menu>
-				<li>
-					<a href=${this.config.href}>
-						${this.config.selectedSlug ? this.config.selectedSlug : html`<r4-title small></r4-title>`}
-					</a>
-				</li>
-				<li>
-					<a href=${this.config.href + '/add'}> add </a>
-				</li>
-				<li>
-					<a href=${this.config.href + '/tracks'}> tracks </a>
-				</li>
-				<li>
-					<r4-auth-status>
-						<span slot="in">
-							<a href=${this.config.href + '/sign/out'}>sign out</a>
-						</span>
-						<span slot="out">
-							<a href=${this.config.href + '/sign/in'}>sign in</a>
-						</span>
-					</r4-auth-status>
-				</li>
-			</menu>
+			<header slot="menu">
+				<h1>
+					<a href=${href}><r4-title small></r4-title></a>
+				</h1>
+			</header>
 		`
 	}
 

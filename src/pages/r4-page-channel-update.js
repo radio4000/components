@@ -15,15 +15,16 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		})
 
 		return html`
-			<header>
-				<p>
+			<nav>
+				<nav-item>
 					<code>@</code>
 					<a href=${this.channelOrigin}>${channel.slug}</a>
 					<code>/</code>
 					update
-				</p>
-			</header>
+				</nav-item>
+			</nav>
 			<main>
+				<h2>Info</h2>
 				<r4-channel-update
 					id=${currentUserChannel.id}
 					slug=${currentUserChannel.slug}
@@ -42,7 +43,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 					longitude=${currentUserChannel.longitude}
 					latitude=${currentUserChannel.latitude}
 				></r4-map-position>
-				<br />
+				<h2>Danger zone</h2>
 				<details>
 					<summary>Delete channel</summary>
 					<r4-channel-delete id=${currentUserChannel.id} @submit=${this.onChannelDelete}></r4-channel-delete>

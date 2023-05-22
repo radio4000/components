@@ -125,9 +125,7 @@ export default class R4Layout extends LitElement {
 		return html`
 			<details open="true" part="playback-details" ${ref(this.detailsRef)}>
 				<summary part="playback-summary">
-					<slot name="playback-controls">
-						<menu part="playback-menu"> ${Object.entries(this.uiStates).map(this.renderUiState.bind(this))} </menu>
-					</slot>
+					<slot name="playback-controls"> ${Object.entries(this.uiStates).map(this.renderUiState.bind(this))} </slot>
 				</summary>
 				<slot name="player"></slot>
 			</details>
@@ -137,11 +135,9 @@ export default class R4Layout extends LitElement {
 	renderUiState(uiState) {
 		const [value, name] = uiState
 		return html`
-			<li>
-				<button @click=${this.onControlClick} value=${value} title=${name} name=${name} part="controls-button">
-					${this.uiStatesUnicodes[name]}
-				</button>
-			</li>
+			<button @click=${this.onControlClick} value=${value} title=${name} name=${name} part="controls-button">
+				${this.uiStatesUnicodes[name]}
+			</button>
 		`
 	}
 

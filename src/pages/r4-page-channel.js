@@ -31,28 +31,28 @@ export default class R4PageChannel extends BaseChannel {
 		if (!channel) return html`<p>Loading...</p>`
 
 		return html`
-			<menu>
-				<li>
+			<nav>
+				<nav-item>
 					<code>@</code>
 					<a href=${this.channelOrigin}>${channel.slug}</a>
 					<code>/</code>
-				</li>
-				<li>
+				</nav-item>
+				<nav-item>
 					<r4-channel-actions
 						slug=${channel.slug}
 						?can-edit=${this.canEdit}
 						?single-channel=${this.config.singleChannel}
 						@input=${this.onChannelAction}
 					></r4-channel-actions>
-				</li>
-				<li><r4-button-play .channel=${channel}></r4-button-play></li>
-				<li><r4-channel-social>${this.renderSocial()}</r4-channel-social></li>
-				<li>
+				</nav-item>
+				<nav-item><r4-button-play .channel=${channel}></r4-button-play></nav-item>
+				<nav-item><r4-channel-social>${this.renderSocial()}</r4-channel-social></nav-item>
+				<nav-item>
 					${this.coordinates && !this.config.singleChannel
 						? html`<r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates>`
 						: null}
-				</li>
-			</menu>
+				</nav-item>
+			</nav>
 
 			<r4-channel-name>
 				<h1>${channel.name}</h1>

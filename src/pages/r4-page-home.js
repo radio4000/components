@@ -7,8 +7,36 @@ export default class R4PageHome extends LitElement {
 	}
 
 	render() {
+		const { href } = this.config
+		const { user, userChannels } = this.store
 		return html`
 			<header>${!this.store.user ? html`<h1>Welcome to <r4-title></r4-title>!</h1>` : null}</header>
+			<menu>
+				<li>
+					<a href=${href + '/explore'}>Explore</a>
+				</li>
+				<li>
+					<r4-auth-status ?auth=${user}>
+						<span slot="in">
+							<a href=${`${href}/settings`}>Settings</a>
+						</span>
+						<span slot="out">
+							<a href=${href + '/sign/up'}>Create new radio</a>
+						</span>
+					</r4-auth-status>
+				</li>
+				<li>
+					<r4-auth-status ?auth=${user}>
+						<span slot="in">
+							<a href=${href + '/sign/out'}>Sign out</a>
+						</span>
+						<span slot="out">
+							<a href=${href + '/sign/in'}>Sign in</a>
+						</span>
+					</r4-auth-status>
+				</li>
+			</menu>
+
 			<main>
 				${this.store.user ? this.renderMenuUser() : this.renderMenuNoUser()}
 				${this.store?.userChannels?.length
@@ -16,7 +44,7 @@ export default class R4PageHome extends LitElement {
 							<section>
 								<h2>Your channel:</h2>
 								<ul>
-									${this.store?.userChannels.map((channel) => this.renderChannelCard(channel, this.config.href))}
+									${this.store?.userChannels.map((channel) => this.renderChannelCard(channel, href))}
 								</ul>
 							</section>
 					  `
@@ -26,7 +54,7 @@ export default class R4PageHome extends LitElement {
 							<section>
 								<h2>Your channel follows:</h2>
 								<ul>
-									${this.store?.followings?.map((channel) => this.renderChannelCard(channel, this.config.href))}
+									${this.store?.followings?.map((channel) => this.renderChannelCard(channel, href))}
 								</ul>
 							</section>
 					  `
