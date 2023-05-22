@@ -3,7 +3,7 @@
 /* Root or base styles, not scoped to any component */
 @import url('root.css');
 @import url('typography.css');
-@import url('buttons.css');
+@import url('forms.css');
 @import url('grid.css');
 @import url('components/index.css');
 @import url('pages/index.css');

@@ -28,6 +28,7 @@ r4-layout[ui-state='close'] [slot='player']::slotted(*) {
 /* make the player summary not display its icon */
 r4-layout::part(playback-summary) {
 	display: flex;
+	justify-content: flex-end;
 }
 
 /* hide the player summary when fullscreen */
