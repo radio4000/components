@@ -15,8 +15,8 @@ export default class R4PageExplore extends LitElement {
 			<header>
 				<h1>Explore channels</h1>
 				<menu>
-					<li><a href=${`${this.config.href}/search`}>search</a></li>
-					<li><a href=${`${this.config.href}/map`}>map</a></li>
+					<li><a href=${`${this.config.href}/search`}>Search</a></li>
+					<li><a href=${`${this.config.href}/map`}>Map</a></li>
 				</menu>
 			</header>
 			<main>

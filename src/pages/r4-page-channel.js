@@ -37,6 +37,7 @@ export default class R4PageChannel extends BaseChannel {
 					<a href=${this.channelOrigin}>${channel.slug}</a>
 					<code>/</code>
 				</nav-item>
+				<nav-item><r4-button-play .channel=${channel}></r4-button-play></nav-item>
 				<nav-item>
 					<r4-channel-actions
 						slug=${channel.slug}
@@ -45,7 +46,6 @@ export default class R4PageChannel extends BaseChannel {
 						@input=${this.onChannelAction}
 					></r4-channel-actions>
 				</nav-item>
-				<nav-item><r4-button-play .channel=${channel}></r4-button-play></nav-item>
 				<nav-item><r4-channel-social>${this.renderSocial()}</r4-channel-social></nav-item>
 				<nav-item>
 					${this.coordinates && !this.config.singleChannel
@@ -87,7 +87,7 @@ export default class R4PageChannel extends BaseChannel {
 				<button @click=${this.alreadyFollowing ? this.unfollow : this.follow}>
 					${this.alreadyFollowing ? 'Unfollow' : 'Follow'}
 				</button>
-				<span>${this.followsYou ? 'follows you' : "doesn't follow you"}</span>
+				<span hidden>${this.followsYou ? 'follows you' : "doesn't follow you"}</span>
 			`
 		}
 	}

@@ -16,7 +16,6 @@ export default class R4Router extends LitElement {
 	get pathname() {
 		const href = this.config.href || window.location.href
 		const name = new URL(href).pathname
-		console.log('pathname', name)
 		/* if (name.endsWith('/')) {
 			 name = name.slice(0, name.length - 1)
 			 } */

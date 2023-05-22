@@ -1,5 +1,5 @@
 import 'radio4000-player'
-import { html, LitElement, css } from 'lit'
+import { html, LitElement } from 'lit'
 import { ref, createRef } from 'lit/directives/ref.js'
 
 export default class R4Player extends LitElement {
