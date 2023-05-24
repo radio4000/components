@@ -33,6 +33,7 @@ import {R4ChannelSearch, R4TrackSearch} from './r4-search.js'
 import R4SignIn from './r4-sign-in.js'
 import R4SignOut from './r4-sign-out.js'
 import R4SignUp from './r4-sign-up.js'
+import R4SupabaseQuery from './r4-supabase-query.js'
 import R4Title from './r4-title.js'
 import R4Track from './r4-track.js'
 import R4TrackActions from './r4-track-actions.js'
@@ -77,6 +78,7 @@ customElements.define('r4-router', R4Router)
 customElements.define('r4-sign-in', R4SignIn)
 customElements.define('r4-sign-out', R4SignOut)
 customElements.define('r4-sign-up', R4SignUp)
+customElements.define('r4-supabase-query', R4SupabaseQuery)
 customElements.define('r4-title', R4Title)
 customElements.define('r4-track', R4Track)
 customElements.define('r4-track-actions', R4TrackActions)
@@ -122,6 +124,7 @@ export default {
 	R4SignIn,
 	R4SignOut,
 	R4SignUp,
+	R4SupabaseQuery,
 	R4Title,
 	R4Track,
 	R4TrackActions,

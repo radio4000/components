@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+	<title>r4-supabase-query</title>
+	<meta name="description" content="r4-supabase-query">
+	<link rel="stylesheet" href="/styles/index.css" />
+	<script type="module" src="/src/index.js"></script>
+</head>
+
+<body>
+	<menu>
+		<li>
+			help build a query to supabase (via the js sdk)
+		</li>
+	</menu>
+	<r4-supabase-query model="tracks" page="1" limit="1"></r4-supabase-query>
+
+	<script>
+		document.querySelector('r4-supabase-query').addEventListener('output', (event) => {
+			console.log('r4-supabase-query event', event.detail)
+		})
+	</script>
+</body>
+
+</html>
