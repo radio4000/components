@@ -40,7 +40,7 @@ export default class R4PageChannel extends BaseChannel {
 					<a href=${this.channelOrigin}>${channel.slug}</a>
 					<code>/</code>
 				</nav-item>
-				<nav-item><r4-button-play .channel=${channel}></r4-button-play></nav-item>
+				<nav-item><r4-button-play .channel=${channel} label="Listen"></r4-button-play></nav-item>
 				<nav-item>
 					<r4-channel-actions
 						slug=${channel.slug}
