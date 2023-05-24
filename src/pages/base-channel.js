@@ -1,18 +1,19 @@
-import { html, LitElement } from 'lit'
-import { sdk } from '@radio4000/sdk'
+import {html, LitElement} from 'lit'
+import {sdk} from '@radio4000/sdk'
 
 // Base class to extend from
 export default class BaseChannel extends LitElement {
 	static properties = {
-		channel: { type: Object, state: true },
-		canEdit: { type: Boolean, state: true, reflect: true },
-		alreadyFollowing: { type: Boolean, state: true, reflect: true },
-		followsYou: { type: Boolean, state: true, reflect: true },
+		channel: {type: Object, state: true},
+		canEdit: {type: Boolean, state: true, reflect: true},
+		alreadyFollowing: {type: Boolean, state: true, reflect: true},
+		followsYou: {type: Boolean, state: true, reflect: true},
+		isFirebaseChannel: {type: Boolean},
 
 		// from the router
-		params: { type: Object, state: true },
-		store: { type: Object, state: true },
-		config: { type: Object, state: true },
+		params: {type: Object, state: true},
+		store: {type: Object, state: true},
+		config: {type: Object, state: true},
 	}
 
 	get channelOrigin() {
@@ -28,12 +29,12 @@ export default class BaseChannel extends LitElement {
 	}
 
 	get alreadyFollowing() {
-		if (!this.store.user) return
+		if (!this.store.user) return false
 		return this.store.followings?.map((c) => c.slug).includes(this.channel?.slug)
 	}
 
 	get followsYou() {
-		if (!this.store.user) return
+		if (!this.store.user) return false
 		return this.store.followers?.map((c) => c.slug).includes(this.config.selectedSlug)
 	}
 
@@ -45,13 +46,17 @@ export default class BaseChannel extends LitElement {
 
 	// Set channel from the slug in the URL.
 	async setChannel() {
-		if (this.config.singleChannel && this.config.selectedSlug) {
-			this.channel = (await sdk.channels.readChannel(this.config.selectedSlug)).data
-			this.canEdit = await sdk.channels.canEditChannel(this.config.selectedSlug)
+		const slug = this.config.singleChannel && this.config.selectedSlug ? this.config.selectedSlug : this.params.slug
+		const {data, error} = await sdk.channels.readChannel(slug)
+		if (error) {
+			const res = await fetch('https://radio4000.firebaseio.com/channels.json?orderBy="slug"&equalTo="' + slug + '"')
+			const list = await res.json()
+			this.isFirebaseChannel = Object.keys(list).length > 0
 		} else {
-			this.channel = (await sdk.channels.readChannel(this.params.slug)).data
-			this.canEdit = await sdk.channels.canEditChannel(this.params.slug)
+			this.isFirebaseChannel = false
+			this.channel = data
 		}
+		this.canEdit = await sdk.channels.canEditChannel(slug)
 	}
 
 	render() {

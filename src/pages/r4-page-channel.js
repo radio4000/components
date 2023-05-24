@@ -1,7 +1,7 @@
-import { html } from 'lit'
+import {html} from 'lit'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
-import { sdk } from '@radio4000/sdk'
+import {sdk} from '@radio4000/sdk'
 
 export default class R4PageChannel extends BaseChannel {
 	get coordinates() {
@@ -26,8 +26,11 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	render() {
-		const { channel } = this
-		if (channel === null) return html`<p>404 - There is no channel with this slug.</p>`
+		const {channel} = this
+		if (!channel && !this.isFirebaseChannel) return html`<p>404</p>`
+		if (this.isFirebaseChannel)
+			return html`<p>This channel has not yet migrated to the new Radio4000</p>
+				<radio4000-player channel-slug=${this.params.slug}></radio4000-player> `
 		if (!channel) return html`<p>Loading...</p>`
 
 		return html`
@@ -106,7 +109,7 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	/* event handlers from <r4-channel-actions> */
-	async onChannelAction({ detail }) {
+	async onChannelAction({detail}) {
 		if (detail) {
 			if (detail === 'play' && this.channel) {
 				const playEvent = new CustomEvent('r4-play', {
@@ -146,7 +149,7 @@ export default class R4PageChannel extends BaseChannel {
 		}
 	}
 
-	onDialogClose({ target }) {
+	onDialogClose({target}) {
 		const name = target.getAttribute('name')
 		if (name === 'track') {
 			if (this.config.singleChannel) {
