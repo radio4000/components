@@ -219,8 +219,13 @@ export default class R4App extends LitElement {
 		`
 	}
 
+/* the default routers:
+	 - one for the channel in CMS mode (all channels are accessible)
+	 - one for when only one channel should be displayed in the UI
+ */
 	renderAppRouter() {
-		return renderRouter({ config: this.config, store: this.store })
+		const routerData = {store: this.store, config: this.config}
+		return this.singleChannel ? renderRouterSingleChannel(routerData) : renderRouterCMS(routerData)
 	}
 
 	renderAppMenu() {
@@ -299,15 +304,6 @@ export default class R4App extends LitElement {
 	createRenderRoot() {
 		return this
 	}
-}
-
-/* the default routers:
-	 - one for the channel in CMS mode (all channels are accessible)
-	 - one for when only one channel should be displayed in the UI
- */
-function renderRouter({ store, config, singleChannel }) {
-	const routerData = { store, config }
-	return singleChannel ? renderRouterSingleChannel(routerData) : renderRouterCMS(routerData)
 }
 
 function renderRouterSingleChannel({ store, config }) {
