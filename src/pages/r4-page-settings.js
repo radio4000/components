@@ -1,13 +1,13 @@
-import { LitElement, html } from 'lit'
-import { sdk } from '@radio4000/sdk'
+import {LitElement, html} from 'lit'
+import {sdk} from '@radio4000/sdk'
 // import page from 'page/page.mjs'
 
 export default class R4PageSettings extends LitElement {
 	static properties = {
 		/* props */
-		store: { type: Object, state: true },
-		query: { type: Object, state: true },
-		config: { type: Object, state: true },
+		store: {type: Object, state: true},
+		query: {type: Object, state: true},
+		config: {type: Object, state: true},
 	}
 
 	get hasOneChannel() {
@@ -19,10 +19,10 @@ export default class R4PageSettings extends LitElement {
 		event.preventDefault()
 		const email = event.target.email.value
 		if (email === this.store.user.email) {
-			console.log('nothing to update')
+			console.log('email did not change, nothing to save')
 			return
 		}
-		const { error } = await sdk.supabase.auth.updateUser({ email })
+		const {error} = await sdk.supabase.auth.updateUser({email})
 		this.changeEmail.msg = error
 			? 'Could not update your email'
 			: 'Please confirm the link sent to both your new and old email'
@@ -34,25 +34,10 @@ export default class R4PageSettings extends LitElement {
 	async changePassword(event) {
 		event.preventDefault()
 		const password = event.target.password.value
-		const { error } = await sdk.supabase.auth.updateUser({ password })
+		const {error} = await sdk.supabase.auth.updateUser({password})
 		this.changePassword.msg = error ? 'Could not update password' : 'Password updated!'
 		if (error) {
 			console.log('error changing password', error)
-		}
-	}
-
-	async confirmAndDelete(event) {
-		event.preventDefault()
-		if (!window.confirm('Do you really want to delete your account, channels and tracks?')) return
-		if (!window.confirm('Are you certain? Your account, channels and tracks will be deleted. We can not recover them.'))
-			return
-		const { error } = await sdk.users.deleteUser()
-		if (!error) {
-			console.log('deleted user account')
-			await sdk.auth.signOut()
-			window.location.reload()
-		} else {
-			console.log('Error deleting user account', error)
 		}
 	}
 
@@ -65,7 +50,6 @@ export default class R4PageSettings extends LitElement {
 				<em>${this.store?.user?.email}</em>
 			</p>
 
-			<h2>Account</h2>
 			<form @submit=${this.changeEmail}>
 				<label
 					>Change email<br />
@@ -89,26 +73,15 @@ export default class R4PageSettings extends LitElement {
 			<r4-color-scheme .user=${this.store.user}></r4-color-scheme>
 
 			<h2>Danger zone</h2>
-			<details>
-				<summary>Delete account</summary>
-				<ul>
-					<li>Your user account will be deleted</li>
-					${this.store?.userChannels?.length
-						? this.store.userChannels.map(
-								(c) =>
-									html`<li>
-										<a href=${this.config.href + '/' + c.slug}>${c.slug}</a> and all its tracks will be deleted
-									</li>`
-						  )
-						: null}
-				</ul>
-				<details>
-					<summary>I understand, continue</summary>
-					<form @submit=${this.confirmAndDelete}>
-						<button type="submit">Delete my account</button>
-					</form>
-				</details>
-			</details>
+			<r4-user-delete
+				.user=${this.store.user}
+				.userChannels=${this.store.userChannels}
+				.href=${this.config.href}
+			></r4-user-delete>
+
+			<p>
+				<a href="${this.config.href}/sign/out">Sign out</a>
+			</p>
 		`
 	}
 

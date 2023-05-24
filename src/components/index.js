@@ -43,6 +43,7 @@ import R4TrackUpdate from './r4-track-update.js'
 import R4Tracks from './r4-tracks.js'
 import R4Tuner from './r4-tuner.js'
 import R4User from './r4-user.js'
+import R4UserDelete from './r4-user-delete.js'
 import R4UserChannelsSelect from './r4-user-channels-select.js'
 
 customElements.define('r4-actions', R4Actions)
@@ -86,6 +87,7 @@ customElements.define('r4-track-search', R4TrackSearch)
 customElements.define('r4-tracks', R4Tracks)
 customElements.define('r4-tuner', R4Tuner)
 customElements.define('r4-user', R4User)
+customElements.define('r4-user-delete', R4UserDelete)
 customElements.define('r4-user-channels-select', R4UserChannelsSelect)
 
 export default {
@@ -130,5 +132,6 @@ export default {
 	R4TrackSearch,
 	R4Tuner,
 	R4User,
+	R4UserDelete,
 	R4UserChannelsSelect,
 }
