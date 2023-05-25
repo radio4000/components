@@ -265,14 +265,18 @@ export default class R4SupabaseQuery extends LitElement {
 				${[
 					this.renderQueryModel(),
 					this.renderQuerySelect(),
-					this.renderQuerySelectDisplay(),
 					this.renderQueryPage(),
 					this.renderQueryLimit(),
 					this.renderQueryOrderKey(),
 					this.renderOrderConfig(),
 				]}
 			</form>
-			<form @submit=${this.onFormSubmit}>${this.renderFilters()}</form>
+			<form @submit=${this.onFormSubmit}>
+				${this.filters.length ? this.renderFilters() : null}
+				<fieldset>
+					<button @click=${this.addFilter}>Add filter</button>
+				</fieldset>
+			</form>
 		`
 	}
 	renderQueryModel() {
@@ -298,13 +302,6 @@ export default class R4SupabaseQuery extends LitElement {
 					</optgroup>
 					${this.renderQuerySelectByModel()}
 				</select>
-			</fieldset>
-		`
-	}
-	renderQuerySelectDisplay() {
-		return html`
-			<fieldset>
-				<label for="select-display">select(ing)</label>
 				<input id="select-display" name="select" @input=${this.onInput} disabled type="text"
 					.value=${this.select} placeholder="postgresql select"></input>
 			</fieldset>
@@ -380,34 +377,41 @@ export default class R4SupabaseQuery extends LitElement {
 			`
 		}
 
-		return html`
-			${this.filters ? this.filters.map(renderFilterItem.bind(this)) : null}
-			<button @click=${this.addFilter}>Add filter</button>
-		`
+		return html`<ul>
+			${this.filters.map(renderFilterItem.bind(this))}
+		</ul>`
 	}
 
 	renderFilter(filter, index) {
 		return html`
-			<label>
-				Operator
-				<select @input=${(e) => this.updateFilter(index, 'operator', e.target.value)} .value=${filter.operator}>
-					${supabaseOperators.map((operator) => html`<option .value=${operator}>${operator}</option>`)}
-				</select>
-			</label>
+			<fieldset>
+				<label>
+					Operator
+					<select @input=${(e) => this.updateFilter(index, 'operator', e.target.value)} .value=${filter.operator}>
+						${supabaseOperators.map((operator) => html`<option .value=${operator}>${operator}</option>`)}
+					</select>
+				</label>
+			</fieldset>
 
-			<label>
-				Column
-				<input
-					type="text"
-					@input=${(e) => this.updateFilter(index, 'column', e.target.value)}
-					.value=${filter.column}
-				/>
-			</label>
+			<fieldset>
+				<label>
+					Column
+					<select @input=${(e) => this.updateFilter(index, 'column', e.target.value)} .value=${filter.column}>
+						${this.model ? supabaseTables[this.model].columns.map(this.renderOption) : null}
+					</select>
+				</label>
+			</fieldset>
 
-			<label>
-				Value
-				<input type="text" @input=${(e) => this.updateFilter(index, 'value', e.target.value)} .value=${filter.value} />
-			</label>
+			<fieldset>
+				<label>
+					Value
+					<input
+						type="text"
+						@input=${(e) => this.updateFilter(index, 'value', e.target.value)}
+						.value=${filter.value}
+					/>
+				</label>
+			</fieldset>
 		`
 	}
 
