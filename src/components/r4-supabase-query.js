@@ -167,7 +167,8 @@ export default class R4SupabaseQuery extends LitElement {
 
 	async willUpdate(attrName) {
 		if (!attrName.has('list')) this.updateList()
-		/* maybe cleanup some attributes, if the model changes? */
+
+		if (!attrName.has('model')) this.cleanQuery(this.model)
 	}
 
 	async updateList() {
@@ -183,17 +184,13 @@ export default class R4SupabaseQuery extends LitElement {
 		})
 
 		const res = await query
-
-		if (res) {
-			this.list = res.data
-		} else {
-			/* this.list = [] */
-		}
+		const {data, error} = res
 
 		const listEvent = new CustomEvent('output', {
 			bubbles: true,
 			detail: {
-				list: this.list,
+				data,
+				error,
 				page: this.page,
 				limit: this.limit,
 				model: this.model,
@@ -252,6 +249,9 @@ export default class R4SupabaseQuery extends LitElement {
 		this.filters = newFilters
 	}
 
+	/* "resets" the components attributes, when the model change */
+	cleanQuery() {}
+
 	createRenderRoot() {
 		return this
 	}
@@ -273,7 +273,6 @@ export default class R4SupabaseQuery extends LitElement {
 				]}
 			</form>
 			<form @submit=${this.onFormSubmit}>${this.renderFilters()}</form>
-			<output>${JSON.stringify(this.list)}</output>
 		`
 	}
 	renderQueryModel() {

@@ -8,6 +8,14 @@
 		<meta name="description" content="r4-supabase-query">
 		<link rel="stylesheet" href="/styles/index.css" />
 		<script type="module" src="/src/index.js"></script>
+
+		<style>
+			output {
+				display: flex;
+				flex-direction: column;
+				padding: 1rem;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -16,13 +24,15 @@
 				help build a query to supabase (via the js sdk) using <a href="https://supabase.com/docs/reference/javascript/using-filters">filters</a>
 			</li>
 		</menu>
+
 		<r4-supabase-query></r4-supabase-query>
+		<output></output>
 
 		<script>
 			/* Handles a r4-supabase-query
 				 this function, updates the page's URL, when there is an output
 			 */
-			function onQuery({ detail }) {
+			function setQueryToUrlSearch({ detail }) {
 				const searchParams = new URLSearchParams()
 				const {
 					list,
@@ -52,7 +62,7 @@
 				 this function, updates the r4-supabase-query web component,
 				 with initial value overwitting the components existing attributes
 			 */
-			function setUrlQueryOnComponent($el) {
+			function setUrlSearchOnComponent($el) {
 				const searchParams = new URLSearchParams(window.location.search)
 				const knownParams = ['list', 'page', 'limit', 'model', 'select', 'orderKey', 'orderConfig', 'filters']
 				knownParams.forEach(param => {
@@ -66,10 +76,10 @@
 				 - get initial query from URLsearchparams
 				 - handle events from the query component */
 			const $r4Query = document.querySelector('r4-supabase-query')
-			setUrlQueryOnComponent($r4Query);
+			setUrlSearchOnComponent($r4Query);
 			$r4Query.addEventListener('output', (event) => {
-				console.log('query output', event.detail)
-				onQuery(event)
+				setQueryToUrlSearch(event)
+				document.querySelector('output').innerText = JSON.stringify(event.detail.data)
 			});
 		</script>
 	</body>
