@@ -1,6 +1,38 @@
 import {sdk} from '@radio4000/sdk'
 import {LitElement, html} from 'lit'
 
+/*
+	 all known supabase query filter operators
+
+	 Warning: these are appended, and executed,
+	 to supabase's js sdk "select()" method, as functions
+ */
+const supabaseOperators = [
+	'eq',
+	'neq',
+	'gt',
+	'gte',
+	'lt',
+	'lte',
+	'like',
+	'ilike',
+	'is',
+	'in',
+	'contains',
+	'containedBy',
+	'rangeGt',
+	'rangeGte',
+	'rangeLt',
+	'rangeLte',
+	'rangeAdjacent',
+	'overlaps',
+	'textSearch',
+	'match',
+	'not',
+	'or',
+	'filter',
+]
+
 /* browse the list (of data models) like it is paginated;
 	 (query params ->) components-attributes -> supbase-query
 	 this does not render the list, just browses it
@@ -17,10 +49,19 @@ async function buildBrowsePageQuery({
 	const {from, to, limitResults} = getBrowseParams({page, limit})
 	let query = sdk.supabase.from(model).select(select).limit(limitResults).order(orderKey, orderConfig).range(from, to)
 
-	/* add filters to the query */
-	filters.forEach((filter) => {
-		query = query.filter(filter.column, filter.operator, filter.value)
-	})
+	/*
+		 add filters to the query,
+		 but first, only keep those with "known supabase oprators";
+		 Security: we don't want `supabse.sdk.select().[operator]()`,
+		 to execute "anything"the user might inject in the interface
+	 */
+	filters
+		.filter((filter) => supabaseOperators.includes(filter.operator))
+		.forEach((filter) => {
+			/* the operator is the supabase sdk function */
+			query = query[filter.operator](filter.column, filter.value)
+		})
+	console.log('built query', JSON.stringify(query), query.toString())
 	return query
 }
 
@@ -57,13 +98,6 @@ export default class R4SupabaseQuery extends LitElement {
 
 		/* the list of items, result of the query for this model, page & limit */
 		list: {type: Object},
-	}
-
-	/* all known supabase query filter operators */
-	get operators() {
-		/* Warning: these are appended, and executed,
-			 to supabase's js sdk "select()" method, as functions */
-		return ['eq', 'neq', 'gt', 'lt', 'gte', 'lte', 'like', 'ilike', 'is', 'in', 'cs', 'cd']
 	}
 
 	/* all known models (tables) */
@@ -191,7 +225,7 @@ export default class R4SupabaseQuery extends LitElement {
 
 	/* Methods for managing filters */
 	addFilter() {
-		this.filters = [...this.filters, {column: '', operator: 'eq', value: ''}]
+		this.filters = [...this.filters, {operator: 'eq', column: '', value: ''}]
 	}
 
 	removeFilter(index) {
@@ -259,7 +293,7 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQuerySelectDisplay() {
 		return html`
 			<fieldset>
-				<label for="select-display">limit</label>
+				<label for="select-display">select(ing)</label>
 				<input id="select-display" name="select" @input=${this.onInput} disabled type="text"
 					.value=${this.select} placeholder="postgresql select"></input>
 			</fieldset>
@@ -387,7 +421,7 @@ export default class R4SupabaseQuery extends LitElement {
 			<label>
 				Operator
 				<select @input=${(e) => this.updateFilter(index, 'operator', e.target.value)} .value=${filter.operator}>
-					${this.operators.map((operator) => html`<option value="${operator}">${operator}</option>`)}
+					${supabaseOperators.map((operator) => html`<option value="${operator}">${operator}</option>`)}
 				</select>
 			</label>
 
