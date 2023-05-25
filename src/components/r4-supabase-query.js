@@ -59,6 +59,18 @@ export default class R4SupabaseQuery extends LitElement {
 		list: {type: Object},
 	}
 
+	/* all known supabase query filter operators */
+	get operators() {
+		/* Warning: these are appended, and executed,
+			 to supabase's js sdk "select()" method, as functions */
+		return ['eq', 'neq', 'gt', 'lt', 'gte', 'lte', 'like', 'ilike', 'is', 'in', 'cs', 'cd']
+	}
+
+	/* all known models (tables) */
+	get models() {
+		return ['channels', 'tracks', 'channel_track']
+	}
+
 	constructor() {
 		super()
 		/* all need to be instanciated with correct "value types" */
@@ -173,6 +185,24 @@ export default class R4SupabaseQuery extends LitElement {
 			this[name] = value
 		}
 	}
+	onFormSubmit(event) {
+		event.preventDefault()
+	}
+
+	/* Methods for managing filters */
+	addFilter() {
+		this.filters = [...this.filters, {column: '', operator: 'eq', value: ''}]
+	}
+
+	removeFilter(index) {
+		this.filters = this.filters.filter((_, i) => i !== index)
+	}
+
+	updateFilter(index, field, value) {
+		const newFilters = [...this.filters]
+		newFilters[index][field] = value
+		this.filters = newFilters
+	}
 
 	createRenderRoot() {
 		return this
@@ -183,7 +213,7 @@ export default class R4SupabaseQuery extends LitElement {
 
 	renderQueryBuilder() {
 		return html`
-			<form>
+			<form @submit=${this.onFormSubmit}>
 				${[
 					this.renderQueryModel(),
 					this.renderQuerySelect(),
@@ -194,7 +224,8 @@ export default class R4SupabaseQuery extends LitElement {
 					this.renderOrderConfig(),
 				]}
 			</form>
-			<output> ${JSON.stringify(this.list)} </output>
+			<form @submit=${this.onFormSubmit}>${this.renderFilters()}</form>
+			<output>${JSON.stringify(this.list)}</output>
 		`
 	}
 	renderQueryModel() {
@@ -281,7 +312,6 @@ export default class R4SupabaseQuery extends LitElement {
 	/* different order keys for each models */
 	renderQueryOrderKeyByModel() {
 		const options = {
-			/* [{"id":"e69ed566-f1ba-475f-932a-253703e01913","name":"Atakat","slug":"atakatttt","description":"my test channel","url":null,"image":"r76nxlqqbici6hz49vkr","created_at":"2023-04-13T09:52:47.315206+00:00","updated_at":"2023-05-18T18:56:44.76163+00:00","coordinates":null,"longitude":8.73284,"latitude":56.8233,"fts":"'atakat':1 'atakatttt':2 'channel':5 'test':4","favorites":null,"followers":null,"firebase_id":null}] */
 			channels: html`
 				<option default value="updated_at">updated_at</option>
 				<option value="created_at">created_at</option>
@@ -326,5 +356,54 @@ export default class R4SupabaseQuery extends LitElement {
 			`,
 		}
 		return options[this.model] || options['default']
+	}
+
+	/*
+		 rendering methods for the query filters, that can be added by the user;
+	 */
+	renderFilters() {
+		/* some models need default filters, channel_track, a "channel", to get the tracks of
+			 (might be multiple channels? ex. "all tracks with #dub from @x & @y") */
+
+		const renderFilterItem = (filter, index) => {
+			return html`
+				<li>
+					<fieldset>
+						${this.renderFilter(filter, index)}
+						<button @click=${() => this.removeFilter(index)}>Remove filter</button>
+					</fieldset>
+				</li>
+			`
+		}
+
+		return html`
+			${this.filters ? this.filters.map(renderFilterItem.bind(this)) : null}
+			<button @click=${this.addFilter}>Add filter</button>
+		`
+	}
+
+	renderFilter(filter, index) {
+		return html`
+			<label>
+				Operator
+				<select @input=${(e) => this.updateFilter(index, 'operator', e.target.value)} .value=${filter.operator}>
+					${this.operators.map((operator) => html`<option value="${operator}">${operator}</option>`)}
+				</select>
+			</label>
+
+			<label>
+				Column
+				<input
+					type="text"
+					@input=${(e) => this.updateFilter(index, 'column', e.target.value)}
+					.value=${filter.column}
+				/>
+			</label>
+
+			<label>
+				Value
+				<input type="text" @input=${(e) => this.updateFilter(index, 'value', e.target.value)} .value=${filter.value} />
+			</label>
+		`
 	}
 }

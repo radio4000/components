@@ -31,7 +31,8 @@
 					model,
 					select,
 					orderKey,
-					orderConfig
+					orderConfig,
+					filters,
 				} = detail
 
 				limit && searchParams.set('limit', limit)
@@ -39,6 +40,9 @@
 				model && searchParams.set('model', model)
 				select && searchParams.set('select', select)
 				orderKey && searchParams.set('orderKey', orderKey)
+				orderConfig && searchParams.set('orderConfig', JSON.stringify(orderConfig))
+				filters && searchParams.set('filters', JSON.stringify(filters))
+
 				window.location.searchParams = searchParams
 				console.log('searchParams', searchParams)
 			}
