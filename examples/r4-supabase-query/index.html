@@ -1,30 +1,77 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+		<title>r4-supabase-query</title>
+		<meta name="description" content="r4-supabase-query">
+		<link rel="stylesheet" href="/styles/index.css" />
+		<script type="module" src="/src/index.js"></script>
+	</head>
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width">
-	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+	<body>
+		<menu>
+			<li>
+				help build a query to supabase (via the js sdk)
+			</li>
+		</menu>
+		<r4-supabase-query model="tracks" page="1" limit="1"></r4-supabase-query>
 
-	<title>r4-supabase-query</title>
-	<meta name="description" content="r4-supabase-query">
-	<link rel="stylesheet" href="/styles/index.css" />
-	<script type="module" src="/src/index.js"></script>
-</head>
+		<script>
+			/* Handles a r4-supabase-query
+				 this function, updates the page's URL, when there is an output
+			 */
+			function onQuery({ detail }) {
+				const searchParams = new URLSearchParams()
+				const {
+					list,
+					page,
+					limit,
+					model,
+					select,
+					orderKey,
+					orderConfig
+				} = detail
 
-<body>
-	<menu>
-		<li>
-			help build a query to supabase (via the js sdk)
-		</li>
-	</menu>
-	<r4-supabase-query model="tracks" page="1" limit="1"></r4-supabase-query>
+				limit && searchParams.set('limit', limit)
+				page && searchParams.set('page', page)
+				model && searchParams.set('model', model)
+				select && searchParams.set('select', select)
+				orderKey && searchParams.set('orderKey', orderKey)
+				window.location.searchParams = searchParams
+				console.log('searchParams', searchParams)
+			}
 
-	<script>
-		document.querySelector('r4-supabase-query').addEventListener('output', (event) => {
-			console.log('r4-supabase-query event', event.detail)
-		})
-	</script>
-</body>
+
+			/* Handles getting an initial "query" from the URLSearchParams
+				 this function, updates the r4-supabase-query web component,
+				 with initial value overwitting the components existing attributes
+			 */
+			function setUrlQueryOnComponent($el) {
+				const searchParams = new URLSearchParams(window.location.searchParams)
+				console.log('searchParams in URL', searchParams)
+				/* const {
+					 list,
+					 page,
+					 limit,
+					 model,
+					 select,
+					 orderKey,
+					 orderConfig
+					 } = detail */
+			}
+
+			/* initialize the example app:
+				 - get initial query from URLsearchparams
+				 - handle events from the query component */
+			const $r4Query = document.querySelector('r4-supabase-query')
+			setUrlQueryOnComponent($r4Query);
+			$r4Query.addEventListener('output', (event) => {
+				console.log('query output', event.detail)
+				onQuery(event)
+			});
+		</script>
+	</body>
 
 </html>
