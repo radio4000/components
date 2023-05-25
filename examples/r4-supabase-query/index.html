@@ -43,8 +43,8 @@
 				orderConfig && searchParams.set('orderConfig', JSON.stringify(orderConfig))
 				filters && searchParams.set('filters', JSON.stringify(filters))
 
-				window.location.searchParams = searchParams
 				console.log('searchParams', searchParams)
+				window.history.replaceState(null, null, `?${searchParams.toString()}`);
 			}
 
 
@@ -53,17 +53,13 @@
 				 with initial value overwitting the components existing attributes
 			 */
 			function setUrlQueryOnComponent($el) {
-				const searchParams = new URLSearchParams(window.location.searchParams)
-				console.log('searchParams in URL', searchParams)
-				/* const {
-					 list,
-					 page,
-					 limit,
-					 model,
-					 select,
-					 orderKey,
-					 orderConfig
-					 } = detail */
+				const searchParams = new URLSearchParams(window.location.search)
+				const knownParams = ['list', 'page', 'limit', 'model', 'select', 'orderKey', 'orderConfig', 'filters']
+				knownParams.forEach(param => {
+					if (searchParams.has(param)) {
+						$el.setAttribute(param, searchParams.get(param))
+					}
+				})
 			}
 
 			/* initialize the example app:
