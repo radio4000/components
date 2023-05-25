@@ -84,18 +84,22 @@ function getBrowseParams({page, limit}) {
 
 const supabaseTables = {
 	channels: {
-		columns: ['created_at', 'updated_at', 'slug', 'name', 'description', 'coordinates', 'firebase', 'url', 'id'],
+		columns: ['created_at', 'updated_at', 'slug', 'name', 'description', 'coordinates', 'url', 'firebase', 'id'],
 		selects: ['*', 'id'],
 	},
 	tracks: {
-		columns: ['id', 'created_at', 'updated_at', 'title', 'url', 'description', 'mentions', 'tags', 'discogs_url'],
+		columns: ['created_at', 'updated_at', 'title', 'description', 'url', 'discogs_url', 'mentions', 'tags', 'id'],
 		selects: ['*', 'id'],
 	},
 	channel_track: {
-		columns: ['created_at', 'updated_at', 'user_id', 'channel_id', 'track_id'],
-		selects: ['channel_id!inner(slug), track_id(id, created_at, updated_at, title, url, description)'],
+		columns: ['created_at', 'updated_at', 'user_id', 'channel_id', 'channel_id.slug', 'track_id'],
+		selects: [],
 	},
 }
+/* build the channel_track default select, from all "tracks" columns */
+supabaseTables['channel_track'].selects.push(
+	`channel_id!inner(slug), track_id(${supabaseTables.tracks.columns.join(',')})`
+)
 const supabaseModels = Object.keys(supabaseTables)
 
 /*
@@ -166,10 +170,15 @@ export default class R4SupabaseQuery extends LitElement {
 		this.updateList()
 	}
 
-	async willUpdate(attrName) {
-		/* this cleans the filter on initial load, it should not */
-		/* if (attrName.has('model')) this.cleanQuery(this.model) */
-		if (!attrName.has('list')) this.updateList()
+	willUpdate(attr) {
+		console.log('will up', attr)
+	}
+
+	updated(attr) {
+		/* always update the list when any attribute change
+			 for some attribute, first clear the existing search query */
+		if (attr.get('model')) this.cleanQuery()
+		this.updateList()
 	}
 
 	/* set the correct component initial values, for each model's capacities */
@@ -248,9 +257,10 @@ export default class R4SupabaseQuery extends LitElement {
 	addFilter() {
 		/* crea a new filter with "sane defaults" */
 		if (!this.model) return
+
 		const newFilter = {
-			operator: supabaseOperators[0],
-			column: supabaseTables[this.model].columns.find((c) => console.log('c', c, this.orderKey, c === this.orderKey)),
+			operator: this.filters[0]?.operator || supabaseOperators[0],
+			column: this.filters[0]?.column || this.orderKey,
 			value: '',
 		}
 		this.filters = [...this.filters, newFilter]

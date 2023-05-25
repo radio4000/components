@@ -24,6 +24,11 @@
 				flex-direction: row;
 				flex-wrap: wrap;
 			}
+			textarea {
+				width: 100%;
+				min-width: 100%;
+				min-height: 10rem;
+			}
 		</style>
 	</head>
 
@@ -38,7 +43,7 @@
 		</menu>
 
 		<r4-supabase-query></r4-supabase-query>
-		<output></output>
+		<textarea id="result" readonly></textarea>
 
 		<script>
 			/* Handles a r4-supabase-query
@@ -92,7 +97,7 @@
 			setUrlSearchOnComponent($r4Query);
 			$r4Query.addEventListener('output', (event) => {
 				setQueryToUrlSearch(event)
-				document.querySelector('output').innerText = JSON.stringify(event.detail.data)
+				document.querySelector('#result').innerText = JSON.stringify(event.detail.data)
 			});
 		</script>
 	</body>
