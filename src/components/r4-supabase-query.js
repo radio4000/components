@@ -84,7 +84,7 @@ function getBrowseParams({page, limit}) {
 
 const supabaseTables = {
 	channels: {
-		columns: ['created_at', 'updated_at', 'name', 'description', 'coordinates', 'firebase', 'url', 'id'],
+		columns: ['created_at', 'updated_at', 'slug', 'name', 'description', 'coordinates', 'firebase', 'url', 'id'],
 		selects: ['*', 'id'],
 	},
 	tracks: {
@@ -109,10 +109,10 @@ export default class R4SupabaseQuery extends LitElement {
 
 		/* supabase query parameters */
 		model: {type: String, reflect: true},
-		orderKey: {type: String, attribute: 'order-key', reflect: true},
 		select: {type: String, reflect: true},
 		filters: {type: Array, reflect: true},
-		orderConfig: {type: Object, reflect: true, state: true},
+		orderKey: {type: String, attribute: 'order-key', reflect: true},
+		orderConfig: {type: Object, attribute: 'order-config', reflect: true, state: true},
 
 		/* the list of items, result of the query for this model, page & limit */
 		list: {type: Object},
@@ -124,8 +124,8 @@ export default class R4SupabaseQuery extends LitElement {
 		this.model = null
 		this.page = 1
 		this.limit = 10
-		this.orderKey = 'created_at'
-		this.select = '*'
+		this.orderKey = null
+		this.select = null
 		this.orderConfig = {ascending: false}
 		this.list = null
 		this.filters = []
@@ -162,13 +162,23 @@ export default class R4SupabaseQuery extends LitElement {
 
 	connectedCallback() {
 		super.connectedCallback()
+		this.setInitialValues()
 		this.updateList()
 	}
 
 	async willUpdate(attrName) {
+		/* this cleans the filter on initial load, it should not */
+		/* if (attrName.has('model')) this.cleanQuery(this.model) */
 		if (!attrName.has('list')) this.updateList()
+	}
 
-		if (!attrName.has('model')) this.cleanQuery(this.model)
+	/* set the correct component initial values, for each model's capacities */
+	setInitialValues() {
+		if (!this.model) {
+			this.model = supabaseModels[0]
+		}
+		this.select = this.select || supabaseTables[this.model].selects[0]
+		this.orderKey = this.orderKey || supabaseTables[this.model].columns[0]
 	}
 
 	async updateList() {
@@ -236,7 +246,14 @@ export default class R4SupabaseQuery extends LitElement {
 
 	/* Methods for managing filters */
 	addFilter() {
-		this.filters = [...this.filters, {operator: 'eq', column: '', value: ''}]
+		/* crea a new filter with "sane defaults" */
+		if (!this.model) return
+		const newFilter = {
+			operator: supabaseOperators[0],
+			column: supabaseTables[this.model].columns.find((c) => console.log('c', c, this.orderKey, c === this.orderKey)),
+			value: '',
+		}
+		this.filters = [...this.filters, newFilter]
 	}
 
 	removeFilter(index) {
@@ -249,8 +266,23 @@ export default class R4SupabaseQuery extends LitElement {
 		this.filters = newFilters
 	}
 
-	/* "resets" the components attributes, when the model change */
-	cleanQuery() {}
+	/*
+		 "cleans" (as in "reset to correct values")
+		 the components attributes, when the model change;
+		 is triggered before invoquing "updateList"*/
+	cleanQuery() {
+		this.page = 1
+		/* this.limit = this.limit // stay unchanged? */
+
+		if (!this.model) {
+			// handle the case where there is no model selected; to display no result problably, or error
+		} else if (this.model) {
+			/* otherise reset all necessary values */
+			this.select = supabaseTables[this.model].selects[0]
+			this.orderKey = supabaseTables[this.model].columns[0]
+			this.filters = []
+		}
+	}
 
 	createRenderRoot() {
 		return this
@@ -283,11 +315,11 @@ export default class R4SupabaseQuery extends LitElement {
 		return html`
 			<fieldset>
 				<label for="model">model</label>
-				<select id="model" name="model" @input=${this.onInput} .value=${this.model}>
+				<select id="model" name="model" @input=${this.onInput}>
 					<optgroup disabled>
-						<option default>${this.model}</option>
+						<option>${this.model}</option>
 					</optgroup>
-					${supabaseModels.map(this.renderOption)}
+					${supabaseModels.map((model) => this.renderOption(model, {selected: this.model === model}))}
 				</select>
 			</fieldset>
 		`
@@ -296,9 +328,9 @@ export default class R4SupabaseQuery extends LitElement {
 		return html`
 			<fieldset>
 				<label for="select">sql-select-query</label>
-				<select id="select" name="select" @input=${this.onInput} .value=${this.select}>
+				<select id="select" name="select" @input=${this.onInput}>
 					<optgroup disabled>
-						<option default>${this.select}</option>
+						<option>${this.select}</option>
 					</optgroup>
 					${this.renderQuerySelectByModel()}
 				</select>
@@ -312,7 +344,7 @@ export default class R4SupabaseQuery extends LitElement {
 			<fieldset>
 				<label for="page">page</label>
 				<input id="page" name="page" @input=${this.onInput} type="number"
-					.value=${this.page} step="1" placeholder="page"></input>
+					.value=${this.page} step="1" min="0" pattern="[0-9]" placeholder="page"></input>
 			</fieldset>
 		`
 	}
@@ -321,7 +353,7 @@ export default class R4SupabaseQuery extends LitElement {
 			<fieldset>
 				<label for="limit">limit</label>
 				<input id="limit" name="limit" @input=${this.onInput} type="number"
-					.value=${this.limit} placeholder="limit"></input>
+					.value=${this.limit} step="1" min="0" max="4000" pattern="[0-9]" placeholder="limit"></input>
 			</fieldset>
 		`
 	}
@@ -329,11 +361,11 @@ export default class R4SupabaseQuery extends LitElement {
 		return html`
 			<fieldset>
 				<label for="orderKey">order-key</label>
-				<select id="oderKey" name="orderKey" @input=${this.onInput} .value=${this.orderKey}>
+				<select id="oderKey" name="orderKey" @input=${this.onInput}>
 					<optgroup disabled>
-						<option default>${this.orderKey}</option>
+						<option>${this.orderKey}</option>
 					</optgroup>
-					${this.renderQueryOrderKeyByModel()}
+					${this.renderQueryOrder()}
 				</select>
 			</fieldset>
 		`
@@ -352,12 +384,20 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	/* different order keys for each models */
-	renderQueryOrderKeyByModel() {
-		return this.model ? supabaseTables[this.model].columns.map(this.renderOption) : null
+	renderQueryOrder() {
+		return this.model
+			? supabaseTables[this.model].columns.map((column) =>
+					this.renderOption(column, {selected: column === this.orderKey})
+			  )
+			: null
 	}
 
 	renderQuerySelectByModel() {
-		return this.model ? supabaseTables[this.model].selects.map(this.renderOption) : null
+		return this.model
+			? supabaseTables[this.model].selects.map((sqlSelect) =>
+					this.renderOption(sqlSelect, {selected: sqlSelect === this.select})
+			  )
+			: null
 	}
 
 	/*
@@ -386,18 +426,24 @@ export default class R4SupabaseQuery extends LitElement {
 		return html`
 			<fieldset>
 				<label>
-					Operator
-					<select @input=${(e) => this.updateFilter(index, 'operator', e.target.value)} .value=${filter.operator}>
-						${supabaseOperators.map((operator) => html`<option .value=${operator}>${operator}</option>`)}
+					Column
+					<select @input=${(e) => this.updateFilter(index, 'column', e.target.value)}>
+						${this.model
+							? supabaseTables[this.model].columns.map((column) =>
+									this.renderOption(column, {selected: column === filter.column})
+							  )
+							: null}
 					</select>
 				</label>
 			</fieldset>
 
 			<fieldset>
 				<label>
-					Column
-					<select @input=${(e) => this.updateFilter(index, 'column', e.target.value)} .value=${filter.column}>
-						${this.model ? supabaseTables[this.model].columns.map(this.renderOption) : null}
+					Operator
+					<select @input=${(e) => this.updateFilter(index, 'operator', e.target.value)}>
+						${supabaseOperators.map((operator) =>
+							this.renderOption(operator, {selected: operator === filter.operator})
+						)}
 					</select>
 				</label>
 			</fieldset>
@@ -416,7 +462,8 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	/* "just render and html option" */
-	renderOption(value, index) {
-		return html`<option value="${value}">${value}</option>`
+	renderOption(value, config) {
+		const {selected} = config
+		return html`<option value="${value}" ?selected=${selected}>${value}</option>`
 	}
 }

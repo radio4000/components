@@ -32,6 +32,9 @@
 			<li>
 				help build a query to supabase (via the js sdk) using <a href="https://supabase.com/docs/reference/javascript/using-filters">filters</a>
 			</li>
+			<li>
+				<a href="./">reset search</a> to default values (clears the query params)
+			</li>
 		</menu>
 
 		<r4-supabase-query></r4-supabase-query>
@@ -58,9 +61,10 @@
 				page && searchParams.set('page', page)
 				model && searchParams.set('model', model)
 				select && searchParams.set('select', select)
-				orderKey && searchParams.set('orderKey', orderKey)
-				orderConfig && searchParams.set('orderConfig', JSON.stringify(orderConfig))
 				filters && searchParams.set('filters', JSON.stringify(filters))
+				/* these two have a `-` mapping of their name */
+				orderKey && searchParams.set('order-key', orderKey)
+				orderConfig && searchParams.set('order-config', JSON.stringify(orderConfig))
 
 				console.log('searchParams', searchParams)
 				window.history.replaceState(null, null, `?${searchParams.toString()}`);
@@ -73,7 +77,7 @@
 			 */
 			function setUrlSearchOnComponent($el) {
 				const searchParams = new URLSearchParams(window.location.search)
-				const knownParams = ['list', 'page', 'limit', 'model', 'select', 'orderKey', 'orderConfig', 'filters']
+				const knownParams = ['list', 'page', 'limit', 'model', 'select', 'order-key', 'order-config', 'filters']
 				knownParams.forEach(param => {
 					if (searchParams.has(param)) {
 						$el.setAttribute(param, searchParams.get(param))
