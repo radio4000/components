@@ -56,12 +56,14 @@ async function buildBrowsePageQuery({
 		 to execute "anything"the user might inject in the interface
 	 */
 	filters
-		.filter((filter) => supabaseOperators.includes(filter.operator))
+		.filter((filter) => {
+			return supabaseOperators.includes(filter.operator)
+		})
 		.forEach((filter) => {
 			/* the operator is the supabase sdk function */
 			query = query[filter.operator](filter.column, filter.value)
 		})
-	console.log('built query', JSON.stringify(query), query.toString())
+	console.info('Built supabase query', JSON.stringify(query))
 	return query
 }
 
@@ -92,7 +94,8 @@ const supabaseTables = {
 		selects: ['*', 'id'],
 	},
 	channel_track: {
-		columns: ['created_at', 'updated_at', 'user_id', 'channel_id', 'channel_id.slug', 'track_id'],
+		junctions: [],
+		columns: ['created_at', 'updated_at', 'user_id', 'channel_id', 'channel_id.slug'],
 		selects: [],
 	},
 }
@@ -100,6 +103,12 @@ const supabaseTables = {
 supabaseTables['channel_track'].selects.push(
 	`channel_id!inner(slug), track_id(${supabaseTables.tracks.columns.join(',')})`
 )
+
+/* build the channel_track "juction columns", from all "tracks" columns */
+const channelTrackJuctionColumns = supabaseTables.tracks.columns.map((column) => `track_id.${column}`)
+supabaseTables['channel_track'].junctions = channelTrackJuctionColumns
+
+/* store the list of "models", from the database tables */
 const supabaseModels = Object.keys(supabaseTables)
 
 /*
@@ -433,15 +442,14 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	renderFilter(filter, index) {
+		const allFilterOptions = [...supabaseTables[this.model].columns, ...(supabaseTables[this.model]?.junctions || [])]
 		return html`
 			<fieldset>
 				<label>
 					Column
 					<select @input=${(e) => this.updateFilter(index, 'column', e.target.value)}>
 						${this.model
-							? supabaseTables[this.model].columns.map((column) =>
-									this.renderOption(column, {selected: column === filter.column})
-							  )
+							? allFilterOptions.map((column) => this.renderOption(column, {selected: column === filter.column}))
 							: null}
 					</select>
 				</label>
