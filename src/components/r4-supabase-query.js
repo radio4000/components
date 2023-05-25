@@ -79,12 +79,30 @@ function getBrowseParams({page, limit}) {
 }
 
 /*
+	 suapabse table data associated with each model
+ */
+
+const supabaseTables = {
+	channels: {
+		columns: ['created_at', 'updated_at', 'name', 'description', 'coordinates', 'firebase', 'url', 'id'],
+		selects: ['*', 'id'],
+	},
+	tracks: {
+		columns: ['id', 'created_at', 'updated_at', 'title', 'url', 'description', 'mentions', 'tags', 'discogs_url'],
+		selects: ['*', 'id'],
+	},
+	channel_track: {
+		columns: ['created_at', 'updated_at', 'user_id', 'channel_id', 'track_id'],
+		selects: ['channel_id!inner(slug), track_id(id, created_at, updated_at, title, url, description)'],
+	},
+}
+const supabaseModels = Object.keys(supabaseTables)
+
+/*
 	 list-channels, default `page="1"`, `limit="1"`;
 	 its attributes are bound to the supabase sdk model query values
  */
 export default class R4SupabaseQuery extends LitElement {
-	upperLimit = 999
-
 	static properties = {
 		page: {type: Number, reflect: true},
 		limit: {type: Number, reflect: true},
@@ -98,11 +116,6 @@ export default class R4SupabaseQuery extends LitElement {
 
 		/* the list of items, result of the query for this model, page & limit */
 		list: {type: Object},
-	}
-
-	/* all known models (tables) */
-	get models() {
-		return ['channels', 'tracks', 'channel_track']
 	}
 
 	constructor() {
@@ -120,11 +133,12 @@ export default class R4SupabaseQuery extends LitElement {
 
 	/* the number of items in the list  */
 	/* get limit() {
+		 const upperLimit = 999
 		 const attr = parseFloat(this.getAttribute('limit'))
 		 if (!attr || attr <= 0) {
 		 return 1
-		 } else if (attr > this.upperLimit) {
-		 return this.upperLimit
+		 } else if (attr > upperLimit) {
+		 return upperLimit
 		 } else {
 		 return attr
 		 }
@@ -270,9 +284,7 @@ export default class R4SupabaseQuery extends LitElement {
 					<optgroup disabled>
 						<option default>${this.model}</option>
 					</optgroup>
-					<option value="channels">channels</option>
-					<option value="tracks">tracks</option>
-					<option value="channel_track">channel_track</option>
+					${supabaseModels.map(this.renderOption)}
 				</select>
 			</fieldset>
 		`
@@ -345,51 +357,11 @@ export default class R4SupabaseQuery extends LitElement {
 
 	/* different order keys for each models */
 	renderQueryOrderKeyByModel() {
-		const options = {
-			channels: html`
-				<option default value="updated_at">updated_at</option>
-				<option value="created_at">created_at</option>
-				<option value="name">name</option>
-				<option value="description">description</option>
-				<option value="coordinates">coordinates</option>
-				<option value="firebase_id">firebase_id</option>
-				<option value="url">url</option>
-				<option value="id">id</option>
-			`,
-			tracks: html`
-				<option default value="updated_at">updated_at</option>
-				<option value="created_at">created_at</option>
-				<option value="title">title</option>
-				<option default value="discogs_url">discogs_url</option>
-				<option default value="description">description</option>
-				<option default value="tags">tags</option>
-				<option default value="mentions">mentions</option>
-				<option value="id">id</option>
-			`,
-			channel_track: html`
-				<option default value="created_at">created_at</option>
-				<option value="updated_at">updated_at</option>
-				<option value="user_id">user_id</option>
-				<option value="channel_id">channel_id</option>
-				<option value="track_id">track_id</option>
-			`,
-		}
-		return options[this.model] || null
+		return this.model ? supabaseTables[this.model].columns.map(this.renderOption) : null
 	}
 
 	renderQuerySelectByModel() {
-		const options = {
-			default: html`
-				<option default value="*">*</option>
-				<option value="id">id</option>
-			`,
-			channel_track: html`
-				<option default value="channel_id!inner(slug), track_id(id, created_at, updated_at, title, url, description)">
-					channel_id!inner(slug), track_id(id, created_at, updated_at, title, description, url, discogs_url)
-				</option>
-			`,
-		}
-		return options[this.model] || options['default']
+		return this.model ? supabaseTables[this.model].selects.map(this.renderOption) : null
 	}
 
 	/*
@@ -398,7 +370,6 @@ export default class R4SupabaseQuery extends LitElement {
 	renderFilters() {
 		/* some models need default filters, channel_track, a "channel", to get the tracks of
 			 (might be multiple channels? ex. "all tracks with #dub from @x & @y") */
-
 		const renderFilterItem = (filter, index) => {
 			return html`
 				<li>
@@ -421,7 +392,7 @@ export default class R4SupabaseQuery extends LitElement {
 			<label>
 				Operator
 				<select @input=${(e) => this.updateFilter(index, 'operator', e.target.value)} .value=${filter.operator}>
-					${supabaseOperators.map((operator) => html`<option value="${operator}">${operator}</option>`)}
+					${supabaseOperators.map((operator) => html`<option .value=${operator}>${operator}</option>`)}
 				</select>
 			</label>
 
@@ -439,5 +410,10 @@ export default class R4SupabaseQuery extends LitElement {
 				<input type="text" @input=${(e) => this.updateFilter(index, 'value', e.target.value)} .value=${filter.value} />
 			</label>
 		`
+	}
+
+	/* "just render and html option" */
+	renderOption(value, index) {
+		return html`<option value="${value}">${value}</option>`
 	}
 }
