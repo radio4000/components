@@ -45,11 +45,11 @@ const supabaseOperators = Object.keys(supabaseOperatorsTable)
 
 const supabaseTables = {
 	channels: {
-		columns: ['created_at', 'updated_at', 'slug', 'name', 'description', 'coordinates', 'url', 'firebase', 'id'],
+		columns: ['created_at', 'updated_at', 'slug', 'name', 'description', 'coordinates', 'url', 'firebase', 'id', 'fts'],
 		selects: ['*', 'id'],
 	},
 	tracks: {
-		columns: ['created_at', 'updated_at', 'title', 'description', 'url', 'discogs_url', 'mentions', 'tags', 'id'],
+		columns: ['created_at', 'updated_at', 'title', 'description', 'url', 'discogs_url', 'mentions', 'tags', 'id', 'fts'],
 		selects: ['*', 'id'],
 	},
 	channel_track: {
