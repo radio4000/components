@@ -65,7 +65,7 @@
 					limit,
 					table,
 					select,
-					orderKey,
+					orderBy,
 					orderConfig,
 					filters,
 				} = detail
@@ -76,7 +76,7 @@
 				select && searchParams.set('select', select)
 				filters && searchParams.set('filters', JSON.stringify(filters))
 				/* these two have a `-` mapping of their name */
-				orderKey && searchParams.set('order-key', orderKey)
+				orderBy && searchParams.set('order-by', orderBy)
 				orderConfig && searchParams.set('order-config', JSON.stringify(orderConfig))
 
 				console.log('searchParams', searchParams)
@@ -90,7 +90,7 @@
 			 */
 			function setUrlSearchOnComponent($el) {
 				const searchParams = new URLSearchParams(window.location.search)
-				const knownParams = ['list', 'page', 'limit', 'table', 'select', 'order-key', 'order-config', 'filters']
+				const knownParams = ['list', 'page', 'limit', 'table', 'select', 'order-by', 'order-config', 'filters']
 				knownParams.forEach(param => {
 					if (searchParams.has(param)) {
 						$el.setAttribute(param, searchParams.get(param))

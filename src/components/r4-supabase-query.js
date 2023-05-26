@@ -71,7 +71,7 @@ const supabaseTables = {
 }
 /* build the channel_track default select, from all "tracks" columns */
 supabaseTables['channel_track'].selects.push(
-	`...channel_id!inner(slug:channel_slug),...track_id!inner(${supabaseTables.tracks.columns.join(',')})`
+	`channel_id!inner(slug),track_id!inner(${supabaseTables.tracks.columns.join(',')})`
 )
 
 /* build the channel_track "juction columns", from all "tracks" columns */
@@ -90,12 +90,12 @@ async function buildBrowsePageQuery({
 	limit = 1,
 	table = '',
 	select = '',
-	orderKey = '',
+	orderBy = '',
 	orderConfig = {},
 	filters = [],
 }) {
 	const {from, to, limitResults} = getBrowseParams({page, limit})
-	let query = sdk.supabase.from(table).select(select).limit(limitResults).order(orderKey, orderConfig).range(from, to)
+	let query = sdk.supabase.from(table).select(select).limit(limitResults).order(orderBy, orderConfig).range(from, to)
 
 	/*
 		 add filters to the query,
@@ -158,7 +158,7 @@ export default class R4SupabaseQuery extends LitElement {
 		table: {type: String, reflect: true},
 		select: {type: String, reflect: true},
 		filters: {type: Array, reflect: true},
-		orderKey: {type: String, attribute: 'order-key', reflect: true},
+		orderBy: {type: String, attribute: 'order-by', reflect: true},
 		orderConfig: {type: Object, attribute: 'order-config', reflect: true, state: true},
 
 		/* the list of items, result of the query for this table, page & limit */
@@ -171,7 +171,7 @@ export default class R4SupabaseQuery extends LitElement {
 		this.table = null
 		this.page = 1
 		this.limit = 10
-		this.orderKey = null
+		this.orderBy = null
 		this.select = null
 		this.orderConfig = {ascending: false}
 		this.list = null
@@ -230,7 +230,7 @@ export default class R4SupabaseQuery extends LitElement {
 			this.table = supabaseTableNames[0]
 		}
 		this.select = this.select || supabaseTables[this.table].selects[0]
-		this.orderKey = this.orderKey || supabaseTables[this.table].columns[0]
+		this.orderBy = this.orderBy || supabaseTables[this.table].columns[0]
 	}
 
 	async updateList() {
@@ -240,7 +240,7 @@ export default class R4SupabaseQuery extends LitElement {
 			limit: this.limit,
 			table: this.table,
 			select: this.select,
-			orderKey: this.orderKey,
+			orderBy: this.orderBy,
 			orderConfig: this.orderConfig,
 			filters: this.filters,
 		})
@@ -257,7 +257,7 @@ export default class R4SupabaseQuery extends LitElement {
 				limit: this.limit,
 				table: this.table,
 				select: this.select,
-				orderKey: this.orderKey,
+				orderBy: this.orderBy,
 				orderConfig: this.orderConfig,
 				filters: this.filters,
 			},
@@ -303,7 +303,7 @@ export default class R4SupabaseQuery extends LitElement {
 
 		const newFilter = {
 			operator: this.filters[0]?.operator || supabaseOperators[0],
-			column: this.filters[0]?.column || this.orderKey,
+			column: this.filters[0]?.column || this.orderBy,
 			value: '',
 		}
 		this.filters = [...this.filters, newFilter]
@@ -335,7 +335,7 @@ export default class R4SupabaseQuery extends LitElement {
 		} else if (this.table) {
 			/* otherise reset all necessary values */
 			this.select = supabaseTables[this.table].selects[0]
-			this.orderKey = supabaseTables[this.table].columns[0]
+			this.orderBy = supabaseTables[this.table].columns[0]
 			this.filters = []
 		}
 	}
@@ -383,7 +383,7 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQuerySelect() {
 		return html`
 			<fieldset>
-				<label for="select">sql-select-query</label>
+				<label for="select">select</label>
 				<select id="select" name="select" @input=${this.onInput}>
 					<optgroup disabled>
 						<option>${this.select}</option>
@@ -416,10 +416,10 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQueryOrderKey() {
 		return html`
 			<fieldset>
-				<label for="orderKey">order-key</label>
-				<select id="oderKey" name="orderKey" @input=${this.onInput}>
+				<label for="orderBy">order-by</label>
+				<select id="oderKey" name="orderBy" @input=${this.onInput}>
 					<optgroup disabled>
-						<option>${this.orderKey}</option>
+						<option>${this.orderBy}</option>
 					</optgroup>
 					${this.renderQueryOrder()}
 				</select>
@@ -443,7 +443,7 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQueryOrder() {
 		return this.table
 			? supabaseTables[this.table].columns.map((column) =>
-					this.renderOption(column, {selected: column === this.orderKey})
+					this.renderOption(column, {selected: column === this.orderBy})
 			  )
 			: null
 	}
