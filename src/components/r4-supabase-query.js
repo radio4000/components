@@ -7,31 +7,66 @@ import {LitElement, html} from 'lit'
 	 Warning: these are appended, and executed,
 	 to supabase's js sdk "select()" method, as functions
  */
-const supabaseOperators = [
-	'eq',
-	'neq',
-	'gt',
-	'gte',
-	'lt',
-	'lte',
-	'like',
-	'ilike',
-	'is',
-	'in',
-	'contains',
-	'containedBy',
-	'rangeGt',
-	'rangeGte',
-	'rangeLt',
-	'rangeLte',
-	'rangeAdjacent',
-	'overlaps',
-	'textSearch',
-	'match',
-	'not',
-	'or',
-	'filter',
-]
+const supabaseOperatorsTable = {
+	eq: {},
+	neq: {},
+	gt: {},
+	gte: {},
+	lt: {},
+	lte: {},
+	like: {},
+	ilike: {},
+	is: {},
+	in: {},
+	contains: {},
+	containedBy: {},
+	rangeGt: {},
+	rangeGte: {},
+	rangeLt: {},
+	rangeLte: {},
+	rangeAdjacent: {},
+	overlaps: {},
+	textSearch: {
+		config: {
+			type: 'websearch',
+			config: 'english',
+		},
+	},
+	match: {},
+	not: {},
+	or: {},
+	filter: {},
+}
+const supabaseOperators = Object.keys(supabaseOperatorsTable)
+
+/*
+	 suapabse table data associated with each model
+ */
+
+const supabaseTables = {
+	channels: {
+		columns: ['created_at', 'updated_at', 'slug', 'name', 'description', 'coordinates', 'url', 'firebase', 'id'],
+		selects: ['*', 'id'],
+	},
+	tracks: {
+		columns: ['created_at', 'updated_at', 'title', 'description', 'url', 'discogs_url', 'mentions', 'tags', 'id'],
+		selects: ['*', 'id'],
+	},
+	channel_track: {
+		junctions: [],
+		columns: ['created_at', 'updated_at', 'user_id', 'channel_id', 'channel_id.slug', 'track_id'],
+		selects: [],
+	},
+}
+/* build the channel_track default select, from all "tracks" columns */
+supabaseTables['channel_track'].selects.push(`channel_id(slug),track_id(${supabaseTables.tracks.columns.join(',')})`)
+
+/* build the channel_track "juction columns", from all "tracks" columns */
+const channelTrackJuctionColumns = supabaseTables.tracks.columns.map((column) => `track_id.${column}`)
+supabaseTables['channel_track'].junctions = channelTrackJuctionColumns
+
+/* store the list of "models", from the database tables */
+const supabaseModels = Object.keys(supabaseTables)
 
 /* browse the list (of data models) like it is paginated;
 	 (query params ->) components-attributes -> supbase-query
@@ -53,15 +88,32 @@ async function buildBrowsePageQuery({
 		 add filters to the query,
 		 but first, only keep those with "known supabase oprators";
 		 Security: we don't want `supabse.sdk.select().[operator]()`,
-		 to execute "anything"the user might inject in the interface
+		 to execute "anything"the user might inject in the interface;
+		 - the "filter.value" always is a string, from the related `input`
+		 we convert it here to the right type the sdk filter expects
 	 */
 	filters
 		.filter((filter) => {
 			return supabaseOperators.includes(filter.operator)
 		})
 		.forEach((filter) => {
-			/* the operator is the supabase sdk function */
-			query = query[filter.operator](filter.column, filter.value)
+			/* handle each type of supabase/postresql filter */
+			let valueJson
+			try {
+				valueJson = JSON.parse(filter.value)
+			} catch (e) {}
+
+			/* "filter" operator is a supabse.sdk "escape hatch",
+				 aplying the filter raw; see docs
+				(WARNING) otherwise the (raw string) operator is the supabase sdk function invoqued
+			*/
+			if (filter.operator === 'filter') {
+				query = query.filter(filter.operator, filter.column, filter.value || null)
+			} else if (['contains', 'containedBy'].includes(filter.operator)) {
+				query = query[filter.operator](filter.column, valueJson || filter.value || null)
+			} else {
+				query = query[filter.operator](filter.column, filter.value || null)
+			}
 		})
 	console.info('Built supabase query', JSON.stringify(query))
 	return query
@@ -79,37 +131,6 @@ function getBrowseParams({page, limit}) {
 	limitResults = limit - 1
 	return {from, to, limitResults}
 }
-
-/*
-	 suapabse table data associated with each model
- */
-
-const supabaseTables = {
-	channels: {
-		columns: ['created_at', 'updated_at', 'slug', 'name', 'description', 'coordinates', 'url', 'firebase', 'id'],
-		selects: ['*', 'id'],
-	},
-	tracks: {
-		columns: ['created_at', 'updated_at', 'title', 'description', 'url', 'discogs_url', 'mentions', 'tags', 'id'],
-		selects: ['*', 'id'],
-	},
-	channel_track: {
-		junctions: [],
-		columns: ['created_at', 'updated_at', 'user_id', 'channel_id', 'channel_id.slug'],
-		selects: [],
-	},
-}
-/* build the channel_track default select, from all "tracks" columns */
-supabaseTables['channel_track'].selects.push(
-	`channel_id!inner(slug), track_id(${supabaseTables.tracks.columns.join(',')})`
-)
-
-/* build the channel_track "juction columns", from all "tracks" columns */
-const channelTrackJuctionColumns = supabaseTables.tracks.columns.map((column) => `track_id.${column}`)
-supabaseTables['channel_track'].junctions = channelTrackJuctionColumns
-
-/* store the list of "models", from the database tables */
-const supabaseModels = Object.keys(supabaseTables)
 
 /*
 	 list-channels, default `page="1"`, `limit="1"`;
@@ -280,6 +301,9 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	updateFilter(index, field, value) {
+		/* harmonize the "filter value", from a string to expected value, from operator */
+
+		/* replace existing filters, including the new one */
 		const newFilters = [...this.filters]
 		newFilters[index][field] = value
 		this.filters = newFilters
