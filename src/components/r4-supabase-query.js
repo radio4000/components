@@ -40,7 +40,7 @@ const supabaseOperatorsTable = {
 const supabaseOperators = Object.keys(supabaseOperatorsTable)
 
 /*
-	 suapabse table data associated with each model
+	 suapabse table data associated with each table
  */
 
 const supabaseTables = {
@@ -71,31 +71,31 @@ const supabaseTables = {
 }
 /* build the channel_track default select, from all "tracks" columns */
 supabaseTables['channel_track'].selects.push(
-	`channel_id!inner(slug),track_id!inner(${supabaseTables.tracks.columns.join(',')})`
+	`...channel_id!inner(slug:channel_slug),...track_id!inner(${supabaseTables.tracks.columns.join(',')})`
 )
 
 /* build the channel_track "juction columns", from all "tracks" columns */
 const channelTrackJuctionColumns = supabaseTables.tracks.columns.map((column) => `track_id.${column}`)
 supabaseTables['channel_track'].junctions = channelTrackJuctionColumns
 
-/* store the list of "models", from the database tables */
-const supabaseModels = Object.keys(supabaseTables)
+/* store the list of "tables", from the database tables */
+const supabaseTableNames = Object.keys(supabaseTables)
 
-/* browse the list (of data models) like it is paginated;
+/* browse the list (of db table) like it is paginated;
 	 (query params ->) components-attributes -> supbase-query
 	 this does not render the list, just browses it
  */
 async function buildBrowsePageQuery({
 	page = 1,
 	limit = 1,
-	model = '',
+	table = '',
 	select = '',
 	orderKey = '',
 	orderConfig = {},
 	filters = [],
 }) {
 	const {from, to, limitResults} = getBrowseParams({page, limit})
-	let query = sdk.supabase.from(model).select(select).limit(limitResults).order(orderKey, orderConfig).range(from, to)
+	let query = sdk.supabase.from(table).select(select).limit(limitResults).order(orderKey, orderConfig).range(from, to)
 
 	/*
 		 add filters to the query,
@@ -147,7 +147,7 @@ function getBrowseParams({page, limit}) {
 
 /*
 	 list-channels, default `page="1"`, `limit="1"`;
-	 its attributes are bound to the supabase sdk model query values
+	 its attributes are bound to the supabase sdk table (data model) query values
  */
 export default class R4SupabaseQuery extends LitElement {
 	static properties = {
@@ -155,20 +155,20 @@ export default class R4SupabaseQuery extends LitElement {
 		limit: {type: Number, reflect: true},
 
 		/* supabase query parameters */
-		model: {type: String, reflect: true},
+		table: {type: String, reflect: true},
 		select: {type: String, reflect: true},
 		filters: {type: Array, reflect: true},
 		orderKey: {type: String, attribute: 'order-key', reflect: true},
 		orderConfig: {type: Object, attribute: 'order-config', reflect: true, state: true},
 
-		/* the list of items, result of the query for this model, page & limit */
+		/* the list of items, result of the query for this table, page & limit */
 		list: {type: Object},
 	}
 
 	constructor() {
 		super()
 		/* all need to be instanciated with correct "value types" */
-		this.model = null
+		this.table = null
 		this.page = 1
 		this.limit = 10
 		this.orderKey = null
@@ -220,25 +220,25 @@ export default class R4SupabaseQuery extends LitElement {
 	updated(attr) {
 		/* always update the list when any attribute change
 			 for some attribute, first clear the existing search query */
-		if (attr.get('model')) this.cleanQuery()
+		if (attr.get('table')) this.cleanQuery()
 		this.updateList()
 	}
 
-	/* set the correct component initial values, for each model's capacities */
+	/* set the correct component initial values, for each table's capacities */
 	setInitialValues() {
-		if (!this.model) {
-			this.model = supabaseModels[0]
+		if (!this.table) {
+			this.table = supabaseTableNames[0]
 		}
-		this.select = this.select || supabaseTables[this.model].selects[0]
-		this.orderKey = this.orderKey || supabaseTables[this.model].columns[0]
+		this.select = this.select || supabaseTables[this.table].selects[0]
+		this.orderKey = this.orderKey || supabaseTables[this.table].columns[0]
 	}
 
 	async updateList() {
-		if (!this.model) return
+		if (!this.table) return
 		const query = buildBrowsePageQuery({
 			page: this.page,
 			limit: this.limit,
-			model: this.model,
+			table: this.table,
 			select: this.select,
 			orderKey: this.orderKey,
 			orderConfig: this.orderConfig,
@@ -255,7 +255,7 @@ export default class R4SupabaseQuery extends LitElement {
 				error,
 				page: this.page,
 				limit: this.limit,
-				model: this.model,
+				table: this.table,
 				select: this.select,
 				orderKey: this.orderKey,
 				orderConfig: this.orderConfig,
@@ -299,7 +299,7 @@ export default class R4SupabaseQuery extends LitElement {
 	/* Methods for managing filters */
 	addFilter() {
 		/* crea a new filter with "sane defaults" */
-		if (!this.model) return
+		if (!this.table) return
 
 		const newFilter = {
 			operator: this.filters[0]?.operator || supabaseOperators[0],
@@ -324,18 +324,18 @@ export default class R4SupabaseQuery extends LitElement {
 
 	/*
 		 "cleans" (as in "reset to correct values")
-		 the components attributes, when the model change;
+		 the components attributes, when the table change;
 		 is triggered before invoquing "updateList"*/
 	cleanQuery() {
 		this.page = 1
 		/* this.limit = this.limit // stay unchanged? */
 
-		if (!this.model) {
-			// handle the case where there is no model selected; to display no result problably, or error
-		} else if (this.model) {
+		if (!this.table) {
+			// handle the case where there is no table selected; to display no result problably, or error
+		} else if (this.table) {
 			/* otherise reset all necessary values */
-			this.select = supabaseTables[this.model].selects[0]
-			this.orderKey = supabaseTables[this.model].columns[0]
+			this.select = supabaseTables[this.table].selects[0]
+			this.orderKey = supabaseTables[this.table].columns[0]
 			this.filters = []
 		}
 	}
@@ -351,7 +351,7 @@ export default class R4SupabaseQuery extends LitElement {
 		return html`
 			<form @submit=${this.onFormSubmit}>
 				${[
-					this.renderQueryModel(),
+					this.renderQueryTable(),
 					this.renderQuerySelect(),
 					this.renderQueryPage(),
 					this.renderQueryLimit(),
@@ -367,15 +367,15 @@ export default class R4SupabaseQuery extends LitElement {
 			</form>
 		`
 	}
-	renderQueryModel() {
+	renderQueryTable() {
 		return html`
 			<fieldset>
-				<label for="model">model</label>
-				<select id="model" name="model" @input=${this.onInput}>
+				<label for="table">table</label>
+				<select id="table" name="table" @input=${this.onInput}>
 					<optgroup disabled>
-						<option>${this.model}</option>
+						<option>${this.table}</option>
 					</optgroup>
-					${supabaseModels.map((model) => this.renderOption(model, {selected: this.model === model}))}
+					${supabaseTableNames.map((table) => this.renderOption(table, {selected: this.table === table}))}
 				</select>
 			</fieldset>
 		`
@@ -388,7 +388,7 @@ export default class R4SupabaseQuery extends LitElement {
 					<optgroup disabled>
 						<option>${this.select}</option>
 					</optgroup>
-					${this.renderQuerySelectByModel()}
+					${this.renderQuerySelectByTable()}
 				</select>
 				<input id="select-display" name="select" @input=${this.onInput} type="text"
 					.value=${this.select} placeholder="postgresql select"></input>
@@ -439,18 +439,18 @@ export default class R4SupabaseQuery extends LitElement {
 		`
 	}
 
-	/* different order keys for each models */
+	/* different order keys for each tables */
 	renderQueryOrder() {
-		return this.model
-			? supabaseTables[this.model].columns.map((column) =>
+		return this.table
+			? supabaseTables[this.table].columns.map((column) =>
 					this.renderOption(column, {selected: column === this.orderKey})
 			  )
 			: null
 	}
 
-	renderQuerySelectByModel() {
-		return this.model
-			? supabaseTables[this.model].selects.map((sqlSelect) =>
+	renderQuerySelectByTable() {
+		return this.table
+			? supabaseTables[this.table].selects.map((sqlSelect) =>
 					this.renderOption(sqlSelect, {selected: sqlSelect === this.select})
 			  )
 			: null
@@ -460,7 +460,7 @@ export default class R4SupabaseQuery extends LitElement {
 		 rendering methods for the query filters, that can be added by the user;
 	 */
 	renderFilters() {
-		/* some models need default filters, channel_track, a "channel", to get the tracks of
+		/* some table need default filters, channel_track, a "channel", to get the tracks of
 			 (might be multiple channels? ex. "all tracks with #dub from @x & @y") */
 		const renderFilterItem = (filter, index) => {
 			return html`
@@ -479,13 +479,13 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	renderFilter(filter, index) {
-		const allFilterOptions = [...supabaseTables[this.model].columns, ...(supabaseTables[this.model]?.junctions || [])]
+		const allFilterOptions = [...supabaseTables[this.table].columns, ...(supabaseTables[this.table]?.junctions || [])]
 		return html`
 			<fieldset>
 				<label>
 					Column
 					<select @input=${(e) => this.updateFilter(index, 'column', e.target.value)}>
-						${this.model
+						${this.table
 							? allFilterOptions.map((column) => this.renderOption(column, {selected: column === filter.column}))
 							: null}
 					</select>
