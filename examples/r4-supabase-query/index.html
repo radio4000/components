@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+		<title>r4-supabase-query</title>
+		<meta name="description" content="r4-supabase-query">
+		<link rel="stylesheet" href="/styles/index.css" />
+		<script type="module" src="/src/index.js"></script>
+
+		<style>
+			output {
+				display: flex;
+				flex-direction: column;
+				padding: 1rem;
+			}
+			r4-supabase-query {
+				display: flex;
+				flex-direction: column;
+			}
+			r4-supabase-query form {
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+			}
+			r4-supabase-query form fieldset {
+				display: inline;
+			}
+			r4-supabase-query form ul {
+				list-style: none;
+				display: flex;
+				flex-wrap: wrap;
+			}
+			textarea {
+				width: 100%;
+				min-width: 100%;
+				min-height: 10rem;
+			}
+		</style>
+	</head>
+
+	<body>
+		<menu>
+			<li>
+				help build a query to supabase (via the js sdk) using <a href="https://supabase.com/docs/reference/javascript/using-filters">filters</a>
+			</li>
+			<li>
+				<a href="./">reset search</a> to default values (clears the query params)
+			</li>
+		</menu>
+
+		<r4-supabase-query></r4-supabase-query>
+		<textarea id="result" readonly></textarea>
+
+		<script>
+			/* Handles a r4-supabase-query
+				 this function, updates the page's URL, when there is an output
+			 */
+			function setQueryToUrlSearch({ detail }) {
+				const searchParams = new URLSearchParams()
+				const {
+					list,
+					page,
+					limit,
+					model,
+					select,
+					orderKey,
+					orderConfig,
+					filters,
+				} = detail
+
+				limit && searchParams.set('limit', limit)
+				page && searchParams.set('page', page)
+				model && searchParams.set('model', model)
+				select && searchParams.set('select', select)
+				filters && searchParams.set('filters', JSON.stringify(filters))
+				/* these two have a `-` mapping of their name */
+				orderKey && searchParams.set('order-key', orderKey)
+				orderConfig && searchParams.set('order-config', JSON.stringify(orderConfig))
+
+				console.log('searchParams', searchParams)
+				window.history.replaceState(null, null, `?${searchParams.toString()}`);
+			}
+
+
+			/* Handles getting an initial "query" from the URLSearchParams
+				 this function, updates the r4-supabase-query web component,
+				 with initial value overwitting the components existing attributes
+			 */
+			function setUrlSearchOnComponent($el) {
+				const searchParams = new URLSearchParams(window.location.search)
+				const knownParams = ['list', 'page', 'limit', 'model', 'select', 'order-key', 'order-config', 'filters']
+				knownParams.forEach(param => {
+					if (searchParams.has(param)) {
+						$el.setAttribute(param, searchParams.get(param))
+					}
+				})
+			}
+
+			/* initialize the example app:
+				 - get initial query from URLsearchparams
+				 - handle events from the query component */
+			const $r4Query = document.querySelector('r4-supabase-query')
+			setUrlSearchOnComponent($r4Query);
+			$r4Query.addEventListener('output', (event) => {
+				setQueryToUrlSearch(event)
+				document.querySelector('#result').innerText = JSON.stringify(event.detail.data)
+			});
+		</script>
+	</body>
+
+</html>

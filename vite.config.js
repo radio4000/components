@@ -1,5 +1,5 @@
-import { resolve } from 'path'
-import { defineConfig } from 'vite'
+import {resolve} from 'path'
+import {defineConfig} from 'vite'
 
 /* treat the path '/examples/r4-app.html/' as SPA (serve the file, let js handle URL route) */
 const vitePluginR4AppSPA = (options) => ({
@@ -7,7 +7,7 @@ const vitePluginR4AppSPA = (options) => ({
 	configureServer(server) {
 		server.middlewares.use((req, res, next) => {
 			/* make a tmp URL */
-			const { pathname } = new URL('https://localhost' + req.originalUrl)
+			const {pathname} = new URL('https://localhost' + req.originalUrl)
 			if (pathname.startsWith('/examples/r4-app/')) {
 				req.url = '/examples/r4-app/'
 			}
@@ -56,6 +56,7 @@ export default defineConfig({
 				r4ButtonPlay: resolve(__dirname, 'examples/r4-button-play/index.html'),
 				r4ResetPassword: resolve(__dirname, 'examples/r4-reset-password/index.html'),
 				r4Router: resolve(__dirname, 'examples/r4-router/index.html'),
+				r4SupabaseQuery: resolve(__dirname, 'examples/r4-supabase-query/index.html'),
 				r4ChannelSearch: resolve(__dirname, 'examples/r4-channel-search/index.html'),
 				r4TrackSearch: resolve(__dirname, 'examples/r4-track-search/index.html'),
 				r4SignIn: resolve(__dirname, 'examples/r4-sign-in/index.html'),
