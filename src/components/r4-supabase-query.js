@@ -377,7 +377,7 @@ export default class R4SupabaseQuery extends LitElement {
 					</optgroup>
 					${this.renderQuerySelectByModel()}
 				</select>
-				<input id="select-display" name="select" @input=${this.onInput} disabled type="text"
+				<input id="select-display" name="select" @input=${this.onInput} type="text"
 					.value=${this.select} placeholder="postgresql select"></input>
 			</fieldset>
 		`
