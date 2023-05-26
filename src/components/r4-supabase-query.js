@@ -110,7 +110,7 @@ async function buildBrowsePageQuery({
 			if (filter.operator === 'filter') {
 				query = query.filter(filter.operator, filter.column, filter.value || null)
 			} else if (['contains', 'containedBy'].includes(filter.operator)) {
-				query = query[filter.operator](filter.column, valueJson || filter.value || null)
+				query = query[filter.operator](filter.column, valueJson || [filter.value.split(',')] || null)
 			} else {
 				query = query[filter.operator](filter.column, filter.value || null)
 			}
