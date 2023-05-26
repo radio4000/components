@@ -49,7 +49,18 @@ const supabaseTables = {
 		selects: ['*', 'id'],
 	},
 	tracks: {
-		columns: ['created_at', 'updated_at', 'title', 'description', 'url', 'discogs_url', 'mentions', 'tags', 'id', 'fts'],
+		columns: [
+			'created_at',
+			'updated_at',
+			'title',
+			'description',
+			'url',
+			'discogs_url',
+			'mentions',
+			'tags',
+			'id',
+			'fts',
+		],
 		selects: ['*', 'id'],
 	},
 	channel_track: {
@@ -59,7 +70,9 @@ const supabaseTables = {
 	},
 }
 /* build the channel_track default select, from all "tracks" columns */
-supabaseTables['channel_track'].selects.push(`channel_id(slug),track_id(${supabaseTables.tracks.columns.join(',')})`)
+supabaseTables['channel_track'].selects.push(
+	`channel_id!inner(slug),track_id!inner(${supabaseTables.tracks.columns.join(',')})`
+)
 
 /* build the channel_track "juction columns", from all "tracks" columns */
 const channelTrackJuctionColumns = supabaseTables.tracks.columns.map((column) => `track_id.${column}`)
