@@ -50,8 +50,23 @@
 			</li>
 		</menu>
 
-		<r4-supabase-query></r4-supabase-query>
-		<textarea id="result" readonly></textarea>
+		<details>
+			<summary>Universal db query, controls the URL too</summary>
+			<r4-supabase-query id="everything"></r4-supabase-query>
+			<textarea name="everything" readonly></textarea>
+		</details>
+
+		<details>
+			<summary>All tracks from channel <code>ko002</code> (default filter)</summary>
+			<r4-supabase-query
+				id="ko002"
+				table="channel_track"
+				filters='[{"operator":"eq","column":"channel_id.slug","value":"ko002"}]'
+			></r4-supabase-query>
+			<textarea name="ko002" readonly></textarea>
+		</details>
+
+
 
 		<script>
 			/* Handles a r4-supabase-query
@@ -74,10 +89,10 @@
 				page && searchParams.set('page', page)
 				table && searchParams.set('table', table)
 				select && searchParams.set('select', select)
-				filters && searchParams.set('filters', JSON.stringify(filters))
 				/* these two have a `-` mapping of their name */
 				orderBy && searchParams.set('order-by', orderBy)
 				orderConfig && searchParams.set('order-config', JSON.stringify(orderConfig))
+				filters && searchParams.set('filters', JSON.stringify(filters))
 
 				console.log('searchParams', searchParams)
 				window.history.replaceState(null, null, `?${searchParams.toString()}`);
@@ -101,12 +116,18 @@
 			/* initialize the example app:
 				 - get initial query from URLsearchparams
 				 - handle events from the query component */
-			const $r4Query = document.querySelector('r4-supabase-query')
-			setUrlSearchOnComponent($r4Query);
-			$r4Query.addEventListener('output', (event) => {
-				setQueryToUrlSearch(event)
-				document.querySelector('#result').innerText = JSON.stringify(event.detail.data)
-			});
+			const $exampleComponents = document.querySelectorAll('r4-supabase-query')
+
+			/* onlye set the query params in URL for the first example */
+			setUrlSearchOnComponent($exampleComponents[0]);
+
+			$exampleComponents.forEach(($exampleComponent) => {
+				$exampleComponent.addEventListener('output', (event) => {
+					const {target, detail} = event
+					setQueryToUrlSearch(event)
+					document.querySelector(`textarea[name="${target.id}"]`).innerText = JSON.stringify(detail.data)
+				});
+			})
 		</script>
 	</body>
 

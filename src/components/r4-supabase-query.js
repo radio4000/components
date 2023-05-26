@@ -128,7 +128,6 @@ async function buildBrowsePageQuery({
 				query = query[filter.operator](filter.column, filter.value || null)
 			}
 		})
-	console.info('Built supabase query', JSON.stringify(query))
 	return query
 }
 
@@ -175,7 +174,7 @@ export default class R4SupabaseQuery extends LitElement {
 		this.select = null
 		this.orderConfig = {ascending: false}
 		this.list = null
-		this.filters = []
+		this.filters = null
 	}
 
 	/* the number of items in the list  */
@@ -213,10 +212,6 @@ export default class R4SupabaseQuery extends LitElement {
 		this.updateList()
 	}
 
-	willUpdate(attr) {
-		console.log('will up', attr)
-	}
-
 	updated(attr) {
 		/* always update the list when any attribute change
 			 for some attribute, first clear the existing search query */
@@ -231,6 +226,7 @@ export default class R4SupabaseQuery extends LitElement {
 		}
 		this.select = this.select || supabaseTables[this.table].selects[0]
 		this.orderBy = this.orderBy || supabaseTables[this.table].columns[0]
+		this.filters = this.filters || []
 	}
 
 	async updateList() {
