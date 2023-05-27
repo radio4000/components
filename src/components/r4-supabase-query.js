@@ -7,7 +7,7 @@ import {LitElement, html} from 'lit'
 	 Warning: these are appended, and executed,
 	 to supabase's js sdk "select()" method, as functions
  */
-const supabaseOperatorsTable = {
+export const supabaseOperatorsTable = {
 	eq: {},
 	neq: {},
 	gt: {},
@@ -37,13 +37,13 @@ const supabaseOperatorsTable = {
 	or: {},
 	filter: {},
 }
-const supabaseOperators = Object.keys(supabaseOperatorsTable)
+export const supabaseOperators = Object.keys(supabaseOperatorsTable)
 
 /*
 	 suapabse table data associated with each table
  */
 
-const supabaseTables = {
+export const supabaseTables = {
 	channels: {
 		columns: ['created_at', 'updated_at', 'slug', 'name', 'description', 'coordinates', 'url', 'firebase', 'id', 'fts'],
 		selects: ['*', 'id'],
@@ -79,7 +79,7 @@ const channelTrackJuctionColumns = supabaseTables.tracks.columns.map((column) =>
 supabaseTables['channel_track'].junctions = channelTrackJuctionColumns
 
 /* store the list of "tables", from the database tables */
-const supabaseTableNames = Object.keys(supabaseTables)
+export const supabaseTableNames = Object.keys(supabaseTables)
 
 /* browse the list (of db table) like it is paginated;
 	 (query params ->) components-attributes -> supbase-query
@@ -150,15 +150,15 @@ function getBrowseParams({page, limit}) {
  */
 export default class R4SupabaseQuery extends LitElement {
 	static properties = {
-		page: {type: Number, reflect: true},
-		limit: {type: Number, reflect: true},
+		page: {type: Number, reflect: true, searchParam: true},
+		limit: {type: Number, reflect: true, searchParam: true},
 
 		/* supabase query parameters */
-		table: {type: String, reflect: true},
-		select: {type: String, reflect: true},
-		filters: {type: Array, reflect: true},
-		orderBy: {type: String, attribute: 'order-by', reflect: true},
-		orderConfig: {type: Object, attribute: 'order-config', reflect: true, state: true},
+		table: {type: String, reflect: true, searchParam: true},
+		select: {type: String, reflect: true, searchParam: true},
+		filters: {type: Array, reflect: true, searchParam: true},
+		orderBy: {type: String, attribute: 'order-by', reflect: true, searchParam: true},
+		orderConfig: {type: Object, attribute: 'order-config', reflect: true, state: true, searchParam: true},
 
 		/* the list of items, result of the query for this table, page & limit */
 		list: {type: Object},
