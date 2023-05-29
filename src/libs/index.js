@@ -10,6 +10,7 @@ import radio4000player from 'radio4000-player'
 
 /* internal utils (are libs too) */
 import urlUtils from './url-utils.js'
+import dbSchemas from './db-schemas'
 
 export default {
 	sdk,
@@ -17,4 +18,5 @@ export default {
 	page,
 	radio4000player,
 	urlUtils,
+	dbSchemas,
 }

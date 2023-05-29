@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+		<title>r4-supabase-filters</title>
+		<meta name="description" content="r4-supabase-filters">
+		<link rel="stylesheet" href="/styles/index.css" />
+		<script type="module" src="/src/index.js"></script>
+
+		<style>
+			output {
+				display: flex;
+				flex-direction: column;
+				padding: 1rem;
+			}
+			r4-supabase-filters {
+				display: flex;
+				flex-direction: column;
+			}
+			r4-supabase-filters form {
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+			}
+			r4-supabase-filters form fieldset {
+				display: inline;
+			}
+			r4-supabase-filters form ul {
+				list-style: none;
+				display: flex;
+				flex-wrap: wrap;
+			}
+			textarea {
+				width: 100%;
+				min-width: 100%;
+				min-height: 10rem;
+			}
+		</style>
+	</head>
+
+	<body>
+		<menu>
+			<li>
+				Helps build a list of filters for a query to supabase (via the js sdk) using <a href="https://supabase.com/docs/reference/javascript/using-filters">filters</a>
+			</li>
+
+			<li>
+				Click <a href="./">reset search</a>, to re-set default values (clears the query params in URL)
+			</li>
+		</menu>
+
+		<r4-supabase-filters table="tracks"></r4-supabase-filters>
+
+		<script type="module">
+			import R4SupabaseFilters from '../../src/components/r4-supabase-filters.js'
+			import urlUtils from '../../src/libs/url-utils.js'
+
+			const {
+				getElementProperties,
+				propertiesToSearch,
+				propertiesFromSearch,
+			} = urlUtils
+
+			const $examples = document.querySelectorAll('r4-supabase-filters')
+			const elementProperties = getElementProperties(R4SupabaseFilters)
+
+			const onSubmit = function (event) {
+				const {target, detail} = event
+
+				const urlSearch = propertiesToSearch(elementProperties, detail)
+				const urlSearchString = `?${urlSearch.toString()}`
+				window.history.replaceState(null, null, urlSearchString)
+			}
+
+			$examples.forEach(($example) => {
+				$example.addEventListener('submit', onSubmit)
+			})
+
+			const initialProperties = propertiesFromSearch(elementProperties)
+			if (initialProperties) {
+				initialProperties.map(prop => {
+					$examples[0].setAttribute(prop.attribute, prop.value)
+				})
+			}
+		</script>
+	</body>
+
+</html>
