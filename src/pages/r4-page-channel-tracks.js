@@ -1,17 +1,28 @@
-import { html, LitElement } from 'lit'
-import { until } from 'lit/directives/until.js'
-import { sdk } from '@radio4000/sdk'
+import {html, LitElement} from 'lit'
+import {until} from 'lit/directives/until.js'
+import {sdk} from '@radio4000/sdk'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
+import urlUtils from '../../src/libs/url-utils.js'
+import R4SupabaseQuery from '../../src/components/r4-supabase-query.js'
+
+const {getElementProperties, propertiesToSearch, propertiesFromSearch} = urlUtils
+
+const notUrlProps = ['table']
+const elementProperties = getElementProperties(R4SupabaseQuery).filter((prop) => notUrlProps.includes(prop))
 
 export default class R4PageChannelTracks extends BaseChannel {
 	static properties = {
-		store: { type: Object, state: true },
-		params: { type: Object, state: true },
-		query: { type: Object, state: true },
-		config: { type: Object, state: true },
+		store: {type: Object, state: true},
+		params: {type: Object, state: true},
+		query: {type: Object, state: true},
+		config: {type: Object, state: true},
 
-		channel: { type: Object, reflect: true, state: true },
+		channel: {type: Object, reflect: true, state: true},
+
+		/* this is set by the query result */
+		tracks: {type: Array},
+		filters: {type: Object},
 	}
 
 	get tracksOrigin() {
@@ -22,13 +33,30 @@ export default class R4PageChannelTracks extends BaseChannel {
 		}
 	}
 
+	get defaultFilters() {
+		return [
+			{
+				operator: 'eq',
+				column: 'channel_id.slug',
+				value: this.channel.slug,
+			},
+		]
+	}
+
+	get queryFilters() {
+		return [...this.defaultFilters]
+	}
+	set queryFilters(filters) {
+		return [...this.defaultFilters, ...filters]
+	}
+
 	async firstUpdated() {
 		await this.init()
 	}
 
 	/* find data, the current channel id we want to add to */
 	async findSelectedChannel(slug) {
-		const { data } = await sdk.channels.readChannel(slug)
+		const {data} = await sdk.channels.readChannel(slug)
 		if (data && data.id) {
 			return data
 		}
@@ -40,6 +68,40 @@ export default class R4PageChannelTracks extends BaseChannel {
 			this.channel = this.findSelectedChannel(this.config.selectedSlug)
 		} else {
 			this.channel = this.findSelectedChannel(this.params.slug)
+		}
+	}
+
+	async onQuery(event) {
+		const {target, detail} = event
+
+		/* update the query params */
+		const urlSearch = propertiesToSearch(elementProperties, detail)
+		const urlSearchString = `?${urlSearch.toString()}`
+		/* window.history.replaceState(null, null, urlSearchString) */
+		console.log('onQuery', detail, urlSearchString)
+
+		/* get the data for this user query */
+		const query = sdk.browse.query({
+			page: detail.page,
+			limit: detail.limit,
+			table: detail.table,
+			select: detail.select,
+			orderBy: detail.orderBy,
+			orderConfig: detail.orderConfig,
+			filters: detail.filters,
+		})
+
+		return
+		const res = await query
+		const {data, error} = res
+
+		/* joint table embeded `track` as `track_id` ressource */
+		if (data) {
+			this.tracks = data.map(({track_id}) => track_id)
+		}
+
+		if (error) {
+			console.log('Error querying data', error, detail)
 		}
 	}
 
@@ -55,6 +117,9 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 
 	renderPage(channel) {
+		const query = html`
+			<r4-supabase-query table="channel_track" .filters=${this.queryFilters} @query=${this.onQuery}></r4-supabase-query>
+		`
 		return html`
 			<nav>
 				<nav-item>
@@ -67,14 +132,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 			<main>
 				<br />
 				<r4-track-search slug=${channel.slug} href=${this.channelOrigin}></r4-track-search>
-				<r4-tracks
-					channel=${channel.slug}
-					origin=${this.tracksOrigin}
-					limit=${this.query.limit || 15}
-					page=${this.query.page || 1}
-					pagination="true"
-					@r4-list=${this.onNavigateList}
-				></r4-tracks>
+				${query} ${this.renderTracks()}
 			</main>
 		`
 	}
@@ -84,15 +142,32 @@ export default class R4PageChannelTracks extends BaseChannel {
 	renderLoading() {
 		return html`<span>Loading channel tracks...</span>`
 	}
+	renderTracks() {
+		if (this.tracks) {
+			return html`
+				<ul>
+					${this.tracks.map(this.renderTrack)}
+				</ul>
+			`
+		}
+	}
+	renderTrack(track) {
+		console.log(track)
+		return html`
+			<li>
+				<r4-track .track=${track}></r4-track>
+			</li>
+		`
+	}
 
 	/* no shadow dom */
 	createRenderRoot() {
 		return this
 	}
 
-	onNavigateList({ detail }) {
+	onNavigateList({detail}) {
 		/* `page` here, is usually globaly the "router", beware */
-		const { page: currentPage, limit, list } = detail
+		const {page: currentPage, limit, list} = detail
 		const newPageURL = new URL(window.location)
 
 		limit && newPageURL.searchParams.set('limit', limit)
