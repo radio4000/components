@@ -1,43 +1,7 @@
 import {sdk} from '@radio4000/sdk'
 import {LitElement, html} from 'lit'
 
-/*
-	 all known supabase query filter operators
-
-	 Warning: these are appended, and executed,
-	 to supabase's js sdk "select()" method, as functions
- */
-export const supabaseOperatorsTable = {
-	eq: {},
-	neq: {},
-	gt: {},
-	gte: {},
-	lt: {},
-	lte: {},
-	like: {},
-	ilike: {},
-	is: {},
-	in: {},
-	contains: {},
-	containedBy: {},
-	rangeGt: {},
-	rangeGte: {},
-	rangeLt: {},
-	rangeLte: {},
-	rangeAdjacent: {},
-	overlaps: {},
-	textSearch: {
-		config: {
-			type: 'websearch',
-			config: 'english',
-		},
-	},
-	match: {},
-	not: {},
-	or: {},
-	filter: {},
-}
-export const supabaseOperators = Object.keys(supabaseOperatorsTable)
+const {supabaseOperators} = sdk.browse
 
 /*
 	 suapabse table data associated with each table
@@ -80,69 +44,6 @@ supabaseTables['channel_track'].junctions = channelTrackJuctionColumns
 
 /* store the list of "tables", from the database tables */
 export const supabaseTableNames = Object.keys(supabaseTables)
-
-/* browse the list (of db table) like it is paginated;
-	 (query params ->) components-attributes -> supbase-query
-	 this does not render the list, just browses it
- */
-async function buildBrowsePageQuery({
-	page = 1,
-	limit = 1,
-	table = '',
-	select = '',
-	orderBy = '',
-	orderConfig = {},
-	filters = [],
-}) {
-	const {from, to, limitResults} = getBrowseParams({page, limit})
-	let query = sdk.supabase.from(table).select(select).limit(limitResults).order(orderBy, orderConfig).range(from, to)
-
-	/*
-		 add filters to the query,
-		 but first, only keep those with "known supabase oprators";
-		 Security: we don't want `supabse.sdk.select().[operator]()`,
-		 to execute "anything"the user might inject in the interface;
-		 - the "filter.value" always is a string, from the related `input`
-		 we convert it here to the right type the sdk filter expects
-	 */
-	filters
-		.filter((filter) => {
-			return supabaseOperators.includes(filter.operator)
-		})
-		.forEach((filter) => {
-			/* handle each type of supabase/postresql filter */
-			let valueJson
-			try {
-				valueJson = JSON.parse(filter.value)
-			} catch (e) {}
-
-			/* "filter" operator is a supabse.sdk "escape hatch",
-				 aplying the filter raw; see docs
-				(WARNING) otherwise the (raw string) operator is the supabase sdk function invoqued
-			*/
-			if (filter.operator === 'filter') {
-				query = query.filter(filter.operator, filter.column, filter.value || null)
-			} else if (['contains', 'containedBy'].includes(filter.operator)) {
-				query = query[filter.operator](filter.column, valueJson || [filter.value.split(',')] || null)
-			} else {
-				query = query[filter.operator](filter.column, filter.value || null)
-			}
-		})
-	return query
-}
-
-/*
-	 converts web component attributes, to supabase sdk query parameters:
-	 -> page="1" limit="1"
-	 -> from[0] to to[0] limit[0]
- */
-function getBrowseParams({page, limit}) {
-	let from, to, limitResults
-	from = (page - 1) * limit
-	to = from + limit - 1
-	limitResults = limit - 1
-	return {from, to, limitResults}
-}
 
 /*
 	 list-channels, default `page="1"`, `limit="1"`;
@@ -209,14 +110,14 @@ export default class R4SupabaseQuery extends LitElement {
 	connectedCallback() {
 		super.connectedCallback()
 		this.setInitialValues()
-		this.updateList()
+		/* this.onQuery() */
 	}
 
 	updated(attr) {
 		/* always update the list when any attribute change
 			 for some attribute, first clear the existing search query */
 		if (attr.get('table')) this.cleanQuery()
-		this.updateList()
+		this.onQuery()
 	}
 
 	/* set the correct component initial values, for each table's capacities */
@@ -229,33 +130,18 @@ export default class R4SupabaseQuery extends LitElement {
 		this.filters = this.filters || []
 	}
 
-	async updateList() {
-		if (!this.table) return
-		const query = buildBrowsePageQuery({
-			page: this.page,
-			limit: this.limit,
-			table: this.table,
-			select: this.select,
-			orderBy: this.orderBy,
-			orderConfig: this.orderConfig,
-			filters: this.filters,
-		})
-
-		const res = await query
-		const {data, error} = res
-
-		const listEvent = new CustomEvent('output', {
+	async onQuery() {
+		/* if (!this.table) return */
+		const listEvent = new CustomEvent('query', {
 			bubbles: true,
 			detail: {
-				data,
-				error,
-				page: this.page,
-				limit: this.limit,
 				table: this.table,
 				select: this.select,
 				orderBy: this.orderBy,
 				orderConfig: this.orderConfig,
 				filters: this.filters,
+				page: this.page,
+				limit: this.limit,
 			},
 		})
 		this.dispatchEvent(listEvent)
@@ -321,7 +207,7 @@ export default class R4SupabaseQuery extends LitElement {
 	/*
 		 "cleans" (as in "reset to correct values")
 		 the components attributes, when the table change;
-		 is triggered before invoquing "updateList"*/
+		 is triggered before invoquing "onQuery"*/
 	cleanQuery() {
 		this.page = 1
 		/* this.limit = this.limit // stay unchanged? */

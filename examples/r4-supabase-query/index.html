@@ -80,7 +80,7 @@
 			const $examples = document.querySelectorAll('r4-supabase-query')
 			const elementProperties = getElementProperties(R4SupabaseQuery)
 
-			const onQueryOutput = function (event) {
+			const onQuery = function (event) {
 				const {target, detail} = event
 
 				const urlSearch = propertiesToSearch(elementProperties, detail)
@@ -92,7 +92,7 @@
 			}
 
 			$examples.forEach(($example) => {
-				$example.addEventListener('output', onQueryOutput)
+				$example.addEventListener('query', onQuery)
 			})
 
 			const initialProperties = propertiesFromSearch(elementProperties)
