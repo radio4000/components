@@ -11,8 +11,8 @@ const {tables} = dbSchema
  */
 export default class R4SupabaseFilters extends LitElement {
 	static properties = {
-		table: {type: String},
-		filters: {type: Array, reflect: true, state: true, searchParam: true},
+		table: {type: String, reflect: true},
+		filters: {type: Array, reflect: true, state: true},
 	}
 
 	constructor() {
@@ -29,11 +29,9 @@ export default class R4SupabaseFilters extends LitElement {
 
 	async onFilters() {
 		/* if (!this.table) return */
-		const filtersEvent = new CustomEvent('submit', {
+		const filtersEvent = new CustomEvent('filters', {
 			bubbles: true,
-			detail: {
-				filters: this.filters,
-			},
+			detail: this.filters,
 		})
 		this.dispatchEvent(filtersEvent)
 	}
@@ -47,10 +45,11 @@ export default class R4SupabaseFilters extends LitElement {
 	addFilter() {
 		const newFilter = {
 			operator: this.filters?.at(0)?.operator || supabaseOperators[0],
-			column: this.filters?.at(0)?.column,
+			column: this.filters?.at(0)?.column || tables[this.table].columns[0],
 			value: '',
 		}
-		this.filters = [...this.filters, newFilter]
+		const filters = this.filters || []
+		this.filters = [...filters, newFilter]
 	}
 
 	removeFilter(index) {
@@ -58,8 +57,6 @@ export default class R4SupabaseFilters extends LitElement {
 	}
 
 	updateFilter(index, field, value) {
-		/* harmonize the "filter value", from a string to expected value, from operator */
-
 		/* replace existing filters, including the new one */
 		const newFilters = [...this.filters]
 		newFilters[index][field] = value
@@ -81,9 +78,6 @@ export default class R4SupabaseFilters extends LitElement {
 		`
 	}
 
-	/*
-		 rendering methods for the query filters, that can be added by the user;
-	 */
 	renderFilters() {
 		/* some table need default filters, channel_track, a "channel", to get the tracks of
 			 (might be multiple channels? ex. "all tracks with #dub from @x & @y") */

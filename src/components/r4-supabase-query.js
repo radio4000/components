@@ -20,6 +20,8 @@ export default class R4SupabaseQuery extends LitElement {
 		select: {type: String, reflect: true, searchParam: true},
 		orderBy: {type: String, attribute: 'order-by', reflect: true, searchParam: true},
 		orderConfig: {type: Object, attribute: 'order-config', reflect: true, state: true, searchParam: true},
+		filters: {type: Array, reflect: true, searchParam: true, state: true},
+		defaultFilters: {type: Array, attribute: 'default-filters', reflect: true, searchParam: true, state: true},
 	}
 
 	constructor() {
@@ -31,6 +33,8 @@ export default class R4SupabaseQuery extends LitElement {
 		this.orderBy = null
 		this.select = null
 		this.orderConfig = {ascending: false}
+		this.filters = []
+		this.defaultFilters = []
 	}
 
 	connectedCallback() {
@@ -42,7 +46,6 @@ export default class R4SupabaseQuery extends LitElement {
 	updated(attr) {
 		/* always update the list when any attribute change
 			 for some attribute, first clear the existing search query */
-		console.log('updated attr', attr)
 		if (attr.get('table')) this.cleanQuery()
 		this.onQuery()
 	}
@@ -67,6 +70,7 @@ export default class R4SupabaseQuery extends LitElement {
 				orderConfig: this.orderConfig,
 				page: this.page,
 				limit: this.limit,
+				filters: [...this.defaultFilters, ...this.filters],
 			},
 		})
 		this.dispatchEvent(queryEvent)
@@ -86,6 +90,9 @@ export default class R4SupabaseQuery extends LitElement {
 		} else if (name) {
 			this[name] = value
 		}
+	}
+	onFilters({detail}) {
+		this.filters = detail
 	}
 	onFormSubmit(event) {
 		event.preventDefault()
@@ -128,6 +135,7 @@ export default class R4SupabaseQuery extends LitElement {
 					this.renderOrderConfig(),
 				]}
 			</form>
+			<r4-supabase-filters table=${this.table} filters=${this.filters} @filters=${this.onFilters}></r4-supabase-filters>
 		`
 	}
 	renderQueryTable() {

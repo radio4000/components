@@ -36,8 +36,8 @@ function getElementProperties(ElementClass) {
 function propertiesToSearch(elementProperties, dataObj) {
 	const searchParams = new URLSearchParams()
 	elementProperties.forEach((elementProperty) => {
-		const {name, attribute, searchParam, value, attributeType} = elementProperty
-		const paramValue = dataObj[searchParam]
+		const {name, attribute, searchParam, attributeType} = elementProperty
+		const paramValue = dataObj[name]
 		if (paramValue) {
 			if (['Object', 'Array'].includes(attributeType)) {
 				searchParams.set(searchParam, JSON.stringify(paramValue))
@@ -56,7 +56,15 @@ function propertiesFromSearch(elementProperties) {
 	return elementProperties.map((elementProperty) => {
 		const {name, attribute, value, searchParam} = elementProperty
 		if (searchParams.has(searchParam)) {
-			elementProperty.value = searchParams.get(searchParam)
+			if (['Object', 'Array'].includes(elementProperty.attributeType)) {
+				let jsonValue
+				try {
+					JSONValue = JSON.parse(searchParams.get(searchParam))
+				} catch (e) {}
+				elementProperty.value = jsonValue
+			} else {
+				elementProperty.value = searchParams.get(searchParam)
+			}
 		}
 		return elementProperty
 	})

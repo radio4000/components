@@ -8,7 +8,7 @@ import R4SupabaseQuery from '../../src/components/r4-supabase-query.js'
 
 const {getElementProperties, propertiesToSearch, propertiesFromSearch} = urlUtils
 
-const notUrlProps = ['table']
+const notUrlProps = ['table', 'select']
 const elementProperties = getElementProperties(R4SupabaseQuery).filter((prop) => !notUrlProps.includes(prop))
 
 export default class R4PageChannelTracks extends BaseChannel {
@@ -25,14 +25,12 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 		/* supabase query */
 		table: {type: String},
-		filters: {type: Object, state: true},
 	}
 	constructor() {
 		super()
+		this.table = 'channel_track'
 		this.tracks = []
 		this.channel = null
-		this.table = 'channel_track'
-		this.filters = []
 	}
 
 	get tracksOrigin() {
@@ -55,16 +53,20 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	async connectedCallback() {
 		super.connectedCallback()
-		this.init()
-	}
 
-	async init() {
-		// a promise for the `until` directive
 		if (!this.config.singleChannel) {
 			this.channel = await this.findSelectedChannel(this.params.slug)
 		} else {
 			this.channel = await this.findSelectedChannel(this.config.selectedSlug)
 		}
+
+		/* set initial user query from URL params */
+		/* const props = propertiesFromSearch(elementProperties).filter(({name}) => !notUrlProps.includes(name))
+			 props.forEach((prop) => {
+			 if (prop.value) {
+			 this[prop.name] = prop.value
+			 }
+			 }) */
 	}
 
 	/* find data, the current channel id we want to add to */
@@ -75,43 +77,38 @@ export default class R4PageChannelTracks extends BaseChannel {
 		}
 	}
 
-	async onQuery(event) {
-		const {target, detail} = event
-
-		if (!this.channel) return
-
+	updateSearchParams(elementProperties, detail) {
 		/* update the query params */
-		const searchParams = propertiesToSearch(elementProperties, detail)
+		const props = elementProperties.filter(({name}) => !notUrlProps.includes(name))
+		const searchParams = propertiesToSearch(props, detail)
 		const searchParamsString = `?${searchParams.toString()}`
 		window.history.replaceState(null, null, searchParamsString)
 		console.log('onQuery', searchParamsString)
+	}
 
-		/* get the data for this user query */
-		const query = sdk.browse.query({
-			table: detail.table,
-			select: detail.select,
-			page: detail.page,
-			limit: detail.limit,
-			orderBy: detail.orderBy,
-			orderConfig: detail.orderConfig,
-			filters: [this.defaultFilters, ...this.filters],
-		})
-
-		const res = await query
-		const {data, error} = res
-
+	/* get the data for this user query */
+	async browseTracks(userQuery) {
+		const {data, error} = await sdk.browse.query(userQuery)
 		/* joint table embeded `track` as `track_id` ressource */
 		if (data) {
 			this.tracks = data.map(({track_id}) => track_id)
+		} else {
+			this.tracks = []
 		}
 
 		if (error) {
-			console.log('Error querying data', error, detail)
+			console.log('Error querying data', error)
 		}
 	}
 
-	onFilters({detail}) {
-		/* this.filters = [...this.filters, ...detail.filters] */
+	async onQuery(event) {
+		if (!this.channel) return
+		const {target, detail} = event
+		this.browseTracks({
+			...detail,
+			filters: [...this.defaultFilters, ...detail.filters],
+		})
+		this.updateSearchParams(elementProperties, detail)
 	}
 
 	render() {
@@ -138,12 +135,14 @@ export default class R4PageChannelTracks extends BaseChannel {
 		return html`
 			<details open>
 				<summary>Tracks query filters</summary>
-				<r4-supabase-query table=${this.table} @query=${this.onQuery}></r4-supabase-query>
-				<r4-supabase-filters
+				<r4-supabase-query
+					@query=${this.onQuery}
 					table=${this.table}
-					.filters=${this.filters}
-					@submit=${this.onFilters}
-				></r4-supabase-filters>
+					page=${this.query.page || 1}
+					order-by=${this.query['order-by']}
+					order-config=${this.query['order-config']}
+					filters=${this.query.filters || []}
+				></r4-supabase-query>
 			</details>
 		`
 	}
