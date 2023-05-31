@@ -1,17 +1,36 @@
-import { html, LitElement } from 'lit'
-import { until } from 'lit/directives/until.js'
-import { sdk } from '@radio4000/sdk'
+import {html, LitElement} from 'lit'
+import {until} from 'lit/directives/until.js'
+import {sdk} from '@radio4000/sdk'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
+import urlUtils from '../../src/libs/url-utils.js'
+import R4SupabaseQuery from '../../src/components/r4-supabase-query.js'
+
+const {getElementProperties, propertiesToSearch, propertiesFromSearch} = urlUtils
+
+const notUrlProps = ['table', 'select']
+const elementProperties = getElementProperties(R4SupabaseQuery).filter((prop) => !notUrlProps.includes(prop))
 
 export default class R4PageChannelTracks extends BaseChannel {
 	static properties = {
-		store: { type: Object, state: true },
-		params: { type: Object, state: true },
-		query: { type: Object, state: true },
-		config: { type: Object, state: true },
+		/* route props */
+		store: {type: Object, state: true},
+		params: {type: Object, state: true},
+		query: {type: Object, state: true},
+		config: {type: Object, state: true},
 
-		channel: { type: Object, reflect: true, state: true },
+		/* state */
+		channel: {type: Object, reflect: true, state: true},
+		tracks: {type: Array, state: true},
+
+		/* supabase query */
+		table: {type: String},
+	}
+	constructor() {
+		super()
+		this.table = 'channel_track'
+		this.tracks = []
+		this.channel = null
 	}
 
 	get tracksOrigin() {
@@ -22,62 +41,124 @@ export default class R4PageChannelTracks extends BaseChannel {
 		}
 	}
 
-	async firstUpdated() {
-		await this.init()
+	get defaultFilters() {
+		return [
+			{
+				operator: 'eq',
+				column: 'channel_id.slug',
+				value: this.channel?.slug,
+			},
+		]
+	}
+
+	async connectedCallback() {
+		super.connectedCallback()
+
+		if (!this.config.singleChannel) {
+			this.channel = await this.findSelectedChannel(this.params.slug)
+		} else {
+			this.channel = await this.findSelectedChannel(this.config.selectedSlug)
+		}
+
+		/* set initial user query from URL params */
+		/* const props = propertiesFromSearch(elementProperties).filter(({name}) => !notUrlProps.includes(name))
+			 props.forEach((prop) => {
+			 if (prop.value) {
+			 this[prop.name] = prop.value
+			 }
+			 }) */
 	}
 
 	/* find data, the current channel id we want to add to */
 	async findSelectedChannel(slug) {
-		const { data } = await sdk.channels.readChannel(slug)
+		const {data} = await sdk.channels.readChannel(slug)
 		if (data && data.id) {
 			return data
 		}
 	}
 
-	init() {
-		// a promise for the `until` directive
-		if (this.config.singleChannel) {
-			this.channel = this.findSelectedChannel(this.config.selectedSlug)
+	updateSearchParams(elementProperties, detail) {
+		/* update the query params */
+		const props = elementProperties.filter(({name}) => !notUrlProps.includes(name))
+		const searchParams = propertiesToSearch(props, detail)
+		const searchParamsString = `?${searchParams.toString()}`
+		window.history.replaceState(null, null, searchParamsString)
+		console.log('onQuery', searchParamsString)
+	}
+
+	/* get the data for this user query */
+	async browseTracks(userQuery) {
+		const {data, error} = await sdk.browse.query(userQuery)
+		/* joint table embeded `track` as `track_id` ressource */
+		if (data) {
+			this.tracks = data.map(({track_id}) => track_id)
 		} else {
-			this.channel = this.findSelectedChannel(this.params.slug)
+			this.tracks = []
+		}
+
+		if (error) {
+			console.log('Error querying data', error)
 		}
 	}
 
-	render() {
-		return html`${until(
-			Promise.resolve(this.channel)
-				.then((channel) => {
-					return channel ? this.renderPage(channel) : this.renderNoPage()
-				})
-				.catch(() => this.renderNoPage()),
-			this.renderLoading()
-		)}`
+	async onQuery(event) {
+		if (!this.channel) return
+		const {target, detail} = event
+		this.browseTracks({
+			...detail,
+			filters: [...this.defaultFilters, ...detail.filters],
+		})
+		this.updateSearchParams(elementProperties, detail)
 	}
 
-	renderPage(channel) {
+	render() {
+		return this.channel ? this.renderPage() : this.renderNoPage()
+	}
+
+	renderPage() {
 		return html`
 			<nav>
 				<nav-item>
 					<code>@</code>
-					<a href=${this.channelOrigin}>${channel.slug}</a>
+					<a href=${this.channelOrigin}>${this.channel.slug}</a>
 					<code>/</code>
 					<a href=${this.channelOrigin + '/tracks'}>tracks</a>
 				</nav-item>
 			</nav>
 			<main>
-				<br />
-				<r4-track-search slug=${channel.slug} href=${this.channelOrigin}></r4-track-search>
-				<r4-tracks
-					channel=${channel.slug}
-					origin=${this.tracksOrigin}
-					limit=${this.query.limit || 15}
-					page=${this.query.page || 1}
-					pagination="true"
-					@r4-list=${this.onNavigateList}
-				></r4-tracks>
+				<r4-track-search slug=${this.channel.slug} href=${this.channelOrigin}></r4-track-search>
+				${[this.renderQuery(), this.renderTracks()]}
 			</main>
 		`
 	}
+	renderQuery() {
+		return html`
+			<details open>
+				<summary>Tracks query filters</summary>
+				<r4-supabase-query
+					@query=${this.onQuery}
+					table=${this.table}
+					page=${this.query.page || 1}
+					order-by=${this.query['order-by']}
+					order-config=${this.query['order-config']}
+					filters=${this.query.filters || []}
+				></r4-supabase-query>
+			</details>
+		`
+	}
+	renderTracks() {
+		if (this.tracks) {
+			return html`
+				<ul>
+					${this.tracks.map((t) => this.renderTrack(t))}
+				</ul>
+			`
+		}
+	}
+	renderTrack(track) {
+		return html` <li><r4-track .track=${track} origin=${'' || this.tracksOrigin}></r4-track></li> `
+	}
+
 	renderNoPage() {
 		return html`404 - No channel with this slug`
 	}
@@ -88,18 +169,5 @@ export default class R4PageChannelTracks extends BaseChannel {
 	/* no shadow dom */
 	createRenderRoot() {
 		return this
-	}
-
-	onNavigateList({ detail }) {
-		/* `page` here, is usually globaly the "router", beware */
-		const { page: currentPage, limit, list } = detail
-		const newPageURL = new URL(window.location)
-
-		limit && newPageURL.searchParams.set('limit', limit)
-		currentPage && newPageURL.searchParams.set('page', currentPage)
-
-		if (window.location.href !== newPageURL.href) {
-			page(newPageURL.pathname + newPageURL.search)
-		}
 	}
 }

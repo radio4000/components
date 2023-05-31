@@ -1,6 +1,6 @@
-import { html, LitElement } from 'lit'
-import { ref, createRef } from 'lit/directives/ref.js'
-import { sdk } from '@radio4000/sdk'
+import {html, LitElement} from 'lit'
+import {ref, createRef} from 'lit/directives/ref.js'
+import {sdk} from '@radio4000/sdk'
 import page from 'page/page.mjs'
 import '../pages/'
 
@@ -9,8 +9,8 @@ export default class R4App extends LitElement {
 
 	static properties = {
 		/* public attributes, config props */
-		singleChannel: { type: Boolean, reflect: true, attribute: 'single-channel', state: true },
-		selectedSlug: { type: String, reflect: true, attribute: 'channel', state: true }, // channel slug
+		singleChannel: {type: Boolean, reflect: true, attribute: 'single-channel', state: true},
+		selectedSlug: {type: String, reflect: true, attribute: 'channel', state: true}, // channel slug
 		href: {
 			reflect: true,
 			converter: (value) => {
@@ -23,16 +23,16 @@ export default class R4App extends LitElement {
 		},
 
 		/* state */
-		user: { type: Object, state: true },
-		userChannels: { type: Array || null, state: true },
-		followers: { type: Array || null, state: true },
-		followings: { type: Array || null, state: true },
-		didLoad: { type: Boolean, state: true },
-		isPlaying: { type: Boolean, attribute: 'is-playing', reflects: true },
+		user: {type: Object, state: true},
+		userChannels: {type: Array || null, state: true},
+		followers: {type: Array || null, state: true},
+		followings: {type: Array || null, state: true},
+		didLoad: {type: Boolean, state: true},
+		isPlaying: {type: Boolean, attribute: 'is-playing', reflects: true},
 
 		/* state for global usage */
-		store: { type: Object, state: true },
-		config: { type: Object, state: true },
+		store: {type: Object, state: true},
+		config: {type: Object, state: true},
 	}
 
 	// This gets passed to all r4-pages.
@@ -80,7 +80,7 @@ export default class R4App extends LitElement {
 			if (event === 'PASSWORD_RECOVERY') {
 				const newPassword = prompt('What would you like your new password to be?')
 				if (!newPassword) return
-				const { data, error } = await sdk.supabase.auth.updateUser({ password: newPassword })
+				const {data, error} = await sdk.supabase.auth.updateUser({password: newPassword})
 				if (data) alert('Password updated successfully!')
 				if (error) alert('There was an error updating your password.')
 			}
@@ -93,14 +93,14 @@ export default class R4App extends LitElement {
 		if (this.refreshUserData.running) return
 		this.refreshUserData.running = true
 
-		const { data } = await sdk.supabase.auth.getSession()
+		const {data} = await sdk.supabase.auth.getSession()
 		this.user = data?.session?.user
 
 		if (this.user) {
 			// this.setTheme()
 
 			// load user channels
-			const { data: channels } = await sdk.channels.readUserChannels()
+			const {data: channels} = await sdk.channels.readUserChannels()
 			this.userChannels = channels?.length ? channels : undefined
 
 			// load current channel followers/followings
@@ -109,8 +109,8 @@ export default class R4App extends LitElement {
 			}
 
 			if (this.selectedChannel) {
-				const { data: followers } = await sdk.channels.readFollowers(this.selectedChannel.id)
-				const { data: followings } = await sdk.channels.readFollowings(this.selectedChannel.id)
+				const {data: followers} = await sdk.channels.readFollowers(this.selectedChannel.id)
+				const {data: followings} = await sdk.channels.readFollowings(this.selectedChannel.id)
 				this.followers = followers
 				this.followings = followings
 			}
@@ -131,7 +131,7 @@ export default class R4App extends LitElement {
 
 	async setTheme() {
 		// Load account settings and set prefered theme.
-		const { data: account } = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
+		const {data: account} = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
 		if (account?.theme) {
 			localStorage.setItem('r4.theme', account.theme)
 			this.setAttribute('color-scheme', account.theme)
@@ -219,7 +219,7 @@ export default class R4App extends LitElement {
 		`
 	}
 
-/* the default routers:
+	/* the default routers:
 	 - one for the channel in CMS mode (all channels are accessible)
 	 - one for when only one channel should be displayed in the UI
  */
@@ -237,9 +237,9 @@ export default class R4App extends LitElement {
 	}
 
 	/* events */
-	onChannelSelect({ detail }) {
+	onChannelSelect({detail}) {
 		if (detail.channel) {
-			const { slug } = detail.channel
+			const {slug} = detail.channel
 			this.selectedSlug = slug
 			page(`/${this.selectedSlug}`)
 		}
@@ -247,16 +247,16 @@ export default class R4App extends LitElement {
 
 	/* play some data */
 	async onPlay(event) {
-		const { detail } = event
+		const {detail} = event
 		if (!detail) {
 			return this.stop()
 		}
 
-		const { channel, track } = detail
+		const {channel, track} = detail
 
 		if (channel?.slug) {
 			this.isPlaying = true
-			const { data: channelTracks } = await sdk.channels.readChannelTracks(channel.slug)
+			const {data: channelTracks} = await sdk.channels.readChannelTracks(channel.slug)
 			const tracks = channelTracks.reverse()
 
 			if (tracks) {
@@ -306,13 +306,13 @@ export default class R4App extends LitElement {
 	}
 }
 
-function renderRouterSingleChannel({ store, config }) {
+function renderRouterSingleChannel({store, config}) {
 	return html`
 		<r4-router name="channel" .store=${store} .config=${config}>
 			<r4-route path="/sign/:method" page="sign"></r4-route>
 			<r4-route path="/" page="channel"></r4-route>
 			<r4-route path="/player" page="channel-player"></r4-route>
-			<r4-route path="/tracks" page="channel-tracks" query-params="page,limit"></r4-route>
+			<r4-route path="/tracks" page="channel-tracks" query-params="page,limit,order-by,order-config,filters"></r4-route>
 			<r4-route path="/tracks/:track_id" page="channel-track" query-params="slug,url"></r4-route>
 			<r4-route path="/followers" page="channel-followers" query-params="page,limit"></r4-route>
 			<r4-route path="/followings" page="channel-followings" query-params="page,limit"></r4-route>
@@ -322,7 +322,7 @@ function renderRouterSingleChannel({ store, config }) {
 	`
 }
 
-function renderRouterCMS({ store, config }) {
+function renderRouterCMS({store, config}) {
 	return html`
 		<r4-router name="application" .store=${store} .config=${config}>
 			<r4-route path="/" page="home"></r4-route>
@@ -337,7 +337,11 @@ function renderRouterCMS({ store, config }) {
 			<r4-route path="/:slug" page="channel"></r4-route>
 			<r4-route path="/:slug/update" page="channel-update"></r4-route>
 			<r4-route path="/:slug/player" page="channel-player"></r4-route>
-			<r4-route path="/:slug/tracks" page="channel-tracks" query-params="page,limit"></r4-route>
+			<r4-route
+				path="/:slug/tracks"
+				page="channel-tracks"
+				query-params="page,limit,order-by,order-config,filters"
+			></r4-route>
 			<r4-route path="/:slug/tracks/:track_id" page="channel-track"></r4-route>
 			<r4-route path="/:slug/followers" page="channel-followers" query-params="page,limit"></r4-route>
 			<r4-route path="/:slug/followings" page="channel-followings" query-params="page,limit"></r4-route>

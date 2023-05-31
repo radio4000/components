@@ -22,7 +22,7 @@
     "build-website": "vite build --config vite.config.js"
   },
   "dependencies": {
-    "@radio4000/sdk": "^0.4.1",
+    "@radio4000/sdk": "^0.4.2",
     "lit": "^2.7.4",
     "media-url-parser": "^0.2.4",
     "ol": "^7.3.0",
