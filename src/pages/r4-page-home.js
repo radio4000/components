@@ -1,19 +1,20 @@
-import { LitElement, html } from 'lit'
+import {LitElement, html} from 'lit'
 
 export default class R4PageHome extends LitElement {
 	static properties = {
-		config: { type: Object, state: true },
-		store: { type: Object, state: true },
+		config: {type: Object, state: true},
+		store: {type: Object, state: true},
 	}
 
 	render() {
-		const { href } = this.config
-		const { user, userChannels } = this.store
+		const {href} = this.config
+		const {user, userChannels} = this.store
 		return html`
 			<menu>
 				<li>
 					<a href=${href + '/explore'}>Explore</a>
 				</li>
+				${user ? html`<li><a href=${this.config.href + '/settings'}>Settings</a></li>` : null}
 				<li>
 					<a href=${href + '/sign/' + (user ? 'out' : 'in')}>Sign ${user ? 'out' : 'in'}</a>
 					${!user ? html`/ <a href=${this.config.href + '/sign/up'}>up</a>` : null}
