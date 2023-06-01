@@ -104,3 +104,9 @@ r4-map .ol-viewport {
 	flex-direction: column;
 	flex-grow: 1;
 }
+
+/* the query component */
+r4-supabase-query[table] fieldset[name='table'],
+r4-supabase-query[select] fieldset[name='select'] {
+	display: none;
+}

@@ -166,7 +166,7 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 	renderQueryTable() {
 		return html`
-			<fieldset>
+			<fieldset name="table">
 				<label for="table">table</label>
 				<select id="table" name="table" @input=${this.onInput}>
 					<optgroup disabled>
@@ -179,7 +179,7 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 	renderQuerySelect() {
 		return html`
-			<fieldset>
+			<fieldset name="select">
 				<label for="select">select</label>
 				<select id="select" name="select" @input=${this.onInput}>
 					<optgroup disabled>
@@ -194,7 +194,7 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 	renderQueryPage() {
 		return html`
-			<fieldset>
+			<fieldset name="page">
 				<label for="page">page</label>
 				<input id="page" name="page" @input=${this.onInput} type="number"
 					.value=${this.page} step="1" min="1" pattern="[0-9]" placeholder="page"></input>
@@ -203,7 +203,7 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 	renderQueryLimit() {
 		return html`
-			<fieldset>
+			<fieldset name="limit">
 				<label for="limit">limit</label>
 				<input id="limit" name="limit" @input=${this.onInput} type="number"
 					.value=${this.limit} step="1" min="1" max="4000" pattern="[0-9]" placeholder="limit"></input>
@@ -212,7 +212,7 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 	renderQueryOrderKey() {
 		return html`
-			<fieldset>
+			<fieldset name="orderBy">
 				<label for="orderBy">order-by</label>
 				<select id="orderBy" name="orderBy" @input=${this.onInput}>
 					<optgroup disabled>
@@ -226,10 +226,8 @@ export default class R4SupabaseQuery extends LitElement {
 	renderOrderConfig() {
 		const {ascending} = this.orderConfig
 		return html`
-			<fieldset>
-				<label for="ascending">
-					${ascending ? '↑' : '↓'}
-				</label>
+			<fieldset name="ascending">
+				<label for="ascending"> ${ascending ? '↑' : '↓'} </label>
 				<input id="ascending" name="ascending" @input=${this.onInput} type="checkbox" ?checked=${ascending} />
 			</fieldset>
 		`
