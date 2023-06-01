@@ -48,29 +48,15 @@ export default class R4PageChannelTracks extends BaseChannel {
 		]
 	}
 
-	async connectedCallback() {
-		super.connectedCallback()
-		if (!this.config.singleChannel) {
-			this.channel = await this.findSelectedChannel(this.params.slug)
-		} else {
-			this.channel = await this.findSelectedChannel(this.config.selectedSlug)
-		}
-
-		/* set initial user query from URL params */
-		/* const props = propertiesFromSearch(elementProperties).filter(({name}) => !notUrlProps.includes(name))
-			 props.forEach((prop) => {
-			 if (prop.value) {
-			 this[prop.name] = prop.value
-			 }
-			 }) */
+	get slug() {
+		return this.config.singleChannel ? this.config.selectedSlug : this.params.slug
 	}
 
-	/* find data, the current channel id we want to add to */
-	async findSelectedChannel(slug) {
-		const {data} = await sdk.channels.readChannel(slug)
-		if (data && data.id) {
-			return data
-		}
+	async connectedCallback() {
+		super.connectedCallback()
+		const {data, error} = await sdk.channels.readChannel(this.slug)
+		this.channel = data
+		this.channelError = error
 	}
 
 	async onQuery(event) {
@@ -104,7 +90,10 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 
 	render() {
-		return this.channel ? this.renderPage() : this.renderNoPage()
+		return [
+			this.channel && !this.channelError ? this.renderPage() : this.renderLoading(),
+			this.channelError ? this.renderNoPage() : null,
+		]
 	}
 
 	renderPage() {
