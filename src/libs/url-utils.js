@@ -12,7 +12,7 @@
 	 if `ElementClass.properties[name].searchParam === true`
 	 will return a config object for each of the Element's property
  */
-function getElementProperties(ElementClass) {
+export function getElementProperties(ElementClass) {
 	if (!ElementClass || !ElementClass.properties) return
 	const elementProperties = Object.entries(ElementClass.properties)
 		.map(([propertyName, propertyConfig]) => {
@@ -33,7 +33,7 @@ function getElementProperties(ElementClass) {
 	 will return a URLSearchParam ready to go into a URL.
 	 Can be used to turn a web-component's output (dataObj),
 	 into URLSearchParams (so element state is in the current URL) */
-function propertiesToSearch(elementProperties, dataObj) {
+export function propertiesToSearch(elementProperties, dataObj) {
 	const searchParams = new URLSearchParams()
 	elementProperties.forEach((elementProperty) => {
 		const {name, attribute, searchParam, attributeType} = elementProperty
@@ -51,7 +51,7 @@ function propertiesToSearch(elementProperties, dataObj) {
 
 /* Retrieves a web-component's (initial) attributes' values,
    from the current browser URL, using the elementProperties as mapping */
-function propertiesFromSearch(elementProperties) {
+export function propertiesFromSearch(elementProperties) {
 	const searchParams = new URLSearchParams(window.location.search)
 	return elementProperties.map((elementProperty) => {
 		const {name, attribute, value, searchParam} = elementProperty

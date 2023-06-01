@@ -70,7 +70,6 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	async onQuery() {
-		console.log('triggering onQuery event')
 		const queryEvent = new CustomEvent('query', {
 			bubbles: true,
 			detail: {

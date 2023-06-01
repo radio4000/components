@@ -1,10 +1,8 @@
 import {html} from 'lit'
 import {sdk} from '@radio4000/sdk'
 import BaseChannel from './base-channel'
-import urlUtils from '../../src/libs/url-utils.js'
+import {getElementProperties, propertiesToSearch} from '../../src/libs/url-utils.js'
 import R4SupabaseQuery from '../../src/components/r4-supabase-query.js'
-
-const {getElementProperties, propertiesToSearch} = urlUtils
 
 const notUrlProps = ['table', 'select']
 const elementProperties = getElementProperties(R4SupabaseQuery).filter((prop) => !notUrlProps.includes(prop))
@@ -52,7 +50,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	async connectedCallback() {
 		super.connectedCallback()
-		console.log('tracks page connected', this.query)
 		if (!this.config.singleChannel) {
 			this.channel = await this.findSelectedChannel(this.params.slug)
 		} else {
@@ -78,19 +75,14 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	async onQuery(event) {
 		if (!this.channel) return
-		const {detail} = event
-		console.log(`onQuery`, detail)
-		const userQuery = {
-			...detail,
-			filters: [...this.defaultFilters, ...detail.filters],
-		}
+		const userQuery = event.detail
+		userQuery.filters = [...this.defaultFilters, userQuery.filters],
 		this.browseTracks(userQuery)
-		this.updateSearchParams(elementProperties, detail)
+		this.updateSearchParams(elementProperties, userQuery)
 	}
 
 	/* get the data for this user query */
 	async browseTracks(userQuery) {
-		console.log('browsing tracks', userQuery)
 		const {data, error} = await sdk.browse.query(userQuery)
 		/* joint table embeded `track` as `track_id` ressource */
 		if (error) {
@@ -109,9 +101,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		const searchParams = propertiesToSearch(props, detail)
 		const searchParamsString = `?${searchParams.toString()}`
 		window.history.replaceState(null, null, searchParamsString)
-		console.log('updateSeachParams', searchParamsString)
 	}
-
 
 	render() {
 		return this.channel ? this.renderPage() : this.renderNoPage()
