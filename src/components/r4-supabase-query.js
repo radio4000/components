@@ -55,8 +55,16 @@ export default class R4SupabaseQuery extends LitElement {
 		if (!this.table) {
 			this.table = tables[0]
 		}
-		this.select = this.select || tables[this.table].selects[0]
-		this.orderBy = this.orderBy || tables[this.table].columns[0]
+		const tableData = tables[this.table]
+		this.select = this.select || tableData.selects[0]
+		if (tableData.junctions) {
+			const [foreignTable, foreignColumn] = tableData.junctions[0].split('.')
+			this.orderBy = this.orderBy || foreignColumn
+			this.orderConfig = {...this.orderConfig, foreignTable: foreignTable}
+		} else {
+			this.orderBy = this.orderBy || tableData.columns[0]
+			this.orderConfig = {...this.orderConfig, foreignTable: null}
+		}
 	}
 
 	async onQuery() {
@@ -87,6 +95,15 @@ export default class R4SupabaseQuery extends LitElement {
 		} else if (name === 'ascending') {
 			/* this is a input[checkbox] and setting, inside a nested Object */
 			this.orderConfig = {...this.orderConfig, [name]: checked}
+		} else if (name === 'orderBy') {
+			const [foreignTable, foreignColumn] = value.split('.')
+			if (foreignColumn) {
+				this.orderConfig = {...this.orderConfig, foreignTable: foreignTable}
+				this.orderBy = foreignColumn
+			} else {
+				this.orderConfig = {...this.orderConfig, foreignTable: null}
+				this.orderBy = value
+			}
 		} else if (name) {
 			this[name] = value
 		}
@@ -110,9 +127,17 @@ export default class R4SupabaseQuery extends LitElement {
 		if (!this.table) {
 			// handle the case where there is no table selected; to display no result problably, or error
 		} else if (this.table) {
+			const tableData = tables[this.table]
 			/* otherise reset all necessary values */
-			this.select = tables[this.table].selects[0]
-			this.orderBy = tables[this.table].columns[0]
+			this.select = tableData.selects[0]
+			if (tableData.junctions) {
+				const [foreignTable, foreignColumn] = tableData.junctions[0].split('.')
+				this.orderBy = foreignColumn
+				this.orderConfig = {...this.orderConfig, foreignTable: foreignTable}
+			} else {
+				this.orderConfig = {...this.orderConfig, foreignTable: null}
+				this.orderBy = tableData.columns[0]
+			}
 		}
 	}
 
@@ -188,7 +213,7 @@ export default class R4SupabaseQuery extends LitElement {
 		return html`
 			<fieldset>
 				<label for="orderBy">order-by</label>
-				<select id="oderKey" name="orderBy" @input=${this.onInput}>
+				<select id="orderBy" name="orderBy" @input=${this.onInput}>
 					<optgroup disabled>
 						<option>${this.orderBy}</option>
 					</optgroup>
@@ -212,9 +237,10 @@ export default class R4SupabaseQuery extends LitElement {
 
 	/* different order keys for each tables */
 	renderQueryOrder() {
-		return this.table
-			? tables[this.table].columns.map((column) => this.renderOption(column, {selected: column === this.orderBy}))
-			: null
+		if (!this.table) return null
+		const tableData = tables[this.table]
+		const orders = tableData.junctions ? tableData.junctions : tableData.columns
+		return orders.map((column) => this.renderOption(column, {selected: column === this.orderBy}))
 	}
 
 	renderQuerySelectByTable() {
