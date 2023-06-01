@@ -59,8 +59,10 @@ function propertiesFromSearch(elementProperties) {
 			if (['Object', 'Array'].includes(elementProperty.attributeType)) {
 				let jsonValue
 				try {
-					JSONValue = JSON.parse(searchParams.get(searchParam))
-				} catch (e) {}
+					jsonValue = JSON.parse(searchParams.get(searchParam))
+				} catch (e) {
+					console.log(e)
+				}
 				elementProperty.value = jsonValue
 			} else {
 				elementProperty.value = searchParams.get(searchParam)
