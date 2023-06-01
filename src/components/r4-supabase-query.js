@@ -40,7 +40,7 @@ export default class R4SupabaseQuery extends LitElement {
 	connectedCallback() {
 		super.connectedCallback()
 		this.setInitialValues()
-		this.onQuery()
+		// this.onQuery()
 	}
 
 	updated(attr) {
