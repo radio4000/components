@@ -18,23 +18,23 @@ export default class R4SupabaseQuery extends LitElement {
 		/* supabase query parameters */
 		table: {type: String, reflect: true, searchParam: true},
 		select: {type: String, reflect: true, searchParam: true},
-		orderBy: {type: String, attribute: 'order-by', reflect: true, searchParam: true},
-		orderConfig: {type: Object, attribute: 'order-config', reflect: true, state: true, searchParam: true},
 		filters: {type: Array, reflect: true, searchParam: true, state: true},
 		defaultFilters: {type: Array, attribute: 'default-filters', reflect: true, searchParam: true, state: true},
+		orderBy: {type: String, attribute: 'order-by', reflect: true, searchParam: true},
+		orderConfig: {type: Object, attribute: 'order-config', reflect: true, state: true, searchParam: true},
 	}
 
 	constructor() {
 		super()
 		/* all need to be instanciated with correct "value types" */
 		this.table = null
-		this.page = 1
-		this.limit = 10
-		this.orderBy = null
 		this.select = null
-		this.orderConfig = {ascending: false}
 		this.filters = []
 		this.defaultFilters = []
+		this.orderBy = null
+		this.orderConfig = {ascending: false}
+		this.page = 1
+		this.limit = 10
 	}
 
 	connectedCallback() {
@@ -52,8 +52,6 @@ export default class R4SupabaseQuery extends LitElement {
 
 	/* set the correct component initial values, for each table's capacities */
 	setInitialValues() {
-		this.page = this.page || 1
-		this.limit = this.limit || 10
 		if (!this.table) {
 			this.table = tables[0]
 		}
@@ -75,11 +73,11 @@ export default class R4SupabaseQuery extends LitElement {
 			detail: {
 				table: this.table,
 				select: this.select,
+				filters: [...this.defaultFilters, ...this.filters],
 				orderBy: this.orderBy,
 				orderConfig: this.orderConfig,
 				page: this.page,
 				limit: this.limit,
-				filters: [...this.defaultFilters, ...this.filters],
 			},
 		})
 		this.dispatchEvent(queryEvent)
@@ -155,13 +153,17 @@ export default class R4SupabaseQuery extends LitElement {
 				${[
 					this.renderQueryTable(),
 					this.renderQuerySelect(),
-					this.renderQueryPage(),
-					this.renderQueryLimit(),
-					this.renderQueryOrderKey(),
-					this.renderOrderConfig(),
 				]}
 			</form>
 			<r4-supabase-filters table=${this.table} filters=${this.filters} @filters=${this.onFilters}></r4-supabase-filters>
+			<form @submit=${this.onFormSubmit}>
+				${[
+					this.renderQueryOrderKey(),
+					this.renderOrderConfig(),
+					this.renderQueryPage(),
+					this.renderQueryLimit(),
+				]}
+			</form>
 		`
 	}
 	renderQueryTable() {
@@ -188,7 +190,7 @@ export default class R4SupabaseQuery extends LitElement {
 					${this.renderQuerySelectByTable()}
 				</select>
 				<input id="select-display" name="select" @input=${this.onInput} type="text"
-					.value=${this.select} placeholder="postgresql select"></input>
+					.value=${this.select} placeholder="postgresql select" />
 			</fieldset>
 		`
 	}
@@ -197,7 +199,7 @@ export default class R4SupabaseQuery extends LitElement {
 			<fieldset name="page">
 				<label for="page">page</label>
 				<input id="page" name="page" @input=${this.onInput} type="number"
-					.value=${this.page} step="1" min="1" pattern="[0-9]" placeholder="page"></input>
+					.value=${this.page} step="1" min="1" pattern="[0-9]" placeholder="page" />
 			</fieldset>
 		`
 	}
@@ -206,7 +208,7 @@ export default class R4SupabaseQuery extends LitElement {
 			<fieldset name="limit">
 				<label for="limit">limit</label>
 				<input id="limit" name="limit" @input=${this.onInput} type="number"
-					.value=${this.limit} step="1" min="1" max="4000" pattern="[0-9]" placeholder="limit"></input>
+					.value=${this.limit} step="1" min="1" max="4000" pattern="[0-9]" placeholder="limit" />
 			</fieldset>
 		`
 	}

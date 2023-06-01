@@ -86,6 +86,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		const props = elementProperties.filter(({name}) => !notUrlProps.includes(name))
 		const searchParams = propertiesToSearch(props, detail)
 		const searchParamsString = `?${searchParams.toString()}`
+		console.log('updateSearchParams', searchParamsString)
 		window.history.replaceState(null, null, searchParamsString)
 	}
 
