@@ -25,13 +25,9 @@ const supabaseTables = {
 	channel_track: {
 		junctions: [],
 		columns: ['created_at', 'updated_at', 'user_id', 'channel_id', 'channel_id.slug', 'track_id'],
-		selects: [],
+		selects: ['channel_id!inner(slug),track_id!inner(*)'],
 	},
 }
-/* build the channel_track default select, from all "tracks" columns */
-supabaseTables['channel_track'].selects.push(
-	`channel_id!inner(slug),track_id!inner(${supabaseTables.tracks.columns.join(',')})`
-)
 
 /* build the channel_track "juction columns", from all "tracks" columns */
 const channelTrackJuctionColumns = supabaseTables.tracks.columns.map((column) => `track_id.${column}`)
