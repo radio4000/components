@@ -30,14 +30,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 		this.channel = null
 	}
 
-	get tracksOrigin() {
-		if (this.config.singleChannel) {
-			return this.config.href + '/tracks/'
-		} else {
-			return this.config.href + '/' + this.params.slug + '/tracks/'
-		}
-	}
-
 	get defaultFilters() {
 		return [
 			{
@@ -46,10 +38,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 				value: this.channel?.slug,
 			},
 		]
-	}
-
-	get slug() {
-		return this.config.singleChannel ? this.config.selectedSlug : this.params.slug
 	}
 
 	async connectedCallback() {

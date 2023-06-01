@@ -17,16 +17,16 @@ export default class BaseChannel extends LitElement {
 		config: {type: Object, state: true},
 	}
 
+	get slug() {
+		return this.config.singleChannel ? this.config.selectedSlug : this.params.slug
+	}
+
 	get channelOrigin() {
 		return this.config.singleChannel ? this.config.href : `${this.config.href}/${this.channel.slug}`
 	}
 
 	get tracksOrigin() {
-		if (this.config.singleChannel) {
-			return this.config.href + '/tracks/'
-		} else {
-			return this.config.href + '/' + this.params.slug + '/tracks/'
-		}
+		return this.config.singleChannel ? `${this.config.href}/tracks/` : `${this.config.href}/${this.params.slug}/tracks/`
 	}
 
 	get alreadyFollowing() {
