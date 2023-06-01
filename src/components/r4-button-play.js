@@ -16,6 +16,9 @@ export default class R4ButtonPlay extends LitElement {
 		/* a track object */
 		track: {type: Object},
 
+		/* or tracks list */
+		tracks: {type: Array},
+
 		label: {type: String},
 
 		/* the channel data object */
@@ -36,6 +39,7 @@ export default class R4ButtonPlay extends LitElement {
 			detail: {
 				channel: this.channel,
 				track: this.track,
+				tracks: this.tracks,
 			},
 		})
 		this.dispatchEvent(playEvent)
