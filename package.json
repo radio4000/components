@@ -30,11 +30,11 @@
     "radio4000-player": "^0.6.24"
   },
   "devDependencies": {
-    "eslint": "^8.40.0",
+    "eslint": "^8.41.0",
     "eslint-plugin-lit": "^1.8.3",
     "eslint-plugin-wc": "^1.5.0",
     "prettier": "^2.8.8",
-    "vite": "^4.3.5"
+    "vite": "^4.3.9"
   },
   "repository": {
     "type": "git",
