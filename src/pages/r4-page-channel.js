@@ -13,6 +13,16 @@ export default class R4PageChannel extends BaseChannel {
 		}
 	}
 
+	get loadingValue() {
+		if (this.params.slug) {
+			return 50
+		}
+		if (this.channel) {
+			return 75
+		}
+		return 0
+	}
+
 	follow() {
 		if (!this.store.user || !this.store.userChannels) return
 		const userChannel = this.store.userChannels.find((c) => c.slug === this.config.selectedSlug)
@@ -26,8 +36,25 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	render() {
+		if (!this.channel && !this.channelError) {
+			return this.renderLoading()
+		} else if (this.channel) {
+			return this.renderChannel()
+		} else if (this.channelError) {
+			return this.renderChannelError()
+		}
+	}
+
+	renderLoading() {
+		return html`<progress value=${this.loadingValue} max="100"></progress> `
+	}
+
+	renderChannelError() {
+		return html`<p>404 - This channel does not exist</p>`
+	}
+
+	renderChannel() {
 		const {channel} = this
-		if (!channel && !this.isFirebaseChannel) return html`<p>404</p>`
 		if (this.isFirebaseChannel)
 			return html`<p>This channel has not yet migrated to the new Radio4000</p>
 				<radio4000-player channel-slug=${this.params.slug}></radio4000-player> `

@@ -5,6 +5,7 @@ import {sdk} from '@radio4000/sdk'
 export default class BaseChannel extends LitElement {
 	static properties = {
 		channel: {type: Object, state: true},
+		channelError: {type: Object, state: true},
 		canEdit: {type: Boolean, state: true, reflect: true},
 		alreadyFollowing: {type: Boolean, state: true, reflect: true},
 		followsYou: {type: Boolean, state: true, reflect: true},
@@ -49,9 +50,14 @@ export default class BaseChannel extends LitElement {
 		const slug = this.config.singleChannel && this.config.selectedSlug ? this.config.selectedSlug : this.params.slug
 		const {data, error} = await sdk.channels.readChannel(slug)
 		if (error) {
-			const res = await fetch('https://radio4000.firebaseio.com/channels.json?orderBy="slug"&equalTo="' + slug + '"')
-			const list = await res.json()
-			this.isFirebaseChannel = Object.keys(list).length > 0
+			try {
+				const res = await fetch('https://radio4000.firebaseio.com/channels.json?orderBy="slug"&equalTo="' + slug + '"')
+				const list = await res.json()
+				this.isFirebaseChannel = Object.keys(list).length > 0
+			} catch (e) {}
+			if (!this.isFirebaseChannel) {
+				this.channelError = error
+			}
 		} else {
 			this.isFirebaseChannel = false
 			this.channel = data
