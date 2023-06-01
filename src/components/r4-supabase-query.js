@@ -171,7 +171,7 @@ export default class R4SupabaseQuery extends LitElement {
 			<fieldset>
 				<label for="page">page</label>
 				<input id="page" name="page" @input=${this.onInput} type="number"
-					.value=${this.page} step="1" min="0" pattern="[0-9]" placeholder="page"></input>
+					.value=${this.page} step="1" min="1" pattern="[0-9]" placeholder="page"></input>
 			</fieldset>
 		`
 	}
@@ -180,7 +180,7 @@ export default class R4SupabaseQuery extends LitElement {
 			<fieldset>
 				<label for="limit">limit</label>
 				<input id="limit" name="limit" @input=${this.onInput} type="number"
-					.value=${this.limit} step="1" min="0" max="4000" pattern="[0-9]" placeholder="limit"></input>
+					.value=${this.limit} step="1" min="1" max="4000" pattern="[0-9]" placeholder="limit"></input>
 			</fieldset>
 		`
 	}
