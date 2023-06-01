@@ -28,7 +28,8 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	constructor() {
 		super()
-		this.table = 'channel_track'
+		/* use the view channel_tracks */
+		this.table = 'channel_tracks'
 		this.tracks = []
 		this.channel = null
 	}
@@ -37,7 +38,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		return [
 			{
 				operator: 'eq',
-				column: 'channel_id.slug',
+				column: 'slug',
 				value: this.channel?.slug,
 			},
 		]
@@ -52,10 +53,10 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	async onQuery(event) {
 		if (!this.channel) return
-		const userQuery = event.detail
-		userQuery.filters = [...this.defaultFilters, userQuery.filters],
+		const userQuery = {...event.detail}
+		userQuery.filters = [...this.defaultFilters, userQuery.filters]
 		this.browseTracks(userQuery)
-		this.updateSearchParams(elementProperties, userQuery)
+		this.updateSearchParams(elementProperties, event.detail)
 	}
 
 	/* get the data for this user query */
@@ -63,12 +64,11 @@ export default class R4PageChannelTracks extends BaseChannel {
 		console.log('browsing tracks', userQuery.orderBy, userQuery.orderConfig)
 		const {data, error} = await query(userQuery)
 		console.log('got tracks', data)
-		/* joint table embeded `track` as `track_id` ressource */
 		if (error) {
 			console.log('Error browsing tracks', error)
 		}
 		if (data) {
-			this.tracks = data.map(({track_id}) => track_id)
+			this.tracks = data
 		} else {
 			this.tracks = []
 		}
