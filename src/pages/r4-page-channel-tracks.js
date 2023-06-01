@@ -1,12 +1,8 @@
-import {html, LitElement} from 'lit'
-import {until} from 'lit/directives/until.js'
+import {html} from 'lit'
 import {sdk} from '@radio4000/sdk'
-import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
-import urlUtils from '../../src/libs/url-utils.js'
+import {getElementProperties, propertiesToSearch} from '../../src/libs/url-utils.js'
 import R4SupabaseQuery from '../../src/components/r4-supabase-query.js'
-
-const {getElementProperties, propertiesToSearch, propertiesFromSearch} = urlUtils
 
 const notUrlProps = ['table', 'select']
 const elementProperties = getElementProperties(R4SupabaseQuery).filter((prop) => !notUrlProps.includes(prop))
@@ -26,6 +22,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		/* supabase query */
 		table: {type: String},
 	}
+
 	constructor() {
 		super()
 		this.table = 'channel_track'
@@ -62,38 +59,34 @@ export default class R4PageChannelTracks extends BaseChannel {
 		this.channelError = error
 	}
 
-	updateSearchParams(elementProperties, detail) {
-		/* update the query params */
-		const props = elementProperties.filter(({name}) => !notUrlProps.includes(name))
-		const searchParams = propertiesToSearch(props, detail)
-		const searchParamsString = `?${searchParams.toString()}`
-		window.history.replaceState(null, null, searchParamsString)
-		console.log('onQuery', searchParamsString)
+	async onQuery(event) {
+		if (!this.channel) return
+		const userQuery = event.detail
+		userQuery.filters = [...this.defaultFilters, userQuery.filters],
+		this.browseTracks(userQuery)
+		this.updateSearchParams(elementProperties, userQuery)
 	}
 
 	/* get the data for this user query */
 	async browseTracks(userQuery) {
 		const {data, error} = await sdk.browse.query(userQuery)
 		/* joint table embeded `track` as `track_id` ressource */
+		if (error) {
+			console.log('Error browsing tracks', error)
+		}
 		if (data) {
 			this.tracks = data.map(({track_id}) => track_id)
 		} else {
 			this.tracks = []
 		}
-
-		if (error) {
-			console.log('Error querying data', error)
-		}
 	}
 
-	async onQuery(event) {
-		if (!this.channel) return
-		const {target, detail} = event
-		this.browseTracks({
-			...detail,
-			filters: [...this.defaultFilters, ...detail.filters],
-		})
-		this.updateSearchParams(elementProperties, detail)
+	// Update the URL query params
+	updateSearchParams(elementProperties, detail) {
+		const props = elementProperties.filter(({name}) => !notUrlProps.includes(name))
+		const searchParams = propertiesToSearch(props, detail)
+		const searchParamsString = `?${searchParams.toString()}`
+		window.history.replaceState(null, null, searchParamsString)
 	}
 
 	render() {
@@ -126,7 +119,8 @@ export default class R4PageChannelTracks extends BaseChannel {
 				<r4-supabase-query
 					@query=${this.onQuery}
 					table=${this.table}
-					page=${this.query.page || 1}
+					page=${this.query.page}
+					limit=${this.query.limit}
 					order-by=${this.query['order-by']}
 					order-config=${this.query['order-config']}
 					filters=${this.query.filters || []}

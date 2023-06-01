@@ -1,7 +1,7 @@
-import {sdk} from '@radio4000/sdk'
+// import {sdk} from '@radio4000/sdk'
 import {LitElement, html} from 'lit'
 
-const {supabaseOperators} = sdk.browse
+// const {supabaseOperators} = sdk.browse
 import dbSchema from '../libs/db-schemas.js'
 
 const {tables, tableNames} = dbSchema
@@ -40,7 +40,7 @@ export default class R4SupabaseQuery extends LitElement {
 	connectedCallback() {
 		super.connectedCallback()
 		this.setInitialValues()
-		this.onQuery()
+		// this.onQuery()
 	}
 
 	updated(attr) {
@@ -52,6 +52,8 @@ export default class R4SupabaseQuery extends LitElement {
 
 	/* set the correct component initial values, for each table's capacities */
 	setInitialValues() {
+		this.page = this.page || 1
+		this.limit = this.limit || 10
 		if (!this.table) {
 			this.table = tables[0]
 		}
@@ -68,7 +70,6 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	async onQuery() {
-		/* if (!this.table) return */
 		const queryEvent = new CustomEvent('query', {
 			bubbles: true,
 			detail: {
@@ -196,7 +197,7 @@ export default class R4SupabaseQuery extends LitElement {
 			<fieldset>
 				<label for="page">page</label>
 				<input id="page" name="page" @input=${this.onInput} type="number"
-					.value=${this.page} step="1" min="0" pattern="[0-9]" placeholder="page"></input>
+					.value=${this.page} step="1" min="1" pattern="[0-9]" placeholder="page"></input>
 			</fieldset>
 		`
 	}
@@ -205,7 +206,7 @@ export default class R4SupabaseQuery extends LitElement {
 			<fieldset>
 				<label for="limit">limit</label>
 				<input id="limit" name="limit" @input=${this.onInput} type="number"
-					.value=${this.limit} step="1" min="0" max="4000" pattern="[0-9]" placeholder="limit"></input>
+					.value=${this.limit} step="1" min="1" max="4000" pattern="[0-9]" placeholder="limit"></input>
 			</fieldset>
 		`
 	}
@@ -229,8 +230,7 @@ export default class R4SupabaseQuery extends LitElement {
 				<label for="ascending">
 					${ascending ? '↑' : '↓'}
 				</label>
-				<input id="ascending" name="ascending" @input=${this.onInput} type="checkbox"
-					.checked=${ascending}></input>
+				<input id="ascending" name="ascending" @input=${this.onInput} type="checkbox" ?checked=${ascending} />
 			</fieldset>
 		`
 	}
@@ -244,11 +244,10 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	renderQuerySelectByTable() {
-		return this.table
-			? tables[this.table].selects.map((sqlSelect) =>
-					this.renderOption(sqlSelect, {selected: sqlSelect === this.select})
-			  )
-			: null
+		if (!this.table) return null
+		return tables[this.table].selects.map((sqlSelect) =>
+			this.renderOption(sqlSelect, {selected: sqlSelect === this.select})
+		)
 	}
 
 	/* "just render and html option" */
