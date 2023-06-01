@@ -47,12 +47,12 @@ r4-app {
 r4-app {
 	/* this is the default */
 }
-r4-app[color-scheme='dark']  {
+r4-app[color-scheme='dark'] {
 	--c-fg: var(--c-light);
 	--c-bg: var(--c-dark);
 	--c-link: var(--c-dark--accent);
 }
-r4-app[color-scheme='light']  {
+r4-app[color-scheme='light'] {
 	--c-fg: var(--c-dark);
 	--c-bg: var(--c-light);
 	--c-link: var(--c-light--accent);
@@ -80,4 +80,27 @@ r4-app a {
 /* make the panel min height, the viewport, so "route change" don't make the UI jump */
 r4-app r4-layout::part(panel) {
 	min-height: 100vh;
+}
+
+r4-app r4-layout::part(menu) {
+	order: 2;
+	position: sticky;
+	bottom: 0;
+	left: 0;
+	background-color: var(--c-bg);
+}
+
+r4-layout [slot='main'] {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+
+/* the map full height */
+r4-map,
+r4-map main,
+r4-map .ol-viewport {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
 }
