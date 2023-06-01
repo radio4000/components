@@ -252,7 +252,8 @@ export default class R4App extends LitElement {
 			return this.stop()
 		}
 
-		const {channel, track, tracks} = detail
+		const {channel, track} = detail
+		let {tracks} = detail
 
 		if (channel?.slug) {
 			this.isPlaying = true
