@@ -152,6 +152,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 	renderTracks() {
 		if (this.tracks) {
 			return html`
+				<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label="Play selection"></r4-button-play>
 				<ul>
 					${this.tracks.map((t) => this.renderTrack(t))}
 				</ul>
