@@ -52,13 +52,14 @@ export default class R4SupabaseQuery extends LitElement {
 
 	/* set the correct component initial values, for each table's capacities */
 	setInitialValues() {
+		this.page = this.page || 1
+		this.limit = this.limit || 10
 		this.table = this.table || tables[0]
 		this.select = this.select || tables[this.table].selects[0]
 		this.orderBy = this.orderBy || tables[this.table].columns[0]
 	}
 
 	async onQuery() {
-		/* if (!this.table) return */
 		console.log('triggering onQuery event')
 		const queryEvent = new CustomEvent('query', {
 			bubbles: true,
