@@ -1,8 +1,11 @@
 import {html} from 'lit'
 import {sdk} from '@radio4000/sdk'
 import BaseChannel from './base-channel'
-import {getElementProperties, propertiesToSearch} from '../../src/libs/url-utils.js'
-import R4SupabaseQuery from '../../src/components/r4-supabase-query.js'
+import {getElementProperties, propertiesToSearch} from '../libs/url-utils.js'
+import {query} from '../libs/browse.js'
+import R4SupabaseQuery from '../components/r4-supabase-query.js'
+
+if (!window.r4sdk) window.r4sdk = sdk
 
 const notUrlProps = ['table', 'select']
 const elementProperties = getElementProperties(R4SupabaseQuery).filter((prop) => !notUrlProps.includes(prop))
@@ -57,7 +60,9 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	/* get the data for this user query */
 	async browseTracks(userQuery) {
-		const {data, error} = await sdk.browse.query(userQuery)
+		console.log('browsing tracks', userQuery.orderBy, userQuery.orderConfig)
+		const {data, error} = await query(userQuery)
+		console.log('got tracks', data)
 		/* joint table embeded `track` as `track_id` ressource */
 		if (error) {
 			console.log('Error browsing tracks', error)
@@ -74,7 +79,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		const props = elementProperties.filter(({name}) => !notUrlProps.includes(name))
 		const searchParams = propertiesToSearch(props, detail)
 		const searchParamsString = `?${searchParams.toString()}`
-		console.log('updateSearchParams', searchParamsString)
+		// console.log('updateSearchParams', searchParamsString)
 		window.history.replaceState(null, null, searchParamsString)
 	}
 

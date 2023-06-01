@@ -24,7 +24,7 @@ const supabaseTables = {
 	},
 	channel_track: {
 		junctions: [],
-		columns: ['created_at', 'updated_at', 'user_id', 'channel_id', 'channel_id.slug', 'track_id'],
+		columns: ['created_at', 'updated_at', 'user_id', 'channel_id', 'channel_id.slug', 'track_id', 'track_id.created_at'],
 		selects: ['channel_id!inner(slug),track_id!inner(*)'],
 	},
 }

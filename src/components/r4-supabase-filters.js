@@ -1,7 +1,6 @@
 import {sdk} from '@radio4000/sdk'
 import {LitElement, html} from 'lit'
-
-const {supabaseOperators} = sdk.browse
+import {supabaseOperators} from '../libs/browse.js'
 import dbSchema from '../libs/db-schemas.js'
 const {tables} = dbSchema
 
