@@ -52,6 +52,8 @@ export default class R4SupabaseQuery extends LitElement {
 
 	/* set the correct component initial values, for each table's capacities */
 	setInitialValues() {
+		if (!this.page) this.page = 1
+		if (!this.limit) this.limit = 10
 		if (!this.table) {
 			this.table = tables[0]
 		}
