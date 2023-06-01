@@ -1,7 +1,7 @@
-import {sdk} from '@radio4000/sdk'
+// import {sdk} from '@radio4000/sdk'
 import {LitElement, html} from 'lit'
 
-const {supabaseOperators} = sdk.browse
+// const {supabaseOperators} = sdk.browse
 import dbSchema from '../libs/db-schemas.js'
 
 const {tables, tableNames} = dbSchema
@@ -52,15 +52,14 @@ export default class R4SupabaseQuery extends LitElement {
 
 	/* set the correct component initial values, for each table's capacities */
 	setInitialValues() {
-		if (!this.table) {
-			this.table = tables[0]
-		}
+		this.table = this.table || tables[0]
 		this.select = this.select || tables[this.table].selects[0]
 		this.orderBy = this.orderBy || tables[this.table].columns[0]
 	}
 
 	async onQuery() {
 		/* if (!this.table) return */
+		console.log('triggering onQuery event')
 		const queryEvent = new CustomEvent('query', {
 			bubbles: true,
 			detail: {
@@ -204,8 +203,7 @@ export default class R4SupabaseQuery extends LitElement {
 				<label for="ascending">
 					${ascending ? '↑' : '↓'}
 				</label>
-				<input id="ascending" name="ascending" @input=${this.onInput} type="checkbox"
-					.checked=${ascending}></input>
+				<input id="ascending" name="ascending" @input=${this.onInput} type="checkbox" ?checked=${ascending} />
 			</fieldset>
 		`
 	}
@@ -218,11 +216,10 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	renderQuerySelectByTable() {
-		return this.table
-			? tables[this.table].selects.map((sqlSelect) =>
-					this.renderOption(sqlSelect, {selected: sqlSelect === this.select})
-			  )
-			: null
+		if (!this.table) return null
+		return tables[this.table].selects.map((sqlSelect) =>
+			this.renderOption(sqlSelect, {selected: sqlSelect === this.select})
+		)
 	}
 
 	/* "just render and html option" */
