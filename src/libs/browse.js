@@ -54,8 +54,6 @@ export async function query({
 	orderConfig = {},
 	filters = [],
 }) {
-	console.log('browse query', {orderBy, orderConfig, filters})
-
 	let query = supabase.from(table).select(select)
 
 	/*
@@ -71,8 +69,6 @@ export async function query({
 			return supabaseOperators.includes(filter.operator)
 		})
 		.forEach((filter) => {
-			console.log('filter', filter)
-
 			/* "filter" operator is a supabase.sdk "escape hatch",
 											aplying the filter raw; see docs
 											(WARNING) otherwise the (raw string) operator is the supabase sdk function invoqued
@@ -85,7 +81,6 @@ export async function query({
 				try {
 					valueJson = JSON.parse(filter.value)
 				} catch (e) {
-					// console.log(e)
 				}
 				query = query[filter.operator](filter.column, valueJson || [filter.value.split(',')] || null)
 			} else {
@@ -94,15 +89,13 @@ export async function query({
 		})
 
 	// After filters we add sorting.
-	console.log('sorting', orderBy, orderConfig)
 	query = query.order(orderBy, orderConfig)
 
 	// And pagination.
 	const {from, to, limitResults} = getBrowseParams({page, limit})
-	console.log('pagination', {page, from, to, limit, limitResults})
 	query = query.range(from, to).limit(limitResults)
 
-	console.log('final query', query.url.href)
+	console.log('browse.query', {table, select, orderBy, orderConfig, filters}, query.url.href)
 
 	return query
 }

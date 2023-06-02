@@ -60,9 +60,7 @@ export function propertiesFromSearch(elementProperties) {
 				let jsonValue
 				try {
 					jsonValue = JSON.parse(searchParams.get(searchParam))
-				} catch (e) {
-					console.log(e)
-				}
+				} catch (e) {}
 				elementProperty.value = jsonValue
 			} else {
 				elementProperty.value = searchParams.get(searchParam)
