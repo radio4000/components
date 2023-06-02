@@ -81,6 +81,7 @@ export async function query({
 				try {
 					valueJson = JSON.parse(filter.value)
 				} catch (e) {
+					//
 				}
 				query = query[filter.operator](filter.column, valueJson || [filter.value.split(',')] || null)
 			} else {

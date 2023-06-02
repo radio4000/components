@@ -148,20 +148,14 @@ export default class R4SupabaseQuery extends LitElement {
 
 	renderQueryBuilder() {
 		return html`
+			<form @submit=${this.onFormSubmit}>${[this.renderQueryTable(), this.renderQuerySelect()]}</form>
+			<r4-supabase-filters
+				table=${this.table}
+				.filters=${this.filters}
+				@filters=${this.onFilters}
+			></r4-supabase-filters>
 			<form @submit=${this.onFormSubmit}>
-				${[
-					this.renderQueryTable(),
-					this.renderQuerySelect(),
-				]}
-			</form>
-			<r4-supabase-filters table=${this.table} .filters=${this.filters} @filters=${this.onFilters}></r4-supabase-filters>
-			<form @submit=${this.onFormSubmit}>
-				${[
-					this.renderQueryOrderKey(),
-					this.renderOrderConfig(),
-					this.renderQueryPage(),
-					this.renderQueryLimit(),
-				]}
+				${[this.renderQueryOrderKey(), this.renderOrderConfig(), this.renderQueryPage(), this.renderQueryLimit()]}
 			</form>
 		`
 	}
@@ -188,8 +182,14 @@ export default class R4SupabaseQuery extends LitElement {
 					</optgroup>
 					${this.renderQuerySelectByTable()}
 				</select>
-				<input id="select-display" name="select" @input=${this.onInput} type="text"
-					.value=${this.select} placeholder="postgresql select" />
+				<input
+					id="select-display"
+					name="select"
+					@input=${this.onInput}
+					type="text"
+					.value=${this.select}
+					placeholder="postgresql select"
+				/>
 			</fieldset>
 		`
 	}
@@ -197,8 +197,17 @@ export default class R4SupabaseQuery extends LitElement {
 		return html`
 			<fieldset name="page">
 				<label for="page">page</label>
-				<input id="page" name="page" @input=${this.onInput} type="number"
-					.value=${this.page} step="1" min="1" pattern="[0-9]" placeholder="page" />
+				<input
+					id="page"
+					name="page"
+					@input=${this.onInput}
+					type="number"
+					.value=${this.page}
+					step="1"
+					min="1"
+					pattern="[0-9]"
+					placeholder="page"
+				/>
 			</fieldset>
 		`
 	}
@@ -206,8 +215,18 @@ export default class R4SupabaseQuery extends LitElement {
 		return html`
 			<fieldset name="limit">
 				<label for="limit">limit</label>
-				<input id="limit" name="limit" @input=${this.onInput} type="number"
-					.value=${this.limit} step="1" min="1" max="4000" pattern="[0-9]" placeholder="limit" />
+				<input
+					id="limit"
+					name="limit"
+					@input=${this.onInput}
+					type="number"
+					.value=${this.limit}
+					step="1"
+					min="1"
+					max="4000"
+					pattern="[0-9]"
+					placeholder="limit"
+				/>
 			</fieldset>
 		`
 	}

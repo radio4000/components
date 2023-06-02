@@ -84,5 +84,5 @@ export default {
 	getElementProperties,
 	propertiesToSearch,
 	propertiesFromSearch,
-	updateSearchParams
+	updateSearchParams,
 }
