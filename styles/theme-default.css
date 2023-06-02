@@ -88,10 +88,10 @@ r4-app r4-layout::part(panel) {
 }
 
 r4-app r4-layout::part(menu) {
-	order: 2;
-	position: sticky;
-	bottom: 0;
-	left: 0;
+	/* order: 2; */
+	/* position: sticky; */
+	/* top: 0; */
+	/* left: 0; */
 	background-color: var(--c-bg);
 }
 
