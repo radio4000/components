@@ -46,9 +46,9 @@ export default class R4ButtonPlay extends LitElement {
 	}
 
 	render() {
-		const {channel} = this
 		return html`
-			<button @click="${this.play}">${!channel ? 'Loading...' : '▶'}${this.label ? ` ${this.label}` : ''}</button>
+			<button @click="${this.play}">
+				${!this.channel ? 'Loading...' : '▶'}${this.label ? ` ${this.label}` : ''}</button>
 		`
 	}
 
