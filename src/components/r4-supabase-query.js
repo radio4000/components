@@ -14,11 +14,11 @@ export default class R4SupabaseQuery extends LitElement {
 
 		/* supabase query parameters */
 		table: {type: String, reflect: true, searchParam: true},
-		select: {type: String, reflect: true, searchParam: true},
-		filters: {type: Array, reflect: true, searchParam: true, state: true},
-		defaultFilters: {type: Array, attribute: 'default-filters', reflect: true, searchParam: true, state: true},
+		select: {type: String, searchParam: true},
+		filters: {type: Array, searchParam: true, state: true},
+		defaultFilters: {type: Array, attribute: 'default-filters', searchParam: true, state: true},
 		orderBy: {type: String, attribute: 'order-by', reflect: true, searchParam: true},
-		orderConfig: {type: Object, attribute: 'order-config', reflect: true, state: true, searchParam: true},
+		orderConfig: {type: Object, attribute: 'order-config', state: true, searchParam: true},
 	}
 
 	constructor() {
@@ -72,12 +72,12 @@ export default class R4SupabaseQuery extends LitElement {
 			detail: {
 				table: this.table,
 				select: this.select,
-				filters: [...this.defaultFilters, ...this.filters],
+				filters: [...this.filters || [], ...this.defaultFilters],
 				orderBy: this.orderBy,
 				orderConfig: this.orderConfig,
 				page: this.page,
 				limit: this.limit,
-			},
+			}
 		})
 		this.dispatchEvent(queryEvent)
 	}

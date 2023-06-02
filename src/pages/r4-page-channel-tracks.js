@@ -7,9 +7,6 @@ import R4SupabaseQuery from '../components/r4-supabase-query.js'
 
 if (!window.r4sdk) window.r4sdk = sdk
 
-const notUrlProps = ['table', 'select']
-const elementProperties = getElementProperties(R4SupabaseQuery).filter((prop) => !notUrlProps.includes(prop))
-
 export default class R4PageChannelTracks extends BaseChannel {
 	static properties = {
 		/* route props */
@@ -21,15 +18,10 @@ export default class R4PageChannelTracks extends BaseChannel {
 		/* state */
 		channel: {type: Object, reflect: true, state: true},
 		tracks: {type: Array, state: true},
-
-		/* supabase query */
-		table: {type: String},
 	}
 
 	constructor() {
 		super()
-		/* use the view channel_tracks */
-		this.table = 'channel_tracks'
 		this.tracks = []
 		this.channel = null
 	}
@@ -53,27 +45,16 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	async onQuery(event) {
 		if (!this.channel) return
-		const userQuery = {...event.detail}
-		userQuery.filters.push(...this.defaultFilters)
-		this.browseTracks(userQuery)
-		this.updateSearchParams(elementProperties, userQuery)
-	}
-
-	/* get the data for this user query */
-	async browseTracks(userQuery) {
-		const {data, error} = await query(userQuery)
-		if (error) {
-			console.log('Error browsing tracks', error)
-		}
-		if (data) {
-			this.tracks = data
-		} else {
-			this.tracks = []
-		}
+		const q = event.detail
+		q.filters.push(...this.defaultFilters)
+		this.tracks = (await query(q)).data
+		this.updateSearchParams(q)
 	}
 
 	// Update the URL query params
-	updateSearchParams(elementProperties, detail) {
+	updateSearchParams(detail) {
+		const notUrlProps = ['table', 'select']
+		const elementProperties = getElementProperties(R4SupabaseQuery).filter((prop) => !notUrlProps.includes(prop))
 		const props = elementProperties.filter(({name}) => !notUrlProps.includes(name))
 		const searchParams = propertiesToSearch(props, detail)
 		const searchParamsString = `?${searchParams.toString()}`
@@ -103,18 +84,19 @@ export default class R4PageChannelTracks extends BaseChannel {
 			</main>
 		`
 	}
+
 	renderQuery() {
 		return html`
 			<details open>
-				<summary>Tracks query filters</summary>
+				<summary>Query tracks</summary>
 				<r4-supabase-query
-					@query=${this.onQuery}
-					table=${this.table}
+					table="channel_tracks"
 					page=${this.query.page}
 					limit=${this.query.limit}
 					order-by=${this.query['order-by']}
 					order-config=${this.query['order-config']}
-					filters=${this.query.filters}
+					.filters=${this.query.filters}
+					@query=${this.onQuery}
 				></r4-supabase-query>
 			</details>
 		`
