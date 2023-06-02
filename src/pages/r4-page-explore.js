@@ -19,6 +19,7 @@ export default class R4PageExplore extends LitElement {
 		const q = event.detail
 		this.channels = (await query(q)).data
 		urlUtils.updateSearchParams(q, ['table', 'select'])
+		this.lastQuery = q
 	}
 
 	render() {
@@ -33,13 +34,16 @@ export default class R4PageExplore extends LitElement {
 			<main>
 				<r4-supabase-query
 					table="channels"
-					page=${this.searchParams.page}
-					limit=${this.searchParams.limit}
-					order-by=${this.searchParams['order-by']}
-					order-config=${this.searchParams['order-config']}
-					.filters=${this.searchParams.filters}
+					page=${this.searchParams.get('page')}
+					limit=${this.searchParams.get('limit')}
+					order-by=${this.searchParams.get('order-by')}
+					order-config=${this.searchParams.get('order-config')}
+					filters=${this.searchParams.get('filters')}
 					@query=${this.onQuery}
 				></r4-supabase-query>
+
+				<r4-pagination page=${this.searchParams.get('page')} .lastQuery=${this.lastQuery} @query=${this.onQuery}></r4-pagination>
+
 				<ul>
 					${repeat(
 						this.channels || [],
