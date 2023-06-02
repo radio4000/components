@@ -1,19 +1,24 @@
-import { html, LitElement } from 'lit'
-import { query } from '../libs/browse'
+import {html, LitElement} from 'lit'
+import {query} from '../libs/browse'
 import urlUtils from '../libs/url-utils'
-import R4SupabaseQuery from '../components/r4-supabase-query'
-
 
 export default class R4PageExplore extends LitElement {
 	static properties = {
 		/* props */
-		config: { type: Object },
-		query: { type: Object, state: true },
+		config: {type: Object},
+		query: {type: Object, state: true},
 
-		channels: { type: Array, state: true },
+		channels: {type: Array, state: true},
 	}
+
 	get channelOrigin() {
 		return `${this.config.href}/{{slug}}`
+	}
+
+	async onQuery(event) {
+		const q = event.detail
+		this.channels = (await query(q)).data
+		urlUtils.updateSearchParams(q, ['table', 'select'])
 	}
 
 	render() {
@@ -36,26 +41,14 @@ export default class R4PageExplore extends LitElement {
 					@query=${this.onQuery}
 				></r4-supabase-query>
 				<ul>
-					${this.channels?.length ?
-						this.channels.map(c => html`<li>${c.name} <r4-channel-card .channel=${c}></r4-channel-card></li>`) : ''}
+					${
+						this.channels?.length
+							? this.channels.map((c) => html`<li>${c.name} <r4-channel-card .channel=${c}></r4-channel-card></li>`)
+							: ''
+					}
 				</ui>
 			</main>
 		`
-	}
-
-	async onQuery(event) {
-		const q = event.detail
-		this.channels = (await query(q)).data
-		this.updateSearchParams(q)
-	}
-
-	updateSearchParams(detail) {
-		const notUrlProps = ['table', 'select']
-		const elementProperties = urlUtils.getElementProperties(R4SupabaseQuery).filter((prop) => !notUrlProps.includes(prop))
-		const props = elementProperties.filter(({name}) => !notUrlProps.includes(name))
-		const searchParams = urlUtils.propertiesToSearch(props, detail)
-		const searchParamsString = `?${searchParams.toString()}`
-		window.history.replaceState(null, null, searchParamsString)
 	}
 
 	createRenderRoot() {

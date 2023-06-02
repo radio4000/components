@@ -72,12 +72,12 @@ export default class R4SupabaseQuery extends LitElement {
 			detail: {
 				table: this.table,
 				select: this.select,
-				filters: [...this.filters || [], ...this.defaultFilters],
+				filters: [...(this.filters || []), ...this.defaultFilters],
 				orderBy: this.orderBy,
 				orderConfig: this.orderConfig,
 				page: this.page,
 				limit: this.limit,
-			}
+			},
 		})
 		this.dispatchEvent(queryEvent)
 	}

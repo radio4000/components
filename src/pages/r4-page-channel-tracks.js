@@ -1,9 +1,8 @@
 import {html} from 'lit'
 import {sdk} from '@radio4000/sdk'
 import BaseChannel from './base-channel'
-import {getElementProperties, propertiesToSearch} from '../libs/url-utils.js'
+import urlUtils from '../libs/url-utils.js'
 import {query} from '../libs/browse.js'
-import R4SupabaseQuery from '../components/r4-supabase-query.js'
 
 if (!window.r4sdk) window.r4sdk = sdk
 
@@ -48,17 +47,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		const q = event.detail
 		q.filters.push(...this.defaultFilters)
 		this.tracks = (await query(q)).data
-		this.updateSearchParams(q)
-	}
-
-	// Update the URL query params
-	updateSearchParams(detail) {
-		const notUrlProps = ['table', 'select']
-		const elementProperties = getElementProperties(R4SupabaseQuery).filter((prop) => !notUrlProps.includes(prop))
-		const props = elementProperties.filter(({name}) => !notUrlProps.includes(name))
-		const searchParams = propertiesToSearch(props, detail)
-		const searchParamsString = `?${searchParams.toString()}`
-		window.history.replaceState(null, null, searchParamsString)
+		urlUtils.updateSearchParams(q, ['table', 'select'])
 	}
 
 	render() {
