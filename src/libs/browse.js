@@ -96,7 +96,7 @@ export async function query({
 	const {from, to, limit: l} = getBrowseParams({page, limit})
 	query = query.range(from, to).limit(l)
 
-	console.log('browse.query', {table, select, filters, orderBy, orderConfig, page, limit}, query.url.href)
+	console.log('browse.query', {table, select, filters, orderBy, orderConfig, from, to, limit: l}, query.url.href)
 
 	return query
 }
@@ -110,6 +110,5 @@ function getBrowseParams({page, limit}) {
 	const from = (page - 1) * limit
 	const to = from + limit - 1
 	const params = {from, to, limit}
-	console.log('browse.params', {page, limit}, params)
 	return params
 }

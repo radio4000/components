@@ -10,9 +10,9 @@ export default class R4PageMap extends LitElement {
 		return html`
 			<r4-map
 				href=${this.config.href}
-				latitude=${this.searchParams.latitude}
-				longitude=${this.searchParams.longitude}
-				slug=${this.searchParams.slug}
+				latitude=${this.searchParams.get('latitude')}
+				longitude=${this.searchParams.get('longitude')}
+				slug=${this.searchParams.get('slug')}
 			></r4-map>
 		`
 	}

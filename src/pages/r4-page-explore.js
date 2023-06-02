@@ -8,7 +8,6 @@ export default class R4PageExplore extends LitElement {
 		/* props */
 		config: {type: Object},
 		searchParams: {type: Object, state: true},
-
 		channels: {type: Array, state: true},
 	}
 
