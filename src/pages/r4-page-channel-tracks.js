@@ -12,7 +12,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		/* route props */
 		store: {type: Object, state: true},
 		params: {type: Object, state: true},
-		query: {type: Object, state: true},
+		searchParams: {type: Object, state: true},
 		config: {type: Object, state: true},
 		/* state */
 		channel: {type: Object, reflect: true, state: true},
@@ -75,21 +75,23 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 
 	renderQuery() {
+		const params = this.searchParams
 		return html`
 			<details open>
 				<summary>Query tracks</summary>
 				<r4-supabase-query
 					table="channel_tracks"
-					page=${this.query.page}
-					limit=${this.query.limit}
-					order-by=${this.query['order-by']}
-					order-config=${this.query['order-config']}
-					.filters=${this.query.filters}
+					page=${params.page}
+					limit=${params.limit}
+					order-by=${params['order-by']}
+					order-config=${params['order-config']}
+					.filters=${params.filters}
 					@query=${this.onQuery}
 				></r4-supabase-query>
 			</details>
 		`
 	}
+
 	renderTracks() {
 		if (this.tracks) {
 			return html`
@@ -100,6 +102,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 			`
 		}
 	}
+
 	renderTrack(track) {
 		return html` <li><r4-track .track=${track} origin=${'' || this.tracksOrigin}></r4-track></li> `
 	}
@@ -107,6 +110,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 	renderNoPage() {
 		return html`404 - No channel with this slug`
 	}
+
 	renderLoading() {
 		return html`<span>Loading channel tracks...</span>`
 	}

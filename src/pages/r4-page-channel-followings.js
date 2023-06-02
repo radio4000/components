@@ -27,9 +27,9 @@ export default class R4PageChannelFollowings extends BaseChannel {
 				<r4-channel-followings
 					channel-id=${channel.id}
 					origin=${this.channelOrigin}
-					limit=${this.query.limit || 10}
-					page=${this.query.page || 1}
-					pagination="true"
+					limit=${this.searchParams.get('limit') || 10}
+					page=${this.searchParams.get('page') || 1}
+					pagination
 					@r4-list=${this.onNavigateList}
 				></r4-channel-followings>
 			</main>

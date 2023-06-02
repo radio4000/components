@@ -93,10 +93,10 @@ export async function query({
 	query = query.order(orderBy, orderConfig)
 
 	// And pagination.
-	const {from, to, limitResults} = getBrowseParams({page, limit})
-	query = query.range(from, to).limit(limitResults)
+	const {from, to, limit: l} = getBrowseParams({page, limit})
+	query = query.range(from, to).limit(l)
 
-	console.log('browse.query', {table, select, orderBy, orderConfig, filters}, query.url.href)
+	console.log('browse.query', {table, select, filters, orderBy, orderConfig, from, to, limit: l}, query.url.href)
 
 	return query
 }
@@ -107,9 +107,8 @@ export async function query({
 	 -> from[0] to to[0] limit[0]
  */
 function getBrowseParams({page, limit}) {
-	let from, to, limitResults
-	from = (page - 1) * limit
-	to = from + limit - 1
-	limitResults = limit - 1
-	return {from, to, limitResults}
+	const from = (page - 1) * limit
+	const to = from + limit - 1
+	const params = {from, to, limit}
+	return params
 }

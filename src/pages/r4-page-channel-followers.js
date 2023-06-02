@@ -28,8 +28,8 @@ export default class R4PageChannelFollowers extends BaseChannel {
 				<r4-channel-followers
 					channel-id=${channel.id}
 					origin=${this.channelOrigin}
-					limit=${this.query.limit || 10}
-					page=${this.query.page || 1}
+					limit=${this.searchParams.get('limit') || 10}
+					page=${this.searchParams.get('page') || 1}
 					pagination="true"
 					@r4-list=${this.onNavigateList}
 				></r4-channel-followers>

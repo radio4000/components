@@ -6,7 +6,7 @@ export default class R4PageAdd extends LitElement {
 	static properties = {
 		/* props */
 		store: { type: Object, state: true },
-		query: { type: Object, state: true },
+		searchParams: { type: Object, state: true },
 		config: { type: Object, state: true },
 
 		/* state */
@@ -23,8 +23,8 @@ export default class R4PageAdd extends LitElement {
 	get selectedSlug() {
 		if (this.hasOneChannel) {
 			return this.store.userChannels[0].slug
-		} else if (this?.query?.slug) {
-			return this?.query?.slug
+		} else if (this?.searchParams?.slug) {
+			return this?.searchParams?.slug
 		} else if (this.config.selectedSlug) {
 			return this.config.selectedSlug
 		}
@@ -38,7 +38,6 @@ export default class R4PageAdd extends LitElement {
 		if (this.selectedSlug) {
 			this.selectedId = await this.findSelectedChannel()
 		}
-
 		this.requestUpdate()
 	}
 
@@ -103,7 +102,7 @@ export default class R4PageAdd extends LitElement {
 		return html`
 			<r4-track-create
 				channel-id=${this.selectedId}
-				url=${this.query.url}
+				url=${this.searchParams.get('url')}
 				@submit=${this.onTrackCreate}
 			></r4-track-create>
 		`

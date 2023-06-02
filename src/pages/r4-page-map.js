@@ -3,16 +3,16 @@ import {LitElement, html} from 'lit'
 
 export default class R4PageMap extends LitElement {
 	static properties = {
-		config: { type: Object },
-		query: { type: Object },
+		config: {type: Object},
+		searchParams: {type: Object},
 	}
 	render() {
 		return html`
 			<r4-map
 				href=${this.config.href}
-				latitude=${this.query.latitude}
-				longitude=${this.query.longitude}
-				slug=${this.query.slug}
+				latitude=${this.searchParams.get('latitude')}
+				longitude=${this.searchParams.get('longitude')}
+				slug=${this.searchParams.get('slug')}
 			></r4-map>
 		`
 	}

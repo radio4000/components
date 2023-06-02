@@ -16,7 +16,7 @@ export default class R4SupabaseFilters extends LitElement {
 	constructor() {
 		super()
 		this.table = ''
-		this.filters = []
+		// this.filters = []
 	}
 
 	updated(attr) {
