@@ -1,4 +1,5 @@
 import {html} from 'lit'
+import {repeat} from 'lit/directives/repeat.js'
 import {sdk} from '@radio4000/sdk'
 import BaseChannel from './base-channel'
 import urlUtils from '../libs/url-utils.js'
@@ -95,7 +96,11 @@ export default class R4PageChannelTracks extends BaseChannel {
 			return html`
 				<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label="Play selection"></r4-button-play>
 				<ul>
-					${this.tracks.map((t) => this.renderTrack(t))}
+					${repeat(
+						this.tracks,
+						(t) => t.id,
+						(t) => this.renderTrack(t)
+					)}
 				</ul>
 			`
 		}

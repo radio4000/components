@@ -1,4 +1,5 @@
 import {html, LitElement} from 'lit'
+import {repeat} from 'lit/directives/repeat.js'
 import {query} from '../libs/browse'
 import urlUtils from '../libs/url-utils'
 
@@ -41,11 +42,12 @@ export default class R4PageExplore extends LitElement {
 					@query=${this.onQuery}
 				></r4-supabase-query>
 				<ul>
-					${
-						this.channels?.length
-							? this.channels.map((c) => html`<li>${c.name} <r4-channel-card .channel=${c}></r4-channel-card></li>`)
-							: ''
-					}
+					${repeat(
+						this.channels || [],
+						(c) => c.id,
+						(c) =>
+							html`<li>${c.name} <r4-channel-card .channel=${c} origin=${this.channelOrigin}></r4-channel-card></li>`
+					)}
 				</ui>
 			</main>
 		`
