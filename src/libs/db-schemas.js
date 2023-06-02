@@ -1,7 +1,4 @@
-/*
-	 suapabse table data associated with each table
- */
-
+/* Supabase table data */
 const supabaseTables = {
 	channels: {
 		columns: ['created_at', 'updated_at', 'slug', 'name', 'description', 'coordinates', 'url', 'firebase', 'id', 'fts'],
@@ -43,13 +40,9 @@ const supabaseTables = {
 	},
 }
 
-/* build the channel_track "juction columns", from all "tracks" columns */
-const channelTrackJuctionColumns = supabaseTables.tracks.columns.map((column) => `track_id.${column}`)
-supabaseTables['channel_track'].junctions = channelTrackJuctionColumns
-
-/* build the channel_tracks view the same way */
-const channelTracksViewColumns = supabaseTables.tracks.columns.map((column) => column)
-supabaseTables['channel_tracks'].columns = channelTracksViewColumns
+// Copy the track columns to the channel_track junctions  and channel_tracks view
+supabaseTables['channel_track'].junctions = supabaseTables.tracks.columns.map((column) => `track_id.${column}`)
+supabaseTables['channel_tracks'].columns = supabaseTables.tracks.columns
 
 /* store the list of "tables", from the database tables */
 export const supabaseTableNames = Object.keys(supabaseTables)

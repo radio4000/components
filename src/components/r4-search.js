@@ -93,27 +93,18 @@ export class R4TrackSearch extends R4Search {
 	label = 'tracks'
 
 	query(value) {
-		let query = sdk.supabase.from('channel_track').select(
-			`
-				channel_id!inner(
-					slug
-				),
-				track_id!inner(
-					id, title, description, tags, mentions, fts
-				)
-			`
-		)
-		if (this.slug) query = query.eq('channel_id.slug', this.slug)
-		return query.textSearch('track_id.fts', `'${value}':*`)
+		let query = sdk.supabase.from('channel_tracks').select('*')
+		if (this.slug) query = query.eq('slug', this.slug)
+		return query.textSearch('fts', `'${value}':*`)
 	}
 
 	renderResult(item, index) {
-		const href = this.href + `/tracks/${item.track_id.id}`
+		const href = this.href + `/tracks/${item.id}`
 		return html`
 			${index}.
-			<a href=${href}>${item.track_id.title}</a>
-			<small>${item.track_id.description}</small>
-			${this.slug ? html`(from ${item.channel_id.slug})` : ''}
+			<a href=${href}>${item.title}</a>
+			<small>${item.description}</small>
+			${!this.slug ? html`(@${item.slug})` : ''}
 		`
 	}
 }
