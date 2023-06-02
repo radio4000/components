@@ -57,14 +57,14 @@ export default class R4ChannelFollowers extends R4List {
 	}
 
 	/* browse all tracks for a specific channel slug */
-	async browseChannelFollowersPage({ from, to, limitResults }) {
+	async browseChannelFollowersPage({ from, to, limit }) {
 		const res = await sdk.supabase
 			.from(this.model)
 			.select(this.select)
-			.limit(limitResults)
-			.order(this.orderKey, this.orderConfig)
 			.eq(this.eq, this.channelId)
+			.order(this.orderKey, this.orderConfig)
 			.range(from, to)
+			.limit(limit)
 
 		/* serialize junction table response */
 		if (res && res.data) {

@@ -38,7 +38,6 @@ export default class R4PageAdd extends LitElement {
 		if (this.selectedSlug) {
 			this.selectedId = await this.findSelectedChannel()
 		}
-
 		this.requestUpdate()
 	}
 

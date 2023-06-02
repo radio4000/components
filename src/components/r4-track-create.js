@@ -29,7 +29,7 @@ fieldsTemplate.innerHTML = `
 `
 
 export default class R4TrackCreate extends R4Form {
-	static get observedAttributes () {
+	static get observedAttributes() {
 		return ['channel-id', 'url', 'title']
 	}
 
@@ -41,7 +41,7 @@ export default class R4TrackCreate extends R4Form {
 	}
 
 	errors = {
-		'default': {
+		default: {
 			message: 'Unhandled error',
 		},
 	}
@@ -64,13 +64,13 @@ export default class R4TrackCreate extends R4Form {
 	}
 
 	async handleInput(event) {
-		const { name, value } = event.target
+		const {name, value} = event.target
 		super.handleInput(event)
 
 		/* if the `url` change, and there is no `title`, set one up */
 		if (name === 'url' && value) {
 			if (!this.state.title) {
-				const { title } = await this.fetchTrackInfo(value)
+				const {title} = await this.fetchTrackInfo(value)
 				if (title) {
 					/* cannot this.setAttribute('title') from here */
 					const $trackTitle = this.querySelector('[name="title"]')
@@ -93,8 +93,7 @@ export default class R4TrackCreate extends R4Form {
 			try {
 				res = await fetch(`https://api.radio4000.com/api/youtube?id=${data.id}`)
 				trackInfo = await res.json()
-			} catch (error) {
-			}
+			} catch (error) {}
 			console.log('API trackInfo', trackInfo)
 		}
 		return trackInfo
@@ -111,7 +110,7 @@ export default class R4TrackCreate extends R4Form {
 				url: this.state.url,
 				title: this.state.title,
 				description: this.state.description,
-				discogs_url: this.state.discogsUrl
+				discogs_url: this.state.discogsUrl,
 			})
 			if (res.error) {
 				error = res
@@ -122,7 +121,7 @@ export default class R4TrackCreate extends R4Form {
 		}
 		this.enableForm()
 
-		const { data } = res
+		const {data} = res
 		if (data) {
 			this.resetForm()
 		}

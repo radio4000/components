@@ -8,7 +8,6 @@ itemTemplate.setAttribute('element', 'r4-channel')
 itemTemplate.setAttribute('attribute', 'channel')
 itemTemplate.innerHTML = `<r4-channel><r4-channel/>`
 
-
 export default class R4ChannelFollowings extends R4List {
 	static get observedAttributes() {
 		return ['channel-id', ...R4List.observedAttributes]
@@ -28,7 +27,7 @@ export default class R4ChannelFollowings extends R4List {
 	eq = 'follower_id'
 
 	get orderConfig() {
-		return { ascending: false }
+		return {ascending: false}
 	}
 
 	/* the channel slug */
@@ -44,12 +43,12 @@ export default class R4ChannelFollowings extends R4List {
 		}
 	}
 	/* browse all tracks,or just tracks for a specific channel */
-	async browsePage({ page, limit }) {
+	async browsePage({page, limit}) {
 		/* if there is a channel attribute, even empty */
 		if (this.attributes['channel-id']) {
 			/* if it has a value */
 			if (this.channelId) {
-				const browseParams = this.getBrowseParams({ page, limit })
+				const browseParams = this.getBrowseParams({page, limit})
 				const data = await this.browseChannelFollowersPage(browseParams)
 				return data
 			}
@@ -57,14 +56,14 @@ export default class R4ChannelFollowings extends R4List {
 	}
 
 	/* browse all tracks for a specific channel slug */
-	async browseChannelFollowersPage({ from, to, limitResults }) {
+	async browseChannelFollowersPage({from, to, limit}) {
 		const res = await sdk.supabase
 			.from(this.model)
 			.select(this.select)
-			.limit(limitResults)
-			.order(this.orderKey, this.orderConfig)
 			.eq(this.eq, this.channelId)
+			.order(this.orderKey, this.orderConfig)
 			.range(from, to)
+			.limit(limit)
 
 		/* serialize junction table response */
 		if (res && res.data) {

@@ -1,4 +1,5 @@
 import { sdk } from '@radio4000/sdk'
+import urlUtils from '../libs/url-utils.js'
 
 const template = document.createElement('template')
 template.innerHTML = `
@@ -128,27 +129,14 @@ export default class R4List extends HTMLElement {
 
 	/* browse the list (of data models) like it is paginated;
 		 components-attributes -> supbase-query */
-	async browsePage({ page, limit }) {
-		const { from, to, limitResults } = this.getBrowseParams({ page, limit })
+	async browsePage(props) {
+		const { from, to, limit } = urlUtils.getBrowseParams(props)
 		return sdk.supabase
 			.from(this.model)
 			.select(this.select)
-			.limit(limitResults)
+			.limit(limit)
 			.order(this.orderKey, this.orderConfig)
 			.range(from, to)
-	}
-
-	/*
-		 converts web component attributes, to supabase sdk query parameters:
-		 -> page="1" limit="1"
-		 -> from[0] to to[0] limit[0]
-	 */
-	getBrowseParams({ page, limit }) {
-		let from, to, limitResults
-		from = (page - 1) * limit
-		to = from + limit - 1
-		limitResults = limit - 1
-		return { from, to, limitResults }
 	}
 
 	/* calculate the index of a list item globally,

@@ -63,11 +63,11 @@ export default class R4Tracks extends R4List {
 	}
 
 	/* browse all tracks for a specific channel slug */
-	async browseChannelPage({ from, to, limitResults }) {
+	async browseChannelPage({ from, to, limit }) {
 		const res = await sdk.supabase
 			.from(this.model)
 			.select(this.select)
-			.limit(limitResults)
+			.limit(limit)
 			.order(this.orderKey, this.orderConfig)
 			.eq(this.eq, this.channel) // track specific
 			.range(from, to)
