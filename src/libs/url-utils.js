@@ -72,7 +72,11 @@ export function propertiesFromSearch(elementProperties) {
 	})
 }
 
-// Sets URL search params from a query object
+/**
+ * Sets URL search params from a query object
+ * @param {R4Query} query - object with all the query params to be
+ * @param {Array.<string>} excludeList - list of properties not to include in the URL
+ */
 export function updateSearchParams(query, excludeList = []) {
 	const props = getElementProperties(R4SupabaseQuery).filter(({name}) => !excludeList.includes(name))
 	const searchParams = propertiesToSearch(props, query)

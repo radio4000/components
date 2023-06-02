@@ -14,7 +14,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 		params: {type: Object, state: true},
 		query: {type: Object, state: true},
 		config: {type: Object, state: true},
-
 		/* state */
 		channel: {type: Object, reflect: true, state: true},
 		tracks: {type: Array, state: true},
@@ -96,11 +95,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 			return html`
 				<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label="Play selection"></r4-button-play>
 				<ul>
-					${repeat(
-						this.tracks,
-						(t) => t.id,
-						(t) => this.renderTrack(t)
-					)}
+					${repeat(this.tracks, (t) => t.id, (t) => this.renderTrack(t))}
 				</ul>
 			`
 		}
@@ -116,7 +111,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 		return html`<span>Loading channel tracks...</span>`
 	}
 
-	/* no shadow dom */
 	createRenderRoot() {
 		return this
 	}

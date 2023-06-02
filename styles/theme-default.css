@@ -110,8 +110,10 @@ r4-map .ol-viewport {
 	flex-grow: 1;
 }
 
-/* the query component */
-r4-supabase-query[table] fieldset[name='table'],
-r4-supabase-query[select] fieldset[name='select'] {
+/* Hide table+select from /explore and tracks pages */
+r4-page-explore r4-supabase-query fieldset[name='table'],
+r4-page-explore r4-supabase-query fieldset[name='select'],
+r4-page-channel-tracks r4-supabase-query fieldset[name='table'],
+r4-page-channel-tracks r4-supabase-query fieldset[name='select'] {
 	display: none;
 }
