@@ -1,14 +1,11 @@
 import {html} from 'lit'
+import {repeat} from 'lit/directives/repeat.js'
 import {sdk} from '@radio4000/sdk'
 import BaseChannel from './base-channel'
-import {getElementProperties, propertiesToSearch} from '../libs/url-utils.js'
+import urlUtils from '../libs/url-utils.js'
 import {query} from '../libs/browse.js'
-import R4SupabaseQuery from '../components/r4-supabase-query.js'
 
 if (!window.r4sdk) window.r4sdk = sdk
-
-const notUrlProps = ['table', 'select']
-const elementProperties = getElementProperties(R4SupabaseQuery).filter((prop) => !notUrlProps.includes(prop))
 
 export default class R4PageChannelTracks extends BaseChannel {
 	static properties = {
@@ -21,15 +18,10 @@ export default class R4PageChannelTracks extends BaseChannel {
 		/* state */
 		channel: {type: Object, reflect: true, state: true},
 		tracks: {type: Array, state: true},
-
-		/* supabase query */
-		table: {type: String},
 	}
 
 	constructor() {
 		super()
-		/* use the view channel_tracks */
-		this.table = 'channel_tracks'
 		this.tracks = []
 		this.channel = null
 	}
@@ -53,34 +45,10 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	async onQuery(event) {
 		if (!this.channel) return
-		const userQuery = {...event.detail}
-		userQuery.filters = [...this.defaultFilters, userQuery.filters]
-		this.browseTracks(userQuery)
-		this.updateSearchParams(elementProperties, event.detail)
-	}
-
-	/* get the data for this user query */
-	async browseTracks(userQuery) {
-		console.log('browsing tracks', userQuery.orderBy, userQuery.orderConfig)
-		const {data, error} = await query(userQuery)
-		console.log('got tracks', data)
-		if (error) {
-			console.log('Error browsing tracks', error)
-		}
-		if (data) {
-			this.tracks = data
-		} else {
-			this.tracks = []
-		}
-	}
-
-	// Update the URL query params
-	updateSearchParams(elementProperties, detail) {
-		const props = elementProperties.filter(({name}) => !notUrlProps.includes(name))
-		const searchParams = propertiesToSearch(props, detail)
-		const searchParamsString = `?${searchParams.toString()}`
-		// console.log('updateSearchParams', searchParamsString)
-		window.history.replaceState(null, null, searchParamsString)
+		const q = event.detail
+		q.filters.push(...this.defaultFilters)
+		this.tracks = (await query(q)).data
+		urlUtils.updateSearchParams(q, ['table', 'select'])
 	}
 
 	render() {
@@ -106,18 +74,19 @@ export default class R4PageChannelTracks extends BaseChannel {
 			</main>
 		`
 	}
+
 	renderQuery() {
 		return html`
 			<details open>
-				<summary>Tracks query filters</summary>
+				<summary>Query tracks</summary>
 				<r4-supabase-query
-					@query=${this.onQuery}
-					table=${this.table}
+					table="channel_tracks"
 					page=${this.query.page}
 					limit=${this.query.limit}
 					order-by=${this.query['order-by']}
 					order-config=${this.query['order-config']}
-					filters=${this.query.filters || []}
+					.filters=${this.query.filters}
+					@query=${this.onQuery}
 				></r4-supabase-query>
 			</details>
 		`
@@ -127,7 +96,11 @@ export default class R4PageChannelTracks extends BaseChannel {
 			return html`
 				<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label="Play selection"></r4-button-play>
 				<ul>
-					${this.tracks.map((t) => this.renderTrack(t))}
+					${repeat(
+						this.tracks,
+						(t) => t.id,
+						(t) => this.renderTrack(t)
+					)}
 				</ul>
 			`
 		}

@@ -1,6 +1,6 @@
-import { LitElement, html } from 'lit'
-import { repeat } from 'lit/directives/repeat.js'
-import { sdk } from '@radio4000/sdk'
+import {LitElement, html} from 'lit'
+import {repeat} from 'lit/directives/repeat.js'
+import {sdk} from '@radio4000/sdk'
 
 /**
  * This is the base class for R4ChannelSearch and R4TrackSearch
@@ -9,21 +9,21 @@ import { sdk } from '@radio4000/sdk'
  */
 export default class R4Search extends LitElement {
 	static properties = {
-		value: { type: String, reflect: true },
-		table: { type: String, reflect: true },
-		results: { type: Array },
+		value: {type: String, reflect: true},
+		table: {type: String, reflect: true},
+		results: {type: Array},
 
 		// To construct a link that works where this component is used
-		href: { type: String, reflect: true },
+		href: {type: String, reflect: true},
 
 		// Only needed for r4-track-search
-		slug: { type: String, reflect: true },
+		slug: {type: String, reflect: true},
 	}
 
 	connectedCallback() {
 		super.connectedCallback()
 		// If the element has an initial value, search for it.
-		if (this.value) this.onInput({ target: { value: this.value } })
+		if (this.value) this.onInput({target: {value: this.value}})
 	}
 
 	onSubmit(event) {
@@ -44,13 +44,22 @@ export default class R4Search extends LitElement {
 	render() {
 		return html`
 			${this.renderForm()}
-			<ul>
-				${repeat(
-					this.results || [],
-					(item) => item.id,
-					(item, index) => html` <li>${this.renderResult(item, index)}</li> `
-				)}
-			</ul>
+			${this.results?.length
+				? html` <ul>
+						${repeat(
+							this.results,
+							(item) => item.id,
+							(item, index) => html` <li>${this.renderResult(item, index)}</li> `
+						)}
+				  </ul>`
+				: ''}
+			${this.slug && this.results?.length
+				? html`<r4-button-play
+						slug=${this.slug}
+						.tracks=${this.results}
+						label="Play search selection"
+				  ></r4-button-play>`
+				: ''}
 		`
 	}
 
@@ -93,27 +102,18 @@ export class R4TrackSearch extends R4Search {
 	label = 'tracks'
 
 	query(value) {
-		let query = sdk.supabase.from('channel_track').select(
-			`
-				channel_id!inner(
-					slug
-				),
-				track_id!inner(
-					id, title, description, tags, mentions, fts
-				)
-			`
-		)
-		if (this.slug) query = query.eq('channel_id.slug', this.slug)
-		return query.textSearch('track_id.fts', `'${value}':*`)
+		let query = sdk.supabase.from('channel_tracks').select('*')
+		if (this.slug) query = query.eq('slug', this.slug)
+		return query.textSearch('fts', `'${value}':*`)
 	}
 
 	renderResult(item, index) {
-		const href = this.href + `/tracks/${item.track_id.id}`
+		const href = this.href + `/tracks/${item.id}`
 		return html`
 			${index}.
-			<a href=${href}>${item.track_id.title}</a>
-			<small>${item.track_id.description}</small>
-			${this.slug ? html`(from ${item.channel_id.slug})` : ''}
+			<a href=${href}>${item.title}</a>
+			<small>${item.description}</small>
+			${!this.slug ? html`(@${item.slug})` : ''}
 		`
 	}
 }

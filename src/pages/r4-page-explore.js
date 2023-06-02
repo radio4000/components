@@ -1,15 +1,27 @@
-import { html, LitElement } from 'lit'
-import page from 'page/page.mjs'
+import {html, LitElement} from 'lit'
+import {repeat} from 'lit/directives/repeat.js'
+import {query} from '../libs/browse'
+import urlUtils from '../libs/url-utils'
 
 export default class R4PageExplore extends LitElement {
 	static properties = {
 		/* props */
-		config: { type: Object },
-		query: { type: Object, state: true },
+		config: {type: Object},
+		query: {type: Object, state: true},
+
+		channels: {type: Array, state: true},
 	}
+
 	get channelOrigin() {
 		return `${this.config.href}/{{slug}}`
 	}
+
+	async onQuery(event) {
+		const q = event.detail
+		this.channels = (await query(q)).data
+		urlUtils.updateSearchParams(q, ['table', 'select'])
+	}
+
 	render() {
 		return html`
 			<header>
@@ -20,29 +32,28 @@ export default class R4PageExplore extends LitElement {
 				</menu>
 			</header>
 			<main>
-				<r4-channels
-					@r4-list=${this.onNavigateList}
-					origin=${this.channelOrigin}
-					pagination="true"
-					limit=${this.query.limit || 6}
-					page=${this.query.page || 1}
-				></r4-channels>
+				<r4-supabase-query
+					table="channels"
+					page=${this.query.page}
+					limit=${this.query.limit}
+					order-by=${this.query['order-by']}
+					order-config=${this.query['order-config']}
+					.filters=${this.query.filters}
+					@query=${this.onQuery}
+				></r4-supabase-query>
+				<ul>
+					${repeat(
+						this.channels || [],
+						(c) => c.id,
+						(c) =>
+							html`<li>${c.name} <r4-channel-card .channel=${c} origin=${this.channelOrigin}></r4-channel-card></li>`
+					)}
+				</ui>
 			</main>
 		`
 	}
+
 	createRenderRoot() {
 		return this
-	}
-	onNavigateList({ detail }) {
-		/* `page` here, is usually globaly the "router", beware */
-		const { page: currentPage, limit, list } = detail
-		const newPageURL = new URL(window.location)
-
-		limit && newPageURL.searchParams.set('limit', limit)
-		currentPage && newPageURL.searchParams.set('page', currentPage)
-
-		if (window.location.href !== newPageURL.href) {
-			page.redirect(newPageURL.pathname + newPageURL.search)
-		}
 	}
 }

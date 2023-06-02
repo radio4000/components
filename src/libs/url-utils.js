@@ -1,3 +1,5 @@
+import R4SupabaseQuery from '../components/r4-supabase-query'
+
 /*
 	 this file are utilities to manipulate URL, and URLSearchParams;
 	 because of how things are witter in code:
@@ -36,7 +38,7 @@ export function getElementProperties(ElementClass) {
 export function propertiesToSearch(elementProperties, dataObj) {
 	const searchParams = new URLSearchParams()
 	elementProperties.forEach((elementProperty) => {
-		const {name, attribute, searchParam, attributeType} = elementProperty
+		const {name, searchParam, attributeType} = elementProperty
 		const paramValue = dataObj[name]
 		if (paramValue) {
 			if (['Object', 'Array'].includes(attributeType)) {
@@ -54,15 +56,13 @@ export function propertiesToSearch(elementProperties, dataObj) {
 export function propertiesFromSearch(elementProperties) {
 	const searchParams = new URLSearchParams(window.location.search)
 	return elementProperties.map((elementProperty) => {
-		const {name, attribute, value, searchParam} = elementProperty
+		const {searchParam} = elementProperty
 		if (searchParams.has(searchParam)) {
 			if (['Object', 'Array'].includes(elementProperty.attributeType)) {
 				let jsonValue
 				try {
 					jsonValue = JSON.parse(searchParams.get(searchParam))
-				} catch (e) {
-					console.log(e)
-				}
+				} catch (e) {}
 				elementProperty.value = jsonValue
 			} else {
 				elementProperty.value = searchParams.get(searchParam)
@@ -72,8 +72,17 @@ export function propertiesFromSearch(elementProperties) {
 	})
 }
 
+// Sets URL search params from a query object
+export function updateSearchParams(query, excludeList = []) {
+	const props = getElementProperties(R4SupabaseQuery).filter(({name}) => !excludeList.includes(name))
+	const searchParams = propertiesToSearch(props, query)
+	const searchParamsString = `?${searchParams.toString()}`
+	window.history.replaceState(null, null, searchParamsString)
+}
+
 export default {
 	getElementProperties,
 	propertiesToSearch,
 	propertiesFromSearch,
+	updateSearchParams,
 }

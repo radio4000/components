@@ -73,6 +73,11 @@ r4-app a {
 	color: var(--c-link);
 }
 
+/* remove default margins */
+r4-app * {
+	margin: 0;
+}
+
 /*
 	can start targetting "more specific customization"
 */
