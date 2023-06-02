@@ -154,7 +154,7 @@ export default class R4SupabaseQuery extends LitElement {
 					this.renderQuerySelect(),
 				]}
 			</form>
-			<r4-supabase-filters table=${this.table} filters=${this.filters} @filters=${this.onFilters}></r4-supabase-filters>
+			<r4-supabase-filters table=${this.table} .filters=${this.filters} @filters=${this.onFilters}></r4-supabase-filters>
 			<form @submit=${this.onFormSubmit}>
 				${[
 					this.renderQueryOrderKey(),

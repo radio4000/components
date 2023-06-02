@@ -54,16 +54,14 @@ export default class R4PageChannelTracks extends BaseChannel {
 	async onQuery(event) {
 		if (!this.channel) return
 		const userQuery = {...event.detail}
-		userQuery.filters = [...this.defaultFilters, userQuery.filters]
+		userQuery.filters.push(...this.defaultFilters)
 		this.browseTracks(userQuery)
-		this.updateSearchParams(elementProperties, event.detail)
+		this.updateSearchParams(elementProperties, userQuery)
 	}
 
 	/* get the data for this user query */
 	async browseTracks(userQuery) {
-		console.log('browsing tracks', userQuery.orderBy, userQuery.orderConfig)
 		const {data, error} = await query(userQuery)
-		console.log('got tracks', data)
 		if (error) {
 			console.log('Error browsing tracks', error)
 		}
@@ -79,7 +77,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 		const props = elementProperties.filter(({name}) => !notUrlProps.includes(name))
 		const searchParams = propertiesToSearch(props, detail)
 		const searchParamsString = `?${searchParams.toString()}`
-		// console.log('updateSearchParams', searchParamsString)
 		window.history.replaceState(null, null, searchParamsString)
 	}
 
@@ -117,7 +114,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 					limit=${this.query.limit}
 					order-by=${this.query['order-by']}
 					order-config=${this.query['order-config']}
-					filters=${this.query.filters || []}
+					filters=${this.query.filters}
 				></r4-supabase-query>
 			</details>
 		`

@@ -1,4 +1,3 @@
-import {sdk} from '@radio4000/sdk'
 import {LitElement, html} from 'lit'
 import {supabaseOperators} from '../libs/browse.js'
 import dbSchema from '../libs/db-schemas.js'
