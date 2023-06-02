@@ -6,7 +6,7 @@ export default class R4PageSettings extends LitElement {
 	static properties = {
 		/* props */
 		store: {type: Object, state: true},
-		query: {type: Object, state: true},
+		searchParams: {type: Object, state: true},
 		config: {type: Object, state: true},
 	}
 

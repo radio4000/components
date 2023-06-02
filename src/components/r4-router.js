@@ -52,19 +52,12 @@ export default class R4Router extends LitElement {
 	}
 
 	setupRoute($route) {
-		page($route.getAttribute('path'), this.parseQuery.bind(this), (ctx) => this.renderRoute($route, ctx))
+		page($route.getAttribute('path'), this.parseContext.bind(this), (ctx) => this.renderRoute($route, ctx))
 		page.exit($route.getAttribute('path'), (ctx, next) => this.unrenderRoute($route, ctx, next))
 	}
 
-	parseQuery(ctx, next) {
-		const params = []
-		const urlParams = new URLSearchParams(ctx.querystring)
-		if (urlParams) {
-			for (const urlParam of urlParams) {
-				urlParam && params.push(urlParam)
-			}
-		}
-		ctx.query = params
+	parseContext(ctx, next) {
+		ctx.searchParams = new URLSearchParams(ctx.querystring)
 		next()
 	}
 
@@ -72,19 +65,7 @@ export default class R4Router extends LitElement {
 		this.pageName = $route.getAttribute('page')
 		this.method = $route.getAttribute('method')
 		this.params = ctx.params
-
-		const pageQuery = {}
-		const routeQueryParams = $route.getAttribute('query-params')
-		const requestedParams = routeQueryParams ? routeQueryParams.split(',') : []
-		if (requestedParams && ctx.query) {
-			ctx.query
-				.filter((param) => requestedParams.indexOf(param[0]) > -1)
-				.forEach((param) => {
-					pageQuery[param[0]] = param[1]
-				})
-			this.query = pageQuery
-		}
-
+		this.searchParams = ctx.searchParams
 		this.requestUpdate()
 	}
 
@@ -92,7 +73,7 @@ export default class R4Router extends LitElement {
 		if (!this.pageName) return
 		const tag = literal`r4-page-${unsafeStatic(this.pageName)}`
 		// eslint-disable-next-line
-		const $pageDom = html`<${tag} .store=${this.store} .config=${this.config} .query=${this.query} .params=${this.params}></${tag}>`
+		const $pageDom = html`<${tag} .store=${this.store} .config=${this.config} .searchParams=${this.searchParams} .params=${this.params}></${tag}>`
 		return $pageDom
 	}
 

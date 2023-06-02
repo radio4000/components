@@ -316,11 +316,11 @@ function renderRouterSingleChannel({store, config}) {
 			<r4-route path="/sign/:method" page="sign"></r4-route>
 			<r4-route path="/" page="channel"></r4-route>
 			<r4-route path="/player" page="channel-player"></r4-route>
-			<r4-route path="/tracks" page="channel-tracks" query-params="page,limit,order-by,order-config,filters"></r4-route>
-			<r4-route path="/tracks/:track_id" page="channel-track" query-params="slug,url"></r4-route>
-			<r4-route path="/followers" page="channel-followers" query-params="page,limit"></r4-route>
-			<r4-route path="/followings" page="channel-followings" query-params="page,limit"></r4-route>
-			<r4-route path="/add" page="add" query-params="url"></r4-route>
+			<r4-route path="/tracks" page="channel-tracks" search-params="page,limit,order-by,order-config,filters"></r4-route>
+			<r4-route path="/tracks/:track_id" page="channel-track" search-params="slug,url"></r4-route>
+			<r4-route path="/followers" page="channel-followers" search-params="page,limit"></r4-route>
+			<r4-route path="/followings" page="channel-followings" search-params="page,limit"></r4-route>
+			<r4-route path="/add" page="add" search-params="url"></r4-route>
 			<r4-route path="/settings" page="settings"></r4-route>
 		</r4-router>
 	`
@@ -330,25 +330,25 @@ function renderRouterCMS({store, config}) {
 	return html`
 		<r4-router name="application" .store=${store} .config=${config}>
 			<r4-route path="/" page="home"></r4-route>
-			<r4-route path="/explore" page="explore" query-params="page,limit"></r4-route>
+			<r4-route path="/explore" page="explore" search-params="page,limit"></r4-route>
 			<r4-route path="/sign" page="sign"></r4-route>
 			<r4-route path="/sign/:method" page="sign"></r4-route>
-			<r4-route path="/add" page="add" query-params="slug,url"></r4-route>
+			<r4-route path="/add" page="add" search-params="slug,url"></r4-route>
 			<r4-route path="/new" page="new"></r4-route>
 			<r4-route path="/settings" page="settings"></r4-route>
-			<r4-route path="/map" page="map" query-params="slug,longitude,latitude"></r4-route>
-			<r4-route path="/search" page="search" query-params="query"></r4-route>
+			<r4-route path="/map" page="map" search-params="slug,longitude,latitude"></r4-route>
+			<r4-route path="/search" page="search" search-params="query"></r4-route>
 			<r4-route path="/:slug" page="channel"></r4-route>
 			<r4-route path="/:slug/update" page="channel-update"></r4-route>
 			<r4-route path="/:slug/player" page="channel-player"></r4-route>
 			<r4-route
 				path="/:slug/tracks"
 				page="channel-tracks"
-				query-params="page,limit,order-by,order-config,filters"
+				search-params="page,limit,order-by,order-config,filters"
 			></r4-route>
 			<r4-route path="/:slug/tracks/:track_id" page="channel-track"></r4-route>
-			<r4-route path="/:slug/followers" page="channel-followers" query-params="page,limit"></r4-route>
-			<r4-route path="/:slug/followings" page="channel-followings" query-params="page,limit"></r4-route>
+			<r4-route path="/:slug/followers" page="channel-followers" search-params="page,limit"></r4-route>
+			<r4-route path="/:slug/followings" page="channel-followings" search-params="page,limit"></r4-route>
 		</r4-router>
 	`
 }

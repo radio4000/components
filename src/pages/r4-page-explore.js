@@ -7,7 +7,7 @@ export default class R4PageExplore extends LitElement {
 	static properties = {
 		/* props */
 		config: {type: Object},
-		query: {type: Object, state: true},
+		searchParams: {type: Object, state: true},
 
 		channels: {type: Array, state: true},
 	}
@@ -34,11 +34,11 @@ export default class R4PageExplore extends LitElement {
 			<main>
 				<r4-supabase-query
 					table="channels"
-					page=${this.query.page}
-					limit=${this.query.limit}
-					order-by=${this.query['order-by']}
-					order-config=${this.query['order-config']}
-					.filters=${this.query.filters}
+					page=${this.searchParams.page}
+					limit=${this.searchParams.limit}
+					order-by=${this.searchParams['order-by']}
+					order-config=${this.searchParams['order-config']}
+					.filters=${this.searchParams.filters}
 					@query=${this.onQuery}
 				></r4-supabase-query>
 				<ul>
