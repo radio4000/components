@@ -67,17 +67,19 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	async onQuery() {
+		const query = {
+			table: this.table,
+			select: this.select,
+			filters: this.filters,
+			orderBy: this.orderBy,
+			orderConfig: this.orderConfig,
+			page: this.page,
+			limit: this.limit,
+		}
+		console.log(query)
 		const queryEvent = new CustomEvent('query', {
 			bubbles: true,
-			detail: {
-				table: this.table,
-				select: this.select,
-				filters: [...(this.filters || []), ...this.defaultFilters],
-				orderBy: this.orderBy,
-				orderConfig: this.orderConfig,
-				page: this.page,
-				limit: this.limit,
-			},
+			detail: query
 		})
 		this.dispatchEvent(queryEvent)
 	}
