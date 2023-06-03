@@ -104,7 +104,7 @@ export class R4TrackSearch extends R4Search {
 	query(value) {
 		let query = sdk.supabase.from('channel_tracks').select('*')
 		if (this.slug) query = query.eq('slug', this.slug)
-		return query.textSearch('fts', `'${value}':*`)
+		return query.textSearch('fts', `'${value}':*`).order('created_at', {ascending: false})
 	}
 
 	renderResult(item, index) {

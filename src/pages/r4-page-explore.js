@@ -42,7 +42,11 @@ export default class R4PageExplore extends LitElement {
 					@query=${this.onQuery}
 				></r4-supabase-query>
 
-				<r4-pagination page=${this.searchParams.get('page')} .lastQuery=${this.lastQuery} @query=${this.onQuery}></r4-pagination>
+				<r4-pagination
+					page=${this.searchParams.get('page')}
+					.lastQuery=${this.lastQuery}
+					@query=${this.onQuery}
+				></r4-pagination>
 
 				<ul>
 					${repeat(

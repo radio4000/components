@@ -64,7 +64,7 @@ export async function query({
 		 - the "filter.value" always is a string, from the related `input`
 		 we convert it here to the right type the sdk filter expects
 	 */
-	filters
+	filters?.length && filters
 		.filter((filter) => {
 			return supabaseOperators.includes(filter.operator)
 		})

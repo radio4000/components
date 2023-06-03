@@ -46,7 +46,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		if (!this.channel) return
 		const q = event.detail
 		urlUtils.updateSearchParams(q, ['table', 'select'])
-		const filtersWithDefaults = [...q.filters || [], ...this.defaultFilters]
+		const filtersWithDefaults = [...(q.filters || []), ...this.defaultFilters]
 		q.filters = filtersWithDefaults
 		this.tracks = (await query(q)).data
 		this.lastQuery = q
