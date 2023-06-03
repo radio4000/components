@@ -10,7 +10,7 @@ export default class R4PagePlayground extends LitElement {
 		searchParams: {type: Object},
 
 		// Note, reflect is ignored for "state" properties.
-		age: {type: Number, reflect: true}
+		age: {type: Number, reflect: true},
 	}
 
 	constructor() {
@@ -33,7 +33,7 @@ export default class R4PagePlayground extends LitElement {
 			config: this.config,
 			searchParams: this.searchParams,
 			params: this.params,
-			age: this.age
+			age: this.age,
 		})
 	}
 
@@ -43,8 +43,14 @@ export default class R4PagePlayground extends LitElement {
 			<h1>Playground</h1>
 			<p>params = ${this.params.color}</p>
 			<p>page = ${this.searchParams.get('page')}</p>
+			<br>
 			<p>
-				<a href="/examples/r4-app/playground/yellow?page=666">Update search params with a regular link</a>
+				Update search params with a regular link:<br>
+				<a href="/examples/r4-app/playground/hotpink">/hotpink</a><br>
+				<a href="/examples/r4-app/playground/red">/red</a><br>
+				<a href="/examples/r4-app/playground/yellow?page=2">/yellow?page=2</a><br>
+				<a href="/examples/r4-app/playground/yellow?page=666">/yellow?page=666</a><br>
+				- notice how it re-renders
 			</p>
 		`
 	}
