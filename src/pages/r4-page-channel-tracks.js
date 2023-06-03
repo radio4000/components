@@ -17,12 +17,14 @@ export default class R4PageChannelTracks extends BaseChannel {
 		/* state */
 		channel: {type: Object, reflect: true, state: true},
 		tracks: {type: Array, state: true},
+		display: {type: String, state: true},
 	}
 
 	constructor() {
 		super()
 		this.tracks = []
 		this.channel = null
+		this.display = 'list'
 	}
 
 	get defaultFilters() {
@@ -94,26 +96,75 @@ export default class R4PageChannelTracks extends BaseChannel {
 		`
 	}
 
+	setDisplay(event) {
+		event.preventDefault()
+		const fd = new FormData(event.currentTarget)
+		const display = fd.get('display')
+		console.log(display)
+		this.display = display
+	}
+
 	renderTracks() {
-		if (this.tracks) {
-			return html`
-				<menu>
-					<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label="Play selection"></r4-button-play>
-					<r4-pagination
-						page=${this.searchParams.get('page')}
-						.lastQuery=${this.lastQuery}
-						@query=${this.onQuery}
-					></r4-pagination>
-				</menu>
-				<ul>
+		if (!this.tracks) return null
+
+		return html`
+			<menu>
+				<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label="Play selection"></r4-button-play>
+				<r4-pagination
+					page=${this.searchParams.get('page')}
+					.lastQuery=${this.lastQuery}
+					@query=${this.onQuery}
+				></r4-pagination>
+			</menu>
+
+			<form @change=${this.setDisplay}>
+				<label><input type="radio" name="display" value="list" ?checked=${this.display === 'list'} /> List</label>
+				<label><input type="radio" name="display" value="table" ?checked=${this.display === 'table'} /> Table</label>
+			</form>
+
+			${this.display === 'table' ? this.renderTracksTable() : this.renderTracksList()}
+		`
+	}
+
+	renderTracksTable() {
+		return html`
+			<table>
+				<thead>
+					<th>title</th>
+					<th>description</th>
+					<th>tags</th>
+					<th>mentions</th>
+					<th>created</th>
+				</thead>
+				<tbody>
 					${repeat(
 						this.tracks,
 						(t) => t.id,
-						(t) => this.renderTrack(t)
+						(t) => html`
+							<tr>
+								<td><a href=${this.tracksOrigin + t.id}>${t.title}</a></td>
+								<td>${t.description}</td>
+								<td>${t.tags}</td>
+								<td>${t.mentions}</td>
+								<td>${formatDate(t.created_at)}</td>
+							</tr>
+						`
 					)}
-				</ul>
-			`
-		}
+				</tbody>
+			</table>
+		`
+	}
+
+	renderTracksList() {
+		return html`
+			<ul>
+				${repeat(
+					this.tracks,
+					(t) => t.id,
+					(t) => this.renderTrack(t)
+				)}
+			</ul>
+		`
 	}
 
 	renderTrack(track) {
@@ -131,4 +182,19 @@ export default class R4PageChannelTracks extends BaseChannel {
 	createRenderRoot() {
 		return this
 	}
+}
+
+function formatDate(dateStr) {
+	const date = new Date(dateStr)
+	const formatter = new Intl.DateTimeFormat('de', {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+		// hour: 'numeric',
+		// minute: 'numeric',
+		// second: 'numeric',
+		// timeZoneName: 'short',
+	})
+	const formattedDate = formatter.format(date)
+	return formattedDate
 }
