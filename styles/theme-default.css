@@ -119,8 +119,18 @@ r4-page-channel-tracks r4-supabase-query fieldset[name='select'] {
 }
 
 r4-app table {
+	width: 100%;
 	border-collapse: collapse;
+}
+r4-app th {
+	text-align: left;
 }
 r4-app tbody tr:nth-child(odd) td {
 	background: #eee;
+}
+
+r4-app [tag] {
+	/* background: var(--c-link); */
+	/* color: var(--fg); */
+	margin: 2px;
 }
