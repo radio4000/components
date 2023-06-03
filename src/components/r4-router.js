@@ -1,40 +1,45 @@
-import { LitElement } from 'lit'
-import { html, literal, unsafeStatic } from 'lit/static-html.js'
+import {LitElement} from 'lit'
+import {html, literal, unsafeStatic} from 'lit/static-html.js'
 import page from 'page/page.mjs'
 
+/**
+Here is an example of how the r4-router works.
+
+<r4-router>
+	<r4-route page="/animals"></r4-route>
+	<r4-route page="/colors/:color"></r4-route>
+</r4-router>
+
+The `page` attribute decides which web component to render. It requires the name to be: `r4-page-${page}`.
+
+All routes are passed the following props:
+- `store` - the global store
+- `config` - the config object
+- `params` - dynamic params of the current URL, as defined on th route
+- `searchParams` - a URLSearchParams object from the current url
+*/
+
 // https://github.com/visionmedia/page.js/issues/537
-page.configure({ window: window })
+page.configure({window: window})
 
 export default class R4Router extends LitElement {
 	static properties = {
-		/* props attribute */
-		store: { type: Object, state: true },
-		config: { type: Object, state: true },
+		store: {type: Object, state: true},
+		config: {type: Object, state: true},
 	}
 
 	/* used to setup the base of the url handled by page.js router */
 	get pathname() {
 		const href = this.config.href || window.location.href
 		const name = new URL(href).pathname
-		/* if (name.endsWith('/')) {
-			 name = name.slice(0, name.length - 1)
-			 } */
 		return name
 	}
 
 	connectedCallback() {
-		const $routes = this.querySelectorAll('r4-route')
-		// console.log('router connected store', this.store)
 		this.setupRouter()
-		this.setupRoutes($routes)
+		this.setupRoutes()
 		this.handleFirstUrl()
 		super.connectedCallback()
-	}
-
-	handleFirstUrl() {
-		const initialURL = new URL(window.location.href)
-		const url = initialURL.pathname + initialURL.search
-		page(url)
 	}
 
 	setupRouter() {
@@ -47,7 +52,8 @@ export default class R4Router extends LitElement {
 		}
 	}
 
-	setupRoutes($routes) {
+	setupRoutes() {
+		const $routes = this.querySelectorAll('r4-route')
 		$routes.forEach(this.setupRoute.bind(this))
 	}
 
@@ -61,17 +67,25 @@ export default class R4Router extends LitElement {
 		next()
 	}
 
+	handleFirstUrl() {
+		const initialURL = new URL(window.location.href)
+		const url = initialURL.pathname + initialURL.search
+		page(url)
+	}
+
+	// Called by page.js when a route is matched.
 	renderRoute($route, ctx) {
-		this.pageName = $route.getAttribute('page')
-		this.method = $route.getAttribute('method')
 		this.params = ctx.params
 		this.searchParams = ctx.searchParams
+		this.componentName = `r4-page-${$route.getAttribute('page')}`
+		console.log('renderRoute', this.params, this.searchParams, this.componentName)
+		// Schedules a new render.
 		this.requestUpdate()
 	}
 
 	render() {
-		if (!this.pageName) return
-		const tag = literal`r4-page-${unsafeStatic(this.pageName)}`
+		if (!this.componentName) return
+		const tag = literal`${unsafeStatic(this.componentName)}`
 		// eslint-disable-next-line
 		const $pageDom = html`<${tag} .store=${this.store} .config=${this.config} .searchParams=${this.searchParams} .params=${this.params}></${tag}>`
 		return $pageDom
