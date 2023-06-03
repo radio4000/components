@@ -65,14 +65,12 @@ export async function query({
 		 we convert it here to the right type the sdk filter expects
 	 */
 	filters?.length && filters
-		.filter((filter) => {
-			return filter.value && supabaseOperators.includes(filter.operator)
-		})
+		.filter((filter) => filter.value && supabaseOperators.includes(filter.operator))
 		.forEach((filter) => {
 			/* "filter" operator is a supabase.sdk "escape hatch",
-											aplying the filter raw; see docs
-											(WARNING) otherwise the (raw string) operator is the supabase sdk function invoqued
-										*/
+				aplying the filter raw; see docs
+				(WARNING) otherwise the (raw string) operator is the supabase sdk function invoqued
+			*/
 			if (filter.operator === 'filter') {
 				query = query.filter(filter.operator, filter.column, filter.value || null)
 			} else if (['contains', 'containedBy'].includes(filter.operator)) {
@@ -90,7 +88,13 @@ export async function query({
 		})
 
 	// After filters we add sorting.
-	query = query.order(orderBy, orderConfig || null)
+	if (orderBy) {
+		if (orderConfig) {
+			query = query.order(orderBy, orderConfig)
+		} else {
+			query = query.order(orderBy)
+		}
+	}
 
 	// And pagination.
 	const {from, to, limit: l} = getBrowseParams({page, limit})
