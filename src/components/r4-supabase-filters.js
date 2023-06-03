@@ -47,7 +47,7 @@ export default class R4SupabaseFilters extends LitElement {
 			value: '',
 		}
 		const filters = this.filters || []
-		this.filters = [...filters, newFilter]
+		this.filters = [...filters || [], newFilter]
 	}
 
 	removeFilter(index) {

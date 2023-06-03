@@ -15,29 +15,21 @@ export default class R4SupabaseQuery extends LitElement {
 		/* supabase query parameters */
 		table: {type: String, reflect: true, searchParam: true},
 		select: {type: String, searchParam: true},
-		filters: {type: Array, searchParam: true, state: true},
-		defaultFilters: {type: Array, attribute: 'default-filters', searchParam: true, state: true},
+		filters: {type: Array, searchParam: true, reflect: true},
 		orderBy: {type: String, attribute: 'order-by', reflect: true, searchParam: true},
-		orderConfig: {type: Object, attribute: 'order-config', state: true, searchParam: true},
+		orderConfig: {type: Object, attribute: 'order-config', reflect: true, searchParam: true},
 	}
 
 	constructor() {
 		super()
-		/* all need to be instanciated with correct "value types" */
-		this.table = null
-		this.select = null
+		/* non-string properties need to have correct defaults */
 		this.filters = []
-		this.defaultFilters = []
-		this.orderBy = null
 		this.orderConfig = {ascending: false}
-		this.page = 1
-		this.limit = 10
 	}
 
 	connectedCallback() {
 		super.connectedCallback()
 		this.setInitialValues()
-		// this.onQuery()
 	}
 
 	updated(attr) {

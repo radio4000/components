@@ -45,9 +45,10 @@ export default class R4PageChannelTracks extends BaseChannel {
 	async onQuery(event) {
 		if (!this.channel) return
 		const q = event.detail
-		q.filters.push(...this.defaultFilters)
-		this.tracks = (await query(q)).data
 		urlUtils.updateSearchParams(q, ['table', 'select'])
+		const filtersWithDefaults = [...q.filters || [], ...this.defaultFilters]
+		q.filters = filtersWithDefaults
+		this.tracks = (await query(q)).data
 		this.lastQuery = q
 	}
 
@@ -82,11 +83,11 @@ export default class R4PageChannelTracks extends BaseChannel {
 				<summary>Query tracks</summary>
 				<r4-supabase-query
 					table="channel_tracks"
-					page=${params.page}
-					limit=${params.limit}
-					order-by=${params['order-by']}
-					order-config=${params['order-config']}
-					.filters=${params.filters}
+					page=${params.get('page')}
+					limit=${params.get('limit')}
+					order-by=${params.get('order-by') || 'title'}
+					order-config=${params.get('order-config')}
+					filters=${params.get('filters')}
 					@query=${this.onQuery}
 				></r4-supabase-query>
 			</details>
