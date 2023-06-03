@@ -48,6 +48,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		q.filters.push(...this.defaultFilters)
 		this.tracks = (await query(q)).data
 		urlUtils.updateSearchParams(q, ['table', 'select'])
+		this.lastQuery = q
 	}
 
 	render() {
@@ -95,7 +96,10 @@ export default class R4PageChannelTracks extends BaseChannel {
 	renderTracks() {
 		if (this.tracks) {
 			return html`
-				<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label="Play selection"></r4-button-play>
+				<menu>
+					<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label="Play selection"></r4-button-play>
+					<r4-pagination page=${this.searchParams.get('page')} .lastQuery=${this.lastQuery} @query=${this.onQuery}></r4-pagination>
+				</menu>
 				<ul>
 					${repeat(this.tracks, (t) => t.id, (t) => this.renderTrack(t))}
 				</ul>
