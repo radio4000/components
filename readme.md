@@ -29,6 +29,10 @@ import '@radio4000/components'
 </script>
 ```
 
+## Changelog
+
+See https://github.com/radio4000/components/releases
+
 ## Development
 
 - The components are in the `./src` folder
@@ -48,17 +52,15 @@ npm run dev
 
 To release this package under `@radio4000/components` on NPM, bump the version in package.json, create a commit, tag it. Create a new release on Github and let the Github action publish it.
 
-To make sure the build workflows
-
+To make sure the build workflows:
 - npm run build
 - npm run dev
 - open http://localhost:4000/tests/dist-test.html
 
-## Creating a new component
+### Creating a new component
 
 - create a `./src/components/r4-*.js` file
 - export default HTMLElement
 - import and export it in `./src/components/index.js`
 - create an demo in `./examples/r4-*/index.html`
 - reference the demo HTML page in `./vite.config.js`
-
