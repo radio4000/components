@@ -70,7 +70,7 @@ export default class R4SupabaseQuery extends LitElement {
 		const query = {
 			table: this.table,
 			select: this.select,
-			filters: this.filters,
+			filters: this.filters || [],
 			orderBy: this.orderBy,
 			orderConfig: this.orderConfig,
 			page: this.page,

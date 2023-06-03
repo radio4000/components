@@ -42,6 +42,7 @@ export function propertiesToSearch(elementProperties, dataObj) {
 		const paramValue = dataObj[name]
 		if (paramValue) {
 			if (['Object', 'Array'].includes(attributeType)) {
+				if (attributeType === 'Array' && paramValue.length === 0) return
 				searchParams.set(searchParam, JSON.stringify(paramValue))
 			} else {
 				searchParams.set(searchParam, paramValue)
