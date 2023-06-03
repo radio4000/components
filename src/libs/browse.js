@@ -66,7 +66,7 @@ export async function query({
 	 */
 	filters?.length && filters
 		.filter((filter) => {
-			return supabaseOperators.includes(filter.operator)
+			return filter.value && supabaseOperators.includes(filter.operator)
 		})
 		.forEach((filter) => {
 			/* "filter" operator is a supabase.sdk "escape hatch",
@@ -90,7 +90,7 @@ export async function query({
 		})
 
 	// After filters we add sorting.
-	query = query.order(orderBy, orderConfig)
+	query = query.order(orderBy, orderConfig || null)
 
 	// And pagination.
 	const {from, to, limit: l} = getBrowseParams({page, limit})
