@@ -106,7 +106,7 @@ export async function query({
 	 -> page="1" limit="1"
 	 -> from[0] to to[0] limit[0]
  */
-function getBrowseParams({page, limit}) {
+export function getBrowseParams({page, limit}) {
 	const from = (page - 1) * limit
 	const to = from + limit - 1
 	const params = {from, to, limit}
