@@ -54,6 +54,12 @@ export default class R4PageChannelTracks extends BaseChannel {
 		this.lastQuery = q
 	}
 
+	setDisplay(event) {
+		event.preventDefault()
+		const fd = new FormData(event.currentTarget)
+		this.display = fd.get('display')
+	}
+
 	render() {
 		return [
 			this.channel && !this.channelError ? this.renderPage() : this.renderLoading(),
@@ -94,14 +100,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 				></r4-supabase-query>
 			</details>
 		`
-	}
-
-	setDisplay(event) {
-		event.preventDefault()
-		const fd = new FormData(event.currentTarget)
-		const display = fd.get('display')
-		console.log(display)
-		this.display = display
 	}
 
 	renderTracks() {
@@ -161,14 +159,10 @@ export default class R4PageChannelTracks extends BaseChannel {
 				${repeat(
 					this.tracks,
 					(t) => t.id,
-					(t) => this.renderTrack(t)
+					(t) => html` <li><r4-track .track=${t} origin=${'' || this.tracksOrigin}></r4-track></li> `
 				)}
 			</ul>
 		`
-	}
-
-	renderTrack(track) {
-		return html` <li><r4-track .track=${track} origin=${'' || this.tracksOrigin}></r4-track></li> `
 	}
 
 	renderNoPage() {
