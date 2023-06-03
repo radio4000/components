@@ -1,5 +1,6 @@
 import R4List from './r4-list.js'
 import {sdk} from '@radio4000/sdk'
+import {getBrowseParams} from '../libs/browse.js'
 
 const itemTemplate = document.createElement('template')
 /* This will set the whole item (channel) json,
@@ -49,7 +50,7 @@ export default class R4ChannelFollowers extends R4List {
 		if (this.attributes['channel-id']) {
 			/* if it has a value */
 			if (this.channelId) {
-				const browseParams = this.getBrowseParams({ page, limit })
+				const browseParams = getBrowseParams({ page, limit })
 				const data = await this.browseChannelFollowersPage(browseParams)
 				return data
 			}

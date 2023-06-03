@@ -1,5 +1,5 @@
 import { sdk } from '@radio4000/sdk'
-import urlUtils from '../libs/url-utils.js'
+import {getBrowseParams} from '../libs/browse.js'
 
 const template = document.createElement('template')
 template.innerHTML = `
@@ -130,7 +130,7 @@ export default class R4List extends HTMLElement {
 	/* browse the list (of data models) like it is paginated;
 		 components-attributes -> supbase-query */
 	async browsePage(props) {
-		const { from, to, limit } = urlUtils.getBrowseParams(props)
+		const { from, to, limit } = getBrowseParams(props)
 		return sdk.supabase
 			.from(this.model)
 			.select(this.select)
