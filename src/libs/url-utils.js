@@ -82,7 +82,8 @@ export function updateSearchParams(query, excludeList = []) {
 	const props = getElementProperties(R4SupabaseQuery).filter(({name}) => !excludeList.includes(name))
 	const searchParams = propertiesToSearch(props, query)
 	const searchParamsString = `?${searchParams.toString()}`
-	window.history.replaceState(null, null, searchParamsString)
+	const search = decodeURIComponent(searchParamsString)
+	window.history.replaceState(null, null, search)
 }
 
 export default {
