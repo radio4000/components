@@ -98,10 +98,18 @@ export default class R4PageChannelTracks extends BaseChannel {
 			return html`
 				<menu>
 					<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label="Play selection"></r4-button-play>
-					<r4-pagination page=${this.searchParams.get('page')} .lastQuery=${this.lastQuery} @query=${this.onQuery}></r4-pagination>
+					<r4-pagination
+						page=${this.searchParams.get('page')}
+						.lastQuery=${this.lastQuery}
+						@query=${this.onQuery}
+					></r4-pagination>
 				</menu>
 				<ul>
-					${repeat(this.tracks, (t) => t.id, (t) => this.renderTrack(t))}
+					${repeat(
+						this.tracks,
+						(t) => t.id,
+						(t) => this.renderTrack(t)
+					)}
 				</ul>
 			`
 		}

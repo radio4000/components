@@ -51,9 +51,7 @@ export default class R4SupabaseQuery extends LitElement {
 	setInitialValues() {
 		if (!this.page) this.page = 1
 		if (!this.limit) this.limit = 10
-		if (!this.table) {
-			this.table = tables[0]
-		}
+		if (!this.table) this.table = tables[0]
 		const tableData = tables[this.table]
 		this.select = this.select || tableData.selects[0]
 		if (tableData.junctions) {
@@ -70,16 +68,15 @@ export default class R4SupabaseQuery extends LitElement {
 		const query = {
 			table: this.table,
 			select: this.select,
-			filters: this.filters || [],
+			filters: this.filters,
 			orderBy: this.orderBy,
 			orderConfig: this.orderConfig,
 			page: this.page,
 			limit: this.limit,
 		}
-		console.log(query)
 		const queryEvent = new CustomEvent('query', {
 			bubbles: true,
-			detail: query
+			detail: query,
 		})
 		this.dispatchEvent(queryEvent)
 	}
@@ -108,9 +105,11 @@ export default class R4SupabaseQuery extends LitElement {
 			this[name] = value
 		}
 	}
+
 	onFilters({detail}) {
 		this.filters = detail
 	}
+
 	onFormSubmit(event) {
 		event.preventDefault()
 		event.stopPropagation()
@@ -144,6 +143,7 @@ export default class R4SupabaseQuery extends LitElement {
 	createRenderRoot() {
 		return this
 	}
+
 	render() {
 		return this.renderQueryBuilder()
 	}
@@ -161,6 +161,7 @@ export default class R4SupabaseQuery extends LitElement {
 			</form>
 		`
 	}
+
 	renderQueryTable() {
 		return html`
 			<fieldset name="table">
@@ -174,6 +175,7 @@ export default class R4SupabaseQuery extends LitElement {
 			</fieldset>
 		`
 	}
+
 	renderQuerySelect() {
 		return html`
 			<fieldset name="select">
@@ -195,6 +197,7 @@ export default class R4SupabaseQuery extends LitElement {
 			</fieldset>
 		`
 	}
+
 	renderQueryPage() {
 		return html`
 			<fieldset name="page">
@@ -213,6 +216,7 @@ export default class R4SupabaseQuery extends LitElement {
 			</fieldset>
 		`
 	}
+
 	renderQueryLimit() {
 		return html`
 			<fieldset name="limit">
@@ -232,6 +236,7 @@ export default class R4SupabaseQuery extends LitElement {
 			</fieldset>
 		`
 	}
+
 	renderQueryOrderKey() {
 		return html`
 			<fieldset name="orderBy">
@@ -245,6 +250,7 @@ export default class R4SupabaseQuery extends LitElement {
 			</fieldset>
 		`
 	}
+
 	renderOrderConfig() {
 		const {ascending} = this.orderConfig
 		return html`
