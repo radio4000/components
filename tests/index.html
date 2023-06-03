@@ -6,8 +6,8 @@
 		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
 		<title>Test</title>
 		<!-- npm run build; cp dist/r4.js dist/r4.css tests -->
-		<link rel="stylesheet" href="r4.css" />
-		<script type="module" src="r4.js"></script>
+		<link rel="stylesheet" href="../dist/r4.css" />
+		<script type="module" src="../dist/r4.js"></script>
 	</head>
 
 	<body>
@@ -29,7 +29,7 @@
 			const channel = params.get('channel')
 			const $app = document.querySelector('r4-app')
 			//$app.setAttribute('href', window.location.origin)
-			$app.setAttribute('href', window.location.origin + '/whatever/')
+			$app.setAttribute('href', window.location.origin + '/')
 			channel && $app.setAttribute('channel', channel)
 		</script>
 	</body>
