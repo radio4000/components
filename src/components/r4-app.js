@@ -73,7 +73,7 @@ export default class R4App extends LitElement {
 		// which channel is currently selected in UI (or forced as single visible one)
 		this.selectedSlug = this.getAttribute('channel')
 
-		sdk.supabase.auth.onAuthStateChange(async (event, session) => {
+		sdk.supabase.auth.onAuthStateChange(async (event) => {
 			if (event === 'SIGNED_OUT') this.removeDatabaseListeners()
 
 			// @todo redirect to a /set-password page or similar instead of the prompt
@@ -155,7 +155,7 @@ export default class R4App extends LitElement {
 						table: 'channels',
 						filter: `id=in.(${userChannelIds.join(',')})`,
 					},
-					(payload) => {
+					() => {
 						this.refreshUserData()
 					}
 				)
@@ -338,6 +338,7 @@ function renderRouterCMS({store, config}) {
 			<r4-route path="/settings" page="settings"></r4-route>
 			<r4-route path="/map" page="map"></r4-route>
 			<r4-route path="/search" page="search"></r4-route>
+			<r4-route path="/playground/:color" page="playground"></r4-route>
 			<r4-route path="/:slug" page="channel"></r4-route>
 			<r4-route path="/:slug/update" page="channel-update"></r4-route>
 			<r4-route path="/:slug/player" page="channel-player"></r4-route>

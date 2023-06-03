@@ -15,29 +15,21 @@ export default class R4SupabaseQuery extends LitElement {
 		/* supabase query parameters */
 		table: {type: String, reflect: true, searchParam: true},
 		select: {type: String, searchParam: true},
-		filters: {type: Array, searchParam: true, state: true},
-		defaultFilters: {type: Array, attribute: 'default-filters', searchParam: true, state: true},
+		filters: {type: Array, searchParam: true, reflect: true},
 		orderBy: {type: String, attribute: 'order-by', reflect: true, searchParam: true},
-		orderConfig: {type: Object, attribute: 'order-config', state: true, searchParam: true},
+		orderConfig: {type: Object, attribute: 'order-config', reflect: true, searchParam: true},
 	}
 
 	constructor() {
 		super()
-		/* all need to be instanciated with correct "value types" */
-		this.table = null
-		this.select = null
+		/* non-string properties need to have correct defaults */
 		this.filters = []
-		this.defaultFilters = []
-		this.orderBy = null
 		this.orderConfig = {ascending: false}
-		this.page = 1
-		this.limit = 10
 	}
 
 	connectedCallback() {
 		super.connectedCallback()
 		this.setInitialValues()
-		// this.onQuery()
 	}
 
 	updated(attr) {
@@ -51,9 +43,7 @@ export default class R4SupabaseQuery extends LitElement {
 	setInitialValues() {
 		if (!this.page) this.page = 1
 		if (!this.limit) this.limit = 10
-		if (!this.table) {
-			this.table = tables[0]
-		}
+		if (!this.table) this.table = tables[0]
 		const tableData = tables[this.table]
 		this.select = this.select || tableData.selects[0]
 		if (tableData.junctions) {
@@ -76,10 +66,9 @@ export default class R4SupabaseQuery extends LitElement {
 			page: this.page,
 			limit: this.limit,
 		}
-		console.log(query)
 		const queryEvent = new CustomEvent('query', {
 			bubbles: true,
-			detail: query
+			detail: query,
 		})
 		this.dispatchEvent(queryEvent)
 	}
@@ -108,9 +97,11 @@ export default class R4SupabaseQuery extends LitElement {
 			this[name] = value
 		}
 	}
+
 	onFilters({detail}) {
 		this.filters = detail
 	}
+
 	onFormSubmit(event) {
 		event.preventDefault()
 		event.stopPropagation()
@@ -144,6 +135,7 @@ export default class R4SupabaseQuery extends LitElement {
 	createRenderRoot() {
 		return this
 	}
+
 	render() {
 		return this.renderQueryBuilder()
 	}
@@ -161,6 +153,7 @@ export default class R4SupabaseQuery extends LitElement {
 			</form>
 		`
 	}
+
 	renderQueryTable() {
 		return html`
 			<fieldset name="table">
@@ -174,6 +167,7 @@ export default class R4SupabaseQuery extends LitElement {
 			</fieldset>
 		`
 	}
+
 	renderQuerySelect() {
 		return html`
 			<fieldset name="select">
@@ -195,6 +189,7 @@ export default class R4SupabaseQuery extends LitElement {
 			</fieldset>
 		`
 	}
+
 	renderQueryPage() {
 		return html`
 			<fieldset name="page">
@@ -213,6 +208,7 @@ export default class R4SupabaseQuery extends LitElement {
 			</fieldset>
 		`
 	}
+
 	renderQueryLimit() {
 		return html`
 			<fieldset name="limit">
@@ -232,6 +228,7 @@ export default class R4SupabaseQuery extends LitElement {
 			</fieldset>
 		`
 	}
+
 	renderQueryOrderKey() {
 		return html`
 			<fieldset name="orderBy">
@@ -245,6 +242,7 @@ export default class R4SupabaseQuery extends LitElement {
 			</fieldset>
 		`
 	}
+
 	renderOrderConfig() {
 		const {ascending} = this.orderConfig
 		return html`

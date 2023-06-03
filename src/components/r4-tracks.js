@@ -1,5 +1,6 @@
-import R4List from './r4-list.js'
 import { sdk } from '@radio4000/sdk'
+import R4List from './r4-list.js'
+import { getBrowseParams } from '../libs/browse.js'
 
 const itemTemplate = document.createElement('template')
 /* This will set the whole item (track) json,
@@ -50,7 +51,7 @@ export default class R4Tracks extends R4List {
 		if (this.attributes['channel']) {
 			/* if it has a value */
 			if (this.channel) {
-				const browseParams = this.getBrowseParams({ page, limit })
+				const browseParams = getBrowseParams({ page, limit })
 				return this.browseChannelPage(browseParams)
 			} else {
 				// noop
