@@ -338,6 +338,7 @@ function renderRouterCMS({store, config}) {
 			<r4-route path="/settings" page="settings"></r4-route>
 			<r4-route path="/map" page="map"></r4-route>
 			<r4-route path="/search" page="search"></r4-route>
+			<r4-route path="/playground/:color" page="playground"></r4-route>
 			<r4-route path="/:slug" page="channel"></r4-route>
 			<r4-route path="/:slug/update" page="channel-update"></r4-route>
 			<r4-route path="/:slug/player" page="channel-player"></r4-route>
