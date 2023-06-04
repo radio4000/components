@@ -63,7 +63,7 @@ r4-app {
 	color: var(--c-fg);
 	background-color: var(--c-bg);
 	font-size: var(--s-font);
-	padding: calc(var(--s) / 3);
+	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 }
@@ -84,14 +84,10 @@ r4-app * {
 
 /* make the panel min height, the viewport, so "route change" don't make the UI jump */
 r4-app r4-layout::part(panel) {
-	min-height: 100vh;
+	/* min-height: 100vh; */
 }
 
 r4-app r4-layout::part(menu) {
-	/* order: 2; */
-	/* position: sticky; */
-	/* top: 0; */
-	/* left: 0; */
 	background-color: var(--c-bg);
 }
 
@@ -126,11 +122,9 @@ r4-app th {
 	text-align: left;
 }
 r4-app tbody tr:nth-child(odd) td {
-	background: #eee;
+	background: hsla(0, 0%, 50%, 0.1);
 }
 
 r4-app [tag] {
-	/* background: var(--c-link); */
-	/* color: var(--fg); */
 	margin: 2px;
 }
