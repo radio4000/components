@@ -36,7 +36,12 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	render() {
-		if (!this.channel && !this.channelError) {
+		if (this.isFirebaseChannel) {
+			return html`
+				<radio4000-player channel-slug=${this.params.slug}></radio4000-player>
+				<p>This channel has not yet migrated to the new Radio4000. That's ok, you can still listen.</p>
+			`
+		} else if (!this.channel && !this.channelError) {
 			return this.renderLoading()
 		} else if (this.channel) {
 			return this.renderChannel()
@@ -55,9 +60,6 @@ export default class R4PageChannel extends BaseChannel {
 
 	renderChannel() {
 		const {channel} = this
-		if (this.isFirebaseChannel)
-			return html`<p>This channel has not yet migrated to the new Radio4000</p>
-				<radio4000-player channel-slug=${this.params.slug}></radio4000-player> `
 		if (!channel) return html`<p>Loading...</p>`
 
 		return html`
