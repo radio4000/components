@@ -91,8 +91,8 @@ export default class R4PageChannelTracks extends BaseChannel {
 				<summary>Query tracks</summary>
 				<r4-supabase-query
 					table="channel_tracks"
-					page=${params.get('page')}
-					limit=${params.get('limit')}
+					page=${params.get('page') || 1}
+					limit=${params.get('limit') || 10}
 					order-by=${params.get('order-by')}
 					order-config=${params.get('order-config')}
 					filters=${params.get('filters')}
@@ -113,8 +113,10 @@ export default class R4PageChannelTracks extends BaseChannel {
 					.lastQuery=${this.lastQuery}
 					@query=${this.onQuery}
 				></r4-pagination>
-
-				<a href=${this.tracksOrigin + `?filters=[{%22operator%22:%22neq%22,%22column%22:%22mentions%22,%22value%22:%22{}%22}]`}>Mentions</a>
+				<a href=${this.tracksOrigin + `?filters=[{%22operator%22:%22neq%22,%22column%22:%22tags%22,%22value%22:%22{}%22}]`}>#Tags</a>
+				<a href=${this.tracksOrigin + `?filters=[{%22operator%22:%22contains%22,%22column%22:%22tags%22,%22value%22:%221979%22}]`}>1979</a>
+				<a href=${this.tracksOrigin + `?filters=[{%22operator%22:%22contains%22,%22column%22:%22tags%22,%22value%22:%22disco%22}]`}>Disco</a>
+				<a href=${this.tracksOrigin + `?filters=[{%22operator%22:%22neq%22,%22column%22:%22mentions%22,%22value%22:%22{}%22}]`}>@Mentions</a>
 			</menu>
 
 			<form @change=${this.setDisplay}>

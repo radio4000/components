@@ -27,7 +27,6 @@ export default class R4PagePlayground extends LitElement {
 	async connectedCallback() {
 		// Again, remember to call super.
 		super.connectedCallback()
-		console.log(this)
 		console.log('component:connected', {
 			store: this.store,
 			config: this.config,

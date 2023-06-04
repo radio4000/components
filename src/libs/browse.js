@@ -76,12 +76,16 @@ export async function query({
 			} else if (['contains', 'containedBy'].includes(filter.operator)) {
 				/* handle each type of supabase/postresql filter */
 				let valueJson
-				try {
-					valueJson = JSON.parse(filter.value)
-				} catch (e) {
-					//
+				// If the value is a number, like 1979, we don't want to parse.
+				if (!typeof filter.value === 'Number') {
+					try {
+						valueJson = JSON.parse(filter.value)
+					} catch (e) {
+						//
+					}
 				}
-				query = query[filter.operator](filter.column, valueJson || [filter.value.split(',')] || null)
+				const val = valueJson || [filter.value.split(',')] || null
+				query = query[filter.operator](filter.column, val)
 			} else {
 				query = query[filter.operator](filter.column, filter.value || null)
 			}
