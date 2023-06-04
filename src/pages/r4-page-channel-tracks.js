@@ -113,6 +113,8 @@ export default class R4PageChannelTracks extends BaseChannel {
 					.lastQuery=${this.lastQuery}
 					@query=${this.onQuery}
 				></r4-pagination>
+
+				<a href=${this.tracksOrigin + `?filters=[{%22operator%22:%22neq%22,%22column%22:%22mentions%22,%22value%22:%22{}%22}]`}>Mentions</a>
 			</menu>
 
 			<form @change=${this.setDisplay}>
@@ -128,11 +130,11 @@ export default class R4PageChannelTracks extends BaseChannel {
 		return html`
 			<table>
 				<thead>
-					<th>title</th>
-					<th>description</th>
-					<th>tags</th>
-					<th>mentions</th>
-					<th>created</th>
+					<th>Track</th>
+					<th>Description</th>
+					<th>Tags</th>
+					<th>Mentions</th>
+					<th></th>
 				</thead>
 				<tbody>
 					${repeat(
@@ -142,8 +144,8 @@ export default class R4PageChannelTracks extends BaseChannel {
 							<tr>
 								<td><a href=${this.tracksOrigin + t.id}>${t.title}</a></td>
 								<td>${t.description}</td>
-								<td>${t.tags}</td>
-								<td>${t.mentions}</td>
+								<td>${t.tags?.length ? t.tags.map((x) => this.renderTag(x)) : null}</td>
+								<td>${t.mentions?.length ? t.mentions.map((x) => this.renderMention(x)) : null}</td>
 								<td>${formatDate(t.created_at)}</td>
 							</tr>
 						`
@@ -151,6 +153,17 @@ export default class R4PageChannelTracks extends BaseChannel {
 				</tbody>
 			</table>
 		`
+	}
+
+	renderTag(label) {
+		const filter = JSON.stringify({operator: 'contains', column: 'tags', value: label})
+		const url = `${this.tracksOrigin}?filters=[${filter}]`
+		return html`<a href="${url}" tag>${label}</a>`
+	}
+
+	renderMention(slug) {
+		const url = this.config.href + '/' + slug
+		return html`<a href="${url}" tag>${slug}</a>`
 	}
 
 	renderTracksList() {
