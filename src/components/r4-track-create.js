@@ -55,7 +55,7 @@ export default class R4TrackCreate extends R4Form {
 		}
 	}
 
-	attributeChangedCallback(attrName) {
+	attributeChangedCallback() {
 		super.attributeChangedCallback(...arguments)
 		const $channelId = this.querySelector('[name="channel_id"]')
 		if ($channelId.value) {
@@ -93,8 +93,9 @@ export default class R4TrackCreate extends R4Form {
 			try {
 				res = await fetch(`https://api.radio4000.com/api/youtube?id=${data.id}`)
 				trackInfo = await res.json()
-			} catch (error) {}
-			console.log('API trackInfo', trackInfo)
+			} catch (error) {
+				//
+			}
 		}
 		return trackInfo
 	}

@@ -6,6 +6,7 @@ export default class R4PageNew extends LitElement {
 		store: { type: Object, state: true },
 		config: { type: Object, state: true },
 	}
+
 	connectedCallback() {
 		super.connectedCallback()
 		if (!this.store.user) {
@@ -15,6 +16,7 @@ export default class R4PageNew extends LitElement {
 			page(`/${this.store.userChannels[0].slug}`)
 		}
 	}
+
 	render() {
 		return html`
 			<main>

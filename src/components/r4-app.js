@@ -2,15 +2,17 @@ import {html, LitElement} from 'lit'
 import {ref, createRef} from 'lit/directives/ref.js'
 import {sdk} from '@radio4000/sdk'
 import page from 'page/page.mjs'
+import DatabaseListeners from '../libs/db-listeners'
 import '../pages/'
 
 export default class R4App extends LitElement {
 	playerRef = createRef()
 
 	static properties = {
-		/* public attributes, config props */
-		singleChannel: {type: Boolean, reflect: true, attribute: 'single-channel', state: true},
-		selectedSlug: {type: String, reflect: true, attribute: 'channel', state: true}, // channel slug
+		// public
+		singleChannel: {type: Boolean, reflect: true, attribute: 'single-channel'},
+		// the channel slug
+		selectedSlug: {type: String, reflect: true, attribute: 'channel'},
 		href: {
 			reflect: true,
 			converter: (value) => {
@@ -60,73 +62,65 @@ export default class R4App extends LitElement {
 	}
 
 	get selectedChannel() {
-		if (!this.config.selectedSlug || !this.user || !this.userChannels) return null
+		if (!this.userChannels || !this.selectedSlug || !this.user) return null
 		return this.userChannels.find((c) => c.slug === this.selectedSlug)
 	}
 
 	async connectedCallback() {
 		super.connectedCallback()
 
-		// is the app running in "single visible channel" mode?
-		this.singleChannel = this.getAttribute('single-channel')
-
-		// which channel is currently selected in UI (or forced as single visible one)
-		this.selectedSlug = this.getAttribute('channel')
-
-		sdk.supabase.auth.onAuthStateChange(async (event) => {
-			if (event === 'SIGNED_OUT') this.removeDatabaseListeners()
-
-			// @todo redirect to a /set-password page or similar instead of the prompt
-			if (event === 'PASSWORD_RECOVERY') {
-				const newPassword = prompt('What would you like your new password to be?')
-				if (!newPassword) return
-				const {data, error} = await sdk.supabase.auth.updateUser({password: newPassword})
-				if (data) alert('Password updated successfully!')
-				if (error) alert('There was an error updating your password.')
+		this.listeners = new DatabaseListeners(this)
+		this.listeners.addEventListener('auth', async (event) => {
+			this.user = event.detail.user
+			this.refreshUserData()
+			if (event.detail === 'PASSWORD_RECOVERY') this.passwordRecovery()
+		})
+		this.listeners.addEventListener('user-channels', (event) => {
+			if (event.detail.eventType === 'INSERT' || event.detail.eventType === 'DELETE') {
+				this.refreshUserData()
 			}
-
-			await this.refreshUserData()
 		})
 	}
 
 	async refreshUserData() {
-		if (this.refreshUserData.running) return
+		// Ensure it doesn't run multiple times in parallel.
+		if (this.refreshUserData.running)  return
 		this.refreshUserData.running = true
 
-		const {data} = await sdk.supabase.auth.getSession()
-		this.user = data?.session?.user
-
-		if (this.user) {
-			// this.setTheme()
-
-			// load user channels
-			const {data: channels} = await sdk.channels.readUserChannels()
-			this.userChannels = channels?.length ? channels : undefined
-
-			// load current channel followers/followings
-			if (!this.config.selectedSlug && this.userChannels) {
-				this.selectedSlug = this.userChannels[0].slug
-			}
-
-			if (this.selectedChannel) {
-				const {data: followers} = await sdk.channels.readFollowers(this.selectedChannel.id)
-				const {data: followings} = await sdk.channels.readFollowings(this.selectedChannel.id)
-				this.followers = followers
-				this.followings = followings
-			}
-
-			/* finally set the db listeners for changes in "user data";
-				 it needs to have access to all user state, and selectedChannel
-			 */
-			this.setupDatabaseListeners()
-		} else {
+		if (!this.user) {
 			this.userChannels = undefined
 			this.followers = undefined
 			this.followings = undefined
+		} else {
+			// Refresh user theme settings
+			this.setTheme()
+
+			// Refresh user channels
+			this.userChannels = (await sdk.channels.readUserChannels()).data
+			if (this.userChannels && !this.selectedSlug) {
+				this.selectedSlug = this.userChannels[0].slug
+			}
+
+			// Set followers and following
+			if (this.selectedChannel) {
+				this.followers = (await sdk.channels.readFollowers(this.selectedChannel.id)).data
+				this.followings = (await sdk.channels.readFollowings(this.selectedChannel.id)).data
+			}
+
+			// In case the `this.user` changed, we must refresh the listeners.
+			this.listeners.start()
 		}
 
 		this.didLoad = true
 		this.refreshUserData.running = false
+	}
+
+	async passwordRecovery() {
+		const newPassword = prompt('What would you like your new password to be?')
+		if (!newPassword) return
+		const {data, error} = await sdk.supabase.auth.updateUser({password: newPassword})
+		if (data) alert('Password updated successfully!')
+		if (error) alert('There was an error updating your password.')
 	}
 
 	async setTheme() {
@@ -138,82 +132,12 @@ export default class R4App extends LitElement {
 		}
 	}
 
-	// When this is run, `user` and `userChannels` can be undefined.
-	async setupDatabaseListeners() {
-		// always cleanup existing listeners
-		await this.removeDatabaseListeners()
-
-		if (this.userChannels) {
-			const userChannelIds = this.userChannels.map((c) => c.id)
-			const userChannelsChanges = sdk.supabase.channel('user-channels-changes')
-			userChannelsChanges
-				.on(
-					'postgres_changes',
-					{
-						event: '*',
-						schema: 'public',
-						table: 'channels',
-						filter: `id=in.(${userChannelIds.join(',')})`,
-					},
-					() => {
-						this.refreshUserData()
-					}
-				)
-				.subscribe()
-		}
-
-		const userChannelEvents = sdk.supabase.channel('user-channels-events')
-		userChannelEvents
-			.on(
-				'postgres_changes',
-				{
-					event: '*',
-					schema: 'public',
-					table: 'user_channel',
-					filter: `user_id=eq.${this.user.id}`,
-				},
-				async (payload) => {
-					if (payload.eventType === 'INSERT' || payload.eventType === 'DELETE') {
-						/* need to remove listeners, because the userChannels changed
-					 (so to listen to changes in the new ones) */
-						await this.refreshUserData()
-					}
-				}
-			)
-			.subscribe()
-
-		if (this.selectedChannel?.id) {
-			const userFavoriteEvents = sdk.supabase.channel('user-channel-favorites')
-			userFavoriteEvents
-				.on(
-					'postgres_changes',
-					{
-						event: '*',
-						schema: 'public',
-						table: 'followers',
-						filter: `follower_id=eq.${this.selectedChannel.id}`,
-					},
-					async (payload) => {
-						if (payload.eventType === 'INSERT' || payload.eventType === 'DELETE') {
-							await this.refreshUserData()
-						}
-					}
-				)
-				.subscribe()
-		}
-	}
-
-	async removeDatabaseListeners() {
-		return sdk.supabase.removeAllChannels()
-	}
-
 	render() {
 		if (!this.didLoad) return html`<progress value=${0} max="100"></progress> `
-
 		return html`
 			<r4-layout @r4-play=${this.onPlay} ?is-playing=${this.isPlaying}>
-				${!this.config.singleChannel ? this.renderAppMenu() : null}
-				<main slot="main">${this.renderAppRouter()}</main>
+				${!this.config.singleChannel ? this.renderMenu() : null}
+				<main slot="main">${this.renderRouter()}</main>
 				<r4-player slot="player" ${ref(this.playerRef)} ?is-playing=${this.isPlaying}></r4-player>
 			</r4-layout>
 		`
@@ -223,20 +147,19 @@ export default class R4App extends LitElement {
 	 - one for the channel in CMS mode (all channels are accessible)
 	 - one for when only one channel should be displayed in the UI
  */
-	renderAppRouter() {
+	renderRouter() {
 		const routerData = {store: this.store, config: this.config}
 		return this.singleChannel ? renderRouterSingleChannel(routerData) : renderRouterCMS(routerData)
 	}
 
-	renderAppMenu() {
+	renderMenu() {
 		return html`
 			<header slot="menu">
-				<a href=${this.config.href}><r4-title small></r4-title></a>
+				<a href=${this.config.href + '/'}><r4-title small></r4-title></a>
 			</header>
 		`
 	}
 
-	/* events */
 	onChannelSelect({detail}) {
 		if (detail.channel) {
 			const {slug} = detail.channel
@@ -245,7 +168,6 @@ export default class R4App extends LitElement {
 		}
 	}
 
-	/* play some data */
 	async onPlay(event) {
 		const {detail} = event
 		if (!detail) {
@@ -304,7 +226,6 @@ export default class R4App extends LitElement {
 		this.playerRef.value.removeAttribute('tracks')
 	}
 
-	/* no shadow dom */
 	createRenderRoot() {
 		return this
 	}

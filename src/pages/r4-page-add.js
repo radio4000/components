@@ -28,6 +28,7 @@ export default class R4PageAdd extends LitElement {
 		} else if (this.config.selectedSlug) {
 			return this.config.selectedSlug
 		}
+		return undefined
 	}
 	// set selectedSlug(val) {
 	// 	return val

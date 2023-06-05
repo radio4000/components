@@ -11,6 +11,7 @@ export default class R4PageChannel extends BaseChannel {
 				latitude: this.channel.latitude,
 			}
 		}
+		return undefined
 	}
 
 	get loadingValue() {
@@ -86,6 +87,8 @@ export default class R4PageChannel extends BaseChannel {
 				</nav-item>
 			</nav>
 
+			${channel.image ? this.renderChannelImage() : null}
+
 			<r4-channel-name>
 				<h1>${channel.name}</h1>
 			</r4-channel-name>
@@ -97,7 +100,6 @@ export default class R4PageChannel extends BaseChannel {
 						<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
 				  </r4-channel-url>`
 				: null}
-			${channel.image ? this.renderChannelImage() : null}
 
 			<ul>
 				<li>

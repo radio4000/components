@@ -77,7 +77,7 @@ export async function query({
 				/* handle each type of supabase/postresql filter */
 				let valueJson
 				// If the value is a number, like 1979, we don't want to parse.
-				if (!typeof filter.value === 'Number') {
+				if (Number.isNaN(filter.value)) {
 					try {
 						valueJson = JSON.parse(filter.value)
 					} catch (e) {

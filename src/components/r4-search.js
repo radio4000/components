@@ -44,6 +44,13 @@ export default class R4Search extends LitElement {
 	render() {
 		return html`
 			${this.renderForm()}
+			${this.slug && this.results?.length
+				? html`<r4-button-play
+						slug=${this.slug}
+						.tracks=${this.results}
+						label="Play search selection"
+				  ></r4-button-play>`
+				: ''}
 			${this.results?.length
 				? html` <ul>
 						${repeat(
@@ -52,13 +59,6 @@ export default class R4Search extends LitElement {
 							(item, index) => html` <li>${this.renderResult(item, index)}</li> `
 						)}
 				  </ul>`
-				: ''}
-			${this.slug && this.results?.length
-				? html`<r4-button-play
-						slug=${this.slug}
-						.tracks=${this.results}
-						label="Play search selection"
-				  ></r4-button-play>`
 				: ''}
 		`
 	}

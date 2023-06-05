@@ -1,6 +1,5 @@
-import { html, LitElement } from 'lit'
-import { until } from 'lit/directives/until.js'
-import { sdk } from '@radio4000/sdk'
+import {html} from 'lit'
+import {until} from 'lit/directives/until.js'
 import BaseChannel from './base-channel'
 import page from 'page/page.mjs'
 
@@ -48,9 +47,9 @@ export default class R4PageChannelFollowers extends BaseChannel {
 		return this
 	}
 
-	onNavigateList({ detail }) {
+	onNavigateList({detail}) {
 		/* `page` here, is usually globaly the "router", beware */
-		const { page: currentPage, limit, list } = detail
+		const {page: currentPage, limit, list} = detail
 		const newPageURL = new URL(window.location)
 
 		limit && newPageURL.searchParams.set('limit', limit)
