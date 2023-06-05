@@ -138,82 +138,12 @@ export default class R4App extends LitElement {
 		}
 	}
 
-	// When this is run, `user` and `userChannels` can be undefined.
-	async setupDatabaseListeners() {
-		// always cleanup existing listeners
-		await this.removeDatabaseListeners()
-
-		if (this.userChannels) {
-			const userChannelIds = this.userChannels.map((c) => c.id)
-			const userChannelsChanges = sdk.supabase.channel('user-channels-changes')
-			userChannelsChanges
-				.on(
-					'postgres_changes',
-					{
-						event: '*',
-						schema: 'public',
-						table: 'channels',
-						filter: `id=in.(${userChannelIds.join(',')})`,
-					},
-					() => {
-						this.refreshUserData()
-					}
-				)
-				.subscribe()
-		}
-
-		const userChannelEvents = sdk.supabase.channel('user-channels-events')
-		userChannelEvents
-			.on(
-				'postgres_changes',
-				{
-					event: '*',
-					schema: 'public',
-					table: 'user_channel',
-					filter: `user_id=eq.${this.user.id}`,
-				},
-				async (payload) => {
-					if (payload.eventType === 'INSERT' || payload.eventType === 'DELETE') {
-						/* need to remove listeners, because the userChannels changed
-					 (so to listen to changes in the new ones) */
-						await this.refreshUserData()
-					}
-				}
-			)
-			.subscribe()
-
-		if (this.selectedChannel?.id) {
-			const userFavoriteEvents = sdk.supabase.channel('user-channel-favorites')
-			userFavoriteEvents
-				.on(
-					'postgres_changes',
-					{
-						event: '*',
-						schema: 'public',
-						table: 'followers',
-						filter: `follower_id=eq.${this.selectedChannel.id}`,
-					},
-					async (payload) => {
-						if (payload.eventType === 'INSERT' || payload.eventType === 'DELETE') {
-							await this.refreshUserData()
-						}
-					}
-				)
-				.subscribe()
-		}
-	}
-
-	async removeDatabaseListeners() {
-		return sdk.supabase.removeAllChannels()
-	}
-
 	render() {
 		if (!this.didLoad) return html`<progress value=${0} max="100"></progress> `
-
 		return html`
 			<r4-layout @r4-play=${this.onPlay} ?is-playing=${this.isPlaying}>
-				${!this.config.singleChannel ? this.renderAppMenu() : null}
-				<main slot="main">${this.renderAppRouter()}</main>
+				${!this.config.singleChannel ? this.renderMenu() : null}
+				<main slot="main">${this.renderRouter()}</main>
 				<r4-player slot="player" ${ref(this.playerRef)} ?is-playing=${this.isPlaying}></r4-player>
 			</r4-layout>
 		`
@@ -223,20 +153,19 @@ export default class R4App extends LitElement {
 	 - one for the channel in CMS mode (all channels are accessible)
 	 - one for when only one channel should be displayed in the UI
  */
-	renderAppRouter() {
+	renderRouter() {
 		const routerData = {store: this.store, config: this.config}
 		return this.singleChannel ? renderRouterSingleChannel(routerData) : renderRouterCMS(routerData)
 	}
 
-	renderAppMenu() {
+	renderMenu() {
 		return html`
 			<header slot="menu">
-				<a href=${this.config.href}><r4-title small></r4-title></a>
+				<a href=${this.config.href + '/'}><r4-title small></r4-title></a>
 			</header>
 		`
 	}
 
-	/* events */
 	onChannelSelect({detail}) {
 		if (detail.channel) {
 			const {slug} = detail.channel
@@ -245,7 +174,6 @@ export default class R4App extends LitElement {
 		}
 	}
 
-	/* play some data */
 	async onPlay(event) {
 		const {detail} = event
 		if (!detail) {
@@ -304,7 +232,6 @@ export default class R4App extends LitElement {
 		this.playerRef.value.removeAttribute('tracks')
 	}
 
-	/* no shadow dom */
 	createRenderRoot() {
 		return this
 	}

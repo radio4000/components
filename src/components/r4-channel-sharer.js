@@ -67,7 +67,6 @@ export default class R4ChannelSharer extends HTMLElement {
 
 
 	attributeChangedCallback(attrName) {
-		console.log('changed', attrName, this.slug)
 		if (this.constructor.observedAttributes.indexOf(attrName) > -1) {
 			this.render()
 		}
