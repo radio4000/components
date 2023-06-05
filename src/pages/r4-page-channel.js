@@ -11,6 +11,7 @@ export default class R4PageChannel extends BaseChannel {
 				latitude: this.channel.latitude,
 			}
 		}
+		return undefined
 	}
 
 	get loadingValue() {

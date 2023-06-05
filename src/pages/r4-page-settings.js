@@ -18,10 +18,7 @@ export default class R4PageSettings extends LitElement {
 	async changeEmail(event) {
 		event.preventDefault()
 		const email = event.target.email.value
-		if (email === this.store.user.email) {
-			console.log('email did not change, nothing to save')
-			return
-		}
+		if (email === this.store.user.email)  return
 		const {error} = await sdk.supabase.auth.updateUser({email})
 		this.changeEmail.msg = error
 			? 'Could not update your email'

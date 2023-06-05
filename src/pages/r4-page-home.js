@@ -8,37 +8,37 @@ export default class R4PageHome extends LitElement {
 
 	render() {
 		const {href} = this.config
-		const {user, userChannels} = this.store
+		const {user, userChannels, followings} = this.store
 		return html`
 			<menu>
 				<li>
 					<a href=${href + '/explore'}>Explore</a>
 				</li>
-				${user ? html`<li><a href=${this.config.href + '/settings'}>Settings</a></li>` : null}
+				${user ? html`<li><a href=${href + '/settings'}>Settings</a></li>` : null}
 				<li>
 					<a href=${href + '/sign/' + (user ? 'out' : 'in')}>Sign ${user ? 'out' : 'in'}</a>
-					${!user ? html`/ <a href=${this.config.href + '/sign/up'}>up</a>` : null}
+					${!user ? html`/ <a href=${href + '/sign/up'}>up</a>` : null}
 				</li>
 			</menu>
 
 			<main>
-				${this.store.user ? this.renderMenuUser() : null}
-				${this.store?.userChannels?.length
+				${user ? this.renderMenuUser() : null}
+				${userChannels?.length
 					? html`
 							<section>
-								<h2>Your channel${this.store?.userChannels?.length > 1 ? 's' : ''}</h2>
+								<h2>Your channel${userChannels?.length > 1 ? 's' : ''}</h2>
 								<ul>
-									${this.store?.userChannels.map((channel) => this.renderChannelCard(channel, href))}
+									${userChannels.map((channel) => this.renderChannelCard(channel, href))}
 								</ul>
 							</section>
 					  `
 					: null}
-				${this.store?.userChannels?.length
+				${followings?.length
 					? html`
 							<section>
-								<h2>Your channel follows</h2>
+								<h2>Following</h2>
 								<ul>
-									${this.store?.followings?.map((channel) => this.renderChannelCard(channel, href))}
+									${followings?.map((channel) => this.renderChannelCard(channel, href))}
 								</ul>
 							</section>
 					  `

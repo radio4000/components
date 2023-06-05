@@ -54,7 +54,9 @@ export default class BaseChannel extends LitElement {
 				const res = await fetch('https://radio4000.firebaseio.com/channels.json?orderBy="slug"&equalTo="' + slug + '"')
 				const list = await res.json()
 				this.isFirebaseChannel = Object.keys(list).length > 0
-			} catch (e) {}
+			} catch (e) {
+				//
+			}
 			if (!this.isFirebaseChannel) {
 				this.channelError = error
 			}
