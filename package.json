@@ -23,14 +23,14 @@
   },
   "dependencies": {
     "@radio4000/sdk": "^0.4.2",
-    "lit": "^2.7.4",
+    "lit": "^2.7.5",
     "media-url-parser": "^0.2.4",
-    "ol": "^7.3.0",
+    "ol": "^7.4.0",
     "page": "^1.11.6",
     "radio4000-player": "^0.6.24"
   },
   "devDependencies": {
-    "eslint": "^8.41.0",
+    "eslint": "^8.42.0",
     "eslint-plugin-lit": "^1.8.3",
     "eslint-plugin-wc": "^1.5.0",
     "prettier": "^2.8.8",
