@@ -26,7 +26,8 @@ export default class BaseChannel extends LitElement {
 	}
 
 	get tracksOrigin() {
-		return this.config.singleChannel ? `${this.config.href}/tracks/` : `${this.config.href}/${this.params.slug}/tracks/`
+		const {singleChannel, href} = this.config
+		return singleChannel ? `${href}/tracks/` : `${href}/${this.params.slug}/tracks/`
 	}
 
 	get alreadyFollowing() {

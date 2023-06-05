@@ -4,8 +4,10 @@ import { LitElement, html } from 'lit'
 export default class R4Track extends LitElement {
 	static properties = {
 		origin: { type: String },
+		href: { type: String },
 		id: { type: String },
 		track: { type: Object },
+		loading: { type: Boolean, reflect: true, state: true },
 	}
 
 	/* if the attribute changed, re-render */
@@ -15,17 +17,15 @@ export default class R4Track extends LitElement {
 		}
 	}
 
-	/* set loading */
 	async connectedCallback() {
 		super.connectedCallback()
-		/* if there is already a track json data, render that */
 		if (!this.track && this.id) {
 			this.track = await this.readTrack(this.id)
 		}
 	}
 
 	async readTrack(id) {
-		this.setAttribute('loading', true)
+		this.loading = true
 		let res = {}
 		if (id) {
 			try {
@@ -35,7 +35,7 @@ export default class R4Track extends LitElement {
 				console.log('Error reading track', error)
 			}
 		}
-		this.removeAttribute('loading')
+		this.loading = false
 
 		if (res.data) {
 			return res.data
@@ -55,15 +55,28 @@ export default class R4Track extends LitElement {
 			<r4-track-description>${t.description}</r4-track-description>
 			${t.discogs_url &&
 			html`<r4-track-discogs-url><a href="${t.discogs_url}">View on Discogs</a></r4-track-discogs-url>`}
-			<r4-track-tags>${t.tags.map((tag) => html`<span>${tag}</span>`)}</r4-track-tags>
-			<r4-track-mentions>${t.mentions}</r4-track-mentions>
+			<r4-track-tags>${t.tags.map((tag) => this.renderTag(tag))}</r4-track-tags>
+			<r4-track-mentions>${t.mentions.map(m => this.renderMention(m))}</r4-track-mentions>
 		`
 	}
+
 	renderNoTrack() {
 		return html`Track not found`
 	}
 
-	// Disable shadow DOM
+	renderTag(label) {
+		if (!label) return null
+		const filter = JSON.stringify({column: 'tags', operator: 'contains', value: label})
+		const url = `${this.origin}?filters=[${filter}]`
+		return html`<a href="${url}" label>${label}</a>`
+	}
+
+	renderMention(slug) {
+		if (!slug) return null
+		const url = `${this.href}/${slug}`
+		return html`<a href="${url}" label>${slug}</a>`
+	}
+
 	createRenderRoot() {
 		return this
 	}
