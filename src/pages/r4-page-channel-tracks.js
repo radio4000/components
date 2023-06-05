@@ -93,7 +93,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 					table="channel_tracks"
 					page=${params.get('page') || 1}
 					limit=${params.get('limit') || 10}
-					order-by=${params.get('order-by')}
+					order-by=${params.get('order-by') || 'created_at'}
 					order-config=${params.get('order-config')}
 					filters=${params.get('filters')}
 					@query=${this.onQuery}
