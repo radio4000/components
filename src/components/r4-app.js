@@ -2,15 +2,17 @@ import {html, LitElement} from 'lit'
 import {ref, createRef} from 'lit/directives/ref.js'
 import {sdk} from '@radio4000/sdk'
 import page from 'page/page.mjs'
+import DatabaseListeners from '../libs/db-listeners'
 import '../pages/'
 
 export default class R4App extends LitElement {
 	playerRef = createRef()
 
 	static properties = {
-		/* public attributes, config props */
-		singleChannel: {type: Boolean, reflect: true, attribute: 'single-channel', state: true},
-		selectedSlug: {type: String, reflect: true, attribute: 'channel', state: true}, // channel slug
+		// public
+		singleChannel: {type: Boolean, reflect: true, attribute: 'single-channel'},
+		// the channel slug
+		selectedSlug: {type: String, reflect: true, attribute: 'channel'},
 		href: {
 			reflect: true,
 			converter: (value) => {
@@ -60,54 +62,55 @@ export default class R4App extends LitElement {
 	}
 
 	get selectedChannel() {
-		if (!this.config.selectedSlug || !this.user || !this.userChannels) return null
+		if (!this.userChannels || !this.selectedSlug || !this.user) return null
 		return this.userChannels.find((c) => c.slug === this.selectedSlug)
 	}
 
 	async connectedCallback() {
 		super.connectedCallback()
 
-		// is the app running in "single visible channel" mode?
-		this.singleChannel = this.getAttribute('single-channel')
-
-		// which channel is currently selected in UI (or forced as single visible one)
-		this.selectedSlug = this.getAttribute('channel')
-
-		sdk.supabase.auth.onAuthStateChange(async (event) => {
-			if (event === 'SIGNED_OUT') this.removeDatabaseListeners()
-
-			// @todo redirect to a /set-password page or similar instead of the prompt
-			if (event === 'PASSWORD_RECOVERY') {
-				const newPassword = prompt('What would you like your new password to be?')
-				if (!newPassword) return
-				const {data, error} = await sdk.supabase.auth.updateUser({password: newPassword})
-				if (data) alert('Password updated successfully!')
-				if (error) alert('There was an error updating your password.')
+		this.listeners = new DatabaseListeners(this)
+		this.listeners.addEventListener('auth', async (event) => {
+			this.user = event.detail.user
+			this.refreshUserData()
+			if (event.detail === 'PASSWORD_RECOVERY') this.passwordRecovery()
+		})
+		this.listeners.addEventListener('user-channels', (event) => {
+			if (event.detail.eventType === 'INSERT' || event.detail.eventType === 'DELETE') {
+				this.refreshUserData()
 			}
-
-			await this.refreshUserData()
 		})
 	}
 
 	async refreshUserData() {
-		if (this.refreshUserData.running) return
+		if (this.refreshUserData.running) {
+			console.log('refreshUserData is already running')
+			return
+		}
+
+		console.log('refreshUserData')
 		this.refreshUserData.running = true
 
-		const {data} = await sdk.supabase.auth.getSession()
-		this.user = data?.session?.user
+		// Refresh user data
+		// const {data} = await sdk.supabase.auth.getSession()
+		// this.user = data?.session?.user
 
-		if (this.user) {
-			// this.setTheme()
+		if (!this.user) {
+			this.userChannels = undefined
+			this.followers = undefined
+			this.followings = undefined
+		} else {
+			// Refresh user theme settings
+			this.setTheme()
 
-			// load user channels
+			// Refresh user channels
 			const {data: channels} = await sdk.channels.readUserChannels()
 			this.userChannels = channels?.length ? channels : undefined
-
-			// load current channel followers/followings
-			if (!this.config.selectedSlug && this.userChannels) {
+			if (this.userChannels && !this.config.selectedSlug) {
 				this.selectedSlug = this.userChannels[0].slug
 			}
 
+			// Set followers and following
 			if (this.selectedChannel) {
 				const {data: followers} = await sdk.channels.readFollowers(this.selectedChannel.id)
 				const {data: followings} = await sdk.channels.readFollowings(this.selectedChannel.id)
@@ -115,18 +118,20 @@ export default class R4App extends LitElement {
 				this.followings = followings
 			}
 
-			/* finally set the db listeners for changes in "user data";
-				 it needs to have access to all user state, and selectedChannel
-			 */
-			this.setupDatabaseListeners()
-		} else {
-			this.userChannels = undefined
-			this.followers = undefined
-			this.followings = undefined
+			// Refresh the listeners related to a user.
+			this.listeners.start()
 		}
 
 		this.didLoad = true
 		this.refreshUserData.running = false
+	}
+
+	async passwordRecovery() {
+		const newPassword = prompt('What would you like your new password to be?')
+		if (!newPassword) return
+		const {data, error} = await sdk.supabase.auth.updateUser({password: newPassword})
+		if (data) alert('Password updated successfully!')
+		if (error) alert('There was an error updating your password.')
 	}
 
 	async setTheme() {
