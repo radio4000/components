@@ -52,7 +52,6 @@ export default class R4SupabaseQuery extends LitElement {
 			this.orderConfig = {...this.orderConfig, foreignTable: foreignTable}
 		} else {
 			this.orderBy = this.orderBy || tableData.columns[0]
-			this.orderConfig = {...this.orderConfig, foreignTable: null}
 		}
 	}
 
@@ -87,10 +86,9 @@ export default class R4SupabaseQuery extends LitElement {
 		} else if (name === 'orderBy') {
 			const [foreignTable, foreignColumn] = value.split('.')
 			if (foreignColumn) {
-				this.orderConfig = {...this.orderConfig, foreignTable: foreignTable}
+				this.orderConfig.foreignTable = foreignTable
 				this.orderBy = foreignColumn
 			} else {
-				this.orderConfig = {...this.orderConfig, foreignTable: null}
 				this.orderBy = value
 			}
 		} else if (name) {
