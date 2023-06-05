@@ -83,17 +83,9 @@ export default class R4App extends LitElement {
 	}
 
 	async refreshUserData() {
-		if (this.refreshUserData.running) {
-			console.log('refreshUserData is already running')
-			return
-		}
-
-		console.log('refreshUserData')
+		// Ensure it doesn't run multiple times in parallel.
+		if (this.refreshUserData.running)  return
 		this.refreshUserData.running = true
-
-		// Refresh user data
-		// const {data} = await sdk.supabase.auth.getSession()
-		// this.user = data?.session?.user
 
 		if (!this.user) {
 			this.userChannels = undefined
@@ -104,21 +96,18 @@ export default class R4App extends LitElement {
 			this.setTheme()
 
 			// Refresh user channels
-			const {data: channels} = await sdk.channels.readUserChannels()
-			this.userChannels = channels?.length ? channels : undefined
-			if (this.userChannels && !this.config.selectedSlug) {
+			this.userChannels = (await sdk.channels.readUserChannels()).data
+			if (this.userChannels && !this.selectedSlug) {
 				this.selectedSlug = this.userChannels[0].slug
 			}
 
 			// Set followers and following
 			if (this.selectedChannel) {
-				const {data: followers} = await sdk.channels.readFollowers(this.selectedChannel.id)
-				const {data: followings} = await sdk.channels.readFollowings(this.selectedChannel.id)
-				this.followers = followers
-				this.followings = followings
+				this.followers = (await sdk.channels.readFollowers(this.selectedChannel.id)).data
+				this.followings = (await sdk.channels.readFollowings(this.selectedChannel.id)).data
 			}
 
-			// Refresh the listeners related to a user.
+			// In case the `this.user` changed, we must refresh the listeners.
 			this.listeners.start()
 		}
 

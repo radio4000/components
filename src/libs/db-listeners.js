@@ -10,7 +10,6 @@ export default class DatabaseListeners extends EventTarget {
 	}
 
 	onAuthChange(eventType, session) {
-		console.log(eventType, session)
 		this.dispatchEvent(new CustomEvent('auth', {detail: {eventType, user: session?.user}}))
 		if (eventType === 'SIGNED_OUT') this.stop()
 	}
