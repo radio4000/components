@@ -148,7 +148,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 						(t) => t.id,
 						(t) => html`
 							<tr>
-								<td><r4-button-play .channel=${this.channel} .track=${t}></r4-button-play></td>
+								<td><r4-button-play .channel=${this.channel} .track=${t} .tracks=${this.tracks}></r4-button-play></td>
 								<td><a href=${this.tracksOrigin + t.id}>${t.title}</a></td>
 								<td>${t.description}</td>
 								<td>${t.tags?.length ? t.tags.map((x) => this.renderTag(x)) : null}</td>
@@ -183,7 +183,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 					this.tracks,
 					(t) => t.id,
 					(t) => html` <li>
-						<r4-button-play .channel=${this.channel} .track=${t}></r4-button-play>
+						<r4-button-play .channel=${this.channel} .track=${t} .tracks=${this.tracks}></r4-button-play>
 						<r4-track .track=${t} href=${this.config.href} origin=${'' || this.tracksOrigin}></r4-track></li> `
 				)}
 			</ul>
