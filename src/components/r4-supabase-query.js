@@ -173,7 +173,7 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQuerySelect() {
 		return html`
 			<fieldset name="select">
-				<label for="select">select</label>
+				<label for="select">Select</label>
 				<select id="select" name="select" @input=${this.onInput}>
 					<optgroup disabled>
 						<option>${this.select}</option>
@@ -195,7 +195,7 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQueryPage() {
 		return html`
 			<fieldset name="page">
-				<label for="page">page</label>
+				<label for="page">Page</label>
 				<input
 					id="page"
 					name="page"
@@ -214,7 +214,7 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQueryLimit() {
 		return html`
 			<fieldset name="limit">
-				<label for="limit">limit</label>
+				<label for="limit">Limit</label>
 				<input
 					id="limit"
 					name="limit"
@@ -234,7 +234,7 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQueryOrderKey() {
 		return html`
 			<fieldset name="orderBy">
-				<label for="orderBy">order-by</label>
+				<label for="orderBy">Order by</label>
 				<select id="orderBy" name="orderBy" @input=${this.onInput}>
 					<optgroup disabled>
 						<option>${this.orderBy}</option>

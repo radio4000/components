@@ -33,10 +33,12 @@ r4-app {
 		--c-fg: var(--c-light);
 		--c-bg: var(--c-dark);
 		--c-link: var(--c-dark--accent);
+		color-scheme: dark;
 	}
 }
 @media (prefers-color-scheme: light) {
 	r4-app {
+		color-scheme: light;
 		--c-fg: var(--c-dark);
 		--c-bg: var(--c-light);
 		--c-link: var(--c-light--accent);
