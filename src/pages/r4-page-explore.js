@@ -9,6 +9,7 @@ export default class R4PageExplore extends LitElement {
 		config: {type: Object},
 		searchParams: {type: Object, state: true},
 		channels: {type: Array, state: true},
+		count: {type: Number}
 	}
 
 	get channelOrigin() {
@@ -17,8 +18,10 @@ export default class R4PageExplore extends LitElement {
 
 	async onQuery(event) {
 		const q = event.detail
-		this.channels = (await query(q)).data
 		urlUtils.updateSearchParams(q, ['table', 'select'])
+		const res = await query(q)
+		this.count = res.count
+		this.channels = res.data
 		this.lastQuery = q
 	}
 
@@ -36,6 +39,7 @@ export default class R4PageExplore extends LitElement {
 					table="channels"
 					page=${this.searchParams.get('page')}
 					limit=${this.searchParams.get('limit')}
+					count=${this.count}
 					order-by=${this.searchParams.get('order-by')}
 					order-config=${this.searchParams.get('order-config')}
 					filters=${this.searchParams.get('filters')}

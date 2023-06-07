@@ -15,6 +15,7 @@ export default class BaseChannel extends LitElement {
 		params: {type: Object, state: true},
 		store: {type: Object, state: true},
 		config: {type: Object, state: true},
+		searchParams: {type: Object, state: true},
 	}
 
 	get slug() {

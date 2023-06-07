@@ -9,15 +9,10 @@ if (!window.r4sdk) window.r4sdk = sdk
 
 export default class R4PageChannelTracks extends BaseChannel {
 	static properties = {
-		/* route props */
-		store: {type: Object, state: true},
-		params: {type: Object, state: true},
-		searchParams: {type: Object, state: true},
-		config: {type: Object, state: true},
-		/* state */
-		channel: {type: Object, reflect: true, state: true},
 		tracks: {type: Array, state: true},
 		display: {type: String, state: true},
+		count: {type: Number, state: true}
+		// + props from BaseChannel
 	}
 
 	constructor() {
@@ -50,8 +45,10 @@ export default class R4PageChannelTracks extends BaseChannel {
 		urlUtils.updateSearchParams(q, ['table', 'select'])
 		const filtersWithDefaults = [...(q.filters || []), ...this.defaultFilters]
 		q.filters = filtersWithDefaults
-		this.tracks = (await query(q)).data
-		this.lastQuery = q
+		const res = await query(q)
+		this.count = res.count
+		this.tracks = res.data
+		this.lastQuery = res.data
 	}
 
 	setDisplay(event) {
@@ -91,6 +88,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 				<summary>Query tracks</summary>
 				<r4-supabase-query
 					table="channel_tracks"
+					count=${this.count}
 					page=${params.get('page') || 1}
 					limit=${params.get('limit') || 10}
 					order-by=${params.get('order-by') || 'created_at'}
@@ -98,6 +96,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 					filters=${params.get('filters')}
 					@query=${this.onQuery}
 				></r4-supabase-query>
+				<p>Found ${this.count} tracks</p>
 			</details>
 		`
 	}
