@@ -18,6 +18,13 @@ export default class R4SupabaseQuery extends LitElement {
 		filters: {type: Array, searchParam: true, reflect: true},
 		orderBy: {type: String, attribute: 'order-by', reflect: true, searchParam: true},
 		orderConfig: {type: Object, attribute: 'order-config', reflect: true, searchParam: true},
+
+		count: {type: Number}
+	}
+
+	get totalPages() {
+		console.log(this.count, this.limit)
+		return Math.round(this.count / this.limit) + 1
 	}
 
 	constructor() {
@@ -204,9 +211,10 @@ export default class R4SupabaseQuery extends LitElement {
 					.value=${this.page}
 					step="1"
 					min="1"
+					max=${this.totalPages}
 					pattern="[0-9]"
 					placeholder="page"
-				/>
+				/>/${this.totalPages}
 			</fieldset>
 		`
 	}

@@ -18,6 +18,8 @@ export default class R4PageChannelTracks extends BaseChannel {
 		channel: {type: Object, reflect: true, state: true},
 		tracks: {type: Array, state: true},
 		display: {type: String, state: true},
+
+		count: {type: Number, state: true}
 	}
 
 	constructor() {
@@ -50,8 +52,10 @@ export default class R4PageChannelTracks extends BaseChannel {
 		urlUtils.updateSearchParams(q, ['table', 'select'])
 		const filtersWithDefaults = [...(q.filters || []), ...this.defaultFilters]
 		q.filters = filtersWithDefaults
-		this.tracks = (await query(q)).data
-		this.lastQuery = q
+		const res = await query(q)
+		this.tracks = res.data
+		this.lastQuery = res.data
+		this.count = res.count
 	}
 
 	setDisplay(event) {
@@ -91,6 +95,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 				<summary>Query tracks</summary>
 				<r4-supabase-query
 					table="channel_tracks"
+					count=${this.count}
 					page=${params.get('page') || 1}
 					limit=${params.get('limit') || 10}
 					order-by=${params.get('order-by') || 'created_at'}

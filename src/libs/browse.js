@@ -54,7 +54,7 @@ export async function query({
 	orderConfig = {},
 	filters = [],
 }) {
-	let query = supabase.from(table).select(select)
+	let query = supabase.from(table).select('*', {count: 'exact', head: false})
 
 	/*
 		 add filters to the query,
@@ -104,7 +104,7 @@ export async function query({
 	const {from, to, limit: l} = getBrowseParams({page, limit})
 	query = query.range(from, to).limit(l)
 
-	console.log('browse.query', {table, select, filters, orderBy, orderConfig, from, to, limit: l}, query.url.href)
+	console.log('browse.query', query.url.href, {table, select, filters, orderBy, orderConfig, from, to, limit: l})
 
 	return query
 }
