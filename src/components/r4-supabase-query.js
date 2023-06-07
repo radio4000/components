@@ -38,9 +38,10 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	updated(attr) {
-		/* always update the list when any attribute change
-			 for some attribute, first clear the existing search query */
 		if (attr.get('table')) this.cleanQuery()
+		// Avoid double-fetch when count is passed back down.
+		if (attr.get('count') === 0) return
+		// Update the list when any attribute changes
 		this.onQuery()
 	}
 

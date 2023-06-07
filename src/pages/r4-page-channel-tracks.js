@@ -96,6 +96,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 					filters=${params.get('filters')}
 					@query=${this.onQuery}
 				></r4-supabase-query>
+				<p>Found ${this.count} tracks</p>
 			</details>
 		`
 	}
