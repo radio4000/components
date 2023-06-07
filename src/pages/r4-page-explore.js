@@ -57,7 +57,7 @@ export default class R4PageExplore extends LitElement {
 						this.channels || [],
 						(c) => c.id,
 						(c) =>
-							html`<li>${c.name} <r4-channel-card .channel=${c} origin=${this.channelOrigin}></r4-channel-card></li>`
+							html`<li><r4-channel-card .channel=${c} origin=${this.channelOrigin}></r4-channel-card></li>`
 					)}
 				</ul>
 			</main>
