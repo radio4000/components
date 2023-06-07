@@ -9,17 +9,10 @@ if (!window.r4sdk) window.r4sdk = sdk
 
 export default class R4PageChannelTracks extends BaseChannel {
 	static properties = {
-		/* route props */
-		store: {type: Object, state: true},
-		params: {type: Object, state: true},
-		searchParams: {type: Object, state: true},
-		config: {type: Object, state: true},
-		/* state */
-		channel: {type: Object, reflect: true, state: true},
 		tracks: {type: Array, state: true},
 		display: {type: String, state: true},
-
 		count: {type: Number, state: true}
+		// + props from BaseChannel
 	}
 
 	constructor() {
@@ -53,9 +46,9 @@ export default class R4PageChannelTracks extends BaseChannel {
 		const filtersWithDefaults = [...(q.filters || []), ...this.defaultFilters]
 		q.filters = filtersWithDefaults
 		const res = await query(q)
+		this.count = res.count
 		this.tracks = res.data
 		this.lastQuery = res.data
-		this.count = res.count
 	}
 
 	setDisplay(event) {

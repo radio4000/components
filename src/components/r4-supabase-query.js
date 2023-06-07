@@ -11,6 +11,7 @@ export default class R4SupabaseQuery extends LitElement {
 	static properties = {
 		page: {type: Number, reflect: true, searchParam: true},
 		limit: {type: Number, reflect: true, searchParam: true},
+		count: {type: Number},
 
 		/* supabase query parameters */
 		table: {type: String, reflect: true, searchParam: true},
@@ -18,12 +19,9 @@ export default class R4SupabaseQuery extends LitElement {
 		filters: {type: Array, searchParam: true, reflect: true},
 		orderBy: {type: String, attribute: 'order-by', reflect: true, searchParam: true},
 		orderConfig: {type: Object, attribute: 'order-config', reflect: true, searchParam: true},
-
-		count: {type: Number}
 	}
 
 	get totalPages() {
-		console.log(this.count, this.limit)
 		return Math.round(this.count / this.limit) + 1
 	}
 
@@ -118,7 +116,6 @@ export default class R4SupabaseQuery extends LitElement {
 		 is triggered before invoquing "onQuery"*/
 	cleanQuery() {
 		this.page = 1
-		/* this.limit = this.limit // stay unchanged? */
 
 		if (!this.table) {
 			// handle the case where there is no table selected; to display no result problably, or error
