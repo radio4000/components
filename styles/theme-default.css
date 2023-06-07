@@ -73,12 +73,19 @@ r4-app a {
 	color: var(--c-link);
 }
 
-/* remove default margins */
+/* Defaults */
 r4-app * {
 	margin: 0;
 }
 r4-app menu {
 	padding: 0;
+}
+r4-app table {
+	width: 100%;
+	border-collapse: collapse;
+}
+r4-app th {
+	text-align: left;
 }
 
 /*
@@ -117,23 +124,3 @@ r4-page-channel-tracks r4-supabase-query fieldset[name='select'] {
 	display: none;
 }
 
-r4-app table {
-	width: 100%;
-	border-collapse: collapse;
-}
-r4-app th {
-	text-align: left;
-}
-r4-app tbody tr:nth-child(odd) td {
-	background: hsla(0, 0%, 50%, 0.1);
-}
-
-/* Tags & Mentions: labels
-r4-app [label] + [label] {
-	margin-left: 2px;
-}
-r4-app [label] {
-	background: #111;
-	text-decoration: none;
-}
-*/
