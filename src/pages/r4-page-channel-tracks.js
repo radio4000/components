@@ -92,7 +92,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 					page=${params.get('page') || 1}
 					limit=${params.get('limit') || 10}
 					order-by=${params.get('order-by') || 'created_at'}
-					order-config=${params.get('order-config')}
+					order-config=${params.get('order-config') || JSON.stringify({ascending: false})}
 					filters=${params.get('filters')}
 					@query=${this.onQuery}
 				></r4-supabase-query>

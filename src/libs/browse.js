@@ -65,32 +65,33 @@ export async function query({
 		 - the "filter.value" always is a string, from the related `input`
 		 we convert it here to the right type the sdk filter expects
 	 */
-	filters?.length && filters
-		.filter((filter) => filter.value && supabaseOperators.includes(filter.operator))
-		.forEach((filter) => {
-			/* "filter" operator is a supabase.sdk "escape hatch",
+	filters?.length &&
+		filters
+			.filter((filter) => filter.value && supabaseOperators.includes(filter.operator))
+			.forEach((filter) => {
+				/* "filter" operator is a supabase.sdk "escape hatch",
 				aplying the filter raw; see docs
 				(WARNING) otherwise the (raw string) operator is the supabase sdk function invoqued
 			*/
-			if (filter.operator === 'filter') {
-				query = query.filter(filter.operator, filter.column, filter.value || null)
-			} else if (['contains', 'containedBy'].includes(filter.operator)) {
-				/* handle each type of supabase/postresql filter */
-				let valueJson
-				// If the value is a number, like 1979, we don't want to parse.
-				if (Number.isNaN(filter.value)) {
-					try {
-						valueJson = JSON.parse(filter.value)
-					} catch (e) {
-						//
+				if (filter.operator === 'filter') {
+					query = query.filter(filter.operator, filter.column, filter.value || null)
+				} else if (['contains', 'containedBy'].includes(filter.operator)) {
+					/* handle each type of supabase/postresql filter */
+					let valueJson
+					// If the value is a number, like 1979, we don't want to parse.
+					if (Number.isNaN(filter.value)) {
+						try {
+							valueJson = JSON.parse(filter.value)
+						} catch (e) {
+							//
+						}
 					}
+					const val = valueJson || [filter.value.split(',')] || null
+					query = query[filter.operator](filter.column, val)
+				} else {
+					query = query[filter.operator](filter.column, filter.value || null)
 				}
-				const val = valueJson || [filter.value.split(',')] || null
-				query = query[filter.operator](filter.column, val)
-			} else {
-				query = query[filter.operator](filter.column, filter.value || null)
-			}
-		})
+			})
 
 	// After filters we add sorting.
 	if (orderBy) {
@@ -105,7 +106,7 @@ export async function query({
 	const {from, to, limit: l} = getBrowseParams({page, limit})
 	query = query.range(from, to).limit(l)
 
-	console.log('browse.query', query.url.href, {table, select, filters, orderBy, orderConfig, from, to, limit: l})
+	console.log('browse.query', query.url.search)
 
 	return query
 }
