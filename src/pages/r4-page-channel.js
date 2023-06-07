@@ -101,13 +101,9 @@ export default class R4PageChannel extends BaseChannel {
 				  </r4-channel-url>`
 				: null}
 
-			<ul>
-				<li>
-					Last 5 tracks:
-					<r4-tracks channel=${channel.slug} origin=${this.tracksOrigin} limit="5"></r4-tracks>
-				</li>
-				<li><a href="${`${this.channelOrigin}/tracks`}">All tracks</a></li>
-			</ul>
+			<h2>Latest tracks</h2>
+			<r4-tracks channel=${channel.slug} origin=${this.tracksOrigin} limit="5"></r4-tracks>
+			<footer><a href="${`${this.channelOrigin}/tracks`}">All tracks</a></footer>
 
 			<r4-dialog name="share" @close=${this.onDialogClose}>
 				<r4-channel-sharer slot="dialog" origin=${this.channelOrigin} slug=${channel.slug}></r4-channel-sharer>

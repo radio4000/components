@@ -27,31 +27,14 @@
 	color: var(--color-link);
 }
 
-h1 {
-	font-size: 1.25rem;
-	margin: 0 0 1rem;
-}
-
 h1,
 h1 a {
 	color: var(--color-red);
 }
 
-r4-channel-card h1 {
-	margin-bottom: 0;
-}
-
-r4-channel-card h1 + p {
-	margin-top: 0;
-}
-
 button:hover,
 select:hover {
 	background: var(--color-link);
-}
-
-figure {
-	margin: 0 0 1rem;
 }
 
 /* Quick dark-mode for the player */

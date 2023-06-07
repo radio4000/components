@@ -130,7 +130,7 @@ export default class R4Layout extends LitElement {
 
 	renderPlayback() {
 		return html`
-			<details open="true" part="playback-details" ${ref(this.detailsRef)}>
+			<details open part="playback-details" ${ref(this.detailsRef)}>
 				<summary part="playback-summary">
 					<slot name="playback-controls"> ${Object.entries(this.uiStates).map(this.renderUiState.bind(this))} </slot>
 				</summary>
