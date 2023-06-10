@@ -11,7 +11,8 @@ export default class R4PageChannelTracks extends BaseChannel {
 	static properties = {
 		tracks: {type: Array, state: true},
 		display: {type: String, state: true},
-		count: {type: Number, state: true}
+		count: {type: Number, state: true},
+		lastQuery: {type: Object}
 		// + props from BaseChannel
 	}
 
@@ -48,7 +49,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		const res = await query(q)
 		this.count = res.count
 		this.tracks = res.data
-		this.lastQuery = res.data
+		this.lastQuery = q
 	}
 
 	setDisplay(event) {

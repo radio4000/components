@@ -5,6 +5,7 @@ import {sdk} from '@radio4000/sdk'
 export default class BaseChannel extends LitElement {
 	static properties = {
 		channel: {type: Object, state: true},
+		tracks: {type: Array, state: true},
 		channelError: {type: Object, state: true},
 		canEdit: {type: Boolean, state: true, reflect: true},
 		alreadyFollowing: {type: Boolean, state: true, reflect: true},

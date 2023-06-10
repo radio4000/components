@@ -1,7 +1,9 @@
 import {html} from 'lit'
+import {repeat} from 'lit/directives/repeat.js'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
 import {sdk} from '@radio4000/sdk'
+import { query } from '../libs/browse'
 
 export default class R4PageChannel extends BaseChannel {
 	get coordinates() {
@@ -59,6 +61,10 @@ export default class R4PageChannel extends BaseChannel {
 		return html`<p>404 - This channel does not exist</p>`
 	}
 
+	async onQuery({detail}) {
+		this.tracks = (await query(detail)).data
+	}
+
 	renderChannel() {
 		const {channel} = this
 		if (!channel) return html`<p>Loading...</p>`
@@ -102,7 +108,9 @@ export default class R4PageChannel extends BaseChannel {
 				: null}
 
 			<h2>Latest tracks</h2>
-			<r4-tracks channel=${channel.slug} origin=${this.tracksOrigin} limit="5"></r4-tracks>
+			<r4-supabase-query table="channel_tracks" limit="5" @query=${this.onQuery} hiddenui></r4-supabase-query>
+			${this.renderTracksList()}
+
 			<footer><a href="${`${this.channelOrigin}/tracks`}">All tracks</a></footer>
 
 			<r4-dialog name="share" @close=${this.onDialogClose}>
@@ -110,6 +118,23 @@ export default class R4PageChannel extends BaseChannel {
 			</r4-dialog>
 		`
 	}
+
+	renderTracksList() {
+		if (!this.tracks) return null
+		console.log(this.tracks)
+		return html`
+			<ul list>
+				${repeat(
+					this.tracks,
+					(t) => t.id,
+					(t) => html` <li>
+						<r4-button-play .channel=${this.channel} .track=${t} .tracks=${this.tracks}></r4-button-play>
+						<r4-track .track=${t} href=${this.config.href} origin=${'' || this.tracksOrigin}></r4-track></li> `
+				)}
+			</ul>
+		`
+	}
+
 
 	renderSocial() {
 		if (!this.config.singleChannel) {

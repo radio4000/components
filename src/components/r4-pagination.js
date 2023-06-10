@@ -18,7 +18,6 @@ export default class R4Pagination extends LitElement {
 	goTo(page) {
 		this.page = page
 		const newQuery = {...this.lastQuery, page}
-		console.log('pager last q', this.lastQuery, newQuery)
 		this.dispatchEvent(new CustomEvent('query', {detail: newQuery}))
 	}
 
