@@ -101,15 +101,23 @@ input[type='search'] {
 	justify-content: center;
 	white-space: nowrap;
 	flex-shrink: 0;
-	border-radius: 4px;
+	/* border-radius: 4px; */
 	line-height: normal;
 	font-size: inherit;
 	user-select: none;
 	position: relative;
-	border: 1px solid var(--c-gray4);
+	/* border: 1px solid var(--c-gray4); */
 	min-width: 2rem;
 	height: 2rem;
-	padding: 0 0.875rem;
+	padding: 0 0.5rem;
+}
+
+button {
+	padding: 0 1rem;
+}
+
+r4-button-play button {
+	padding: 0 0.5rem;
 }
 
 input[type='number'] {
@@ -145,7 +153,6 @@ ul[list] > li {
 
 r4-pagination {
 	display: block;
-	margin: 1rem 0;
 }
 
 /* Layout */
@@ -188,10 +195,38 @@ h3 {
 	border: 0;
 }
 
+[color-scheme='dark'] r4-player radio4000-player .PlayPause-controller::after,
+[color-scheme='dark'] r4-player radio4000-player .PlayPause-controller::before {
+	border-color: var(--c-link);
+}
+
 r4-channel-card r4-button-play {
 	margin-right: 0.5em;
 }
 
+
+r4-page-channel-tracks > main {
+	margin-top: 1rem;
+	display: flex;
+	flex-flow: column nowrap;
+	gap: 1rem;
+}
+r4-page-channel-tracks > main > menu {
+	display: flex;
+	align-items: center;
+	gap: 1em;
+}
 r4-page-channel > footer {
 	margin-top: 1rem;
+}
+
+a[label] {
+	font-size: smaller;
+	background: var(--c-gray2);
+	text-decoration: none;
+	padding: 0 5px;
+	border-radius: 4px;
+}
+a[label] + a[label] {
+	margin-left: 2px;
 }
