@@ -150,19 +150,25 @@ r4-pagination {
 
 /* Layout */
 r4-layout {
-	padding: 0 2rem 0;
+	padding: 0 1rem 0;
 }
 
 [slot='menu'] {
-	margin-bottom: 1rem;
+	margin: 1rem 0;
 }
 
 h1 {
+	font-size: 2rem;
 	margin: 0rem 0 1rem;
 }
 
 h2 {
+	font-size: 1.5rem;
 	margin: 2rem 0 1rem;
+}
+
+h3 {
+	font-size: 1rem;
 }
 
 /* Quick dark-mode for the player */
@@ -184,4 +190,8 @@ h2 {
 
 r4-channel-card r4-button-play {
 	margin-right: 0.5em;
+}
+
+r4-page-channel > footer {
+	margin-top: 1rem;
 }
