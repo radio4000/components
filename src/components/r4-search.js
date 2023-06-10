@@ -53,7 +53,7 @@ export default class R4Search extends LitElement {
 				  ></r4-button-play>`
 				: ''}
 			${this.results?.length
-				? html` <ul>
+				? html` <ul list>
 						${repeat(
 							this.results,
 							(item) => item.id,
@@ -90,12 +90,17 @@ export default class R4Search extends LitElement {
 
 export class R4ChannelSearch extends R4Search {
 	label = 'channels'
+
 	query(value) {
 		return sdk.supabase.from('channels').select().textSearch('fts', `'${value}':*`)
 	}
+
+	get channelOrigin() {
+		return `${this.href}/{{slug}}`
+	}
+
 	renderResult(item) {
-		return html`<r4-channel-card size="mini" origin=${this.href} .channel="${item}"></r4-channel-card>`
-		// return html`<r4-channel-card .channel="${item}"></r4-channel-card>`
+		return html`<r4-channel-card origin=${this.channelOrigin} .channel="${item}"></r4-channel-card>`
 	}
 }
 

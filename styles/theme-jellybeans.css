@@ -144,6 +144,11 @@ ul[list] > li {
 	margin-bottom: 0.25em;
 }
 
+[list] r4-channel-card a:not(:hover),
+[list] r4-track a:not(:hover) {
+	text-decoration: none;
+}
+
 r4-pagination {
 	display: block;
 }
@@ -205,26 +210,39 @@ r4-channel-card {
 }
 r4-channel-card > a {
 	flex-shrink: 0;
+	display: flex;
+	align-items: center;
 }
 r4-channel-card r4-description {
 	font-size: smaller;
 }
 
+r4-page-channel h1 {
+	margin-top: 2rem;
+}
+
+r4-page-channel > nav {
+	margin-bottom: 1rem;
+}
 r4-page-channel > footer {
 	margin-top: 1rem;
 }
 
+r4-page-explore > main,
 r4-page-channel-tracks > main {
 	margin-top: 1rem;
 	display: flex;
 	flex-flow: column nowrap;
 	gap: 1rem;
 }
+
 r4-page-channel-tracks > main > menu {
 	display: flex;
 	align-items: center;
 	gap: 1em;
 }
+
+r4-page-explore r4-supabase-query,
 r4-page-channel-tracks r4-supabase-query {
 	display: block;
 	margin-bottom: 1rem;
@@ -233,11 +251,11 @@ r4-page-channel-tracks r4-supabase-query {
 /* Tags and mentions aka labels */
 a[label] {
 	font-size: smaller;
-	background: var(--c-fg);
-	color: var(--c-bg);
-	text-decoration: none;
+	background: var(--c-gray4);
+	background: hsla(0, 0%, 75%, 0.5);
 	padding: 0 5px;
 	border-radius: 4px;
+	text-decoration: none;
 }
 a[label] + a[label] {
 	margin-left: 2px;

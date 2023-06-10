@@ -29,7 +29,7 @@ export default class R4PageHome extends LitElement {
 					? html`
 							<section>
 								<h2>Your channel${userChannels?.length > 1 ? 's' : ''}</h2>
-								<ul>
+								<ul list>
 									${userChannels.map((channel) => this.renderChannelCard(channel, href))}
 								</ul>
 							</section>
@@ -39,7 +39,7 @@ export default class R4PageHome extends LitElement {
 					? html`
 							<section>
 								<h2>Following</h2>
-								<ul>
+								<ul list>
 									${followings?.map((channel) => this.renderChannelCard(channel, href))}
 								</ul>
 							</section>
