@@ -39,6 +39,7 @@ export default class R4Search extends LitElement {
 		// Query and set results
 		const res = await this.query(value)
 		this.results = res.data ?? []
+
 	}
 
 	render() {

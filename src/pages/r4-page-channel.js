@@ -93,7 +93,7 @@ export default class R4PageChannel extends BaseChannel {
 				</nav-item>
 			</nav>
 
-			${channel.image ? this.renderChannelImage() : null}
+			${this.renderChannelImage()}
 
 			<r4-channel-name>
 				<h1>${channel.name}</h1>
@@ -148,9 +148,10 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	renderChannelImage() {
+		if (!this.channel) return null
 		return html`<aside>
 			<a href=${this.channelOrigin + '/player'}>
-				<r4-avatar image=${this.channel.image}></r4-avatar>
+				<r4-avatar image=${this.channel.image} size="medium"></r4-avatar>
 			</a>
 		</aside>`
 	}

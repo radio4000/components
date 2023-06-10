@@ -126,7 +126,7 @@ export default class R4App extends LitElement {
 	async setTheme() {
 		// Read prefered theme from OS settings.
 		const dark = window.matchMedia('(prefers-color-scheme: dark)').matches
-		const light = window.matchMedia('(prefers-color-scheme: light)').matches
+		// const light = window.matchMedia('(prefers-color-scheme: light)').matches
 		let theme = dark ? 'dark' : 'light'
 		// Read settings from user account.
 		if (this.user) {

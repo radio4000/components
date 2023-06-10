@@ -49,7 +49,7 @@ export default class R4PageChannelFollowers extends BaseChannel {
 
 	onNavigateList({detail}) {
 		/* `page` here, is usually globaly the "router", beware */
-		const {page: currentPage, limit, list} = detail
+		const {page: currentPage, limit} = detail
 		const newPageURL = new URL(window.location)
 
 		limit && newPageURL.searchParams.set('limit', limit)
