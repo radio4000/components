@@ -80,6 +80,11 @@ export default class R4App extends LitElement {
 				this.refreshUserData()
 			}
 		})
+		this.listeners.addEventListener('followers', (event) => {
+			if (event.detail.eventType === 'INSERT' || event.detail.eventType === 'DELETE') {
+				this.refreshUserData()
+			}
+		})
 	}
 
 	async refreshUserData() {
