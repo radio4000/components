@@ -253,7 +253,6 @@ export default class R4SupabaseQuery extends LitElement {
 
 	renderOrderConfig() {
 		const ascending = this.orderConfig?.ascending
-
 		return html`
 			<fieldset name="ascending">
 				<label for="ascending"> ${ascending ? '↑' : '↓'} </label>

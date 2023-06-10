@@ -34,7 +34,6 @@ export default class R4Layout extends LitElement {
 
 	connectedCallback() {
 		super.connectedCallback()
-
 		const theme = localStorage.getItem('r4.theme')
 		if (theme) this.parentElement.setAttribute('color-scheme', theme)
 	}

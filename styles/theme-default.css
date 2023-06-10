@@ -12,6 +12,7 @@ r4-app {
 	/* sizes */
 	--s-font: 18px;
 	--s: 1.5rem;
+	--s-line-height: 1;
 	--s-youtube: 200px;
 
 	/* reference functional variables using the colors */
@@ -69,6 +70,7 @@ r4-app {
 	color: var(--c-fg);
 	background-color: var(--c-bg);
 	font-size: var(--s-font);
+	line-height: var(--s-line-height);
 	display: flex;
 	flex-direction: column;
 }

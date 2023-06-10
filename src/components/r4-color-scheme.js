@@ -1,5 +1,5 @@
-import { LitElement, html } from 'lit'
-import { sdk } from '@radio4000/sdk'
+import {LitElement, html} from 'lit'
+import {sdk} from '@radio4000/sdk'
 
 /**
  * Renders controls to set your prefered color scheme
@@ -7,10 +7,10 @@ import { sdk } from '@radio4000/sdk'
  */
 export default class R4ColorScheme extends LitElement {
 	static properties = {
-		user: { type: Object, state: true },
-		account: { type: Object, state: true },
-		theme: { type: String, state: true },
-		themes: { type: Array, state: true },
+		user: {type: Object, state: true},
+		account: {type: Object, state: true},
+		theme: {type: String, state: true},
+		themes: {type: Array, state: true},
 	}
 
 	// The attribute to set on <html> element
