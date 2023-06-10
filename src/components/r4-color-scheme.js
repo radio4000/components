@@ -28,12 +28,11 @@ export default class R4ColorScheme extends LitElement {
 
 	// Restores theme from user account.
 	async restoreTheme() {
-		const { data } = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
-		this.save(data?.theme || '')
-
+		const {data} = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
+		this.save(data?.theme)
 		// If there is no account, it is time to create it.
 		if (!data) {
-			const res = await sdk.supabase.from('accounts').insert({ id: this.user.id }).single()
+			const res = await sdk.supabase.from('accounts').insert({id: this.user.id}).single()
 		}
 	}
 
@@ -44,7 +43,7 @@ export default class R4ColorScheme extends LitElement {
 		this.closest('r4-app').setAttribute(this.attrName, value)
 		localStorage.setItem('r4.theme', value)
 		if (this.user) {
-			await sdk.supabase.from('accounts').update({ theme: value }).eq('id', this.user.id)
+			await sdk.supabase.from('accounts').update({theme: value}).eq('id', this.user.id)
 		}
 	}
 

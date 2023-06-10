@@ -84,17 +84,17 @@ export default class R4App extends LitElement {
 
 	async refreshUserData() {
 		// Ensure it doesn't run multiple times in parallel.
-		if (this.refreshUserData.running)  return
+		if (this.refreshUserData.running) return
 		this.refreshUserData.running = true
+
+		// Refresh user theme settings
+		this.setTheme()
 
 		if (!this.user) {
 			this.userChannels = undefined
 			this.followers = undefined
 			this.followings = undefined
 		} else {
-			// Refresh user theme settings
-			this.setTheme()
-
 			// Refresh user channels
 			this.userChannels = (await sdk.channels.readUserChannels()).data
 			if (this.userChannels && !this.selectedSlug) {
@@ -124,12 +124,17 @@ export default class R4App extends LitElement {
 	}
 
 	async setTheme() {
-		// Load account settings and set prefered theme.
-		const {data: account} = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
-		if (account?.theme) {
-			localStorage.setItem('r4.theme', account.theme)
-			this.setAttribute('color-scheme', account.theme)
+		// Read prefered theme from OS settings.
+		const dark = window.matchMedia('(prefers-color-scheme: dark)').matches
+		const light = window.matchMedia('(prefers-color-scheme: light)').matches
+		let theme = dark ? 'dark' : 'light'
+		// Read settings from user account.
+		if (this.user) {
+			const {data: account} = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
+			theme = account.theme
 		}
+		localStorage.setItem('r4.theme', theme)
+		this.setAttribute('color-scheme', theme)
 	}
 
 	render() {
