@@ -24,8 +24,8 @@ export default class R4Pagination extends LitElement {
 
 	render() {
 		return html`
-			<button @click=${this.prev}>Prev</button>
-			<button @click=${this.next}>Next</button>
+			<button type="button" @click=${this.prev}>Prev</button>
+			<button type="button" @click=${this.next}>Next</button>
 		`
 	}
 

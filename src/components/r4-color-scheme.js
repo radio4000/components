@@ -39,6 +39,7 @@ export default class R4ColorScheme extends LitElement {
 
 	// Sets the theme attribute and persists it to db.
 	async save(value) {
+		if (!value) return
 		this.theme = value
 		this.closest('r4-app').setAttribute(this.attrName, value)
 		localStorage.setItem('r4.theme', value)
