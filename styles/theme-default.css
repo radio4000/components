@@ -55,14 +55,14 @@ r4-app[color-scheme='dark'] {
 	--c-fg: var(--c-light);
 	--c-bg: var(--c-dark);
 	--c-link: var(--c-dark--accent);
-		color-scheme: dark;
+	color-scheme: dark;
 }
 
 r4-app[color-scheme='light'] {
 	--c-fg: var(--c-dark);
 	--c-bg: var(--c-light);
 	--c-link: var(--c-light--accent);
-		color-scheme: light;
+	color-scheme: light;
 }
 
 /* and the customization using the variables */
@@ -131,4 +131,3 @@ r4-supabase-modifiers > form {
 	display: flex;
 	flex-flow: row wrap;
 }
-

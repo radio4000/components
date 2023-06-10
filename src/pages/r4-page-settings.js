@@ -76,6 +76,7 @@ export default class R4PageSettings extends LitElement {
 				.href=${this.config.href}
 			></r4-user-delete>
 
+			<br/>
 			<p>
 				<a href="${this.config.href}/sign/out">Sign out</a>
 			</p>

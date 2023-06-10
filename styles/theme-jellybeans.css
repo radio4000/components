@@ -1,56 +1,42 @@
 @import url(https://fonts.bunny.net/css?family=epilogue:400,400i,600);
 
-/* Inspired by the dark Jellybeans programming color scheme theme */
-:root {
-	--font: Epilogue, sans-serif;
-
+r4-app {
+	/* Inspired by the dark Jellybeans programming color scheme theme */
 	--c-gray1: hsl(0 0% 8%);
 	--c-gray2: hsl(56 8% 17%);
 	--c-gray3: hsl(50 9% 28%);
 	--c-gray4: hsl(50 9% 48%);
-	--c-light: hsl(54 31% 87%);
-
+	--c-gray5: hsl(50 6% 75%);
 	--c-red: hsl(17 46% 50%);
 	--c-green: hsl(98 19% 50%);
 	--c-blue: hsl(221 29% 58%);
 	--c-yellow: hsl(41 79% 69%);
+
+	--c-light: hsl(54 31% 87%);
+	/* --c-dark: var(--gray1); */
+	/* --c-light--accent: purple; */
+	/* --c-dark--accent: hotpink; */
+	--font: Epilogue, sans-serif;
+	--s-font: 16px;
 }
 
-/* Color scheme */
 r4-app {
-	--c-link: blue;
+	font-family: var(--font);
 }
 
-/* Light variables */
 @media (prefers-color-scheme: light) {
-	r4-app {
-		color-scheme: light;
-		/* --c-link: var(--c-blue); */
-		/* --c-bg: var(--c-light); */
-		/* --c-fg: var(--c-gray1); */
-	}
-}
-r4-app[color-scheme='light'] {
-	/* color-scheme: light; */
-	/* --c-link: var(--c-blue); */
-	/* --c-bg: var(--c-light); */
-	--c-fg: var(--c-gray1);
+	r4-app {}
 }
 
-/* Dark variables */
-@media (prefers-color-scheme: dark) {
-	r4-app {
-		color-scheme: dark;
-	}
+r4-app[color-scheme='light'] {
+	--c-bg: var(--c-light);
+	--c-fg: var(--c-gray1);
+	/* --c-link: var(--c-green); */
 }
+
 r4-app[color-scheme='dark'] {
 	--c-bg: var(--c-gray1);
 	--c-fg: var(--c-light);
-}
-
-/* Typeface */
-r4-app {
-	font-family: var(--font);
 }
 
 body,
@@ -102,7 +88,8 @@ input[type='search'] {
 	font-size: inherit;
 	user-select: none;
 	position: relative;
-	/* border: 1px solid var(--c-gray4); */
+	/* border: 1px solid var(--c-border); */
+	/* border: 0; */
 	min-width: 2rem;
 	height: 2rem;
 	padding: 0 0.5rem;
@@ -111,24 +98,13 @@ input[type='search'] {
 
 button {
 	padding: 0 1rem;
+	min-height: calc(1.5rem + 4px);
+	/* background: var(--c-gray5); */
 }
 
 input[type='number'] {
 	max-width: 5rem;
 }
-
-/* /1* the /explore and /tracks query ui *1/ */
-/* r4-supabase-query { */
-/* 	display: block; */
-/* 	margin: 1rem 0; */
-/* } */
-
-/* /1* [slot="menu"] a { *1/ */
-/* /1* 	color: var(--green); *1/ */
-/* /1* } *1/ */
-/* /1* [slot="menu"] a:hover { *1/ */
-/* /1* 	color: var(--c-link); *1/ */
-/* /1* } *1/ */
 
 h1,
 h1 a {
