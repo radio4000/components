@@ -177,7 +177,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	renderTracksList() {
 		return html`
-			<ul>
+			<ul list>
 				${repeat(
 					this.tracks,
 					(t) => t.id,

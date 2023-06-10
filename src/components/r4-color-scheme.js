@@ -34,7 +34,6 @@ export default class R4ColorScheme extends LitElement {
 		// If there is no account, it is time to create it.
 		if (!data) {
 			const res = await sdk.supabase.from('accounts').insert({ id: this.user.id }).single()
-			console.log('inserted new account', res)
 		}
 	}
 

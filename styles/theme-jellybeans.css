@@ -1,52 +1,187 @@
-/* Inspired by the Jellybeans programming color scheme theme. Dark only. */
+@import url(https://fonts.bunny.net/css?family=epilogue:400,400i,600);
+
+/* Inspired by the dark Jellybeans programming color scheme theme */
 :root {
-	--color-red: rgb(188 108 81);
-	--color-green: rgb(128 156 111);
-	--color-blue: rgb(133 150 188);
-	--color-yellow: rgb(243 210 134);
+	--font: Epilogue, sans-serif;
 
-	--color-gray1: rgb(21 21 21);
-	--color-gray2: rgb(48 48 44);
-	--color-gray3: rgb(78 78 68);
+	--c-gray1: hsl(0 0% 8%);
+	--c-gray2: hsl(56 8% 17%);
+	--c-gray3: hsl(50 9% 28%);
+	--c-gray4: hsl(50 9% 48%);
+	--c-light: hsl(54 31% 87%);
 
-	--font-family: iosevka term, system-ui, sans-serif;
-	--color-background: var(--color-gray1);
-	--color-app-background: var(--color-gray2);
-	--color-card-background: var(--color-gray2);
-	--color-input-background: var(--color-gray2);
-	--color-button-background: var(--color-gray3);
-	--color-text: #e8e8d3;
-	--color-link: var(--color-blue);
-	--color-border: transparent;
+	--c-red: hsl(17 46% 50%);
+	--c-green: hsl(98 19% 50%);
+	--c-blue: hsl(221 29% 58%);
+	--c-yellow: hsl(41 79% 69%);
+
+	--c-fg: var(--c-light);
+	--c-bg: var(--c-gray1);
+	--c-link: var(--c-blue);
 }
 
-[slot="menu"] a {
-	color: var(--green);
+/* Color scheme */
+r4-app {
+	--c-link: blue;
 }
-[slot="menu"] a:hover {
-	color: var(--color-link);
+
+/* Light variables */
+@media (prefers-color-scheme: light) {
+	r4-app {
+		color-scheme: light;
+		--c-link: var(--c-blue);
+		--c-bg: var(--c-light);
+		--c-fg: var(--c-gray1);
+	}
 }
+r4-app[color-scheme='light'] {
+	color-scheme: light;
+	--c-link: var(--c-blue);
+	--c-bg: var(--c-light);
+	--c-fg: var(--c-gray1);
+}
+
+/* Dark variables */
+@media (prefers-color-scheme: dark) {
+	r4-app {
+		color-scheme: dark;
+	}
+}
+r4-app[color-scheme='dark'] {
+	--c-bg: var(--c-gray1);
+	--c-fg: var(--c-light);
+}
+
+/* Typeface */
+r4-app {
+	font-family: var(--font);
+}
+
+body,
+button,
+input,
+optgroup,
+select,
+textarea {
+	font-family: inherit;
+}
+
+form fieldset {
+	/* display: flex; */
+	/* align-items: center; */
+	/* flex-flow: column nowrap; */
+	/* align-items: flex-start; */
+	/* justify-items: center; */
+	border: 1px solid var(--c-gray4);
+	padding: 0.5rem;
+	gap: 0.5rem;
+}
+
+form fieldset label {
+	font-size: smaller;
+}
+
+a,
+button,
+input[type='checkbox'],
+select,
+[onclick] {
+	cursor: pointer;
+}
+
+button,
+select,
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='number'],
+input[type='search'] {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+	flex-shrink: 0;
+	border-radius: 4px;
+	line-height: normal;
+	font-size: inherit;
+	user-select: none;
+	position: relative;
+	border: 1px solid var(--c-gray4);
+	min-width: 2rem;
+	height: 2rem;
+	padding: 0 0.875rem;
+}
+
+input[type='number'] {
+	max-width: 5rem;
+}
+
+/* /1* the /explore and /tracks query ui *1/ */
+/* r4-supabase-query { */
+/* 	display: block; */
+/* 	margin: 1rem 0; */
+/* } */
+
+/* /1* [slot="menu"] a { *1/ */
+/* /1* 	color: var(--green); *1/ */
+/* /1* } *1/ */
+/* /1* [slot="menu"] a:hover { *1/ */
+/* /1* 	color: var(--c-link); *1/ */
+/* /1* } *1/ */
 
 h1,
 h1 a {
-	color: var(--color-red);
+	color: var(--c-red);
 }
 
-button:hover,
-select:hover {
-	background: var(--color-link);
+ul[list] {
+	list-style: none;
+	padding: 0;
+}
+
+ul[list] > li {
+	margin-bottom: 0.25em;
+}
+
+r4-pagination {
+	display: block;
+	margin: 1rem 0;
+}
+
+/* Layout */
+r4-layout {
+	padding: 0 2rem 0;
+}
+
+[slot='menu'] {
+	margin-bottom: 1rem;
+}
+
+h1 {
+	margin: 0rem 0 1rem;
+}
+
+h2 {
+	margin: 2rem 0 1rem;
 }
 
 /* Quick dark-mode for the player */
-r4-player radio4000-player {
-	background: var(--color-background);
-	color: var(--color-text);
+[color-scheme='dark'] r4-player radio4000-player {
+	background: var(--c-bg);
+	color: var(--c-fg);
 }
-r4-player radio4000-player .Layout .Header,
-r4-player radio4000-player .Layout .PlayerControl,
-r4-player radio4000-player .Layout .PlayerControl .Btn {
+[color-scheme='dark'] r4-player radio4000-player .Layout .Header,
+[color-scheme='dark'] r4-player radio4000-player .Layout .PlayerControl,
+[color-scheme='dark'] r4-player radio4000-player .Layout .PlayerControl .Btn {
 	background: transparent;
 }
-r4-player radio4000-player .Layout .TrackItem {
+[color-scheme='dark'] r4-player radio4000-player .Layout .TrackItem {
 	color: inherit;
+}
+[color-scheme='dark'] r4-player radio4000-player .Layout .Tracklist-item {
+	border: 0;
+}
+
+r4-channel-card r4-button-play {
+	margin-right: 0.5em;
 }
