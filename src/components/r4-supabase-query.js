@@ -22,7 +22,8 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	get totalPages() {
-		return Math.round(this.count / this.limit) + 1
+		const count = this.count || 0
+		return Math.round(count / this.limit) + 1
 	}
 
 	constructor() {
