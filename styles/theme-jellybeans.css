@@ -25,7 +25,8 @@ r4-app {
 }
 
 @media (prefers-color-scheme: light) {
-	r4-app {}
+	r4-app {
+	}
 }
 
 r4-app[color-scheme='light'] {
@@ -125,6 +126,10 @@ ul[list] > li {
 	text-decoration: none;
 }
 
+[list] r4-button-play {
+	margin-right: 0.4em;
+}
+
 r4-pagination {
 	display: block;
 }
@@ -189,7 +194,9 @@ r4-channel-card > a {
 	display: flex;
 	align-items: center;
 }
-r4-channel-card r4-description {
+
+r4-track-description,
+r4-description {
 	font-size: smaller;
 }
 
@@ -227,8 +234,6 @@ r4-page-channel-tracks r4-supabase-query {
 /* Tags and mentions aka labels */
 a[label] {
 	font-size: smaller;
-	background: var(--c-gray4);
-	background: hsla(0, 0%, 75%, 0.5);
 	padding: 0 5px;
 	border-radius: 4px;
 	text-decoration: none;
@@ -236,4 +241,3 @@ a[label] {
 a[label] + a[label] {
 	margin-left: 2px;
 }
-
