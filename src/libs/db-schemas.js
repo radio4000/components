@@ -43,6 +43,7 @@ const supabaseTables = {
 // Copy the track columns to the channel_track junctions  and channel_tracks view
 supabaseTables['channel_track'].junctions = supabaseTables.tracks.columns.map((column) => `track_id.${column}`)
 supabaseTables['channel_tracks'].columns = supabaseTables.tracks.columns
+supabaseTables['channel_tracks'].columns.push('slug')
 
 /* store the list of "tables", from the database tables */
 export const supabaseTableNames = Object.keys(supabaseTables)
