@@ -18,7 +18,7 @@ export default class R4PageSettings extends LitElement {
 	async changeEmail(event) {
 		event.preventDefault()
 		const email = event.target.email.value
-		if (email === this.store.user.email)  return
+		if (email === this.store.user.email) return
 		const {error} = await sdk.supabase.auth.updateUser({email})
 		this.changeEmail.msg = error
 			? 'Could not update your email'
@@ -43,27 +43,31 @@ export default class R4PageSettings extends LitElement {
 			<h1>Settings</h1>
 
 			<h2>Account</h2>
-			<p>
-				You are signed in as <em>${this.store?.user?.email}</em>.
-			</p>
-			<br/>
+			<p>You are signed in as <em>${this.store?.user?.email}</em>.</p>
+			<br />
 			<form @submit=${this.changeEmail}>
-				<label
-					>Change email<br />
+				<fieldset>
+					<label for="email">Change email</label>
 					<input type="email" name="email" value=${this.store.user?.email} required />
-				</label>
-				<button type="submit">Save</button>
-				${this.changeEmail.msg ? html`<p>${this.changeEmail.msg}</p>` : null}
+				</fieldset>
+				<fieldset>
+					<button type="submit">Save</button>
+				</fieldset>
+				<output>${this.changeEmail.msg ? html`<p>${this.changeEmail.msg}</p>` : null}</output>
 			</form>
-			<br/>
+			<br />
 			<form @submit=${this.changePassword}>
-				<input name="username" value=${this.store.user?.email} readonly hidden autocomplete="username" />
-				<label
-					>Change password<br />
+				<fieldset>
+					<input name="username" value=${this.store.user?.email} readonly hidden autocomplete="username" />
+				</fieldset>
+				<fieldset>
+					<label for="password">Change password</label>
 					<input type="password" name="password" required autocomplete="new-password" />
-				</label>
-				<button type="submit">Save</button>
-				${this.changePassword.msg ? html`<p>${this.changePassword.msg}</p>` : null}
+				</fieldset>
+				<fieldset>
+					<button type="submit">Save</button>
+				</fieldset>
+				<output> ${this.changePassword.msg ? html`<p>${this.changePassword.msg}</p>` : null} </output>
 			</form>
 
 			<h2>Appearance</h2>
@@ -76,7 +80,7 @@ export default class R4PageSettings extends LitElement {
 				.href=${this.config.href}
 			></r4-user-delete>
 
-			<br/>
+			<br />
 			<p>
 				<a href="${this.config.href}/sign/out">Sign out</a>
 			</p>
