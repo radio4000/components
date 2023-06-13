@@ -13,20 +13,8 @@ r4-app {
 	--c-yellow: hsl(41 79% 69%);
 
 	--c-light: hsl(54 31% 87%);
-	/* --c-dark: var(--gray1); */
-	/* --c-light--accent: purple; */
-	/* --c-dark--accent: hotpink; */
 	--font: Epilogue, sans-serif;
 	--s-font: 16px;
-}
-
-r4-app {
-	font-family: var(--font);
-}
-
-@media (prefers-color-scheme: light) {
-	r4-app {
-	}
 }
 
 r4-app[color-scheme='light'] {
@@ -40,7 +28,9 @@ r4-app[color-scheme='dark'] {
 	--c-fg: var(--c-light);
 }
 
-body,
+r4-app {
+	font-family: var(--font);
+}
 button,
 input,
 optgroup,
@@ -49,18 +39,15 @@ textarea {
 	font-family: inherit;
 }
 
-form fieldset {
+r4-app form fieldset {
 	display: flex;
 	align-items: center;
-	/* flex-flow: column nowrap; */
-	/* align-items: flex-start; */
 	justify-items: center;
 	border: 1px solid var(--c-gray4);
 	padding: 0.5rem;
 	gap: 0.5rem;
 }
-
-form fieldset label {
+r4-app form fieldset label {
 	font-size: smaller;
 }
 
@@ -71,7 +58,6 @@ select,
 [onclick] {
 	cursor: pointer;
 }
-
 button,
 select,
 input[type='text'],
@@ -97,37 +83,19 @@ input[type='search'] {
 	vertical-align: middle;
 }
 
-button {
+r4-app button {
 	padding: 0 1rem;
 	min-height: calc(1.5rem + 4px);
 	/* background: var(--c-gray5); */
 }
 
-input[type='number'] {
+r4-app input[type='number'] {
 	max-width: 5rem;
 }
 
-h1,
-h1 a {
+r4-app h1,
+r4-app h1 a {
 	color: var(--c-red);
-}
-
-ul[list] {
-	list-style: none;
-	padding: 0;
-}
-
-ul[list] > li {
-	margin-bottom: 0.25em;
-}
-
-[list] r4-channel-card a:not(:hover),
-[list] r4-track a:not(:hover) {
-	text-decoration: none;
-}
-
-[list] r4-button-play {
-	margin-right: 0.4em;
 }
 
 r4-pagination {
@@ -139,27 +107,22 @@ r4-layout {
 	padding: 0 1rem 0;
 }
 
-[slot='menu'] {
+r4-app [slot='menu'] {
 	margin: 1rem 0;
 }
 
-h1 {
+r4-app h1 {
 	font-size: 2rem;
 	margin: 0rem 0 1rem;
 }
 
-h2 {
+r4-app h2 {
 	font-size: 1.5rem;
 	margin: 2rem 0 1rem;
 }
 
-h3 {
+r4-app h3 {
 	font-size: 1rem;
-}
-
-menu {
-	/* background: orange; */
-	margin: 1rem 0;
 }
 
 /* Quick dark-mode for the player */
@@ -232,12 +195,12 @@ r4-page-channel-tracks r4-supabase-query {
 }
 
 /* Tags and mentions aka labels */
-a[label] {
+r4-app a[label] {
 	font-size: smaller;
 	padding: 0 5px;
 	border-radius: 4px;
 	text-decoration: none;
 }
-a[label] + a[label] {
+r4-app a[label] + a[label] {
 	margin-left: 2px;
 }

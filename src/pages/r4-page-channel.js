@@ -93,6 +93,12 @@ export default class R4PageChannel extends BaseChannel {
 				</nav-item>
 			</nav>
 
+			${this.canEdit
+				? html` <menu>
+						<li><a href="${`${this.config.href}/add`}">Add Track</a></li>
+						<li><a href="${`${this.channelOrigin}/update`}">Settings</a></li>
+				  </menu>`
+				: ''}
 			${this.renderChannelImage()}
 
 			<r4-channel-name>
