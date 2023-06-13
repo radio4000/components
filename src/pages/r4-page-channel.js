@@ -3,7 +3,7 @@ import {repeat} from 'lit/directives/repeat.js'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
 import {sdk} from '@radio4000/sdk'
-import { query } from '../libs/browse'
+import {query} from '../libs/browse'
 
 export default class R4PageChannel extends BaseChannel {
 	get coordinates() {
@@ -95,7 +95,13 @@ export default class R4PageChannel extends BaseChannel {
 				</nav-item>
 			</nav>
 
-			${channel.image ? this.renderChannelImage() : null}
+			${this.canEdit
+				? html` <menu>
+						<li><a href="${`${this.config.href}/add`}">Add Track</a></li>
+						<li><a href="${`${this.channelOrigin}/update`}">Settings</a></li>
+				  </menu>`
+				: ''}
+			${this.renderChannelImage()}
 
 			<r4-channel-name>
 				<h1>${channel.name}</h1>
@@ -118,7 +124,6 @@ export default class R4PageChannel extends BaseChannel {
 				limit="5"
 				@query=${this.onQuery} hiddenui></r4-supabase-query>
 			${this.renderTracksList()}
-
 			<footer><a href="${`${this.channelOrigin}/tracks`}">All tracks</a></footer>
 
 			<r4-dialog name="share" @close=${this.onDialogClose}>
@@ -129,20 +134,21 @@ export default class R4PageChannel extends BaseChannel {
 
 	renderTracksList() {
 		if (!this.tracks) return null
-		console.log(this.tracks)
 		return html`
 			<ul list>
 				${repeat(
 					this.tracks,
 					(t) => t.id,
-					(t) => html` <li>
-						<r4-button-play .channel=${this.channel} .track=${t} .tracks=${this.tracks}></r4-button-play>
-						<r4-track .track=${t} href=${this.config.href} origin=${'' || this.tracksOrigin}></r4-track></li> `
+					(t) => html`
+						<li>
+							<r4-button-play .channel=${this.channel} .track=${t} .tracks=${this.tracks}></r4-button-play>
+							<r4-track .track=${t} href=${this.config.href} origin=${'' || this.tracksOrigin}></r4-track>
+						</li>
+					`
 				)}
 			</ul>
 		`
 	}
-
 
 	renderSocial() {
 		if (!this.config.singleChannel) {
@@ -156,9 +162,10 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	renderChannelImage() {
+		if (!this.channel) return null
 		return html`<aside>
 			<a href=${this.channelOrigin + '/player'}>
-				<r4-avatar image=${this.channel.image}></r4-avatar>
+				<r4-avatar image=${this.channel.image} size="medium"></r4-avatar>
 			</a>
 		</aside>`
 	}

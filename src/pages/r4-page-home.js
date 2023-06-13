@@ -10,6 +10,8 @@ export default class R4PageHome extends LitElement {
 		const {href} = this.config
 		const {user, userChannels, followings} = this.store
 		return html`
+			<h1>Radio4000 Beta</h1>
+
 			<menu>
 				<li>
 					<a href=${href + '/explore'}>Explore</a>
@@ -27,7 +29,7 @@ export default class R4PageHome extends LitElement {
 					? html`
 							<section>
 								<h2>Your channel${userChannels?.length > 1 ? 's' : ''}</h2>
-								<ul>
+								<ul list>
 									${userChannels.map((channel) => this.renderChannelCard(channel, href))}
 								</ul>
 							</section>
@@ -37,7 +39,7 @@ export default class R4PageHome extends LitElement {
 					? html`
 							<section>
 								<h2>Following</h2>
-								<ul>
+								<ul list>
 									${followings?.map((channel) => this.renderChannelCard(channel, href))}
 								</ul>
 							</section>

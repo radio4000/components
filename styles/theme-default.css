@@ -12,6 +12,7 @@ r4-app {
 	/* sizes */
 	--s-font: 18px;
 	--s: 1.5rem;
+	--s-line-height: 1;
 	--s-youtube: 200px;
 
 	/* reference functional variables using the colors */
@@ -38,10 +39,10 @@ r4-app {
 }
 @media (prefers-color-scheme: light) {
 	r4-app {
-		color-scheme: light;
 		--c-fg: var(--c-dark);
 		--c-bg: var(--c-light);
 		--c-link: var(--c-light--accent);
+		color-scheme: light;
 	}
 }
 
@@ -49,15 +50,19 @@ r4-app {
 r4-app {
 	/* this is the default */
 }
+
 r4-app[color-scheme='dark'] {
 	--c-fg: var(--c-light);
 	--c-bg: var(--c-dark);
 	--c-link: var(--c-dark--accent);
+	color-scheme: dark;
 }
+
 r4-app[color-scheme='light'] {
 	--c-fg: var(--c-dark);
 	--c-bg: var(--c-light);
 	--c-link: var(--c-light--accent);
+	color-scheme: light;
 }
 
 /* and the customization using the variables */
@@ -65,7 +70,7 @@ r4-app {
 	color: var(--c-fg);
 	background-color: var(--c-bg);
 	font-size: var(--s-font);
-	min-height: 100vh;
+	line-height: var(--s-line-height);
 	display: flex;
 	flex-direction: column;
 }
@@ -99,10 +104,6 @@ r4-app r4-layout::part(panel) {
 	/* min-height: 100vh; */
 }
 
-r4-app r4-layout::part(menu) {
-	background-color: var(--c-bg);
-}
-
 r4-layout [slot='main'] {
 	display: flex;
 	flex-direction: column;
@@ -124,6 +125,9 @@ r4-page-channel-tracks r4-supabase-select {
 	display: none;
 }
 
+/* Make filters horizontal */
+r4-supabase-filters > form,
 r4-supabase-modifiers > form {
 	display: flex;
+	flex-flow: row wrap;
 }

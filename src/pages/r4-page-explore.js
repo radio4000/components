@@ -52,7 +52,7 @@ export default class R4PageExplore extends LitElement {
 					@query=${this.onQuery}
 				></r4-pagination>
 
-				<ul>
+				<ul list>
 					${repeat(
 						this.channels || [],
 						(c) => c.id,

@@ -6,9 +6,8 @@ const itemTemplate = document.createElement('template')
 /* This will set the whole item (channel) json,
 	 as attribute "track", on the <r4-channel/> element */
 itemTemplate.setAttribute('element', 'r4-channel')
-itemTemplate.setAttribute('attribute', 'channel')
-itemTemplate.innerHTML = `<r4-channel><r4-channel/>`
-
+itemTemplate.setAttribute('property', 'channel')
+itemTemplate.innerHTML = `<r4-channel-card><r4-channel-card/>`
 
 export default class R4ChannelFollowers extends R4List {
 	static get observedAttributes() {

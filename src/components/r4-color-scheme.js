@@ -1,5 +1,5 @@
-import { LitElement, html } from 'lit'
-import { sdk } from '@radio4000/sdk'
+import {LitElement, html} from 'lit'
+import {sdk} from '@radio4000/sdk'
 
 /**
  * Renders controls to set your prefered color scheme
@@ -7,10 +7,10 @@ import { sdk } from '@radio4000/sdk'
  */
 export default class R4ColorScheme extends LitElement {
 	static properties = {
-		user: { type: Object, state: true },
-		account: { type: Object, state: true },
-		theme: { type: String, state: true },
-		themes: { type: Array, state: true },
+		user: {type: Object, state: true},
+		account: {type: Object, state: true},
+		theme: {type: String, state: true},
+		themes: {type: Array, state: true},
 	}
 
 	// The attribute to set on <html> element
@@ -28,13 +28,11 @@ export default class R4ColorScheme extends LitElement {
 
 	// Restores theme from user account.
 	async restoreTheme() {
-		const { data } = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
-		this.save(data?.theme || '')
-
+		const {data} = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
+		this.save(data?.theme)
 		// If there is no account, it is time to create it.
 		if (!data) {
-			const res = await sdk.supabase.from('accounts').insert({ id: this.user.id }).single()
-			console.log('inserted new account', res)
+			const res = await sdk.supabase.from('accounts').insert({id: this.user.id}).single()
 		}
 	}
 
@@ -45,7 +43,7 @@ export default class R4ColorScheme extends LitElement {
 		this.closest('r4-app').setAttribute(this.attrName, value)
 		localStorage.setItem('r4.theme', value)
 		if (this.user) {
-			await sdk.supabase.from('accounts').update({ theme: value }).eq('id', this.user.id)
+			await sdk.supabase.from('accounts').update({theme: value}).eq('id', this.user.id)
 		}
 	}
 

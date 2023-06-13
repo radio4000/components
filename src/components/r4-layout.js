@@ -26,7 +26,7 @@ export default class R4Layout extends LitElement {
 			[this.uiStates.Minimize]: '⊼',
 			[this.uiStates.Fullscreen]: '⇱',
 		}
-		this.uiState = this.uiStates.Close
+		this.uiState = this.uiStates.Minimize
 		document.addEventListener('fullscreenchange', this.onFullscreen.bind(this))
 
 		this.topObserver = this.initTopOberserver()
@@ -34,7 +34,6 @@ export default class R4Layout extends LitElement {
 
 	connectedCallback() {
 		super.connectedCallback()
-
 		const theme = localStorage.getItem('r4.theme')
 		if (theme) this.parentElement.setAttribute('color-scheme', theme)
 	}

@@ -97,7 +97,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 					filters=${params.get('filters')}
 					@query=${this.onQuery}
 				></r4-supabase-query>
-				<p>Found ${this.count} tracks</p>
 			</details>
 		`
 	}
@@ -111,6 +110,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		const mentionsHref = `${this.tracksOrigin}?filters=[${filter}]`
 
 		return html`
+			<p>Found ${this.count} tracks</p>
 			<menu>
 				<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label="Play selection"></r4-button-play>
 				<r4-pagination
@@ -120,12 +120,12 @@ export default class R4PageChannelTracks extends BaseChannel {
 				></r4-pagination>
 				<a href=${tagsHref} label>#Tags</a>
 				<a href=${mentionsHref} label>@Mentions</a>
+				<form @change=${this.setDisplay}>
+					<label><input type="radio" name="display" value="list" ?checked=${this.display === 'list'} /> List</label>
+					<label><input type="radio" name="display" value="table" ?checked=${this.display === 'table'} /> Table</label>
+				</form>
 			</menu>
 
-			<form @change=${this.setDisplay}>
-				<label><input type="radio" name="display" value="list" ?checked=${this.display === 'list'} /> List</label>
-				<label><input type="radio" name="display" value="table" ?checked=${this.display === 'table'} /> Table</label>
-			</form>
 
 			${this.display === 'table' ? this.renderTracksTable() : this.renderTracksList()}
 		`
@@ -178,7 +178,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	renderTracksList() {
 		return html`
-			<ul>
+			<ul list>
 				${repeat(
 					this.tracks,
 					(t) => t.id,

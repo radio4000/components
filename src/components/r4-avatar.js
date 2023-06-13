@@ -1,6 +1,11 @@
 import { LitElement, html } from 'lit'
 import { sdk } from '@radio4000/sdk'
 
+const SIZES = {
+	small: 50,
+	medium: 250,
+}
+
 /**
  * Renders an image in a predefined format for channel avatars.
  * There are two ways to tell the component what to render
@@ -11,6 +16,7 @@ export default class R4Avatar extends LitElement {
 	static properties = {
 		image: { type: String },
 		slug: { type: String, reflect: true },
+		size: { type: String, reflect: true },
 	}
 
 	async connectedCallback() {
@@ -22,7 +28,8 @@ export default class R4Avatar extends LitElement {
 	}
 
 	render() {
-		return ResponsiveCloudinaryImage(this.image)
+		const size = SIZES[this.size || 'small']
+		return ResponsiveCloudinaryImage(this.image, size)
 	}
 
 	// Disable shadow DOM
@@ -32,12 +39,12 @@ export default class R4Avatar extends LitElement {
 }
 
 // Renders a responsive image loaded from Cloudinary.
-function ResponsiveCloudinaryImage(id) {
+function ResponsiveCloudinaryImage(id, size) {
 	if (!id) return null
 
 	const baseUrl = 'https://res.cloudinary.com/radio4000/image/upload'
-	const small = 'w_50,h_50'
-	const large = 'w_50,h_50'
+	const small = `w_${size},h_${size}`
+	const large = `w_${size},h_${size}`
 	const crop = 'c_thumb,q_60'
 	// const imageUrl = `${baseUrl}/${image}`
 

@@ -1,52 +1,206 @@
-/* Inspired by the Jellybeans programming color scheme theme. Dark only. */
-:root {
-	--color-red: rgb(188 108 81);
-	--color-green: rgb(128 156 111);
-	--color-blue: rgb(133 150 188);
-	--color-yellow: rgb(243 210 134);
+@import url(https://fonts.bunny.net/css?family=epilogue:400,400i,600);
 
-	--color-gray1: rgb(21 21 21);
-	--color-gray2: rgb(48 48 44);
-	--color-gray3: rgb(78 78 68);
+r4-app {
+	/* Inspired by the dark Jellybeans programming color scheme theme */
+	--c-gray1: hsl(0 0% 8%);
+	--c-gray2: hsl(56 8% 17%);
+	--c-gray3: hsl(50 9% 28%);
+	--c-gray4: hsl(50 9% 48%);
+	--c-gray5: hsl(50 6% 75%);
+	--c-red: hsl(17 46% 50%);
+	--c-green: hsl(98 19% 50%);
+	--c-blue: hsl(221 29% 58%);
+	--c-yellow: hsl(41 79% 69%);
 
-	--font-family: iosevka term, system-ui, sans-serif;
-	--color-background: var(--color-gray1);
-	--color-app-background: var(--color-gray2);
-	--color-card-background: var(--color-gray2);
-	--color-input-background: var(--color-gray2);
-	--color-button-background: var(--color-gray3);
-	--color-text: #e8e8d3;
-	--color-link: var(--color-blue);
-	--color-border: transparent;
+	--c-light: hsl(54 31% 87%);
+	--font: Epilogue, sans-serif;
+	--s-font: 16px;
 }
 
-[slot="menu"] a {
-	color: var(--green);
-}
-[slot="menu"] a:hover {
-	color: var(--color-link);
-}
-
-h1,
-h1 a {
-	color: var(--color-red);
+r4-app[color-scheme='light'] {
+	--c-bg: var(--c-light);
+	--c-fg: var(--c-gray1);
+	/* --c-link: var(--c-green); */
 }
 
-button:hover,
-select:hover {
-	background: var(--color-link);
+r4-app[color-scheme='dark'] {
+	--c-bg: var(--c-gray1);
+	--c-fg: var(--c-light);
+}
+
+r4-app {
+	font-family: var(--font);
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+	font-family: inherit;
+}
+
+r4-app form fieldset {
+	display: flex;
+	align-items: center;
+	justify-items: center;
+	border: 1px solid var(--c-gray4);
+	padding: 0.5rem;
+	gap: 0.5rem;
+}
+r4-app form fieldset label {
+	font-size: smaller;
+}
+
+a,
+button,
+input[type='checkbox'],
+select,
+[onclick] {
+	cursor: pointer;
+}
+button,
+select,
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='number'],
+input[type='search'] {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+	flex-shrink: 0;
+	/* border-radius: 4px; */
+	line-height: normal;
+	font-size: inherit;
+	user-select: none;
+	position: relative;
+	/* border: 1px solid var(--c-border); */
+	/* border: 0; */
+	min-width: 2rem;
+	height: 2rem;
+	padding: 0 0.5rem;
+	vertical-align: middle;
+}
+
+r4-app button {
+	padding: 0 1rem;
+	min-height: calc(1.5rem + 4px);
+	/* background: var(--c-gray5); */
+}
+
+r4-app input[type='number'] {
+	max-width: 5rem;
+}
+
+r4-app h1,
+r4-app h1 a {
+	color: var(--c-red);
+}
+
+r4-pagination {
+	display: block;
+}
+
+/* Layout */
+r4-layout {
+	padding: 0 1rem 0;
+}
+
+r4-app [slot='menu'] {
+	margin: 1rem 0;
+}
+
+r4-app h1 {
+	font-size: 2rem;
+	margin: 0rem 0 1rem;
+}
+
+r4-app h2 {
+	font-size: 1.5rem;
+	margin: 2rem 0 1rem;
+}
+
+r4-app h3 {
+	font-size: 1rem;
 }
 
 /* Quick dark-mode for the player */
-r4-player radio4000-player {
-	background: var(--color-background);
-	color: var(--color-text);
+[color-scheme='dark'] r4-player radio4000-player {
+	background: var(--c-bg);
+	color: var(--c-fg);
 }
-r4-player radio4000-player .Layout .Header,
-r4-player radio4000-player .Layout .PlayerControl,
-r4-player radio4000-player .Layout .PlayerControl .Btn {
+[color-scheme='dark'] r4-player radio4000-player .Layout .Header,
+[color-scheme='dark'] r4-player radio4000-player .Layout .PlayerControl,
+[color-scheme='dark'] r4-player radio4000-player .Layout .PlayerControl .Btn {
 	background: transparent;
 }
-r4-player radio4000-player .Layout .TrackItem {
+[color-scheme='dark'] r4-player radio4000-player .Layout .TrackItem {
 	color: inherit;
+}
+[color-scheme='dark'] r4-player radio4000-player .Layout .Tracklist-item {
+	border: 0;
+}
+
+[color-scheme='dark'] r4-player radio4000-player .PlayPause-controller::after,
+[color-scheme='dark'] r4-player radio4000-player .PlayPause-controller::before {
+	border-color: var(--c-link);
+}
+
+r4-channel-card {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+}
+r4-channel-card > a {
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+}
+
+r4-track-description,
+r4-description {
+	font-size: smaller;
+}
+
+r4-page-channel h1 {
+	margin-top: 2rem;
+}
+
+r4-page-channel > nav {
+	margin-bottom: 1rem;
+}
+r4-page-channel > footer {
+	margin-top: 1rem;
+}
+
+r4-page-explore > main,
+r4-page-channel-tracks > main {
+	margin-top: 1rem;
+	display: flex;
+	flex-flow: column nowrap;
+	gap: 1rem;
+}
+
+r4-page-channel-tracks > main > menu {
+	display: flex;
+	align-items: center;
+	gap: 1em;
+}
+
+r4-page-explore r4-supabase-query,
+r4-page-channel-tracks r4-supabase-query {
+	display: block;
+	margin-bottom: 1rem;
+}
+
+/* Tags and mentions aka labels */
+r4-app a[label] {
+	font-size: smaller;
+	padding: 0 5px;
+	border-radius: 4px;
+	text-decoration: none;
+}
+r4-app a[label] + a[label] {
+	margin-left: 2px;
 }
