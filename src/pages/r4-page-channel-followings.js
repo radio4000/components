@@ -1,62 +1,48 @@
 import {html} from 'lit'
 import {until} from 'lit/directives/until.js'
+import {repeat} from 'lit/directives/repeat.js'
+import {sdk} from '@radio4000/sdk'
 import BaseChannel from './base-channel'
-import page from 'page/page.mjs'
 
 export default class R4PageChannelFollowings extends BaseChannel {
-	render() {
-		return html`${until(
-			Promise.resolve(this.channel)
-				.then((channel) => {
-					return channel ? this.renderPage(channel) : this.renderNoPage()
-				})
-				.catch(() => this.renderNoPage()),
-			this.renderLoading()
-		)}`
+	static properties = {
+		channels: {type: Array, state: true},
 	}
 
-	renderPage(channel) {
+	async query() {
+		this.channels = (
+			await sdk.supabase
+				.from('followers')
+				.select('*, channel_id(*), follower_id!inner(slug)')
+				.eq('follower_id.slug', this.channel.slug)
+		).data
+	}
+
+	render() {
+		const {channel} = this
+		if (channel?.slug && !this.channels) this.query()
 		return html`
 			<header>
-				<code>@</code>
-				<a href=${this.channelOrigin}>${channel.slug}</a>
-				<code>/</code>
+				<code>@</code> <a href=${this.channelOrigin}>${channel?.slug}</a> <code>/</code>
 				<a href=${this.channelOrigin + '/followings'}>followings</a>
 			</header>
 			<main>
-				<r4-channel-followings
-					channel-id=${channel.id}
-					origin=${this.channelOrigin}
-					limit=${this.searchParams.get('limit') || 10}
-					page=${this.searchParams.get('page') || 1}
-					pagination
-					@r4-list=${this.onNavigateList}
-				></r4-channel-followings>
+				<p>Channels which ${channel?.slug} follows</p>
+				<ul list>
+					${repeat(
+						this.channels || [],
+						(c) => c.id,
+						(c) =>
+							html`<li>
+								<r4-channel-card .channel=${c.channel_id} origin=${this.channelOrigin}></r4-channel-card>
+							</li>`
+					)}
+				</ul>
 			</main>
 		`
 	}
-	renderNoPage() {
-		return html`404 - No channel with this slug`
-	}
-	renderLoading() {
-		return html`<span>Loading channel followings...</span>`
-	}
 
-	/* no shadow dom */
 	createRenderRoot() {
 		return this
-	}
-
-	onNavigateList({ detail }) {
-		/* `page` here, is usually globaly the "router", beware */
-		const { page: currentPage, limit, list } = detail
-		const newPageURL = new URL(window.location)
-
-		limit && newPageURL.searchParams.set('limit', limit)
-		currentPage && newPageURL.searchParams.set('page', currentPage)
-
-		if (window.location.href !== newPageURL.href) {
-			page.redirect(newPageURL.pathname + newPageURL.search)
-		}
 	}
 }

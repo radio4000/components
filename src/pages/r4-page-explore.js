@@ -5,7 +5,6 @@ import urlUtils from '../libs/url-utils'
 
 export default class R4PageExplore extends LitElement {
 	static properties = {
-		/* props */
 		config: {type: Object},
 		searchParams: {type: Object, state: true},
 		channels: {type: Array, state: true},
