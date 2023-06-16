@@ -73,4 +73,8 @@ export default class BaseChannel extends LitElement {
 	render() {
 		return html``
 	}
+
+	createRenderRoot() {
+		return this
+	}
 }

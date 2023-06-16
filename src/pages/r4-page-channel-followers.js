@@ -5,44 +5,19 @@ import {sdk} from '@radio4000/sdk'
 import BaseChannel from './base-channel'
 
 export default class R4PageChannelFollowers extends BaseChannel {
-	static properties = {
-		channels: {type: Array, state: true},
-	}
-
-	async query() {
-		this.channels = (await sdk.supabase
-			.from('followers')
-			.select('*, channel_id!inner(slug), follower_id(*)')
-			.eq('channel_id.slug', this.channel.slug)).data
-	}
-
 	render() {
-		const {channel} = this
-		if (channel?.slug && !this.channels) this.query()
+		const slug = this.channel?.slug
 		return html`
 			<header>
 				<code>@</code>
-				<a href=${this.channelOrigin}>${channel?.slug}</a>
+				<a href=${this.channelOrigin}>${slug}</a>
 				<code>/</code>
 				<a href=${this.channelOrigin + '/followers'}>followers</a>
 			</header>
 			<main>
-				<p>Channels following ${channel?.slug}</p>
-				<ul list>
-					${repeat(
-						this.channels || [],
-						(c) => c.id,
-						(c) =>
-							html`<li>
-								<r4-channel-card .channel=${c.follower_id} origin=${this.channelOrigin}></r4-channel-card>
-							</li>`
-					)}
-				</ul>
+				<p>Channels following ${slug}</p>
+				<r4-channel-followers slug=${slug}></r4-channel-followers>
 			</main>
 		`
-	}
-
-	createRenderRoot() {
-		return this
 	}
 }
