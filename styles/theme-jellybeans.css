@@ -14,7 +14,7 @@ r4-app {
 
 	--c-light: hsl(54 31% 87%);
 	--font: Epilogue, sans-serif;
-	--s-font: 16px;
+	--s-font: 15px;
 }
 
 r4-app[color-scheme='light'] {
@@ -64,7 +64,9 @@ input[type='text'],
 input[type='email'],
 input[type='password'],
 input[type='number'],
-input[type='search'] {
+input[type='url'],
+input[type='search'],
+textarea {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -83,14 +85,25 @@ input[type='search'] {
 	vertical-align: middle;
 }
 
-r4-app button {
-	padding: 0 1rem;
-	min-height: calc(1.5rem + 4px);
-	/* background: var(--c-gray5); */
+textarea {
+	height: 4rem;
+	padding-top: 0.5em;
 }
 
 r4-app input[type='number'] {
 	max-width: 5rem;
+}
+
+r4-app button {
+	padding: 0 1rem;
+	min-height: calc(1.5rem + 4px);
+}
+
+r4-app [list] r4-button-play button {
+	height: auto;
+	padding: 0;
+	background: none;
+	border: 0;
 }
 
 r4-app h1,
@@ -203,4 +216,25 @@ r4-app a[label] {
 }
 r4-app a[label] + a[label] {
 	margin-left: 2px;
+}
+
+r4-channel-update label {
+	flex-basis: 11ch;
+}
+r4-channel-update input,
+r4-channel-update textarea {
+	flex: 1;
+}
+
+ul[list] {
+	list-style: none;
+	padding: 0;
+}
+
+r4-app fieldset[name=orderBy] {
+	border-right: 0;
+	margin-right: -0.5em;
+}
+r4-app fieldset[name=ascending] {
+	border-left: 0;
 }
