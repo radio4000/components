@@ -87,20 +87,12 @@ export default class R4PageChannel extends BaseChannel {
 				</nav-item>
 				<nav-item><r4-channel-social>${this.renderSocial()}</r4-channel-social></nav-item>
 				<nav-item>
-					${
-						this.coordinates && !this.config.singleChannel
-							? html`<r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates>`
-							: null
-					}
+					${this.coordinates && !this.config.singleChannel
+						? html`<r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates>`
+						: null}
 				</nav-item>
 			</nav>
 
-			${this.canEdit
-				? html` <menu>
-						<li><a href="${`${this.config.href}/add`}">Add Track</a></li>
-						<li><a href="${`${this.channelOrigin}/update`}">Settings</a></li>
-				  </menu>`
-				: ''}
 			${this.renderChannelImage()}
 
 			<r4-channel-name>
@@ -109,22 +101,25 @@ export default class R4PageChannel extends BaseChannel {
 
 			<r4-channel-description>${channel.description}</r4-channel-description>
 
-			${
-				channel.url
-					? html`<r4-channel-url>
-							<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
-					  </r4-channel-url>`
-					: null
-			}
+			${channel.url
+				? html`<r4-channel-url>
+						<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
+				  </r4-channel-url>`
+				: null}
 
 			<h2>Latest tracks</h2>
 			<r4-supabase-query
 				table="channel_tracks"
 				filters=${`[{"operator":"eq","column":"slug","value":"${channel.slug}"}]`}
 				limit="8"
-				@query=${this.onQuery} hiddenui></r4-supabase-query>
+				@query=${this.onQuery}
+				hiddenui
+			></r4-supabase-query>
 			${this.renderTracksList()}
-			<footer><a href="${`${this.channelOrigin}/tracks`}">All tracks</a></footer>
+
+			<footer>
+				<a href="${`${this.channelOrigin}/tracks`}">All tracks</a>
+			</footer>
 
 			<r4-dialog name="share" @close=${this.onDialogClose}>
 				<r4-channel-sharer slot="dialog" origin=${this.channelOrigin} slug=${channel.slug}></r4-channel-sharer>

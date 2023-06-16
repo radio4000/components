@@ -10,8 +10,6 @@ export default class R4PageHome extends LitElement {
 		const {href} = this.config
 		const {user, userChannels, followings} = this.store
 		return html`
-			<h1>Radio4000 Beta</h1>
-
 			<menu>
 				<li>
 					<a href=${href + '/explore'}>Explore</a>
@@ -45,6 +43,11 @@ export default class R4PageHome extends LitElement {
 							</section>
 					  `
 					: null}
+					<br/>
+				<p>
+					This is the public beta for a new Radio4000. Try it out and
+					<a href="https://matrix.to/#/#radio4000:matrix.org" rel="noreferrer">give feedback</a>.
+				</p>
 			</main>
 		`
 	}

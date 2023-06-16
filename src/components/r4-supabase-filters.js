@@ -70,7 +70,7 @@ export default class R4SupabaseFilters extends LitElement {
 			<form @submit=${this.onFormSubmit}>
 				${this.filters?.length ? this.renderFilters() : null}
 				<fieldset>
-					<button @click=${this.addFilter}>Add filter</button>
+					<button @click=${this.addFilter}>+</button>
 				</fieldset>
 			</form>
 		`
@@ -84,7 +84,7 @@ export default class R4SupabaseFilters extends LitElement {
 				<li>
 					<fieldset>
 						${this.renderFilter(filter, index)}
-						<button @click=${() => this.removeFilter(index)}>Remove filter</button>
+						<button @click=${() => this.removeFilter(index)}>␡</button>
 					</fieldset>
 				</li>
 			`
