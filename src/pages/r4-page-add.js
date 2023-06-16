@@ -87,14 +87,14 @@ export default class R4PageAdd extends LitElement {
 		`
 
 		const $channelLink = html`
-			<a href=${this.config.href + '/' + this.selectedSlug}>
+			@<a href=${this.config.href + '/' + this.selectedSlug}>
 				<strong>${this.selectedSlug}</strong>
 			</a>
 		`
 
 		return html`
 			<header>
-				<p><strong>Add track to</strong> ${this.hasOneChannel ? $channelLink : $channelsSelect}</p>
+				<p>${this.hasOneChannel ? $channelLink : $channelsSelect} / add track</p>
 			</header>
 		`
 	}

@@ -129,16 +129,18 @@ export default class R4App extends LitElement {
 	}
 
 	async setTheme() {
-		// Read prefered theme from OS settings.
-		const dark = window.matchMedia('(prefers-color-scheme: dark)').matches
-		// const light = window.matchMedia('(prefers-color-scheme: light)').matches
-		let theme = dark ? 'dark' : 'light'
-		// Read settings from user account.
-		if (this.user) {
+		// From local storage
+		let theme = localStorage.getItem('r4.theme')
+		// From database
+		if (!theme && this.user) {
 			const {data: account} = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
 			theme = account.theme
 		}
-		localStorage.setItem('r4.theme', theme)
+		// From OS settings
+		if (!theme) {
+			const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+			theme = prefersDark ? 'dark' : 'light'
+		}
 		this.setAttribute('color-scheme', theme)
 	}
 

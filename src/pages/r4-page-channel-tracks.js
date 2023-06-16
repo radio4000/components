@@ -112,12 +112,8 @@ export default class R4PageChannelTracks extends BaseChannel {
 		return html`
 			<p>Found ${this.count} tracks</p>
 			<menu>
+				<r4-button-play .channel=${this.channel} label="Play all"></r4-button-play>
 				<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label="Play selection"></r4-button-play>
-				<r4-pagination
-					page=${this.searchParams.get('page')}
-					.lastQuery=${this.lastQuery}
-					@query=${this.onQuery}
-				></r4-pagination>
 				<a href=${tagsHref} label>#Tags</a>
 				<a href=${mentionsHref} label>@Mentions</a>
 				<form @change=${this.setDisplay}>

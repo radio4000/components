@@ -57,7 +57,7 @@ export default class R4PageSettings extends LitElement {
 			</form>
 			<br />
 			<form @submit=${this.changePassword}>
-				<fieldset>
+				<fieldset hidden>
 					<input name="username" value=${this.store.user?.email} readonly hidden autocomplete="username" />
 				</fieldset>
 				<fieldset>
