@@ -58,7 +58,7 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	renderChannelError() {
-		return html`<p>404 - This channel does not exist</p>`
+		return html`<p>404. There is no channel here. Want to <a href="${this.config.href}/new">create one?</a></p>`
 	}
 
 	async onQuery({detail}) {
