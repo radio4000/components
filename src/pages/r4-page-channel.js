@@ -120,8 +120,8 @@ export default class R4PageChannel extends BaseChannel {
 			<h2>Latest tracks</h2>
 			<r4-supabase-query
 				table="channel_tracks"
-				filters="[{"operator":"eq","column":"slug","value":"ko002"}]"
-				limit="5"
+				filters=${`[{"operator":"eq","column":"slug","value":"${channel.slug}"}]`}
+				limit="8"
 				@query=${this.onQuery} hiddenui></r4-supabase-query>
 			${this.renderTracksList()}
 			<footer><a href="${`${this.channelOrigin}/tracks`}">All tracks</a></footer>
