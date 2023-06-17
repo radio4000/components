@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit'
+import {LitElement, html} from 'lit'
 import {sdk} from '@radio4000/sdk'
 
 /**
@@ -8,8 +8,8 @@ import {sdk} from '@radio4000/sdk'
  */
 export default class R4AvatarUpload extends LitElement {
 	static properties = {
-		tags: { type: String, reflective: true },
-		loading: { type: Boolean, state: true },
+		tags: {type: String, reflective: true},
+		loading: {type: Boolean, state: true},
 	}
 
 	async handleSubmit(event) {
@@ -33,8 +33,13 @@ export default class R4AvatarUpload extends LitElement {
 	render() {
 		return html`
 			<form method="post" enctype="multipart/form-data" @submit=${this.handleSubmit}>
-				<input type="file" name="file" required />
-				<button type="submit" ?disabled=${this.loading}>Upload new avatar</button>
+				<fieldset>
+					<label for="file">Avatar</label>
+					<input type="file" name="file" required />
+				</fieldset>
+				<fieldset>
+					<button type="submit" ?disabled=${this.loading}>Upload avatar</button>
+				</fieldset>
 			</form>
 		`
 	}

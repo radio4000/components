@@ -72,10 +72,22 @@ export default class R4PageChannel extends BaseChannel {
 		return html`
 			<nav>
 				<nav-item>
-					<code>@</code>
-					<a href=${this.channelOrigin}>${channel.slug}</a>
-					<code>/</code>
+					<code>@</code>${channel.slug}
+					<code>></code>
 				</nav-item>
+				<nav-item>
+					<a href=${this.config.href + '/add'}>Add track</a> +
+					<a href=${this.channelOrigin + '/tracks'}>Tracks</a> +
+					<a href=${this.channelOrigin + '/update'}>Update</a>
+				</nav-item>
+			</nav>
+
+			<r4-channel-name>
+				<h1>${channel.name}</h1>
+			</r4-channel-name>
+
+
+			<menu>
 				<nav-item><r4-button-play .channel=${channel} label="Listen"></r4-button-play></nav-item>
 				<nav-item>
 					<r4-channel-actions
@@ -91,13 +103,9 @@ export default class R4PageChannel extends BaseChannel {
 						? html`<r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates>`
 						: null}
 				</nav-item>
-			</nav>
+			</menu>
 
 			${this.renderChannelImage()}
-
-			<r4-channel-name>
-				<h1>${channel.name}</h1>
-			</r4-channel-name>
 
 			<r4-channel-description>${channel.description}</r4-channel-description>
 

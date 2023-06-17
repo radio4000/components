@@ -18,62 +18,67 @@
 r4-app {
 	/* Inspired by the dark Jellybeans programming color scheme theme */
 	--c-red: hsl(17 46% 50%);
+	--c-red2: hsl(17deg 100% 7%);
 	--c-green: hsl(98 19% 50%);
-	--c-blue: hsl(221 29% 58%);
+	--c-blue: hsl(221 29% 60%);
+	--c-blue2: hsl(221 30% 94%);
 	--c-yellow: hsl(41 79% 69%);
 
 	--c-gray1: hsl(0 0% 8%);
 	--c-gray2: hsl(56 8% 17%);
-	--c-gray3: hsl(50 9% 28%);
+	--c-gray3: hsl(50 9% 24%);
 	--c-gray4: hsl(50 9% 48%);
 	--c-gray5: hsl(50 6% 75%);
 	--c-gray6: hsl(50 20% 94%);
+	--c-gray7: hsl(50 15% 95%);
 
 	--font: Epilogue, Abordage, cursive, Epilogue, sans-serif;
 	--s-font: 16px;
 	--s: 1.5rem;
+	--s-radius: 0;
 	--s-line-height: var(--s);
-	background-image: linear-gradient(hsla(0, 0%, 30%, 0.5) 0.15%, transparent 5%);
+	background-image: linear-gradient(hsla(0, 0%, 60%, 0.1) 0.15%, transparent 5%);
 	background-size: 100% var(--s);
 }
 
 r4-app[color-scheme='light'] {
-	--c-green: hsl(98 49% 30%);
+	/* for light theme we want more contrast */
+	--c-blue: hsl(221 30% 50%);
 	--c-red: hsl(17 60% 50%);
+
 	--c-bg: var(--c-gray6);
 	--c-fg: var(--c-gray1);
-	--c-link: var(--c-green);
+	--c-link: var(--c-blue);
 	--c-headlines: var(--c-red);
+	--c-border: var(--c-gray5);
 }
 
 r4-app[color-scheme='dark'] {
 	--c-bg: var(--c-gray1);
 	--c-fg: var(--c-gray6);
-	--c-link: var(--c-red);
-	--c-headlines: var(--c-blue);
+	--c-link: var(--c-blue);
+	--c-headlines: var(--c-red);
+	--c-border: var(--c-gray1);
 }
 
 r4-app {
-	font-family: var(--font);
+	font-family: system ui, segoe ui, sans-serif, var(--font);
 	line-height: 1.5;
 }
 r4-app h1,
 r4-app h2,
 r4-app h3 {
-	/* font-family: Director; */
+	font-family: var(--font);
 }
 
 r4-app fieldset {
 	display: flex;
-	/* align-items: center; */
-	/* justify-items: center; */
 	border: 1px solid var(--c-gray4);
 	padding: 0;
 	gap: 0.5rem;
 	border: 0;
 }
 r4-app fieldset label {
-	font-size: 14px;
 	font-weight: 600;
 }
 
@@ -97,8 +102,7 @@ r4-supabase-modifiers > form {
 a,
 button:not(:disabled),
 input[type='checkbox'],
-select,
-[onclick] {
+select {
 	cursor: pointer;
 }
 
@@ -106,32 +110,41 @@ select,
 button,
 select,
 input[type='text'],
+input[type='number'],
 input[type='email'],
 input[type='password'],
-input[type='number'],
-input[type='url'],
 input[type='search'],
+input[type='url'],
 textarea {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	white-space: nowrap;
 	flex-shrink: 0;
-	/* border-radius: 4px; */
 	line-height: normal;
 	font-size: inherit;
 	user-select: none;
 	position: relative;
-	/* border: 1px solid var(--c-border); */
-	/* border: 0; */
+	border: 1px solid var(--c-border);
+	border-radius: var(--s-radius);
 	min-width: 2rem;
 	height: var(--s);
 	padding: 0 0.5rem;
-	vertical-align: middle;
+	vertical-align: top;
 	line-height: 1;
 }
 
-textarea {
+r4-app input[type='text'],
+r4-app input[type='number'],
+r4-app input[type='email'],
+r4-app input[type='password'],
+r4-app input[type='search'],
+r4-app input[type='url'],
+r4-app textarea {
+	/* background: var(--c-gray4); */
+}
+
+r4-app textarea {
 	height: calc(var(--s) * 3);
 	padding-top: 0.5em;
 }
@@ -141,15 +154,31 @@ r4-app input[type='number'] {
 	max-width: 7rem;
 }
 
-/* Buttons */
-r4-app select,
+r4-app button[role="destructive"],
+r4-app button[type="submit"] {
+	min-width: 10em;
+}
+
 r4-app button {
 	padding: 0 1rem;
 	font-size: 14px;
+	/* background: var(--c-gray7); */
 }
 
+r4-app button[type='submit'] {
+	min-height: calc(var(--s) * 2);
+	background-color: var(--c-link);
+	color: var(--c-blue2);
+}
+
+r4-app button[role='destructive'] {
+	background: var(--c-red);
+	color: var(--c-red2);
+}
+
+
 r4-app [list] r4-button-play button {
-	height: auto;
+	/* background-color: var(--c-blue); */
 }
 
 r4-channel-description,
@@ -225,14 +254,15 @@ r4-description {
 	font-size: smaller;
 }
 
+r4-app nav {
+	margin-bottom: var(--s);
+}
+
 r4-page-channel h1 {
 	margin-bottom: 0;
 }
 r4-page-channel r4-avatar img {
 	height: calc(var(--s) * 8);
-}
-r4-page-channel > nav {
-	margin-bottom: var(--s);
 }
 r4-page-channel > footer {
 	margin-top: var(--s);
@@ -273,17 +303,17 @@ r4-app form {
 	/* display: flex; */
 	/* flex-flow: column nowrap; */
 	/* gap: var(--s); */
-	max-width: 50rem;
+	max-width: 40rem;
 }
-r4-app form label {
-	flex-basis: 8rem;
+r4-app fieldset label {
+	flex-basis: 10rem;
 	align-self: flex-start;
 }
-r4-app form input,
-r4-app form textarea {
+r4-app fieldset input:not([type='checkbox']),
+r4-app fieldset textarea {
 	flex: 1;
 }
-r4-app button[type='submit'] {
+r4-app fieldset button[type='submit'] {
 	margin-right: auto;
 }
 
@@ -293,8 +323,23 @@ ul[list] {
 }
 
 menu {
+}
+
+menu {
 	display: flex;
 	flex-flow: row wrap;
-	list-style: none;
 	gap: 0 var(--s);
+	list-style: none;
+}
+
+r4-color-scheme {
+	display: inline-flex;
+	flex-flow: row wrap;
+}
+r4-color-scheme button {
+	flex: 1;
+}
+
+r4-color-scheme button[disabled] {
+	/* color: var(--c-fg); */
 }

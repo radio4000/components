@@ -165,9 +165,19 @@ export default class R4App extends LitElement {
 	}
 
 	renderMenu() {
+		const user = this.user
+		const href = this.config?.href
 		return html`
 			<header slot="menu">
-				<a href=${this.config.href + '/'}><r4-title small></r4-title></a>
+			<menu>
+				<a href=${href + '/'}><r4-title small></r4-title></a>
+				<a href=${href + '/explore'}>Explore</a>
+				${!user ? html`<a href=${href + '/sign/up'}>Create radio</a>` : ''}
+				${!user ? html`<a href=${href + '/sign/in'}>My radio</a>` : ''}
+
+				${this.userChannels?.length ? html`<a href=${href + '/' + this.selectedSlug}>@${this.selectedChannel.slug}</a>` : ''}
+				${this.userChannels?.length ? html`<a href=${href + '/settings'}>Settings</a>` : ''}
+			</menu>
 			</header>
 		`
 	}

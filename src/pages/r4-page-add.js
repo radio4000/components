@@ -1,18 +1,18 @@
-import { LitElement, html } from 'lit'
-import { sdk } from '@radio4000/sdk'
+import {LitElement, html} from 'lit'
+import {sdk} from '@radio4000/sdk'
 import page from 'page/page.mjs'
 
 export default class R4PageAdd extends LitElement {
 	static properties = {
 		/* props */
-		store: { type: Object, state: true },
-		searchParams: { type: Object, state: true },
-		config: { type: Object, state: true },
+		store: {type: Object, state: true},
+		searchParams: {type: Object, state: true},
+		config: {type: Object, state: true},
 
 		/* state */
-		selectedSlug: { type: String, state: true },
-		selectedId: { type: String, state: true },
-		lastAddedTrack: { type: Object, state: true },
+		selectedSlug: {type: String, state: true},
+		selectedId: {type: String, state: true},
+		lastAddedTrack: {type: Object, state: true},
 	}
 
 	get hasOneChannel() {
@@ -42,7 +42,7 @@ export default class R4PageAdd extends LitElement {
 		this.requestUpdate()
 	}
 
-	async onChannelSelect({ detail }) {
+	async onChannelSelect({detail}) {
 		if (detail?.channel?.slug) {
 			this.selectedSlug = detail?.channel?.slug
 		}
@@ -54,11 +54,11 @@ export default class R4PageAdd extends LitElement {
 
 	/* find the current channel id we want to add to */
 	async findSelectedChannel() {
-		const { data } = await sdk.channels.readChannel(this.selectedSlug)
+		const {data} = await sdk.channels.readChannel(this.selectedSlug)
 		if (data?.id) return data.id
 	}
 
-	onTrackCreate({ detail }) {
+	onTrackCreate({detail}) {
 		if (detail.data) {
 			this.lastAddedTrack = detail.data
 			this.focus()
@@ -82,19 +82,15 @@ export default class R4PageAdd extends LitElement {
 
 	renderHeader() {
 		const $channelsSelect = html`
-			<p>&nbsp;${this.selectedSlug}</p>
+			<p>${this.selectedSlug}</p>
 			<r4-user-channels-select channel=${this.selectedSlug} @input=${this.onChannelSelect}></r4-user-channels-select>
 		`
 
-		const $channelLink = html`
-			@<a href=${this.config.href + '/' + this.selectedSlug}>
-				<strong>${this.selectedSlug}</strong>
-			</a>
-		`
+		const $channelLink = html`@<a href=${this.config.href + '/' + this.selectedSlug}>${this.selectedSlug}</a>`
 
 		return html`
 			<header>
-				<p>${this.hasOneChannel ? $channelLink : $channelsSelect} / add track</p>
+				<nav><nav-item>${this.hasOneChannel ? $channelLink : $channelsSelect} / add track</nav-item></nav>
 			</header>
 		`
 	}
