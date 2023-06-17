@@ -163,7 +163,7 @@ r4-layout {
 }
 
 r4-app [slot='menu'] {
-	margin: var(--s) 0;
+	margin: var(--s) 0 0;
 }
 
 r4-app h1 {

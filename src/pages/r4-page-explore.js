@@ -30,7 +30,7 @@ export default class R4PageExplore extends LitElement {
 				<nav>
 					<nav-item><code>/</code>explore</nav-item>
 					<nav-item>
-						<code>/</code>
+						<code>></code>
 						<a href=${`${this.config.href}/search`}>Search</a> +
 						<a href=${`${this.config.href}/map`}>Map</a>
 					</nav-item>

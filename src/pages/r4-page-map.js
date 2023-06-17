@@ -8,9 +8,10 @@ export default class R4PageMap extends LitElement {
 	}
 	render() {
 		return html`
+			<header>
 				<nav>
 					<nav-item><code>/</code><a href=${`${this.config.href}/explore`}>explore</a></nav-item>
-					<nav-item><code>/</code> map</nav-item>
+					<nav-item><code>></code> <a href=${`${this.config.href}/search`}>Search</a> + Map</nav-item>
 				</nav>
 				<h1>Map</h1>
 			</header>
