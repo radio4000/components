@@ -8,6 +8,12 @@ export default class R4PageMap extends LitElement {
 	}
 	render() {
 		return html`
+				<nav>
+					<nav-item><code>/</code><a href=${`${this.config.href}/explore`}>explore</a></nav-item>
+					<nav-item><code>/</code> map</nav-item>
+				</nav>
+				<h1>Map</h1>
+			</header>
 			<r4-map
 				href=${this.config.href}
 				latitude=${this.searchParams.get('latitude')}

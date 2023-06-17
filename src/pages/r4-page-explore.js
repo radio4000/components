@@ -27,11 +27,15 @@ export default class R4PageExplore extends LitElement {
 	render() {
 		return html`
 			<header>
-				<h1>Explore channels</h1>
-				<menu>
-					<li><a href=${`${this.config.href}/search`}>Search</a></li>
-					<li><a href=${`${this.config.href}/map`}>Map</a></li>
-				</menu>
+				<nav>
+					<nav-item><code>/</code>explore</nav-item>
+					<nav-item>
+						<code>/</code>
+						<a href=${`${this.config.href}/search`}>Search</a> +
+						<a href=${`${this.config.href}/map`}>Map</a>
+					</nav-item>
+				</nav>
+				<h1>Explore radio channels</h1>
 			</header>
 			<main>
 				<r4-supabase-query

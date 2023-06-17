@@ -40,8 +40,12 @@ export default class R4PageSettings extends LitElement {
 
 	render() {
 		return html`
-			<h1>Settings</h1>
-
+			<header>
+				<nav>
+					<nav-item><code>/</code>settings</nav-item>
+				</nav>
+				<h1>Settings</h1>
+			</header>
 			<h2>Account</h2>
 			<p>You are signed in as <em>${this.store?.user?.email}</em>.</p>
 			<br />

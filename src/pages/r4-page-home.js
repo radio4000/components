@@ -20,7 +20,6 @@ export default class R4PageHome extends LitElement {
 					${!user ? html`/ <a href=${href + '/sign/up'}>up</a>` : null}
 				</li>
 			</menu>
-
 			<main>
 				${user ? this.renderMenuUser() : null}
 				${userChannels?.length
@@ -43,7 +42,7 @@ export default class R4PageHome extends LitElement {
 							</section>
 					  `
 					: null}
-					<br/>
+				<h1 style="margin-bottom:0">Radio4000 b3t4</h1>
 				<p>
 					This is the public beta for a new Radio4000. Try it out and
 					<a href="https://matrix.to/#/#radio4000:matrix.org" rel="noreferrer">give feedback</a>.

@@ -17,14 +17,13 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		return html`
 			<nav>
 				<nav-item>
-					<code>@</code>
-					<a href=${this.channelOrigin}>${channel.slug}</a>
+					<code>@</code><a href=${this.channelOrigin}>${channel.slug}</a>
 					<code>/</code>
 					update
 				</nav-item>
 			</nav>
 			<main>
-				<h2>Info</h2>
+				<h1>Channel settings</h1>
 				<r4-channel-update
 					id=${currentUserChannel.id}
 					slug=${currentUserChannel.slug}
