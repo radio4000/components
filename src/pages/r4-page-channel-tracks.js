@@ -12,7 +12,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		tracks: {type: Array, state: true},
 		display: {type: String, state: true},
 		count: {type: Number, state: true},
-		lastQuery: {type: Object}
+		lastQuery: {type: Object},
 		// + props from BaseChannel
 	}
 
@@ -67,14 +67,17 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	renderPage() {
 		return html`
-			<nav>
-				<nav-item>
-					<code>@</code>
-					<a href=${this.channelOrigin}>${this.channel.slug}</a>
-					<code>/</code>
-					<a href=${this.channelOrigin + '/tracks'}>tracks</a>
-				</nav-item>
-			</nav>
+			<header>
+				<nav>
+					<nav-item>
+						<code>@</code><a href=${this.channelOrigin}>${this.channel.slug}</a>
+					</nav-item>
+					<nav-item>
+						<code>/</code> <a href=${this.config.href + '/add'}>+Add</a>, Tracks & <a href=${this.channelOrigin + '/update'}>Update</a>
+					</nav-item>
+				</nav>
+				<h1>${this.channel.name} tracks</h1>
+			</header>
 			<main>
 				<r4-track-search slug=${this.channel.slug} href=${this.channelOrigin}></r4-track-search>
 				${[this.renderQuery(), this.renderTracks()]}
@@ -124,7 +127,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 					<label><input type="radio" name="display" value="table" ?checked=${this.display === 'table'} /> Table</label>
 				</form>
 			</menu>
-
 
 			${this.display === 'table' ? this.renderTracksTable() : this.renderTracksList()}
 		`
@@ -181,9 +183,12 @@ export default class R4PageChannelTracks extends BaseChannel {
 				${repeat(
 					this.tracks,
 					(t) => t.id,
-					(t) => html` <li>
-						<r4-button-play .channel=${this.channel} .track=${t} .tracks=${this.tracks}></r4-button-play>
-						<r4-track .track=${t} href=${this.config.href} origin=${'' || this.tracksOrigin}></r4-track></li> `
+					(t) => html`
+						<li>
+							<r4-button-play .channel=${this.channel} .track=${t} .tracks=${this.tracks}></r4-button-play>
+							<r4-track .track=${t} href=${this.config.href} origin=${'' || this.tracksOrigin}></r4-track>
+						</li>
+					`
 				)}
 			</ul>
 		`

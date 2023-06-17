@@ -66,8 +66,28 @@ export default class R4PageAdd extends LitElement {
 	}
 
 	render() {
+		const link = `${this.config.href}/${this.selectedSlug}`
+		const $channelsSelect = html`<r4-user-channels-select
+			channel=${this.selectedSlug}
+			@input=${this.onChannelSelect}
+		></r4-user-channels-select>`
+
 		return html`
-			${!this.config.singleChannel ? this.renderHeader() : ''}
+			<header>
+				<nav>
+					<nav-item
+						>${this.hasOneChannel
+							? html`<code>@</code><a href=${link}>${this.selectedSlug}</a>`
+							: $channelsSelect}</nav-item
+					>
+					<nav-item>
+						<code>/</code>
+						+Add, <a href=${link + '/tracks'}>Tracks</a> &
+						<a href=${link + '/update'}>Update</a>
+					</nav-item>
+				</nav>
+				<h1>Add track</h1>
+			</header>
 			<main>
 				${this.renderAdd()}
 				${this.lastAddedTrack
@@ -77,21 +97,6 @@ export default class R4PageAdd extends LitElement {
 							>`
 					: null}
 			</main>
-		`
-	}
-
-	renderHeader() {
-		const $channelsSelect = html`
-			<p>${this.selectedSlug}</p>
-			<r4-user-channels-select channel=${this.selectedSlug} @input=${this.onChannelSelect}></r4-user-channels-select>
-		`
-
-		const $channelLink = html`@<a href=${this.config.href + '/' + this.selectedSlug}>${this.selectedSlug}</a>`
-
-		return html`
-			<header>
-				<nav><nav-item>${this.hasOneChannel ? $channelLink : $channelsSelect} / add track</nav-item></nav>
-			</header>
 		`
 	}
 

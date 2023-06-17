@@ -18,8 +18,12 @@ export default class R4PageChannelUpdate extends BaseChannel {
 			<nav>
 				<nav-item>
 					<code>@</code><a href=${this.channelOrigin}>${channel.slug}</a>
+				</nav-item>
+				<nav-item>
 					<code>/</code>
-					update
+					<a href=${this.config.href + '/add'}>+Add</a>,
+					<a href=${this.channelOrigin + '/tracks'}>Tracks</a> &
+					Update
 				</nav-item>
 			</nav>
 			<main>
