@@ -3,54 +3,54 @@
 /* Shared between light and dark color schemes */
 r4-app {
 	--font-family: system-ui, sans-serif;
-	--color-light: hsl(0deg 0% 98%);
-	--color-lightgray: hsl(0deg 0% 80%);
-	--color-darkgray: hsl(0deg 0% 15%);
-	--color-dark: hsl(0deg 0% 10%);
+	--c-light: hsl(0deg 0% 98%);
+	--c-lightgray: hsl(0deg 0% 80%);
+	--c-darkgray: hsl(0deg 0% 15%);
+	--c-dark: hsl(0deg 0% 10%);
 }
 
 /* light is default */
 r4-app {
-	--color-background: var(--color-light);
-	--color-card-background: var(--color-lightgray);
-	--color-input-background: hsl(0 0% 93%);
-	--color-button-background: hsl(0 0% 93%);
-	--color-text: hsl(0 0% 10%);
-	--color-link: hsl(260 80% 50%);
-	--color-border: hsla(0 10% 50% / 0.5);
+	--c-background: var(--c-light);
+	--c-card-background: var(--c-lightgray);
+	--c-input-background: hsl(0 0% 93%);
+	--c-button-background: hsl(0 0% 93%);
+	--c-text: hsl(0 0% 10%);
+	--c-link: hsl(260 80% 50%);
+	--c-border: hsla(0 10% 50% / 0.5);
 }
 
 @media (prefers-color-scheme: dark) {
 	r4-app {
-		--color-background: var(--color-dark);
-		--color-card-background: var(--color-darkgray);
-		--color-input-background: var(--color-darkgray);
-		--color-button-background: var(--color-darkgray);
-		--color-border: hsl(0 0% 5%);
-		--color-text: hsl(0 0% 90%);
-		--color-link: hsl(260 80% 90%);
+		--c-background: var(--c-dark);
+		--c-card-background: var(--c-darkgray);
+		--c-input-background: var(--c-darkgray);
+		--c-button-background: var(--c-darkgray);
+		--c-border: hsl(0 0% 5%);
+		--c-text: hsl(0 0% 90%);
+		--c-link: hsl(260 80% 90%);
 	}
 }
 
 /* For account settings to overwrite system settings we need to duplicate the variables here */
 [color-scheme='light'] r4-app {
-	--color-background: var(--color-light);
-	--color-card-background: var(--color-lightgray);
-	--color-input-background: hsl(0 0% 93%);
-	--color-button-background: hsl(0 0% 93%);
-	--color-text: hsl(0 0% 10%);
-	--color-link: hsl(260 80% 50%);
-	--color-border: hsla(0 10% 50% / 0.5);
+	--c-background: var(--c-light);
+	--c-card-background: var(--c-lightgray);
+	--c-input-background: hsl(0 0% 93%);
+	--c-button-background: hsl(0 0% 93%);
+	--c-text: hsl(0 0% 10%);
+	--c-link: hsl(260 80% 50%);
+	--c-border: hsla(0 10% 50% / 0.5);
 }
 /* and here */
 [color-scheme='dark'] r4-app {
-	--color-background: hsl(0 0% 10%);
-	--color-card-background: var(--color-darkgray);
-	--color-input-background: var(--color-darkgray);
-	--color-button-background: var(--color-darkgray);
-	--color-border: hsl(0 0% 5%);
-	--color-text: hsl(0 0% 90%);
-	--color-link: hsl(260 80% 90%);
+	--c-background: hsl(0 0% 10%);
+	--c-card-background: var(--c-darkgray);
+	--c-input-background: var(--c-darkgray);
+	--c-button-background: var(--c-darkgray);
+	--c-border: hsl(0 0% 5%);
+	--c-text: hsl(0 0% 90%);
+	--c-link: hsl(260 80% 90%);
 }
 
 r4-app label {
