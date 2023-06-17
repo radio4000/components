@@ -21,6 +21,11 @@ export default class R4PageHome extends LitElement {
 				</li>
 			</menu>
 			<main>
+				<h1 style="margin-bottom:0">Radio4000 b3t4</h1>
+				<p>
+					This is the public beta for a new Radio4000. Try it out and
+					<a href="https://matrix.to/#/#radio4000:matrix.org" rel="noreferrer">give feedback</a>.
+				</p>
 				${user ? this.renderMenuUser() : null}
 				${userChannels?.length
 					? html`
@@ -42,11 +47,6 @@ export default class R4PageHome extends LitElement {
 							</section>
 					  `
 					: null}
-				<h1 style="margin-bottom:0">Radio4000 b3t4</h1>
-				<p>
-					This is the public beta for a new Radio4000. Try it out and
-					<a href="https://matrix.to/#/#radio4000:matrix.org" rel="noreferrer">give feedback</a>.
-				</p>
 			</main>
 		`
 	}

@@ -291,3 +291,10 @@ ul[list] {
 	list-style: none;
 	padding: 0;
 }
+
+menu {
+	display: flex;
+	flex-flow: row wrap;
+	list-style: none;
+	gap: 0 var(--s);
+}
