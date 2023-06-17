@@ -1,5 +1,6 @@
-import {resolve} from 'path'
+import {resolve, join} from 'path'
 import {defineConfig} from 'vite'
+import recursive from 'recursive-readdir'
 
 /* treat the path '/examples/r4-app.html/' as SPA (serve the file, let js handle URL route) */
 const vitePluginR4AppSPA = (options) => ({
@@ -16,6 +17,24 @@ const vitePluginR4AppSPA = (options) => ({
 	},
 })
 
+const generateExampleInputFiles = async () => {
+	const entriesDir = resolve('./examples/')
+	const entries = await recursive(entriesDir)
+	const inputFiles = entries
+		.filter((entry) => {
+			return entry.endsWith('.html')
+		})
+		.reduce((acc, entry) => {
+			const key = entry.replace(/\//g, '_')
+			const inputFilePath = entry.replace(__dirname + '/', '')
+			const inputName = inputFilePath.replace('.html', '').split('/').join('_')
+			acc[inputName] = `./${inputFilePath}`
+			return acc
+		}, {})
+	console.log(inputFiles)
+	return inputFiles
+}
+
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [vitePluginR4AppSPA()],
@@ -25,51 +44,7 @@ export default defineConfig({
 		rollupOptions: {
 			input: {
 				main: resolve('index.html'),
-				examples: resolve('examples/index.html'),
-				r4Actions: resolve('examples/r4-actions/index.html'),
-				r4App: resolve('examples/r4-app/index.html'),
-				r4Appearance: resolve('examples/r4-color-scheme/index.html'),
-				r4Avatar: resolve('examples/r4-avatar/index.html'),
-				r4AvatarUpload: resolve('examples/r4-avatar-upload/index.html'),
-				r4AvatarUpdate: resolve('examples/r4-avatar-update/index.html'),
-				r4AuthStatus: resolve('examples/r4-auth-status/index.html'),
-				r4Channel: resolve('examples/r4-channel/index.html'),
-				r4ChannelCard: resolve('examples/r4-channel-card/index.html'),
-				r4ChannelActions: resolve('examples/r4-channel-actions/index.html'),
-				r4ChannelCreate: resolve('examples/r4-channel-create/index.html'),
-				r4ChannelDelete: resolve('examples/r4-channel-delete/index.html'),
-				r4ChannelSharer: resolve('examples/r4-channel-sharer/index.html'),
-				r4ChannelUpdate: resolve('examples/r4-channel-update/index.html'),
-				r4ChannelFollowers: resolve('examples/r4-channel-followers/index.html'),
-				r4ChannelFollowings: resolve('examples/r4-channel-followings/index.html'),
-				r4Channels: resolve('examples/r4-channels/index.html'),
-				r4Dialog: resolve('examples/r4-dialog/index.html'),
-				r4Favicon: resolve('examples/r4-favicon/index.html'),
-				r4Layout: resolve('examples/r4-layout/index.html'),
-				r4List: resolve('examples/r4-list/index.html'),
-				r4Map: resolve('examples/r4-map/index.html'),
-				r4MapPosition: resolve('examples/r4-map-position/index.html'),
-				r4Player: resolve('examples/r4-player/index.html'),
-				r4ButtonPlay: resolve('examples/r4-button-play/index.html'),
-				r4ResetPassword: resolve('examples/r4-reset-password/index.html'),
-				r4Router: resolve('examples/r4-router/index.html'),
-				r4SupabaseQuery: resolve('examples/r4-supabase-query/index.html'),
-				r4SupabaseFilters: resolve('examples/r4-supabase-filters/index.html'),
-				r4ChannelSearch: resolve('examples/r4-channel-search/index.html'),
-				r4TrackSearch: resolve('examples/r4-track-search/index.html'),
-				r4SignIn: resolve('examples/r4-sign-in/index.html'),
-				r4SignOut: resolve('examples/r4-sign-out/index.html'),
-				r4SignUp: resolve('examples/r4-sign-up/index.html'),
-				r4Title: resolve('examples/r4-title/index.html'),
-				r4Track: resolve('examples/r4-track/index.html'),
-				r4TrackActions: resolve('examples/r4-track-actions/index.html'),
-				r4TrackCreate: resolve('examples/r4-track-create/index.html'),
-				r4TrackDelete: resolve('examples/r4-track-delete/index.html'),
-				r4TrackUpdate: resolve('examples/r4-track-update/index.html'),
-				r4Tracks: resolve('examples/r4-tracks/index.html'),
-				r4Tuner: resolve('examples/r4-tuner/index.html'),
-				r4User: resolve('examples/r4-user/index.html'),
-				r4UserChannelsSelect: resolve('examples/r4-user-channels-select/index.html'),
+				...generateExampleInputFiles(),
 			},
 		},
 	},
