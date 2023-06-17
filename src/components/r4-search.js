@@ -68,15 +68,17 @@ export default class R4Search extends LitElement {
 		return html`
 			<r4-search-form>
 				<form @submit="${this.onSubmit}">
-					<label for="query">Search</label>
-					<input
-						id="query"
-						name="query"
-						type="search"
-						value=${this.value}
-						@input="${this.onInput}"
-						placeholder=${this.label}
-					/>
+					<fieldset>
+						<label for="query">Search</label>
+						<input
+							id="query"
+							name="query"
+							type="search"
+							value=${this.value}
+							@input="${this.onInput}"
+							placeholder=${this.label}
+						/>
+					</fieldset>
 				</form>
 			</r4-search-form>
 		`
