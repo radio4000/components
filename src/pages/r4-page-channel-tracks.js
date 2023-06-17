@@ -60,26 +60,27 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	render() {
 		return [
-			this.channel && !this.channelError ? this.renderPage() : this.renderLoading(),
+			this.channel && !this.channelError ? this.renderPage() : null,
 			this.channelError ? this.renderNoPage() : null,
 		]
 	}
 
 	renderPage() {
+		const link = this.channelOrigin
 		return html`
 			<header>
 				<nav>
+					<nav-item><code>@</code><a href=${link}>${this.params.slug}</a></nav-item>
 					<nav-item>
-						<code>@</code><a href=${this.channelOrigin}>${this.channel.slug}</a>
-					</nav-item>
-					<nav-item>
-						<code>/</code> <a href=${this.config.href + '/add'}>+Add</a>, Tracks & <a href=${this.channelOrigin + '/update'}>Update</a>
+						<code>></code> Tracks,
+						${this.canEdit ? html`<a href=${this.config.href + '/add'}>Add</a>` : ''}
+						${this.canEdit ? html` & <a href=${this.config.href + '/update'}>Update</a>` : ''}
 					</nav-item>
 				</nav>
 				<h1>${this.channel.name} tracks</h1>
 			</header>
 			<main>
-				<r4-track-search slug=${this.channel.slug} href=${this.channelOrigin}></r4-track-search>
+				<r4-track-search slug=${this.channel.slug} href=${link}></r4-track-search>
 				${[this.renderQuery(), this.renderTracks()]}
 			</main>
 		`
@@ -196,10 +197,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	renderNoPage() {
 		return html`404 - No channel with this slug`
-	}
-
-	renderLoading() {
-		return html`<span>Loading channel tracks...</span>`
 	}
 
 	createRenderRoot() {

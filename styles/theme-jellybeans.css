@@ -261,6 +261,9 @@ r4-app nav {
 r4-page-channel h1 {
 	margin-bottom: 0;
 }
+r4-page-channel menu {
+	margin-bottom: var(--s);
+}
 r4-page-channel r4-avatar img {
 	height: calc(var(--s) * 8);
 }
@@ -274,13 +277,6 @@ r4-page-channel-tracks > main {
 	display: flex;
 	flex-flow: column nowrap;
 	gap: var(--s);
-}
-
-r4-page-channel-tracks > main > menu {
-	display: flex;
-	flex-flow: row wrap;
-	align-items: center;
-	gap: 0 calc(var(--s) / 2);
 }
 
 r4-page-explore r4-supabase-query,
@@ -323,13 +319,11 @@ ul[list] {
 }
 
 menu {
-}
-
-menu {
 	display: flex;
 	flex-flow: row wrap;
 	gap: 0 var(--s);
 	list-style: none;
+	/* margin: var(--s) 0; */
 }
 
 r4-color-scheme {
@@ -337,9 +331,7 @@ r4-color-scheme {
 	flex-flow: row wrap;
 }
 r4-color-scheme button {
+	/* equal width */
 	flex: 1;
 }
 
-r4-color-scheme button[disabled] {
-	/* color: var(--c-fg); */
-}

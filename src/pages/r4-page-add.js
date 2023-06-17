@@ -1,23 +1,13 @@
 import {LitElement, html} from 'lit'
 import {sdk} from '@radio4000/sdk'
 import page from 'page/page.mjs'
+import BaseChannel from './base-channel'
 
-export default class R4PageAdd extends LitElement {
+export default class R4PageAdd extends BaseChannel {
 	static properties = {
-		/* props */
-		store: {type: Object, state: true},
-		searchParams: {type: Object, state: true},
-		config: {type: Object, state: true},
-
-		/* state */
 		selectedSlug: {type: String, state: true},
 		selectedId: {type: String, state: true},
 		lastAddedTrack: {type: Object, state: true},
-	}
-
-	get hasOneChannel() {
-		if (!this.store.user) return false
-		return this.store?.userChannels?.length === 1 ? true : false
 	}
 
 	get selectedSlug() {
@@ -81,9 +71,8 @@ export default class R4PageAdd extends LitElement {
 							: $channelsSelect}</nav-item
 					>
 					<nav-item>
-						<code>/</code>
-						+Add, <a href=${link + '/tracks'}>Tracks</a> &
-						<a href=${link + '/update'}>Update</a>
+						<code>></code>
+						<a href=${link + '/tracks'}>Tracks</a>, Add & <a href=${link + '/update'}>Update</a>
 					</nav-item>
 				</nav>
 				<h1>Add track</h1>
