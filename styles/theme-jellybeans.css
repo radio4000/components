@@ -32,7 +32,9 @@ r4-app {
 	--c-gray6: hsl(50 20% 94%);
 	--c-gray7: hsl(50 15% 95%);
 
-	--font: Epilogue, Abordage, cursive, Epilogue, sans-serif;
+	--font: system-ui, sans-serif;
+	/* --font-titles: Epilogue, Director, Abordage, sans-serif; */
+
 	--s-font: 16px;
 	--s: 1.5rem;
 	--s-radius: 0;
@@ -43,7 +45,7 @@ r4-app {
 
 r4-app[color-scheme='light'] {
 	/* for light theme we want more contrast */
-	--c-blue: hsl(221 30% 50%);
+	--c-blue: hsl(221 37% 43%);
 	--c-red: hsl(17 60% 50%);
 
 	--c-bg: var(--c-gray6);
@@ -62,13 +64,13 @@ r4-app[color-scheme='dark'] {
 }
 
 r4-app {
-	font-family: system ui, segoe ui, sans-serif, var(--font);
+	font-family: var(--font);
 	line-height: 1.5;
 }
 r4-app h1,
 r4-app h2,
 r4-app h3 {
-	font-family: var(--font);
+	font-family: var(--font-titles), var(--font);
 }
 
 r4-app fieldset {
@@ -321,7 +323,7 @@ ul[list] {
 menu {
 	display: flex;
 	flex-flow: row wrap;
-	gap: 0 var(--s);
+	gap: 0 calc(var(--s) / 2);
 	list-style: none;
 	/* margin: var(--s) 0; */
 }

@@ -59,13 +59,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 
 	render() {
-		return [
-			this.channel && !this.channelError ? this.renderPage() : null,
-			this.channelError ? this.renderNoPage() : null,
-		]
-	}
-
-	renderPage() {
+		if (this.channelError) return this.renderNoPage()
 		const link = this.channelOrigin
 		return html`
 			<header>
@@ -74,14 +68,14 @@ export default class R4PageChannelTracks extends BaseChannel {
 					<nav-item>
 						<code>></code> Tracks,
 						${this.canEdit ? html`<a href=${this.config.href + '/add'}>Add</a>` : ''}
-						${this.canEdit ? html` & <a href=${this.config.href + '/update'}>Update</a>` : ''}
+						${this.canEdit ? html` & <a href=${link + '/update'}>Update</a>` : ''}
 					</nav-item>
 				</nav>
-				<h1>${this.channel.name} tracks</h1>
+				${this.channel ? html`<h1>${this.channel.name} tracks</h1>` : ''}
 			</header>
 			<main>
-				<r4-track-search slug=${this.channel.slug} href=${link}></r4-track-search>
-				${[this.renderQuery(), this.renderTracks()]}
+				<r4-track-search slug=${this.channel?.slug} href=${link}></r4-track-search>
+				${this.channel ? [this.renderQuery(), this.renderTracks()] : null}
 			</main>
 		`
 	}
