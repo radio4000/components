@@ -42,7 +42,6 @@ export default class R4ButtonPlay extends LitElement {
 				tracks: this.tracks,
 			},
 		})
-		console.log(playEvent)
 		this.dispatchEvent(playEvent)
 	}
 

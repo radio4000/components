@@ -21,13 +21,15 @@ export default class R4PageChannelFeed extends LitElement {
 
 	// Latest X tracks from channels the current user follows.
 	async loadTracks() {
-		const orQuery = this.store.following.map((c) => `slug.eq.${c.slug}`).join(',')
+		const {id} = (await sdk.supabase.from('channels').select('id').eq('slug', this.params.slug).single()).data
+		const following = (await sdk.channels.readFollowings(id)).data
+		const orQuery = following.map((c) => `slug.eq.${c.slug}`).join(',')
 		const res = await sdk.supabase
 			.from('channel_tracks')
 			.select('*')
-			.filter('slug', 'neq', 'oskar')
-			.filter('slug', 'neq', 'ko002')
-			// .or(orQuery)
+			// .filter('slug', 'neq', 'oskar')
+			// .filter('slug', 'neq', 'ko002')
+			.or(orQuery)
 			.order('created_at', {ascending: false})
 			.limit(this.limit)
 		this.tracks = res.data
