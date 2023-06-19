@@ -11,7 +11,7 @@ export default class R4PageChannelFeed extends LitElement {
 
 	constructor() {
 		super()
-		this.limit = 50
+		this.limit = 200
 	}
 
 	connectedCallback() {
@@ -29,6 +29,7 @@ export default class R4PageChannelFeed extends LitElement {
 			.from('channel_tracks')
 			.select('*')
 			// .filter('slug', 'neq', 'oskar')
+			// .lt('created_at', '2023-03-01')
 			// .filter('slug', 'neq', 'ko002')
 			.or(orQuery)
 			.order('created_at', {ascending: false})
@@ -58,9 +59,24 @@ export default class R4PageChannelFeed extends LitElement {
 	renderGroups() {
 		if (!this.tracks) return null
 		const groups = groupTracks(this.tracks)
+		console.log(groups)
 		return html`
 			<ul list>
-				${groups.map((g) => html`<li>${this.renderGroup(g)}</li>`)}
+				${groups.map((g) => html`<li>${this.renderMonth(g)}</li>`)}
+			</ul>
+		`
+	}
+
+	renderMonth(group) {
+		const {href} = this.config
+		return html`
+			<h2>${group.month}</h2>
+			<ul list>
+				${repeat(
+					group.groups,
+					(x) => x.month,
+					(x) => html`<li>${this.renderGroup(x)}</li>`
+				)}
 			</ul>
 		`
 	}
@@ -93,28 +109,29 @@ export default class R4PageChannelFeed extends LitElement {
 /**
  * Sorts and groups tracks by date and slug.
  * @param {Array} tracks
- * @returns {Array.<{slug: String, tracks: Array}>} groupedTracks
+ * @returns {Array.<{slug: String, tracks: Array}>} groups
  */
 function groupTracks(tracks) {
-	const groupedTracks = []
+	const groups = []
 
-	// Sort tracks by created, then slug in ascending order
-	const sortedTracks = tracks.sort((a, b) => {
-		if (a.created_at !== b.created_at) {
-			return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-		}
-		return a.slug.localeCompare(b.slug)
-	})
+	for (const track of tracks) {
+		const month = track.created_at.slice(0, 7)
 
-	// Create groups of tracks every time slug changes
-	let currentGroup = {slug: null, tracks: []}
-	for (const track of sortedTracks) {
-		if (!currentGroup || track.slug !== currentGroup.slug) {
-			currentGroup = {slug: track.slug, tracks: []}
-			groupedTracks.push(currentGroup)
+		// Make sure there is a group for the month.
+		let monthGroup = groups.find((g) => g.month === month)
+		if (!monthGroup) {
+			monthGroup = {month, groups: []}
+			groups.push(monthGroup)
 		}
-		currentGroup.tracks.push(track)
+
+		// Make sure there is a group for the radio.
+		let radioGroup = monthGroup.groups.find((group) => group.slug === track.slug)
+		if (!radioGroup) {
+			radioGroup = {slug: track.slug, tracks: []}
+			monthGroup.groups.push(radioGroup)
+		}
+		radioGroup.tracks.push(track)
 	}
 
-	return groupedTracks
+	return groups
 }
