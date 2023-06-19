@@ -4,6 +4,7 @@ import {sdk} from '@radio4000/sdk'
 import BaseChannel from './base-channel'
 import urlUtils from '../libs/url-utils.js'
 import {query} from '../libs/browse.js'
+import {formatDate} from '../libs/date.js'
 
 if (!window.r4sdk) window.r4sdk = sdk
 
@@ -198,17 +199,3 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 }
 
-function formatDate(dateStr) {
-	const date = new Date(dateStr)
-	const formatter = new Intl.DateTimeFormat('de', {
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
-		// hour: 'numeric',
-		// minute: 'numeric',
-		// second: 'numeric',
-		// timeZoneName: 'short',
-	})
-	const formattedDate = formatter.format(date)
-	return formattedDate
-}
