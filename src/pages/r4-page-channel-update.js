@@ -19,14 +19,12 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		return html`
 			<nav>
 				<nav-item> <code>@</code><a href=${link}>${this.params.slug}</a> </nav-item>
-				<nav-item>
-					<code>></code>
-					<a href=${link + '/tracks'}>Tracks</a>, <a href=${this.config.href + '/add'}>Add</a>
-					& Update
-				</nav-item>
+				<nav-item><code>></code> <a href=${link + '/tracks'}>Tracks</a></nav-item>
+				${this.canEdit ? html`<nav-item><a href=${this.config.href + '/add'}>Add</a></nav-item>` : ''}
+				${this.canEdit ? html`<nav-item>Update</nav-item>` : ''}
 			</nav>
 			<main>
-				<h1>Channel settings</h1>
+				<h1>Update channel settings</h1>
 				${currentUserChannel
 					? html`
 							<r4-channel-update
