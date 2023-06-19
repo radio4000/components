@@ -198,42 +198,41 @@ export default class R4App extends LitElement {
 
 		const {channel, track} = detail
 		let {tracks} = detail
+		const el = this.playerRef.value
 
-		if (channel?.slug) {
-			this.isPlaying = true
+		this.isPlaying = true
 
-			if (!tracks) {
-				const {data: channelTracks} = await sdk.channels.readChannelTracks(channel.slug)
-				tracks = channelTracks.reverse()
-			}
+		if (!tracks && channel?.slug) {
+			const {data: channelTracks} = await sdk.channels.readChannelTracks(channel.slug)
+			tracks = channelTracks.reverse()
+		}
 
-			if (tracks) {
-				this.playerRef.value.tracks = tracks
-			} else {
-				this.playerRef.value.tracks = []
-			}
+		if (tracks) {
+			el.tracks = tracks
+		} else {
+			el.tracks = []
+		}
 
-			if (channel.name) {
-				this.playerRef.value.setAttribute('name', channel.name)
-			} else {
-				this.playerRef.value.removeAttribute('name')
-			}
+		if (channel?.name) {
+			el.setAttribute('name', channel.name)
+		} else {
+			el.removeAttribute('name')
+		}
 
-			if (channel.image) {
-				const imageUrl = channel.image
-				this.playerRef.value.setAttribute('image', imageUrl)
-			} else {
-				this.playerRef.value.removeAttribute('image')
-			}
+		if (channel?.image) {
+			const imageUrl = channel.image
+			el.setAttribute('image', imageUrl)
+		} else {
+			el.removeAttribute('image')
+		}
 
-			if (track && track.id) {
-				this.playerRef.value.setAttribute('track', track.id)
-			} else if (tracks) {
-				const lastTrack = tracks[tracks.length - 1]
-				this.playerRef.value.setAttribute('track', lastTrack.id)
-			} else {
-				this.playerRef.value.removeAttribute('track')
-			}
+		if (track?.id) {
+			el.setAttribute('track', track.id)
+		} else if (tracks) {
+			const lastTrack = tracks[tracks.length - 1]
+			el.setAttribute('track', lastTrack.id)
+		} else {
+			el.removeAttribute('track')
 		}
 	}
 
@@ -242,10 +241,11 @@ export default class R4App extends LitElement {
 		this.isPlaying = false
 
 		/* clean the `r4-player` component (so it hides) */
-		this.playerRef.value.removeAttribute('track')
-		this.playerRef.value.removeAttribute('image')
-		this.playerRef.value.removeAttribute('name')
-		this.playerRef.value.removeAttribute('tracks')
+		const el = this.playerRef.value
+		el.removeAttribute('track')
+		el.removeAttribute('image')
+		el.removeAttribute('name')
+		el.removeAttribute('tracks')
 	}
 
 	createRenderRoot() {

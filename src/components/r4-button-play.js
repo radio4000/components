@@ -4,7 +4,7 @@ import {sdk} from '@radio4000/sdk'
 /**
  * Renders a button, to play a channel by slug / track (id)
  * 1. pass in a channel `slug` attribute
- * 2. also pass in a `track` id, of this channel's track to play
+ * 2. also pass in a `track` object, of this channel's track to play
  * 3. pass in a "label" string to overwrite the button text contents
  */
 
@@ -42,12 +42,12 @@ export default class R4ButtonPlay extends LitElement {
 				tracks: this.tracks,
 			},
 		})
+		console.log(playEvent)
 		this.dispatchEvent(playEvent)
 	}
 
 	render() {
-		const text = this.channel ? `▶${this.label ? ` ${this.label}` : ''}` : 'Loading...'
-		return html`<button @click=${this.play}>${text}</button>`
+		return html`<button @click=${this.play}>▶${this.label}</button>`
 	}
 
 	createRenderRoot() {
