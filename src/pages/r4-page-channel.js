@@ -211,8 +211,8 @@ export default class R4PageChannel extends BaseChannel {
 			if (detail === 'update') {
 				page(`/${this.params.slug}/update`)
 			}
-			if (detail === 'followings') {
-				page(`/${this.params.slug}/followings`)
+			if (detail === 'following') {
+				page(`/${this.params.slug}/following`)
 			}
 			if (detail === 'followers') {
 				page(`/${this.params.slug}/followers`)

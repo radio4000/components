@@ -6,7 +6,7 @@ template.innerHTML = `
 		<option value="">...</option>
 		<option value="play">Play</option>
 		<option value="tracks">Tracks</option>
-		<option value="followings">Followings</option>
+		<option value="following">Following</option>
 		<option value="followers">Followers</option>
 		<option value="share">Share</option>
 	</r4-actions>

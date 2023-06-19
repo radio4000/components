@@ -28,7 +28,7 @@ export default class R4App extends LitElement {
 		user: {type: Object, state: true},
 		userChannels: {type: Array || null, state: true},
 		followers: {type: Array || null, state: true},
-		followings: {type: Array || null, state: true},
+		following: {type: Array || null, state: true},
 		didLoad: {type: Boolean, state: true},
 		isPlaying: {type: Boolean, attribute: 'is-playing', reflects: true},
 
@@ -43,7 +43,7 @@ export default class R4App extends LitElement {
 			user: this.user,
 			userChannels: this.userChannels,
 			followers: this.followers,
-			followings: this.followings,
+			following: this.following,
 		}
 	}
 	set store(val) {
@@ -98,7 +98,7 @@ export default class R4App extends LitElement {
 		if (!this.user) {
 			this.userChannels = undefined
 			this.followers = undefined
-			this.followings = undefined
+			this.following = undefined
 		} else {
 			// Refresh user channels
 			this.userChannels = (await sdk.channels.readUserChannels()).data
@@ -109,7 +109,7 @@ export default class R4App extends LitElement {
 			// Set followers and following
 			if (this.selectedChannel) {
 				this.followers = (await sdk.channels.readFollowers(this.selectedChannel.id)).data
-				this.followings = (await sdk.channels.readFollowings(this.selectedChannel.id)).data
+				this.following = (await sdk.channels.readFollowings(this.selectedChannel.id)).data
 			}
 
 			// In case the `this.user` changed, we must refresh the listeners.
@@ -262,7 +262,7 @@ function renderRouterSingleChannel({store, config}) {
 			<r4-route path="/tracks" page="channel-tracks"></r4-route>
 			<r4-route path="/tracks/:track_id" page="channel-track"></r4-route>
 			<r4-route path="/followers" page="channel-followers"></r4-route>
-			<r4-route path="/followings" page="channel-followings"></r4-route>
+			<r4-route path="/following" page="channel-followings"></r4-route>
 			<r4-route path="/add" page="add"></r4-route>
 			<r4-route path="/settings" page="settings"></r4-route>
 		</r4-router>
@@ -288,7 +288,7 @@ function renderRouterCMS({store, config}) {
 			<r4-route path="/:slug/tracks" page="channel-tracks"></r4-route>
 			<r4-route path="/:slug/tracks/:track_id" page="channel-track"></r4-route>
 			<r4-route path="/:slug/followers" page="channel-followers"></r4-route>
-			<r4-route path="/:slug/followings" page="channel-followings"></r4-route>
+			<r4-route path="/:slug/following" page="channel-followings"></r4-route>
 		</r4-router>
 	`
 }

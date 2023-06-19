@@ -8,7 +8,7 @@ export default class R4PageHome extends LitElement {
 
 	render() {
 		const {href} = this.config
-		const {user, userChannels, followings} = this.store
+		const {user, userChannels, following} = this.store
 		return html`
 			<header>
 				<nav>
@@ -33,12 +33,12 @@ export default class R4PageHome extends LitElement {
 							</section>
 					  `
 					: null}
-				${followings?.length
+				${following?.length
 					? html`
 							<section>
 								<h2>Following</h2>
 								<ul list>
-									${followings?.map((channel) => this.renderChannelCard(channel, href))}
+									${following?.map((channel) => this.renderChannelCard(channel, href))}
 								</ul>
 							</section>
 					  `
