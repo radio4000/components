@@ -39,6 +39,14 @@ r4-layout {
 	padding: 1rem;
 }
 
+r4-app [slot="main"] header:first-of-type {
+	margin-bottom: var(--s);
+}
+
+r4-app [slot="main"] header:first-of-type h1 {
+	margin-top: var(--s);
+}
+
 r4-app h1,
 r4-app h2 {
 	line-height: 1.1;
