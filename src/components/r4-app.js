@@ -30,7 +30,9 @@ export default class R4App extends LitElement {
 		followers: {type: Array || null, state: true},
 		following: {type: Array || null, state: true},
 		didLoad: {type: Boolean, state: true},
+
 		isPlaying: {type: Boolean, attribute: 'is-playing', reflects: true},
+
 
 		/* state for global usage */
 		store: {type: Object, state: true},
@@ -150,7 +152,12 @@ export default class R4App extends LitElement {
 			<r4-layout @r4-play=${this.onPlay} ?is-playing=${this.isPlaying}>
 				${!this.config.singleChannel ? this.renderMenu() : null}
 				<main slot="main">${this.renderRouter()}</main>
-				<r4-player slot="player" ${ref(this.playerRef)} ?is-playing=${this.isPlaying}></r4-player>
+				<r4-player
+					slot="player"
+					${ref(this.playerRef)}
+					?is-playing=${this.isPlaying}
+					@trackchanged=${this.onTrackChange}
+				></r4-player>
 			</r4-layout>
 		`
 	}
@@ -169,15 +176,16 @@ export default class R4App extends LitElement {
 		const href = this.config?.href
 		return html`
 			<header slot="menu">
-			<menu>
-				<a href=${href + '/'}><r4-title small></r4-title></a>
-				<a href=${href + '/explore'}>Explore</a>
-				${!user ? html`<a href=${href + '/sign/up'}>Create radio</a>` : ''}
-				${!user ? html`<a href=${href + '/sign/in'}>My radio</a>` : ''}
-
-				${this.userChannels?.length ? html`<a href=${href + '/' + this.selectedSlug}>@${this.selectedChannel.slug}</a>` : ''}
-				${this.userChannels?.length ? html`<a href=${href + '/settings'}>Settings</a>` : ''}
-			</menu>
+				<menu>
+					<a href=${href + '/'}><r4-title small></r4-title></a>
+					<a href=${href + '/explore'}>Explore</a>
+					${!user ? html`<a href=${href + '/sign/up'}>Create radio</a>` : ''}
+					${!user ? html`<a href=${href + '/sign/in'}>My radio</a>` : ''}
+					${this.userChannels?.length
+						? html`<a href=${href + '/' + this.selectedSlug}>@${this.selectedChannel.slug}</a>`
+						: ''}
+					${this.userChannels?.length ? html`<a href=${href + '/settings'}>Settings</a>` : ''}
+				</menu>
 			</header>
 		`
 	}
@@ -234,6 +242,10 @@ export default class R4App extends LitElement {
 		} else {
 			el.removeAttribute('track')
 		}
+	}
+
+	onTrackChange(event) {
+		console.log(event.detail)
 	}
 
 	stop() {

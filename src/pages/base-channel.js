@@ -58,13 +58,10 @@ export default class BaseChannel extends LitElement {
 		const slug = this.config.singleChannel && this.config.selectedSlug ? this.config.selectedSlug : this.params.slug
 
 		// No need to set again if channel the same channel is loaded.
-		if (this.channel?.slug === slug) {
-			console.log('avoided')
-			return
-		}
+		if (this.channel?.slug === slug) return
 
-		console.log('setting channel', slug, this.channel)
 		const {data, error} = await sdk.channels.readChannel(slug)
+		this.canEdit = await sdk.channels.canEditChannel(slug)
 
 		if (error) {
 			try {
@@ -81,7 +78,6 @@ export default class BaseChannel extends LitElement {
 			this.isFirebaseChannel = false
 			this.channel = data
 		}
-		this.canEdit = await sdk.channels.canEditChannel(slug)
 	}
 
 	render() {
