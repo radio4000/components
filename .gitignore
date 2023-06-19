@@ -18,3 +18,4 @@ dist-lib
 !.vscode/extensions.json
 .idea
 .DS_Store
+TAGS
