@@ -1,23 +1,13 @@
-import { LitElement, html } from 'lit'
-import { sdk } from '@radio4000/sdk'
+import {LitElement, html} from 'lit'
+import {sdk} from '@radio4000/sdk'
 import page from 'page/page.mjs'
+import BaseChannel from './base-channel'
 
-export default class R4PageAdd extends LitElement {
+export default class R4PageAdd extends BaseChannel {
 	static properties = {
-		/* props */
-		store: { type: Object, state: true },
-		searchParams: { type: Object, state: true },
-		config: { type: Object, state: true },
-
-		/* state */
-		selectedSlug: { type: String, state: true },
-		selectedId: { type: String, state: true },
-		lastAddedTrack: { type: Object, state: true },
-	}
-
-	get hasOneChannel() {
-		if (!this.store.user) return false
-		return this.store?.userChannels?.length === 1 ? true : false
+		selectedSlug: {type: String, state: true},
+		selectedId: {type: String, state: true},
+		lastAddedTrack: {type: Object, state: true},
 	}
 
 	get selectedSlug() {
@@ -42,7 +32,7 @@ export default class R4PageAdd extends LitElement {
 		this.requestUpdate()
 	}
 
-	async onChannelSelect({ detail }) {
+	async onChannelSelect({detail}) {
 		if (detail?.channel?.slug) {
 			this.selectedSlug = detail?.channel?.slug
 		}
@@ -54,11 +44,11 @@ export default class R4PageAdd extends LitElement {
 
 	/* find the current channel id we want to add to */
 	async findSelectedChannel() {
-		const { data } = await sdk.channels.readChannel(this.selectedSlug)
+		const {data} = await sdk.channels.readChannel(this.selectedSlug)
 		if (data?.id) return data.id
 	}
 
-	onTrackCreate({ detail }) {
+	onTrackCreate({detail}) {
 		if (detail.data) {
 			this.lastAddedTrack = detail.data
 			this.focus()
@@ -66,8 +56,27 @@ export default class R4PageAdd extends LitElement {
 	}
 
 	render() {
+		const link = `${this.config.href}/${this.selectedSlug}`
+		const $channelsSelect = html`<r4-user-channels-select
+			channel=${this.selectedSlug}
+			@input=${this.onChannelSelect}
+		></r4-user-channels-select>`
+
 		return html`
-			${!this.config.singleChannel ? this.renderHeader() : ''}
+			<header>
+				<nav>
+					<nav-item
+						>${this.hasOneChannel
+							? html`<code>@</code><a href=${link}>${this.selectedSlug}</a>`
+							: $channelsSelect}</nav-item
+					>
+					<nav-item>
+						<code>></code>
+						<a href=${link + '/tracks'}>Tracks</a>, Add & <a href=${link + '/update'}>Update</a>
+					</nav-item>
+				</nav>
+				<h1>Add track</h1>
+			</header>
 			<main>
 				${this.renderAdd()}
 				${this.lastAddedTrack
@@ -77,25 +86,6 @@ export default class R4PageAdd extends LitElement {
 							>`
 					: null}
 			</main>
-		`
-	}
-
-	renderHeader() {
-		const $channelsSelect = html`
-			<p>&nbsp;${this.selectedSlug}</p>
-			<r4-user-channels-select channel=${this.selectedSlug} @input=${this.onChannelSelect}></r4-user-channels-select>
-		`
-
-		const $channelLink = html`
-			@<a href=${this.config.href + '/' + this.selectedSlug}>
-				<strong>${this.selectedSlug}</strong>
-			</a>
-		`
-
-		return html`
-			<header>
-				<p>${this.hasOneChannel ? $channelLink : $channelsSelect} / add track</p>
-			</header>
 		`
 	}
 

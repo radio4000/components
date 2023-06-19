@@ -42,6 +42,11 @@ export default class BaseChannel extends LitElement {
 		return this.store.followers?.map((c) => c.slug).includes(this.config.selectedSlug)
 	}
 
+	get hasOneChannel() {
+		if (!this.store.user) return false
+		return this.store?.userChannels?.length === 1 ? true : false
+	}
+
 	willUpdate(changedProperties) {
 		if (changedProperties.has('params')) {
 			this.setChannel()
@@ -51,7 +56,16 @@ export default class BaseChannel extends LitElement {
 	// Set channel from the slug in the URL.
 	async setChannel() {
 		const slug = this.config.singleChannel && this.config.selectedSlug ? this.config.selectedSlug : this.params.slug
+
+		// No need to set again if channel the same channel is loaded.
+		if (this.channel?.slug === slug) {
+			console.log('avoided')
+			return
+		}
+
+		console.log('setting channel', slug, this.channel)
 		const {data, error} = await sdk.channels.readChannel(slug)
+
 		if (error) {
 			try {
 				const res = await fetch('https://radio4000.firebaseio.com/channels.json?orderBy="slug"&equalTo="' + slug + '"')

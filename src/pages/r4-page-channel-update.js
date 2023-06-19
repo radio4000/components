@@ -1,65 +1,71 @@
-import { html } from 'lit'
+import {html} from 'lit'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
-import { sdk } from '@radio4000/sdk'
+import {sdk} from '@radio4000/sdk'
 
 export default class R4PageChannelUpdate extends BaseChannel {
 	render() {
-		const { channel } = this
-		if (channel === null) return html`<p>404 - There is no channel with this slug.</p>`
-		if (!channel) return html`<p>Loading...</p>`
-		// if (!this.canEdit) return html`<p>You don't have permission to edit this channel.</p>`
+		const {channel} = this
+		const link = this.channelOrigin
+
+		// if (channel === null) return html`<p>404 - There is no channel with this slug.</p>`
+		// if (!channel) return html`<p>Loading...</p>`
+		// if (channel && !this.canEdit) return html`<p>You don't have permissions to edit this channel.</p>`
 
 		const currentUserChannel = this.store.userChannels.find((channel) => {
-			return channel.id === this.channel.id
+			return channel.id === this.channel?.id
 		})
 
 		return html`
 			<nav>
+				<nav-item> <code>@</code><a href=${link}>${this.params.slug}</a> </nav-item>
 				<nav-item>
-					<code>@</code>
-					<a href=${this.channelOrigin}>${channel.slug}</a>
-					<code>/</code>
-					update
+					<code>></code>
+					<a href=${link + '/tracks'}>Tracks</a>, <a href=${this.config.href + '/add'}>Add</a>
+					& Update
 				</nav-item>
 			</nav>
 			<main>
-				<h2>Info</h2>
-				<r4-channel-update
-					id=${currentUserChannel.id}
-					slug=${currentUserChannel.slug}
-					name=${currentUserChannel.name}
-					description=${currentUserChannel.description}
-					url=${currentUserChannel.url}
-					longitude=${currentUserChannel.longitude}
-					latitude=${currentUserChannel.latitude}
-					@submit=${this.onChannelUpdate}
-				></r4-channel-update>
-				<h2>Avatar</h2>
-				<r4-avatar-update slug=${currentUserChannel.slug}></r4-avatar-update>
-				<h2>Map</h2>
-				<r4-map-position
-					@submit=${this.onMapSubmit}
-					longitude=${currentUserChannel.longitude}
-					latitude=${currentUserChannel.latitude}
-				></r4-map-position>
-				<h2>Danger zone</h2>
-				<details>
-					<summary>Delete channel</summary>
-					<r4-channel-delete id=${currentUserChannel.id} @submit=${this.onChannelDelete}></r4-channel-delete>
-				</details>
+				<h1>Channel settings</h1>
+				${currentUserChannel
+					? html`
+							<r4-channel-update
+								id=${currentUserChannel.id}
+								slug=${currentUserChannel.slug}
+								name=${currentUserChannel.name}
+								description=${currentUserChannel.description}
+								url=${currentUserChannel.url}
+								longitude=${currentUserChannel.longitude}
+								latitude=${currentUserChannel.latitude}
+								@submit=${this.onChannelUpdate}
+							></r4-channel-update>
+							<h2>Avatar</h2>
+							<r4-avatar-update slug=${currentUserChannel.slug}></r4-avatar-update>
+							<h2>Map</h2>
+							<r4-map-position
+								@submit=${this.onMapSubmit}
+								longitude=${currentUserChannel.longitude}
+								latitude=${currentUserChannel.latitude}
+							></r4-map-position>
+							<h2>Danger zone</h2>
+							<details>
+								<summary>Delete channel</summary>
+								<r4-channel-delete id=${currentUserChannel.id} @submit=${this.onChannelDelete}></r4-channel-delete>
+							</details>
+					  `
+					: ''}
 			</main>
 		`
 	}
 
-	async onChannelDelete({ detail }) {
+	async onChannelDelete({detail}) {
 		/* no error? we deleted */
 		if (!detail.data) {
 			page('/')
 		}
 	}
 
-	async onChannelUpdate({ detail }) {
+	async onChannelUpdate({detail}) {
 		const newSlug = detail?.data?.slug
 		if (newSlug && newSlug !== this.params.slug) {
 			page(`/${newSlug}`)
@@ -69,7 +75,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		}
 	}
 
-	async onMapSubmit({ detail }) {
+	async onMapSubmit({detail}) {
 		const channelId = this.channel.id
 		if (!channelId) return
 

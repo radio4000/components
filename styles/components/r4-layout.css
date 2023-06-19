@@ -22,10 +22,10 @@ r4-page-map {
 
 /* basic styles for details and summary of the playback layout part */
 r4-layout::part(playback-details) {
+	background-color: var(--c-bg);
 }
 
 r4-layout::part(playback-summary) {
-	background-color: var(--c-bg);
 	cursor: pointer;
 }
 
@@ -89,11 +89,12 @@ r4-layout[ui-state='minimize']::part(playback),
 r4-layout[ui-state='dock']::part(playback) {
 	position: sticky;
 	top: 0;
+	z-index: 2;
 }
 
 /* keep panel over the playback */
 r4-layout[ui-state='minimize']::part(panel),
 r4-layout[ui-state='dock']::part(panel) {
 	z-index: 1;
-	background-color: var(--c-bg);
+	/* background-color: var(--c-bg); */
 }

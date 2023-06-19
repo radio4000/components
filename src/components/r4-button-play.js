@@ -46,10 +46,8 @@ export default class R4ButtonPlay extends LitElement {
 	}
 
 	render() {
-		return html`
-			<button @click="${this.play}">
-				${!this.channel ? 'Loading...' : '▶'}${this.label ? ` ${this.label}` : ''}</button>
-		`
+		const text = this.channel ? `▶${this.label ? ` ${this.label}` : ''}` : 'Loading...'
+		return html`<button @click=${this.play}>${text}</button>`
 	}
 
 	createRenderRoot() {

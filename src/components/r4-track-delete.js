@@ -18,6 +18,7 @@ fieldsTemplate.innerHTML = `
 
 export default class R4TrackDelete extends R4Form {
 	submitText = 'Delete track'
+
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate

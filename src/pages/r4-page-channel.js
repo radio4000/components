@@ -38,91 +38,103 @@ export default class R4PageChannel extends BaseChannel {
 		return sdk.channels.unfollowChannel(userChannel.id, this.channel.id)
 	}
 
+	async onQuery({detail}) {
+		this.tracks = (await query(detail)).data
+	}
+
 	render() {
 		if (this.isFirebaseChannel) {
 			return html`
 				<radio4000-player channel-slug=${this.params.slug}></radio4000-player>
 				<p>This channel has not yet migrated to the new Radio4000. That's ok, you can still listen.</p>
 			`
-		} else if (!this.channel && !this.channelError) {
-			return this.renderLoading()
-		} else if (this.channel) {
-			return this.renderChannel()
-		} else if (this.channelError) {
+		}
+
+		if (this.channelError) {
 			return this.renderChannelError()
 		}
-	}
 
-	renderLoading() {
-		return html`<progress value=${this.loadingValue} max="100"></progress> `
+		const link = this.channelOrigin
+		const channel = this.channel
+
+		return html`
+			<header>
+				<nav>
+					<nav-item>
+						<code>@</code>${this.params.slug}
+						<code>></code>
+					</nav-item>
+					<nav-item>
+						<a href=${link + '/tracks'}>Tracks</a>${this.canEdit
+							? html`, <a href=${this.config.href + '/add'}>Add</a>`
+							: null}${this.canEdit ? html` & <a href=${link + '/update'}>Update</a>` : null}
+					</nav-item>
+				</nav>
+
+				${channel
+					? html` <r4-channel-name>
+								<h1>${channel.name}</h1>
+							</r4-channel-name>
+
+							<menu>
+								<nav-item><r4-button-play .channel=${channel} label="Listen"></r4-button-play></nav-item>
+								<nav-item>
+									<r4-channel-actions
+										slug=${channel.slug}
+										?can-edit=${this.canEdit}
+										?single-channel=${this.config.singleChannel}
+										@input=${this.onChannelAction}
+									></r4-channel-actions>
+								</nav-item>
+								<nav-item><r4-channel-social>${this.renderSocial()}</r4-channel-social></nav-item>
+								<nav-item>
+									${this.coordinates && !this.config.singleChannel
+										? html`<r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates>`
+										: null}
+								</nav-item>
+							</menu>`
+					: null}
+			</header>
+
+			${this.channel ? this.renderChannel() : null}
+		`
 	}
 
 	renderChannelError() {
 		return html`<p>404. There is no channel here. Want to <a href="${this.config.href}/new">create one?</a></p>`
 	}
 
-	async onQuery({detail}) {
-		this.tracks = (await query(detail)).data
-	}
-
 	renderChannel() {
 		const {channel} = this
-		if (!channel) return html`<p>Loading...</p>`
-
+		const link = this.channelOrigin
 		return html`
-			<nav>
-				<nav-item>
-					<code>@</code>
-					<a href=${this.channelOrigin}>${channel.slug}</a>
-					<code>/</code>
-				</nav-item>
-				<nav-item><r4-button-play .channel=${channel} label="Listen"></r4-button-play></nav-item>
-				<nav-item>
-					<r4-channel-actions
-						slug=${channel.slug}
-						?can-edit=${this.canEdit}
-						?single-channel=${this.config.singleChannel}
-						@input=${this.onChannelAction}
-					></r4-channel-actions>
-				</nav-item>
-				<nav-item><r4-channel-social>${this.renderSocial()}</r4-channel-social></nav-item>
-				<nav-item>
-					${this.coordinates && !this.config.singleChannel
-						? html`<r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates>`
-						: null}
-				</nav-item>
-			</nav>
+			<main>
+				${this.renderChannelImage()}
 
-			${this.renderChannelImage()}
+				<r4-channel-description>${channel.description}</r4-channel-description>
 
-			<r4-channel-name>
-				<h1>${channel.name}</h1>
-			</r4-channel-name>
+				${channel.url
+					? html`<r4-channel-url>
+							<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
+					  </r4-channel-url>`
+					: null}
 
-			<r4-channel-description>${channel.description}</r4-channel-description>
+				<h2>Latest tracks</h2>
+				<r4-supabase-query
+					table="channel_tracks"
+					filters=${`[{"operator":"eq","column":"slug","value":"${channel.slug}"}]`}
+					limit="8"
+					@query=${this.onQuery}
+					hiddenui
+				></r4-supabase-query>
+				${this.renderTracksList()}
 
-			${channel.url
-				? html`<r4-channel-url>
-						<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
-				  </r4-channel-url>`
-				: null}
-
-			<h2>Latest tracks</h2>
-			<r4-supabase-query
-				table="channel_tracks"
-				filters=${`[{"operator":"eq","column":"slug","value":"${channel.slug}"}]`}
-				limit="8"
-				@query=${this.onQuery}
-				hiddenui
-			></r4-supabase-query>
-			${this.renderTracksList()}
-
-			<footer>
-				<a href="${`${this.channelOrigin}/tracks`}">All tracks</a>
-			</footer>
-
+				<footer>
+					<a href="${`${link}/tracks`}">All tracks</a>
+				</footer>
+			</main>
 			<r4-dialog name="share" @close=${this.onDialogClose}>
-				<r4-channel-sharer slot="dialog" origin=${this.channelOrigin} slug=${channel.slug}></r4-channel-sharer>
+				<r4-channel-sharer slot="dialog" origin=${link} slug=${channel.slug}></r4-channel-sharer>
 			</r4-dialog>
 		`
 	}
@@ -199,8 +211,8 @@ export default class R4PageChannel extends BaseChannel {
 			if (detail === 'update') {
 				page(`/${this.params.slug}/update`)
 			}
-			if (detail === 'followings') {
-				page(`/${this.params.slug}/followings`)
+			if (detail === 'following') {
+				page(`/${this.params.slug}/following`)
 			}
 			if (detail === 'followers') {
 				page(`/${this.params.slug}/followers`)

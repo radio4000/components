@@ -20,7 +20,9 @@ export default class R4ChannelDelete extends R4Form {
 	static get observedAttributes() {
 		return ['id']
 	}
+
 	submitText = 'Delete channel'
+
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate
@@ -65,7 +67,7 @@ export default class R4ChannelDelete extends R4Form {
 		let res
 		try {
 			res = await sdk.channels.deleteChannel(id)
-			if (res && res.error) {
+			if (res?.error) {
 				throw res.error
 			}
 		} catch (error) {

@@ -1,116 +1,189 @@
 @import url(https://fonts.bunny.net/css?family=epilogue:400,400i,600);
 
+@font-face {
+	font-family: 'Abordage';
+	src: url('/static/fonts/degheest/Abordage-Regular.woff2');
+}
+@font-face {
+	font-family: 'Director';
+	src: url('/static/fonts/degheest/Director-Light.woff2');
+	font-weight: 400;
+}
+@font-face {
+	font-family: 'Director';
+	src: url('/static/fonts/degheest/Director-Bold.woff2');
+	font-weight: 600;
+}
+
 r4-app {
 	/* Inspired by the dark Jellybeans programming color scheme theme */
-	--c-gray1: hsl(0 0% 8%);
-	--c-gray2: hsl(56 8% 17%);
-	--c-gray3: hsl(50 9% 28%);
-	--c-gray4: hsl(50 9% 48%);
-	--c-gray5: hsl(50 6% 75%);
 	--c-red: hsl(17 46% 50%);
+	--c-red2: hsl(17deg 100% 7%);
 	--c-green: hsl(98 19% 50%);
-	--c-blue: hsl(221 29% 58%);
+	--c-blue: hsl(221 29% 60%);
+	--c-blue2: hsl(221 30% 94%);
 	--c-yellow: hsl(41 79% 69%);
 
-	--c-light: hsl(54 31% 87%);
-	--font: Epilogue, sans-serif;
-	--s-font: 15px;
+	--c-gray1: hsl(0 0% 8%);
+	--c-gray2: hsl(56 8% 17%);
+	--c-gray3: hsl(50 9% 24%);
+	--c-gray4: hsl(50 9% 48%);
+	--c-gray5: hsl(50 6% 75%);
+	--c-gray6: hsl(50 20% 94%);
+	--c-gray7: hsl(50 15% 95%);
+
+	--font: system-ui, sans-serif;
+	/* --font-titles: Epilogue, Director, Abordage, sans-serif; */
+
+	--s-font: 16px;
+	--s: 1.5rem;
+	--s-radius: 0;
+	--s-line-height: var(--s);
+	background-image: linear-gradient(hsla(0, 0%, 60%, 0.1) 0.15%, transparent 5%);
+	background-size: 100% var(--s);
 }
 
 r4-app[color-scheme='light'] {
-	--c-bg: var(--c-light);
+	/* for light theme we want more contrast */
+	--c-blue: hsl(221 37% 43%);
+	--c-red: hsl(17 60% 50%);
+
+	--c-bg: var(--c-gray6);
 	--c-fg: var(--c-gray1);
-	/* --c-link: var(--c-green); */
+	--c-link: var(--c-blue);
+	--c-headlines: var(--c-red);
+	--c-border: var(--c-gray5);
 }
 
 r4-app[color-scheme='dark'] {
 	--c-bg: var(--c-gray1);
-	--c-fg: var(--c-light);
+	--c-fg: var(--c-gray6);
+	--c-link: var(--c-blue);
+	--c-headlines: var(--c-red);
+	--c-border: var(--c-gray1);
 }
 
 r4-app {
 	font-family: var(--font);
+	line-height: 1.5;
 }
-button,
-input,
-optgroup,
-select,
-textarea {
-	font-family: inherit;
+r4-app h1,
+r4-app h2,
+r4-app h3 {
+	font-family: var(--font-titles), var(--font);
 }
 
-r4-app form fieldset {
+r4-app fieldset {
 	display: flex;
-	align-items: center;
-	justify-items: center;
 	border: 1px solid var(--c-gray4);
-	padding: 0.5rem;
+	padding: 0;
 	gap: 0.5rem;
+	border: 0;
 }
-r4-app form fieldset label {
-	font-size: smaller;
+r4-app fieldset label {
+	font-weight: 600;
 }
 
+fieldset[hidden] {
+	display: none;
+}
+
+/* Make filters horizontal */
+r4-supabase-filters form ul {
+	list-style: none;
+	padding: 0 0 0 calc(var(--s) / 2);
+}
+r4-supabase-filters > form,
+r4-supabase-modifiers > form {
+	display: flex;
+	flex-flow: row wrap;
+	gap: 0 0.75rem;
+}
+
+/* Clickable things */
 a,
-button,
+button:not(:disabled),
 input[type='checkbox'],
-select,
-[onclick] {
+select {
 	cursor: pointer;
 }
+
+/* Buttons and text inputs */
 button,
 select,
 input[type='text'],
+input[type='number'],
 input[type='email'],
 input[type='password'],
-input[type='number'],
-input[type='url'],
 input[type='search'],
+input[type='url'],
 textarea {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	white-space: nowrap;
 	flex-shrink: 0;
-	/* border-radius: 4px; */
 	line-height: normal;
 	font-size: inherit;
 	user-select: none;
 	position: relative;
-	/* border: 1px solid var(--c-border); */
-	/* border: 0; */
+	border: 1px solid var(--c-border);
+	border-radius: var(--s-radius);
 	min-width: 2rem;
-	height: 2rem;
+	height: var(--s);
 	padding: 0 0.5rem;
-	vertical-align: middle;
+	vertical-align: top;
+	line-height: 1;
 }
 
-textarea {
-	height: 4rem;
+r4-app input[type='text'],
+r4-app input[type='number'],
+r4-app input[type='email'],
+r4-app input[type='password'],
+r4-app input[type='search'],
+r4-app input[type='url'],
+r4-app textarea {
+	/* background: var(--c-gray4); */
+}
+
+r4-app textarea {
+	height: calc(var(--s) * 3);
 	padding-top: 0.5em;
 }
 
 r4-app input[type='number'] {
-	max-width: 5rem;
+	min-width: 3rem;
+	max-width: 7rem;
+}
+
+r4-app button[role="destructive"],
+r4-app button[type="submit"] {
+	min-width: 10em;
 }
 
 r4-app button {
 	padding: 0 1rem;
-	min-height: calc(1.5rem + 4px);
+	font-size: 14px;
+	/* background: var(--c-gray7); */
 }
+
+r4-app button[type='submit'] {
+	min-height: calc(var(--s) * 2);
+	background-color: var(--c-link);
+	color: var(--c-blue2);
+}
+
+r4-app button[role='destructive'] {
+	background: var(--c-red);
+	color: var(--c-red2);
+}
+
 
 r4-app [list] r4-button-play button {
-	height: auto;
-	padding: 0;
-	background: none;
-	border: 0;
+	/* background-color: var(--c-blue); */
 }
 
-r4-app h1,
-r4-app h1 a {
-	color: var(--c-red);
-}
-
+r4-channel-description,
 r4-pagination {
 	display: block;
 }
@@ -121,21 +194,27 @@ r4-layout {
 }
 
 r4-app [slot='menu'] {
-	margin: 1rem 0;
+	margin: var(--s) 0 0;
 }
 
 r4-app h1 {
+	margin: var(--s) 0 calc(var(--s) / 1);
 	font-size: 2rem;
-	margin: 0rem 0 1rem;
+	color: var(--c-headlines);
 }
 
 r4-app h2 {
 	font-size: 1.5rem;
-	margin: 2rem 0 1rem;
+	margin: var(--s) 0 calc(var(--s) / 2);
 }
 
 r4-app h3 {
 	font-size: 1rem;
+}
+
+r4-avatar img {
+	vertical-align: bottom;
+	height: 3rem;
 }
 
 /* Quick dark-mode for the player */
@@ -163,12 +242,13 @@ r4-app h3 {
 r4-channel-card {
 	display: flex;
 	align-items: center;
-	gap: 0.5em;
+	gap: 0.5rem;
 }
 r4-channel-card > a {
 	flex-shrink: 0;
 	display: flex;
 	align-items: center;
+	gap: 0.5rem;
 }
 
 r4-track-description,
@@ -176,35 +256,34 @@ r4-description {
 	font-size: smaller;
 }
 
-r4-page-channel h1 {
-	margin-top: 2rem;
+r4-app nav {
+	margin-bottom: var(--s);
 }
 
-r4-page-channel > nav {
-	margin-bottom: 1rem;
+r4-page-channel h1 {
+	margin-bottom: 0;
+}
+r4-page-channel menu {
+	margin-bottom: var(--s);
+}
+r4-page-channel r4-avatar img {
+	height: calc(var(--s) * 8);
 }
 r4-page-channel > footer {
-	margin-top: 1rem;
+	margin-top: var(--s);
 }
 
 r4-page-explore > main,
 r4-page-channel-tracks > main {
-	margin-top: 1rem;
+	margin-top: var(--s);
 	display: flex;
 	flex-flow: column nowrap;
-	gap: 1rem;
-}
-
-r4-page-channel-tracks > main > menu {
-	display: flex;
-	align-items: center;
-	gap: 1em;
+	gap: var(--s);
 }
 
 r4-page-explore r4-supabase-query,
 r4-page-channel-tracks r4-supabase-query {
 	display: block;
-	margin-bottom: 1rem;
 }
 
 /* Tags and mentions aka labels */
@@ -218,23 +297,42 @@ r4-app a[label] + a[label] {
 	margin-left: 2px;
 }
 
-r4-channel-update label {
-	flex-basis: 11ch;
+r4-app form {
+	/* display: flex; */
+	/* flex-flow: column nowrap; */
+	/* gap: var(--s); */
+	max-width: 40rem;
 }
-r4-channel-update input,
-r4-channel-update textarea {
+r4-app fieldset label {
+	flex-basis: 10rem;
+	align-self: flex-start;
+}
+r4-app fieldset input:not([type='checkbox']),
+r4-app fieldset textarea {
 	flex: 1;
 }
+r4-app fieldset button[type='submit'] {
+	margin-right: auto;
+}
 
-ul[list] {
+r4-app ul[list] {
 	list-style: none;
 	padding: 0;
 }
 
-r4-app fieldset[name=orderBy] {
-	border-right: 0;
-	margin-right: -0.5em;
+r4-app menu {
+	display: flex;
+	flex-flow: row wrap;
+	gap: 0 calc(var(--s) / 2);
+	list-style: none;
 }
-r4-app fieldset[name=ascending] {
-	border-left: 0;
+
+r4-color-scheme {
+	display: inline-flex;
+	flex-flow: row wrap;
 }
+r4-color-scheme button {
+	/* equal width */
+	flex: 1;
+}
+

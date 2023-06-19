@@ -13,7 +13,7 @@ r4-app {
 	--s-font: 18px;
 	--s: 1.5rem;
 	--s-line-height: 1;
-	--s-youtube: 200px;
+	--s-youtube: 15rem;
 
 	/* reference functional variables using the colors */
 	--c-fg: inherit;
@@ -25,30 +25,6 @@ r4-app {
 	--c-dark: black;
 	--c-light--accent: green;
 	--c-dark--accent: orange;
-}
-
-/* apply the variables for each "theme cases" */
-/* these are the "theme browser settings" */
-@media (prefers-color-scheme: dark) {
-	r4-app {
-		--c-fg: var(--c-light);
-		--c-bg: var(--c-dark);
-		--c-link: var(--c-dark--accent);
-		color-scheme: dark;
-	}
-}
-@media (prefers-color-scheme: light) {
-	r4-app {
-		--c-fg: var(--c-dark);
-		--c-bg: var(--c-light);
-		--c-link: var(--c-light--accent);
-		color-scheme: light;
-	}
-}
-
-/* For account settings to overwrite system settings we need to duplicate the variables here */
-r4-app {
-	/* this is the default */
 }
 
 r4-app[color-scheme='dark'] {
@@ -67,20 +43,20 @@ r4-app[color-scheme='light'] {
 
 /* and the customization using the variables */
 r4-app {
-	color: var(--c-fg);
-	background-color: var(--c-bg);
-	font-size: var(--s-font);
-	line-height: var(--s-line-height);
 	display: flex;
 	flex-direction: column;
-}
-
-/* style the links generally */
-r4-app a {
-	color: var(--c-link);
+	background-color: var(--c-bg);
+	color: var(--c-fg);
+	font-size: var(--s-font);
+	font-family: var(--font);
+	line-height: var(--s-line-height);
 }
 
 /* Defaults */
+r4-app,
+r4-app * {
+	box-sizing: border-box;
+}
 r4-app * {
 	margin: 0;
 }
@@ -93,6 +69,17 @@ r4-app table {
 }
 r4-app th {
 	text-align: left;
+}
+r4-app a {
+	color: var(--c-link);
+}
+/* Ensure the font is the same */
+button,
+input,
+optgroup,
+select,
+textarea {
+	font-family: inherit;
 }
 
 /*
@@ -123,11 +110,4 @@ r4-map .ol-viewport {
 r4-page-explore r4-supabase-select,
 r4-page-channel-tracks r4-supabase-select {
 	display: none;
-}
-
-/* Make filters horizontal */
-r4-supabase-filters > form,
-r4-supabase-modifiers > form {
-	display: flex;
-	flex-flow: row wrap;
 }

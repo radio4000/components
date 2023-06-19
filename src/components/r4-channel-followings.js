@@ -6,6 +6,7 @@ export default class R4ChannelFollowings extends LitElement {
 	static properties = {
 		slug: {type: String, reflect: true},
 		channels: {type: Array, state: true},
+		href: {type: String}
 	}
 
 	async query() {
@@ -27,7 +28,7 @@ export default class R4ChannelFollowings extends LitElement {
 					(c) => c.id,
 					(c) =>
 						html`<li>
-							<r4-channel-card .channel=${c.channel_id} origin=${this.channelOrigin}></r4-channel-card>
+							<r4-channel-card .channel=${c.channel_id} origin=${this.href + `/{{slug}}`}></r4-channel-card>
 						</li>`
 				)}
 			</ul>
