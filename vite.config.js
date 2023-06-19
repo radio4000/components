@@ -1,4 +1,4 @@
-import {resolve, join} from 'path'
+import {resolve} from 'path'
 import {defineConfig} from 'vite'
 import recursive from 'recursive-readdir'
 
@@ -21,19 +21,17 @@ const generateExampleInputFiles = async () => {
 	const entriesDir = resolve('./examples/')
 	const entries = await recursive(entriesDir)
 	const inputFiles = entries
-		.filter((entry) => {
-			return entry.endsWith('.html')
-		})
+		.filter((entry) => entry.endsWith('.html'))
 		.reduce((acc, entry) => {
-			const key = entry.replace(/\//g, '_')
 			const inputFilePath = entry.replace(__dirname + '/', '')
 			const inputName = inputFilePath.replace('.html', '').split('/').join('_')
 			acc[inputName] = `./${inputFilePath}`
 			return acc
 		}, {})
-	console.log(inputFiles)
 	return inputFiles
 }
+
+const examples = await generateExampleInputFiles()
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -44,7 +42,7 @@ export default defineConfig({
 		rollupOptions: {
 			input: {
 				main: resolve('index.html'),
-				...generateExampleInputFiles(),
+				...examples,
 			},
 		},
 	},
