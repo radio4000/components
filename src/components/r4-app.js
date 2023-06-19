@@ -3,7 +3,9 @@ import {ref, createRef} from 'lit/directives/ref.js'
 import {sdk} from '@radio4000/sdk'
 import page from 'page/page.mjs'
 import DatabaseListeners from '../libs/db-listeners'
+import Cache from '../libs/cache.js'
 import '../pages/'
+
 
 export default class R4App extends LitElement {
 	playerRef = createRef()
@@ -44,6 +46,7 @@ export default class R4App extends LitElement {
 			userChannels: this.userChannels,
 			followers: this.followers,
 			following: this.following,
+			cache: this.cache
 		}
 	}
 	set store(val) {
@@ -64,6 +67,11 @@ export default class R4App extends LitElement {
 	get selectedChannel() {
 		if (!this.userChannels || !this.selectedSlug || !this.user) return null
 		return this.userChannels.find((c) => c.slug === this.selectedSlug)
+	}
+
+	constructor() {
+		super()
+		this.cache = new Cache()
 	}
 
 	async connectedCallback() {

@@ -63,8 +63,7 @@ export default class BaseChannel extends LitElement {
 			return
 		}
 
-		console.log('setting channel', slug, this.channel)
-		const {data, error} = await sdk.channels.readChannel(slug)
+		const {data, error} = await this.store.cache.get(`channel/${slug}`, () => sdk.channels.readChannel(slug))
 
 		if (error) {
 			try {

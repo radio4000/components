@@ -39,7 +39,8 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	async onQuery({detail}) {
-		this.tracks = (await query(detail)).data
+		const res = await this.store.cache.get(`${this.params.slug}/latesttracks`, () => query(detail))
+		this.tracks = res.data
 	}
 
 	render() {
