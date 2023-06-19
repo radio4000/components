@@ -315,17 +315,16 @@ r4-app fieldset button[type='submit'] {
 	margin-right: auto;
 }
 
-ul[list] {
+r4-app ul[list] {
 	list-style: none;
 	padding: 0;
 }
 
-menu {
+r4-app menu {
 	display: flex;
 	flex-flow: row wrap;
 	gap: 0 calc(var(--s) / 2);
 	list-style: none;
-	/* margin: var(--s) 0; */
 }
 
 r4-color-scheme {
