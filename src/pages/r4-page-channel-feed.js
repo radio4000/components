@@ -19,11 +19,12 @@ export default class R4PageChannelFeed extends LitElement {
 		this.loadTracks()
 	}
 
-	// Latest X tracks from channels the current user follows.
 	async loadTracks() {
+		// Create string of slugs to query.
 		const {id} = (await sdk.supabase.from('channels').select('id').eq('slug', this.params.slug).single()).data
 		const following = (await sdk.channels.readFollowings(id)).data
 		const orQuery = following.map((c) => `slug.eq.${c.slug}`).join(',')
+		// Latest X tracks, newest first
 		const res = await sdk.supabase
 			.from('channel_tracks')
 			.select('*')
@@ -45,49 +46,33 @@ export default class R4PageChannelFeed extends LitElement {
 				<h1>Recent tracks from @${this.params.slug}'s favorite radios</h1>
 			</header>
 
-			${this.renderChannels()}
-			<hr/>
-			${this.renderTracks()}
+			${this.renderGroups()}
 		`
 	}
 
-	renderChannels() {
+	renderGroups() {
+		if (!this.tracks) return null
+		const groups = groupTracks(this.tracks)
 		return html`
 			<ul list>
-				${repeat(
-					this.store.following,
-					(x) => x.id,
-					(x) => html` <li>${x.name}</li> `
-				)}
+				${groups.map((g) => html`<li>${this.renderGroup(g)}</li>`)}
 			</ul>
 		`
 	}
 
-	renderTracks() {
-		if (!this.tracks) return null
-		const groups = groupTracks(this.tracks)
+	renderGroup(group) {
 		const {href} = this.config
 		return html`
+			<r4-channel-card slug=${group.slug} origin=${href + '/{{slug}}'}></r4-channel-card>
 			<ul list>
 				${repeat(
-					groups,
-					(group) => group.slug,
-					(group) => html`
+					group.tracks,
+					(t) => t.id,
+					(t) => html`
 						<li>
-							<r4-channel-card slug=${group.slug} origin=${href + '/{{slug}}'}></r4-channel-card>
-							<ul list>
-								${repeat(
-									group.tracks,
-									(t) => t.id,
-									(t) => html`
-										<li>
-											${formatDate(t.created_at)}
-											<r4-button-play .track=${t} .tracks=${group.tracks}></r4-button-play>
-											<r4-track .track=${t} href=${href} origin=${href + `/${t.slug}/tracks/`}></r4-track>
-										</li>
-									`
-								)}
-							</ul>
+							${formatDate(t.created_at)}
+							<r4-button-play .track=${t} .tracks=${group.tracks}></r4-button-play>
+							<r4-track .track=${t} href=${href} origin=${href + `/${t.slug}/tracks/`}></r4-track>
 						</li>
 					`
 				)}
@@ -103,7 +88,7 @@ export default class R4PageChannelFeed extends LitElement {
 /**
  * Sorts and groups tracks by date and slug.
  * @param {Array} tracks
- * @returns {Array} groupedTracks
+ * @returns {Array.<{slug: String, tracks: Array}>} groupedTracks
  */
 function groupTracks(tracks) {
 	const groupedTracks = []
