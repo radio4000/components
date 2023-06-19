@@ -6,8 +6,9 @@ export default class R4PageChannelFollowings extends BaseChannel {
 		const slug = this.channel?.slug
 		return html`
 			<header>
-				<code>@</code> <a href=${this.channelOrigin}>${slug}</a> <code>/</code> following &
-				<a href=${this.channelOrigin + '/followers'}>followers</a>
+				<code>@</code> <a href=${this.channelOrigin}>${this.params.slug}</a> <code>/</code> following,
+				<a href=${this.channelOrigin + '/followers'}>followers</a> &
+				<a href=${this.channelOrigin + '/feed'}>feed</a>
 			</header>
 			<main>
 				<h1>Channels which ${slug} follows</h1>

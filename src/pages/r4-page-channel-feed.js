@@ -37,13 +37,18 @@ export default class R4PageChannelFeed extends LitElement {
 	}
 
 	render() {
+		const slug = this.params.slug
+		const link = this.config.href + '/' + slug
 		return html`
 			<header>
 				<nav>
-					<nav-item><code>@</code><a href=${this.channelOrigin}>${this.params.slug}</a></nav-item>
-					<nav-item><code>></code> feed</nav-item>
+					<nav-item><code>@</code><a href=${link}>${slug}</a></nav-item>
+					<nav-item>
+						<code>/</code>
+						<a href=${link + '/following'}>following</a>, <a href=${link + '/followers'}>followers</a> & feed
+					</nav-item>
 				</nav>
-				<h1>Recent tracks from @${this.params.slug}'s favorite radios</h1>
+				<h1>Recent tracks from @${slug}'s favorite radios</h1>
 			</header>
 
 			${this.renderGroups()}
