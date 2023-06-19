@@ -13,8 +13,8 @@ export default class R4ChannelFollowings extends LitElement {
 		this.channels = (
 			await sdk.supabase
 				.from('followers')
-				.select('*, channel_id!inner(*), follower_id(slug)')
-				.eq('channel_id.slug', this.slug)
+				.select('*, channel_id(*), follower_id!inner(slug)')
+				.eq('follower_id.slug', this.slug)
 		).data
 	}
 

@@ -8,6 +8,7 @@ template.innerHTML = `
 		<option value="tracks">Tracks</option>
 		<option value="following">Following</option>
 		<option value="followers">Followers</option>
+		<option value="feed">Feed</option>
 		<option value="share">Share</option>
 	</r4-actions>
 `
