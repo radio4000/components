@@ -13,7 +13,7 @@ r4-app {
 	--s-font: 18px;
 	--s: 1.5rem;
 	--s-line-height: 1;
-	--s-youtube: 200px;
+	--s-youtube: 15rem;
 
 	/* reference functional variables using the colors */
 	--c-fg: inherit;
