@@ -60,14 +60,11 @@ export default class R4PageChannel extends BaseChannel {
 		return html`
 			<header>
 				<nav>
-					<nav-item>
-						<code>@</code>${this.params.slug}
-						<code>></code>
-					</nav-item>
-					<nav-item>
-						<a href=${link + '/tracks'}>Tracks</a>${this.canEdit
-							? html`, <a href=${this.config.href + '/add'}>Add</a>`
-							: null}${this.canEdit ? html` & <a href=${link + '/update'}>Update</a>` : null}
+					<nav-item><code>@</code>${this.params.slug}</nav-item>
+					<nav-item
+						><code>></code>
+						<a href=${link + '/tracks'}>Tracks</a>
+						${this.canEdit ? html`<a href=${this.config.href + '/add'}>Add</a>` : null}
 					</nav-item>
 				</nav>
 
@@ -149,7 +146,12 @@ export default class R4PageChannel extends BaseChannel {
 					(t) => html`
 						<li>
 							<r4-button-play .channel=${this.channel} .track=${t} .tracks=${this.tracks}></r4-button-play>
-							<r4-track .track=${t} href=${this.config.href} origin=${'' || this.tracksOrigin} .canEdit=${this.canEdit}></r4-track>
+							<r4-track
+								.track=${t}
+								href=${this.config.href}
+								origin=${'' || this.tracksOrigin}
+								.canEdit=${this.canEdit}
+							></r4-track>
 						</li>
 					`
 				)}
