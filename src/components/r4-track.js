@@ -84,8 +84,8 @@ export default class R4Track extends LitElement {
 	}
 
 	onAction({detail}) {
-		if (detail === 'update') page(`${this.url}/update`)
-		if (detail === 'delete') page(`${this.url}/delete`)
+		if (detail === 'update') page(`/${this.track.slug}/tracks/${this.track.id}/update`)
+		if (detail === 'delete') page(`/${this.track.slug}/tracks/${this.track.id}/delete`)
 	}
 
 	createRenderRoot() {
