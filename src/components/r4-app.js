@@ -301,6 +301,8 @@ function renderRouterCMS({store, config}) {
 			<r4-route path="/:slug/player" page="channel-player"></r4-route>
 			<r4-route path="/:slug/tracks" page="channel-tracks"></r4-route>
 			<r4-route path="/:slug/tracks/:track_id" page="channel-track"></r4-route>
+			<r4-route path="/:slug/tracks/:track_id/update" page="track-update"></r4-route>
+			<r4-route path="/:slug/tracks/:track_id/delete" page="track-delete"></r4-route>
 			<r4-route path="/:slug/followers" page="channel-followers"></r4-route>
 			<r4-route path="/:slug/following" page="channel-followings"></r4-route>
 		</r4-router>

@@ -1,16 +1,16 @@
-import { html  } from 'lit'
-import { until } from 'lit/directives/until.js'
-import { sdk } from '@radio4000/sdk'
+import {html} from 'lit'
+import {until} from 'lit/directives/until.js'
+import {sdk} from '@radio4000/sdk'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
 
 export default class R4PageChannelTrack extends BaseChannel {
 	static properties = {
-		store: { type: Object, state: true },
-		params: { type: Object, state: true },
-		config: { type: Object, state: true },
+		store: {type: Object, state: true},
+		params: {type: Object, state: true},
+		config: {type: Object, state: true},
 
-		track: { type: Object, reflect: true, state: true },
+		track: {type: Object, reflect: true, state: true},
 	}
 
 	firstUpdated() {
@@ -19,7 +19,7 @@ export default class R4PageChannelTrack extends BaseChannel {
 
 	/* find data, the current channel id we want to add to */
 	async findTrack() {
-		const { data } = await sdk.tracks.readTrack(this.params.track_id)
+		const {data} = await sdk.tracks.readTrack(this.params.track_id)
 		if (data && data.id) {
 			return data
 		}
@@ -40,13 +40,10 @@ export default class R4PageChannelTrack extends BaseChannel {
 		return html`
 			<nav>
 				<nav-item>
-					<code>@</code>
-					<a href=${this.channelOrigin}>${channel.slug}</a>
-					<code>/</code>
-					<a href=${this.channelOrigin + '/tracks'}>tracks</a>
-					<code>/</code>
-					<a href=${this.channelOrigin + '/tracks' + '/' + track_id}>
-						${track_id}
+					<code>@</code> <a href=${this.channelOrigin}>${channel.slug}</a>
+					<code>/</code> <a href=${this.channelOrigin + '/tracks'}>tracks</a>
+					<code>/</code> <a href=${this.channelOrigin + '/tracks' + '/' + track_id}>
+					${track_id}
 					</a>
 				</nav-item>
 				<nav-item>
