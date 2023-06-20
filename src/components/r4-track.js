@@ -86,6 +86,20 @@ export default class R4Track extends LitElement {
 	onAction({detail}) {
 		if (detail === 'update') page(`/${this.track.slug}/tracks/${this.track.id}/update`)
 		if (detail === 'delete') page(`/${this.track.slug}/tracks/${this.track.id}/delete`)
+		if (detail === 'play') {
+			console.log(this.track.slug)
+			const playEvent = new CustomEvent('r4-play', {
+				bubbles: true,
+				detail: {
+					// channel: // we don't have it here
+					track: this.track
+				},
+			})
+			this.dispatchEvent(playEvent)
+		}
+		// if (['share'].indexOf(detail) > -1) {
+		// 	this.openDialog(detail)
+		// }
 	}
 
 	createRenderRoot() {
