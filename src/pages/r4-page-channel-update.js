@@ -1,7 +1,7 @@
 import {html} from 'lit'
 import page from 'page/page.mjs'
-import BaseChannel from './base-channel'
 import {sdk} from '@radio4000/sdk'
+import BaseChannel from './base-channel'
 
 export default class R4PageChannelUpdate extends BaseChannel {
 	render() {
@@ -19,9 +19,8 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		return html`
 			<nav>
 				<nav-item> <code>@</code><a href=${link}>${this.params.slug}</a> </nav-item>
-				<nav-item><code>></code> <a href=${link + '/tracks'}>Tracks</a></nav-item>
-				${this.canEdit ? html`<nav-item><a href=${this.config.href + '/add'}>Add</a></nav-item>` : ''}
 				${this.canEdit ? html`<nav-item>Update</nav-item>` : ''}
+				${this.canEdit ? html`<nav-item><a href=${link + '/delete'}>Delete</a></nav-item>` : ''}
 			</nav>
 			<main>
 				<h1>Update channel settings</h1>
@@ -45,11 +44,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 								longitude=${currentUserChannel.longitude}
 								latitude=${currentUserChannel.latitude}
 							></r4-map-position>
-							<h2>Danger zone</h2>
-							<details>
-								<summary>Delete channel</summary>
-								<r4-channel-delete id=${currentUserChannel.id} @submit=${this.onChannelDelete}></r4-channel-delete>
-							</details>
+						<p><a href="${this.channelOrigin}/delete">Delete channel</a></p>
 					  `
 					: ''}
 			</main>
