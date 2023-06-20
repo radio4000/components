@@ -4,6 +4,7 @@ import {sdk} from '@radio4000/sdk'
 import BaseChannel from './base-channel'
 import urlUtils from '../libs/url-utils.js'
 import {query} from '../libs/browse.js'
+import {formatDate} from '../libs/date.js'
 
 if (!window.r4sdk) window.r4sdk = sdk
 
@@ -66,11 +67,9 @@ export default class R4PageChannelTracks extends BaseChannel {
 			<header>
 				<nav>
 					<nav-item><code>@</code><a href=${link}>${this.params.slug}</a></nav-item>
-					<nav-item>
-						<code>></code> Tracks,
-						${this.canEdit ? html`<a href=${this.config.href + '/add'}>Add</a>` : ''}
-						${this.canEdit ? html` & <a href=${link + '/update'}>Update</a>` : ''}
-					</nav-item>
+					<nav-item> <code>></code> Tracks </nav-item>
+					${this.canEdit ? html`<nav-item><a href=${this.config.href + '/add'}>Add</a></nav-item>` : ''}
+					${this.canEdit ? html`<nav-item><a href=${link + '/update'}>Update</a></nav-item>` : ''}
 				</nav>
 				${this.channel ? html`<h1>${this.channel.name} tracks</h1>` : ''}
 			</header>
@@ -197,19 +196,4 @@ export default class R4PageChannelTracks extends BaseChannel {
 	createRenderRoot() {
 		return this
 	}
-}
-
-function formatDate(dateStr) {
-	const date = new Date(dateStr)
-	const formatter = new Intl.DateTimeFormat('de', {
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
-		// hour: 'numeric',
-		// minute: 'numeric',
-		// second: 'numeric',
-		// timeZoneName: 'short',
-	})
-	const formattedDate = formatter.format(date)
-	return formattedDate
 }

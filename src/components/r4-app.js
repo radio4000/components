@@ -32,7 +32,9 @@ export default class R4App extends LitElement {
 		followers: {type: Array || null, state: true},
 		following: {type: Array || null, state: true},
 		didLoad: {type: Boolean, state: true},
+
 		isPlaying: {type: Boolean, attribute: 'is-playing', reflects: true},
+
 
 		/* state for global usage */
 		store: {type: Object, state: true},
@@ -158,7 +160,12 @@ export default class R4App extends LitElement {
 			<r4-layout @r4-play=${this.onPlay} ?is-playing=${this.isPlaying}>
 				${!this.config.singleChannel ? this.renderMenu() : null}
 				<main slot="main">${this.renderRouter()}</main>
-				<r4-player slot="player" ${ref(this.playerRef)} ?is-playing=${this.isPlaying}></r4-player>
+				<r4-player
+					slot="player"
+					${ref(this.playerRef)}
+					?is-playing=${this.isPlaying}
+					@trackchanged=${this.onTrackChange}
+				></r4-player>
 			</r4-layout>
 		`
 	}
@@ -177,15 +184,16 @@ export default class R4App extends LitElement {
 		const href = this.config?.href
 		return html`
 			<header slot="menu">
-			<menu>
-				<a href=${href + '/'}><r4-title small></r4-title></a>
-				<a href=${href + '/explore'}>Explore</a>
-				${!user ? html`<a href=${href + '/sign/up'}>Create radio</a>` : ''}
-				${!user ? html`<a href=${href + '/sign/in'}>My radio</a>` : ''}
-
-				${this.userChannels?.length ? html`<a href=${href + '/' + this.selectedSlug}>@${this.selectedChannel.slug}</a>` : ''}
-				${this.userChannels?.length ? html`<a href=${href + '/settings'}>Settings</a>` : ''}
-			</menu>
+				<menu>
+					<a href=${href + '/'}><r4-title small></r4-title></a>
+					<a href=${href + '/explore'}>Explore</a>
+					${!user ? html`<a href=${href + '/sign/up'}>Create radio</a>` : ''}
+					${!user ? html`<a href=${href + '/sign/in'}>My radio</a>` : ''}
+					${this.userChannels?.length
+						? html`<a href=${href + '/' + this.selectedSlug}>@${this.selectedChannel.slug}</a>`
+						: ''}
+					${this.userChannels?.length ? html`<a href=${href + '/settings'}>Settings</a>` : ''}
+				</menu>
 			</header>
 		`
 	}
@@ -206,43 +214,46 @@ export default class R4App extends LitElement {
 
 		const {channel, track} = detail
 		let {tracks} = detail
+		const el = this.playerRef.value
 
-		if (channel?.slug) {
-			this.isPlaying = true
+		this.isPlaying = true
 
-			if (!tracks) {
-				const {data: channelTracks} = await sdk.channels.readChannelTracks(channel.slug)
-				tracks = channelTracks.reverse()
-			}
-
-			if (tracks) {
-				this.playerRef.value.tracks = tracks
-			} else {
-				this.playerRef.value.tracks = []
-			}
-
-			if (channel.name) {
-				this.playerRef.value.setAttribute('name', channel.name)
-			} else {
-				this.playerRef.value.removeAttribute('name')
-			}
-
-			if (channel.image) {
-				const imageUrl = channel.image
-				this.playerRef.value.setAttribute('image', imageUrl)
-			} else {
-				this.playerRef.value.removeAttribute('image')
-			}
-
-			if (track && track.id) {
-				this.playerRef.value.setAttribute('track', track.id)
-			} else if (tracks) {
-				const lastTrack = tracks[tracks.length - 1]
-				this.playerRef.value.setAttribute('track', lastTrack.id)
-			} else {
-				this.playerRef.value.removeAttribute('track')
-			}
+		if (!tracks && channel?.slug) {
+			const {data: channelTracks} = await sdk.channels.readChannelTracks(channel.slug)
+			tracks = channelTracks.reverse()
 		}
+
+		if (tracks) {
+			el.tracks = tracks
+		} else {
+			el.tracks = []
+		}
+
+		if (channel?.name) {
+			el.setAttribute('name', channel.name)
+		} else {
+			el.removeAttribute('name')
+		}
+
+		if (channel?.image) {
+			const imageUrl = channel.image
+			el.setAttribute('image', imageUrl)
+		} else {
+			el.removeAttribute('image')
+		}
+
+		if (track?.id) {
+			el.setAttribute('track', track.id)
+		} else if (tracks) {
+			const lastTrack = tracks[tracks.length - 1]
+			el.setAttribute('track', lastTrack.id)
+		} else {
+			el.removeAttribute('track')
+		}
+	}
+
+	onTrackChange(event) {
+		console.log(event.detail)
 	}
 
 	stop() {
@@ -250,10 +261,11 @@ export default class R4App extends LitElement {
 		this.isPlaying = false
 
 		/* clean the `r4-player` component (so it hides) */
-		this.playerRef.value.removeAttribute('track')
-		this.playerRef.value.removeAttribute('image')
-		this.playerRef.value.removeAttribute('name')
-		this.playerRef.value.removeAttribute('tracks')
+		const el = this.playerRef.value
+		el.removeAttribute('track')
+		el.removeAttribute('image')
+		el.removeAttribute('name')
+		el.removeAttribute('tracks')
 	}
 
 	createRenderRoot() {
@@ -291,6 +303,7 @@ function renderRouterCMS({store, config}) {
 			<r4-route path="/search" page="search"></r4-route>
 			<r4-route path="/playground/:color" page="playground"></r4-route>
 			<r4-route path="/:slug" page="channel"></r4-route>
+			<r4-route path="/:slug/feed" page="channel-feed"></r4-route>
 			<r4-route path="/:slug/update" page="channel-update"></r4-route>
 			<r4-route path="/:slug/player" page="channel-player"></r4-route>
 			<r4-route path="/:slug/tracks" page="channel-tracks"></r4-route>

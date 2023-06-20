@@ -70,10 +70,9 @@ export default class R4PageAdd extends BaseChannel {
 							? html`<code>@</code><a href=${link}>${this.selectedSlug}</a>`
 							: $channelsSelect}</nav-item
 					>
-					<nav-item>
-						<code>></code>
-						<a href=${link + '/tracks'}>Tracks</a>, Add & <a href=${link + '/update'}>Update</a>
-					</nav-item>
+					<nav-item><code>></code> <a href=${link + '/tracks'}>Tracks</a></nav-item>
+					<nav-item>Add</nav-item>
+					<nav-item><a href=${link + '/update'}>Update</a></nav-item>
 				</nav>
 				<h1>Add track</h1>
 			</header>

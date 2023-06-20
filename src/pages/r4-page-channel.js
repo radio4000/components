@@ -218,6 +218,9 @@ export default class R4PageChannel extends BaseChannel {
 			if (detail === 'followers') {
 				page(`/${this.params.slug}/followers`)
 			}
+			if (detail === 'feed') {
+				page(`/${this.params.slug}/feed`)
+			}
 			if (['share'].indexOf(detail) > -1) {
 				this.openDialog(detail)
 			}

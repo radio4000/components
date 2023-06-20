@@ -1,20 +1,27 @@
 import 'radio4000-player'
-import { html, LitElement } from 'lit'
-import { ref, createRef } from 'lit/directives/ref.js'
+import {html, LitElement} from 'lit'
+import {ref, createRef} from 'lit/directives/ref.js'
 
 export default class R4Player extends LitElement {
 	playerRef = createRef()
 
 	static properties = {
-		isPlaying: { type: Boolean, attribute: 'is-playing', reflect: true },
-		tracks: { type: Array },
-		track: {},
-		name: {},
-		image: {},
+		name: {type: String}, // of the context
+		image: {type: String},
+		tracks: {type: Array},
+		track: {type: String},
+		isPlaying: {type: Boolean, attribute: 'is-playing', reflect: true},
+		shuffle: {type: Boolean},
 	}
 
 	render() {
-		return html` <radio4000-player ${ref(this.playerRef)} @playerReady=${this.onPlayerReady}></radio4000-player> `
+		return html`
+			<radio4000-player
+				${ref(this.playerRef)}
+				@playerReady=${this.onPlayerReady}
+				@trackChanged=${this.onTrackChange}
+			></radio4000-player>
+		`
 	}
 
 	onPlayerReady() {
@@ -40,11 +47,9 @@ export default class R4Player extends LitElement {
 	}
 
 	play() {
-		if (!this.$player) {
-			return
-		}
+		if (!this.$player) return
 
-		if (this.tracks && this.tracks.length) {
+		if (this.tracks?.length) {
 			const playlist = {
 				title: this.name,
 				image: this.image,
@@ -52,7 +57,7 @@ export default class R4Player extends LitElement {
 			}
 			this.$player.updatePlaylist(playlist)
 		} else {
-			this.$player.updatePlaylist({ tracks: [] })
+			this.$player.updatePlaylist({tracks: []})
 		}
 
 		if (this.track) {
@@ -62,12 +67,31 @@ export default class R4Player extends LitElement {
 			}
 		}
 	}
+
 	pause() {
 		/* click the radio400-player button */
 		// when in play mode, toggle pause
 		if (this.$playButton.checked === true) {
 			this.$playButton.click()
 		}
+	}
+
+	stop() {
+		const el = this
+		el.removeAttribute('track')
+		el.removeAttribute('image')
+		el.removeAttribute('name')
+		el.removeAttribute('tracks')
+	}
+
+	onTrackChange(event) {
+		console.log('trackchange', event.detail)
+		this.dispatchEvent(
+			new CustomEvent('trackchange', {
+				bubbles: true,
+				detail: event.detail,
+			})
+		)
 	}
 
 	/* no shadow dom */

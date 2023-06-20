@@ -48,6 +48,7 @@ r4-app {
 	background-color: var(--c-bg);
 	color: var(--c-fg);
 	font-size: var(--s-font);
+	font-family: var(--font);
 	line-height: var(--s-line-height);
 }
 
