@@ -102,7 +102,7 @@ export default class R4PageChannelTrack extends BaseChannel {
 		return html`<span>Loading track...</span>`
 	}
 
-	async onTrackAction({ detail }) {
+	async onTrackAction({detail}) {
 		if (detail) {
 			if (detail === 'play') {
 				const track = await this.track
@@ -127,13 +127,13 @@ export default class R4PageChannelTrack extends BaseChannel {
 		page(`/${this.params.slug}/tracks`)
 	}
 
-	async onTrackUpdate({ detail }) {
+	async onTrackUpdate({detail}) {
 		if (!detail.error && detail.data) {
 			this.closeDialog('update')
 		}
 	}
 
-	onDialogClose({ target }) {
+	onDialogClose({target}) {
 		const name = target.getAttribute('name')
 		if (name === 'track') {
 			if (this.config.singleChannel) {
