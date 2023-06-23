@@ -12,7 +12,7 @@ export default class R4PageNew extends LitElement {
 		if (!this.store.user) {
 			page(`/sign/in`)
 		}
-		if (this.store.userChannels) {
+		if (this.store.userChannels?.length) {
 			page(`/${this.store.userChannels[0].slug}`)
 		}
 	}
@@ -20,7 +20,9 @@ export default class R4PageNew extends LitElement {
 	render() {
 		return html`
 			<main>
+				<h1>Create radio channel</h1>
 				<r4-channel-create @submit=${this.onChannelCreate}></r4-channel-create>
+				<p>The slug is what will be used for the URL of your channel. You can always change it later.</p>
 			</main>
 		`
 	}

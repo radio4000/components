@@ -1,13 +1,14 @@
-import { sdk } from '@radio4000/sdk'
-import { LitElement, html } from 'lit'
+import {sdk} from '@radio4000/sdk'
+import {LitElement, html} from 'lit'
+import page from 'page/page.mjs'
 
 export default class R4Track extends LitElement {
 	static properties = {
-		origin: { type: String },
-		href: { type: String },
-		id: { type: String },
-		track: { type: Object },
-		loading: { type: Boolean, reflect: true, state: true },
+		origin: {type: String},
+		href: {type: String},
+		id: {type: String},
+		track: {type: Object},
+		loading: {type: Boolean, reflect: true, state: true},
 	}
 
 	/* if the attribute changed, re-render */
@@ -40,7 +41,7 @@ export default class R4Track extends LitElement {
 		if (res.data) {
 			return res.data
 		} else {
-			return { title: 'No data for this track' }
+			return {title: 'No data for this track'}
 		}
 	}
 
@@ -48,15 +49,20 @@ export default class R4Track extends LitElement {
 		return this.track ? this.renderTrack() : this.renderNoTrack()
 	}
 
+	get url() {
+		return this.origin + this.track.id
+	}
+
 	renderTrack() {
 		const t = this.track
 		return html`
-			<a href=${this.origin + t.id}><r4-track-title>${t.title || t.id}</r4-track-title></a>
+			<a href=${this.url}><r4-track-title>${t.title || t.id}</r4-track-title></a>
 			<r4-track-description>${t.description}</r4-track-description>
 			${t.discogs_url &&
 			html`<r4-track-discogs-url><a href="${t.discogs_url}">View on Discogs</a></r4-track-discogs-url>`}
 			<r4-track-tags>${t.tags.map((tag) => this.renderTag(tag))}</r4-track-tags>
-			<r4-track-mentions>${t.mentions.map(m => this.renderMention(m))}</r4-track-mentions>
+			<r4-track-mentions>${t.mentions.map((m) => this.renderMention(m))}</r4-track-mentions>
+			<r4-track-actions id=${t.id} .canEdit=${this.canEdit} @input=${this.onAction}></r4-track-actions>
 		`
 	}
 
@@ -75,6 +81,25 @@ export default class R4Track extends LitElement {
 		if (!slug) return null
 		const url = `${this.href}/${slug}`
 		return html`<a href="${url}" label>${slug}</a>`
+	}
+
+	onAction({detail}) {
+		if (detail === 'update') page(`/${this.track.slug}/tracks/${this.track.id}/update`)
+		if (detail === 'delete') page(`/${this.track.slug}/tracks/${this.track.id}/delete`)
+		if (detail === 'play') {
+			console.log(this.track.slug)
+			const playEvent = new CustomEvent('r4-play', {
+				bubbles: true,
+				detail: {
+					// channel: // we don't have it here
+					track: this.track
+				},
+			})
+			this.dispatchEvent(playEvent)
+		}
+		// if (['share'].indexOf(detail) > -1) {
+		// 	this.openDialog(detail)
+		// }
 	}
 
 	createRenderRoot() {

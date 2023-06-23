@@ -1,4 +1,4 @@
-import { sdk } from '@radio4000/sdk'
+import {sdk} from '@radio4000/sdk'
 
 const template = document.createElement('template')
 template.innerHTML = `
@@ -85,7 +85,7 @@ export default class R4ChannelActions extends HTMLElement {
 		}
 	}
 
-	renderAsyncOption({ value, text }) {
+	renderAsyncOption({value, text}) {
 		const $actions = this.querySelector('r4-actions select')
 
 		const $asyncOption = document.createElement('option')

@@ -33,7 +33,6 @@ export default class R4App extends LitElement {
 
 		isPlaying: {type: Boolean, attribute: 'is-playing', reflects: true},
 
-
 		/* state for global usage */
 		store: {type: Object, state: true},
 		config: {type: Object, state: true},
@@ -54,8 +53,8 @@ export default class R4App extends LitElement {
 
 	get config() {
 		return {
-			singleChannel: this.singleChannel,
 			href: this.href,
+			singleChannel: this.singleChannel,
 			selectedSlug: this.selectedSlug,
 		}
 	}
@@ -98,13 +97,13 @@ export default class R4App extends LitElement {
 		this.setTheme()
 
 		if (!this.user) {
-			this.userChannels = undefined
-			this.followers = undefined
-			this.following = undefined
+			this.userChannels = []
+			this.followers = []
+			this.following = []
 		} else {
 			// Refresh user channels
 			this.userChannels = (await sdk.channels.readUserChannels()).data
-			if (this.userChannels && !this.selectedSlug) {
+			if (this.userChannels?.length && !this.selectedSlug) {
 				this.selectedSlug = this.userChannels[0].slug
 			}
 
@@ -179,12 +178,18 @@ export default class R4App extends LitElement {
 				<menu>
 					<a href=${href + '/'}><r4-title small></r4-title></a>
 					<a href=${href + '/explore'}>Explore</a>
-					${!user ? html`<a href=${href + '/sign/up'}>Create radio</a>` : ''}
-					${!user ? html`<a href=${href + '/sign/in'}>My radio</a>` : ''}
-					${this.userChannels?.length
-						? html`<a href=${href + '/' + this.selectedSlug}>@${this.selectedChannel.slug}</a>`
-						: ''}
-					${this.userChannels?.length ? html`<a href=${href + '/settings'}>Settings</a>` : ''}
+
+					${!user
+						? html`
+								${!user ? html`<a href=${href + '/sign/up'}>Create radio</a>` : ''}
+								${!user ? html`<a href=${href + '/sign/in'}>My radio</a>` : ''}
+						  `
+						: html`
+								${this.selectedChannel
+									? html`<a href=${href + '/' + this.selectedSlug}>@${this.selectedChannel.slug}</a>`
+									: html`<a href=${href + '/new'}>Create radio</a>`}
+								${this.userChannels?.length ? html`<a href=${href + '/settings'}>Settings</a>` : ''}
+						  `}
 				</menu>
 			</header>
 		`
@@ -210,8 +215,9 @@ export default class R4App extends LitElement {
 
 		this.isPlaying = true
 
-		if (!tracks && channel?.slug) {
-			const {data: channelTracks} = await sdk.channels.readChannelTracks(channel.slug)
+		const slug = channel?.slug || track.slug
+		if (!tracks && slug) {
+			const {data: channelTracks} = await sdk.channels.readChannelTracks(slug)
 			tracks = channelTracks.reverse()
 		}
 
@@ -297,9 +303,12 @@ function renderRouterCMS({store, config}) {
 			<r4-route path="/:slug" page="channel"></r4-route>
 			<r4-route path="/:slug/feed" page="channel-feed"></r4-route>
 			<r4-route path="/:slug/update" page="channel-update"></r4-route>
+			<r4-route path="/:slug/delete" page="channel-delete"></r4-route>
 			<r4-route path="/:slug/player" page="channel-player"></r4-route>
 			<r4-route path="/:slug/tracks" page="channel-tracks"></r4-route>
 			<r4-route path="/:slug/tracks/:track_id" page="channel-track"></r4-route>
+			<r4-route path="/:slug/tracks/:track_id/update" page="track-update"></r4-route>
+			<r4-route path="/:slug/tracks/:track_id/delete" page="track-delete"></r4-route>
 			<r4-route path="/:slug/followers" page="channel-followers"></r4-route>
 			<r4-route path="/:slug/following" page="channel-followings"></r4-route>
 		</r4-router>
