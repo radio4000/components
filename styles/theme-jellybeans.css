@@ -57,7 +57,7 @@ r4-app {
 	--c-blue3: hsl(221 31% 74%);
 	--c-blue4: hsl(221 33% 64%);
 	--c-blue5: hsl(221 35% 54%);
-	--c-blue6: hsl(221 34% 44%);
+	--c-blue6: hsl(221 40% 44%);
 	--c-blue7: hsl(221 30% 34%);
 	--c-blue8: hsl(221 27% 24%);
 	--c-blue9: hsl(221 27% 14%);
@@ -83,8 +83,8 @@ r4-app {
 	--s-youtube: 16rem;
 
 	/* hmm */
-	background-image: linear-gradient(hsla(0, 0%, 60%, 0.1) 0.15%, transparent 5%);
-	background-size: 100% var(--s);
+	/* background-image: linear-gradient(hsla(0, 0%, 60%, 0.1) 0.15%, transparent 5%); */
+	/* background-size: 100% var(--s); */
 }
 
 body {
@@ -97,7 +97,7 @@ r4-app[color-scheme='light'] {
 	--c-bg3: var(--c-gray3);
 
 	--c-fg: var(--c-gray9);
-	--c-link: var(--c-blue7);
+	--c-link: var(--c-blue6);
 	--c-border: var(--c-gray3);
 	/* --c-bg: var(--c-gray6); */
 	/* --c-bg2: hsl(0deg 0% 9%); */
@@ -308,14 +308,31 @@ r4-avatar img {
 	height: 3rem;
 }
 
+/* Tracks */
+[list]:has(r4-track) {
+	display: flex;
+	flex-flow: column nowrap;
+	gap: calc(var(--s) / 2);
+}
+r4-track a:has(r4-track-title) {
+	text-decoration: none;
+}
+r4-track:hover {
+	background: var(--c-bg2);
+}
+r4-track[playing] a:has(r4-track-title) {
+	background: var(--c-link);
+	color: var(--c-gray1);
+}
+
+/* Cards */
 [list]:has(r4-channel-card) {
 	display: flex;
 	flex-flow: row wrap;
 	/* gap: calc(var(--s) / 2); */
-	/* gap: 0px; */
+	gap: 2px;
 }
 
-/* Cards */
 r4-channel-card {
 	display: flex;
 	flex-flow: row wrap;
@@ -338,10 +355,12 @@ r4-channel-card > a {
 	align-items: center;
 	gap: 0.5rem;
 }
+r4-channel-card r4-slug {
+	display: none;
+}
 
-r4-track-description,
 r4-description {
-	/* font-size: small; */
+	font-size: small;
 }
 
 r4-app nav {
@@ -350,10 +369,16 @@ r4-app nav {
 
 /* Tags and mentions aka labels */
 r4-app a[label] {
-	/* font-size: small; */
-	padding: 0 5px;
-	border-radius: 4px;
+	background: var(--c-green3);
+	color: var(--c-green9);
+	padding: 0 4px;
+	border-radius: calc(var(--s-radius) * 2);
 	text-decoration: none;
+	font-size: 14px;
+}
+r4-app[color-scheme="dark"] a[label] {
+	background: var(--c-green9);
+	color: var(--c-green3);
 }
 r4-app a[label] + a[label] {
 	margin-left: 2px;
