@@ -21,8 +21,7 @@ export default class R4Track extends LitElement {
 	}
 
 	get playing() {
-		const x = this.config.playingTrack?.id === this.track.id
-		console.log('get', x)
+		const x = this.config?.playingTrack?.id === this.track.id
 		this.toggleAttribute('playing', x)
 		return x
 	}

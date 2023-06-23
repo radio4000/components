@@ -19,7 +19,7 @@ export default class R4Search extends LitElement {
 		// Only needed for r4-track-search
 		slug: {type: String, reflect: true},
 
-		autofocus: {type: Boolean, reflect: true}
+		autofocus: {type: Boolean, reflect: true},
 	}
 
 	connectedCallback() {
@@ -41,7 +41,6 @@ export default class R4Search extends LitElement {
 		// Query and set results
 		const res = await this.query(value)
 		this.results = res.data ?? []
-
 	}
 
 	render() {
@@ -51,7 +50,7 @@ export default class R4Search extends LitElement {
 				? html`<r4-button-play
 						slug=${this.slug}
 						.tracks=${this.results}
-						label="Play search selection"
+						label=" Play search selection"
 				  ></r4-button-play>`
 				: ''}
 			${this.results?.length

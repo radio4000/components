@@ -162,14 +162,13 @@ r4-app textarea {
 	justify-content: center;
 	white-space: nowrap;
 	flex-shrink: 0;
-	line-height: normal;
 	font-size: inherit;
 	user-select: none;
 	position: relative;
 	vertical-align: top;
 	line-height: 1;
 	min-width: 2rem;
-	height: var(--s);
+	height: 1.5em;
 	padding: 0 0.3rem;
 	background-color: var(--c-bg);
 	border: 1px solid var(--c-border);
@@ -244,7 +243,6 @@ r4-app form {
 	/* display: flex; */
 	/* flex-flow: column nowrap; */
 	/* gap: var(--s); */
-	max-width: 40rem;
 }
 r4-app fieldset {
 	/* display: flex; */
@@ -312,17 +310,24 @@ r4-avatar img {
 [list]:has(r4-track) {
 	display: flex;
 	flex-flow: column nowrap;
-	gap: calc(var(--s) / 2);
+	gap: calc(var(--s) / 4);
 }
 r4-track a:has(r4-track-title) {
 	text-decoration: none;
 }
-r4-track:hover {
-	background: var(--c-bg2);
+[list]:has(r4-track) > li {
+	/* padding: calc(var(--s) / 8); */
+	border-radius: var(--s-radius);
+}
+[list]:has(r4-track) > li:hover {
+	background: var(--c-bg3);
 }
 r4-track[playing] a:has(r4-track-title) {
 	background: var(--c-link);
 	color: var(--c-gray1);
+}
+r4-button-play + r4-track {
+	margin-left: 0.3rem;
 }
 
 /* Cards */
@@ -376,7 +381,7 @@ r4-app a[label] {
 	text-decoration: none;
 	font-size: 14px;
 }
-r4-app[color-scheme="dark"] a[label] {
+r4-app[color-scheme='dark'] a[label] {
 	background: var(--c-green9);
 	color: var(--c-green3);
 }
@@ -411,8 +416,13 @@ r4-page-channel h1 {
 	margin-bottom: 0;
 }
 r4-page-channel menu {
-	margin-bottom: var(--s);
+	margin: var(--s) 0;
 }
+r4-page-channel menu nav-item {
+	display: flex;
+	font-size: 1.5rem;
+}
+
 r4-page-channel r4-avatar img {
 	height: calc(var(--s) * 8);
 }
