@@ -33,7 +33,6 @@ export default class R4App extends LitElement {
 
 		isPlaying: {type: Boolean, attribute: 'is-playing', reflects: true},
 
-
 		/* state for global usage */
 		store: {type: Object, state: true},
 		config: {type: Object, state: true},
@@ -54,8 +53,8 @@ export default class R4App extends LitElement {
 
 	get config() {
 		return {
-			singleChannel: this.singleChannel,
 			href: this.href,
+			singleChannel: this.singleChannel,
 			selectedSlug: this.selectedSlug,
 		}
 	}
