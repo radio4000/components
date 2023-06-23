@@ -4,9 +4,9 @@ template.innerHTML = `
 	<r4-actions>
 		<option value="">...</option>
 		<option value="play">Play</option>
-		<option value="share">Share</option>
 	</r4-actions>
 `
+// <option value="share">Share</option>
 
 export default class R4TrackActions extends HTMLElement {
 	constructor() {
