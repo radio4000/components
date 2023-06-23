@@ -1,6 +1,6 @@
 /*
 	A minimal default theme, with mostly:
-	- required defaults to make the work (though it should without CSS
+	- required defaults to make the work (though it should without CSS)
 */
 
 /* these imports are to make the player layout & map work */
@@ -28,15 +28,15 @@ r4-app {
 }
 
 r4-app[color-scheme='dark'] {
-	--c-fg: var(--c-light);
 	--c-bg: var(--c-dark);
+	--c-fg: var(--c-light);
 	--c-link: var(--c-dark--accent);
 	color-scheme: dark;
 }
 
 r4-app[color-scheme='light'] {
-	--c-fg: var(--c-dark);
 	--c-bg: var(--c-light);
+	--c-fg: var(--c-dark);
 	--c-link: var(--c-light--accent);
 	color-scheme: light;
 }

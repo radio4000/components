@@ -47,7 +47,7 @@ export default class R4SupabaseFilters extends LitElement {
 			value: '',
 		}
 		const filters = this.filters || []
-		this.filters = [...filters || [], newFilter]
+		this.filters = [...(filters || []), newFilter]
 	}
 
 	removeFilter(index) {
@@ -69,10 +69,10 @@ export default class R4SupabaseFilters extends LitElement {
 		return html`
 			<form @submit=${this.onFormSubmit}>
 				<fieldset>
-					<label>Filters
-					<button @click=${this.addFilter}>+</button>
-</label>
 					${this.filters?.length ? this.renderFilters() : null}
+					<label>
+						<button @click=${this.addFilter}>Add filter</button>
+					</label>
 				</fieldset>
 			</form>
 		`
@@ -86,7 +86,7 @@ export default class R4SupabaseFilters extends LitElement {
 				<li>
 					<fieldset>
 						${this.renderFilter(filter, index)}
-						<button @click=${() => this.removeFilter(index)}>␡</button>
+						<button @click=${() => this.removeFilter(index)} role="destructive">x</button>
 					</fieldset>
 				</li>
 			`

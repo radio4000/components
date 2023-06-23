@@ -38,16 +38,19 @@ export default class R4PageExplore extends LitElement {
 				<h1>Explore radio channels</h1>
 			</header>
 			<main>
-				<r4-supabase-query
-					table="channels"
-					page=${this.searchParams.get('page')}
-					limit=${this.searchParams.get('limit')}
-					count=${this.count}
-					order-by=${this.searchParams.get('order-by')}
-					order-config=${this.searchParams.get('order-config')}
-					filters=${this.searchParams.get('filters')}
-					@query=${this.onQuery}
-				></r4-supabase-query>
+				<details open>
+					<summary>Filter ${this.count} channels</summary>
+					<r4-supabase-query
+						table="channels"
+						page=${this.searchParams.get('page')}
+						limit=${this.searchParams.get('limit')}
+						count=${this.count}
+						order-by=${this.searchParams.get('order-by')}
+						order-config=${this.searchParams.get('order-config')}
+						filters=${this.searchParams.get('filters')}
+						@query=${this.onQuery}
+					></r4-supabase-query>
+				</details>
 
 				<ul list>
 					${repeat(

@@ -82,7 +82,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		const params = this.searchParams
 		return html`
 			<details open>
-				<summary>Filter</summary>
+				<summary>Filter ${this.count} tracks</summary>
 				<r4-supabase-query
 					table="channel_tracks"
 					count=${this.count}
@@ -108,7 +108,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 		const mentionsHref = `${this.tracksOrigin}?filters=[${filter}]`
 
 		return html`
-			<p>Found ${this.count} tracks</p>
 			<menu>
 				<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label="Play selection"></r4-button-play>
 				<r4-button-play .channel=${this.channel} label="Play all"></r4-button-play>
