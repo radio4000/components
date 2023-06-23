@@ -111,3 +111,27 @@ r4-page-explore r4-supabase-select,
 r4-page-channel-tracks r4-supabase-select {
 	display: none;
 }
+
+/* Quick dark-mode for the player */
+[color-scheme='dark'] radio4000-player,
+r4-app[color-scheme] radio4000-player .Header,
+radio4000-player .PlayerControl-group .Btn {
+	background: var(--c-bg);
+	color: var(--c-fg);
+}
+[color-scheme='dark'] radio4000-player .Layout .Header,
+[color-scheme='dark'] radio4000-player .Layout .PlayerControl,
+[color-scheme='dark'] radio4000-player .Layout .PlayerControl .Btn {
+	background: transparent;
+}
+[color-scheme='dark'] radio4000-player .Layout .TrackItem {
+	color: inherit;
+}
+[color-scheme='dark'] radio4000-player .Layout .Tracklist-item {
+	border: 0;
+}
+
+[color-scheme='dark'] radio4000-player .PlayPause-controller::after,
+[color-scheme='dark'] radio4000-player .PlayPause-controller::before {
+	border-color: var(--c-link);
+}

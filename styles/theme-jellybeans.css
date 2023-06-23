@@ -308,28 +308,6 @@ r4-avatar img {
 	height: 3rem;
 }
 
-/* Quick dark-mode for the player */
-[color-scheme='dark'] r4-player radio4000-player {
-	background: var(--c-bg);
-	color: var(--c-fg);
-}
-[color-scheme='dark'] r4-player radio4000-player .Layout .Header,
-[color-scheme='dark'] r4-player radio4000-player .Layout .PlayerControl,
-[color-scheme='dark'] r4-player radio4000-player .Layout .PlayerControl .Btn {
-	background: transparent;
-}
-[color-scheme='dark'] r4-player radio4000-player .Layout .TrackItem {
-	color: inherit;
-}
-[color-scheme='dark'] r4-player radio4000-player .Layout .Tracklist-item {
-	border: 0;
-}
-
-[color-scheme='dark'] r4-player radio4000-player .PlayPause-controller::after,
-[color-scheme='dark'] r4-player radio4000-player .PlayPause-controller::before {
-	border-color: var(--c-link);
-}
-
 [list]:has(r4-channel-card) {
 	display: flex;
 	flex-flow: row wrap;
