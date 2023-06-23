@@ -18,6 +18,8 @@ export default class R4Search extends LitElement {
 
 		// Only needed for r4-track-search
 		slug: {type: String, reflect: true},
+
+		autofocus: {type: Boolean, reflect: true}
 	}
 
 	connectedCallback() {
@@ -77,6 +79,7 @@ export default class R4Search extends LitElement {
 							value=${this.value}
 							@input="${this.onInput}"
 							placeholder=${this.label}
+							?autofocus=${this.autofocus}
 						/>
 					</fieldset>
 				</form>
