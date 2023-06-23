@@ -1,4 +1,4 @@
-import {LitElement, html} from 'lit'
+import {LitElement, html, css} from 'lit'
 import {sdk} from '@radio4000/sdk'
 
 /**
@@ -67,3 +67,73 @@ export default class R4ColorScheme extends LitElement {
 		return this
 	}
 }
+
+/* Renders a grid of the colors for the Jellybeans theme */
+class R4ThemeJellybeans extends LitElement {
+	static properties = {
+		tints: {type: Array},
+		shades: {type: Number},
+	}
+
+	static styles = css`
+		ul {
+			list-style: none;
+			padding: 0;
+			display: flex;
+			flex-flow: row nowrap;
+			margin: 0;
+		}
+		li {
+			display: flex;
+			place-items: center;
+			justify-content: center;
+			width: calc(var(--s) * 3);
+			min-height: calc(var(--s) * 3);
+			flex: 1;
+			font-size: 12px;
+		}
+		[hidden] {
+			display: none;
+		}
+	`
+
+	generateColors() {
+		const colors = {}
+		for (const tint of this.tints) {
+			colors[tint] = []
+			for (let [i] of Array(this.shades).entries()) {
+				i = i + 1
+				colors[tint].push(`--c-${tint}${i}`)
+			}
+		}
+		this.colors = colors
+		console.log(this.colors)
+	}
+
+	constructor() {
+		super()
+		if (!this.tints) this.tints = ['gray', 'red', 'green', 'blue', 'yellow']
+		if (!this.shades) this.shades = 9
+		this.generateColors()
+	}
+
+	render() {
+		return html`
+			${Object.entries(this.colors).map(
+				([color, shades]) => html`
+					<ul>
+						${shades.map(
+							(shade) => html`<li style="background-color: var(${shade})">${shade.replace('--c-', '')}</li>`
+						)}
+					</ul>
+					<ul hidden>
+						${shades.map((shade) => html`<li style="color: var(${shade})">${shade.replace('--c-', '')}</li>`)}
+					</ul>
+				`
+			)}
+		`
+	}
+}
+
+customElements.define('r4-theme-jellybeans', R4ThemeJellybeans)
+
