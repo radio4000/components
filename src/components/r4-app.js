@@ -97,13 +97,13 @@ export default class R4App extends LitElement {
 		this.setTheme()
 
 		if (!this.user) {
-			this.userChannels = undefined
-			this.followers = undefined
-			this.following = undefined
+			this.userChannels = []
+			this.followers = []
+			this.following = []
 		} else {
 			// Refresh user channels
 			this.userChannels = (await sdk.channels.readUserChannels()).data
-			if (this.userChannels && !this.selectedSlug) {
+			if (this.userChannels?.length && !this.selectedSlug) {
 				this.selectedSlug = this.userChannels[0].slug
 			}
 
@@ -178,12 +178,18 @@ export default class R4App extends LitElement {
 				<menu>
 					<a href=${href + '/'}><r4-title small></r4-title></a>
 					<a href=${href + '/explore'}>Explore</a>
-					${!user ? html`<a href=${href + '/sign/up'}>Create radio</a>` : ''}
-					${!user ? html`<a href=${href + '/sign/in'}>My radio</a>` : ''}
-					${this.userChannels?.length
-						? html`<a href=${href + '/' + this.selectedSlug}>@${this.selectedChannel.slug}</a>`
-						: ''}
-					${this.userChannels?.length ? html`<a href=${href + '/settings'}>Settings</a>` : ''}
+
+					${!user
+						? html`
+								${!user ? html`<a href=${href + '/sign/up'}>Create radio</a>` : ''}
+								${!user ? html`<a href=${href + '/sign/in'}>My radio</a>` : ''}
+						  `
+						: html`
+								${this.selectedChannel
+									? html`<a href=${href + '/' + this.selectedSlug}>@${this.selectedChannel.slug}</a>`
+									: html`<a href=${href + '/new'}>Create radio</a>`}
+								${this.userChannels?.length ? html`<a href=${href + '/settings'}>Settings</a>` : ''}
+						  `}
 				</menu>
 			</header>
 		`
