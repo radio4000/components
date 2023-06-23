@@ -16,12 +16,12 @@ export default class R4PageChannelDelete extends BaseChannel {
 			</nav>
 			<main>
 				<h1>Delete channel</h1>
-				${channel ? html`<r4-channel-delete id=${channel.id} @submit=${this.onChannelDelete}></r4-channel-delete>` : ''}
+				${channel ? html`<r4-channel-delete id=${channel.id} @submit=${this.onDelete}></r4-channel-delete>` : ''}
 			</main>
 		`
 	}
 
-	async onChannelDelete({detail}) {
+	async onDelete({detail}) {
 		/* no error? we deleted */
 		if (!detail.data) {
 			page('/')

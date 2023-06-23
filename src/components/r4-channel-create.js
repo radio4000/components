@@ -15,7 +15,6 @@ fieldsTemplate.innerHTML = `
 	</slot>
 `
 
-
 export default class R4ChannelCreate extends R4Form {
 	submitText = 'Create channel'
 	constructor() {
@@ -24,7 +23,7 @@ export default class R4ChannelCreate extends R4Form {
 	}
 
 	errors = {
-		'default': {
+		default: {
 			message: 'Unhandled error',
 		},
 		'slug-exists-firebase': {
@@ -58,7 +57,7 @@ export default class R4ChannelCreate extends R4Form {
 		try {
 			const {data: user} = await sdk.users.readUser()
 			if (!user) {
-				throw { code: 'sign-in' }
+				throw {code: 'sign-in'}
 			}
 			res = await sdk.channels.createChannel({
 				name: channel.name,
@@ -73,7 +72,7 @@ export default class R4ChannelCreate extends R4Form {
 		}
 		this.enableForm()
 
-		const { data } = res
+		const {data} = res
 		if (data) {
 			this.resetForm()
 		}

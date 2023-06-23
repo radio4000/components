@@ -184,6 +184,7 @@ export default class R4Form extends HTMLElement {
 				}
 
 				if (fieldName === 'submit') {
+					$field.setAttribute('role', 'primary')
 					$field.innerText = this.submitText
 				}
 
