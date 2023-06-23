@@ -23,16 +23,22 @@ export default class R4ColorScheme extends LitElement {
 
 	connectedCallback() {
 		super.connectedCallback()
-		if (this.user) this.restoreTheme()
+		this.restoreTheme()
 	}
 
 	// Restores theme from user account.
 	async restoreTheme() {
+		if (!this.user) return
 		const {data} = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
-		this.save(data?.theme)
+		if (data && !data.theme) {
+			const t = document.querySelector('r4-app').getAttribute('color-scheme')
+			this.save(t)
+		} else {
+			this.save(data?.theme)
+		}
 		// If there is no account, it is time to create it.
 		if (!data) {
-			const res = await sdk.supabase.from('accounts').insert({id: this.user.id}).single()
+			await sdk.supabase.from('accounts').insert({id: this.user.id}).single()
 		}
 	}
 
