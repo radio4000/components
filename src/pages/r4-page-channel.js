@@ -69,10 +69,9 @@ export default class R4PageChannel extends BaseChannel {
 				</nav>
 
 				${channel
-					? html` <r4-channel-name>
-								<h1>${channel.name}</h1>
-							</r4-channel-name>
-
+					? html`
+							<r4-channel-name><h1>${channel.name}</h1></r4-channel-name>
+							<r4-channel-description>${channel.description}</r4-channel-description>
 							<menu>
 								<nav-item><r4-button-play .channel=${channel} label="Listen"></r4-button-play></nav-item>
 								<nav-item>
@@ -108,8 +107,6 @@ export default class R4PageChannel extends BaseChannel {
 			<main>
 				${this.renderChannelImage()}
 
-				<r4-channel-description>${channel.description}</r4-channel-description>
-
 				${channel.url
 					? html`<r4-channel-url>
 							<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
@@ -130,6 +127,7 @@ export default class R4PageChannel extends BaseChannel {
 					<a href="${`${link}/tracks`}">All tracks</a>
 				</footer>
 			</main>
+
 			<r4-dialog name="share" @close=${this.onDialogClose}>
 				<r4-channel-sharer slot="dialog" origin=${link} slug=${channel.slug}></r4-channel-sharer>
 			</r4-dialog>

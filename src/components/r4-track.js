@@ -8,14 +8,31 @@ export default class R4Track extends LitElement {
 		href: {type: String},
 		id: {type: String},
 		track: {type: Object},
+		config: {type: Object}, // from r4-app
 		loading: {type: Boolean, reflect: true, state: true},
+		playing: {type: Boolean, reflect: true},
 	}
 
 	/* if the attribute changed, re-render */
 	async willUpdate(attrName) {
-		if (['id'].indexOf(attrName) > -1) {
+		if (attrName.has('id')) {
 			this.track = await this.readTrack(this.id)
 		}
+	}
+
+	get playing() {
+		const x = this.config.playingTrack?.id === this.track.id
+		console.log('get', x)
+		this.toggleAttribute('playing', x)
+		return x
+	}
+
+	set playing(value) {
+		// console.log('set playing', value)
+	}
+
+	get url() {
+		return this.origin + this.track.id
 	}
 
 	async connectedCallback() {
@@ -49,20 +66,19 @@ export default class R4Track extends LitElement {
 		return this.track ? this.renderTrack() : this.renderNoTrack()
 	}
 
-	get url() {
-		return this.origin + this.track.id
-	}
-
 	renderTrack() {
 		const t = this.track
 		return html`
+			${this.playing ? '' : ''}
 			<a href=${this.url}><r4-track-title>${t.title || t.id}</r4-track-title></a>
 			<r4-track-description>${t.description}</r4-track-description>
 			${t.discogs_url &&
 			html`<r4-track-discogs-url><a href="${t.discogs_url}">View on Discogs</a></r4-track-discogs-url>`}
 			<r4-track-tags>${t.tags.map((tag) => this.renderTag(tag))}</r4-track-tags>
 			<r4-track-mentions>${t.mentions.map((m) => this.renderMention(m))}</r4-track-mentions>
-			${this.canEdit ? html`<r4-track-actions id=${t.id} .canEdit=${this.canEdit} @input=${this.onAction}></r4-track-actions>` : ''}
+			${this.canEdit
+				? html`<r4-track-actions id=${t.id} .canEdit=${this.canEdit} @input=${this.onAction}></r4-track-actions>`
+				: ''}
 		`
 	}
 
@@ -92,7 +108,7 @@ export default class R4Track extends LitElement {
 				bubbles: true,
 				detail: {
 					// channel: // we don't have it here
-					track: this.track
+					track: this.track,
 				},
 			})
 			this.dispatchEvent(playEvent)

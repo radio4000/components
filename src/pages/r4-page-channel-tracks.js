@@ -177,8 +177,18 @@ export default class R4PageChannelTracks extends BaseChannel {
 					(t) => t.id,
 					(t) => html`
 						<li>
-							<r4-button-play .channel=${this.channel} .track=${t} .tracks=${this.tracks}></r4-button-play>
-							<r4-track .track=${t} href=${this.config.href} origin=${'' || this.tracksOrigin}></r4-track>
+							<r4-button-play
+								.channel=${this.channel}
+								.track=${t}
+								.tracks=${this.tracks}
+								?playing=${this.config.playingTrack?.id === t.id}
+							></r4-button-play>
+							<r4-track
+								.track=${t}
+								.config=${this.config}
+								href=${this.config.href}
+								origin=${'' || this.tracksOrigin}
+							></r4-track>
 						</li>
 					`
 				)}
@@ -194,4 +204,3 @@ export default class R4PageChannelTracks extends BaseChannel {
 		return this
 	}
 }
-
