@@ -195,6 +195,7 @@ export default class R4App extends LitElement {
 								${this.userChannels?.length ? html`<a href=${href + '/settings'}>Settings</a>` : ''}
 						  `}
 				</menu>
+				<r4-command-menu modal .config=${this.config} .store=${this.store}></r4-command-menu>
 			</header>
 		`
 	}
