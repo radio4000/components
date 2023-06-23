@@ -62,7 +62,7 @@ export default class R4Track extends LitElement {
 			html`<r4-track-discogs-url><a href="${t.discogs_url}">View on Discogs</a></r4-track-discogs-url>`}
 			<r4-track-tags>${t.tags.map((tag) => this.renderTag(tag))}</r4-track-tags>
 			<r4-track-mentions>${t.mentions.map((m) => this.renderMention(m))}</r4-track-mentions>
-			<r4-track-actions id=${t.id} .canEdit=${this.canEdit} @input=${this.onAction}></r4-track-actions>
+			${this.canEdit ? html`<r4-track-actions id=${t.id} .canEdit=${this.canEdit} @input=${this.onAction}></r4-track-actions>` : ''}
 		`
 	}
 
