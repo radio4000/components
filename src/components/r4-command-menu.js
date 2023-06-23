@@ -154,7 +154,8 @@ export default class CommandMenu extends LitElement {
 
 	get filteredCommands() {
 		if (this.search) {
-			const results = fuzzysort.go(this.search, this.commands, {keys: ['title', 'subtitle']})
+			const flatCommands = this.commands
+			const results = fuzzysort.go(this.search, flatCommands, {keys: ['title', 'subtitle']})
 			return results.map((result) => result.obj)
 		}
 		return this.commands
@@ -303,33 +304,46 @@ export default class CommandMenu extends LitElement {
 	}
 }
 
+/**
+ * Creates a list of commands from the config and store.
+ * @param {object} config
+ * @param {object} store
+ * @returns {Array.<Command>}
+ */
 function generateCommands(config, store) {
 	const go = (route) => page.redirect(`${route}`)
 
-	const commands = [
-		{title: 'R4', subtitle: 'Homepage', action: () => go('/')},
-		{title: 'Explore', subtitle: 'All radio channels', action: () => go('/explore')},
-		{title: 'Search', action: () => go('/search')},
-		{title: 'Map', subtitle: 'a cool map', action: () => go('/map')},
-		// {
-		// 	title: 'Channels',
-		// 	subtitle: 'all about dem radios',
-		// 	children: [
-		// 		{title: 'Explore', action: () => go('/explore')},
-		// 		{title: 'Search', action: () => go('/search')},
-		// 		{title: 'Map', subtitle: 'a cool map', action: () => go('/map')},
-		// 	],
-		// },
-		{title: 'About', action: () => go('/about')},
-	]
+	const params = document.querySelector('r4-router').params
+	console.log(params)
+
+	const cmds = []
+
+	cmds.push({title: 'R4', subtitle: 'Homepage', action: () => go('/')})
+	cmds.push({title: 'Explore', subtitle: 'All radio channels', action: () => go('/explore')})
+	cmds.push({title: 'Search radios', action: () => go('/search')})
+	cmds.push({title: 'Map', subtitle: 'a cool map', action: () => go('/map')})
+
+	const slug = params?.slug
+	if (slug) {
+		cmds.push(
+			{title: 'Tracks', action: () => go('/tracks')},
+			{title: 'Following', action: () => go('/following')},
+			{title: 'Followers', action: () => go('/followers')},
+			{title: 'Feed', action: () => go('/feed')}
+		)
+	}
+
+	// User channel
+	if (config.selectedSlug) {
+		const c = store.userChannels.find((x) => x.slug === config.selectedSlug)
+		if (c) {
+			cmds.push({title: c.slug, subtitle: c.name, action: () => go('/' + c.slug)})
+			cmds.push({title: 'Add track', action: () => go('/add')}, {title: 'Update', action: () => go('/' + c.slug + '/update')})
+		}
+	}
 
 	if (store.user) {
-		if (config.selectedSlug) {
-			const c = store.userChannels.find((x) => x.slug === config.selectedSlug)
-			commands.push({title: c.slug, subtitle: `${c.name}`, action: () => go('/' + c.slug)})
-		}
-
-		commands.push(
+		cmds.push(
 			{
 				title: 'Settings',
 				subtitle: 'Control your account, appearance and customizations',
@@ -338,16 +352,15 @@ function generateCommands(config, store) {
 			{title: 'Sign out', action: () => go('/sign/out')}
 		)
 	} else {
-		commands.push(
-			{title: 'Sign in', subtitle: 'Welcome back', action: () => go('/sign/in')},
-			{title: 'Sign up', subtitle: 'Create a new radio channel', action: () => go('/new')}
+		cmds.push(
+			{title: 'Sign up', subtitle: 'Create new radio channel', action: () => go('/sign/up')},
+			{title: 'Sign in', subtitle: 'My radio', action: () => go('/sign/in')}
 		)
 	}
 
-	// const x = {
-	// 	title: 'Tracks',
-	// 	children: [{title: 'Read track'}, {title: 'Create track'}, {title: 'Update track'}, {title: 'Delete track'}],
-	// }
+	cmds.push({title: 'About', subtitle: "What's this?", action: () => go('/about')})
 
-	return commands
+	window.cmds = cmds
+
+	return cmds
 }
