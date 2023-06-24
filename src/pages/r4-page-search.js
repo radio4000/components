@@ -10,7 +10,7 @@ export default class R4PageSearch extends LitElement {
 				</nav>
 			</header>
 			<h1>Search all channels</h1>
-			<r4-channel-search href=${this.config.href}></r4-channel-search>
+			<r4-channel-search href=${this.config.href} autofocus></r4-channel-search>
 		`
 	}
 

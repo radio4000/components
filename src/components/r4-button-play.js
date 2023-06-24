@@ -23,6 +23,8 @@ export default class R4ButtonPlay extends LitElement {
 
 		/* the channel data object */
 		channel: {type: Object, state: true},
+
+		playing: {type: Boolean, reflect: true},
 	}
 
 	async connectedCallback() {
@@ -46,7 +48,7 @@ export default class R4ButtonPlay extends LitElement {
 	}
 
 	render() {
-		return html`<button @click=${this.play}>▶${this.label}</button>`
+		return html`<button @click=${this.play} ?disabled=${this.playing}>▶${this.label}</button>`
 	}
 
 	createRenderRoot() {

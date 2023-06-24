@@ -34,8 +34,8 @@ export default class R4AvatarUpload extends LitElement {
 		return html`
 			<form method="post" enctype="multipart/form-data" @submit=${this.handleSubmit}>
 				<fieldset>
-					<label for="file">Avatar</label>
-					<input type="file" name="file" required />
+					<label for="file">Upload an image</label>
+					<input id="file" type="file" name="file" required />
 				</fieldset>
 				<fieldset>
 					<button type="submit" ?disabled=${this.loading}>Upload avatar</button>

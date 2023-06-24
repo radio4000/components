@@ -82,7 +82,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		const params = this.searchParams
 		return html`
 			<details open>
-				<summary>Filter</summary>
+				<summary>Filter ${this.count} tracks</summary>
 				<r4-supabase-query
 					table="channel_tracks"
 					count=${this.count}
@@ -108,10 +108,9 @@ export default class R4PageChannelTracks extends BaseChannel {
 		const mentionsHref = `${this.tracksOrigin}?filters=[${filter}]`
 
 		return html`
-			<p>Found ${this.count} tracks</p>
 			<menu>
-				<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label="Play selection"></r4-button-play>
-				<r4-button-play .channel=${this.channel} label="Play all"></r4-button-play>
+				<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label=" Play selection"></r4-button-play>
+				<r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play>
 				<a href=${mentionsHref} label>@Mentions</a>
 				<a href=${tagsHref} label>#Tags</a>
 				<a href=${jazzTagHref} label>#jazz</a>
@@ -178,8 +177,18 @@ export default class R4PageChannelTracks extends BaseChannel {
 					(t) => t.id,
 					(t) => html`
 						<li>
-							<r4-button-play .channel=${this.channel} .track=${t} .tracks=${this.tracks}></r4-button-play>
-							<r4-track .track=${t} href=${this.config.href} origin=${'' || this.tracksOrigin}></r4-track>
+							<r4-button-play
+								.channel=${this.channel}
+								.track=${t}
+								.tracks=${this.tracks}
+								?playing=${this.config.playingTrack?.id === t.id}
+							></r4-button-play>
+							<r4-track
+								.track=${t}
+								.config=${this.config}
+								href=${this.config.href}
+								origin=${'' || this.tracksOrigin}
+							></r4-track>
 						</li>
 					`
 				)}

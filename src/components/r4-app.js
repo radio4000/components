@@ -32,6 +32,8 @@ export default class R4App extends LitElement {
 		didLoad: {type: Boolean, state: true},
 
 		isPlaying: {type: Boolean, attribute: 'is-playing', reflects: true},
+		playingChannel: {type: Object},
+		playingTrack: {type: Object},
 
 		/* state for global usage */
 		store: {type: Object, state: true},
@@ -56,6 +58,8 @@ export default class R4App extends LitElement {
 			href: this.href,
 			singleChannel: this.singleChannel,
 			selectedSlug: this.selectedSlug,
+			playingChannel: this.playingChannel,
+			playingTrack: this.playingTrack
 		}
 	}
 	set config(val) {
@@ -214,6 +218,8 @@ export default class R4App extends LitElement {
 		const el = this.playerRef.value
 
 		this.isPlaying = true
+		this.playingChannel = channel
+		this.playingTrack = track
 
 		const slug = channel?.slug || track.slug
 		if (!tracks && slug) {
@@ -299,6 +305,7 @@ function renderRouterCMS({store, config}) {
 			<r4-route path="/settings" page="settings"></r4-route>
 			<r4-route path="/map" page="map"></r4-route>
 			<r4-route path="/search" page="search"></r4-route>
+			<r4-route path="/about" page="about"></r4-route>
 			<r4-route path="/playground/:color" page="playground"></r4-route>
 			<r4-route path="/:slug" page="channel"></r4-route>
 			<r4-route path="/:slug/feed" page="channel-feed"></r4-route>
