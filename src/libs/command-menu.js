@@ -1,8 +1,18 @@
 import {LitElement, html, css} from 'lit'
 import fuzzysort from 'https://cdn.skypack.dev/fuzzysort'
 
-/* Copy/paste from github.com/oskarrough/command-menu. Will be back-ported some day */
-export default class CommandMenu extends LitElement {
+// copy pasted from github.com/oskarrough/command-menu
+
+/**
+ * @typedef {Object} Command
+ * @property {String} title - The title of the command
+ * @property {String} [subtitle] - A description of the command
+ * @property {String} [shortcut] - A keyboard shortcut, e.g. "Ctrl+K"
+ * @property {Function} [action] - The function to call when the command is selected
+ * @property {Array<Command>} [children] - A list of child commands
+ */
+
+class CommandMenu extends LitElement {
 	static get properties() {
 		return {
 			// REQUIRED: Set this property as an array of Commands to make it work.
@@ -23,19 +33,21 @@ export default class CommandMenu extends LitElement {
 			--bg1: hsl(0deg 23% 95%);
 			--bg2: hsl(0deg 23% 97%);
 			--bg3: hsl(0deg 23% 99%);
-
 			--bg1: var(--c-bg);
 			--bg2: var(--c-bg2);
 			--bg3: var(--c-bg3);
 			--accent: var(--c-link);
-
-			display: flex;
-			flex-flow: column nowrap;
-			border: 2px solid var(--accent);
-			background: var(--bg1);
-			border-radius: 0.3em;
 		}
-		:host([modal]) {
+
+		:host([modal]) {}
+
+		dialog {
+			width: 100%;
+			padding: 0;
+			background: var(--bg1);
+			border: 2px solid var(--accent);
+			border-radius: 0.3em;
+
 			position: absolute;
 			z-index: 100;
 			top: 10vh;
@@ -44,6 +56,14 @@ export default class CommandMenu extends LitElement {
 			bottom: 0;
 			margin: 0 auto auto;
 			max-width: 640px;
+		}
+		dialog::backdrop {
+			background: hsla(0 0% 20%, 0.5);
+		}
+
+		command-menu-inner {
+			display: flex;
+			flex-flow: column nowrap;
 			max-height: 400px;
 			overflow: auto;
 			box-shadow: rgba(0, 0, 0, 0.5) 0px 1em 4em;
@@ -132,12 +152,25 @@ export default class CommandMenu extends LitElement {
 				this.close()
 			}
 		})
+
+		// Close on click outside
+		this.addEventListener('click', (event) => {
+			event.preventDefault()
+			const el = this.shadowRoot.querySelector('command-menu-inner')
+			const rect = el.getBoundingClientRect()
+			const isInDialog =
+				rect.top <= event.clientY &&
+				event.clientY <= rect.top + rect.height &&
+				rect.left <= event.clientX &&
+				event.clientX <= rect.left + rect.width
+			if (!isInDialog) this.close()
+		})
 	}
 
 	get filteredCommands() {
 		if (this.search) {
-			const flatCommands = this.commands
-			const results = fuzzysort.go(this.search, flatCommands, {keys: ['title', 'subtitle']})
+			const flattenedCommands = this.commands.flatMap((cmd) => (cmd.children?.length ? [cmd, ...cmd.children] : cmd))
+			const results = fuzzysort.go(this.search, flattenedCommands, {keys: ['title']})
 			return results.map((result) => result.obj)
 		}
 		return this.commands
@@ -175,6 +208,7 @@ export default class CommandMenu extends LitElement {
 
 	onEnter(command) {
 		if (!command) command = this.shadowRoot.activeElement.item
+		console.log('selected command', command)
 		if (command?.children) {
 			this.onArrowRight()
 		} else if (this.hasAttribute('modal')) {
@@ -184,6 +218,7 @@ export default class CommandMenu extends LitElement {
 	}
 
 	open() {
+		this.shadowRoot.querySelector('dialog').showModal()
 		this.removeAttribute('hidden')
 		this.shadowRoot.querySelector('input[type=search]').focus()
 	}
@@ -191,8 +226,9 @@ export default class CommandMenu extends LitElement {
 	close() {
 		if (this.hasAttribute('modal')) this.setAttribute('hidden', true)
 		this.showList = false
-		this.search = ''
 		this.shadowRoot.querySelector('input[type=search]').value = ''
+		this.search = ''
+		this.shadowRoot.querySelector('dialog').close()
 	}
 
 	toggle() {
@@ -245,23 +281,32 @@ export default class CommandMenu extends LitElement {
 
 	render() {
 		return html`
-			<command-menu-input>
-				<label>
-					<input
-						type="search"
-						placeholder="Search for commands"
-						autcomplete="off"
-						spellcheck="false"
-						@input=${(e) => (this.search = e.target.value)}
-						@focus=${() => (this.showList = true)}
-						@click=${() => (this.showList = true)}
-						@keydown=${this.onInputKeydown}
-					/>
-				</label>
-			</command-menu-input>
-			<command-menu-list role="menu" ?hidden=${!this.showList} @click=${this.onClick} @keydown=${this.onListKeydown}>
-				${this.filteredCommands.map((item) => this.renderCommandMenuItem(item))}
-			</command-menu-list>
+			<dialog>
+				<command-menu-inner>
+					<command-menu-input>
+						<label>
+							<input
+								type="search"
+								placeholder="Search for commands"
+								autcomplete="off"
+								spellcheck="false"
+								@input=${(e) => (this.search = e.target.value)}
+								@focus=${() => (this.showList = true)}
+								@click=${() => (this.showList = true)}
+								@keydown=${this.onInputKeydown}
+							/>
+						</label>
+					</command-menu-input>
+					<command-menu-list
+						role="menu"
+						?hidden=${!this.showList}
+						@click=${this.onClick}
+						@keydown=${this.onListKeydown}
+					>
+						${this.filteredCommands.map((item) => this.renderCommandMenuItem(item))}
+					</command-menu-list>
+				</command-menu-inner>
+			</dialog>
 		`
 	}
 
@@ -285,3 +330,4 @@ export default class CommandMenu extends LitElement {
 }
 
 customElements.define('command-menu', CommandMenu)
+
