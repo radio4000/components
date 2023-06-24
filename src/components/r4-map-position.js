@@ -68,12 +68,12 @@ export default class R4MapPosition extends LitElement {
 		return html`
 			<fieldset type="buttons">
 				${this.longitude && this.latitude
-					? html`<button type="button" name="delete" role="destructive" @click=${this.deletePosition}>Remove position</button>`
+					? html`<button type="button" name="delete" destructive @click=${this.deletePosition}>Remove position</button>`
 					: null}
 				${this.newLongitude && this.newLatitude
 					? html`
-							<button type="button" name="cancel" @click=${this.cancelChanges} role="cancel">Cancel</button>
-							<button type="submit" name="submit" role="primary">Save ${this.newLongitude}, ${this.newLatitude}</button>
+							<button type="button" name="cancel" @click=${this.cancelChanges} cancel>Cancel</button>
+							<button type="submit" name="submit" primary>Save ${this.newLongitude}, ${this.newLatitude}</button>
 					  `
 					: null}
 			</fieldset>

@@ -26,7 +26,7 @@ export default class AvatarUpdate extends LitElement {
 			<div>
 				<r4-avatar slug=${this.slug} image=${this.image}></r4-avatar>
 				<r4-avatar-upload tags=${this.slug} @upload=${this.onUpload}></r4-avatar-upload>
-				<p><button type="button" @click=${this.onDelete} role="destructive">Delete avatar</button></p>
+				<p><button type="button" @click=${this.onDelete} destructive>Delete avatar</button></p>
 			</div>
 		`
 	}

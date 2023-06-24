@@ -86,7 +86,7 @@ export default class R4SupabaseFilters extends LitElement {
 				<li>
 					<fieldset>
 						${this.renderFilter(filter, index)}
-						<button @click=${() => this.removeFilter(index)} role="destructive">x</button>
+						<button @click=${() => this.removeFilter(index)} destructive>x</button>
 					</fieldset>
 				</li>
 			`

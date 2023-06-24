@@ -229,11 +229,11 @@ r4-app button[type='submit']:hover {
 	background-color: var(--c-blue3);
 }
 /* Danger buttons */
-r4-app button[role='destructive'] {
+r4-app button[destructive] {
 	background: var(--c-red6);
 	color: var(--c-red9);
 }
-r4-app button[role='destructive']:hover {
+r4-app button[destructive]:hover {
 	background: var(--c-red5);
 	color: var(--c-red9);
 }
