@@ -109,8 +109,8 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 		return html`
 			<menu>
-				<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label="Play selection"></r4-button-play>
-				<r4-button-play .channel=${this.channel} label="Play all"></r4-button-play>
+				<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label=" Play selection"></r4-button-play>
+				<r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play>
 				<a href=${mentionsHref} label>@Mentions</a>
 				<a href=${tagsHref} label>#Tags</a>
 				<a href=${jazzTagHref} label>#jazz</a>

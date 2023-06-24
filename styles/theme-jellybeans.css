@@ -442,3 +442,7 @@ r4-page-explore r4-supabase-query,
 r4-page-channel-tracks r4-supabase-query {
 	display: block;
 }
+
+r4-app details summary {
+	user-select: none;
+}

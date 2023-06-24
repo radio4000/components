@@ -14,8 +14,8 @@ export default class R4Track extends LitElement {
 	}
 
 	/* if the attribute changed, re-render */
-	async willUpdate(attrName) {
-		if (attrName.has('id')) {
+	async willUpdate(changedProperties) {
+		if (changedProperties.has('id')) {
 			this.track = await this.readTrack(this.id)
 		}
 	}
