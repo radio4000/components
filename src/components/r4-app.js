@@ -192,7 +192,7 @@ export default class R4App extends LitElement {
 								${this.selectedChannel
 									? html`<a href=${href + '/' + this.selectedSlug}>@${this.selectedChannel.slug}</a>`
 									: html`<a href=${href + '/new'}>Create radio</a>`}
-								${this.userChannels?.length ? html`<a href=${href + '/settings'}>Settings</a>` : ''}
+								${this.user ? html`<a href=${href + '/settings'}>Settings</a>` : ''}
 						  `}
 				</menu>
 			</header>
