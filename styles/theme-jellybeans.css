@@ -424,7 +424,8 @@ r4-page-channel menu nav-item {
 }
 
 r4-page-channel r4-avatar img {
-	height: calc(var(--s) * 8);
+	margin-top: var(--s);
+	height: calc(var(--s) * 6);
 }
 r4-page-channel > footer {
 	margin-top: var(--s);

@@ -151,6 +151,7 @@ export default class R4App extends LitElement {
 
 	render() {
 		if (!this.didLoad) return html`<progress value=${0} max="100"></progress> `
+		console.log('render')
 		return html`
 			<r4-layout @r4-play=${this.onPlay} ?is-playing=${this.isPlaying}>
 				${!this.config.singleChannel ? this.renderMenu() : null}
