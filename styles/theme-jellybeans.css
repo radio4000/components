@@ -119,6 +119,13 @@ r4-app[color-scheme='dark'] {
 r4-app {
 	font-family: var(--font);
 	line-height: 1.5;
+	overflow-y: auto;
+	margin: 1rem;
+	border: 4px solid var(--c-link);
+	max-height: 100vh;
+	/* max-width: 1500px; */
+	/* min-height: 100vh; */
+	/* max-height: 800px; */
 }
 
 r4-app h1,
