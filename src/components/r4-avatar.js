@@ -1,5 +1,5 @@
-import { LitElement, html } from 'lit'
-import { sdk } from '@radio4000/sdk'
+import {LitElement, html} from 'lit'
+import {sdk} from '@radio4000/sdk'
 
 const SIZES = {
 	small: 50,

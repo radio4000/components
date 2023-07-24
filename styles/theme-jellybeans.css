@@ -80,8 +80,6 @@ r4-app {
 	--s: 1.5rem;
 	--s-radius: 4px;
 	--s-line-height: var(--s);
-	--s-youtube: 16rem;
-
 	/* hmm */
 	/* background-image: linear-gradient(hsla(0, 0%, 60%, 0.1) 0.15%, transparent 5%); */
 	/* background-size: 100% var(--s); */
@@ -332,6 +330,12 @@ r4-track a:has(r4-track-title) {
 [list] r4-button-play {
 	font-size: smaller;
 }
+r4-app [list] > li:nth-child(even) {
+	background-color: var(--c-gray2);
+}
+r4-app[color-scheme="dark"] [list] > li:nth-child(even) {
+	background-color: var(--c-gray8);
+}
 r4-button-play + r4-track {
 	margin-left: 0.5rem;
 }
@@ -461,13 +465,6 @@ r4-app details summary {
 	user-select: none;
 }
 
-r4-app [list] > li:nth-child(even) {
-	background-color: var(--c-gray2);
-}
-r4-app[color-scheme="dark"] [list] > li:nth-child(even) {
-	background-color: var(--c-gray8);
-}
-
 r4-app radio4000-player .Layout-footer .PlayerControl-group button {
 	height: 100%;
 }
@@ -476,24 +473,29 @@ r4-app radio4000-player .Layout-footer .PlayerControl-group button {
 	margin-top: calc(var(--s) * 2);
 }
 
-r4-layout[ui-state='dock'] radio4000-player {
-	position: static;
+/* 6.4rem height to hide video completely */
+/* 19rem height to show youtube controls */
+/* 22rem width to show vol and time ui */
+
+r4-layout[ui-state='minimize']::part(playback),
+r4-layout[ui-state='dock']::part(playback) {
+	order: 2;
+	top: auto;
 	bottom: 0;
-	left: 0;
-	right: 0;
+}
+
+r4-layout[ui-state='dock']::part(playback) {}
+r4-layout[ui-state='dock'] radio4000-player {
+	/* default no track list */
 	/* super small, no video */
 	min-height: auto;
 	max-height: 6.4rem;
-	max-height: 10.4rem;
 }
 
+r4-layout[ui-state='minimize']::part(playback) {}
 r4-layout[ui-state='minimize'] radio4000-player {
-	position: static;
-	top: auto;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	max-height: 16rem;
+	/* big enough to show some video */
+	max-height: 19rem;
 }
 
 r4-channel-cover {

@@ -1,7 +1,8 @@
-/* r4-layout */
 r4-layout {
+	flex: 1;
 	display: flex;
 	flex-direction: column;
+	position: relative;
 }
 
 /* can make the layout "panel" & its "main" part the full viewport height,
