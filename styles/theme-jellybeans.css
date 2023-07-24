@@ -123,9 +123,6 @@ r4-app {
 	margin: 1rem;
 	border: 4px solid var(--c-link);
 	max-height: 100vh;
-	/* max-width: 1500px; */
-	/* min-height: 100vh; */
-	/* max-height: 800px; */
 }
 
 r4-app h1,
@@ -322,20 +319,30 @@ r4-avatar img {
 r4-track a:has(r4-track-title) {
 	text-decoration: none;
 }
-[list]:has(r4-track) > li {
-	/* padding: calc(var(--s) / 8); */
-	border-radius: var(--s-radius);
+/* Tracks lists */
+[list] > li {
+	display: flex;
 }
-[list]:has(r4-track) > li:hover {
-	background: var(--c-bg3);
+[list] r4-track {
+	flex: 1;
+	display: flex;
+	flex-flow: row nowrap;
+	gap: 0.5rem;
+}
+[list] r4-button-play {
+	font-size: smaller;
+}
+r4-button-play + r4-track {
+	margin-left: 0.5rem;
 }
 r4-track[playing] a:has(r4-track-title) {
 	background: var(--c-link);
 	color: var(--c-gray1);
 }
-r4-button-play + r4-track {
-	margin-left: 0.3rem;
+[list] r4-track-tags {
+	margin-left: auto;
 }
+[list] r4-track-actions { }
 
 /* Cards */
 [list]:has(r4-channel-card) {
@@ -452,4 +459,45 @@ r4-page-channel-tracks r4-supabase-query {
 
 r4-app details summary {
 	user-select: none;
+}
+
+r4-app [list] > li:nth-child(even) {
+	background-color: var(--c-gray2);
+}
+r4-app[color-scheme="dark"] [list] > li:nth-child(even) {
+	background-color: var(--c-gray8);
+}
+
+r4-app radio4000-player .Layout-footer .PlayerControl-group button {
+	height: 100%;
+}
+
+[page] > header {
+	margin-top: calc(var(--s) * 2);
+}
+
+r4-layout[ui-state='dock'] radio4000-player {
+	position: static;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	/* super small, no video */
+	min-height: auto;
+	max-height: 6.4rem;
+	max-height: 10.4rem;
+}
+
+r4-layout[ui-state='minimize'] radio4000-player {
+	position: static;
+	top: auto;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	max-height: 16rem;
+}
+
+r4-channel-cover {
+	display: grid;
+	grid-template-columns: min-content 1fr;
+	gap: 1rem;
 }

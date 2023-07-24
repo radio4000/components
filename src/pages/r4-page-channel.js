@@ -69,14 +69,17 @@ export default class R4PageChannel extends BaseChannel {
 				</nav>
 
 				${channel
-					? html` <r4-channel-name><h1>${channel.name}</h1></r4-channel-name>
-							<r4-channel-description>${channel.description}</r4-channel-description>
-							${channel.url
-								? html`<r4-channel-url>
-										<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
-								  </r4-channel-url>`
-								: null}
-
+					? html`
+							<r4-channel-cover>
+								<r4-avatar image=${this.channel.image} size="medium"></r4-avatar>
+								<r4-channel-name><h1>${channel.name}</h1></r4-channel-name>
+								<r4-channel-description>${channel.description}</r4-channel-description>
+								${channel.url
+									? html`<r4-channel-url>
+											<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
+									  </r4-channel-url>`
+									: null}
+							</r4-channel-cover>
 							<menu>
 								<nav-item><r4-button-play .channel=${channel} label=" Listen"></r4-button-play></nav-item>
 								<nav-item>
@@ -93,7 +96,8 @@ export default class R4PageChannel extends BaseChannel {
 										? html`<r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates>`
 										: null}
 								</nav-item>
-							</menu>`
+							</menu>
+					  `
 					: null}
 			</header>
 
@@ -110,8 +114,6 @@ export default class R4PageChannel extends BaseChannel {
 		const link = this.channelOrigin
 		return html`
 			<main>
-				${this.renderChannelImage()}
-
 				<h2>Latest tracks</h2>
 				<r4-supabase-query
 					table="channel_tracks"
@@ -169,11 +171,7 @@ export default class R4PageChannel extends BaseChannel {
 
 	renderChannelImage() {
 		if (!this.channel) return null
-		return html`<aside>
-			<a href=${this.channelOrigin + '/player'}>
-				<r4-avatar image=${this.channel.image} size="medium"></r4-avatar>
-			</a>
-		</aside>`
+		return html``
 	}
 
 	renderMap() {

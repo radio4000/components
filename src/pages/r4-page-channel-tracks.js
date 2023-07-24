@@ -81,13 +81,13 @@ export default class R4PageChannelTracks extends BaseChannel {
 	renderQuery() {
 		const params = this.searchParams
 		return html`
-			<details open>
+			<details>
 				<summary>Filter ${this.count} tracks</summary>
 				<r4-supabase-query
 					table="channel_tracks"
 					count=${this.count}
 					page=${params.get('page') || 1}
-					limit=${params.get('limit') || 10}
+					limit=${params.get('limit') || 50}
 					order-by=${params.get('order-by') || 'created_at'}
 					order-config=${params.get('order-config') || JSON.stringify({ascending: false})}
 					filters=${params.get('filters')}
@@ -109,49 +109,14 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 		return html`
 			<menu>
-				<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label=" Play selection"></r4-button-play>
 				<r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play>
+				<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label=" Play selection"></r4-button-play>
 				<a href=${mentionsHref} label>@Mentions</a>
 				<a href=${tagsHref} label>#Tags</a>
 				<a href=${jazzTagHref} label>#jazz</a>
-				<form @change=${this.setDisplay}>
-					<label><input type="radio" name="display" value="list" ?checked=${this.display === 'list'} /> List</label>
-					<label><input type="radio" name="display" value="table" ?checked=${this.display === 'table'} /> Table</label>
-				</form>
 			</menu>
 
-			${this.display === 'table' ? this.renderTracksTable() : this.renderTracksList()}
-		`
-	}
-
-	renderTracksTable() {
-		return html`
-			<table>
-				<thead>
-					<th></th>
-					<th>Track</th>
-					<th>Description</th>
-					<th>Tags</th>
-					<th>Mentions</th>
-					<th>Created</th>
-				</thead>
-				<tbody>
-					${repeat(
-						this.tracks,
-						(t) => t.id,
-						(t) => html`
-							<tr>
-								<td><r4-button-play .channel=${this.channel} .track=${t} .tracks=${this.tracks}></r4-button-play></td>
-								<td><a href=${this.tracksOrigin + t.id}>${t.title}</a></td>
-								<td>${t.description}</td>
-								<td>${t.tags?.length ? t.tags.map((x) => this.renderTag(x)) : null}</td>
-								<td>${t.mentions?.length ? t.mentions.map((x) => this.renderMention(x)) : null}</td>
-								<td>${formatDate(t.created_at)}</td>
-							</tr>
-						`
-					)}
-				</tbody>
-			</table>
+			${this.renderTracksList()}
 		`
 	}
 
