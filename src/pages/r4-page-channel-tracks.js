@@ -188,6 +188,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 								.config=${this.config}
 								href=${this.config.href}
 								origin=${'' || this.tracksOrigin}
+								.canEdit=${this.canEdit}
 							></r4-track>
 						</li>
 					`
