@@ -45,8 +45,9 @@ export default class R4PageChannel extends BaseChannel {
 	render() {
 		if (this.isFirebaseChannel) {
 			return html`
-				<radio4000-player channel-slug=${this.params.slug}></radio4000-player>
+				<h1>@${this.params.slug}</h1>
 				<p>This channel has not yet migrated to the new Radio4000. That's ok, you can still listen.</p>
+				<radio4000-player channel-slug=${this.params.slug}></radio4000-player>
 			`
 		}
 

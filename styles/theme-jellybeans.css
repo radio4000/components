@@ -19,14 +19,14 @@ r4-app {
 	/* Inspired by the dark Jellybeans programming color scheme theme */
 	/* --c-white: hsl(0 0% 100%); */
 	--c-gray1: hsl(50 14% 96%);
-	--c-gray2: hsl(50 14% 89%);
+	--c-gray2: hsl(50 14% 91%);
 	--c-gray3: hsl(50 10% 76%);
 	--c-gray4: hsl(50 10% 56%);
-	--c-gray5: hsl(50 10% 36%);
-	--c-gray6: hsl(50 10% 26%);
-	--c-gray7: hsl(50 10% 16%);
-	--c-gray8: hsl(50 10% 9%);
-	--c-gray9: hsl(20 2% 7%);
+	--c-gray5: hsl(30 10% 36%);
+	--c-gray6: hsl(30 10% 26%);
+	--c-gray7: hsl(30 10% 16%);
+	--c-gray8: hsl(30 8% 6%);
+	--c-gray9: hsl(30 2% 5%);
 	/* --c-black: hsl(0 0% 0%); */
 
 	--c-red1: hsl(17 100% 95%);
@@ -111,7 +111,7 @@ r4-app[color-scheme='dark'] {
 	--c-bg2: var(--c-gray8);
 	--c-bg3: var(--c-gray7);
 	--c-fg: var(--c-gray1);
-	--c-link: var(--c-blue5);
+	--c-link: var(--c-blue4);
 	--c-border: var(--c-gray7);
 	--c-headlines: var(--c-red5);
 }
