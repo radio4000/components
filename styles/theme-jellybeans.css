@@ -118,7 +118,6 @@ r4-app {
 	font-family: var(--font);
 	line-height: 1.5;
 	overflow-y: auto;
-	margin: 1rem;
 	border: 4px solid var(--c-link);
 	max-height: 100vh;
 }
@@ -295,8 +294,8 @@ r4-channel-description {
 	display: block;
 }
 
-r4-layout {
-	padding: 0 1rem 1rem;
+r4-layout > main {
+	padding: 0 1rem;
 }
 
 r4-app [slot='menu'] {
