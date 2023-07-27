@@ -274,37 +274,23 @@ r4-app fieldset button[type='submit'] {
 r4-supabase-filters form ul {
 	list-style: none;
 	padding: 0;
-	/* padding: 0 0 0 calc(var(--s) / 2); */
 }
 r4-supabase-filters li > fieldset {
 	display: flex;
 	flex-flow: row wrap;
 	gap: 0.5em;
 }
-
-r4-supabase-filters button[role='destructive'] {
-	/* align-self: center; */
-}
 r4-supabase-modifiers {
 	display: block;
 	margin-top: var(--s);
 }
 
-r4-channel-description {
-	display: block;
-}
-
+r4-layout > header,
 r4-layout > main {
 	padding: 0 1rem;
 }
-
 r4-app [slot='menu'] {
 	margin: var(--s) 0 0;
-}
-
-r4-avatar img {
-	vertical-align: bottom;
-	height: 3rem;
 }
 
 /* Tracks */
@@ -346,6 +332,20 @@ r4-track[playing] a:has(r4-track-title) {
 	margin-left: auto;
 }
 [list] r4-track-actions { }
+
+/* Channels */
+r4-channel-description {
+	display: block;
+}
+r4-channel-cover {
+	display: grid;
+	grid-template-columns: min-content 1fr;
+	gap: 1rem;
+}
+r4-avatar img {
+	vertical-align: bottom;
+	height: 3rem;
+}
 
 /* Cards */
 [list]:has(r4-channel-card) {
@@ -497,8 +497,3 @@ r4-layout[ui-state='minimize'] radio4000-player {
 	max-height: 19rem;
 }
 
-r4-channel-cover {
-	display: grid;
-	grid-template-columns: min-content 1fr;
-	gap: 1rem;
-}
