@@ -111,6 +111,7 @@ export default class R4Track extends LitElement {
 	}
 
 	onAction({detail}) {
+		console.log(detail)
 		if (detail === 'update') {
 			this.querySelector('r4-dialog').open()
 			// page(`/${this.track.slug}/tracks/${this.track.id}/update`)
