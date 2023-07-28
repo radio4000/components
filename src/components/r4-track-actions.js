@@ -15,6 +15,8 @@ export default class R4TrackActions extends LitElement {
 				detail: event.target.value,
 			})
 		)
+
+		this.querySelector('option').selected = true
 	}
 
 	render() {
