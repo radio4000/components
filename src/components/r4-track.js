@@ -100,10 +100,13 @@ export default class R4Track extends LitElement {
 		return html`<a href="${url}" label>${slug}</a>`
 	}
 
+	renderNoTrack() {
+		return html`Track not found`
+	}
+
 	async onUpdate(event) {
-		console.log('onUpdate', event.detail)
 		if (!event.detail.error) {
-			this.track = await this.readTrack()
+			this.track = await this.readTrack() // to-rerender
 			this.querySelector('r4-dialog').close()
 		}
 	}

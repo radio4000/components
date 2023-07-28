@@ -41,6 +41,7 @@ export default class R4Search extends LitElement {
 		// Query and set results
 		const res = await this.query(value)
 		this.results = res.data ?? []
+		this.dispatchEvent(new CustomEvent('query', {bubbles: true, detail: res.data}))
 	}
 
 	render() {

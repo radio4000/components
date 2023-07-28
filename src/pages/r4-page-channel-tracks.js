@@ -4,16 +4,19 @@ import {sdk} from '@radio4000/sdk'
 import BaseChannel from './base-channel'
 import urlUtils from '../libs/url-utils.js'
 import {query} from '../libs/browse.js'
-import {formatDate} from '../libs/date.js'
+// import {formatDate} from '../libs/date.js'
+import page from 'page/page.mjs'
 
 if (!window.r4sdk) window.r4sdk = sdk
 
 export default class R4PageChannelTracks extends BaseChannel {
 	static properties = {
 		tracks: {type: Array, state: true},
-		display: {type: String, state: true},
 		count: {type: Number, state: true},
 		lastQuery: {type: Object},
+		searchQuery: {type: String, state: true},
+		href: {type: String},
+		origin: {type: String},
 		// + props from BaseChannel
 	}
 
@@ -21,7 +24,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 		super()
 		this.tracks = []
 		this.channel = null
-		this.display = 'list'
 	}
 
 	get defaultFilters() {
@@ -65,10 +67,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 				</nav>
 				${this.channel ? html`<h1>${this.channel.name} tracks</h1>` : ''}
 			</header>
-			<main>
-				<r4-track-search slug=${this.channel?.slug} href=${link}></r4-track-search>
-				${this.channel ? [this.renderQuery(), this.renderTracks()] : null}
-			</main>
+			<main>${this.channel ? [this.renderQuery(), this.renderTracks()] : null}</main>
 		`
 	}
 
@@ -108,10 +107,27 @@ export default class R4PageChannelTracks extends BaseChannel {
 				<a href=${mentionsHref} label>@Mentions</a>
 				<a href=${tagsHref} label>#Tags</a>
 				<a href=${jazzTagHref} label>#jazz</a>
+				<form>
+					<label
+						>Search <input placeholder="Search all tracks..." type="search" @input=${this.onSearch.bind(this)}
+					/></label>
+				</form>
 			</menu>
 
 			${this.renderTracksList()}
 		`
+	}
+
+	async onSearch(event) {
+		event.preventDefault()
+		this.searchQuery = event.target.value
+		if (!this.searchQuery) {
+			page(this.tracksOrigin.replace(this.config.href, ''))
+			return
+		}
+		const filter = {column: 'fts', operator: 'textSearch', value: `'${this.searchQuery}':*`}
+		const url = `?filters=[${JSON.stringify(filter)}]`
+		page(this.tracksOrigin.replace(this.config.href, '') + url)
 	}
 
 	createTagUrl(tag) {
