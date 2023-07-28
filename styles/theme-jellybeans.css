@@ -380,14 +380,13 @@ r4-track-number::before {
 	r4-track {
 		min-width: 0;
 	}
-	r4-track-title {
+	r4-track-body {
 		font-size: 14px;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		flex: 1;
 	}
-	r4-track-description,
 	r4-track-tags,
 	r4-track-mentions {
 		display: none;

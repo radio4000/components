@@ -60,8 +60,10 @@ export default class R4Track extends LitElement {
 		const t = this.track
 		return html`
 			${this.playing ? '' : ''}
-			<r4-track-title><a href=${this.url}> ${t.title || t.id}</a></r4-track-title>
-			<r4-track-description>${t.description}</r4-track-description>
+			<r4-track-body>
+				<r4-track-title><a href=${this.url}> ${t.title || t.id}</a></r4-track-title>
+				<r4-track-description>${t.description}</r4-track-description>
+			</r4-track-body>
 			${t.discogs_url &&
 			html`<r4-track-discogs-url><a href="${t.discogs_url}">View on Discogs</a></r4-track-discogs-url>`}
 			<r4-track-tags>${t.tags?.map((tag) => this.renderTag(tag))}</r4-track-tags>
@@ -83,10 +85,6 @@ export default class R4Track extends LitElement {
 				</span>
 			</r4-dialog>
 		`
-	}
-
-	renderNoTrack() {
-		return html`Track not found`
 	}
 
 	renderTag(label) {
