@@ -235,11 +235,12 @@ r4-app fieldset {
 	/* padding: calc(var(--s) / 2); */
 	padding: 0;
 	border: 0;
+	/* gap: calc(var(--s) / 4); */
 }
-r4-app fieldset + fieldset {
-	margin-top: calc(var(--s) / 4);
-}
-r4-app slot[name="submit"] fieldset {
+/* r4-app fieldset + fieldset { */
+/* 	margin-top: calc(var(--s) / 4); */
+/* } */
+r4-app slot[name='submit'] fieldset {
 	margin-top: calc(var(--s) / 2);
 }
 r4-app fieldset[hidden] {
@@ -247,14 +248,11 @@ r4-app fieldset[hidden] {
 }
 r4-app fieldset label {
 	font-weight: 600;
-	/* margin-right: 1em; */
-	/* align-self: flex-start; */
 }
 r4-app fieldset input:not([type='checkbox']),
 r4-app fieldset textarea {
 	flex: 1;
 }
-r4-app fieldset button[type='submit'] {}
 
 /* Form styles inside a dialog */
 r4-dialog::part(form) {
@@ -266,7 +264,7 @@ r4-dialog form {
 	width: 30rem;
 	max-width: 100%;
 }
-r4-dialog slot[name="submit"] [type="submit"] {
+r4-dialog slot[name='submit'] [type='submit'] {
 }
 
 /* Horizontal query filters */
@@ -282,6 +280,15 @@ r4-supabase-filters li > fieldset {
 r4-supabase-modifiers {
 	display: block;
 	margin-top: var(--s);
+}
+r4-supabase-modifiers > form {
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+	gap: 0.5em;
+}
+r4-supabase-modifiers fieldset {
+	display: block;
 }
 
 r4-layout > header,
@@ -320,6 +327,16 @@ r4-app [list] > li:nth-child(even) {
 r4-app[color-scheme='dark'] [list] > li:nth-child(even) {
 	background-color: var(--c-gray8);
 }
+[list] r4-button-play button {
+	padding-left: 0;
+	padding-right: 0;
+}
+[list] r4-button-play button:not(:hover) {
+	border-color: transparent;
+	background: none;
+	box-shadow: none;
+	/* color: var(--c-link); */
+}
 r4-button-play + r4-track {
 	margin-left: 0.5rem;
 }
@@ -334,7 +351,8 @@ r4-track-description {
 r4-track-title a {
 	text-decoration: none;
 }
-r4-track-description {}
+r4-track-description {
+}
 r4-track-actions select {
 	max-width: 1rem;
 }
@@ -350,7 +368,6 @@ r4-track-number::before {
 	content: '#';
 	/* content: attr(data-track-number); */
 }
-
 
 [list] r4-track-tags {
 	margin-left: auto;

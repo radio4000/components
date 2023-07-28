@@ -53,12 +53,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 		this.lastQuery = q
 	}
 
-	setDisplay(event) {
-		event.preventDefault()
-		const fd = new FormData(event.currentTarget)
-		this.display = fd.get('display')
-	}
-
 	render() {
 		if (this.channelError) return this.renderNoPage()
 		const link = this.channelOrigin
