@@ -30,7 +30,8 @@ export default class R4PageChannelUpdate extends BaseChannel {
 			<main>
 				<h1>Update track</h1>
 				${track
-					? html`<r4-track-update
+					? html`
+							<r4-track-update
 								id=${track.id}
 								url=${track.url}
 								title=${track.title}
@@ -41,7 +42,8 @@ export default class R4PageChannelUpdate extends BaseChannel {
 							<p>
 								<a href=${link + '/tracks/' + track.id + '/delete'}>Delete track</a>
 							</p>
-							<p></p> `
+							<p></p>
+					  `
 					: html`<p>Loading...</p>`}
 			</main>
 		`

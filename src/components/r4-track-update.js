@@ -17,12 +17,12 @@ fieldsTemplate.innerHTML = `
 			<input name="title" type="text" required/>
 		</fieldset>
 		<fieldset>
-			<label for="discogsUrl">Discogs URL</label>
-			<input name="discogsUrl" type="url"/>
-		</fieldset>
-		<fieldset>
 			<label for="description">Description</label>
 			<textarea name="description"></textarea>
+		</fieldset>
+		<fieldset>
+			<label for="discogsUrl">Discogs URL</label>
+			<input name="discogsUrl" type="url"/>
 		</fieldset>
 	</slot>
 `

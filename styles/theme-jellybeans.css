@@ -267,7 +267,11 @@ r4-app fieldset textarea {
 	flex: 1;
 }
 r4-app fieldset button[type='submit'] {
-	margin-right: auto;
+	/* margin-right: auto; */
+}
+r4-app slot[name='submit'] fieldset {
+	display: flex;
+	justify-content: flex-end;
 }
 
 /* Horizontal query filters */
