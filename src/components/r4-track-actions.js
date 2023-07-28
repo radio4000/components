@@ -17,7 +17,9 @@ export default class R4TrackActions extends HTMLElement {
 	}
 
 	connectedCallback() {
-		this.append(template.content.cloneNode(true))
+		const tpl = template.content.cloneNode(true)
+		this.append(tpl)
+		if (this.canEdit) this.renderAsyncOptions()
 	}
 
 	/* when the select is slected (open) the first time,
@@ -40,15 +42,7 @@ export default class R4TrackActions extends HTMLElement {
 
 		/* if can edit, render option for editors */
 		if (this.canEdit) {
-			this.renderAsyncOption({
-				value: 'update',
-				text: 'Update',
-			})
-			this.renderAsyncOption({
-				value: 'delete',
-				text: 'Delete',
-			})
-			this.didRenderAsync = true
+			this.renderAsyncOptions()
 		}
 
 		// if no track yet, fetch it
@@ -72,5 +66,17 @@ export default class R4TrackActions extends HTMLElement {
 		$asyncOption.value = value
 		$asyncOption.innerText = text
 		$actions.append($asyncOption)
+	}
+
+	renderAsyncOptions() {
+		this.renderAsyncOption({
+			value: 'update',
+			text: 'Update',
+		})
+		this.renderAsyncOption({
+			value: 'delete',
+			text: 'Delete',
+		})
+		this.didRenderAsync = true
 	}
 }
