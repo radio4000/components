@@ -1,5 +1,9 @@
+/**
+ * The Jellybeans Theme
+ * inspired the vim theme of the same name.
+ */
+
 r4-app {
-	/* Inspired by the dark Jellybeans programming color scheme theme */
 	/* --c-white: hsl(0 0% 100%); */
 	--c-gray1: hsl(50 14% 96%);
 	--c-gray2: hsl(50 14% 91%);
