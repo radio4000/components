@@ -38,7 +38,7 @@ export default class R4PageExplore extends LitElement {
 				<h1>Explore radio channels</h1>
 			</header>
 			<main>
-				<details open>
+				<details>
 					<summary>Filter ${this.count} channels</summary>
 					<r4-supabase-query
 						table="channels"

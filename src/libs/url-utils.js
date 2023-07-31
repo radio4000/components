@@ -76,6 +76,24 @@ export function propertiesFromSearch(elementProperties) {
 }
 
 /**
+ * @typedef {object} R4Query
+ * @prop {string} [select] - sql query to select columns
+ * @prop {string} [table] - table name
+ * @prop {Array.<R4Filter>} [filters] - array of filters
+ * @prop {string} [orderBy] - column name to order by
+ * @prop {{ascending: boolean}} [orderConfig]
+ * @prop {number} [page] - page number
+ * @prop {number} [limit] - items per page
+ */
+
+/**
+ * @typedef {object} R4Filter
+ * @prop {string} column - column name
+ * @prop {string} operator - operator
+ * @prop {string} value - value
+ */
+
+/**
  * Sets URL search params from a query object
  * @param {R4Query} query - object with all the query params to be
  * @param {Array.<string>} excludeList - list of properties not to include in the URL

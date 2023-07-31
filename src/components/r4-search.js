@@ -41,6 +41,7 @@ export default class R4Search extends LitElement {
 		// Query and set results
 		const res = await this.query(value)
 		this.results = res.data ?? []
+		this.dispatchEvent(new CustomEvent('query', {bubbles: true, detail: res.data}))
 	}
 
 	render() {
@@ -117,13 +118,8 @@ export class R4TrackSearch extends R4Search {
 		return query.textSearch('fts', `'${value}':*`).order('created_at', {ascending: false})
 	}
 
-	renderResult(item, index) {
-		const href = this.href + `/tracks/${item.id}`
-		return html`
-			${index}.
-			<a href=${href}>${item.title}</a>
-			<small>${item.description}</small>
-			${!this.slug ? html`(@${item.slug})` : ''}
-		`
+	renderResult(t, index) {
+		const origin = this.href + `/${t.slug}/tracks/`
+		return html`<r4-track .track=${t} href=${this.href} origin=${origin}></r4-track>`
 	}
 }

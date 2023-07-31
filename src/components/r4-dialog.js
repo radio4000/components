@@ -3,7 +3,7 @@ template.innerHTML = `
 	<dialog part="dialog">
 		<slot name="close">
 			<form method="dialog" part="form">
-				<button part="button">Close</button>
+				<button part="button" formmethod="dialog">Close</button>
 			</form>
 		</slot>
 		<slot name="dialog"></slot>
@@ -16,7 +16,7 @@ export default class R4Dialog extends HTMLElement {
 	}
 
 	get visible() {
-		return this.getAttribute('visible') === 'true'
+		return this.hasAttribute('visible')
 	}
 
 	set visible(bool) {

@@ -39,17 +39,18 @@ export default class R4SignIn extends R4Form {
 	async handleSubmit(event) {
 		event.preventDefault()
 		event.stopPropagation()
-
 		this.disableForm()
+
 		let res = {},
 			error = null
+
 		try {
 			res = await sdk.auth.signIn({
 				email: this.state.email,
 				password: this.state.password,
 			})
 			if (res.error) {
-				console.log(res)
+				console.log('Error signing in', res)
 				if (res.error.message === 'Email not confirmed') {
 					res.error.code = 'email-not-confirmed'
 				}
@@ -61,6 +62,7 @@ export default class R4SignIn extends R4Form {
 		} catch (err) {
 			this.handleError(err)
 		}
+
 		this.enableForm()
 
 		const { data } = res

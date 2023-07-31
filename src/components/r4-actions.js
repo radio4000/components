@@ -23,11 +23,12 @@ export default class R4Actions extends HTMLElement {
 
 		const inputEvent = new CustomEvent('input', {
 			bubbles: true,
-			detail: event.target.value
+			detail: event.target.value,
 		})
 		this.dispatchEvent(inputEvent)
 		this.resetSelect()
 	}
+
 	resetSelect() {
 		this.$select.querySelector('option').selected = true
 	}

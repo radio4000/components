@@ -73,7 +73,6 @@ export default class R4PageAdd extends BaseChannel {
 					<nav-item><code>></code> <a href=${link + '/tracks'}>Tracks</a></nav-item>
 					<nav-item>Add</nav-item>
 				</nav>
-				<h1>Add track</h1>
 			</header>
 			<main>
 				${this.renderAdd()}

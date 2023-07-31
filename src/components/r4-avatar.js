@@ -1,5 +1,5 @@
-import { LitElement, html } from 'lit'
-import { sdk } from '@radio4000/sdk'
+import {LitElement, html} from 'lit'
+import {sdk} from '@radio4000/sdk'
 
 const SIZES = {
 	small: 50,
@@ -14,22 +14,21 @@ const SIZES = {
  */
 export default class R4Avatar extends LitElement {
 	static properties = {
-		image: { type: String },
-		slug: { type: String, reflect: true },
-		size: { type: String, reflect: true },
+		image: {type: String},
+		slug: {type: String, reflect: true},
+		size: {type: String, reflect: true},
 	}
 
 	async connectedCallback() {
 		super.connectedCallback()
 		if (this.slug) {
-			const { data } = await sdk.channels.readChannel(this.slug)
+			const {data} = await sdk.channels.readChannel(this.slug)
 			this.image = data.image
 		}
 	}
 
 	render() {
-		const size = SIZES[this.size || 'small']
-		return ResponsiveCloudinaryImage(this.image, size)
+		return ResponsiveCloudinaryImage(this.image, this.size)
 	}
 
 	// Disable shadow DOM
@@ -38,30 +37,25 @@ export default class R4Avatar extends LitElement {
 	}
 }
 
-// Renders a responsive image loaded from Cloudinary.
-function ResponsiveCloudinaryImage(id, size) {
-	if (!id) return null
-
+/**
+ * @param {string} id - from cloudinary image
+ * @param {string} sizeLabel -
+ * @param {string} format -
+ */
+export function createImage(id, sizeLabel, format = 'webp') {
 	const baseUrl = 'https://res.cloudinary.com/radio4000/image/upload'
-	const small = `w_${size},h_${size}`
-	const large = `w_${size},h_${size}`
+	const size = SIZES[sizeLabel || 'medium']
+	const dimensions = `w_${size},h_${size}`
 	const crop = 'c_thumb,q_60'
-	// const imageUrl = `${baseUrl}/${image}`
+	return `${baseUrl}/${dimensions},${crop},fl_awebp/${id}.${format}`
+}
 
+// Renders a responsive image loaded from Cloudinary.
+function ResponsiveCloudinaryImage(id) {
+	if (!id) return null
 	return html`
 		<picture>
-			<source
-				type="image/webp"
-				srcset=${`${baseUrl}/${small},${crop},fl_awebp/${id}.webp 1x, ${baseUrl}/${large},${crop},fl_awebp/${id}.webp 2x`}
-			/>
-			<source
-				media="(max-width: 500px)"
-				srcset=${`${baseUrl}/${small},${crop}/${id}.jpg 1x, ${baseUrl}/${large},${crop}/${id}.jpg 2x`}
-			/>
-			<source
-				srcset=${`${baseUrl}/${small},${crop},fl_lossy/${id} 1x, ${baseUrl}/${large},${crop},fl_lossy/${id} 2x`}
-			/>
-			<img src=${`${baseUrl}/${small},${crop},fl_lossy/${id}`} alt=${`Avatar for ${id}`} />
+			<img src=${createImage(id, 'medium')} alt=${`Avatar for ${id}`} />
 		</picture>
 	`
 }

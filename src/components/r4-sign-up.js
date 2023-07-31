@@ -33,34 +33,43 @@ export default class R4SignUp extends R4Form {
 		'invalid-login-credentials': {
 			field: 'email',
 			message: 'The email & password combination is incorrect',
-		}
+		},
+		'email-rate-limit': {
+			message: 'Rate limit exceeded. Wait five minutes before trying again'
+		},
 	}
 
 	async handleSubmit(event) {
 		event.preventDefault()
 		event.stopPropagation()
-
 		this.disableForm()
-		let res = {},
-			error = null
+
+		let res = {}
+		let error = null
+
 		try {
 			res = await sdk.auth.signUp({
 				email: this.state.email,
 				password: this.state.password,
 			})
+			console.log('res', res)
 			if (res.error) {
-				console.log(res)
+				console.log('Error signing up', res)
 				if (res.error.message.startsWith('For security purposes, you can only request this after')) {
 					res.error.code = 'email-not-confirmed'
+				}
+				if (res.error.stack.includes('Email rate limit exceeded')) {
+					res.error.code = 'email-rate-limit'
 				}
 				throw res.error
 			}
 		} catch (err) {
+			console.log('signupform catch', err, err.name)
 			this.handleError(err)
 		}
 
 		const { data } = res
-		if (data && data.user && data.user.id) {
+		if (data?.user?.id) {
 			this.resetForm()
 		} else {
 			this.enableForm()
