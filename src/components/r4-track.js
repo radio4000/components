@@ -69,7 +69,7 @@ export default class R4Track extends LitElement {
 			${this.playing ? '' : ''}
 			<r4-track-body>
 				<r4-track-title> ${this.link ? html`<a href=${this.url}>${title}</a>` : html`${title}`} </r4-track-title>
-				<r4-track-description>${this.fancyDescription}</r4-track-description>
+				<r4-track-description>${t.description}</r4-track-description>
 			</r4-track-body>
 			${t.discogs_url &&
 			html`<r4-track-discogs-url><a href="${t.discogs_url}">View on Discogs</a></r4-track-discogs-url>`}
