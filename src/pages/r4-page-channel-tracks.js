@@ -125,6 +125,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 			page(this.tracksOrigin.replace(this.config.href, ''))
 			return
 		}
+		if (this.searchQuery.length < 2) return
 		const filter = {column: 'fts', operator: 'textSearch', value: `'${this.searchQuery}':*`}
 		const url = `?filters=[${JSON.stringify(filter)}]`
 		page(this.tracksOrigin.replace(this.config.href, '') + url)

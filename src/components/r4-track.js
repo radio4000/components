@@ -12,6 +12,12 @@ export default class R4Track extends LitElement {
 		loading: {type: Boolean, reflect: true, state: true},
 		playing: {type: Boolean, reflect: true},
 		canEdit: {type: Boolean},
+		link: {type: Boolean},
+	}
+
+	constructor() {
+		super()
+		this.link = true
 	}
 
 	/* if the attribute changed, re-render */
@@ -58,11 +64,12 @@ export default class R4Track extends LitElement {
 	render() {
 		if (!this.track) return this.renderNoTrack()
 		const t = this.track
+		const title = t.title || t.id
 		return html`
 			${this.playing ? '' : ''}
 			<r4-track-body>
-				<r4-track-title><a href=${this.url}> ${t.title || t.id}</a></r4-track-title>
-				<r4-track-description>${t.description}</r4-track-description>
+				<r4-track-title> ${this.link ? html`<a href=${this.url}>${title}</a>` : html`${title}`} </r4-track-title>
+				<r4-track-description>${this.fancyDescription}</r4-track-description>
 			</r4-track-body>
 			${t.discogs_url &&
 			html`<r4-track-discogs-url><a href="${t.discogs_url}">View on Discogs</a></r4-track-discogs-url>`}

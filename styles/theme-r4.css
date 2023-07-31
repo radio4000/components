@@ -85,7 +85,7 @@ r4-app[color-scheme="dark"] button {
 r4-channel-card {
 	display: flex;
 	flex-flow: column nowrap;
-	background-color: var(--c-lightgray);
+	/* background-color: var(--c-lightgray); */
 	max-width: 21rem;
 	margin-bottom: var(--s);
 }
