@@ -11,19 +11,19 @@ fieldsTemplate.innerHTML = `
 		</fieldset>
 		<fieldset>
 			<label for="url">URL</label>
-			<input name="url" type="url" required />
+			<input name="url" type="url" required placeholder="Link to a YouTube or Soundcloud media" />
 		</fieldset>
 		<fieldset>
-			<label for="discogsUrl">Discogs URL</label>
-			<input name="discogsUrl" type="url" />
+			<label for="title" title="After pasting a URL the title will write itself">Title</label>
+			<input name="title" type="text" required placeholder="" />
 		</fieldset>
 		<fieldset>
-			<label for="title">Title</label>
-			<input name="title" type="text" required/>
+			<label for="description" title="Optionally give your track a description">Description</label>
+			<textarea name="description" placeholder="Fantastic track #fantastic"></textarea>
 		</fieldset>
 		<fieldset>
-			<label for="description">Description</label>
-			<textarea name="description"></textarea>
+			<label for="discogsUrl" title="Add the Discogs release URL related to the track. Eg: https://www.discogs.com/Jennifer-Lara-I-Am-In-Love/master/541751">Discogs URL</label>
+			<input name="discogsUrl" type="url" placeholder="URL to a Discogs release" />
 		</fieldset>
 	</slot>
 `
@@ -33,7 +33,7 @@ export default class R4TrackCreate extends R4Form {
 		return ['channel-id', 'url', 'title']
 	}
 
-	submitText = 'Create track'
+	submitText = 'Add track'
 
 	constructor() {
 		super()
