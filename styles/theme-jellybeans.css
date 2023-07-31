@@ -299,9 +299,6 @@ r4-app [slot='menu'] {
 	display: flex;
 	flex-flow: column nowrap;
 }
-r4-track a:has(r4-track-title) {
-	text-decoration: none;
-}
 
 /* Tracks lists */
 [list] > li {
@@ -309,7 +306,6 @@ r4-track a:has(r4-track-title) {
 	place-items: center;
 }
 [list] r4-track {
-	margin: calc(var(--s) / 5) 0 calc(var(--s) / 5);
 	flex: 1;
 	display: flex;
 	flex-flow: row nowrap;
@@ -325,29 +321,48 @@ r4-app[color-scheme='dark'] [list] > li:nth-child(even) {
 	/* background-color: var(--c-gray8); */
 	background-color: hsl(30 8% 6%);
 }
+
 [list] r4-button-play button {
 	padding-left: 0;
 	padding-right: 0;
+	/* color: var(--c-gray7); */
+	opacity: 0.2;
 }
+
+[list] r4-button-play + r4-track {
+	margin-left: 0.5em;
+}
+
+r4-button-play button:hover,
+[list] li:hover r4-button-play button {
+	opacity: 1;
+}
+[color-scheme="dark"] [list] li:hover r4-button-play button:hover {
+	/* color: var(--c-green5); */
+}
+
 [list] r4-button-play button:not(:hover) {
 	border-color: transparent;
 	background: none;
 	box-shadow: none;
 	/* color: var(--c-link); */
 }
-r4-button-play + r4-track {
-	margin-left: 0.5rem;
-}
-r4-track[playing] a:has(r4-track-title) {
+r4-track[playing] r4-track-title a {
 	background: var(--c-link);
 	color: var(--c-gray1);
 }
-r4-track-title,
-r4-track-description {
+r4-track-body {
+	margin-right: auto;
 	font-size: 14px;
 }
 r4-track-title a {
+	display: inline-flex;
 	text-decoration: none;
+	color: var(--c-fg);
+	padding: calc(var(--s) / 5) 0 calc(var(--s) / 5);
+}
+[color-scheme="dark"] r4-track-title a {
+	color: var(--c-gray2);
 }
 r4-track-description {
 	color: var(--c-gray5);
@@ -355,26 +370,13 @@ r4-track-description {
 [color-scheme="dark"] r4-track-description {
 	color: var(--c-gray4);
 }
+r4-track-discogs-url {
+	font-size: 14px;
+}
+[list] r4-track-tags {}
+[list] r4-track-actions {}
 r4-track-actions select {
 	max-width: 1rem;
-}
-r4-track-number {
-	/* font-family: monospace; */
-	/* width: 2em; */
-	margin-right: 0.5em;
-	text-align: center;
-	font-size: small;
-	opacity: 0.7;
-}
-r4-track-number::before {
-	content: '#';
-	/* content: attr(data-track-number); */
-}
-
-[list] r4-track-tags {
-	margin-left: auto;
-}
-[list] r4-track-actions {
 }
 
 /* Tracklist layout for smaller screens */
