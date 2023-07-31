@@ -115,7 +115,7 @@ export default class R4PageChannel extends BaseChannel {
 		const link = this.channelOrigin
 		return html`
 			<main>
-				<h2>Latest tracks</h2>
+				<h2><a href="${`${link}/tracks`}">Tracks</a></h2>
 				<r4-supabase-query
 					table="channel_tracks"
 					filters=${`[{"operator":"eq","column":"slug","value":"${channel.slug}"}]`}
@@ -124,10 +124,6 @@ export default class R4PageChannel extends BaseChannel {
 					hiddenui
 				></r4-supabase-query>
 				${this.renderTracksList()}
-
-				<footer>
-					<a href="${`${link}/tracks`}">All tracks</a>
-				</footer>
 			</main>
 
 			<r4-dialog name="share" @close=${this.onDialogClose}>

@@ -8,8 +8,8 @@ r4-app {
 	--c-gray5: hsl(30 10% 36%);
 	--c-gray6: hsl(30 10% 26%);
 	--c-gray7: hsl(30 10% 16%);
-	--c-gray8: hsl(30 8% 6%);
-	--c-gray9: hsl(30 2% 5%);
+	--c-gray8: hsl(30 8% 7%);
+	--c-gray9: hsl(30 2% 4%);
 	/* --c-black: hsl(0 0% 0%); */
 
 	--c-red1: hsl(17 100% 95%);
@@ -76,15 +76,10 @@ r4-app[color-scheme='light'] {
 	--c-bg: var(--c-gray1);
 	--c-bg2: var(--c-gray2);
 	--c-bg3: var(--c-gray3);
-
 	--c-fg: var(--c-gray9);
 	--c-link: var(--c-blue6);
 	--c-border: var(--c-gray3);
-	/* --c-bg: var(--c-gray6); */
-	/* --c-bg2: hsl(0deg 0% 9%); */
-	/* --c-fg: var(--c-gray1); */
 	--c-headlines: var(--c-red6);
-	/* --c-border: var(--c-gray5); */
 }
 
 r4-app[color-scheme='dark'] {
@@ -152,7 +147,7 @@ r4-app textarea {
 	vertical-align: top;
 	line-height: 1;
 	min-width: 2rem;
-	height: 1.5em;
+	height: 1.5rem;
 	padding: 0 0.3rem;
 	background-color: var(--c-bg);
 	border: 1px solid var(--c-border);
@@ -166,7 +161,8 @@ r4-app input[type='password'],
 r4-app input[type='search'],
 r4-app input[type='url'],
 r4-app textarea {
-	/* background: var(--c-bg); */
+	background: var(--c-bg2);
+	font-size: 14px;
 }
 
 r4-app input[type='text']:hover,
@@ -181,7 +177,7 @@ r4-app textarea:hover {
 
 r4-app textarea {
 	height: calc(var(--s) * 3);
-	padding-top: 0.5em;
+	padding-top: 0.5rem;
 }
 
 r4-app input[type='number'] {
@@ -196,9 +192,9 @@ r4-app button {
 /* "Buttons" */
 r4-app select,
 r4-app button {
-	font-size: 14px;
-	background: var(--c-bg2);
-	border: 1px solid var(--c-gray7);
+	font-size: 1rem;
+	background: var(--c-bg3);
+	border: 1px solid var(--c-gray6);
 	box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
 }
 r4-app button:not(disabled):hover,
@@ -207,11 +203,10 @@ r4-app select:not(disabled):hover {
 }
 /* Primary buttons */
 r4-app button[type='submit'] {
-	background-color: var(--c-blue4);
-	color: var(--c-blue9);
+	/* background-color: var(--c-green7); */
 }
 r4-app button[type='submit']:hover {
-	background-color: var(--c-blue3);
+	/* background-color: var(--c-green6); */
 }
 /* Danger buttons */
 r4-app button[destructive] {
@@ -225,33 +220,30 @@ r4-app button[destructive]:hover {
 
 /* Forms */
 r4-app form {
-	/* display: flex; */
-	/* flex-flow: column nowrap; */
-	/* gap: var(--s); */
+	display: flex;
+	flex-flow: column nowrap;
+	gap: calc(var(--s) / 3);
+	max-width: 60ch;
 }
 r4-app fieldset {
 	display: flex;
 	flex-flow: column nowrap;
-	/* padding: calc(var(--s) / 2); */
 	padding: 0;
 	border: 0;
-	/* gap: calc(var(--s) / 4); */
-}
-/* r4-app fieldset + fieldset { */
-/* 	margin-top: calc(var(--s) / 4); */
-/* } */
-r4-app slot[name='submit'] fieldset {
-	margin-top: calc(var(--s) / 2);
 }
 r4-app fieldset[hidden] {
 	display: none;
 }
 r4-app fieldset label {
+	margin-bottom: 0.1rem;
 	font-weight: 600;
 }
 r4-app fieldset input:not([type='checkbox']),
 r4-app fieldset textarea {
 	flex: 1;
+}
+r4-app fieldset [type="submit"] {
+	margin-top: calc(var(--s) / 2);
 }
 
 /* Form styles inside a dialog */
@@ -264,8 +256,7 @@ r4-dialog form {
 	width: 30rem;
 	max-width: 100%;
 }
-r4-dialog slot[name='submit'] [type='submit'] {
-}
+r4-dialog slot[name='submit'] [type='submit'] { }
 
 /* Horizontal query filters */
 r4-supabase-filters form ul {
@@ -275,7 +266,7 @@ r4-supabase-filters form ul {
 r4-supabase-filters li > fieldset {
 	display: flex;
 	flex-flow: row wrap;
-	gap: 0.5em;
+	gap: 0.5rem;
 }
 r4-supabase-modifiers {
 	display: block;
@@ -303,16 +294,18 @@ r4-app [slot='menu'] {
 [list]:has(r4-track) {
 	display: flex;
 	flex-flow: column nowrap;
-	gap: calc(var(--s) / 4);
 }
 r4-track a:has(r4-track-title) {
 	text-decoration: none;
 }
+
 /* Tracks lists */
 [list] > li {
 	display: flex;
+	place-items: center;
 }
 [list] r4-track {
+	margin: calc(var(--s) / 5) 0 calc(var(--s) / 5);
 	flex: 1;
 	display: flex;
 	flex-flow: row nowrap;
@@ -325,7 +318,8 @@ r4-app [list] > li:nth-child(even) {
 	background-color: var(--c-gray2);
 }
 r4-app[color-scheme='dark'] [list] > li:nth-child(even) {
-	background-color: var(--c-gray8);
+	/* background-color: var(--c-gray8); */
+	background-color: hsl(30 8% 6%);
 }
 [list] r4-button-play button {
 	padding-left: 0;
@@ -352,6 +346,10 @@ r4-track-title a {
 	text-decoration: none;
 }
 r4-track-description {
+	color: var(--c-gray5);
+}
+[color-scheme="dark"] r4-track-description {
+	color: var(--c-gray4);
 }
 r4-track-actions select {
 	max-width: 1rem;
@@ -457,7 +455,7 @@ r4-app a[label] {
 	padding: 0 4px;
 	border-radius: calc(var(--s-radius) * 2);
 	text-decoration: none;
-	font-size: 14px;
+	font-size: 13px;
 	white-space: nowrap;
 }
 r4-app[color-scheme='dark'] a[label] {
@@ -505,9 +503,10 @@ r4-page-channel menu nav-item {
 r4-page-channel r4-avatar img {
 	height: calc(var(--s) * 8);
 }
-r4-page-channel > footer {
+r4-page-channel > main > footer {
 	margin-top: var(--s);
 }
+
 
 /* Explore page */
 r4-page-explore > main,
