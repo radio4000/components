@@ -61,6 +61,16 @@ export default class R4Track extends LitElement {
 		}
 	}
 
+	play(event) {
+		event.preventDefault()
+		this.dispatchEvent(new CustomEvent('r4-play', {
+			bubbles: true,
+			detail: {
+				track: this.track,
+			},
+		}))
+	}
+
 	render() {
 		if (!this.track) return this.renderNoTrack()
 		const t = this.track
@@ -68,7 +78,7 @@ export default class R4Track extends LitElement {
 		return html`
 			${this.playing ? '' : ''}
 			<r4-track-body>
-				<r4-track-title> ${this.link ? html`<a href=${this.url}>${title}</a>` : html`${title}`} </r4-track-title>
+				<r4-track-title @click=${this.play}>${this.link ? html`<a href=${this.url}>${title}</a>` : html`${title}`} </r4-track-title>
 				<r4-track-description>${t.description}</r4-track-description>
 			</r4-track-body>
 			${t.discogs_url &&
@@ -125,17 +135,7 @@ export default class R4Track extends LitElement {
 			// page(`/${this.track.slug}/tracks/${this.track.id}/update`)
 		}
 		if (detail === 'delete') page(`/${this.track.slug}/tracks/${this.track.id}/delete`)
-		if (detail === 'play') {
-			console.log(this.track.slug)
-			const playEvent = new CustomEvent('r4-play', {
-				bubbles: true,
-				detail: {
-					// channel: // we don't have it here
-					track: this.track,
-				},
-			})
-			this.dispatchEvent(playEvent)
-		}
+		if (detail === 'play') this.play()
 	}
 
 	createRenderRoot() {
