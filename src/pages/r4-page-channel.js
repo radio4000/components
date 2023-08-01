@@ -147,6 +147,7 @@ export default class R4PageChannel extends BaseChannel {
 								href=${this.config.href}
 								origin=${'' || this.tracksOrigin}
 								.canEdit=${this.canEdit}
+								?playing=${this.config.playingTrack?.id === t.id}
 							></r4-track>
 						</li>
 					`
