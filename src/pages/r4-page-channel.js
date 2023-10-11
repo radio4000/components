@@ -56,53 +56,63 @@ export default class R4PageChannel extends BaseChannel {
 		}
 
 		const link = this.channelOrigin
-		const channel = this.channel
-
 		return html`
 			<header>
 				<nav>
 					<nav-item><code>@</code>${this.params.slug}</nav-item>
-					<nav-item
-						><code>></code>
+					<nav-item>
 						<a href=${link + '/tracks'}>Tracks</a>
 						${this.canEdit ? html`<a href=${this.config.href + '/add'}>Add</a>` : null}
 					</nav-item>
 				</nav>
-
-				${channel
-					? html`
-							<r4-channel-cover>
-								<r4-avatar image=${this.channel.image} size="medium"></r4-avatar>
-								<r4-channel-name><h1>${channel.name}</h1></r4-channel-name>
-								<r4-channel-description>${channel.description}</r4-channel-description>
-								${channel.url
-									? html`<r4-channel-url>
-											<a target="_blank" ref="norel noreferer" href=${channel.url}>${channel.url}</a>
-									  </r4-channel-url>`
-									: null}
-							</r4-channel-cover>
-							<menu>
-								<nav-item><r4-button-play .channel=${channel} label=" Listen"></r4-button-play></nav-item>
-								<nav-item>
-									<r4-channel-actions
-										slug=${channel.slug}
-										?can-edit=${this.canEdit}
-										?single-channel=${this.config.singleChannel}
-										@input=${this.onChannelAction}
-									></r4-channel-actions>
-								</nav-item>
-								<nav-item><r4-channel-social>${this.renderSocial()}</r4-channel-social></nav-item>
-								<nav-item>
-									${this.coordinates && !this.config.singleChannel
-										? html`<r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates>`
-										: null}
-								</nav-item>
-							</menu>
-					  `
-					: null}
+				${this.channel ? this.renderChanneCover() : null} ${this.channel ? this.renderChannelMenu() : null}
 			</header>
 
 			${this.channel ? this.renderChannel() : null}
+		`
+	}
+
+	renderChanneCover() {
+		if (this.channel) {
+			const {description, name, image, url} = this.channel
+			return html`
+				<r4-channel-cover>
+					${this.renderChannelImage(image)}
+					<r4-channel-name><h1>${name}</h1></r4-channel-name>
+					<r4-channel-description>${description}</r4-channel-description>
+					${this.renderChannelURL(url)}
+				</r4-channel-cover>
+			`
+		}
+	}
+	renderChannelURL(url) {
+		if (url) {
+			return html`
+				<r4-channel-url>
+					<a target="_blank" ref="norel noreferer" href=${url}>${url}</a>
+				</r4-channel-url>
+			`
+		}
+	}
+	renderChannelMenu() {
+		return html`
+			<menu>
+				<nav-item><r4-button-play .channel=${this.channel} label=" Listen"></r4-button-play></nav-item>
+				<nav-item>
+					<r4-channel-actions
+						slug=${this.channel.slug}
+						?can-edit=${this.canEdit}
+						?single-channel=${this.config.singleChannel}
+						@input=${this.onChannelAction}
+					></r4-channel-actions>
+				</nav-item>
+				<nav-item><r4-channel-social>${this.renderSocial()}</r4-channel-social></nav-item>
+				<nav-item>
+					${this.coordinates && !this.config.singleChannel
+						? html`<r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates>`
+						: null}
+				</nav-item>
+			</menu>
 		`
 	}
 
@@ -167,9 +177,9 @@ export default class R4PageChannel extends BaseChannel {
 		}
 	}
 
-	renderChannelImage() {
-		if (!this.channel) return null
-		return html``
+	renderChannelImage(image) {
+		if (!image) return null
+		return html` <r4-avatar image=${image} size="medium"></r4-avatar> `
 	}
 
 	renderMap() {
