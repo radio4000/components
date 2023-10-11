@@ -59,7 +59,7 @@ export default class R4App extends LitElement {
 			singleChannel: this.singleChannel,
 			selectedSlug: this.selectedSlug,
 			playingChannel: this.playingChannel,
-			playingTrack: this.playingTrack
+			playingTrack: this.playingTrack,
 		}
 	}
 	set config(val) {
@@ -185,15 +185,15 @@ export default class R4App extends LitElement {
 
 					${!user
 						? html`
-								${!user ? html`<a href=${href + '/sign/up'}>Create radio</a>` : ''}
-								${!user ? html`<a href=${href + '/sign/in'}>My radio</a>` : ''}
+								${!user ? html`<a href=${href + '/sign/up'}>Sign-up</a>` : ''}
+								${!user ? html`<a href=${href + '/sign/in'}>Sign-in</a>` : ''}
 						  `
 						: html`
 								${this.selectedChannel
 									? html`<a href=${href + '/' + this.selectedSlug}>@${this.selectedChannel.slug}</a>`
 									: html`<a href=${href + '/new'}>Create radio</a>`}
-								${this.user ? html`<a href=${href + '/settings'}>Settings</a>` : ''}
 						  `}
+					<a href=${href + '/settings'}>Settings</a>
 				</menu>
 			</header>
 		`

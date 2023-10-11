@@ -39,55 +39,73 @@ export default class R4PageSettings extends LitElement {
 	}
 
 	render() {
+		const {user} = this.store
 		return html`
 			<header>
-				<nav>
-					<nav-item><code>/</code>settings</nav-item>
-				</nav>
 				<h1>Settings</h1>
+				<p>Application configuration and use settings.</p>
 			</header>
-			<h2>Account</h2>
-			<p>You are signed in as <em>${this.store?.user?.email}</em>.</p>
-			<br />
-			<form @submit=${this.changeEmail}>
-				<fieldset>
-					<label for="email">Change email</label>
-					<input type="email" name="email" value=${this.store.user?.email} required />
-				</fieldset>
-				<fieldset>
-					<button type="submit">Save</button>
-				</fieldset>
-				<output>${this.changeEmail.msg ? html`<p>${this.changeEmail.msg}</p>` : null}</output>
-			</form>
-			<br />
-			<form @submit=${this.changePassword}>
-				<fieldset hidden>
-					<input name="username" value=${this.store.user?.email} readonly hidden autocomplete="username" />
-				</fieldset>
-				<fieldset>
-					<label for="password">Change password</label>
-					<input type="password" name="password" required autocomplete="new-password" />
-				</fieldset>
-				<fieldset>
-					<button type="submit">Save</button>
-				</fieldset>
-				<output> ${this.changePassword.msg ? html`<p>${this.changePassword.msg}</p>` : null} </output>
-			</form>
+			<main>${this.renderAppearence()} ${user ? this.renderUser() : this.renderNoUser()}</main>
+		`
+	}
 
-			<h2>Appearance</h2>
-			<r4-color-scheme .user=${this.store.user}></r4-color-scheme>
-
-			<h2>Danger zone</h2>
-			<r4-user-delete
-				.user=${this.store.user}
-				.userChannels=${this.store.userChannels}
-				.href=${this.config.href}
-			></r4-user-delete>
-
-			<br />
-			<p>
-				<a href="${this.config.href}/sign/out">Sign out</a>
-			</p>
+	renderUser() {
+		return html`
+			<section>
+				<h2>Account</h2>
+				<p>
+					You are signed in as <em>${this.store?.user?.email}</em>;
+					<a href="${this.config.href}/sign/out">sign out</a>
+				</p>
+				<br />
+				<form @submit=${this.changeEmail}>
+					<fieldset>
+						<label for="email">Change email</label>
+						<input type="email" name="email" value=${this.store.user?.email} required />
+					</fieldset>
+					<fieldset>
+						<button type="submit">Save</button>
+					</fieldset>
+					<output>${this.changeEmail.msg ? html`<p>${this.changeEmail.msg}</p>` : null}</output>
+				</form>
+				<br />
+				<form @submit=${this.changePassword}>
+					<fieldset hidden>
+						<input name="username" value=${this.store.user?.email} readonly hidden autocomplete="username" />
+					</fieldset>
+					<fieldset>
+						<label for="password">Change password</label>
+						<input type="password" name="password" required autocomplete="new-password" />
+					</fieldset>
+					<fieldset>
+						<button type="submit">Save</button>
+					</fieldset>
+					<output> ${this.changePassword.msg ? html`<p>${this.changePassword.msg}</p>` : null} </output>
+				</form>
+			</section>
+			<section>
+				<h2>Danger zone</h2>
+				<r4-user-delete
+					.user=${this.store.user}
+					.userChannels=${this.store.userChannels}
+					.href=${this.config.href}
+				></r4-user-delete>
+			</section>
+		`
+	}
+	renderNoUser() {
+		return html` <p>
+			Your are signed-out.
+			<a href="${this.config.href}/sign/in">Sign in</a> an existing user account, or
+			<a href="${this.config.href}/sign/up">sign up</a> for a new one.
+		</p>`
+	}
+	renderAppearence() {
+		return html`
+			<section>
+				<h2>Appearance</h2>
+				<r4-color-scheme .user=${this.store.user}></r4-color-scheme>
+			</section>
 		`
 	}
 
