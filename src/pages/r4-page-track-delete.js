@@ -41,7 +41,7 @@ export default class R4PageTrackDelete extends BaseChannel {
 	async onDelete({detail}) {
 		/* no error? we deleted */
 		if (!detail?.data) {
-			page(this.channelOrigin + '/tracks')
+			page(`/${this.params.slug}/tracks`)
 		}
 	}
 

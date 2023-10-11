@@ -238,7 +238,11 @@ export default class R4Form extends HTMLElement {
 	}
 
 	handleError(error) {
-		console.log('form:error', error)
+		/* reset all existing outputs */
+		this.$form.querySelectorAll('output').forEach(($out) => {
+			$out.innerHTML = ''
+		})
+
 		const {code = 'default'} = error
 		const {message, field} = this.errors[code]
 		error.field = field
@@ -246,10 +250,7 @@ export default class R4Form extends HTMLElement {
 		if (!error?.code) {
 			console.log('form:unhandled error', error)
 		}
-		/* reset all existing outputs */
-		this.$form.querySelectorAll('output').forEach(($out) => {
-			$out.innerHTML = ''
-		})
+
 		/* set errors on outputs */
 		let $out
 		if (field) {
