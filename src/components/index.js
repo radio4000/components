@@ -19,11 +19,9 @@ import R4ChannelSharer from './r4-channel-sharer.js'
 import R4ChannelUpdate from './r4-channel-update.js'
 import R4ChannelFollowers from './r4-channel-followers.js'
 import R4ChannelFollowings from './r4-channel-followings.js'
-import R4Channels from './r4-channels.js'
 import R4Dialog from './r4-dialog.js'
 import R4Favicon from './r4-favicon.js'
 import R4Layout from './r4-layout.js'
-import R4List from './r4-list.js'
 import R4Map from './r4-map.js'
 import R4MapPosition from './r4-map-position.js'
 import R4Player from './r4-player.js'
@@ -42,7 +40,6 @@ import R4ChannelCard from './r4-channel-card.js'
 import R4TrackCreate from './r4-track-create.js'
 import R4TrackDelete from './r4-track-delete.js'
 import R4TrackUpdate from './r4-track-update.js'
-import R4Tracks from './r4-tracks.js'
 import R4Tuner from './r4-tuner.js'
 import R4User from './r4-user.js'
 import R4UserDelete from './r4-user-delete.js'
@@ -67,11 +64,9 @@ customElements.define('r4-channel-update', R4ChannelUpdate)
 customElements.define('r4-channel-followers', R4ChannelFollowers)
 customElements.define('r4-channel-followings', R4ChannelFollowings)
 customElements.define('r4-channel-search', R4ChannelSearch)
-customElements.define('r4-channels', R4Channels)
 customElements.define('r4-dialog', R4Dialog)
 customElements.define('r4-favicon', R4Favicon)
 customElements.define('r4-layout', R4Layout)
-customElements.define('r4-list', R4List)
 customElements.define('r4-map', R4Map)
 customElements.define('r4-map-position', R4MapPosition)
 customElements.define('r4-player', R4Player)
@@ -89,7 +84,6 @@ customElements.define('r4-track-create', R4TrackCreate)
 customElements.define('r4-track-delete', R4TrackDelete)
 customElements.define('r4-track-update', R4TrackUpdate)
 customElements.define('r4-track-search', R4TrackSearch)
-customElements.define('r4-tracks', R4Tracks)
 customElements.define('r4-tuner', R4Tuner)
 customElements.define('r4-user', R4User)
 customElements.define('r4-user-delete', R4UserDelete)
@@ -115,11 +109,9 @@ export default {
 	R4ChannelFollowers,
 	R4ChannelFollowings,
 	R4ChannelSearch,
-	R4Channels,
 	R4Dialog,
 	R4Favicon,
 	R4Layout,
-	R4List,
 	R4Player,
 	R4Map,
 	R4MapPosition,
@@ -136,11 +128,10 @@ export default {
 	R4TrackCreate,
 	R4TrackDelete,
 	R4TrackUpdate,
-	R4Tracks,
 	R4TrackSearch,
 	R4Tuner,
 	R4User,
 	R4UserDelete,
 	R4UserChannelsSelect,
-	R4Pagination
+	R4Pagination,
 }
