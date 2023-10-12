@@ -10,14 +10,11 @@ export default class R4PageChannelDelete extends BaseChannel {
 		})
 		return html`
 			<r4-page-header>
-				<nav>
-					<nav-item> <code>@</code><a href=${link}>${this.params.slug}</a> </nav-item>
-					${this.canEdit ? html`<nav-item><a href=${link + '/update'}>Update</a></nav-item>` : ''}
-					${this.canEdit ? html`<nav-item>Delete</nav-item>` : ''}
-				</nav>
+				<h1>Delete channel</h1>
+				<p>Permanently delete this radio channel and all its content?</p>
+				<p>This will remove all references to <a href=${link}>${this.params.slug}</a> in the database.</p>
 			</r4-page-header>
 			<r4-page-main>
-				<h1>Delete channel</h1>
 				${channel ? html`<r4-channel-delete id=${channel.id} @submit=${this.onDelete}></r4-channel-delete>` : ''}
 			</r4-page-main>
 		`

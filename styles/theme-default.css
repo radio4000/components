@@ -74,8 +74,7 @@ r4-app menu {
 	align-items: center;
 	list-style: none;
 }
-r4-app menu a,
-r4-app nav a {
+r4-app menu li {
 	display: inline-flex;
 	padding: var(--s);
 }
@@ -124,9 +123,9 @@ r4-app r4-layout::part(controls-button) {
 	padding: calc(var(--s) / 2);
 	font-size: 1rem;
 }
-r4-app input,
+r4-app input:not([type='checkbox']),
 r4-app textarea {
-	width: 100%;
+	flex-grow: 1;
 }
 r4-app fieldset {
 	border: none;
@@ -249,4 +248,11 @@ r4-list-item {
 }
 r4-list-item + r4-list-item {
 	margin-top: var(--s);
+}
+
+r4-avatar-update,
+r4-avatar-upload form {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
 }

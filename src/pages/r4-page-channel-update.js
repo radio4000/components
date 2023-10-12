@@ -9,40 +9,46 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		if (channel && !this.canEdit) return html`<p>You don't have permissions to edit this channel.</p>`
 		return html`
 			<r4-page-header>
-				<nav>
-					<nav-item> <code>@</code><a href=${link}>${this.params.slug}</a> </nav-item>
-					${this.canEdit ? html`<nav-item>Update</nav-item>` : ''}
-					${this.canEdit ? html`<nav-item><a href=${link + '/delete'}>Delete</a></nav-item>` : ''}
-				</nav>
-				<h1>Update channel settings</h1>
+				<h1>Update channel</h1>
+				<p>Customize the radio channel settings.</p>
 			</r4-page-header>
-			<r4-page-main> ${channel ? this.renderChannel() : ''} </r4-page-main>
+			<r4-page-main> ${channel ? this.renderChannel() : null} </r4-page-main>
 		`
 	}
 	renderChannel() {
+		const {channel, channelOrigin: link} = this
 		return html`
-			<r4-channel-update
-				id=${channel.id}
-				slug=${channel.slug}
-				name=${channel.name}
-				description=${channel.description}
-				url=${channel.url}
-				longitude=${channel.longitude}
-				latitude=${channel.latitude}
-				@submit=${this.onUpdate}
-			></r4-channel-update>
+			<section>
+				<h2><a href=${link}>${this.params.slug}</a></h2>
+				<r4-channel-update
+					id=${channel.id}
+					slug=${channel.slug}
+					name=${channel.name}
+					description=${channel.description}
+					url=${channel.url}
+					longitude=${channel.longitude}
+					latitude=${channel.latitude}
+					@submit=${this.onUpdate}
+				></r4-channel-update>
+			</section>
 
-			<h2>Avatar</h2>
-			<r4-avatar-update slug=${channel.slug}></r4-avatar-update>
+			<section>
+				<h2>Avatar</h2>
+				<r4-avatar-update slug=${channel.slug}></r4-avatar-update>
+			</section>
 
-			<h2>Map</h2>
-			<r4-map-position
-				@submit=${this.onMapSubmit}
-				longitude=${channel.longitude}
-				latitude=${channel.latitude}
-			></r4-map-position>
-
-			<p><a href="${link}/delete">Delete channel</a></p>
+			<section>
+				<h2>Map</h2>
+				<r4-map-position
+					@submit=${this.onMapSubmit}
+					longitude=${channel.longitude}
+					latitude=${channel.latitude}
+				></r4-map-position>
+			</section>
+			<section>
+				<h2>Delete channel</h2>
+				<p>To <a href="${link}/delete">delete this channel</a> permanently.</p>
+			</section>
 		`
 	}
 

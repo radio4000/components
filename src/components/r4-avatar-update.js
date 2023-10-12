@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit'
+import {LitElement, html} from 'lit'
 import {sdk} from '@radio4000/sdk'
 
 /**
@@ -8,27 +8,33 @@ import {sdk} from '@radio4000/sdk'
 export default class AvatarUpdate extends LitElement {
 	static properties = {
 		// Decides which channel to update.
-		slug: { type: String },
+		slug: {type: String},
 		// The image id from Cloudinary.
-		image: { type: String, state: true },
+		image: {type: String, state: true},
 	}
-	async onUpload({ detail }) {
+	async onUpload({detail}) {
 		this.image = detail.public_id
-		await sdk.supabase.from('channels').update({ image: this.image }).eq('slug', this.slug)
+		await sdk.supabase.from('channels').update({image: this.image}).eq('slug', this.slug)
 	}
 	async onDelete() {
 		this.image = null
-		const { error } = await sdk.supabase.from('channels').update({ image: this.image }).eq('slug', this.slug)
+		const {error} = await sdk.supabase.from('channels').update({image: this.image}).eq('slug', this.slug)
 		if (error) console.log(error)
 	}
 	render() {
 		return html`
-			<div>
-				<r4-avatar slug=${this.slug} image=${this.image}></r4-avatar>
-				<r4-avatar-upload tags=${this.slug} @upload=${this.onUpload}></r4-avatar-upload>
-				<p><button type="button" @click=${this.onDelete} destructive>Delete avatar</button></p>
-			</div>
+			${this.image ? this.renderAvatar() : null} ${!this.image ? this.renderUpload() : null}
+			${this.image ? this.renderDelete() : null}
 		`
+	}
+	renderAvatar() {
+		return html`<r4-avatar slug=${this.slug} image=${this.image} size="small"></r4-avatar>`
+	}
+	renderUpload() {
+		return html`<r4-avatar-upload tags=${this.slug} @upload=${this.onUpload}></r4-avatar-upload>`
+	}
+	renderDelete() {
+		return html`<button type="button" @click=${this.onDelete} destructive>Delete avatar</button>`
 	}
 
 	createRenderRoot() {
