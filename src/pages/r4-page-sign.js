@@ -42,13 +42,12 @@ export default class R4PageSign extends LitElement {
 	renderAside() {
 		if (this.params.method === 'in') {
 			return html`<details>
-				<summary>Forgot your password?</summary>
-				<br />
-				<p>Enter your email address below and we’ll send you password reset instructions.</p>
+				<summary>Forgot password?</summary>
 				<r4-reset-password></r4-reset-password>
+				<blockquote>Enter the email address of the account, to receive the password reset instructions.</blockquote>
 			</details>`
 		} else if (this.params.method === 'up') {
-			return html`<p>Already have an account? <a href=${this.config.href + `/sign/in`}>sign in</a></p>`
+			return html`<p><a href=${this.config.href + `/sign/in`}>Sign in</a> if you already have an existing account.</p>`
 		}
 	}
 

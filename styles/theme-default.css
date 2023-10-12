@@ -97,6 +97,13 @@ r4-layout [slot='main'] {
 	flex-grow: 1;
 }
 
+r4-router > * {
+	padding: calc(var(--s) / 3);
+}
+r4-route {
+	display: none;
+}
+
 /* the map full height */
 r4-map,
 r4-map main,

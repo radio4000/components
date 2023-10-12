@@ -287,12 +287,8 @@ r4-supabase-modifiers fieldset {
 	display: block;
 }
 
-r4-layout > header,
-r4-layout > main {
-	padding: 0 1rem;
-}
-r4-app [slot='menu'] {
-	margin: var(--s) 0 0;
+r4-app [slot='menu'] menu {
+	margin: calc(var(--s) / 3);
 }
 
 /* Tracks */
@@ -339,7 +335,7 @@ r4-button-play button:hover,
 	border-color: transparent;
 	background: none;
 	box-shadow: none;
-	/* color: var(--c-link); */
+	color: var(--c-link);
 }
 r4-track[playing] r4-track-title a {
 	color: var(--c-link);
@@ -430,12 +426,15 @@ r4-channel-card {
 [color-scheme='dark'] r4-channel-card {
 	border: 1px solid rgb(50, 51, 70);
 }
-r4-channel-card > a {
+r4-channel-card a {
 	flex-shrink: 0;
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
 	text-decoration: none;
+}
+r4-channel-card r4-avatar {
+	padding: calc(var(--s) / 4);
 }
 r4-channel-card r4-slug {
 	display: none;
@@ -502,18 +501,8 @@ r4-page-channel menu nav-item {
 r4-page-channel r4-avatar img {
 	height: calc(var(--s) * 8);
 }
-r4-page-channel > main > footer {
-	margin-top: var(--s);
-}
 
 /* Explore page */
-r4-page-explore > main,
-r4-page-channel-tracks > main {
-	margin-top: var(--s);
-	display: flex;
-	flex-flow: column nowrap;
-	gap: var(--s);
-}
 r4-page-explore r4-supabase-query,
 r4-page-channel-tracks r4-supabase-query {
 	display: block;
@@ -525,10 +514,6 @@ r4-app details summary {
 
 r4-app radio4000-player .Layout-footer .PlayerControl-group button {
 	height: 100%;
-}
-
-[page] > header {
-	margin-top: calc(var(--s) * 2);
 }
 
 /* 6.4rem height to hide video completely */
