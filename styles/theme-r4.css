@@ -5,6 +5,7 @@ r4-app {
 	--font: Maison Neue, system-ui, sans-serif;
 	--s-font: 15px;
 	--s-line-height: 1.3125;
+	--s: 0.5rem;
 
 	--c-light: hsl(0deg 0% 98%);
 	--c-lightgray: hsl(0deg 0% 80%);
@@ -18,7 +19,7 @@ r4-app {
 	/* background-color: hsl(40, 6%, 90%); */
 	/* color: hsl(0, 0%, 10%); */
 	/* font-size: 15px; */
-
+	--c-border: var(--c-dark);
 }
 
 [color-scheme='light'] r4-app {
@@ -39,11 +40,11 @@ r4-layout {
 	padding: 1rem;
 }
 
-r4-app [slot="main"] header:first-of-type {
+r4-app [slot='main'] header:first-of-type {
 	margin-bottom: var(--s);
 }
 
-r4-app [slot="main"] header:first-of-type h1 {
+r4-app [slot='main'] header:first-of-type h1 {
 	margin-top: var(--s);
 }
 
@@ -62,11 +63,11 @@ r4-app h2 {
 
 r4-app button {
 	display: inline-block;
-	font-size: .86667rem;
+	font-size: 0.86667rem;
 	font-weight: bold;
-	border: 1px solid rgba(115,115,115,.4);
+	border: 1px solid rgba(115, 115, 115, 0.4);
 	border-radius: 3px;
-	box-shadow: 0 3px 0 -1px rgba(204,204,204,.9);
+	box-shadow: 0 3px 0 -1px rgba(204, 204, 204, 0.9);
 	box-sizing: border-box;
 	cursor: pointer;
 	line-height: 1;
@@ -78,7 +79,7 @@ r4-app button {
 	text-decoration: none;
 }
 
-r4-app[color-scheme="dark"] button {
+r4-app[color-scheme='dark'] button {
 	color: var(--c-bg);
 }
 
@@ -92,26 +93,30 @@ r4-channel-card {
 
 /* Maison Neue regular/italic + bold/italic from Cloudinary */
 @font-face {
-	font-family: "Maison Neue";
-	src: url("https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-book_ee98sm.woff2") format("woff2");
+	font-family: 'Maison Neue';
+	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-book_ee98sm.woff2')
+		format('woff2');
 	font-weight: normal;
 	font-style: normal;
 }
 @font-face {
-	font-family: "Maison Neue";
-	src: url("https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bookitalic_szjrvl.woff2") format("woff2");
+	font-family: 'Maison Neue';
+	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bookitalic_szjrvl.woff2')
+		format('woff2');
 	font-weight: normal;
 	font-style: italic;
 }
 @font-face {
-	font-family: "Maison Neue";
-	src: url("https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bold_rvmbzr.woff2") format("woff2");
+	font-family: 'Maison Neue';
+	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bold_rvmbzr.woff2')
+		format('woff2');
 	font-weight: bold;
 	font-style: normal;
 }
 @font-face {
-	font-family: "Maison Neue";
-	src: url("https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bolditalic_awvcg5.woff2") format("woff2");
+	font-family: 'Maison Neue';
+	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bolditalic_awvcg5.woff2')
+		format('woff2');
 	font-weight: bold;
 	font-style: italic;
 }

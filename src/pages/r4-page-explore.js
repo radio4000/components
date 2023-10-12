@@ -26,7 +26,7 @@ export default class R4PageExplore extends LitElement {
 
 	render() {
 		return html`
-			<main>
+			<header>
 				<details>
 					<summary>Filter ${this.count} channels</summary>
 					<r4-supabase-query
@@ -40,7 +40,8 @@ export default class R4PageExplore extends LitElement {
 						@query=${this.onQuery}
 					></r4-supabase-query>
 				</details>
-
+			</header>
+			<main>
 				<ul list>
 					${repeat(
 						this.channels || [],

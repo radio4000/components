@@ -14,11 +14,13 @@ r4-layout::part(main) {
 	flex-grow: 1;
 }
 
-r4-router,
-r4-page-map {
+r4-router > * {
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
+}
+r4-route {
+	display: none;
 }
 
 /* basic styles for details and summary of the playback layout part */
