@@ -78,6 +78,7 @@ export default class R4Router extends LitElement {
 		this.params = ctx.params
 		this.searchParams = ctx.searchParams
 		this.componentName = `r4-page-${$route.getAttribute('page')}`
+		console.log(this.params)
 		// Schedules a new render.
 		this.requestUpdate()
 	}
