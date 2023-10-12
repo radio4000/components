@@ -1,49 +1,40 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width">
-	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+		<title>r4-auth-status</title>
+		<meta name="description" content="r4-auth-status" />
+		<script type="module" src="/src/index.js"></script>
+		<link rel="stylesheet" href="/styles/index.css" />
+	</head>
 
-	<title>r4-auth-status</title>
-	<meta name="description" content="r4-auth-status">
-	<script type="module" src="/src/index.js"></script>
-	<link rel="stylesheet" href="/styles/index.css" />
-</head>
+	<body>
+		<menu>
+			<li>
+				This component displays if there is curently authentication, a <r4-title small="true"></r4-title> user
+				<a href="../r4-sign-out">signed in</a> or <a href="../r4-sign-in">signed out</a>
+			</li>
+			<li>
+				It can be used with children slot elements <kbd>slot="in"</kbd> and <kbd>slot="out"</kbd>, for displaying
+				content only when "signed in" or "signed out".
+			</li>
+			<li>The <em>auth</em> attribute and property can be used to set the authentication status.</li>
+			<li>The component automatically updates `auth` listening to Supabase auth changes.</li>
+		</menu>
 
-<body>
-	<menu>
-		<li>
-			This component displays if there is curently authentication, a <r4-title small="true"></r4-title> user <a
-				href="../r4-sign-out">signed in</a> or <a href="../r4-sign-in">signed out</a>
-		</li>
-		<li>
-			It can be used with children slot elements <kbd>slot="in"</kbd> and <kbd>slot="out"</kbd>, for displaying
-			content only when "signed in" or "signed out".
-		</li>
-		<li>
-			The <em>auth</em> attribute and property can be used to set the authentication status.
-		</li>
-		<li>
-			The component automatically updates `auth` listening to Supabase auth changes.
-		</li>
-	</menu>
+		<p>signed out:</p>
+		<r4-auth-status>
+			<span slot="in">Signed in</span>
+			<span slot="out">Signed out</span>
+		</r4-auth-status>
 
-	<p>signed out:</p>
-	<r4-auth-status>
-		<span slot="in">Signed in</span>
-		<span slot="out">Signed out</span>
-	</r4-auth-status>
-
-	<br>
-	<br>
-	<p>signed in:</p>
-	<r4-auth-status auth>
-		<span slot="in">Signed in</span>
-		<span slot="out">Signed out</span>
-	</r4-auth-status>
-
-</body>
-
+		<p>signed in:</p>
+		<r4-auth-status auth>
+			<span slot="in">Signed in</span>
+			<span slot="out">Signed out</span>
+		</r4-auth-status>
+	</body>
 </html>

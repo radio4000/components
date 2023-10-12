@@ -17,10 +17,9 @@ export default class R4PageHome extends LitElement {
 				<p>
 					This is page is the public beta for a new Radio4000 (<a href=${href + `/about`}>learn more</a>). Try it out!
 				</p>
-				<br />
 				<p>
-					<strong>WARNING &rarr;</strong> all data created on the beta website will be deleted regularely.<br />
-					Keep adding your music on the regular application!
+					<strong>WARNING &rarr;</strong> all data created on the beta website will be deleted regularely. Keep adding
+					your music on the regular application!
 				</p>
 				${user ? this.renderMenuUser() : null}
 				${userChannels?.length

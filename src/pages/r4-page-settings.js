@@ -57,7 +57,6 @@ export default class R4PageSettings extends LitElement {
 					You are signed in as <em>${this.store?.user?.email}</em>;
 					<a href="${this.config.href}/sign/out">sign out</a>
 				</p>
-				<br />
 				<form @submit=${this.changeEmail}>
 					<fieldset>
 						<label for="email">Change email</label>
@@ -68,7 +67,6 @@ export default class R4PageSettings extends LitElement {
 					</fieldset>
 					<output>${this.changeEmail.msg ? html`<p>${this.changeEmail.msg}</p>` : null}</output>
 				</form>
-				<br />
 				<form @submit=${this.changePassword}>
 					<fieldset hidden>
 						<input name="username" value=${this.store.user?.email} readonly hidden autocomplete="username" />

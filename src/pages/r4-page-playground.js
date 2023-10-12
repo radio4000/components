@@ -42,15 +42,14 @@ export default class R4PagePlayground extends LitElement {
 			<h1>Playground</h1>
 			<p>params = ${this.params.color}</p>
 			<p>page = ${this.searchParams.get('page')}</p>
-			<br>
-			<p>
-				Update search params with a regular link:<br>
-				<a href="/examples/r4-app/playground/hotpink">/hotpink</a><br>
-				<a href="/examples/r4-app/playground/red">/red</a><br>
-				<a href="/examples/r4-app/playground/yellow?page=2">/yellow?page=2</a><br>
-				<a href="/examples/r4-app/playground/yellow?page=666">/yellow?page=666</a><br>
+			<p>Update search params with a regular link:</p>
+			<menu>
+				<a href="/examples/r4-app/playground/hotpink">/hotpink</a>
+				<a href="/examples/r4-app/playground/red">/red</a><br />
+				<a href="/examples/r4-app/playground/yellow?page=2">/yellow?page=2</a>
+				<a href="/examples/r4-app/playground/yellow?page=666">/yellow?page=666</a>
 				- notice how it re-renders
-			</p>
+			</menu>
 		`
 	}
 

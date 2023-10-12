@@ -28,12 +28,12 @@ export default class R4PageAbout extends LitElement {
 				<h1>About</h1>
 			</header>
 			<main>
+				<p>Hello. This is going to be the next version of Radio4000.</p>
 				<p>
-					Hello. This is going to be the next version of Radio4000.<br />The current version is still live on
+					The current version is still live on
 					<a href="https://radio4000.com">radio4000.com</a>; keep using it normally, until the beta is ready to replace
 					it.
 				</p>
-				<br />
 				<p>
 					On the beta, you can freely import your existing radio channel, test it with the new features; delete it and
 					start again.
@@ -44,7 +44,6 @@ export default class R4PageAbout extends LitElement {
 						<a href="https://matrix.to/#/#radio4000:matrix.org" rel="noreferrer">community chat</a>.</strong
 					>
 				</p>
-				<br />
 				<p>
 					Contribute to the design and development on <a href="https://github.com/radio4000">github.com/radio4000</a>.
 					The latest version is ${this.latestTag?.name}.
