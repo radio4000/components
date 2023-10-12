@@ -21,10 +21,10 @@ export default class R4Layout extends LitElement {
 			Fullscreen: 'fullscreen',
 		}
 		this.uiStatesUnicodes = {
-			[this.uiStates.Close]: '⊗',
-			[this.uiStates.Dock]: '↕',
-			[this.uiStates.Minimize]: '⊼',
-			[this.uiStates.Fullscreen]: '⇱',
+			[this.uiStates.Close]: 'x',
+			[this.uiStates.Dock]: '⌃',
+			[this.uiStates.Minimize]: '⌄',
+			[this.uiStates.Fullscreen]: '⌆',
 		}
 		this.uiState = this.uiStates.Minimize
 		document.addEventListener('fullscreenchange', this.onFullscreen.bind(this))
