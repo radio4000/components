@@ -135,31 +135,30 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 
 	renderTracksList() {
-		return html`
-			<ul list>
-				${repeat(
-					this.tracks,
-					(t) => t.id,
-					(t) => html`
-						<li>
-							<r4-button-play
-								.channel=${this.channel}
-								.track=${t}
-								.tracks=${this.tracks}
-								?playing=${this.config.playingTrack?.id === t.id}
-							></r4-button-play>
-							<r4-track
-								.track=${t}
-								.config=${this.config}
-								href=${this.config.href}
-								origin=${'' || this.tracksOrigin}
-								.canEdit=${this.canEdit}
-							></r4-track>
-						</li>
-					`
-				)}
-			</ul>
-		`
+		return html` <r4-list> ${this.renderListItems()} </r4-list> `
+	}
+	renderListItems() {
+		return repeat(
+			this.tracks,
+			(t) => t.id,
+			(t) => html`
+				<r4-list-item>
+					<r4-button-play
+						.channel=${this.channel}
+						.track=${t}
+						.tracks=${this.tracks}
+						?playing=${this.config.playingTrack?.id === t.id}
+					></r4-button-play>
+					<r4-track
+						.track=${t}
+						.config=${this.config}
+						href=${this.config.href}
+						origin=${'' || this.tracksOrigin}
+						.canEdit=${this.canEdit}
+					></r4-track>
+				</r4-list-item>
+			`
+		)
 	}
 
 	renderNoPage() {

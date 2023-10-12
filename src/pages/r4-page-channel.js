@@ -122,7 +122,7 @@ export default class R4PageChannel extends BaseChannel {
 					filters=${`[{"operator":"eq","column":"slug","value":"${channel.slug}"}]`}
 					limit="8"
 					@query=${this.onQuery}
-					hiddenui
+					hidden
 				></r4-supabase-query>
 				${this.renderTracksList()}
 				<p>All <a href="${`${link}/tracks`}">tracks</a>.</p>
@@ -137,12 +137,12 @@ export default class R4PageChannel extends BaseChannel {
 	renderTracksList() {
 		if (!this.tracks) return null
 		return html`
-			<ul list>
+			<r4-list>
 				${repeat(
 					this.tracks,
 					(t) => t.id,
 					(t) => html`
-						<li>
+						<r4-list-item>
 							<r4-button-play .channel=${this.channel} .track=${t} .tracks=${this.tracks}></r4-button-play>
 							<r4-track
 								.track=${t}
@@ -151,10 +151,10 @@ export default class R4PageChannel extends BaseChannel {
 								.canEdit=${this.canEdit}
 								?playing=${this.config.playingTrack?.id === t.id}
 							></r4-track>
-						</li>
+						</r4-list-item>
 					`
 				)}
-			</ul>
+			</r4-list>
 		`
 	}
 

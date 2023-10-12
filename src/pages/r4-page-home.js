@@ -26,9 +26,7 @@ export default class R4PageHome extends LitElement {
 					? html`
 							<section>
 								<h2>Your channel${userChannels?.length > 1 ? 's' : ''}</h2>
-								<ul list>
-									${userChannels.map((channel) => this.renderChannelCard(channel, href))}
-								</ul>
+								<r4-list> ${userChannels.map((channel) => this.renderChannelCard(channel, href))} </r4-list>
 							</section>
 					  `
 					: null}
@@ -36,9 +34,7 @@ export default class R4PageHome extends LitElement {
 					? html`
 							<section>
 								<h2>Following</h2>
-								<ul list>
-									${following?.map((channel) => this.renderChannelCard(channel, href))}
-								</ul>
+								<r4-list> ${following?.map((channel) => this.renderChannelCard(channel, href))} </r4-list>
 							</section>
 					  `
 					: null}
@@ -48,9 +44,9 @@ export default class R4PageHome extends LitElement {
 
 	renderChannelCard(channel) {
 		const channelOrigin = `${this.config.href}/${channel.slug}`
-		return html` <li>
+		return html` <r4-list-item>
 			<r4-channel-card .channel=${channel} origin=${channelOrigin}></r4-channel-card>
-		</li>`
+		</r4-list-item>`
 	}
 
 	renderMenuUser() {

@@ -42,15 +42,20 @@ export default class R4PageExplore extends LitElement {
 				</details>
 			</header>
 			<main>
-				<ul list>
-					${repeat(
-						this.channels || [],
-						(c) => c.id,
-						(c) => html`<li><r4-channel-card .channel=${c} origin=${this.channelOrigin}></r4-channel-card></li>`
-					)}
-				</ul>
+				<r4-list> ${this.renderListItems()} </r4-list>
 			</main>
 		`
+	}
+	renderListItems() {
+		return repeat(
+			this.channels || [],
+			(c) => c.id,
+			(c) => html`
+				<r4-list-item>
+					<r4-channel-card .channel=${c} origin=${this.channelOrigin}></r4-channel-card>
+				</r4-list-item>
+			`
+		)
 	}
 
 	createRenderRoot() {

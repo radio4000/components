@@ -137,8 +137,9 @@ r4-app fieldset + fieldset {
 	margin-top: var(--s);
 }
 r4-app fieldset legend,
-r4-app fieldset label {
-	padding: calc(var(--s) / 2);
+r4-app fieldset label,
+r4-app summary {
+	padding: var(--s);
 	font-style: italic;
 }
 r4-app summary,
@@ -234,4 +235,16 @@ r4-track {
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
+}
+
+r4-list {
+	display: flex;
+	flex-direction: column;
+}
+r4-list-item {
+	display: flex;
+	flex-direction: row;
+}
+r4-list-item + r4-list-item {
+	margin-top: var(--s);
 }

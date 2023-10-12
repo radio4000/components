@@ -12,7 +12,6 @@ export default class R4SupabaseQuery extends LitElement {
 		page: {type: Number, reflect: true, searchParam: true},
 		limit: {type: Number, reflect: true, searchParam: true},
 		count: {type: Number},
-		hiddenui: {type: Boolean},
 
 		/* supabase query parameters */
 		table: {type: String, reflect: true, searchParam: true},
@@ -143,21 +142,19 @@ export default class R4SupabaseQuery extends LitElement {
 
 	render() {
 		return html`
-			<div ?hidden=${this.hiddenui}>
-				<r4-supabase-select>
-					<form @submit=${this.onFormSubmit}>${[this.renderQueryTable(), this.renderQuerySelect()]}</form>
-				</r4-supabase-select>
-				<r4-supabase-filters
-					table=${this.table}
-					.filters=${this.filters}
-					@filters=${this.onFilters}
-				></r4-supabase-filters>
-				<r4-supabase-modifiers>
-					<form @submit=${this.onFormSubmit}>
-						${[this.renderQueryOrderKey(), this.renderOrderConfig(), this.renderQueryPage(), this.renderQueryLimit()]}
-					</form>
-				</r4-supabase-modifiers>
-			</div>
+			<r4-supabase-select>
+				<form @submit=${this.onFormSubmit}>${[this.renderQueryTable(), this.renderQuerySelect()]}</form>
+			</r4-supabase-select>
+			<r4-supabase-filters
+				table=${this.table}
+				.filters=${this.filters}
+				@filters=${this.onFilters}
+			></r4-supabase-filters>
+			<r4-supabase-modifiers>
+				<form @submit=${this.onFormSubmit}>
+					${[this.renderQueryOrderKey(), this.renderOrderConfig(), this.renderQueryPage(), this.renderQueryLimit()]}
+				</form>
+			</r4-supabase-modifiers>
 		`
 	}
 
