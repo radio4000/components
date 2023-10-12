@@ -11,7 +11,7 @@
 r4-app {
 	/* sizes */
 	--s-font: 18px;
-	--s: 1.5rem;
+	--s: 0.5rem;
 	--s-line-height: 1;
 	--s-youtube: 16rem;
 
@@ -57,11 +57,9 @@ r4-app,
 r4-app * {
 	box-sizing: border-box;
 }
-r4-app * {
-	margin: 0;
-}
 r4-app menu {
 	padding: 0;
+	margin: 0;
 }
 r4-app table {
 	width: 100%;
@@ -73,12 +71,22 @@ r4-app th {
 r4-app a {
 	color: var(--c-link);
 }
+r4-app h1,
+r4-app h2,
+r4-app h3,
+r4-app p {
+	margin-top: 0;
+	margin-bottom: calc(var(--s) * 2);
+}
+r4-app section {
+	margin-bottom: calc(var(--s) * 3);
+}
 /* Ensure the font is the same */
-button,
-input,
-optgroup,
-select,
-textarea {
+r4-app button,
+r4-app input,
+r4-app optgroup,
+r4-app select,
+r4-app textarea {
 	font-family: inherit;
 }
 
@@ -90,16 +98,28 @@ textarea {
 r4-app r4-layout::part(panel) {
 	/* min-height: 100vh; */
 }
-
+r4-layout [slot='menu'] menu {
+	padding: var(--s);
+}
 r4-layout [slot='main'] {
 	display: flex;
 	flex-direction: column;
+	flex-grow: 2;
+}
+r4-router {
+	flex-grow: 1;
+	display: flex;
+}
+/* all r4-pages-* are the only children of r4-router */
+r4-router > * {
 	flex-grow: 1;
 }
-
-r4-router > * {
-	padding: calc(var(--s) / 3);
+/* give a bit of padding to pages, that are not the "fullscreen" pages */
+r4-router > *:not(r4-page-map) {
+	padding: var(--s);
 }
+/* Routes are only used as data, and DOM wrapper to hide them */
+r4-routes,
 r4-route {
 	display: none;
 }
