@@ -5,7 +5,7 @@ import BaseChannel from './base-channel'
 
 export default class R4PageChannelUpdate extends BaseChannel {
 	render() {
-		const {channel, channelOrigin: link} = this
+		const {channel} = this
 		if (channel && !this.canEdit) return html`<p>You don't have permissions to edit this channel.</p>`
 		return html`
 			<r4-page-header>
@@ -16,10 +16,10 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		`
 	}
 	renderChannel() {
-		const {channel, channelOrigin: link} = this
+		const {channel, channelOrigin} = this
 		return html`
 			<section>
-				<h2><a href=${link}>${this.params.slug}</a></h2>
+				<h2><a href=${channelOrigin}>${this.params.slug}</a></h2>
 				<r4-channel-update
 					id=${channel.id}
 					slug=${channel.slug}
@@ -47,7 +47,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 			</section>
 			<section>
 				<h2>Delete channel</h2>
-				<p>To <a href="${link}/delete">delete this channel</a> permanently.</p>
+				<p>To <a href="${channelOrigin}/delete">delete this channel</a> permanently.</p>
 			</section>
 		`
 	}
