@@ -40,7 +40,7 @@ export default class R4Layout extends LitElement {
 
 	willUpdate(changedProps) {
 		changedProps.has('isPlaying') && this.onIsPlaying()
-		changedProps.has('uiState') && this.onUiState(changedProps.get('uiState'))
+		changedProps.has('uiState') && this.onUiState()
 	}
 
 	initTopOberserver() {
@@ -97,7 +97,7 @@ export default class R4Layout extends LitElement {
 		}
 	}
 
-	onFullscreen(event) {
+	onFullscreen() {
 		if (!document.fullscreenElement) {
 			if (this.uiState === this.uiStates.Fullscreen) {
 				this.uiState = this.uiStates.Minimize

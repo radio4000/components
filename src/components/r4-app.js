@@ -49,9 +49,6 @@ export default class R4App extends LitElement {
 			following: this.following,
 		}
 	}
-	set store(val) {
-		// do nothing
-	}
 
 	get config() {
 		return {
@@ -61,9 +58,6 @@ export default class R4App extends LitElement {
 			playingChannel: this.playingChannel,
 			playingTrack: this.playingTrack,
 		}
-	}
-	set config(val) {
-		// do nothing
 	}
 
 	get selectedChannel() {

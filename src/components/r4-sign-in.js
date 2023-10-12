@@ -17,6 +17,7 @@ fieldsTemplate.innerHTML = `
 
 export default class R4SignIn extends R4Form {
 	submitText = 'Sign in'
+
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate
@@ -41,8 +42,8 @@ export default class R4SignIn extends R4Form {
 		event.stopPropagation()
 		this.disableForm()
 
-		let res = {},
-			error = null
+		let res = {}
+		let error = null
 
 		try {
 			res = await sdk.auth.signIn({
@@ -66,9 +67,11 @@ export default class R4SignIn extends R4Form {
 		this.enableForm()
 
 		const { data } = res
-		if (data && data.user && data.session) {
+		if (data?.user && data.session) {
 			this.resetForm()
 		}
+
+		console.log(res)
 
 		super.handleSubmit({
 			error,

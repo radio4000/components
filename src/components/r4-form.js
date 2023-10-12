@@ -292,6 +292,7 @@ export default class R4Form extends HTMLElement {
 	}
 
 	resetForm() {
+		console.log('resetting form', this.$form)
 		if (this.$form) {
 			this.$form.reset()
 		}

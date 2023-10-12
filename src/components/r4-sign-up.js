@@ -37,6 +37,10 @@ export default class R4SignUp extends R4Form {
 		'email-rate-limit': {
 			message: 'Rate limit exceeded. Wait five minutes before trying again'
 		},
+		'password-too-short': {
+			field: 'password',
+			message: 'Password should be at least 6 characters',
+		}
 	}
 
 	async handleSubmit(event) {
@@ -52,7 +56,7 @@ export default class R4SignUp extends R4Form {
 				email: this.state.email,
 				password: this.state.password,
 			})
-			console.log('res', res)
+			console.log('sign up res', res)
 			if (res.error) {
 				console.log('Error signing up', res)
 				if (res.error.message.startsWith('For security purposes, you can only request this after')) {
@@ -61,19 +65,24 @@ export default class R4SignUp extends R4Form {
 				if (res.error.stack.includes('Email rate limit exceeded')) {
 					res.error.code = 'email-rate-limit'
 				}
+				if (res.error.stack.includes('Password should be at least 6 characters')) {
+					res.error.code = 'password-too-short'
+				}
 				throw res.error
 			}
 		} catch (err) {
-			console.log('signupform catch', err, err.name)
 			this.handleError(err)
 		}
 
 		const { data } = res
 		if (data?.user?.id) {
+			alert(`Welcome. Please check your email to confirm your account`)
 			this.resetForm()
 		} else {
 			this.enableForm()
 		}
+
+		console.log(res)
 
 		super.handleSubmit({
 			error,
