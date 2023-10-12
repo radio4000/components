@@ -12,11 +12,11 @@ export default class R4PageSign extends LitElement {
 	render() {
 		const {method} = this.params
 		return html`
-			<header>
+			<r4-page-header>
 				<h1>Sign ${method ? method : null}</h1>
-			</header>
-			<main>${method ? this.renderMethodPage(method) : this.renderMethodSelection()}</main>
-			${this.renderAside()}
+			</r4-page-header>
+			<r4-page-main>${method ? this.renderMethodPage(method) : this.renderMethodSelection()}</r4-page-main>
+			<r4-page-aside> ${this.renderAside()} </r4-page-aside>
 		`
 	}
 	renderMethodPage(method) {
@@ -27,15 +27,13 @@ export default class R4PageSign extends LitElement {
 
 	renderMethodSelection() {
 		return html`
-			<aside>
-				<p>To use <r4-title></r4-title>, sign into your user account.</p>
-				<r4-menu direction="row">
-					<a href=${`${this.config.href}/sign`}>sign</a>
-					<a href=${`${this.config.href}/sign/up`}>up</a>
-					<a href=${`${this.config.href}/sign/in`}>in</a>
-					<a href=${`${this.config.href}/sign/out`}>out</a>
-				</r4-menu>
-			</aside>
+			<p>To use <r4-title></r4-title>, sign into your user account.</p>
+			<r4-menu direction="row">
+				<a href=${`${this.config.href}/sign`}>sign</a>
+				<a href=${`${this.config.href}/sign/up`}>up</a>
+				<a href=${`${this.config.href}/sign/in`}>in</a>
+				<a href=${`${this.config.href}/sign/out`}>out</a>
+			</r4-menu>
 		`
 	}
 

@@ -63,7 +63,7 @@ export default class R4PageAdd extends BaseChannel {
 		></r4-user-channels-select>`
 
 		return html`
-			<header>
+			<r4-page-header>
 				<nav>
 					<nav-item
 						>${this.hasOneChannel
@@ -73,8 +73,8 @@ export default class R4PageAdd extends BaseChannel {
 					<nav-item><code>></code> <a href=${link + '/tracks'}>Tracks</a></nav-item>
 					<nav-item>Add</nav-item>
 				</nav>
-			</header>
-			<main>
+			</r4-page-header>
+			<r4-page-main>
 				${this.renderAdd()}
 				${this.lastAddedTrack
 					? html`Added track:
@@ -82,7 +82,7 @@ export default class R4PageAdd extends BaseChannel {
 								>${this.lastAddedTrack.title}</a
 							>`
 					: null}
-			</main>
+			</r4-page-main>
 		`
 	}
 

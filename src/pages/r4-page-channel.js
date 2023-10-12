@@ -56,11 +56,11 @@ export default class R4PageChannel extends BaseChannel {
 		}
 
 		return html`
-			<header>
+			<r4-page-header>
 				${this.channel ? this.renderChanneCover() : null} ${this.channel ? this.renderChannelMenu() : null}
-			</header>
+			</r4-page-header>
 
-			${this.channel ? this.renderChannel() : null}
+			<r4-page-main> ${this.channel ? this.renderChannel() : null} </r4-page-main>
 		`
 	}
 
@@ -88,7 +88,7 @@ export default class R4PageChannel extends BaseChannel {
 	}
 	renderChannelMenu() {
 		return html`
-			<menu>
+			<nav>
 				<nav-item><r4-button-play .channel=${this.channel} label=" Listen"></r4-button-play></nav-item>
 				<nav-item>
 					<r4-channel-actions
@@ -104,7 +104,7 @@ export default class R4PageChannel extends BaseChannel {
 						? html`<r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates>`
 						: null}
 				</nav-item>
-			</menu>
+			</nav>
 		`
 	}
 

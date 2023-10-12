@@ -110,13 +110,13 @@ export default class R4Track extends LitElement {
 		if (!label) return null
 		const filter = JSON.stringify({column: 'tags', operator: 'contains', value: label})
 		const url = `${this.origin}?filters=[${filter}]`
-		return html`<a href="${url}" label>${label}</a>`
+		return html`<li><a href="${url}" label>${label}</a></li>`
 	}
 
 	renderMention(slug) {
 		if (!slug) return null
 		const url = `${this.href}/${slug}`
-		return html`<a href="${url}" label>${slug}</a>`
+		return html`<li><a href="${url}" label>${slug}</a></li>`
 	}
 
 	renderNoTrack() {

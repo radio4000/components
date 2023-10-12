@@ -41,7 +41,7 @@ export default class R4PageChannelFeed extends LitElement {
 		const slug = this.params.slug
 		const link = this.config.href + '/' + slug
 		return html`
-			<header>
+			<r4-page-header>
 				<nav>
 					<nav-item><code>@</code><a href=${link}>${slug}</a></nav-item>
 					<nav-item>
@@ -50,9 +50,9 @@ export default class R4PageChannelFeed extends LitElement {
 					</nav-item>
 				</nav>
 				<h1>Recent tracks from @${slug}'s favorite radios</h1>
-			</header>
+			</r4-page-header>
 
-			${this.renderGroups()}
+			<r4-page-main> ${this.renderGroups()} </r4-page-main>
 		`
 	}
 

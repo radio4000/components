@@ -41,11 +41,11 @@ export default class R4PageSettings extends LitElement {
 	render() {
 		const {user} = this.store
 		return html`
-			<header>
+			<r4-page-header>
 				<h1>Settings</h1>
 				<p>Application configuration and user settings.</p>
-			</header>
-			<main>${this.renderAppearence()} ${user ? this.renderUser() : this.renderNoUser()}</main>
+			</r4-page-header>
+			<r4-page-main>${this.renderAppearence()} ${user ? this.renderUser() : this.renderNoUser()}</r4-page-main>
 		`
 	}
 

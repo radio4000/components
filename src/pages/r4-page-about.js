@@ -24,10 +24,10 @@ export default class R4PageAbout extends LitElement {
 
 	render() {
 		return html`
-			<header>
+			<r4-page-header>
 				<h1>About</h1>
-			</header>
-			<main>
+			</r4-page-header>
+			<r4-page-main>
 				<p>Hello. This is going to be the next version of Radio4000.</p>
 				<p>
 					The current version is still live on
@@ -48,7 +48,7 @@ export default class R4PageAbout extends LitElement {
 					Contribute to the design and development on <a href="https://github.com/radio4000">github.com/radio4000</a>.
 					The latest version is ${this.latestTag?.name}.
 				</p>
-			</main>
+			</r4-page-main>
 		`
 	}
 

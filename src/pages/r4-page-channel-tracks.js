@@ -59,8 +59,12 @@ export default class R4PageChannelTracks extends BaseChannel {
 		if (this.channelError) return this.renderNoPage()
 		const link = this.channelOrigin
 		return html`
-			<header><a href=${link}>${this.params.slug}</a>'s tracks</header>
-			<main>${this.channel ? [this.renderTracksMenu(), this.renderTracksQuery(), this.renderTracksList()] : null}</main>
+			<r4-page-header><a href=${link}>${this.params.slug}</a>'s tracks</r4-page-header>
+			<r4-page-main
+				>${this.channel
+					? [this.renderTracksMenu(), this.renderTracksQuery(), this.renderTracksList()]
+					: null}</r4-page-main
+			>
 		`
 	}
 

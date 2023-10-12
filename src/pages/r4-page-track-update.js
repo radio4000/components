@@ -22,30 +22,34 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		const link = this.channelOrigin
 
 		return html`
-			<nav>
-				<nav-item> <code>@</code><a href=${link}>${this.params.slug}</a> </nav-item>
-				<nav-item><code>></code> <a href=${link + '/tracks'}>Tracks</a></nav-item>
-				<nav-item><code>></code> ${track?.title}</nav-item>
-			</nav>
-			<main>
+			<r4-page-header>
+				<nav>
+					<nav-item> <code>@</code><a href=${link}>${this.params.slug}</a> </nav-item>
+					<nav-item><code>></code> <a href=${link + '/tracks'}>Tracks</a></nav-item>
+					<nav-item><code>></code> ${track?.title}</nav-item>
+				</nav>
+			</r4-page-header>
+			<r4-page-main>
 				<h1>Update track</h1>
-				${track
-					? html`
-							<r4-track-update
-								id=${track.id}
-								url=${track.url}
-								title=${track.title}
-								discogsUrl=${track.discogsUrl}
-								description=${track.description}
-								@submit=${this.onUpdate}
-							></r4-track-update>
-							<p>
-								<a href=${link + '/tracks/' + track.id + '/delete'}>Delete track</a>
-							</p>
-							<p></p>
-					  `
-					: html`<p>Loading...</p>`}
-			</main>
+				${track ? this.renderTrack() : html`<p>Loading...</p>`}
+			</r4-page-main>
+		`
+	}
+	renderTrack() {
+		const {track} = this
+		return html`
+			<r4-track-update
+				id=${track.id}
+				url=${track.url}
+				title=${track.title}
+				discogsUrl=${track.discogsUrl}
+				description=${track.description}
+				@submit=${this.onUpdate}
+			></r4-track-update>
+			<p>
+				<a href=${link + '/tracks/' + track.id + '/delete'}>Delete track</a>
+			</p>
+			<p></p>
 		`
 	}
 

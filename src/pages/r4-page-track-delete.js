@@ -22,19 +22,21 @@ export default class R4PageTrackDelete extends BaseChannel {
 		const link = this.channelOrigin
 
 		return html`
-			<nav>
-				<nav-item> <code>@</code><a href=${link}>${this.params.slug}</a> </nav-item>
-				<nav-item><code>></code> <a href=${link + '/tracks'}>Tracks</a></nav-item>
-				<nav-item><code>></code> ${track?.title}</nav-item>
-			</nav>
-			<main>
+			<r4-page-header>
+				<nav>
+					<nav-item> <code>@</code><a href=${link}>${this.params.slug}</a> </nav-item>
+					<nav-item><code>></code> <a href=${link + '/tracks'}>Tracks</a></nav-item>
+					<nav-item><code>></code> ${track?.title}</nav-item>
+				</nav>
+			</r4-page-header>
+			<r4-page-main>
 				<h1>Delete track</h1>
 				${track
 					? html`
-						<p>Are you sure you want to delete <em>${track?.title}</em>?</p>
-						<r4-track-delete id=${track.id} @submit=${this.onDelete}></r4-channel-delete>`
+		<p>Are you sure you want to delete <em>${track?.title}</em>?</p>
+		<r4-track-delete id=${track.id} @submit=${this.onDelete}></r4-channel-delete>`
 					: html`<p>Loading...</p>`}
-			</main>
+			</r4-page-main>
 		`
 	}
 

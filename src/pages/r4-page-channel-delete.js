@@ -9,15 +9,17 @@ export default class R4PageChannelDelete extends BaseChannel {
 			return channel.id === this.channel?.id
 		})
 		return html`
-			<nav>
-				<nav-item> <code>@</code><a href=${link}>${this.params.slug}</a> </nav-item>
-				${this.canEdit ? html`<nav-item><a href=${link + '/update'}>Update</a></nav-item>` : ''}
-				${this.canEdit ? html`<nav-item>Delete</nav-item>` : ''}
-			</nav>
-			<main>
+			<r4-page-header>
+				<nav>
+					<nav-item> <code>@</code><a href=${link}>${this.params.slug}</a> </nav-item>
+					${this.canEdit ? html`<nav-item><a href=${link + '/update'}>Update</a></nav-item>` : ''}
+					${this.canEdit ? html`<nav-item>Delete</nav-item>` : ''}
+				</nav>
+			</r4-page-header>
+			<r4-page-main>
 				<h1>Delete channel</h1>
 				${channel ? html`<r4-channel-delete id=${channel.id} @submit=${this.onDelete}></r4-channel-delete>` : ''}
-			</main>
+			</r4-page-main>
 		`
 	}
 

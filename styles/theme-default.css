@@ -74,7 +74,8 @@ r4-app menu {
 	align-items: center;
 	list-style: none;
 }
-r4-app menu a {
+r4-app menu a,
+r4-app nav a {
 	display: inline-flex;
 	padding: var(--s);
 }
@@ -104,8 +105,8 @@ r4-app section {
 	margin-bottom: calc(var(--s) * 3);
 }
 r4-app form {
-	padding: var(--s);
 }
+
 /* Ensure the font is the same */
 r4-app button,
 r4-app input,
@@ -133,13 +134,13 @@ r4-app fieldset {
 	display: flex;
 	align-items: center;
 }
-r4-app fieldset + fieldset {
-	margin-top: var(--s);
+r4-app legend,
+r4-app label {
+	margin-right: var(--s);
 }
 r4-app fieldset legend,
 r4-app fieldset label,
 r4-app summary {
-	padding: var(--s);
 	font-style: italic;
 }
 r4-app summary,
@@ -171,10 +172,6 @@ r4-router {
 r4-router > * {
 	flex-grow: 1;
 }
-/* give a bit of padding to pages, that are not the "fullscreen" pages */
-r4-router > *:not(r4-page-map) {
-	padding: var(--s);
-}
 /* Routes are only used as data, and DOM wrapper to hide them */
 r4-routes,
 r4-route {
@@ -188,6 +185,11 @@ r4-map .ol-viewport {
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
+}
+
+r4-page-header,
+r4-page-main {
+	padding: var(--s);
 }
 
 /* Hide table+select from /explore and tracks pages */
