@@ -57,14 +57,14 @@ export default class R4PageChannel extends BaseChannel {
 
 		return html`
 			<r4-page-header>
-				${this.channel ? this.renderChanneCover() : null} ${this.channel ? this.renderChannelMenu() : null}
+				${this.channel ? this.renderChannelCover() : null} ${this.channel ? this.renderChannelMenu() : null}
 			</r4-page-header>
 
 			<r4-page-main> ${this.channel ? this.renderChannel() : null} </r4-page-main>
 		`
 	}
 
-	renderChanneCover() {
+	renderChannelCover() {
 		if (this.channel) {
 			const {description, name, image, url} = this.channel
 			return html`
