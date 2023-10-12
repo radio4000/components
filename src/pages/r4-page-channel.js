@@ -65,9 +65,8 @@ export default class R4PageChannel extends BaseChannel {
 		`
 	}
 	renderChannelCard() {
-		const channelOrigin = `${this.config.href}/${this.channel.slug}`
 		return html`
-			<r4-channel-card .channel=${this.channel} origin=${channelOrigin}></r4-channel-card>
+			<r4-channel-card .channel=${this.channel} origin=${this.channelOrigin}></r4-channel-card>
 			${this.channel.url ? this.renderChannelUrl() : null}
 		`
 	}

@@ -68,10 +68,10 @@ export default class R4SupabaseFilters extends LitElement {
 	render() {
 		return html`
 			<form @submit=${this.onFormSubmit}>
+				${this.filters?.length ? this.renderFilters() : null}
 				<fieldset>
-					${this.filters?.length ? this.renderFilters() : null}
 					<label>
-						<button @click=${this.addFilter}>Add filter</button>
+						<button type="button" @click=${this.addFilter}>Add filter</button>
 					</label>
 				</fieldset>
 			</form>
@@ -83,18 +83,13 @@ export default class R4SupabaseFilters extends LitElement {
 			 (might be multiple channels? ex. "all tracks with #dub from @x & @y") */
 		const renderFilterItem = (filter, index) => {
 			return html`
-				<li>
-					<fieldset>
-						${this.renderFilter(filter, index)}
-						<button @click=${() => this.removeFilter(index)} destructive>x</button>
-					</fieldset>
-				</li>
+				<fieldset>
+					${this.renderFilter(filter, index)}
+					<button @click=${() => this.removeFilter(index)} destructive>x</button>
+				</fieldset>
 			`
 		}
-
-		return html`<ul>
-			${this.filters.map(renderFilterItem.bind(this))}
-		</ul>`
+		return this.filters.map(renderFilterItem.bind(this))
 	}
 
 	renderFilter(filter, index) {

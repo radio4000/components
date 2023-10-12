@@ -15,8 +15,10 @@ export default class R4PageSign extends LitElement {
 			<r4-page-header>
 				<h1>Sign ${method ? method : null}</h1>
 			</r4-page-header>
-			<r4-page-main>${method ? this.renderMethodPage(method) : this.renderMethodSelection()}</r4-page-main>
-			<r4-page-aside> ${this.renderAside()} </r4-page-aside>
+			<r4-page-main>
+				<section>${method ? this.renderMethodPage(method) : this.renderMethodSelection()}</section>
+				${this.renderAside()}
+			</r4-page-main>
 		`
 	}
 	renderMethodPage(method) {
@@ -46,16 +48,24 @@ export default class R4PageSign extends LitElement {
 	}
 	renderForgotPass() {
 		return html`
-			<details>
-				<summary>Forgot password?</summary>
-				<r4-reset-password></r4-reset-password>
-				<blockquote>Enter the email address of the account, to receive the password reset instructions.</blockquote>
-			</details>
-			<p><a href=${this.config.href + `/sign/up`}>Sign up</a> if you don't yet have an account.</p>
+			<section>
+				<details>
+					<summary>Forgot password?</summary>
+					<r4-reset-password></r4-reset-password>
+					<p>Enter the email address of the account, to receive the password reset instructions.</p>
+				</details>
+			</section>
+			<section>
+				<p><a href=${this.config.href + `/sign/up`}>Sign up</a> if you don't yet have an account.</p>
+			</section>
 		`
 	}
 	renderExistingAccount() {
-		return html`<p><a href=${this.config.href + `/sign/in`}>Sign in</a> if you already have an existing account.</p>`
+		return html`
+			<section>
+				<p><a href=${this.config.href + `/sign/in`}>Sign in</a> if you already have an existing account.</p>
+			</section>
+		`
 	}
 
 	/* submitting the curent methods's form */

@@ -46,9 +46,8 @@ export default class R4PageHome extends LitElement {
 	}
 
 	renderChannelCard(channel) {
-		const channelOrigin = `${this.config.href}/${channel.slug}`
 		return html` <r4-list-item>
-			<r4-channel-card .channel=${channel} origin=${channelOrigin}></r4-channel-card>
+			<r4-channel-card .channel=${channel} origin=${this.channelOrigin}></r4-channel-card>
 		</r4-list-item>`
 	}
 
