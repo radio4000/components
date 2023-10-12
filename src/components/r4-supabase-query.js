@@ -142,6 +142,11 @@ export default class R4SupabaseQuery extends LitElement {
 
 	render() {
 		return html`
+			<r4-supabase-modifiers>
+				<form @submit=${this.onFormSubmit}>
+					${[this.renderQueryOrderKey(), this.renderOrderConfig(), this.renderQueryPage(), this.renderQueryLimit()]}
+				</form>
+			</r4-supabase-modifiers>
 			<r4-supabase-select>
 				<form @submit=${this.onFormSubmit}>${[this.renderQueryTable(), this.renderQuerySelect()]}</form>
 			</r4-supabase-select>
@@ -150,11 +155,6 @@ export default class R4SupabaseQuery extends LitElement {
 				.filters=${this.filters}
 				@filters=${this.onFilters}
 			></r4-supabase-filters>
-			<r4-supabase-modifiers>
-				<form @submit=${this.onFormSubmit}>
-					${[this.renderQueryOrderKey(), this.renderOrderConfig(), this.renderQueryPage(), this.renderQueryLimit()]}
-				</form>
-			</r4-supabase-modifiers>
 		`
 	}
 

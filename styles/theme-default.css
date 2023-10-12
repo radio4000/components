@@ -12,7 +12,7 @@ r4-app {
 	/* sizes */
 	--s-font: 18px;
 	--s: 0.5rem;
-	--s-line-height: 1;
+	--s-line-height: 1.3;
 	--s-youtube: 16rem;
 
 	/* reference functional variables using the colors */
@@ -60,7 +60,7 @@ r4-app * {
 r4-app ul,
 r4-app ol {
 	margin: 0;
-	padding: calc(var(--s) * 2);
+	padding: var(--s);
 }
 r4-app ul li,
 r4-app ol li {
@@ -98,7 +98,7 @@ r4-app h2,
 r4-app h3,
 r4-app p {
 	margin-top: 0;
-	margin-bottom: calc(var(--s) * 2);
+	margin-bottom: var(--s);
 }
 r4-app section {
 	margin-bottom: calc(var(--s) * 3);
@@ -228,10 +228,6 @@ r4-supabase-modifiers form {
 	display: flex;
 	flex-wrap: wrap;
 }
-
-r4-app r4-avatar {
-	max-width: calc(var(--s) * 20);
-}
 r4-channel-card,
 r4-channel-card a,
 r4-track {
@@ -268,4 +264,22 @@ r4-supabase-modifiers input {
 }
 r4-supabase-modifiers fieldset + fieldset {
 	margin-left: var(--s);
+}
+
+/* hide some interface for specific pages */
+r4-supabase-query[table='channel_tracks'] fieldset[name='orderBy'] option[value='fts'],
+r4-supabase-query[table='channel_tracks'] fieldset[name='orderBy'] option[value='slug'],
+r4-supabase-query[table='channel_tracks'] fieldset[name='orderBy'] option[value='id'] {
+	display: none;
+}
+
+r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='fts'],
+r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='id'],
+r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='firebase'],
+r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='coordinates'],
+r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='id'],
+r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='coordinates'],
+r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='fts'],
+r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='firebase'] {
+	display: none;
 }

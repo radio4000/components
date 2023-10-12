@@ -27,19 +27,17 @@ export default class R4PageExplore extends LitElement {
 	render() {
 		return html`
 			<r4-page-header>
-				<details>
-					<summary>Filter ${this.count} channels</summary>
-					<r4-supabase-query
-						table="channels"
-						page=${this.searchParams.get('page')}
-						limit=${this.searchParams.get('limit')}
-						count=${this.count}
-						order-by=${this.searchParams.get('order-by')}
-						order-config=${this.searchParams.get('order-config')}
-						filters=${this.searchParams.get('filters')}
-						@query=${this.onQuery}
-					></r4-supabase-query>
-				</details>
+				<p>Explore ${this.count || '…'} radio <a href="${this.config.href}/explore">channels</a>.</p>
+				<r4-supabase-query
+					table="channels"
+					page=${this.searchParams.get('page')}
+					limit=${this.searchParams.get('limit')}
+					count=${this.count}
+					order-by=${this.searchParams.get('order-by')}
+					order-config=${this.searchParams.get('order-config')}
+					filters=${this.searchParams.get('filters')}
+					@query=${this.onQuery}
+				></r4-supabase-query>
 			</r4-page-header>
 			<r4-page-main>
 				<r4-list> ${this.renderListItems()} </r4-list>

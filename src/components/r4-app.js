@@ -51,8 +51,10 @@ export default class R4App extends LitElement {
 	}
 
 	get config() {
+		const client = this.href.split('://')[1]
 		return {
 			href: this.href,
+			client,
 			singleChannel: this.singleChannel,
 			selectedSlug: this.selectedSlug,
 			playingChannel: this.playingChannel,

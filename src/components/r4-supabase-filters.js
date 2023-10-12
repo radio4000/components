@@ -95,7 +95,7 @@ export default class R4SupabaseFilters extends LitElement {
 	renderFilter(filter, index) {
 		const allFilterOptions = [...tables[this.table].columns, ...(tables[this.table]?.junctions || [])]
 		return html`
-			<fieldset>
+			<fieldset name="column">
 				<label>
 					Column
 					<select @input=${(e) => this.updateFilter(index, 'column', e.target.value)}>
@@ -105,8 +105,7 @@ export default class R4SupabaseFilters extends LitElement {
 					</select>
 				</label>
 			</fieldset>
-
-			<fieldset>
+			<fieldset name="operator">
 				<label>
 					Operator
 					<select @input=${(e) => this.updateFilter(index, 'operator', e.target.value)}>
@@ -116,8 +115,7 @@ export default class R4SupabaseFilters extends LitElement {
 					</select>
 				</label>
 			</fieldset>
-
-			<fieldset>
+			<fieldset name="value">
 				<label>
 					Value
 					<input

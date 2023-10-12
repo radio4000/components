@@ -5,12 +5,12 @@ import BaseChannel from './base-channel'
 
 export default class R4PageChannelUpdate extends BaseChannel {
 	render() {
-		const {channel} = this
+		const {channel, channelOrigin} = this
 		if (channel && !this.canEdit) return html`<p>You don't have permissions to edit this channel.</p>`
 		return html`
 			<r4-page-header>
 				<h1>Update channel</h1>
-				<p>Customize the radio channel settings.</p>
+				<p>Customize <a href=${channelOrigin}>${this.params.slug}</a> settings.</p>
 			</r4-page-header>
 			<r4-page-main> ${channel ? this.renderChannel() : null} </r4-page-main>
 		`
@@ -19,7 +19,6 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		const {channel, channelOrigin} = this
 		return html`
 			<section>
-				<h2><a href=${channelOrigin}>${this.params.slug}</a></h2>
 				<r4-channel-update
 					id=${channel.id}
 					slug=${channel.slug}

@@ -96,7 +96,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 		return html`
 			<menu>
-				<li><a href=${this.tracksOrigin}>${this.params.slug}</a></li>
+				<li><a href=${this.channelOrigin}>${this.params.slug}</a></li>
 				<li><r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play></li>
 				<li>
 					<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label=" Play results"></r4-button-play>
@@ -106,6 +106,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 						<label><input placeholder="Dig tracks..." type="search" @input=${this.onSearch.bind(this)} /></label>
 					</form>
 				</li>
+				<li><a href=${this.tracksOrigin}>Clear filter</a></li>
 				<li><a href=${mentionsHref} label>@Mentions</a></li>
 				<li><a href=${tagsHref} label>#Tags</a></li>
 				<li><a href=${jazzTagHref} label>#jazz</a></li>

@@ -92,10 +92,11 @@ export default class R4PageChannel extends BaseChannel {
 					></r4-channel-actions>
 				</li>
 				<li><r4-channel-social>${this.renderSocial()}</r4-channel-social></li>
+				${this.coordinates && !this.config.singleChannel
+					? html`<li><r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates></li>`
+					: null}
 				<li>
-					${this.coordinates && !this.config.singleChannel
-						? html`<r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates>`
-						: null}
+					<a href="${`${this.channelOrigin}/tracks`}">Tracks</a>
 				</li>
 			</menu>
 		`
@@ -106,25 +107,19 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	renderChannel() {
-		const {channel} = this
-		const link = this.channelOrigin
 		return html`
 			<section>
 				<r4-supabase-query
 					table="channel_tracks"
-					filters=${`[{"operator":"eq","column":"slug","value":"${channel.slug}"}]`}
+					filters=${`[{"operator":"eq","column":"slug","value":"${this.channel.slug}"}]`}
 					limit="8"
 					@query=${this.onQuery}
 					hidden
 				></r4-supabase-query>
 				${this.renderTracksList()}
 			</section>
-			<section>
-				<p>All <a href="${`${link}/tracks`}">tracks</a>.</p>
-			</section>
-
 			<r4-dialog name="share" @close=${this.onDialogClose}>
-				<r4-channel-sharer slot="dialog" origin=${link} slug=${channel.slug}></r4-channel-sharer>
+				<r4-channel-sharer slot="dialog" origin=${this.channelOrigin} slug=${this.channel.slug}></r4-channel-sharer>
 			</r4-dialog>
 		`
 	}

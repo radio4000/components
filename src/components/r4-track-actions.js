@@ -3,6 +3,7 @@ import {LitElement, html} from 'lit'
 export default class R4TrackActions extends LitElement {
 	static get properties() {
 		return {
+			trackId: {type: String, attribute: 'track-id'},
 			canEdit: {type: Boolean},
 			error: {type: Object},
 		}

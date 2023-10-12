@@ -38,9 +38,12 @@ export default class R4PageChannelTrack extends BaseChannel {
 	renderPage(track, channel) {
 		const track_id = this.params.track_id
 		return html`
+			<r4-page-header>
+				${this.renderChannelCard()}
+			</r4-page-header>
 			<r4-page-main>
 				<r4-track-actions
-					id=${this.params.track_id}
+					track-id=${this.params.track_id}
 					@input=${this.onTrackAction}
 					></r4-track-actions>
 				<r4-button-play
@@ -49,12 +52,8 @@ export default class R4PageChannelTrack extends BaseChannel {
 				<r4-track
 					.track=${track}
 					id=${this.params.track_id}
-					origin=${this.trackOrigin}
 					></r4-track>
 			</r4-page-main>
-			<r4-page-header>
-				${this.renderChannelCard()}
-			</r4-page-header>
 			<r4-page-aside>
 				<r4-dialog name="update" @close=${this.onDialogClose}>
 					<r4-track-update

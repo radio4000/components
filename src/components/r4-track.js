@@ -88,7 +88,7 @@ export default class R4Track extends LitElement {
 			<r4-track-tags><menu>${t.tags?.map((tag) => this.renderTag(tag))}</menu></r4-track-tags>
 			<r4-track-mentions>${t.mentions?.map((m) => this.renderMention(m))}</r4-track-mentions>
 			${this.canEdit
-				? html`<r4-track-actions id=${t.id} .canEdit=${this.canEdit} @input=${this.onAction}></r4-track-actions>`
+				? html`<r4-track-actions track-id=${t.id} .canEdit=${this.canEdit} @input=${this.onAction}></r4-track-actions>`
 				: ''}
 
 			<r4-dialog>
