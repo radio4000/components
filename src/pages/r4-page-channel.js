@@ -55,16 +55,8 @@ export default class R4PageChannel extends BaseChannel {
 			return this.renderChannelError()
 		}
 
-		const link = this.channelOrigin
 		return html`
 			<header>
-				<nav>
-					<nav-item><code>@</code>${this.params.slug}</nav-item>
-					<nav-item>
-						<a href=${link + '/tracks'}>Tracks</a>
-						${this.canEdit ? html`<a href=${this.config.href + '/add'}>Add</a>` : null}
-					</nav-item>
-				</nav>
 				${this.channel ? this.renderChanneCover() : null} ${this.channel ? this.renderChannelMenu() : null}
 			</header>
 

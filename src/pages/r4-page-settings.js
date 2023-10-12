@@ -43,7 +43,7 @@ export default class R4PageSettings extends LitElement {
 		return html`
 			<header>
 				<h1>Settings</h1>
-				<p>Application configuration and use settings.</p>
+				<p>Application configuration and user settings.</p>
 			</header>
 			<main>${this.renderAppearence()} ${user ? this.renderUser() : this.renderNoUser()}</main>
 		`
@@ -94,11 +94,16 @@ export default class R4PageSettings extends LitElement {
 		`
 	}
 	renderNoUser() {
-		return html` <p>
-			Your are signed-out.
-			<a href="${this.config.href}/sign/in">Sign in</a> an existing user account, or
-			<a href="${this.config.href}/sign/up">sign up</a> for a new one.
-		</p>`
+		return html`
+			<section>
+				<h2>Account</h2>
+				<p>
+					Your are signed-out.
+					<a href="${this.config.href}/sign/in">Sign in</a> an existing user account, or
+					<a href="${this.config.href}/sign/up">sign up</a> for a new one.
+				</p>
+			</section>
+		`
 	}
 	renderAppearence() {
 		return html`

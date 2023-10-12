@@ -11,18 +11,17 @@ export default class R4PageHome extends LitElement {
 		const {user, userChannels, following} = this.store
 		return html`
 			<header>
-				<nav>
-					<nav-item><code>/</code></nav-item>
-				</nav>
+				<h1>Radio4000 beta</h1>
 			</header>
-
 			<main>
-				<h1 style="margin-bottom:0">Radio4000 b3t4</h1>
 				<p>
-					This is the public beta for a new Radio4000. Try it out! (<a href=${href + `/about`}>what's this?</a>)
+					This is page is the public beta for a new Radio4000 (<a href=${href + `/about`}>learn more</a>). Try it out!
 				</p>
-				<br/>
-				<p><strong>WARNING &rarr;</strong> any data created here will be deleted while we're in beta.<br>This is a playground to test everything.</p>
+				<br />
+				<p>
+					<strong>WARNING &rarr;</strong> all data created on the beta website will be deleted regularely.<br />
+					Keep adding your music on the regular application!
+				</p>
 				${user ? this.renderMenuUser() : null}
 				${userChannels?.length
 					? html`

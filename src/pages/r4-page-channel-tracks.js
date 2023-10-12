@@ -59,19 +59,12 @@ export default class R4PageChannelTracks extends BaseChannel {
 		if (this.channelError) return this.renderNoPage()
 		const link = this.channelOrigin
 		return html`
-			<header>
-				<nav>
-					<nav-item><code>@</code><a href=${link}>${this.params.slug}</a></nav-item>
-					<nav-item> <code>></code> Tracks </nav-item>
-					${this.canEdit ? html`<nav-item><a href=${this.config.href + '/add'}>Add</a></nav-item>` : ''}
-				</nav>
-				${this.channel ? html`<h1>${this.channel.name} tracks</h1>` : ''}
-			</header>
-			<main>${this.channel ? [this.renderQuery(), this.renderTracks()] : null}</main>
+			<header><a href=${link}>${this.params.slug}</a>'s tracks</header>
+			<main>${this.channel ? [this.renderTracksMenu(), this.renderTracksQuery(), this.renderTracksList()] : null}</main>
 		`
 	}
 
-	renderQuery() {
+	renderTracksQuery() {
 		const params = this.searchParams
 		return html`
 			<details>
@@ -90,7 +83,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		`
 	}
 
-	renderTracks() {
+	renderTracksMenu() {
 		if (!this.tracks) return null
 
 		let filter = JSON.stringify({column: 'tags', operator: 'neq', value: '{}'})
@@ -103,18 +96,14 @@ export default class R4PageChannelTracks extends BaseChannel {
 		return html`
 			<menu>
 				<r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play>
-				<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label=" Play selection"></r4-button-play>
+				<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label=" Play results"></r4-button-play>
 				<form>
-					<label
-						><input placeholder="Dig tracks..." type="search" @input=${this.onSearch.bind(this)}
-					/></label>
+					<label><input placeholder="Dig tracks..." type="search" @input=${this.onSearch.bind(this)} /></label>
 				</form>
 				<a href=${mentionsHref} label>@Mentions</a>
 				<a href=${tagsHref} label>#Tags</a>
 				<a href=${jazzTagHref} label>#jazz</a>
 			</menu>
-
-			${this.renderTracksList()}
 		`
 	}
 

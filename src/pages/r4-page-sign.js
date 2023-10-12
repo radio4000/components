@@ -1,16 +1,16 @@
 import page from 'page/page.mjs'
-import { LitElement } from 'lit'
-import { html, literal, unsafeStatic } from 'lit/static-html.js'
+import {LitElement} from 'lit'
+import {html, literal, unsafeStatic} from 'lit/static-html.js'
 
 export default class R4PageSign extends LitElement {
 	static properties = {
-		params: { type: Object, state: true },
-		config: { type: Object, state: true },
-		store: { type: Object, state: true },
+		params: {type: Object, state: true},
+		config: {type: Object, state: true},
+		store: {type: Object, state: true},
 	}
 
 	render() {
-		const { method } = this.params
+		const {method} = this.params
 		return html`
 			<header>
 				<h1>Sign ${method ? method : null}</h1>
@@ -47,11 +47,13 @@ export default class R4PageSign extends LitElement {
 				<p>Enter your email address below and we’ll send you password reset instructions.</p>
 				<r4-reset-password></r4-reset-password>
 			</details>`
+		} else if (this.params.method === 'up') {
+			return html`<p>Already have an account? <a href=${this.config.href + `/sign/in`}>sign in</a></p>`
 		}
 	}
 
 	/* submitting the curent methods's form */
-	onSignSubmit({ detail: { data } }) {
+	onSignSubmit({detail: {data}}) {
 		if (this.params.method === 'in' && data && data.user) {
 			page('/')
 		}

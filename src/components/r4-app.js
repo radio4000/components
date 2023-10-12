@@ -182,6 +182,8 @@ export default class R4App extends LitElement {
 				<menu>
 					<a href=${href + '/'}><r4-title small></r4-title></a>
 					<a href=${href + '/explore'}>Explore</a>
+					<a href=${`${href}/search`}>Search</a>
+					<a href=${`${href}/map`}>Map</a>
 
 					${!user
 						? html`
