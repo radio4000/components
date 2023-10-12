@@ -38,24 +38,11 @@ export default class R4PageChannelTrack extends BaseChannel {
 	renderPage(track, channel) {
 		const track_id = this.params.track_id
 		return html`
-			<r4-page-header>
-				<nav>
-					<nav-item>
-						<code>@</code> <a href=${this.channelOrigin}>${channel.slug}</a>
-						<code>/</code> <a href=${this.channelOrigin + '/tracks'}>tracks</a>
-						<code>/</code> <a href=${this.channelOrigin + '/tracks' + '/' + track_id}>
-							${track_id}
-						</a>
-					</nav-item>
-					<nav-item>
-						<r4-track-actions
-							id=${this.params.track_id}
-							@input=${this.onTrackAction}
-							></r4-track-actions>
-					</nav-item>
-				</nav>
-			</r4-page-header>
 			<r4-page-main>
+				<r4-track-actions
+					id=${this.params.track_id}
+					@input=${this.onTrackAction}
+					></r4-track-actions>
 				<r4-button-play
 					.channel=${channel}
 					.track=${track}></r4-button-play>
@@ -65,6 +52,9 @@ export default class R4PageChannelTrack extends BaseChannel {
 					origin=${this.trackOrigin}
 					></r4-track>
 			</r4-page-main>
+			<r4-page-header>
+				${this.renderChannelCard()}
+			</r4-page-header>
 			<r4-page-aside>
 				<r4-dialog name="update" @close=${this.onDialogClose}>
 					<r4-track-update
@@ -85,14 +75,13 @@ export default class R4PageChannelTrack extends BaseChannel {
 						></r4-track-delete>
 				</r4-dialog>
 				<r4-dialog name="share" @close=${this.onDialogClose}>
-					<r4-track-sharer
-						slot="dialog"
-						origin=${this.channelOrigin}
-						slug=${track.slug}
-						></r4-track-sharer>
+					<p slot="dialog">Should show track share</p>
 				</r4-dialog>
 			</r4-page-aside>
 		`
+	}
+	renderChannelCard() {
+		return html` <r4-channel-card .channel=${this.channel} origin=${this.channelOrigin}></r4-channel-card> `
 	}
 	renderNoPage() {
 		return html`404 - No track with this id`

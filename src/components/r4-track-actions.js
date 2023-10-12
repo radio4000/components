@@ -22,15 +22,19 @@ export default class R4TrackActions extends LitElement {
 	render() {
 		return html`
 			<select @input=${this.handleInput}>
-				<option></option>
-				${this.canEdit
-					? html`
-							<option value="update">Update</option>
-							<option value="delete">Delete</option>
-					  `
-					: ''}
+				<option>…</option>
+				${this.canEdit ? this.renderAdmin() : null} ${this.renderCommon()}
 			</select>
 		`
+	}
+	renderAdmin() {
+		return html`
+			<option value="update">Update</option>
+			<option value="delete">Delete</option>
+		`
+	}
+	renderCommon() {
+		return html` <option value="share">Share</option> `
 	}
 
 	createRenderRoot() {

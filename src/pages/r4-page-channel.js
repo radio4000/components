@@ -70,7 +70,7 @@ export default class R4PageChannel extends BaseChannel {
 			${this.channel.url ? this.renderChannelUrl() : null}
 		`
 	}
-	renderChannelURL() {
+	renderChannelUrl() {
 		const {url} = this.channel
 		if (url) {
 			return html`
