@@ -144,7 +144,7 @@ export default class R4Form extends HTMLElement {
 			 */
 			Object.keys(fieldTypes).every((fieldType) => {
 				const $field = $fieldset.querySelector(fieldType)
-				const $label = $fieldset.querySelector('label')
+				const $legend = $fieldset.querySelector('legend')
 				const fieldEventType = fieldTypes[fieldType]
 
 				/* if not field for the current field type we're checking for,
@@ -172,12 +172,12 @@ export default class R4Form extends HTMLElement {
 					}
 				}
 
-				/* add the id on the field "input", to make the label work with minimal markup */
+				/* add the id on the field "input", to make the legend work with minimal markup */
 				if (!$field.getAttribute('id')) {
 					$field.setAttribute('id', fieldName)
 				}
 
-				if ($label && !$label.getAttribute('for')) {
+				if ($legend && !$legend.getAttribute('for')) {
 					$field.setAttribute('for', fieldName)
 				}
 

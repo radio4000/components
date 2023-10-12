@@ -1,12 +1,12 @@
-import { html, LitElement } from 'lit'
-import { ref, createRef } from 'lit/directives/ref.js'
+import {html, LitElement} from 'lit'
+import {ref, createRef} from 'lit/directives/ref.js'
 
 export default class R4Layout extends LitElement {
 	static properties = {
-		isPlaying: { type: Boolean, attribute: 'is-playing', reflect: true },
-		isTop: { type: Boolean },
-		uiState: { type: String, attribute: 'ui-state', reflect: true },
-		uiStates: { type: Object },
+		isPlaying: {type: Boolean, attribute: 'is-playing', reflect: true},
+		isTop: {type: Boolean},
+		uiState: {type: String, attribute: 'ui-state', reflect: true},
+		uiStates: {type: Object},
 	}
 
 	playerRef = createRef()
@@ -107,9 +107,6 @@ export default class R4Layout extends LitElement {
 
 	render() {
 		return html`
-			<r4-layout-playback ${ref(this.playerRef)} part="playback">
-				${this.isPlaying ? this.renderPlayback() : null}
-			</r4-layout-playback>
 			<r4-layout-panel part="panel">
 				<r4-layout-menu part="menu">
 					<slot name="menu"></slot>
@@ -118,6 +115,9 @@ export default class R4Layout extends LitElement {
 					<slot name="main"></slot>
 				</r4-layout-main>
 			</r4-layout-panel>
+			<r4-layout-playback ${ref(this.playerRef)} part="playback">
+				${this.isPlaying ? this.renderPlayback() : null}
+			</r4-layout-playback>
 		`
 	}
 
@@ -141,7 +141,7 @@ export default class R4Layout extends LitElement {
 		`
 	}
 
-	onControlClick({ target: { value: uiStateNext } }) {
+	onControlClick({target: {value: uiStateNext}}) {
 		this.uiState = this.uiStates[uiStateNext]
 	}
 }

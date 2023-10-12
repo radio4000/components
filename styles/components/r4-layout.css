@@ -91,7 +91,7 @@ r4-layout[ui-state='minimize'] radio4000-player .Layout-main {
 r4-layout[ui-state='minimize']::part(playback),
 r4-layout[ui-state='dock']::part(playback) {
 	position: sticky;
-	top: 0;
+	bottom: 0;
 	z-index: 2;
 }
 

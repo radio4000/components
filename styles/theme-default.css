@@ -18,7 +18,7 @@ r4-app {
 	/* reference functional variables using the colors */
 	--c-fg: inherit;
 	--c-bg: inherit;
-	--c-link: inherit;
+	--c-link: blue;
 
 	/* colors */
 	--c-light: white;
@@ -57,9 +57,26 @@ r4-app,
 r4-app * {
 	box-sizing: border-box;
 }
-r4-app menu {
-	padding: 0;
+r4-app ul,
+r4-app ol {
 	margin: 0;
+	padding: calc(var(--s) * 2);
+}
+r4-app ul li,
+r4-app ol li {
+	margin-bottom: var(--s);
+}
+r4-app menu {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	list-style: none;
+}
+r4-app menu a {
+	display: inline-flex;
+	padding: var(--s);
 }
 r4-app table {
 	width: 100%;
@@ -68,8 +85,13 @@ r4-app table {
 r4-app th {
 	text-align: left;
 }
+r4-app img {
+	width: auto;
+	display: inline-block;
+}
 r4-app a {
 	color: var(--c-link);
+	text-decoration: none;
 }
 r4-app h1,
 r4-app h2,
@@ -81,13 +103,48 @@ r4-app p {
 r4-app section {
 	margin-bottom: calc(var(--s) * 3);
 }
+r4-app form {
+	padding: var(--s);
+}
 /* Ensure the font is the same */
 r4-app button,
 r4-app input,
 r4-app optgroup,
 r4-app select,
-r4-app textarea {
+r4-app textarea,
+r4-app r4-layout::part(controls-button) {
 	font-family: inherit;
+}
+r4-app button,
+r4-app select,
+r4-app input,
+r4-app textarea,
+r4-app r4-layout::part(controls-button) {
+	padding: calc(var(--s) / 2);
+	font-size: 1rem;
+}
+r4-app input,
+r4-app textarea {
+	width: 100%;
+}
+r4-app fieldset {
+	border: none;
+	padding: 0;
+	display: flex;
+	align-items: center;
+}
+r4-app fieldset + fieldset {
+	margin-top: var(--s);
+}
+r4-app fieldset legend,
+r4-app fieldset label {
+	padding: calc(var(--s) / 2);
+	font-style: italic;
+}
+r4-app summary,
+r4-app button,
+r4-app r4-layout::part(controls-button) {
+	cursor: pointer;
 }
 
 /*
@@ -98,8 +155,7 @@ r4-app textarea {
 r4-app r4-layout::part(panel) {
 	/* min-height: 100vh; */
 }
-r4-layout [slot='menu'] menu {
-	padding: var(--s);
+r4-layout [slot='menu'] {
 }
 r4-layout [slot='main'] {
 	display: flex;
@@ -161,4 +217,21 @@ radio4000-player .PlayerControl-group .Btn {
 [color-scheme='dark'] radio4000-player .PlayPause-controller::after,
 [color-scheme='dark'] radio4000-player .PlayPause-controller::before {
 	border-color: var(--c-link);
+}
+
+/* other specific components */
+r4-supabase-modifiers form {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+r4-app r4-avatar {
+	max-width: calc(var(--s) * 20);
+}
+r4-channel-card,
+r4-channel-card a,
+r4-track {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
 }

@@ -180,22 +180,26 @@ export default class R4App extends LitElement {
 		return html`
 			<header slot="menu">
 				<menu>
-					<a href=${href + '/'}><r4-title small></r4-title></a>
-					<a href=${href + '/explore'}>Explore</a>
-					<a href=${`${href}/search`}>Search</a>
-					<a href=${`${href}/map`}>Map</a>
+					<li>
+						<a href=${href + '/'}><r4-title small></r4-title></a>
+					</li>
+					<li><a href=${href + '/explore'}>Explore</a></li>
+					<li><a href=${`${href}/search`}>Search</a></li>
+					<li><a href=${`${href}/map`}>Map</a></li>
 
-					${!user
-						? html`
-								${!user ? html`<a href=${href + '/sign/up'}>Sign-up</a>` : ''}
-								${!user ? html`<a href=${href + '/sign/in'}>Sign-in</a>` : ''}
-						  `
-						: html`
-								${this.selectedChannel
-									? html`<a href=${href + '/' + this.selectedSlug}>@${this.selectedChannel.slug}</a>`
-									: html`<a href=${href + '/new'}>Create radio</a>`}
-						  `}
-					<a href=${href + '/settings'}>Settings</a>
+					<li>
+						${!user
+							? html`
+									${!user ? html`<a href=${href + '/sign/up'}>Sign-up</a>` : ''}
+									${!user ? html`<a href=${href + '/sign/in'}>Sign-in</a>` : ''}
+							  `
+							: html`
+									${this.selectedChannel
+										? html`<a href=${href + '/' + this.selectedSlug}>@${this.selectedChannel.slug}</a>`
+										: html`<a href=${href + '/new'}>Create radio</a>`}
+							  `}
+					</li>
+					<li><a href=${href + '/settings'}>Settings</a></li>
 				</menu>
 			</header>
 		`

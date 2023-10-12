@@ -1,5 +1,5 @@
-import { LitElement, html } from 'lit'
-import { sdk } from '@radio4000/sdk'
+import {LitElement, html} from 'lit'
+import {sdk} from '@radio4000/sdk'
 
 /**
  * Renders an image in a predefined format for channel avatars.
@@ -9,9 +9,9 @@ import { sdk } from '@radio4000/sdk'
  */
 export default class R4ChannelCard extends LitElement {
 	static properties = {
-		slug: { type: String, reflect: true },
-		origin: { type: String },
-		channel: { type: Object, state: true },
+		slug: {type: String, reflect: true},
+		origin: {type: String},
+		channel: {type: Object, state: true},
 	}
 
 	get url() {
@@ -21,7 +21,7 @@ export default class R4ChannelCard extends LitElement {
 	async connectedCallback() {
 		super.connectedCallback()
 		if (this.slug) {
-			const { data } = await sdk.channels.readChannel(this.slug)
+			const {data} = await sdk.channels.readChannel(this.slug)
 			this.channel = data
 		}
 	}
@@ -29,19 +29,19 @@ export default class R4ChannelCard extends LitElement {
 	play() {
 		const playEvent = new CustomEvent('r4-play', {
 			bubbles: true,
-			detail: { channel: this.channel },
+			detail: {channel: this.channel},
 		})
 		this.dispatchEvent(playEvent)
 	}
 
 	render() {
-		const { channel } = this
+		const {channel} = this
 		if (!channel) return html`Loading...`
 		return html`
 			<r4-button-play .channel=${channel}></r4-button-play>
 			<a href="${this.url}">
-				<r4-avatar image=${channel.image}></r4-avatar>
-				<h3>${channel.name}</h3>
+				<r4-avatar size="small" image=${channel.image}></r4-avatar>
+				<r4-name>${channel.name}</r4-name>
 				<r4-slug>@${channel.slug}</r4-slug>
 			</a>
 			<r4-description>${channel.description}</r4-description>

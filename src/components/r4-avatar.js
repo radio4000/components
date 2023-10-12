@@ -51,11 +51,11 @@ export function createImage(id, sizeLabel, format = 'webp') {
 }
 
 // Renders a responsive image loaded from Cloudinary.
-function ResponsiveCloudinaryImage(id) {
+function ResponsiveCloudinaryImage(id, size = 'medium') {
 	if (!id) return null
 	return html`
 		<picture>
-			<img src=${createImage(id, 'medium')} alt=${`Avatar for ${id}`} />
+			<img src=${createImage(id, size)} alt=${`Avatar for ${id}`} />
 		</picture>
 	`
 }

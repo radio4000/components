@@ -41,14 +41,23 @@ export default class R4PageSign extends LitElement {
 
 	renderAside() {
 		if (this.params.method === 'in') {
-			return html`<details>
+			return this.renderForgotPass()
+		} else if (this.params.method === 'up') {
+			return this.renderExistingAccount()
+		}
+	}
+	renderForgotPass() {
+		return html`
+			<details>
 				<summary>Forgot password?</summary>
 				<r4-reset-password></r4-reset-password>
 				<blockquote>Enter the email address of the account, to receive the password reset instructions.</blockquote>
-			</details>`
-		} else if (this.params.method === 'up') {
-			return html`<p><a href=${this.config.href + `/sign/in`}>Sign in</a> if you already have an existing account.</p>`
-		}
+			</details>
+			<p><a href=${this.config.href + `/sign/up`}>Sign up</a> if you don't yet have an account.</p>
+		`
+	}
+	renderExistingAccount() {
+		return html`<p><a href=${this.config.href + `/sign/in`}>Sign in</a> if you already have an existing account.</p>`
 	}
 
 	/* submitting the curent methods's form */
