@@ -51,7 +51,7 @@ export default class R4Track extends LitElement {
 	async readTrack() {
 		this.loading = true
 		try {
-			const res = await sdk.tracks.readTrack(this.track.id)
+			const res = await sdk.tracks.readTrack(this.id)
 			if (res.error) throw res
 			return res.data
 		} catch (error) {
@@ -80,7 +80,7 @@ export default class R4Track extends LitElement {
 
 		return html`
 			<r4-track-title>${this.renderTitle()}</r4-track-title>
-			<r4-track-description>${this.track.description}</r4-track-description>
+			${this.track.description ? this.renderDescription() : null}
 			${this.track.discogs_url ? this.renderDiscogsUrl() : null}
 			${this.track?.tags?.length ? this.renderTags() : null}
 			${this.track?.mentions?.length ? this.renderMentions() : null}
@@ -105,6 +105,9 @@ export default class R4Track extends LitElement {
 		const title = this.track.title || this.track.id
 		return this.link ? html`<a href=${this.url}>${title}</a>` : title
 	}
+	renderDescription() {
+		return html`<r4-track-description>${this.track.description}</r4-track-description>`
+	}
 	renderDiscogsUrl() {
 		return html`<r4-track-discogs-url>(<a href="${this.track.discogs_url}">Discogs</a>)</r4-track-discogs-url>`
 	}
@@ -128,7 +131,11 @@ export default class R4Track extends LitElement {
 		return html`<li><a href="${url}" label>${slug}</a></li>`
 	}
 	renderActions() {
-		return html`<r4-track-actions track-id=${t.id} .canEdit=${this.canEdit} @input=${this.onAction}></r4-track-actions>`
+		return html`<r4-track-actions
+			track-id=${this.track.id}
+			.canEdit=${this.canEdit}
+			@input=${this.onAction}
+		></r4-track-actions>`
 	}
 	renderNoTrack() {
 		return html`Track not found`
@@ -141,7 +148,6 @@ export default class R4Track extends LitElement {
 	}
 
 	onAction({detail}) {
-		console.log(detail)
 		if (detail === 'update') {
 			this.querySelector('r4-dialog').open()
 			// page(`/${this.track.slug}/tracks/${this.track.id}/update`)
