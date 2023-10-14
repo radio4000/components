@@ -137,8 +137,8 @@ r4-app fieldset {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	margin-top: calc(var(--s));
-	margin-bottom: calc(var(--s));
+	margin-top: calc(var(--s) / 2);
+	margin-bottom: calc(var(--s) / 2);
 }
 r4-app legend,
 r4-app label {
@@ -165,11 +165,19 @@ r4-app r4-layout::part(panel) {
 }
 r4-layout [slot='menu'] {
 }
-r4-layout [slot='main'] {
+r4-layout [slot='main'],
+r4-layout [slot='player'] {
 	display: flex;
 	flex-direction: column;
-	flex-grow: 2;
 }
+r4-layout [slot='main'] {
+	flex-grow: 1;
+}
+r4-layout [slot='player'] {
+	justify-content: flex-end;
+	width: 100%;
+}
+
 r4-router {
 	flex-grow: 1;
 	display: flex;

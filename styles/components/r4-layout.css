@@ -4,6 +4,11 @@ r4-layout {
 	flex-direction: column;
 	position: relative;
 }
+@media (min-width: 70rem) {
+	r4-layout {
+		flex-direction: row;
+	}
+}
 
 /* can make the layout "panel" & its "main" part the full viewport height,
 	 so on page change, all interface does not jump */
@@ -23,11 +28,20 @@ r4-route {
 	display: none;
 }
 
+r4-layout::part(playback) {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+}
 /* basic styles for details and summary of the playback layout part */
 r4-layout::part(playback-details) {
 	background-color: var(--c-bg);
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	align-items: flex-end;
 }
-
 r4-layout::part(playback-summary) {
 	cursor: pointer;
 }
@@ -37,11 +51,16 @@ r4-layout:not([is-playing]) slot[name='player']::slotted(*),
 r4-layout[ui-state='close'] [slot='player']::slotted(*) {
 	display: none;
 }
-
 /* make the player summary not display its icon */
 r4-layout::part(playback-summary) {
 	display: flex;
 	justify-content: flex-end;
+}
+
+/* the player */
+r4-layout r4-player,
+r4-layout radio4000-player {
+	flex-grow: 1;
 }
 
 /* hide the player summary when fullscreen */
@@ -74,6 +93,9 @@ r4-layout[ui-state='minimize'] radio4000-player {
 	min-height: auto;
 	max-height: var(--s-youtube); /* youtube guidelines for video, @to-keep */
 }
+r4-layout r4-player radio4000-player .Layout {
+	border-color: var(--c-link);
+}
 /* overwrite some of radio4000-player library styles */
 r4-layout[ui-state='minimize'] radio4000-player .Layout-header,
 r4-layout[ui-state='minimize'] radio4000-player .Layout-main {
@@ -93,6 +115,17 @@ r4-layout[ui-state='dock']::part(playback) {
 	position: sticky;
 	bottom: 0;
 	z-index: 2;
+}
+@media (min-width: 70rem) {
+	r4-layout[ui-state='minimize']::part(playback),
+	r4-layout[ui-state='dock']::part(playback) {
+		top: 0;
+		bottom: auto;
+		max-height: 100vh;
+	}
+	r4-layout[is-playing]::part(playback) {
+		min-width: 30vw;
+	}
 }
 
 /* keep panel over the playback */
