@@ -15,7 +15,6 @@ import R4Channel from './r4-channel.js'
 import R4ChannelActions from './r4-channel-actions.js'
 import R4ChannelCreate from './r4-channel-create.js'
 import R4ChannelDelete from './r4-channel-delete.js'
-import R4ChannelSharer from './r4-channel-sharer.js'
 import R4ChannelUpdate from './r4-channel-update.js'
 import R4ChannelFollowers from './r4-channel-followers.js'
 import R4ChannelFollowings from './r4-channel-followings.js'
@@ -28,6 +27,7 @@ import R4Player from './r4-player.js'
 import R4ResetPassword from './r4-reset-password.js'
 import R4Router from './r4-router.js'
 import {R4ChannelSearch, R4TrackSearch} from './r4-search.js'
+import R4Share from './r4-share.js'
 import R4SignIn from './r4-sign-in.js'
 import R4SignOut from './r4-sign-out.js'
 import R4SignUp from './r4-sign-up.js'
@@ -60,7 +60,6 @@ customElements.define('r4-channel-actions', R4ChannelActions)
 customElements.define('r4-channel-card', R4ChannelCard)
 customElements.define('r4-channel-create', R4ChannelCreate)
 customElements.define('r4-channel-delete', R4ChannelDelete)
-customElements.define('r4-channel-sharer', R4ChannelSharer)
 customElements.define('r4-channel-update', R4ChannelUpdate)
 customElements.define('r4-channel-followers', R4ChannelFollowers)
 customElements.define('r4-channel-followings', R4ChannelFollowings)
@@ -73,6 +72,7 @@ customElements.define('r4-map-position', R4MapPosition)
 customElements.define('r4-player', R4Player)
 customElements.define('r4-reset-password', R4ResetPassword)
 customElements.define('r4-router', R4Router)
+customElements.define('r4-share', R4Share)
 customElements.define('r4-sign-in', R4SignIn)
 customElements.define('r4-sign-out', R4SignOut)
 customElements.define('r4-sign-up', R4SignUp)
@@ -106,7 +106,6 @@ export default {
 	R4ChannelCard,
 	R4ChannelCreate,
 	R4ChannelDelete,
-	R4ChannelSharer,
 	R4ChannelUpdate,
 	R4ChannelFollowers,
 	R4ChannelFollowings,
@@ -122,6 +121,7 @@ export default {
 	R4SignIn,
 	R4SignOut,
 	R4SignUp,
+	R4Share,
 	R4SupabaseQuery,
 	R4SupabaseFilters,
 	R4Title,

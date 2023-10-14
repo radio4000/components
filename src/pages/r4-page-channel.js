@@ -119,7 +119,7 @@ export default class R4PageChannel extends BaseChannel {
 				${this.renderTracksList()}
 			</section>
 			<r4-dialog name="share" @close=${this.onDialogClose}>
-				<r4-channel-sharer slot="dialog" origin=${this.channelOrigin} slug=${this.channel.slug}></r4-channel-sharer>
+				<r4-share slot="dialog" origin=${this.channelOrigin} slug=${this.channel.slug}></r4-share>
 			</r4-dialog>
 		`
 	}

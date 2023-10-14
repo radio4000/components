@@ -9,7 +9,6 @@ export default class R4PageChannelTrack extends BaseChannel {
 		store: {type: Object, state: true},
 		params: {type: Object, state: true},
 		config: {type: Object, state: true},
-
 		track: {type: Object, reflect: true, state: true},
 	}
 
@@ -74,7 +73,12 @@ export default class R4PageChannelTrack extends BaseChannel {
 						></r4-track-delete>
 				</r4-dialog>
 				<r4-dialog name="share" @close=${this.onDialogClose}>
-					<p slot="dialog">Should show track share</p>
+					<r4-share
+						slot="dialog"
+						origin=${this.channelOrigin}
+						slug=${this.channel.slug}
+						track-id=${track.id}
+						></r4-share>
 				</r4-dialog>
 			</r4-page-aside>
 		`
