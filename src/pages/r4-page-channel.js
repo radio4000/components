@@ -65,20 +65,7 @@ export default class R4PageChannel extends BaseChannel {
 		`
 	}
 	renderChannelCard() {
-		return html`
-			<r4-channel-card .channel=${this.channel} origin=${this.channelOrigin}></r4-channel-card>
-			${this.channel.url ? this.renderChannelUrl() : null}
-		`
-	}
-	renderChannelUrl() {
-		const {url} = this.channel
-		if (url) {
-			return html`
-				<r4-channel-url>
-					<a target="_blank" ref="norel noreferer" href=${url}>${url}</a>
-				</r4-channel-url>
-			`
-		}
+		return html` <r4-channel-card .channel=${this.channel} origin=${this.channelOrigin}></r4-channel-card> `
 	}
 	renderChannelMenu() {
 		return html`

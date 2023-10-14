@@ -35,20 +35,38 @@ export default class R4ChannelCard extends LitElement {
 	}
 
 	render() {
-		const {channel} = this
-		if (!channel) return html`Loading...`
+		if (!this.channel) {
+			return html`Loading...`
+		}
 		return html`
-			<r4-button-play .channel=${channel}></r4-button-play>
+			<r4-button-play .channel=${this.channel}></r4-button-play>
 			<a href="${this.url}">
-				<r4-avatar size="small" image=${channel.image}></r4-avatar>
-				<r4-name>${channel.name}</r4-name>
-				<r4-slug>@${channel.slug}</r4-slug>
+				${this.renderAvatar()}
+				<r4-channel-name>${this.channel.name}</r4-channel-name>
+				<r4-channel-slug>@${this.channel.slug}</r4-channel-slug>
 			</a>
-			<r4-description>${channel.description}</r4-description>
+			${this.renderDescription()} ${this.renderUrl()}
 		`
 	}
-
-	// Disable shadow DOM
+	renderDescription() {
+		if (this.channel.description) {
+			return html`<r4-channel-description> ${this.channel.description} </r4-channel-description>`
+		}
+	}
+	renderAvatar() {
+		if (this.channel.image) {
+			return html`<r4-avatar size="small" image=${this.channel.image}></r4-avatar>`
+		}
+	}
+	renderUrl() {
+		if (this.channel.url) {
+			return html`
+				<r4-channel-url>
+					<a target="_blank" ref="norel noreferer" href=${this.channel.url}> ${this.channel.url} </a>
+				</r4-channel-url>
+			`
+		}
+	}
 	createRenderRoot() {
 		return this
 	}

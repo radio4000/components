@@ -250,6 +250,14 @@ r4-track {
 	align-items: center;
 	flex-wrap: wrap;
 }
+r4-channel-card r4-avatar,
+r4-channel-card r4-button-play {
+	padding: calc(var(--s) / 2);
+}
+r4-avatar,
+r4-avatar picture {
+	display: inline-flex;
+}
 
 r4-list {
 	display: flex;
@@ -303,4 +311,39 @@ r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='coor
 r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='fts'],
 r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='firebase'] {
 	display: none;
+}
+
+/* tracks */
+r4-track {
+}
+r4-track-description::before,
+r4-track-mentions menu::before,
+r4-track-tags menu::before,
+r4-channel-slug::before,
+r4-channel-description::before,
+r4-channel-url::before {
+	content: '—';
+	display: inline;
+	float: left;
+	padding-left: var(--s);
+	padding-right: var(--s);
+	color: var(--c-fg);
+}
+r4-track-mentions a::before,
+r4-track-tags a::before {
+	color: var(--c-bg);
+	display: inline;
+	float: left;
+	padding-left: calc(var(--s) / 2);
+	padding-right: calc(var(--s) / 2);
+}
+r4-track-mentions a::before {
+	content: '@';
+}
+r4-track-tags a::before {
+	content: '#';
+}
+
+r4-button-play {
+	padding: calc(var(--s) / 2);
 }

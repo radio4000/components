@@ -74,55 +74,65 @@ export default class R4Track extends LitElement {
 	}
 
 	render() {
-		if (!this.track) return this.renderNoTrack()
-		const t = this.track
-		const title = t.title || t.id
+		if (!this.track) {
+			return this.renderNoTrack()
+		}
+
 		return html`
-			${this.playing ? '' : ''}
-			<r4-track-body>
-				<r4-track-title>${this.link ? html`<a href=${this.url}>${title}</a>` : html`${title}`} </r4-track-title>
-				<r4-track-description>${t.description}</r4-track-description>
-			</r4-track-body>
-			${t.discogs_url &&
-			html`<r4-track-discogs-url><a href="${t.discogs_url}">View on Discogs</a></r4-track-discogs-url>`}
-			<r4-track-tags><menu>${t.tags?.map((tag) => this.renderTag(tag))}</menu></r4-track-tags>
-			<r4-track-mentions>${t.mentions?.map((m) => this.renderMention(m))}</r4-track-mentions>
-			${this.canEdit
-				? html`<r4-track-actions track-id=${t.id} .canEdit=${this.canEdit} @input=${this.onAction}></r4-track-actions>`
-				: ''}
+			<r4-track-title>${this.renderTitle()}</r4-track-title>
+			<r4-track-description>${this.track.description}</r4-track-description>
+			${this.track.discogs_url ? this.renderDiscogsUrl() : null}
+			${this.track?.tags?.length ? this.renderTags() : null}
+			${this.track?.mentions?.length ? this.renderMentions() : null}
+			${this.canEdit ? this.renderActions() : null}
 
 			<r4-dialog>
-				<span slot="dialog">
-					<r4-track-update
-						id=${t.id}
-						url=${t.url}
-						title=${t.title}
-						discogsUrl=${t.discogsUrl}
-						description=${t.description}
-						@submit=${this.onUpdate}
+				span slot="dialog">
+				<r4-track-update
+					id=${this.track.id}
+					url=${this.track.url}
+					title=${this.track.title}
+					discogsUrl=${this.track.discogsUrl}
+					description=${this.track.description}
+					@submit=${this.onUpdate}
 					></r4-track-update>
 				</span>
 			</r4-dialog>
 		`
 	}
 
+	renderTitle() {
+		const title = this.track.title || this.track.id
+		return this.link ? html`<a href=${this.url}>${title}</a>` : title
+	}
+	renderDiscogsUrl() {
+		return html`<r4-track-discogs-url>(<a href="${this.track.discogs_url}">Discogs</a>)</r4-track-discogs-url>`
+	}
+	renderTags() {
+		return html`<r4-track-tags><menu>${this.track.tags?.map((tag) => this.renderTag(tag))}</menu></r4-track-tags>`
+	}
 	renderTag(label) {
 		if (!label) return null
 		const filter = JSON.stringify({column: 'tags', operator: 'contains', value: label})
 		const url = `${this.origin}?filters=[${filter}]`
 		return html`<li><a href="${url}" label>${label}</a></li>`
 	}
-
+	renderMentions() {
+		return html` <r4-track-mentions>
+			<menu> ${this.track.mentions?.map((m) => this.renderMention(m))} </menu>
+		</r4-track-mentions>`
+	}
 	renderMention(slug) {
 		if (!slug) return null
 		const url = `${this.href}/${slug}`
 		return html`<li><a href="${url}" label>${slug}</a></li>`
 	}
-
+	renderActions() {
+		return html`<r4-track-actions track-id=${t.id} .canEdit=${this.canEdit} @input=${this.onAction}></r4-track-actions>`
+	}
 	renderNoTrack() {
 		return html`Track not found`
 	}
-
 	async onUpdate(event) {
 		if (!event.detail.error) {
 			this.track = await this.readTrack() // to-rerender
