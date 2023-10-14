@@ -84,22 +84,29 @@ export default class R4PageChannel extends BaseChannel {
 		return html`
 			<menu>
 				<li>
-					<r4-channel-actions
-						slug=${this.channel.slug}
-						?can-edit=${this.canEdit}
-						?single-channel=${this.config.singleChannel}
-						@input=${this.onChannelAction}
-					></r4-channel-actions>
-				</li>
-				<li><r4-channel-social>${this.renderSocial()}</r4-channel-social></li>
-				${this.coordinates && !this.config.singleChannel
-					? html`<li><r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates></li>`
-					: null}
-				<li>
 					<a href="${`${this.channelOrigin}/tracks`}">Tracks</a>
 				</li>
+				<li>
+					<a href="${`${this.channelOrigin}/feed`}">Feed</a>
+				</li>
+				<li>
+					<a href="${`${this.channelOrigin}/following`}">Following</a>
+				</li>
+				<li>
+					<a href="${`${this.channelOrigin}/followers`}">Followers</a>
+				</li>
+				<li>
+					<r4-channel-social>${this.renderSocial()}</r4-channel-social>
+				</li>
+				<li>
+					<button @click=${(e) => this.openDialog('share')}>Share</button>
+				</li>
+				${this.coordinates && !this.config.singleChannel ? this.renderCoordinates() : null}
 			</menu>
 		`
+	}
+	renderCoordinates() {
+		return html`<li><r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates></li>`
 	}
 
 	renderChannelError() {
@@ -169,7 +176,7 @@ export default class R4PageChannel extends BaseChannel {
 		return html`<a href=${mapUrl}><r4-icon name="map_position"></r4-icon></a>`
 	}
 
-	/* event handlers from <r4-channel-actions> */
+	/* event handlers from r4-channel-actions */
 	async onChannelAction({detail}) {
 		if (detail) {
 			if (detail === 'play' && this.channel) {
