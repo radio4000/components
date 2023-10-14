@@ -106,14 +106,14 @@ export default class R4PageChannelTracks extends BaseChannel {
 				<li><a href=${this.channelOrigin}>${this.params.slug}</a></li>
 				<li><r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play></li>
 				<li>
-					<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label=" Play results"></r4-button-play>
-				</li>
-				<li>
 					<form>
 						<label>Search <input placeholder="tracks" type="search" @input=${this.onSearch.bind(this)} /></label>
 					</form>
 				</li>
 				<li>${this.renderTracksCount()}</li>
+				<li>
+					<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label=" Play results"></r4-button-play>
+				</li>
 				<li><a href=${mentionsHref} label>@Mentions</a></li>
 				<li><a href=${tagsHref} label>#Tags</a></li>
 				<li><a href=${jazzTagHref} label>#jazz</a></li>

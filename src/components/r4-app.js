@@ -249,7 +249,9 @@ export default class R4App extends LitElement {
 			el.setAttribute('track', track.id)
 		} else if (tracks) {
 			const lastTrack = tracks[tracks.length - 1]
-			el.setAttribute('track', lastTrack.id)
+			if (lastTrack) {
+				el.setAttribute('track', lastTrack.id)
+			}
 		} else {
 			el.removeAttribute('track')
 		}
