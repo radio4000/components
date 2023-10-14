@@ -18,13 +18,13 @@ r4-app {
 	/* reference functional variables using the colors */
 	--c-fg: inherit;
 	--c-bg: inherit;
-	--c-link: blue;
+	--c-link: limegreen;
 
 	/* colors */
-	--c-light: white;
+	--c-light: cornsilk;
 	--c-dark: black;
-	--c-light--accent: green;
-	--c-dark--accent: orange;
+	--c-light--accent: mediumorchid;
+	--c-dark--accent: chartreuse;
 }
 
 r4-app[color-scheme='dark'] {
@@ -73,6 +73,10 @@ r4-app menu {
 	flex-wrap: wrap;
 	align-items: center;
 	list-style: none;
+}
+r4-app menu a {
+	/* so the UI is different that "normal links" */
+	filter: invert(1);
 }
 r4-app menu li {
 	display: inline-flex;
