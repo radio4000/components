@@ -6,41 +6,33 @@ export default class R4Icon extends HTMLElement {
 		return this.getAttribute('name')
 	}
 	get icon() {
-		const i = ICONS[this.name] || {}
-		return i.emoji
+		return ICONS[this.name] || ''
 	}
-	attributeChangedCallback(attrName) {
+	attributeChangedCallback() {
 		this.render()
+		this.renderAttr()
 	}
 	connectedCallback() {
 		this.render()
 	}
 	render() {
 		this.innerHTML = ''
-		console.log(this.icon, this.name)
-		if (this.icon) {
-			const $icon = document.createElement('span')
-			$icon.setAttribute('title', `${this.name} icon`)
-			$icon.innerText = this.icon
-			this.append($icon)
+		this.innerText = this.icon
+	}
+	renderAttr() {
+		if (this.name) {
+			this.setAttribute('title', `${this.name} icon`)
+		} else {
+			this.removeAttribute('title')
 		}
 	}
 }
 
 const ICONS = {
-	search: {
-		emoji: '🔍',
-	},
-	map: {
-		emoji: '🗺️',
-	},
-	globe: {
-		emoji: '🌍',
-	},
-	dark: {
-		emoji: '🌘',
-	},
-	light: {
-		emoji: '🌖',
-	},
+	search: '🔍',
+	map: '🗺️',
+	map_position: '✵',
+	globe: '🌍',
+	dark: '🌘',
+	light: '🌖',
 }
