@@ -131,9 +131,10 @@ r4-app fieldset {
 	border: none;
 	padding: 0;
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
-	margin-top: var(--s);
-	margin-bottom: var(--s);
+	margin-top: calc(var(--s));
+	margin-bottom: calc(var(--s));
 }
 r4-app legend,
 r4-app label {
@@ -195,7 +196,9 @@ r4-page-main {
 
 /* Hide table+select from /explore and tracks pages */
 r4-page-explore r4-supabase-select,
-r4-page-channel-tracks r4-supabase-select {
+r4-page-channel r4-supabase-select,
+r4-page-channel-tracks r4-supabase-select,
+r4-page-channel r4-supabase-query {
 	display: none;
 }
 
@@ -264,6 +267,12 @@ r4-supabase-modifiers input {
 }
 r4-supabase-modifiers fieldset + fieldset {
 	margin-left: var(--s);
+}
+
+r4-supabase-query {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
 }
 
 /* hide some interface for specific pages */

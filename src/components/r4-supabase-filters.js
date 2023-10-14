@@ -82,12 +82,7 @@ export default class R4SupabaseFilters extends LitElement {
 		/* some table need default filters, channel_track, a "channel", to get the tracks of
 			 (might be multiple channels? ex. "all tracks with #dub from @x & @y") */
 		const renderFilterItem = (filter, index) => {
-			return html`
-				<fieldset>
-					${this.renderFilter(filter, index)}
-					<button @click=${() => this.removeFilter(index)} destructive>x</button>
-				</fieldset>
-			`
+			return html` <fieldset>${this.renderFilter(filter, index)}</fieldset> `
 		}
 		return this.filters.map(renderFilterItem.bind(this))
 	}
@@ -95,35 +90,27 @@ export default class R4SupabaseFilters extends LitElement {
 	renderFilter(filter, index) {
 		const allFilterOptions = [...tables[this.table].columns, ...(tables[this.table]?.junctions || [])]
 		return html`
+			<fieldset>
+				<legend>${index + 1}</legend>
+				<button @click=${() => this.removeFilter(index)} destructive>x</button>
+			</fieldset>
 			<fieldset name="column">
-				<label>
-					Column
-					<select @input=${(e) => this.updateFilter(index, 'column', e.target.value)}>
-						${this.table
-							? allFilterOptions.map((column) => this.renderOption(column, {selected: column === filter.column}))
-							: null}
-					</select>
-				</label>
+				<legend>Column</legend>
+				<select @input=${(e) => this.updateFilter(index, 'column', e.target.value)}>
+					${this.table
+						? allFilterOptions.map((column) => this.renderOption(column, {selected: column === filter.column}))
+						: null}
+				</select>
 			</fieldset>
 			<fieldset name="operator">
-				<label>
-					Operator
-					<select @input=${(e) => this.updateFilter(index, 'operator', e.target.value)}>
-						${supabaseOperators.map((operator) =>
-							this.renderOption(operator, {selected: operator === filter.operator})
-						)}
-					</select>
-				</label>
+				<legend>Operator</legend>
+				<select @input=${(e) => this.updateFilter(index, 'operator', e.target.value)}>
+					${supabaseOperators.map((operator) => this.renderOption(operator, {selected: operator === filter.operator}))}
+				</select>
 			</fieldset>
 			<fieldset name="value">
-				<label>
-					Value
-					<input
-						type="text"
-						@input=${(e) => this.updateFilter(index, 'value', e.target.value)}
-						.value=${filter.value}
-					/>
-				</label>
+				<legend>Value</legend>
+				<input type="text" @input=${(e) => this.updateFilter(index, 'value', e.target.value)} .value=${filter.value} />
 			</fieldset>
 		`
 	}
