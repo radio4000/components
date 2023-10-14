@@ -62,9 +62,9 @@ r4-app ol {
 	margin: 0;
 	padding: var(--s);
 }
-r4-app ul li,
-r4-app ol li {
-	margin-bottom: var(--s);
+r4-app ul li + li,
+r4-app ol li + li {
+	margin-top: var(--s);
 }
 r4-app menu {
 	margin: 0;
@@ -76,7 +76,7 @@ r4-app menu {
 }
 r4-app menu li {
 	display: inline-flex;
-	padding: var(--s);
+	padding: calc(var(--s) / 2);
 }
 r4-app table {
 	width: 100%;
