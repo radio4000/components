@@ -8,6 +8,7 @@ export default class R4Track extends LitElement {
 		href: {type: String},
 		id: {type: String},
 		track: {type: Object},
+		track: {type: Object},
 		config: {type: Object}, // from r4-app
 		loading: {type: Boolean, reflect: true, state: true},
 		playing: {type: Boolean, reflect: true},
@@ -79,12 +80,15 @@ export default class R4Track extends LitElement {
 		}
 
 		return html`
+			<r4-button-play
+				.channel=${this.channel}
+				.track=${this.track}></r4-button-play>
 			<r4-track-title>${this.renderTitle()}</r4-track-title>
 			${this.track.description ? this.renderDescription() : null}
 			${this.track.discogs_url ? this.renderDiscogsUrl() : null}
 			${this.track?.tags?.length ? this.renderTags() : null}
 			${this.track?.mentions?.length ? this.renderMentions() : null}
-			${this.canEdit ? this.renderActions() : null}
+			${this.renderActions()}
 
 			<r4-dialog>
 				span slot="dialog">
@@ -150,7 +154,7 @@ export default class R4Track extends LitElement {
 	onAction({detail}) {
 		if (detail === 'update') {
 			this.querySelector('r4-dialog').open()
-			// page(`/${this.track.slug}/tracks/${this.track.id}/update`)
+			page(`/${this.track.slug}/tracks/${this.track.id}/update`)
 		}
 		if (detail === 'delete') page(`/${this.track.slug}/tracks/${this.track.id}/delete`)
 		if (detail === 'play') this.play()

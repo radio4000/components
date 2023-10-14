@@ -127,13 +127,13 @@ export default class R4PageChannel extends BaseChannel {
 					(t) => t.id,
 					(t) => html`
 						<r4-list-item>
-							<r4-button-play .channel=${this.channel} .track=${t} .tracks=${this.tracks}></r4-button-play>
 							<r4-track
 								.track=${t}
 								href=${this.config.href}
 								origin=${'' || this.tracksOrigin}
 								.canEdit=${this.canEdit}
 								?playing=${this.config.playingTrack?.id === t.id}
+								.channel=${this.channel}
 							></r4-track>
 						</r4-list-item>
 					`
