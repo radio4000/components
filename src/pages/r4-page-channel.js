@@ -176,50 +176,6 @@ export default class R4PageChannel extends BaseChannel {
 		return html`<a href=${mapUrl}><r4-icon name="map_position"></r4-icon></a>`
 	}
 
-	/* event handlers from r4-channel-actions */
-	async onChannelAction({detail}) {
-		if (detail) {
-			if (detail === 'play' && this.channel) {
-				const playEvent = new CustomEvent('r4-play', {
-					bubbles: true,
-					detail: {
-						channel: this.channel,
-					},
-				})
-				this.dispatchEvent(playEvent)
-			}
-			if (detail === 'create-track') {
-				if (this.config.singleChannel) {
-					page('/add')
-				} else {
-					page(`/add/?slug=${this.params.slug}`)
-				}
-			}
-			if (detail === 'tracks') {
-				if (this.config.singleChannel) {
-					page(`/tracks`)
-				} else {
-					page(`/${this.params.slug}/tracks`)
-				}
-			}
-			if (detail === 'update') {
-				page(`/${this.params.slug}/update`)
-			}
-			if (detail === 'following') {
-				page(`/${this.params.slug}/following`)
-			}
-			if (detail === 'followers') {
-				page(`/${this.params.slug}/followers`)
-			}
-			if (detail === 'feed') {
-				page(`/${this.params.slug}/feed`)
-			}
-			if (['share'].indexOf(detail) > -1) {
-				this.openDialog(detail)
-			}
-		}
-	}
-
 	onDialogClose({target}) {
 		const name = target.getAttribute('name')
 		if (name === 'track') {

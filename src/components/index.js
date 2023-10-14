@@ -12,7 +12,6 @@ import R4AvatarUpload from './r4-avatar-upload.js'
 import R4AuthStatus from './r4-auth-status.js'
 import R4ButtonPlay from './r4-button-play.js'
 import R4Channel from './r4-channel.js'
-import R4ChannelActions from './r4-channel-actions.js'
 import R4ChannelCreate from './r4-channel-create.js'
 import R4ChannelDelete from './r4-channel-delete.js'
 import R4ChannelUpdate from './r4-channel-update.js'
@@ -56,7 +55,6 @@ customElements.define('r4-avatar-upload', R4AvatarUpload)
 customElements.define('r4-auth-status', R4AuthStatus)
 customElements.define('r4-button-play', R4ButtonPlay)
 customElements.define('r4-channel', R4Channel)
-customElements.define('r4-channel-actions', R4ChannelActions)
 customElements.define('r4-channel-card', R4ChannelCard)
 customElements.define('r4-channel-create', R4ChannelCreate)
 customElements.define('r4-channel-delete', R4ChannelDelete)
@@ -102,7 +100,6 @@ export default {
 	R4AuthStatus,
 	R4ButtonPlay,
 	R4Channel,
-	R4ChannelActions,
 	R4ChannelCard,
 	R4ChannelCreate,
 	R4ChannelDelete,
