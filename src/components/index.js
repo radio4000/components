@@ -45,6 +45,7 @@ import R4User from './r4-user.js'
 import R4UserDelete from './r4-user-delete.js'
 import R4UserChannelsSelect from './r4-user-channels-select.js'
 import R4Pagination from './r4-pagination.js'
+import R4Icon from './r4-icon.js'
 
 customElements.define('r4-actions', R4Actions)
 customElements.define('r4-app', R4App)
@@ -89,6 +90,7 @@ customElements.define('r4-user', R4User)
 customElements.define('r4-user-delete', R4UserDelete)
 customElements.define('r4-user-channels-select', R4UserChannelsSelect)
 customElements.define('r4-pagination', R4Pagination)
+customElements.define('r4-icon', R4Icon)
 
 export default {
 	R4Actions,
@@ -134,4 +136,5 @@ export default {
 	R4UserDelete,
 	R4UserChannelsSelect,
 	R4Pagination,
+	R4Icon,
 }

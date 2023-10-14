@@ -166,7 +166,7 @@ export default class R4PageChannel extends BaseChannel {
 
 	renderMap() {
 		const mapUrl = `${this.config.href}/map/?longitude=${this.coordinates.longitude}&latitude=${this.coordinates.latitude}&slug=${this.channel.slug}`
-		return html`<a href=${mapUrl}>✵</a>`
+		return html`<a href=${mapUrl}><r4-icon name="map_position"></r4-icon></a>`
 	}
 
 	/* event handlers from <r4-channel-actions> */
