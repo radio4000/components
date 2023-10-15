@@ -89,9 +89,19 @@ export default class R4PageChannel extends BaseChannel {
 					<button @click=${(e) => this.openDialog('share')}>Share</button>
 				</li>
 				${this.coordinates && !this.config.singleChannel ? this.renderCoordinates() : null}
+				${this.canEdit ? this.renderAddTrack() : null}
 			</menu>
 		`
 	}
+
+	renderAddTrack() {
+		return html`
+			<li>
+				<a href="${`${this.config.href}/add?slug=${this.channel.slug}`}"> Add </a>
+			</li>
+		`
+	}
+
 	renderCoordinates() {
 		return html`<li><r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates></li>`
 	}
