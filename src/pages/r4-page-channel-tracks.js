@@ -121,7 +121,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 		`
 	}
 	renderTracksCount() {
-		const filters = params.get('filters')
 		if (this.lastQuery.filters) {
 			return html`${this.count} tracks`
 		}
