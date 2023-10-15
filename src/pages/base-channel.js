@@ -47,9 +47,15 @@ export default class BaseChannel extends LitElement {
 		return this.store?.userChannels?.length === 1 ? true : false
 	}
 
-	willUpdate(changedProperties) {
+	async willUpdate(changedProperties) {
 		if (changedProperties.has('params')) {
-			this.setChannel()
+			await this.setChannel()
+		}
+	}
+	async connectedCallback() {
+		super.connectedCallback()
+		if (!this.channel) {
+			await this.setChannel()
 		}
 	}
 
