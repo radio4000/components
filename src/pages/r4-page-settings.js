@@ -78,7 +78,7 @@ export default class R4PageSettings extends LitElement {
 					<fieldset>
 						<button type="submit">Save</button>
 					</fieldset>
-					<output> ${this.changePassword.msg ? html`<p>${this.changePassword.msg}</p>` : null} </output>
+					<output> ${this.changePassword.msg ? this.changePassword.msg : null} </output>
 				</form>
 			</section>
 			<section>
