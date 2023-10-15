@@ -9,7 +9,6 @@ export default class R4PageAdd extends BaseChannel {
 		selectedId: {type: String, state: true},
 		lastAddedTrack: {type: Object, state: true},
 	}
-
 	get selectedSlug() {
 		if (this.hasOneChannel) {
 			return this.store.userChannels[0].slug
@@ -18,20 +17,24 @@ export default class R4PageAdd extends BaseChannel {
 		} else if (this.config.selectedSlug) {
 			return this.config.selectedSlug
 		}
-		return undefined
+		return ''
 	}
-	// set selectedSlug(val) {
-	// 	return val
-	// }
-
+	get selectedId() {
+		return this.channel?.id
+	}
+	get selectedChannelOrigin() {
+		return `${this.config.href}/${this.selectedSlug}`
+	}
 	async connectedCallback() {
 		super.connectedCallback()
 		if (this.selectedSlug) {
-			this.selectedId = await this.findSelectedChannel()
+			this.channel = await this.findSelectedChannel()
 		}
-		this.requestUpdate()
 	}
-
+	async findSelectedChannel() {
+		const {data} = await sdk.channels.readChannel(this.selectedSlug)
+		return data
+	}
 	async onChannelSelect({detail}) {
 		if (detail?.channel?.slug) {
 			this.selectedSlug = detail?.channel?.slug
@@ -41,13 +44,6 @@ export default class R4PageAdd extends BaseChannel {
 		}
 		page(`/add?slug=${detail?.channel?.slug}`)
 	}
-
-	/* find the current channel id we want to add to */
-	async findSelectedChannel() {
-		const {data} = await sdk.channels.readChannel(this.selectedSlug)
-		if (data?.id) return data.id
-	}
-
 	onTrackCreate({detail}) {
 		if (detail.data) {
 			this.lastAddedTrack = detail.data
@@ -56,33 +52,15 @@ export default class R4PageAdd extends BaseChannel {
 	}
 
 	render() {
-		const link = `${this.config.href}/${this.selectedSlug}`
-		const $channelsSelect = html`<r4-user-channels-select
-			channel=${this.selectedSlug}
-			@input=${this.onChannelSelect}
-		></r4-user-channels-select>`
+		const $channelsSelect = html`
+			<r4-user-channels-select channel=${this.selectedSlug} @input=${this.onChannelSelect}></r4-user-channels-select>
+		`
 
 		return html`
 			<r4-page-header>
-				<nav>
-					<nav-item
-						>${this.hasOneChannel
-							? html`<code>@</code><a href=${link}>${this.selectedSlug}</a>`
-							: $channelsSelect}</nav-item
-					>
-					<nav-item><code>></code> <a href=${link + '/tracks'}>Tracks</a></nav-item>
-					<nav-item>Add</nav-item>
-				</nav>
+				<r4-channel-card .channel=${this.channel} origin=${this.selectedChannelOrigin}></r4-channel-card>
 			</r4-page-header>
-			<r4-page-main>
-				${this.renderAdd()}
-				${this.lastAddedTrack
-					? html`Added track:
-							<a href=${`${this.config.href}/${this.selectedSlug}/tracks/${this.lastAddedTrack.id}`}
-								>${this.lastAddedTrack.title}</a
-							>`
-					: null}
-			</r4-page-main>
+			<r4-page-main> ${this.renderAdd()} ${this.lastAddedTrack ? this.renderLastAddedTrack() : null} </r4-page-main>
 		`
 	}
 
@@ -93,6 +71,21 @@ export default class R4PageAdd extends BaseChannel {
 				url=${this.searchParams.get('url')}
 				@submit=${this.onTrackCreate}
 			></r4-track-create>
+		`
+	}
+	renderLastAddedTrack() {
+		return html`
+			<r4-list>
+				<r4-list-item>
+					<r4-track
+						.track=${this.lastAddedTrack}
+						.canEdit="${this.canEdit}"
+						.channel="${this.channel}"
+						href="${this.config.href}"
+						origin="${this.selectedChannelOrigin}/tracks}"
+					></r4-track>
+				</r4-list-item>
+			</r4-list>
 		`
 	}
 
