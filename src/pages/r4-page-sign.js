@@ -1,24 +1,22 @@
 import page from 'page/page.mjs'
-import {LitElement} from 'lit'
 import {html, literal, unsafeStatic} from 'lit/static-html.js'
+import R4Page from '../components/r4-page.js'
 
-export default class R4PageSign extends LitElement {
+export default class R4PageSign extends R4Page {
 	static properties = {
 		params: {type: Object, state: true},
 		config: {type: Object, state: true},
 		store: {type: Object, state: true},
 	}
 
-	render() {
+	renderHeader() {
+		return html` <h1>Sign ${this.params.method ? this.params.method : null}</h1> `
+	}
+	renderMain() {
 		const {method} = this.params
 		return html`
-			<r4-page-header>
-				<h1>Sign ${method ? method : null}</h1>
-			</r4-page-header>
-			<r4-page-main>
-				<section>${method ? this.renderMethodPage(method) : this.renderMethodSelection()}</section>
-				${this.renderAside()}
-			</r4-page-main>
+			<section>${method ? this.renderMethodPage(method) : this.renderMethodSelection()}</section>
+			${this.renderFooter()}
 		`
 	}
 	renderMethodPage(method) {
@@ -31,15 +29,15 @@ export default class R4PageSign extends LitElement {
 		return html`
 			<p>To use <r4-title></r4-title>, sign into your user account.</p>
 			<r4-menu direction="row">
-				<a href=${`${this.config.href}/sign`}>sign</a>
-				<a href=${`${this.config.href}/sign/up`}>up</a>
-				<a href=${`${this.config.href}/sign/in`}>in</a>
-				<a href=${`${this.config.href}/sign/out`}>out</a>
+				<a href=${this.config.href + '/sign'}>sign</a>
+				<a href=${this.config.href + '/sign/up'}>up</a>
+				<a href=${this.config.href + '/sign/in'}>in</a>
+				<a href=${this.config.href + '/sign/out'}>out</a>
 			</r4-menu>
 		`
 	}
 
-	renderAside() {
+	renderFooter() {
 		if (this.params.method === 'in') {
 			return this.renderForgotPass()
 		} else if (this.params.method === 'up') {
@@ -56,14 +54,14 @@ export default class R4PageSign extends LitElement {
 				</details>
 			</section>
 			<section>
-				<p><a href=${this.config.href + `/sign/up`}>Sign up</a> if you don't yet have an account.</p>
+				<p><a href=${this.config.href + '/sign/up'}>Sign up</a> if you don't yet have an account.</p>
 			</section>
 		`
 	}
 	renderExistingAccount() {
 		return html`
 			<section>
-				<p><a href=${this.config.href + `/sign/in`}>Sign in</a> if you already have an existing account.</p>
+				<p><a href=${this.config.href + '/sign/in'}>Sign in</a> if you already have an existing account.</p>
 			</section>
 		`
 	}

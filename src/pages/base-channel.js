@@ -1,8 +1,9 @@
 import {html, LitElement} from 'lit'
 import {sdk} from '@radio4000/sdk'
+import R4Page from '../components/r4-page.js'
 
 // Base class to extend from
-export default class BaseChannel extends LitElement {
+export default class BaseChannel extends R4Page {
 	static properties = {
 		channel: {type: Object, state: true},
 		tracks: {type: Array, state: true},
@@ -85,11 +86,6 @@ export default class BaseChannel extends LitElement {
 			this.channel = data
 		}
 	}
-
-	render() {
-		return html``
-	}
-
 	createRenderRoot() {
 		return this
 	}

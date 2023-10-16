@@ -82,7 +82,7 @@ export default class R4ChannelShare extends HTMLElement {
 
 	attributeChangedCallback(attrName) {
 		if (this.constructor.observedAttributes.indexOf(attrName) > -1) {
-			this.render()
+			/* this.render() */
 		}
 	}
 

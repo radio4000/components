@@ -74,7 +74,7 @@ export default class R4Track extends LitElement {
 	}
 
 	render() {
-		if (!this.track) {
+		if (!this.track || !this.channel) {
 			return this.renderNoTrack()
 		}
 

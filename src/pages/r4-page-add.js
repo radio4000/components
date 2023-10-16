@@ -51,19 +51,12 @@ export default class R4PageAdd extends BaseChannel {
 		}
 	}
 
-	render() {
-		const $channelsSelect = html`
-			<r4-user-channels-select channel=${this.selectedSlug} @input=${this.onChannelSelect}></r4-user-channels-select>
-		`
-
-		return html`
-			<r4-page-header>
-				<r4-channel-card .channel=${this.channel} origin=${this.selectedChannelOrigin}></r4-channel-card>
-			</r4-page-header>
-			<r4-page-main> ${this.renderAdd()} ${this.lastAddedTrack ? this.renderLastAddedTrack() : null} </r4-page-main>
-		`
+	renderHeader() {
+		return html`<r4-channel-card .channel=${this.channel} origin=${this.selectedChannelOrigin}></r4-channel-card>`
 	}
-
+	renderMain() {
+		return [this.renderAdd(), this.lastAddedTrack ? this.renderLastAddedTrack() : null]
+	}
 	renderAdd() {
 		return html`
 			<r4-track-create

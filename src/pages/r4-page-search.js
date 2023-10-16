@@ -1,15 +1,8 @@
-import {LitElement, html} from 'lit'
+import {html} from 'lit'
+import R4Page from '../components/r4-page.js'
 
-export default class R4PageSearch extends LitElement {
-	render() {
-		return html`
-			<r4-page-main>
-				<r4-channel-search href=${this.config.href} autofocus></r4-channel-search>
-			</r4-page-main>
-		`
-	}
-
-	createRenderRoot() {
-		return this
+export default class R4PageSearch extends R4Page {
+	renderMain() {
+		return html`<r4-channel-search href=${this.config.href} autofocus></r4-channel-search>`
 	}
 }

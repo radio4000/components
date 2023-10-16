@@ -6,10 +6,10 @@ export default class R4ChannelFollowers extends LitElement {
 	static properties = {
 		slug: {type: String, reflect: true},
 		channels: {type: Array, state: true},
-		href: {type: String}
+		href: {type: String},
 	}
 
-	async query() {
+	async setChannels() {
 		this.channels = (
 			await sdk.supabase
 				.from('followers')
@@ -17,22 +17,31 @@ export default class R4ChannelFollowers extends LitElement {
 				.eq('channel_id.slug', this.slug)
 		).data
 	}
+	connectedCallback() {
+		super.connectedCallback()
+		if (this.slug && !this.channels) this.setChannels()
+	}
 
 	render() {
-		const {channel} = this
-		if (this.slug && !this.channels) this.query()
+		if (this.channels) {
+			return this.renderChannels()
+		}
+	}
+	renderChannels() {
 		return html`
-			<ul list>
+			<r4-list>
 				${repeat(
 					this.channels || [],
 					(c) => c.id,
-					(c) =>
-						html`<li>
-							<r4-channel-card .channel=${c.follower_id} origin=${this.href + `/{{slug}}`}></r4-channel-card>
-						</li>`
+					(c) => this.renderChannel(c)
 				)}
-			</ul>
+			</r4-list>
 		`
+	}
+	renderChannel(c) {
+		return html` <r4-list-item>
+			<r4-channel-card .channel=${c.follower_id} origin=${this.href + '/{{slug}}'}> </r4-channel-card>
+		</r4-list-item>`
 	}
 
 	createRenderRoot() {

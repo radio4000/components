@@ -1,8 +1,8 @@
-import {LitElement, html} from 'lit'
+import {html} from 'lit'
 import {sdk} from '@radio4000/sdk'
-// import page from 'page/page.mjs'
+import R4Page from '../components/r4-page.js'
 
-export default class R4PageSettings extends LitElement {
+export default class R4PageSettings extends R4Page {
 	static properties = {
 		/* props */
 		store: {type: Object, state: true},
@@ -38,25 +38,31 @@ export default class R4PageSettings extends LitElement {
 		}
 	}
 
-	render() {
+	renderHeader() {
 		const {user} = this.store
 		return html`
-			<r4-page-header>
-				<h1>Settings</h1>
-				<p>Application configuration and user settings.</p>
-			</r4-page-header>
-			<r4-page-main>${this.renderAppearance()} ${user ? this.renderUser() : this.renderNoUser()}</r4-page-main>
+			<h1>Settings</h1>
+			<p>Application configuration and user settings.</p>
 		`
 	}
-
+	renderMain() {
+		if (this.store.user) {
+			return [this.renderAppearance(), this.renderUser()]
+		} else {
+			return [this.renderAppearance(), this.renderNoUser()]
+		}
+	}
 	renderUser() {
 		return html`
 			<section>
-				<h2>Account</h2>
+				<h2>Authentication</h2>
 				<p>
-					You are signed in as <em>${this.store?.user?.email}</em>;
-					<a href="${this.config.href}/sign/out">sign out</a>
+					You are signed in as <em>${this.store?.user?.email}</em> (<a href="${this.config.href}/sign/out">sign out</a
+					>).
 				</p>
+			</section>
+			<section>
+				<h2>Account</h2>
 				<form @submit=${this.changeEmail}>
 					<fieldset>
 						<label for="email">Change email</label>

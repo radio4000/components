@@ -1,9 +1,10 @@
-import {html, LitElement} from 'lit'
+import {html} from 'lit'
 import {repeat} from 'lit/directives/repeat.js'
 import {query} from '../libs/browse'
 import urlUtils from '../libs/url-utils'
+import R4Page from '../components/r4-page.js'
 
-export default class R4PageExplore extends LitElement {
+export default class R4PageExplore extends R4Page {
 	static properties = {
 		config: {type: Object},
 		searchParams: {type: Object, state: true},
@@ -24,25 +25,23 @@ export default class R4PageExplore extends LitElement {
 		this.lastQuery = q
 	}
 
-	render() {
+	renderHeader() {
 		return html`
-			<r4-page-header>
-				<p>Explore ${this.count || '…'} radio channels.</p>
-				<r4-supabase-query
-					table="channels"
-					page=${this.searchParams.get('page')}
-					limit=${this.searchParams.get('limit')}
-					count=${this.count}
-					order-by=${this.searchParams.get('order-by')}
-					order-config=${this.searchParams.get('order-config')}
-					filters=${this.searchParams.get('filters')}
-					@query=${this.onQuery}
-				></r4-supabase-query>
-			</r4-page-header>
-			<r4-page-main>
-				<r4-list> ${this.renderListItems()} </r4-list>
-			</r4-page-main>
+			<p>Explore ${this.count || '…'} radio channels.</p>
+			<r4-supabase-query
+				table="channels"
+				page=${this.searchParams.get('page')}
+				limit=${this.searchParams.get('limit')}
+				count=${this.count}
+				order-by=${this.searchParams.get('order-by')}
+				order-config=${this.searchParams.get('order-config')}
+				filters=${this.searchParams.get('filters')}
+				@query=${this.onQuery}
+			></r4-supabase-query>
 		`
+	}
+	renderMain() {
+		return html` <r4-list> ${this.renderListItems()} </r4-list> `
 	}
 	renderListItems() {
 		return repeat(
@@ -54,9 +53,5 @@ export default class R4PageExplore extends LitElement {
 				</r4-list-item>
 			`
 		)
-	}
-
-	createRenderRoot() {
-		return this
 	}
 }

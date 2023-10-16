@@ -56,12 +56,17 @@ export default class R4PageChannelTracks extends BaseChannel {
 		this.lastQuery = q
 	}
 
-	render() {
-		if (this.channelError) return this.renderNoPage()
-		return html`
-			<r4-page-header> ${this.renderTracksMenu()} </r4-page-header>
-			<r4-page-main>${this.channel ? [this.renderTracksQuery(), this.renderTracksList()] : null}</r4-page-main>
-		`
+	renderHeader() {
+		if (this.channelError) {
+			return this.renderNoPage()
+		} else {
+			return this.renderTracksMenu()
+		}
+	}
+	renderMain() {
+		if (this.channel) {
+			return [this.renderTracksQuery(), this.renderTracksList()]
+		}
 	}
 
 	renderTracksQuery() {

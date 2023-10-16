@@ -6,6 +6,9 @@ import {sdk} from '@radio4000/sdk'
 import {query} from '../libs/browse'
 
 export default class R4PageChannel extends BaseChannel {
+	get queryFilters() {
+		return [{operator: 'eq', column: 'slug', value: '${this.channel.slug}'}]
+	}
 	get coordinates() {
 		if (this.channel.longitude && this.channel.latitude) {
 			return {
@@ -42,27 +45,33 @@ export default class R4PageChannel extends BaseChannel {
 		this.tracks = (await query(detail)).data
 	}
 
-	render() {
+	renderHeader() {
 		if (this.isFirebaseChannel) {
 			return html`
-				<r4-page-header>
-					<h1>@${this.params.slug}</h1>
-					<p>This channel has not yet migrated to the new Radio4000. That's ok, you can still listen.</p>
-				</r4-page-header>
-				<r4-page-main>
-					<radio4000-player channel-slug=${this.params.slug}></radio4000-player>
-				</r4-page-main>
+				<h1>@${this.params.slug}</h1>
+				<p>This channel has not yet migrated to the new Radio4000. That's ok, you can still listen.</p>
 			`
 		}
-
 		if (this.channelError) {
-			return html` <r4-page-main> ${this.renderChannelError()} </r4-page-main> `
+			return this.renderChannelError()
 		}
-
-		return html`
-			<r4-page-header> ${this.channel ? [this.renderChannelCard(), this.renderChannelMenu()] : null} </r4-page-header>
-			<r4-page-main> ${this.channel ? this.renderChannel() : null} </r4-page-main>
-		`
+		if (this.channel) {
+			return [this.renderChannelCard(), this.renderChannelMenu()]
+		}
+	}
+	renderMain() {
+		if (this.isFirebaseChannel) {
+			return html`<radio4000-player channel-slug=${this.params.slug}></radio4000-player>`
+		}
+		if (this.channelError) {
+			return html` ${this.renderChannelError()}`
+		}
+		if (this.channel) {
+			return this.renderChannel()
+		}
+	}
+	renderAside() {
+		return html`<r4-page-aside> ${this.channel ? this.renderChannelShare() : null}</r4-page-aside>`
 	}
 	renderChannelCard() {
 		return html` <r4-channel-card .channel=${this.channel} origin=${this.channelOrigin}></r4-channel-card> `
@@ -71,33 +80,48 @@ export default class R4PageChannel extends BaseChannel {
 		return html`
 			<menu>
 				<li>
-					<a href="${`${this.channelOrigin}/tracks`}">Tracks</a>
+					<a href="${this.channelOrigin + '/tracks'}">Tracks</a>
 				</li>
 				<li>
-					<a href="${`${this.channelOrigin}/feed`}">Feed</a>
+					<a href="${this.channelOrigin + '/feed'}">Feed</a>
 				</li>
 				<li>
-					<a href="${`${this.channelOrigin}/following`}">Following</a>
+					<a href="${this.channelOrigin + '/following'}">Following</a>
 				</li>
 				<li>
-					<a href="${`${this.channelOrigin}/followers`}">Followers</a>
+					<a href="${this.channelOrigin + '/followers'}">Followers</a>
 				</li>
 				<li>
 					<r4-channel-social>${this.renderSocial()}</r4-channel-social>
 				</li>
+
 				<li>
 					<button @click=${(e) => this.openDialog('share')}>Share</button>
 				</li>
 				${this.coordinates && !this.config.singleChannel ? this.renderCoordinates() : null}
-				${this.canEdit ? this.renderAddTrack() : null}
+				${this.canEdit ? [this.renderAddTrack(), this.renderEdit()] : null}
 			</menu>
+		`
+	}
+	renderChannelShare() {
+		return html`
+			<r4-dialog name="share" @close="${this.onDialogClose}">
+				<r4-share slot="dialog" origin="${this.channelOrigin}" slug="${this.channel.slug}"></r4-share>
+			</r4-dialog>
 		`
 	}
 
 	renderAddTrack() {
 		return html`
 			<li>
-				<a href="${`${this.config.href}/add?slug=${this.channel.slug}`}"> Add </a>
+				<a href="${this.config.href}/add?slug=${this.channel.slug}"> Add </a>
+			</li>
+		`
+	}
+	renderEdit() {
+		return html`
+			<li>
+				<a href="${this.channelOrigin}/update"> Update </a>
 			</li>
 		`
 	}
@@ -115,16 +139,13 @@ export default class R4PageChannel extends BaseChannel {
 			<section>
 				<r4-supabase-query
 					table="channel_tracks"
-					filters=${`[{"operator":"eq","column":"slug","value":"${this.channel.slug}"}]`}
+					filters="${this.queryFilters}"
 					limit="8"
-					@query=${this.onQuery}
+					@query="${this.onQuery}"
 					hidden
 				></r4-supabase-query>
 				${this.renderTracksList()}
 			</section>
-			<r4-dialog name="share" @close=${this.onDialogClose}>
-				<r4-share slot="dialog" origin=${this.channelOrigin} slug=${this.channel.slug}></r4-share>
-			</r4-dialog>
 		`
 	}
 
@@ -135,20 +156,23 @@ export default class R4PageChannel extends BaseChannel {
 				${repeat(
 					this.tracks,
 					(t) => t.id,
-					(t) => html`
-						<r4-list-item>
-							<r4-track
-								.track=${t}
-								href=${this.config.href}
-								origin=${'' || this.tracksOrigin}
-								.canEdit=${this.canEdit}
-								?playing=${this.config.playingTrack?.id === t.id}
-								.channel=${this.channel}
-							></r4-track>
-						</r4-list-item>
-					`
+					(t) => this.renderTrackItem(t)
 				)}
 			</r4-list>
+		`
+	}
+	renderTrackItem(track) {
+		return html`
+			<r4-list-item>
+				<r4-track
+					.track=${track}
+					href=${this.config.href}
+					origin=${'' || this.tracksOrigin}
+					.canEdit=${this.canEdit}
+					?playing=${this.config.playingTrack?.id === track.id}
+					.channel=${this.channel}
+				></r4-track>
+			</r4-list-item>
 		`
 	}
 
@@ -185,7 +209,7 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	openDialog(name) {
-		const $dialog = this.querySelector(`r4-dialog[name="${name}"]`)
+		const $dialog = this.querySelector(`r4-page-aside r4-dialog[name="${name}"]`)
 		if ($dialog) {
 			$dialog.setAttribute('visible', true)
 		}
