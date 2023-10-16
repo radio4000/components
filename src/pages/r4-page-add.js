@@ -82,7 +82,7 @@ export default class R4PageAdd extends BaseChannel {
 						.canEdit="${this.canEdit}"
 						.channel="${this.channel}"
 						href="${this.config.href}"
-						origin="${this.selectedChannelOrigin}/tracks}"
+						origin="${this.selectedChannelOrigin}/tracks/"
 					></r4-track>
 				</r4-list-item>
 			</r4-list>

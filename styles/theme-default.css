@@ -347,3 +347,9 @@ r4-track-tags a::before {
 r4-button-play {
 	padding: calc(var(--s) / 2);
 }
+
+r4-dialog::part(dialog)::backdrop {
+	/* css variables do not seem to work here */
+	background-color: black;
+	opacity: 0.6;
+}

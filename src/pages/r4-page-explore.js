@@ -27,7 +27,7 @@ export default class R4PageExplore extends LitElement {
 	render() {
 		return html`
 			<r4-page-header>
-				<p>Explore ${this.count || '…'} radio <a href="${this.config.href}/explore">channels</a>.</p>
+				<p>Explore ${this.count || '…'} radio channels.</p>
 				<r4-supabase-query
 					table="channels"
 					page=${this.searchParams.get('page')}

@@ -154,7 +154,15 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 
 	renderTracksList() {
-		return html` <r4-list> ${this.renderListItems()} </r4-list> `
+		if (this.tracks?.length) {
+			return html` <r4-list> ${this.renderListItems()} </r4-list> `
+		} else {
+			return html`
+				<r4-list>
+					<r4-list-item>No result for this query</r4-list-item>
+				</r4-list>
+			`
+		}
 	}
 	renderListItems() {
 		return repeat(
