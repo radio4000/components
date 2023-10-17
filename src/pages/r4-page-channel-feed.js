@@ -17,32 +17,26 @@ export default class R4PageChannelFeed extends BaseChannel {
 		this.limit = 200
 	}
 
-	connectedCallback() {
-		super.connectedCallback()
-		this.loadTracks().then((tracks) => {
-			this.tracks = tracks
-		})
+	async connectedCallback() {
+		await super.connectedCallback()
+		this.following = (await sdk.channels.readFollowings(this.channel.id)).data
+		if (this.following) {
+			this.loadTracks().then((tracks) => {
+				this.tracks = tracks
+			})
+		}
 	}
 
 	async loadTracks() {
 		// Create string of slugs to query.
-		const {id} = (await sdk.supabase.from('channels').select('id').eq('slug', this.params.slug).single()).data
-		const following = (await sdk.channels.readFollowings(id)).data
-		if (!following) {
-			return []
-		}
-		const orQuery = following.map((c) => `slug.eq.${c.slug}`).join(',')
+		const orQuery = this.following.map((c) => `slug.eq.${c.slug}`).join(',')
 		// Latest X tracks, newest first
 		const res = await sdk.supabase
 			.from('channel_tracks')
 			.select('*')
-			// .filter('slug', 'neq', 'oskar')
-			// .lt('created_at', '2023-03-01')
-			// .filter('slug', 'neq', 'ko002')
 			.or(orQuery)
 			.order('created_at', {ascending: false})
 			.limit(this.limit)
-		console.log('res.data', res)
 		return res.data
 	}
 
@@ -74,25 +68,27 @@ export default class R4PageChannelFeed extends BaseChannel {
 	}
 
 	renderGroup(group) {
+		const groupChannel = this.following.find(({slug}) => slug === group.slug)
+		console.log('groupChannel', groupChannel)
 		return html`
 			<r4-list>
 				<r4-channel-card slug=${group.slug} origin=${this.config.href + '/{{slug}}'}></r4-channel-card>
 				${repeat(
 					group.tracks,
 					(track) => track.id,
-					(track) => this.renderTrackItem(track, group)
+					(track) => this.renderTrackItem(track, group, groupChannel)
 				)}
 			</r4-list>
 		`
 	}
-	renderTrackItem(track, group) {
+	renderTrackItem(track, group, channel) {
 		return html`
 			<r4-list-item>
 				<date>${formatDate(track.created_at)}</date>
 				<r4-track
+					slug=${group.slug}
 					.track=${track}
-					.tracks=${group.tracks}
-					.channel=${this.channel}
+					.channel=${channel}
 					.config=${this.config}
 					href=${this.config.href}
 					origin=${this.tracksOrigin}
