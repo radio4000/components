@@ -4,6 +4,8 @@ import {sdk} from '@radio4000/sdk'
 import page from 'page/page.mjs'
 import DatabaseListeners from '../libs/db-listeners'
 import '../pages/'
+import ROUTES_CMS from '../data/routes-cms.json'
+import ROUTES_SINGLE from '../data/routes-single.json'
 
 export default class R4App extends LitElement {
 	playerRef = createRef()
@@ -264,39 +266,3 @@ export default class R4App extends LitElement {
 		return this
 	}
 }
-
-const ROUTES_CMS = [
-	{path: '/', page: 'home'},
-	{path: '/explore', page: 'explore'},
-	{path: '/sign', page: 'sign'},
-	{path: '/sign/:method', page: 'sign'},
-	{path: '/add', page: 'add'},
-	{path: '/new', page: 'new'},
-	{path: '/settings', page: 'settings'},
-	{path: '/map', page: 'map'},
-	{path: '/search', page: 'search'},
-	{path: '/about', page: 'about'},
-	{path: '/playground/:color', page: 'playground'},
-	{path: '/:slug', page: 'channel'},
-	{path: '/:slug/feed', page: 'channel-feed'},
-	{path: '/:slug/update', page: 'channel-update'},
-	{path: '/:slug/delete', page: 'channel-delete'},
-	{path: '/:slug/player', page: 'channel-player'},
-	{path: '/:slug/tracks', page: 'channel-tracks'},
-	{path: '/:slug/tracks/:track_id', page: 'channel-track'},
-	{path: '/:slug/tracks/:track_id/update', page: 'track-update'},
-	{path: '/:slug/tracks/:track_id/delete', page: 'track-delete'},
-	{path: '/:slug/followers', page: 'channel-followers'},
-	{path: '/:slug/following', page: 'channel-followings'},
-]
-const ROUTES_SINGLE = [
-	{path: '/sign/:method', page: 'sign'},
-	{path: '/', page: 'channel'},
-	{path: '/player', page: 'channel-player'},
-	{path: '/tracks', page: 'channel-tracks'},
-	{path: '/tracks/:track_id', page: 'channel-track'},
-	{path: '/followers', page: 'channel-followers'},
-	{path: '/following', page: 'channel-followings'},
-	{path: '/add', page: 'add'},
-	{path: '/settings', page: 'settings'},
-]
