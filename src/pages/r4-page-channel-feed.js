@@ -69,7 +69,6 @@ export default class R4PageChannelFeed extends BaseChannel {
 
 	renderGroup(group) {
 		const groupChannel = this.following.find(({slug}) => slug === group.slug)
-		console.log('groupChannel', groupChannel)
 		return html`
 			<r4-list>
 				<r4-channel-card slug=${group.slug} origin=${this.config.href + '/{{slug}}'}></r4-channel-card>
@@ -91,7 +90,7 @@ export default class R4PageChannelFeed extends BaseChannel {
 					.channel=${channel}
 					.config=${this.config}
 					href=${this.config.href}
-					origin=${this.tracksOrigin}
+					origin=${this.config.href + '/' + channel.slug + '/tracks/'}
 				></r4-track>
 			</r4-list-item>
 		`

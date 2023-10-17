@@ -4,6 +4,9 @@ import {repeat} from 'lit/directives/repeat.js'
 import {sdk} from '@radio4000/sdk'
 
 export default class R4PageChannelFollowers extends BaseChannel {
+	static properties = {
+		channels: {type: Array, state: true},
+	}
 	async setChannels() {
 		this.channels = (
 			await sdk.supabase
@@ -12,12 +15,14 @@ export default class R4PageChannelFollowers extends BaseChannel {
 				.eq('channel_id.slug', this.channel.slug)
 		).data
 	}
-	connectedCallback() {
-		super.connectedCallback()
-		if (this.channel && !this.channels) this.setChannels()
+	async connectedCallback() {
+		await super.connectedCallback()
+		if (this.channel && !this.channels) {
+			await this.setChannels()
+		}
 	}
 	renderMain() {
-		if (this.channels) {
+		if (this.channels?.length) {
 			return this.renderChannels()
 		} else {
 			return this.renderNoChannels()
@@ -36,7 +41,7 @@ export default class R4PageChannelFollowers extends BaseChannel {
 	}
 	renderChannel(c) {
 		return html` <r4-list-item>
-			<r4-channel-card .channel=${c.follower_id} origin=${this.href + '/{{slug}}'}> </r4-channel-card>
+			<r4-channel-card .channel=${c.follower_id} origin=${this.config.href + '/{{slug}}'}> </r4-channel-card>
 		</r4-list-item>`
 	}
 	renderNoChannels() {
