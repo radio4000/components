@@ -9,16 +9,17 @@ export default class R4PageHome extends R4Page {
 
 	renderHeader() {
 		return html`
-			<h1><r4-title></r4-title></h1>
 			<p>
-				The website <a href=${this.config.href}>${this.config.client}</a> is a public demo of the new
+				The web-app <a href=${this.config.href}>${this.config.client}</a> is a public demo of the new
 				<r4-title></r4-title> beta version. Try it out now or see the
 				<a href=${this.config.href + `/about`}>about</a> page.
 			</p>
 			<p>
-				<strong>WARNING &rarr;</strong> all data created on the beta website will be deleted regularely.
-				<u>Keep adding new music in the classic application.</u>
+				<strong>¿¡WARNING!?</strong> All data created on the beta website will be deleted regularely (PS: it's full of
+				bugs and missing features D: !).
 			</p>
+			<p>Keep adding new tracks in the <a href="https://radio4000.com/" target="_blank">classic application</a>.</p>
+			<h1><r4-title></r4-title></h1>
 		`
 	}
 	renderMain() {
