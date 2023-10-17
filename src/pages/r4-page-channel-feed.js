@@ -10,6 +10,7 @@ export default class R4PageChannelFeed extends BaseChannel {
 	static properties = {
 		limit: {type: Number, reflect: true},
 		tracks: {type: Array, state: true},
+		params: {type: Object, state: true},
 	}
 	constructor() {
 		super()
@@ -27,6 +28,9 @@ export default class R4PageChannelFeed extends BaseChannel {
 		// Create string of slugs to query.
 		const {id} = (await sdk.supabase.from('channels').select('id').eq('slug', this.params.slug).single()).data
 		const following = (await sdk.channels.readFollowings(id)).data
+		if (!following) {
+			return []
+		}
 		const orQuery = following.map((c) => `slug.eq.${c.slug}`).join(',')
 		// Latest X tracks, newest first
 		const res = await sdk.supabase
@@ -38,15 +42,18 @@ export default class R4PageChannelFeed extends BaseChannel {
 			.or(orQuery)
 			.order('created_at', {ascending: false})
 			.limit(this.limit)
+		console.log('res.data', res)
 		return res.data
 	}
 
 	renderMain() {
-		return [this.renderGroups()]
+		return this.renderGroups()
 	}
 
 	renderGroups() {
-		if (!this.tracks) return null
+		if (!this.tracks) {
+			return html` <r4-list> <r4-list-item>Cannot build feed if not following any channel.</r4-list-item></r4-list> `
+		}
 		const groups = groupTracks(this.tracks)
 		/* console.info(groups) */
 		return html` <r4-list> ${groups.map((g) => html`<r4-list-item>${this.renderMonth(g)}</r4-list-item>`)} </r4-list> `
@@ -73,18 +80,18 @@ export default class R4PageChannelFeed extends BaseChannel {
 				${repeat(
 					group.tracks,
 					(track) => track.id,
-					(track) => this.renderTrackitem(track, group)
+					(track) => this.renderTrackItem(track, group)
 				)}
 			</r4-list>
 		`
 	}
-	renderTrackitem(track, group) {
+	renderTrackItem(track, group) {
 		return html`
 			<r4-list-item>
-				${formatDate(track.created_at)}
-				<r4-button-play .track=${track} .tracks=${group.tracks}></r4-button-play>
+				<date>${formatDate(track.created_at)}</date>
 				<r4-track
 					.track=${track}
+					.tracks=${group.tracks}
 					.channel=${this.channel}
 					.config=${this.config}
 					href=${this.config.href}

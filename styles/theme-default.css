@@ -266,6 +266,7 @@ r4-list {
 r4-list-item {
 	display: flex;
 	flex-direction: row;
+	align-items: center;
 }
 r4-list-item + r4-list-item {
 	margin-top: var(--s);
