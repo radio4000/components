@@ -4,6 +4,7 @@
  */
 
 import R4App from './r4-app.js'
+import R4AppMenu from './r4-app-menu.js'
 import R4ColorScheme from './r4-color-scheme.js'
 import R4Avatar from './r4-avatar.js'
 import R4AvatarUpdate from './r4-avatar-update.js'
@@ -43,6 +44,7 @@ import R4Pagination from './r4-pagination.js'
 import R4Icon from './r4-icon.js'
 
 customElements.define('r4-app', R4App)
+customElements.define('r4-app-menu', R4AppMenu)
 customElements.define('r4-color-scheme', R4ColorScheme)
 customElements.define('r4-avatar', R4Avatar)
 customElements.define('r4-avatar-update', R4AvatarUpdate)
@@ -84,6 +86,7 @@ customElements.define('r4-icon', R4Icon)
 
 export default {
 	R4App,
+	R4AppMenu,
 	R4ColorScheme,
 	R4Avatar,
 	R4AvatarUpdate,

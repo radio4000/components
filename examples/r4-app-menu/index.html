@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+		<title>r4-app-menu</title>
+		<meta name="description" content="r4-app-menu" />
+		<!-- <link rel="stylesheet" href="/styles/index.css" /> -->
+		<script type="module" src="/src/index.js"></script>
+	</head>
+
+	<body>
+		<menu>
+			<li>Use the "href" attribute for the "base of the links" (no trailing "/" in the URL used)</li>
+		</menu>
+		<section>
+			<p>A menu with attribute <code>auth="false"</code></p>
+			<r4-app-menu auth="false"></r4-app-menu>
+		</section>
+		<section>
+			<p>A menu with <code>auth="true"</code> (and no "slug")</p>
+			<r4-app-menu auth="true"></r4-app-menu>
+		</section>
+		<section>
+			<p>A menu with <code>auth="true"</code> and <code>slug="ko003"</code></p>
+			<r4-app-menu auth="true" slug="ko003"></r4-app-menu>
+		</section>
+
+		<script>
+			/* add the "href" attriute to all menu examples */
+			const origin = window.location.origin
+			const href = origin + '/examples/r4-app'
+			const $menus = document.querySelectorAll('r4-app-menu')
+			$menus.forEach(($menu) => {
+				$menu.setAttribute('href', href)
+			})
+		</script>
+	</body>
+</html>

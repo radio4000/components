@@ -171,29 +171,9 @@ export default class R4App extends LitElement {
 	}
 
 	renderMenu() {
-		const user = this.user
-		const href = this.config?.href
 		return html`
 			<header slot="menu">
-				<menu>
-					<li>
-						<a href=${href + '/'}><r4-title small></r4-title></a>
-					</li>
-					<li><a href=${href + '/explore'}>Explore</a></li>
-					<li><a href=${`${href}/search`}>Search</a></li>
-					<li><a href=${`${href}/map`}>Map</a></li>
-					${!user
-						? html`
-								${!user ? html`<li><a href=${href + '/sign/up'}>Sign-up</a></li>` : ''}
-								${!user ? html`<li><a href=${href + '/sign/in'}>Sign-in</a></li>` : ''}
-						  `
-						: html`
-								${this.selectedChannel
-									? html`<li><a href=${href + '/' + this.selectedSlug}>@${this.selectedChannel.slug}</a></li>`
-									: html`<li><a href=${href + '/new'}>Create radio</a></li>`}
-						  `}
-					<li><a href=${href + '/settings'}>Settings</a></li>
-				</menu>
+				<r4-app-menu ?auth=${this.store?.user} href=${this.config?.href} slug=${this.selectedSlug}></r4-app-menu>
 			</header>
 		`
 	}
