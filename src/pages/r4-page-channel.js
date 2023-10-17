@@ -6,33 +6,40 @@ import {sdk} from '@radio4000/sdk'
 import {query} from '../libs/browse'
 
 export default class R4PageChannel extends BaseChannel {
+	static properties = {
+		tracksQueryFilters: {type: Array, state: true, reflect: true},
+	}
 	get tracksQueryFilters() {
-		return [{operator: 'eq', column: 'slug', value: `${this.channel.slug}`}]
+		return [{operator: 'eq', column: 'slug', value: this.channel?.slug}]
 	}
-	get coordinates() {
-		if (this.channel.longitude && this.channel.latitude) {
-			return {
-				longitude: this.channel.longitude,
-				latitude: this.channel.latitude,
-			}
+
+	async getTracks() {
+		const channelTracksQuery = {
+			table: 'channel_tracks',
+			select: '*',
+			filters: this.tracksQueryFilters,
+			orderBy: 'created_at',
+			orderConfig: {
+				ascending: false,
+			},
+			page: 1,
+			limit: 8,
 		}
-		return undefined
+		return (await query(channelTracksQuery)).data
 	}
-
-	follow() {
-		if (!this.store.user || !this.store.userChannels) return
-		const userChannel = this.store.userChannels.find((c) => c.slug === this.config.selectedSlug)
-		return sdk.channels.followChannel(userChannel.id, this.channel.id)
+	async connectedCallback() {
+		super.connectedCallback()
+		await this.setChannel()
+		await this.setTracks()
 	}
-
-	unfollow() {
-		if (!this.store.user || !this.store.userChannels) return
-		const userChannel = this.store.userChannels.find((c) => c.slug === this.config.selectedSlug)
-		return sdk.channels.unfollowChannel(userChannel.id, this.channel.id)
+	async willUpdate(changedProperties) {
+		await super.willUpdate(changedProperties)
+		if (changedProperties.has('channel')) {
+			await this.setTracks()
+		}
 	}
-
-	async onQuery({detail}) {
-		this.tracks = (await query(detail)).data
+	async setTracks() {
+		this.tracks = await this.getTracks()
 	}
 
 	renderMain() {
@@ -42,18 +49,7 @@ export default class R4PageChannel extends BaseChannel {
 		if (this.channelError) {
 		}
 		if (this.channel) {
-			return html`
-				<section>
-					<r4-supabase-query
-						table="channel_tracks"
-						filters="${this.tracksQueryFilters}"
-						limit="8"
-						@query="${this.onQuery}"
-						hidden
-					></r4-supabase-query>
-					${this.renderTracksList()}
-				</section>
-			`
+			return html` <section>${this.renderTracksList()}</section> `
 		}
 	}
 

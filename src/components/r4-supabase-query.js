@@ -9,16 +9,16 @@ const {tables, tableNames} = dbSchema
  */
 export default class R4SupabaseQuery extends LitElement {
 	static properties = {
-		page: {type: Number, reflect: true, searchParam: true},
-		limit: {type: Number, reflect: true, searchParam: true},
+		page: {type: Number, reflect: true},
+		limit: {type: Number, reflect: true},
 		count: {type: Number},
 
 		/* supabase query parameters */
-		table: {type: String, reflect: true, searchParam: true},
-		select: {type: String, searchParam: true},
-		filters: {type: Array, searchParam: true, reflect: true},
-		orderBy: {type: String, attribute: 'order-by', reflect: true, searchParam: true},
-		orderConfig: {type: Object, attribute: 'order-config', reflect: true, searchParam: true},
+		table: {type: String, reflect: true},
+		select: {type: String},
+		filters: {type: Array, reflect: true},
+		orderBy: {type: String, attribute: 'order-by', reflect: true},
+		orderConfig: {type: Object, attribute: 'order-config', reflect: true},
 	}
 
 	get totalPages() {

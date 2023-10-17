@@ -43,6 +43,28 @@ export default class BaseChannel extends R4Page {
 		return this.store.followers?.map((c) => c.slug).includes(this.config.selectedSlug)
 	}
 
+	get coordinates() {
+		if (this.channel.longitude && this.channel.latitude) {
+			return {
+				longitude: this.channel.longitude,
+				latitude: this.channel.latitude,
+			}
+		}
+		return undefined
+	}
+
+	follow() {
+		if (!this.store.user || !this.store.userChannels) return
+		const userChannel = this.store.userChannels.find((c) => c.slug === this.config.selectedSlug)
+		return sdk.channels.followChannel(userChannel.id, this.channel.id)
+	}
+
+	unfollow() {
+		if (!this.store.user || !this.store.userChannels) return
+		const userChannel = this.store.userChannels.find((c) => c.slug === this.config.selectedSlug)
+		return sdk.channels.unfollowChannel(userChannel.id, this.channel.id)
+	}
+
 	get hasOneChannel() {
 		if (!this.store.user) return false
 		return this.store?.userChannels?.length === 1 ? true : false
@@ -69,6 +91,7 @@ export default class BaseChannel extends R4Page {
 
 		const {data, error} = await sdk.channels.readChannel(slug)
 		this.canEdit = await sdk.channels.canEditChannel(slug)
+		console.log('setting channel', slug, data, error)
 
 		if (error) {
 			try {
