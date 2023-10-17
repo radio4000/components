@@ -49,6 +49,7 @@ export default class R4App extends LitElement {
 			userChannels: this.userChannels,
 			followers: this.followers,
 			following: this.following,
+			selectedChannel: this.selectedChannel,
 		}
 	}
 

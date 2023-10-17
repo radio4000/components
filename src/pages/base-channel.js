@@ -8,10 +8,10 @@ export default class BaseChannel extends R4Page {
 		channel: {type: Object, state: true},
 		tracks: {type: Array, state: true},
 		channelError: {type: Object, state: true},
-		canEdit: {type: Boolean, state: true, reflect: true},
-		alreadyFollowing: {type: Boolean, state: true, reflect: true},
-		followsYou: {type: Boolean, state: true, reflect: true},
-		isFirebaseChannel: {type: Boolean},
+		canEdit: {type: Boolean, state: true},
+		alreadyFollowing: {type: Boolean, state: true},
+		followsYou: {type: Boolean, state: true},
+		isFirebaseChannel: {type: Boolean, state: true},
 
 		// from the router
 		params: {type: Object, state: true},
@@ -33,16 +33,6 @@ export default class BaseChannel extends R4Page {
 		return singleChannel ? `${href}/tracks/` : `${href}/${this.params.slug}/tracks/`
 	}
 
-	get alreadyFollowing() {
-		if (!this.store.user) return false
-		return this.store.followings?.map((c) => c.slug).includes(this.channel?.slug)
-	}
-
-	get followsYou() {
-		if (!this.store.user) return false
-		return this.store.followers?.map((c) => c.slug).includes(this.config.selectedSlug)
-	}
-
 	get coordinates() {
 		if (this.channel.longitude && this.channel.latitude) {
 			return {
@@ -53,21 +43,17 @@ export default class BaseChannel extends R4Page {
 		return undefined
 	}
 
-	follow() {
-		if (!this.store.user || !this.store.userChannels) return
-		const userChannel = this.store.userChannels.find((c) => c.slug === this.config.selectedSlug)
-		return sdk.channels.followChannel(userChannel.id, this.channel.id)
-	}
-
-	unfollow() {
-		if (!this.store.user || !this.store.userChannels) return
-		const userChannel = this.store.userChannels.find((c) => c.slug === this.config.selectedSlug)
-		return sdk.channels.unfollowChannel(userChannel.id, this.channel.id)
-	}
-
 	get hasOneChannel() {
 		if (!this.store.user) return false
 		return this.store?.userChannels?.length === 1 ? true : false
+	}
+	get alreadyFollowing() {
+		if (!this.store.user) return false
+		return this.store.following?.map((c) => c.slug).includes(this.channel?.slug)
+	}
+	get followsYou() {
+		if (!this.store.user) return false
+		return this.store.followers?.map((c) => c.slug).includes(this.config.selectedSlug)
 	}
 
 	async willUpdate(changedProperties) {
@@ -156,9 +142,7 @@ export default class BaseChannel extends R4Page {
 				<li>
 					<a href="${this.channelOrigin + '/followers'}">Followers</a>
 				</li>
-				<li>
-					<r4-channel-social>${this.renderSocial()}</r4-channel-social>
-				</li>
+				<li>${this.renderSocial()}</li>
 
 				<li>
 					<button @click=${(e) => this.openDialog('share')}>Share</button>
@@ -188,12 +172,15 @@ export default class BaseChannel extends R4Page {
 		`
 	}
 	renderSocial() {
-		if (!this.config.singleChannel) {
+		if (!this.config?.singleChannel) {
 			return html`
-				<button @click=${this.alreadyFollowing ? this.unfollow : this.follow}>
-					${this.alreadyFollowing ? 'Unfollow' : 'Follow'}
-				</button>
-				<span hidden>${this.followsYou ? 'follows you' : "doesn't follow you"}</span>
+				<r4-channel-social>
+					<r4-button-follow
+						?following=${this.alreadyFollowing}
+						.channel=${this.channel}
+						.userChannel=${this.store.selectedChannel}
+					></r4-button-follow>
+				</r4-channel-social>
 			`
 		}
 	}

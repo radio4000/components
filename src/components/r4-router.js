@@ -3,15 +3,6 @@ import {html, literal, unsafeStatic} from 'lit/static-html.js'
 import page from 'page/page.mjs'
 
 /**
-Here is an example of how the r4-router works.
-
-<r4-router>
-	<r4-route page="/animals"></r4-route>
-	<r4-route page="/colors/:color"></r4-route>
-</r4-router>
-
-The `page` attribute decides which web component to render. It requires the name to be: `r4-page-${page}`.
-
 All routes are passed the following props:
 - `store` - the global store
 - `config` - the config object
