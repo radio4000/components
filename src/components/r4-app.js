@@ -166,8 +166,15 @@ export default class R4App extends LitElement {
 	 - one for when only one channel should be displayed in the UI
  */
 	renderRouter() {
-		const routerData = {store: this.store, config: this.config}
-		return this.singleChannel ? renderRouterSingleChannel(routerData) : renderRouterCMS(routerData)
+		if (this.singleChannel) {
+			return html`
+				<r4-router name="channel" .store=${this.store} .config=${this.config} .routes=${ROUTES_SINGLE}></r4-router>
+			`
+		} else {
+			return html`
+				<r4-router name="application" .store=${this.store} .config=${this.config} .routes=${ROUTES_CMS}> </r4-router>
+			`
+		}
 	}
 
 	renderMenu() {
@@ -258,51 +265,38 @@ export default class R4App extends LitElement {
 	}
 }
 
-function renderRouterSingleChannel({store, config}) {
-	return html`
-		<r4-router name="channel" .store=${store} .config=${config}>
-			<r4-routes>
-				<r4-route path="/sign/:method" page="sign"></r4-route>
-				<r4-route path="/" page="channel"></r4-route>
-				<r4-route path="/player" page="channel-player"></r4-route>
-				<r4-route path="/tracks" page="channel-tracks"></r4-route>
-				<r4-route path="/tracks/:track_id" page="channel-track"></r4-route>
-				<r4-route path="/followers" page="channel-followers"></r4-route>
-				<r4-route path="/following" page="channel-followings"></r4-route>
-				<r4-route path="/add" page="add"></r4-route>
-				<r4-route path="/settings" page="settings"></r4-route>
-			</r4-routes>
-		</r4-router>
-	`
-}
-
-function renderRouterCMS({store, config}) {
-	return html`
-		<r4-router name="application" .store=${store} .config=${config}>
-			<r4-routes>
-				<r4-route path="/" page="home"></r4-route>
-				<r4-route path="/explore" page="explore"></r4-route>
-				<r4-route path="/sign" page="sign"></r4-route>
-				<r4-route path="/sign/:method" page="sign"></r4-route>
-				<r4-route path="/add" page="add"></r4-route>
-				<r4-route path="/new" page="new"></r4-route>
-				<r4-route path="/settings" page="settings"></r4-route>
-				<r4-route path="/map" page="map"></r4-route>
-				<r4-route path="/search" page="search"></r4-route>
-				<r4-route path="/about" page="about"></r4-route>
-				<r4-route path="/playground/:color" page="playground"></r4-route>
-				<r4-route path="/:slug" page="channel"></r4-route>
-				<r4-route path="/:slug/feed" page="channel-feed"></r4-route>
-				<r4-route path="/:slug/update" page="channel-update"></r4-route>
-				<r4-route path="/:slug/delete" page="channel-delete"></r4-route>
-				<r4-route path="/:slug/player" page="channel-player"></r4-route>
-				<r4-route path="/:slug/tracks" page="channel-tracks"></r4-route>
-				<r4-route path="/:slug/tracks/:track_id" page="channel-track"></r4-route>
-				<r4-route path="/:slug/tracks/:track_id/update" page="track-update"></r4-route>
-				<r4-route path="/:slug/tracks/:track_id/delete" page="track-delete"></r4-route>
-				<r4-route path="/:slug/followers" page="channel-followers"></r4-route>
-				<r4-route path="/:slug/following" page="channel-followings"></r4-route>
-			</r4-routes>
-		</r4-router>
-	`
-}
+const ROUTES_CMS = [
+	{path: '/', page: 'home'},
+	{path: '/explore', page: 'explore'},
+	{path: '/sign', page: 'sign'},
+	{path: '/sign/:method', page: 'sign'},
+	{path: '/add', page: 'add'},
+	{path: '/new', page: 'new'},
+	{path: '/settings', page: 'settings'},
+	{path: '/map', page: 'map'},
+	{path: '/search', page: 'search'},
+	{path: '/about', page: 'about'},
+	{path: '/playground/:color', page: 'playground'},
+	{path: '/:slug', page: 'channel'},
+	{path: '/:slug/feed', page: 'channel-feed'},
+	{path: '/:slug/update', page: 'channel-update'},
+	{path: '/:slug/delete', page: 'channel-delete'},
+	{path: '/:slug/player', page: 'channel-player'},
+	{path: '/:slug/tracks', page: 'channel-tracks'},
+	{path: '/:slug/tracks/:track_id', page: 'channel-track'},
+	{path: '/:slug/tracks/:track_id/update', page: 'track-update'},
+	{path: '/:slug/tracks/:track_id/delete', page: 'track-delete'},
+	{path: '/:slug/followers', page: 'channel-followers'},
+	{path: '/:slug/following', page: 'channel-followings'},
+]
+const ROUTES_SINGLE = [
+	{path: '/sign/:method', page: 'sign'},
+	{path: '/', page: 'channel'},
+	{path: '/player', page: 'channel-player'},
+	{path: '/tracks', page: 'channel-tracks'},
+	{path: '/tracks/:track_id', page: 'channel-track'},
+	{path: '/followers', page: 'channel-followers'},
+	{path: '/following', page: 'channel-followings'},
+	{path: '/add', page: 'add'},
+	{path: '/settings', page: 'settings'},
+]
