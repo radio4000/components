@@ -247,7 +247,7 @@ export default class R4App extends LitElement {
 	}
 
 	onTrackChange(event) {
-		console.log(event.detail)
+		/* console.info(event.detail) */
 	}
 
 	stop() {

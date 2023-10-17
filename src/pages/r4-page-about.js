@@ -10,6 +10,13 @@ export default class R4PageAbout extends R4Page {
 	roomAlias = '#radio4000:matrix.org'
 	releasesUrl = 'https://github.com/radio4000/components/releases'
 
+	constructor() {
+		super()
+		this.latestTag = {
+			name: '',
+		}
+	}
+
 	connectedCallback() {
 		super.connectedCallback()
 		this.fetchLatestRelease().then((latestTag) => {
@@ -29,7 +36,7 @@ export default class R4PageAbout extends R4Page {
 	}
 
 	renderHeader() {
-		return html`<h1>About <r4-title size="small"></r4-title></h1>`
+		return html`<h1>About <r4-title></r4-title></h1>`
 	}
 	renderMain() {
 		const {name} = this.latestTag
@@ -60,7 +67,7 @@ export default class R4PageAbout extends R4Page {
 			<p>The latest version is <a href=${this.releasesUrl}>${name ? name : '…'}</a>.</p>
 			<p>Cheers!</p>
 			<p>
-				<a href="${this.config.href}">← back to the home page</a>
+				<a href="${this.config.href}/">← back to the home page</a>
 			</p>
 		`
 	}

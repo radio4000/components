@@ -8,23 +8,10 @@ export default class R4PageHome extends R4Page {
 	}
 
 	renderHeader() {
-		return html`
-			<p>
-				The web-app <a href=${this.config.href}>${this.config.client}</a> is a public demo of the new
-				<r4-title></r4-title> beta version. Try it out now or see the
-				<a href=${this.config.href + `/about`}>about</a> page.
-			</p>
-			<p>
-				<strong>¿¡WARNING!?</strong> All data created on the beta website will be deleted regularely (PS: it's full of
-				bugs and missing features D: !).
-			</p>
-			<p>Keep adding new tracks in the <a href="https://radio4000.com/" target="_blank">classic application</a>.</p>
-			<h1><r4-title></r4-title></h1>
-		`
+		return this.renderBetaNote()
 	}
 	renderMain() {
 		return html`
-			${this.store.user ? this.renderMenuUser() : null}
 			${this.store.userChannels?.length ? this.renderUserChannels() : null}
 			${this.store.following?.length ? this.renderFollowingChannels() : null}
 		`
@@ -42,7 +29,7 @@ export default class R4PageHome extends R4Page {
 		const {following} = this.store
 		return html`
 			<section>
-				<h2>Following</h2>
+				<h2>Network</h2>
 				<r4-list> ${following?.map((channel) => this.renderChannelCard(channel, this.config.href))} </r4-list>
 			</section>
 		`
@@ -53,12 +40,23 @@ export default class R4PageHome extends R4Page {
 			<r4-channel-card .channel=${channel} origin="${origin}/${channel.slug}"></r4-channel-card>
 		</r4-list-item>`
 	}
-
-	renderMenuUser() {
-		return html``
-	}
-
-	createRenderRoot() {
-		return this
+	renderBetaNote() {
+		return html`
+			<section>
+				<details open="true">
+					<summary>This is a beta version!</summary>
+					<p>
+						The web-app <a href=${this.config.href}>${this.config.client}</a> is a public demo of the new
+						<r4-title></r4-title> beta version. Try it out now or see the
+						<a href=${this.config.href + `/about`}>about</a> page.
+					</p>
+					<p>
+						<strong>¿¡WARNING!?</strong> All data created on the beta website will be deleted regularely (PS: it's full
+						of bugs and missing features D: !).
+					</p>
+					<p>Keep adding new tracks in the <a href="https://radio4000.com/" target="_blank">classic application</a>.</p>
+				</details>
+			</section>
+		`
 	}
 }
