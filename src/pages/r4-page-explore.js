@@ -10,6 +10,7 @@ export default class R4PageExplore extends R4Page {
 		searchParams: {type: Object, state: true},
 		channels: {type: Array, state: true},
 		count: {type: Number},
+		query: {type: Object, state: true},
 	}
 
 	get channelOrigin() {
@@ -17,27 +18,28 @@ export default class R4PageExplore extends R4Page {
 	}
 
 	async onQuery(event) {
-		const q = event.detail
-		urlUtils.updateSearchParams(q, ['table', 'select'])
-		const res = await query(q)
+		this.query = event.detail
+		urlUtils.updateSearchParams(this.query, ['table', 'select'])
+		const res = await query(this.query)
 		this.count = res.count
 		this.channels = res.data
-		this.lastQuery = q
 	}
 
 	renderHeader() {
 		return html`
-			<p>Explore ${this.count || '…'} radio channels.</p>
-			<r4-supabase-query
-				table="channels"
-				page=${this.searchParams.get('page')}
-				limit=${this.searchParams.get('limit')}
-				count=${this.count}
-				order-by=${this.searchParams.get('order-by')}
-				order-config=${this.searchParams.get('order-config')}
-				filters=${this.searchParams.get('filters')}
-				@query=${this.onQuery}
-			></r4-supabase-query>
+			<details open="true">
+				<summary>Exploring ${this.count || '…'} radio channels.</summary>
+				<r4-supabase-query
+					table="channels"
+					page=${this.searchParams.get('page')}
+					limit=${this.searchParams.get('limit')}
+					count=${this.count}
+					order-by=${this.searchParams.get('order-by')}
+					order-config=${this.searchParams.get('order-config')}
+					filters=${this.searchParams.get('filters')}
+					@query=${this.onQuery}
+				></r4-supabase-query>
+			</details>
 		`
 	}
 	renderMain() {
