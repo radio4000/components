@@ -3,7 +3,6 @@
  * except for R4Components, which is only used for the demo page.
  */
 
-import R4Actions from './r4-actions.js'
 import R4App from './r4-app.js'
 import R4ColorScheme from './r4-color-scheme.js'
 import R4Avatar from './r4-avatar.js'
@@ -32,7 +31,6 @@ import R4SupabaseQuery from './r4-supabase-query.js'
 import R4SupabaseFilters from './r4-supabase-filters.js'
 import R4Title from './r4-title.js'
 import R4Track from './r4-track.js'
-import R4TrackActions from './r4-track-actions.js'
 import R4ChannelCard from './r4-channel-card.js'
 import R4TrackCreate from './r4-track-create.js'
 import R4TrackDelete from './r4-track-delete.js'
@@ -44,7 +42,6 @@ import R4UserChannelsSelect from './r4-user-channels-select.js'
 import R4Pagination from './r4-pagination.js'
 import R4Icon from './r4-icon.js'
 
-customElements.define('r4-actions', R4Actions)
 customElements.define('r4-app', R4App)
 customElements.define('r4-color-scheme', R4ColorScheme)
 customElements.define('r4-avatar', R4Avatar)
@@ -74,7 +71,6 @@ customElements.define('r4-supabase-query', R4SupabaseQuery)
 customElements.define('r4-supabase-filters', R4SupabaseFilters)
 customElements.define('r4-title', R4Title)
 customElements.define('r4-track', R4Track)
-customElements.define('r4-track-actions', R4TrackActions)
 customElements.define('r4-track-create', R4TrackCreate)
 customElements.define('r4-track-delete', R4TrackDelete)
 customElements.define('r4-track-update', R4TrackUpdate)
@@ -87,7 +83,6 @@ customElements.define('r4-pagination', R4Pagination)
 customElements.define('r4-icon', R4Icon)
 
 export default {
-	R4Actions,
 	R4App,
 	R4ColorScheme,
 	R4Avatar,
@@ -117,7 +112,6 @@ export default {
 	R4SupabaseFilters,
 	R4Title,
 	R4Track,
-	R4TrackActions,
 	R4TrackCreate,
 	R4TrackDelete,
 	R4TrackUpdate,
