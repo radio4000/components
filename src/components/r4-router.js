@@ -75,8 +75,10 @@ export default class R4Router extends LitElement {
 
 	// Called by page.js when a route is matched.
 	renderRoute($route, ctx) {
+		/* console.info('render route') */
 		this.params = ctx.params
 		this.searchParams = ctx.searchParams
+		/* console.info('ctx.params', ctx.searchParams) */
 		this.componentName = `r4-page-${$route.getAttribute('page')}`
 		// Schedules a new render.
 		this.requestUpdate()
@@ -91,6 +93,7 @@ export default class R4Router extends LitElement {
 	}
 
 	unrenderRoute($route, ctx, next) {
+		/* console.info('unrender route') */
 		next()
 	}
 
