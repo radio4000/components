@@ -13,7 +13,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 	static properties = {
 		tracks: {type: Array, state: true},
 		count: {type: Number, state: true},
-		lastQuery: {type: Object},
+		query: {type: Object},
 		searchQuery: {type: String, state: true},
 		href: {type: String},
 		origin: {type: String},
@@ -24,7 +24,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		super()
 		this.tracks = []
 		this.channel = null
-		this.lastQuery = {}
+		this.query = {}
 	}
 
 	get defaultFilters() {
@@ -45,52 +45,49 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 
 	async onQuery(event) {
-		if (!this.channel) return
-		const q = event.detail
-		urlUtils.updateSearchParams(q, ['table', 'select'])
-		const filtersWithDefaults = [...(q.filters || []), ...this.defaultFilters]
-		q.filters = filtersWithDefaults
-		const res = await query(q)
+		const userQuery = event.detail
+		urlUtils.updateSearchParams(userQuery, ['table', 'select'])
+		const filtersWithDefaults = [...(userQuery.filters || []), ...this.defaultFilters]
+		const queryWithFilters = {...userQuery, filters: filtersWithDefaults}
+		this.query = queryWithFilters
+		const res = await query(this.query)
 		this.count = res.count
 		this.tracks = res.data
-		this.lastQuery = q
 	}
 
 	renderHeader() {
 		if (this.channelError) {
 			return this.renderNoPage()
 		} else {
-			return this.renderTracksMenu()
+			return [this.renderTracksMenu(), this.renderTracksQuery()]
 		}
 	}
 	renderMain() {
 		if (this.channel) {
-			return [this.renderTracksQuery(), this.renderTracksList()]
+			return this.renderTracksList()
 		}
 	}
 
 	renderTracksQuery() {
 		const params = this.searchParams
 		return html`
-			<section>
-				<details open="true">
-					<summary>Filters ${this.renderQueryFiltersSummary()}</summary>
-					<r4-supabase-query
-						table="channel_tracks"
-						count=${this.count}
-						page=${params.get('page') || 1}
-						limit=${params.get('limit') || 50}
-						order-by=${params.get('order-by') || 'created_at'}
-						order-config=${params.get('order-config') || JSON.stringify({ascending: false})}
-						filters=${params.get('filters')}
-						@query=${this.onQuery}
-					></r4-supabase-query>
-				</details>
-			</section>
+			<details open="true">
+				<summary>Filters ${this.renderQueryFiltersSummary()}</summary>
+				<r4-supabase-query
+					table="channel_tracks"
+					count=${this.count}
+					page=${params.get('page') || 1}
+					limit=${params.get('limit') || 50}
+					order-by=${params.get('order-by') || 'created_at'}
+					order-config=${params.get('order-config') || JSON.stringify({ascending: false})}
+					filters=${params.get('filters')}
+					@query=${this.onQuery}
+				></r4-supabase-query>
+			</details>
 		`
 	}
 	renderQueryFiltersSummary() {
-		const filtersLen = this.lastQuery?.filters?.length
+		const filtersLen = this.query?.filters?.length
 		if (filtersLen) {
 			return html`(<a href=${this.tracksOrigin}>clear ${filtersLen}</a>)`
 		}
@@ -126,7 +123,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		`
 	}
 	renderTracksCount() {
-		if (this.lastQuery.filters) {
+		if (this.query.filters) {
 			return html`${this.count} tracks`
 		}
 	}
