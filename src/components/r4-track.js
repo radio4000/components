@@ -7,7 +7,6 @@ export default class R4Track extends LitElement {
 		href: {type: String},
 		id: {type: String},
 		track: {type: Object},
-		track: {type: Object},
 		config: {type: Object}, // from r4-app
 		loading: {type: Boolean, reflect: true, state: true},
 		playing: {type: Boolean, reflect: true},

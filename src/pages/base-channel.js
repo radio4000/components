@@ -89,4 +89,124 @@ export default class BaseChannel extends R4Page {
 	createRenderRoot() {
 		return this
 	}
+	renderAside() {
+		return html`<r4-page-aside> ${this.channel ? this.renderChannelShare() : null}</r4-page-aside>`
+	}
+	renderHeader() {
+		if (this.isFirebaseChannel) {
+			return html`
+				<h1>@${this.params.slug}</h1>
+				<p>This channel has not yet migrated to the new Radio4000. That's ok, you can still listen.</p>
+			`
+		}
+		if (this.channelError) {
+			return this.renderChannelError()
+		}
+		if (this.channel) {
+			return [this.renderChannelCard(), this.renderChannelMenu()]
+		}
+	}
+	renderChannelShare() {
+		return html`
+			<r4-dialog name="share" @close="${this.onDialogClose}">
+				<r4-share slot="dialog" origin="${this.channelOrigin}" slug="${this.channel.slug}"></r4-share>
+			</r4-dialog>
+		`
+	}
+	renderChannelError() {
+		return html`<p>404. There is no channel here. Want to <a href="${this.config.href}/new">create one?</a></p>`
+	}
+	renderChannelCard() {
+		return html` <r4-channel-card .channel=${this.channel} origin=${this.channelOrigin}></r4-channel-card> `
+	}
+	renderChannelMenu() {
+		return html`
+			<menu>
+				<li>
+					<a href="${this.channelOrigin + '/tracks'}">Tracks</a>
+				</li>
+				<li>
+					<a href="${this.channelOrigin + '/feed'}">Feed</a>
+				</li>
+				<li>
+					<a href="${this.channelOrigin + '/following'}">Following</a>
+				</li>
+				<li>
+					<a href="${this.channelOrigin + '/followers'}">Followers</a>
+				</li>
+				<li>
+					<r4-channel-social>${this.renderSocial()}</r4-channel-social>
+				</li>
+
+				<li>
+					<button @click=${(e) => this.openDialog('share')}>Share</button>
+				</li>
+				${this.coordinates && !this.config.singleChannel ? this.renderCoordinates() : null}
+				${this.canEdit ? [this.renderAddTrack(), this.renderEdit()] : null}
+			</menu>
+		`
+	}
+	renderCoordinates() {
+		return html`<li><r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates></li>`
+	}
+
+	renderAddTrack() {
+		return html`
+			<li>
+				<a href="${this.config.href}/add?slug=${this.channel.slug}"> Add </a>
+			</li>
+		`
+	}
+
+	renderEdit() {
+		return html`
+			<li>
+				<a href="${this.channelOrigin}/update"> Update </a>
+			</li>
+		`
+	}
+	renderSocial() {
+		if (!this.config.singleChannel) {
+			return html`
+				<button @click=${this.alreadyFollowing ? this.unfollow : this.follow}>
+					${this.alreadyFollowing ? 'Unfollow' : 'Follow'}
+				</button>
+				<span hidden>${this.followsYou ? 'follows you' : "doesn't follow you"}</span>
+			`
+		}
+	}
+	renderChannelImage(image) {
+		if (!image) return null
+		return html` <r4-avatar image=${image} size="small"></r4-avatar> `
+	}
+
+	renderMap() {
+		const mapUrl = `${this.config.href}/map/?longitude=${this.coordinates.longitude}&latitude=${this.coordinates.latitude}&slug=${this.channel.slug}`
+		return html`<a href=${mapUrl}><r4-icon name="map_position"></r4-icon></a>`
+	}
+
+	onDialogClose({target}) {
+		const name = target.getAttribute('name')
+		if (name === 'track') {
+			if (this.config.singleChannel) {
+				page('/track')
+			} else {
+				page(`/${this.params.slug}/tracks`)
+			}
+		}
+	}
+
+	openDialog(name) {
+		const $dialog = this.querySelector(`r4-page-aside r4-dialog[name="${name}"]`)
+		if ($dialog) {
+			$dialog.setAttribute('visible', true)
+		}
+	}
+
+	closeDialog(name) {
+		const $dialog = this.querySelector(`r4-dialog[name="${name}"]`)
+		if ($dialog) {
+			$dialog.removeAttribute('visible')
+		}
+	}
 }

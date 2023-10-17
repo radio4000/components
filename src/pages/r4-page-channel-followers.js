@@ -16,12 +16,6 @@ export default class R4PageChannelFollowers extends BaseChannel {
 		super.connectedCallback()
 		if (this.channel && !this.channels) this.setChannels()
 	}
-	renderHeader() {
-		return html`
-			<r4-channel-card .channel=${this.channel} origin=${this.channelOrigin}></r4-channel-card>
-			<h1>Followers</h1>
-		`
-	}
 	renderMain() {
 		if (this.channels) {
 			return this.renderChannels()

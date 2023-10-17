@@ -50,10 +50,6 @@ export default class R4PageAdd extends BaseChannel {
 			this.focus()
 		}
 	}
-
-	renderHeader() {
-		return html`<r4-channel-card .channel=${this.channel} origin=${this.selectedChannelOrigin}></r4-channel-card>`
-	}
 	renderMain() {
 		return [this.renderAdd(), this.lastAddedTrack ? this.renderLastAddedTrack() : null]
 	}
