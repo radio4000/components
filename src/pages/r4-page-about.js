@@ -12,23 +12,27 @@ export default class R4PageAbout extends R4Page {
 
 	connectedCallback() {
 		super.connectedCallback()
-		this.fetchTheLatestTagFromTheGitProviderRepoUrlAndSetLatestTag()
+		this.fetchLatestRelease().then((latestTag) => {
+			this.latestTag = latestTag
+		})
 	}
 
-	async fetchTheLatestTagFromTheGitProviderRepoUrlAndSetLatestTag() {
+	async fetchLatestRelease() {
 		const owner = 'radio4000'
 		const repo = 'components'
 		const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/tags`)
 		const data = await res.json()
 		if (data?.length > 0) {
-			this.latestTag = data[0]
+			const latestTag = data[0]
+			return latestTag
 		}
 	}
 
 	renderHeader() {
-		return html`<h1>About</h1>`
+		return html`<h1>About <r4-title size="small"></r4-title></h1>`
 	}
 	renderMain() {
+		const {name} = this.latestTag
 		return html`
 			<p>Hello. This is going to be the next version of <r4-title></r4-title>.</p>
 			<p>
@@ -53,7 +57,7 @@ export default class R4PageAbout extends R4Page {
 			<p>
 				Contribute to the design and development on <a href="https://github.com/radio4000">github.com/radio4000</a>.
 			</p>
-			<p>The latest version is <a href=${this.releasesUrl}>${this.latestTag?.name}</a>.</p>
+			<p>The latest version is <a href=${this.releasesUrl}>${name ? name : '…'}</a>.</p>
 			<p>Cheers!</p>
 			<p>
 				<a href="${this.config.href}">← back to the home page</a>
