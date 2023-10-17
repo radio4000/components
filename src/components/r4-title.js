@@ -1,14 +1,38 @@
+const DEFAULT_SIZE = 'default'
+const SIZES = {
+	[DEFAULT_SIZE]: 'Radio4000',
+	small: 'R4',
+	medium: 'R4000',
+}
+
 export default class R4Title extends HTMLElement {
 	static get observedAttributes() {
 		return ['size']
 	}
-	get text() {
-		return this.hasAttribute('small') ? 'R4' : 'Radio4000'
+	get size() {
+		const attr = this.getAttribute('size')
+		if (this.sizeNames.indexOf(attr) > -1) {
+			return attr
+		} else {
+			return DEFAULT_SIZE
+		}
 	}
-
+	get sizeNames() {
+		return Object.keys(SIZES)
+	}
+	set size(size) {
+		if (this.sizeNames.indexOf(size) > -1) {
+			this.setAttribute('size', size)
+		} else {
+			this.setAttribute('size', DEFAULT_SIZE)
+		}
+	}
+	get text() {
+		return SIZES[this.size]
+	}
 	/* if the attribute changed, re-render */
 	attributeChangedCallback(attrName) {
-		if (['small'].indexOf(attrName) > -1) {
+		if (attrName === 'size') {
 			this.render()
 		}
 	}
