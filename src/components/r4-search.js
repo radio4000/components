@@ -15,7 +15,7 @@ export default class R4Search extends LitElement {
 		href: {type: String, reflect: true},
 		// Only needed for r4-track-search
 		slug: {type: String, reflect: true},
-		autofocus: {type: Boolean, reflect: true},
+		autofocus: {type: Boolean},
 	}
 	get searchValid() {
 		return this.search.length > 2
@@ -23,6 +23,7 @@ export default class R4Search extends LitElement {
 	constructor() {
 		super()
 		this.search = ''
+		this.autofocus = false
 	}
 	connectedCallback() {
 		super.connectedCallback()
@@ -30,7 +31,7 @@ export default class R4Search extends LitElement {
 		if (this.search) this.onInput({target: {value: this.value}})
 	}
 	firstUpdated() {
-		if (this.focus) {
+		if (this.autofocus) {
 			this.focusInput()
 		}
 	}
