@@ -35,6 +35,24 @@ export default class DatabaseListeners extends EventTarget {
 					}
 				)
 				.subscribe()
+
+			console.log('add accountds db event', user.id)
+			sdk.supabase
+				.channel('yser-account')
+				.on(
+					'postgres_changes',
+					{
+						event: '*',
+						schema: 'public',
+						table: 'accounts',
+						filter: `id=eq.${user.id}`,
+					},
+					(payload) => {
+						console.log('on accountds db event', payload)
+						this.dispatchEvent(new CustomEvent('user-account', {detail: payload}))
+					}
+				)
+				.subscribe()
 		}
 
 		const channelId = this.r4App.selectedChannel?.id

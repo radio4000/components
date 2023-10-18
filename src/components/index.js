@@ -5,7 +5,6 @@
 
 import R4App from './r4-app.js'
 import R4AppMenu from './r4-app-menu.js'
-import R4ColorScheme from './r4-color-scheme.js'
 import R4Avatar from './r4-avatar.js'
 import R4AvatarUpdate from './r4-avatar-update.js'
 import R4AvatarUpload from './r4-avatar-upload.js'
@@ -39,6 +38,7 @@ import R4TrackDelete from './r4-track-delete.js'
 import R4TrackUpdate from './r4-track-update.js'
 import R4Tuner from './r4-tuner.js'
 import R4User from './r4-user.js'
+import R4UserAccount from './r4-user-account.js'
 import R4UserDelete from './r4-user-delete.js'
 import R4UserChannelsSelect from './r4-user-channels-select.js'
 import R4Pagination from './r4-pagination.js'
@@ -46,7 +46,6 @@ import R4Icon from './r4-icon.js'
 
 customElements.define('r4-app', R4App)
 customElements.define('r4-app-menu', R4AppMenu)
-customElements.define('r4-color-scheme', R4ColorScheme)
 customElements.define('r4-avatar', R4Avatar)
 customElements.define('r4-avatar-update', R4AvatarUpdate)
 customElements.define('r4-avatar-upload', R4AvatarUpload)
@@ -82,6 +81,7 @@ customElements.define('r4-track-search', R4TrackSearch)
 customElements.define('r4-tuner', R4Tuner)
 customElements.define('r4-user', R4User)
 customElements.define('r4-user-delete', R4UserDelete)
+customElements.define('r4-user-account', R4UserAccount)
 customElements.define('r4-user-channels-select', R4UserChannelsSelect)
 customElements.define('r4-pagination', R4Pagination)
 customElements.define('r4-icon', R4Icon)
@@ -89,7 +89,6 @@ customElements.define('r4-icon', R4Icon)
 export default {
 	R4App,
 	R4AppMenu,
-	R4ColorScheme,
 	R4Avatar,
 	R4AvatarUpdate,
 	R4AvatarUpload,
@@ -124,6 +123,7 @@ export default {
 	R4TrackSearch,
 	R4Tuner,
 	R4User,
+	R4UserAccount,
 	R4UserDelete,
 	R4UserChannelsSelect,
 	R4Pagination,

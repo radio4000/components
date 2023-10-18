@@ -28,6 +28,7 @@ export default class R4App extends LitElement {
 
 		/* state */
 		user: {type: Object, state: true},
+		userAccount: {type: Object, state: true},
 		userChannels: {type: Array || null, state: true},
 		followers: {type: Array || null, state: true},
 		following: {type: Array || null, state: true},
@@ -46,6 +47,7 @@ export default class R4App extends LitElement {
 	get store() {
 		return {
 			user: this.user,
+			userAccount: this.userAccount,
 			userChannels: this.userChannels,
 			followers: this.followers,
 			following: this.following,
@@ -77,27 +79,48 @@ export default class R4App extends LitElement {
 		this.listeners.addEventListener('auth', async (event) => {
 			this.user = event.detail.user
 			this.refreshUserData()
-			if (event.detail === 'PASSWORD_RECOVERY') this.passwordRecovery()
+			this.refreshUserAccount()
+			if (event.detail === 'PASSWORD_RECOVERY') {
+				this.passwordRecovery()
+			}
 		})
-		this.listeners.addEventListener('user-channels', (event) => {
-			if (event.detail.eventType === 'INSERT' || event.detail.eventType === 'DELETE') {
+		this.listeners.addEventListener('user-channels', ({detail}) => {
+			if (['INSERT', 'DELETE', 'UPDATE'].includes(detail.eventType)) {
 				this.refreshUserData()
 			}
 		})
-		this.listeners.addEventListener('followers', (event) => {
-			if (event.detail.eventType === 'INSERT' || event.detail.eventType === 'DELETE') {
+		this.listeners.addEventListener('followers', ({detail}) => {
+			if (['INSERT', 'DELETE', 'UPDATE'].includes(detail.eventType)) {
 				this.refreshUserData()
 			}
 		})
+		this.listeners.addEventListener('user-account', ({detail}) => {
+			if (['INSERT', 'DELETE', 'UPDATE'].includes(detail.eventType)) {
+				this.refreshUserAccount(detail.new)
+			}
+		})
+	}
+
+	async refreshUserAccount(newAccount) {
+		if (this.user && newAccount) {
+			this.userAccount = newAccount
+		}
+		if (this.user && !this.store.userAccount) {
+			const {data, error} = await sdk.supabase.from('accounts').select('*').eq('id', this.user.id).single()
+			if (data) {
+				this.userAccount = data
+			} else if (error) {
+				// create user account (should be in DB auto when creating account)
+				this.userAccount = await sdk.supabase.from('accounts').insert({id: this.user.id}).single()
+			}
+		}
+		this.setTheme()
 	}
 
 	async refreshUserData() {
 		// Ensure it doesn't run multiple times in parallel.
 		if (this.refreshUserData.running) return
 		this.refreshUserData.running = true
-
-		// Refresh user theme settings
-		this.setTheme()
 
 		if (!this.user) {
 			this.userChannels = []
@@ -134,18 +157,18 @@ export default class R4App extends LitElement {
 
 	async setTheme() {
 		// From local storage
-		let theme = localStorage.getItem('r4.theme')
 		// From database
-		if (!theme && this.user) {
-			const {data: account} = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
-			theme = account.theme
-		}
-		// From OS settings
-		if (!theme) {
+		if (this.store.userAccount?.theme) {
+			this.setAttribute('color-scheme', this.store.userAccount.theme)
+			// - could fetch theme from static assets file by name
+			// - or could fetch it from github repo (see i4k.ntwrk)
+			// - coud apply dark/light version for each theme
+		} else {
+			// From OS settings
 			const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-			theme = prefersDark ? 'dark' : 'light'
+			const theme = prefersDark ? 'dark' : 'light'
+			this.setAttribute('color-scheme', theme)
 		}
-		this.setAttribute('color-scheme', theme)
 	}
 
 	render() {

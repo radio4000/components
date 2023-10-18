@@ -113,7 +113,8 @@ export default class R4PageSettings extends R4Page {
 		return html`
 			<section>
 				<h2>Appearance</h2>
-				<r4-color-scheme .user=${this.store.user}></r4-color-scheme>
+				<p>Customize the application's look and feel.</p>
+				<r4-user-account .account=${this.store.userAccount}></r4-user-account>
 			</section>
 		`
 	}
