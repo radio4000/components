@@ -1,4 +1,4 @@
-import {LitElement, html} from 'lit'
+import {html} from 'lit'
 import R4Page from '../components/r4-page.js'
 
 export default class R4PageHome extends R4Page {
@@ -54,7 +54,7 @@ export default class R4PageHome extends R4Page {
 						<strong>¿¡WARNING!?</strong> All data created on the beta website will be deleted regularely (PS: it's full
 						of bugs and missing features D: !).
 					</p>
-					<p>Keep adding new tracks in the <a href="https://radio4000.com/" target="_blank">classic application</a>.</p>
+					<p>Keep adding new tracks in the <a href="https://radio4000.com/" target="_blank">classic application</a>, until we make the switch.</p>
 				</details>
 			</section>
 		`
