@@ -38,6 +38,10 @@ export default class R4App extends LitElement {
 		playingChannel: {type: Object},
 		playingTrack: {type: Object},
 
+		theme: {type: String, reflect: true},
+		colorScheme: {type: String, attribute: 'color-scheme', reflect: true},
+		themeStyles: {type: String, state: true},
+
 		/* state for global usage */
 		store: {type: Object, state: true},
 		config: {type: Object, state: true},
@@ -159,16 +163,31 @@ export default class R4App extends LitElement {
 		// From local storage
 		// From database
 		if (this.store.userAccount?.theme) {
-			this.setAttribute('color-scheme', this.store.userAccount.theme)
-			// - could fetch theme from static assets file by name
-			// - or could fetch it from github repo (see i4k.ntwrk)
-			// - coud apply dark/light version for each theme
+			this.theme = this.store.userAccount.theme
+			this.themeStyles = await this.fetchTheme(this.store.userAccount.theme)
+		} else {
+			this.theme = 'default'
+		}
+		if (this.store.userAccount?.color_scheme) {
+			this.colorScheme = this.store.userAccount.color_scheme
 		} else {
 			// From OS settings
 			const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-			const theme = prefersDark ? 'dark' : 'light'
-			this.setAttribute('color-scheme', theme)
+			this.colorScheme = prefersDark ? 'dark' : 'light'
 		}
+	}
+	async fetchTheme(name) {
+		const url = `/theme-${name}.css`
+		const themeUrl = new URL(url, import.meta.url).href
+		const themeData = await fetch(themeUrl).then((res) => {
+			const text = res.text()
+			if (res.status === 404) {
+				return null
+			} else {
+				return text
+			}
+		})
+		return themeData
 	}
 
 	render() {
@@ -183,14 +202,15 @@ export default class R4App extends LitElement {
 					?is-playing=${this.isPlaying}
 					@trackchanged=${this.onTrackChange}
 				></r4-player>
+				${this.themeStyles ? this.renderThemeStyles() : null}
 			</r4-layout>
 		`
 	}
 
 	/* the default routers:
-	 - one for the channel in CMS mode (all channels are accessible)
-	 - one for when only one channel should be displayed in the UI
- */
+		 - one for the channel in CMS mode (all channels are accessible)
+		 - one for when only one channel should be displayed in the UI
+	 */
 	renderRouter() {
 		if (this.singleChannel) {
 			return html`
@@ -208,6 +228,15 @@ export default class R4App extends LitElement {
 			<header slot="menu">
 				<r4-app-menu ?auth=${this.store?.user} href=${this.config?.href} slug=${this.selectedSlug}></r4-app-menu>
 			</header>
+		`
+	}
+	renderThemeStyles() {
+		return html`
+			<aside>
+				<style>
+					${this.themeStyles}
+				</style>
+			</aside>
 		`
 	}
 

@@ -36,7 +36,6 @@ export default class DatabaseListeners extends EventTarget {
 				)
 				.subscribe()
 
-			console.log('add accountds db event', user.id)
 			sdk.supabase
 				.channel('yser-account')
 				.on(
@@ -48,7 +47,6 @@ export default class DatabaseListeners extends EventTarget {
 						filter: `id=eq.${user.id}`,
 					},
 					(payload) => {
-						console.log('on accountds db event', payload)
 						this.dispatchEvent(new CustomEvent('user-account', {detail: payload}))
 					}
 				)
