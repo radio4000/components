@@ -22,7 +22,6 @@
 		</li>
 	</menu>
 	<r4-track></r4-track>
-	<r4-track-actions></r4-track-actions>
 </body>
 
 <script>
@@ -32,15 +31,6 @@
 
 	const $channel = document.querySelector('r4-track')
 	trackId && $channel.setAttribute('id', trackId)
-
-	/* add some actions to the channel */
-	const onTrackInput = ({ detail }) => {
-		console.log('track action', detail)
-	}
-
-	const $actions = document.querySelector('r4-track-actions')
-	trackId && $actions.setAttribute('id', trackId)
-	$actions.addEventListener('input', onTrackInput)
 </script>
 
 </html>
