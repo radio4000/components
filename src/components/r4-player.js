@@ -20,7 +20,7 @@ export default class R4Player extends LitElement {
 			<radio4000-player
 				${ref(this.playerRef)}
 				@playerReady=${this.onPlayerReady}
-				@trackChanged=${this.onTrackChange}
+				@trackChanged=${this.onTrackChanged}
 			></radio4000-player>
 		`
 	}
@@ -49,9 +49,7 @@ export default class R4Player extends LitElement {
 
 	play() {
 		if (!this.$player) return
-
 		if (this.tracks?.length) {
-			console.log(this.image)
 			const playlist = {
 				title: this.name,
 				image: createImage(this.image),
@@ -86,8 +84,7 @@ export default class R4Player extends LitElement {
 		el.removeAttribute('tracks')
 	}
 
-	onTrackChange(event) {
-		console.log('trackchange', event.detail)
+	onTrackChanged(event) {
 		this.dispatchEvent(
 			new CustomEvent('trackchange', {
 				bubbles: true,

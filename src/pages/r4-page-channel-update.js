@@ -4,22 +4,23 @@ import {sdk} from '@radio4000/sdk'
 import BaseChannel from './base-channel'
 
 export default class R4PageChannelUpdate extends BaseChannel {
-	render() {
-		const {channel} = this
-		if (channel && !this.canEdit) return html`<p>You don't have permissions to edit this channel.</p>`
-		return html`
-			<r4-page-header>
-				<h1>Update channel</h1>
-				<p>Customize the radio channel settings.</p>
-			</r4-page-header>
-			<r4-page-main> ${channel ? this.renderChannel() : null} </r4-page-main>
-		`
+	renderHeader() {
+		return html` <p>Customize <a href=${this.channelOrigin}>${this.params.slug}</a> settings.</p> `
+	}
+	renderMain() {
+		const {channel, channelOrigin} = this
+		if (!this.channel) {
+			return ''
+		} else if (this.channel && !this.canEdit) {
+			return html`<p>You don't have permissions to edit this channel.</p>`
+		} else if (this.channel) {
+			return this.renderChannel()
+		}
 	}
 	renderChannel() {
 		const {channel, channelOrigin} = this
 		return html`
 			<section>
-				<h2><a href=${channelOrigin}>${this.params.slug}</a></h2>
 				<r4-channel-update
 					id=${channel.id}
 					slug=${channel.slug}

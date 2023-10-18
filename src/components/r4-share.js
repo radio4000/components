@@ -1,5 +1,5 @@
-const template = document.createElement('template')
-template.innerHTML = `
+const templateChannel = document.createElement('template')
+templateChannel.innerHTML = `
 	<form>
 		<fieldset>
 			<label for="channel_url" id="channel_url">Channel URL</label>
@@ -16,17 +16,29 @@ template.innerHTML = `
 	</form>
 `
 
-export default class R4ChannelSharer extends HTMLElement {
+const templateTrack = document.createElement('template')
+templateTrack.innerHTML = `
+	<form>
+		<fieldset>
+			<label for="track_url" id="track_url">Track URL</label>
+			<input readonly name="track_url" type="url"/>
+		</fieldset>
+	</form>
+`
+
+export default class R4ChannelShare extends HTMLElement {
 	static get observedAttributes() {
-		return ['slug', 'origin', 'api-origin', 'icon-origin']
+		return ['origin', 'api-origin', 'icon-origin', 'slug', 'track-id']
 	}
 
 	/* some attributes, that can be used to fetch model data,
-	 and are unique to the channel */
+		 and are unique to the channel */
 	get slug() {
 		return this.getAttribute('slug')
 	}
-
+	get trackId() {
+		return this.getAttribute('track-id')
+	}
 
 	/* Used to make a link to the channel's homepage.
 		 It could point to different URL schemes:
@@ -43,6 +55,9 @@ export default class R4ChannelSharer extends HTMLElement {
 			}
 		}
 		return url
+	}
+	get trackOrigin() {
+		return `${this.origin}/tracks/${this.trackId}`
 	}
 
 	/* the link to the r4 api */
@@ -65,10 +80,9 @@ export default class R4ChannelSharer extends HTMLElement {
 		return `<a href="${this.origin}"><img width="30" src="${this.iconOrigin}" title="${this.slug}@r4" alt="${this.slug}@r4"></a>`
 	}
 
-
 	attributeChangedCallback(attrName) {
 		if (this.constructor.observedAttributes.indexOf(attrName) > -1) {
-			this.render()
+			/* this.render() */
 		}
 	}
 
@@ -82,22 +96,28 @@ export default class R4ChannelSharer extends HTMLElement {
 		this.innerHTML = ''
 		const $dom = this.buildTemplate()
 		this.append($dom)
-		this.querySelectorAll('input').forEach($input => {
+		this.querySelectorAll('input').forEach(($input) => {
 			$input.addEventListener('click', this.onInputClick.bind(this))
 		})
 	}
 
 	disconnectedCallback() {
-		this.querySelectorAll('input').forEach($input => {
+		this.querySelectorAll('input').forEach(($input) => {
 			$input.removeEventListener('click', this.onInputClick)
 		})
 	}
 
 	buildTemplate() {
-		const $sharer = template.content.cloneNode(true)
-		$sharer.querySelector('[name="channel_url"]').value = this.origin
-		$sharer.querySelector('[name="channel_iframe"]').value = this.iframe
-		$sharer.querySelector('[name="channel_icon"]').value = this.icon
+		let $sharer
+		if (this.trackId) {
+			$sharer = templateTrack.content.cloneNode(true)
+			$sharer.querySelector('[name="track_url"]').value = this.trackOrigin
+		} else {
+			$sharer = templateChannel.content.cloneNode(true)
+			$sharer.querySelector('[name="channel_url"]').value = this.origin
+			$sharer.querySelector('[name="channel_iframe"]').value = this.iframe
+			$sharer.querySelector('[name="channel_icon"]').value = this.icon
+		}
 		return $sharer
 	}
 	onInputClick({target}) {

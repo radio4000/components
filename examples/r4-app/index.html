@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width">
-	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
-	<title>r4-app</title>
-	<meta name="description" content="r4-app">
-	<!-- <link rel="stylesheet" href="/styles/index.css" /> -->
-	<script type="module" src="/src/index.js"></script>
-</head>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+		<title>r4-app</title>
+		<meta name="description" content="r4-app" />
+		<!-- <link rel="stylesheet" href="/styles/index.css" /> -->
+		<script type="module" src="/src/index.js"></script>
+	</head>
 
-<body>
-	<!-- <r4-app channel="ko002" single-channel="true"></r4-app> -->
-	<r4-app></r4-app>
+	<body>
+		<!-- <r4-app channel="ko002" single-channel="true"></r4-app> -->
+		<r4-app></r4-app>
 
-	<!--
-	<ul>
-		<li>
-			Use the components and a <a href="https://github.com/visionmedia/page.js">client side javascript router</a>, to build the <r4-title small></r4-title> application
-		</li>
-		<li>
-			Add <a href="?single-channel=true&channel=">?single-channel=true&channel=<slug></a> to force the app into only showing one channel. (*.4000.radio for subdomains).
-		</li>
-	</ul>
+		<!--
+			 <ul>
+			 <li>
+			 Use the components and a <a href="https://github.com/visionmedia/page.js">client side javascript router</a>, to build the <r4-title size="small"></r4-title> application
+			 </li>
+			 <li>
+			 Add <a href="?single-channel=true&channel=">?single-channel=true&channel=<slug></a> to force the app into only showing one channel. (*.4000.radio for subdomains).
+			 </li>
+			 </ul>
 	-->
 
-	<!-- default styles, like on r4.com (here there are example text on top) -->
-	<style>
-		body {
-			margin: 0;
-		}
-		r4-app {
-			/*height: 900px;*/
-			min-height: 100vh;
-		}
-	</style>
+		<!-- default styles, like on r4.com (here there are example text on top) -->
+		<style>
+			body {
+				margin: 0;
+			}
+			r4-app {
+				/*height: 900px;*/
+				min-height: 100vh;
+			}
+		</style>
 
-	<script>
-		const $app = document.querySelector('r4-app')
+		<script>
+			const $app = document.querySelector('r4-app')
 
-		const params = new URLSearchParams(window.location.search)
+			const params = new URLSearchParams(window.location.search)
 
-		// maybe initialize the app with a channel from the URL -->
-		const channel = params.get('channel')
-		channel && $app.setAttribute('channel', channel)
-		const singleChannel = params.get('single-channel')
-		singleChannel && $app.setAttribute('single-channel', true)
+			// maybe initialize the app with a channel from the URL -->
+			const channel = params.get('channel')
+			channel && $app.setAttribute('channel', channel)
+			const singleChannel = params.get('single-channel')
+			singleChannel && $app.setAttribute('single-channel', true)
 
-		$app.setAttribute('href', window.location.origin + '/examples/r4-app/')
-	</script>
-</body>
+			$app.setAttribute('href', window.location.origin + '/examples/r4-app/')
+		</script>
+	</body>
 </html>

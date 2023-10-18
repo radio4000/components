@@ -1,62 +1,52 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width">
-	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+		<title>r4-menu</title>
+		<meta name="description" content="r4-menu" />
+		<link rel="stylesheet" href="/styles/index.css" />
+		<script type="module" src="/src/index.js"></script>
+	</head>
 
-	<title>r4-menu</title>
-	<meta name="description" content="r4-menu">
-	<link rel="stylesheet" href="/styles/index.css" />
-	<script type="module" src="/src/index.js"></script>
-</head>
+	<body>
+		<menu>
+			<li>This is an example of <r4-title size="small"></r4-title> menu</li>
+			<li>The menu automatically nests its direct children in a <code>li</code> element.</li>
+		</menu>
+		<r4-menu>
+			<a href="../">../</a>
+			<a href="./">./</a>
+			<a href="/">/</a>
+			<a href="../r4-actions">r4-actions</a>
+			<r4-auth-status>
+				<a slot="in" href="../r4-sign-out">r4-sign-out</a>
+				<span slot="out"> sign-{<a href="../r4-sign-in">in</a>, <a href="../r4-sign-up">up</a>} </span>
+			</r4-auth-status>
+		</r4-menu>
 
-<body>
-	<menu>
-		<li>
-			This is an example of <r4-title small="true"></r4-title> menu
-		</li>
-		<li>
-			The menu automatically nests its direct children in a <code>li</code> element.
-		</li>
-	</menu>
-	<r4-menu>
-		<a href="../">../</a>
-		<a href="./">./</a>
-		<a href="/">/</a>
-		<a href="../r4-actions">r4-actions</a>
-		<r4-auth-status>
-			<a slot="in" href="../r4-sign-out">r4-sign-out</a>
-			<span slot="out">
-				sign-{<a href="../r4-sign-in">in</a>, <a href="../r4-sign-up">up</a>}
-			</span>
-		</r4-auth-status>
-	</r4-menu>
+		<menu>
+			<li>Example menu with <kbd>direction="row"</kbd>(CSS only)</li>
+		</menu>
 
-	<menu>
-		<li>
-			Example menu with <kbd>direction="row"</kbd>(CSS only)
-		</li>
-	</menu>
+		<r4-menu direction="row" pathname="/examples">
+			<a href="../r4-actions">r4-actions</a>
+			<r4-user-channels-select slot="in"></r4-user-channels-select>
+		</r4-menu>
+	</body>
 
-	<r4-menu direction="row" pathname="/examples">
-		<a href="../r4-actions">r4-actions</a>
-		<r4-user-channels-select slot="in"></r4-user-channels-select>
-	</r4-menu>
-</body>
+	<script>
+		// only set the origin on the first one
+		const $menu = document.querySelector('r4-menu')
+		$menu.setAttribute('origin', window.origin)
 
-<script>
-	// only set the origin on the first one
-	const $menu = document.querySelector('r4-menu')
-	$menu.setAttribute('origin', window.origin)
+		const onSubmit = ({detail}) => {
+			console.log('channel selected', detail)
+		}
 
-	const onSubmit = ({ detail }) => {
-		console.log('channel selected', detail)
-	}
-
-	const $select = document.querySelector('r4-user-channels-select')
-	$select && $select.addEventListener('input', onSubmit)
-</script>
-
+		const $select = document.querySelector('r4-user-channels-select')
+		$select && $select.addEventListener('input', onSubmit)
+	</script>
 </html>

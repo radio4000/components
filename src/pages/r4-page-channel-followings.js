@@ -1,19 +1,53 @@
 import {html} from 'lit'
 import BaseChannel from './base-channel'
+import {repeat} from 'lit/directives/repeat.js'
+import {sdk} from '@radio4000/sdk'
 
 export default class R4PageChannelFollowings extends BaseChannel {
-	render() {
-		const slug = this.channel?.slug
+	static properties = {
+		channels: {type: Array, state: true},
+	}
+	async setChannels() {
+		this.channels = (
+			await sdk.supabase
+				.from('followers')
+				.select('*, channel_id(*), follower_id!inner(slug)')
+				.eq('follower_id.slug', this.slug)
+		).data
+	}
+	async connectedCallback() {
+		await super.connectedCallback()
+		if (this.channel && !this.channels) {
+			await this.setChannels()
+		}
+	}
+	renderMain() {
+		if (this.channels?.length) {
+			return [this.renderFollowsYou(), this.renderChannels()]
+		} else {
+			return this.renderNoChannels()
+		}
+	}
+	renderFollowsYou() {
+		return html`<section>${this.followsYou ? 'Follows you' : null}</section>`
+	}
+	renderChannels() {
 		return html`
-			<r4-page-header>
-				<code>@</code> <a href=${this.channelOrigin}>${this.params.slug}</a> <code>/</code> following,
-				<a href=${this.channelOrigin + '/followers'}>followers</a> &
-				<a href=${this.channelOrigin + '/feed'}>feed</a>
-			</r4-page-header>
-			<r4-page-main>
-				<h1>Channels which ${slug} follows</h1>
-				<r4-channel-followings slug=${slug} href=${this.config.href}></r4-channel-followings>
-			</r4-page-main>
+			<r4-list>
+				${repeat(
+					this.channels || [],
+					(c) => c.id,
+					(c) => this.renderChannel(c)
+				)}
+			</r4-list>
 		`
+	}
+	renderChannel(c) {
+		return html` <r4-list-item>
+			<r4-channel-card .channel=${c.channel_id} origin=${this.config.href + '/{{slug}}'}> </r4-channel-card>
+		</r4-list-item>`
+	}
+	renderNoChannels() {
+		return html`Not following any channel yet.`
 	}
 }

@@ -13,7 +13,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 	static properties = {
 		tracks: {type: Array, state: true},
 		count: {type: Number, state: true},
-		lastQuery: {type: Object},
+		query: {type: Object},
 		searchQuery: {type: String, state: true},
 		href: {type: String},
 		origin: {type: String},
@@ -24,6 +24,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		super()
 		this.tracks = []
 		this.channel = null
+		this.query = {}
 	}
 
 	get defaultFilters() {
@@ -44,44 +45,52 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 
 	async onQuery(event) {
-		if (!this.channel) return
-		const q = event.detail
-		urlUtils.updateSearchParams(q, ['table', 'select'])
-		const filtersWithDefaults = [...(q.filters || []), ...this.defaultFilters]
-		q.filters = filtersWithDefaults
-		const res = await query(q)
+		const userQuery = event.detail
+		urlUtils.updateSearchParams(userQuery, ['table', 'select'])
+		const filtersWithDefaults = [...(userQuery.filters || []), ...this.defaultFilters]
+		const queryWithFilters = {...userQuery, filters: filtersWithDefaults}
+		this.query = queryWithFilters
+		const res = await query(this.query)
 		this.count = res.count
 		this.tracks = res.data
-		this.lastQuery = q
 	}
 
-	render() {
-		if (this.channelError) return this.renderNoPage()
-		return html`
-			<r4-page-header> ${this.renderTracksMenu()} </r4-page-header>
-			<r4-page-main>${this.channel ? [this.renderTracksQuery(), this.renderTracksList()] : null}</r4-page-main>
-		`
+	renderHeader() {
+		if (this.channelError) {
+			return this.renderNoPage()
+		} else {
+			return [this.renderTracksMenu(), this.renderTracksQuery()]
+		}
+	}
+	renderMain() {
+		if (this.channel) {
+			return this.renderTracksList()
+		}
 	}
 
 	renderTracksQuery() {
 		const params = this.searchParams
 		return html`
-			<section>
-				<details>
-					<summary>Filter ${this.count} tracks</summary>
-					<r4-supabase-query
-						table="channel_tracks"
-						count=${this.count}
-						page=${params.get('page') || 1}
-						limit=${params.get('limit') || 50}
-						order-by=${params.get('order-by') || 'created_at'}
-						order-config=${params.get('order-config') || JSON.stringify({ascending: false})}
-						filters=${params.get('filters')}
-						@query=${this.onQuery}
-					></r4-supabase-query>
-				</details>
-			</section>
+			<details open="true">
+				<summary>Filters ${this.renderQueryFiltersSummary()}</summary>
+				<r4-supabase-query
+					table="channel_tracks"
+					count=${this.count}
+					page=${params.get('page') || 1}
+					limit=${params.get('limit') || 50}
+					order-by=${params.get('order-by') || 'created_at'}
+					order-config=${params.get('order-config') || JSON.stringify({ascending: false})}
+					filters=${params.get('filters')}
+					@query=${this.onQuery}
+				></r4-supabase-query>
+			</details>
 		`
+	}
+	renderQueryFiltersSummary() {
+		const filtersLen = this.query?.filters?.length
+		if (filtersLen) {
+			return html`(<a href=${this.tracksOrigin}>clear ${filtersLen}</a>)`
+		}
 	}
 
 	renderTracksMenu() {
@@ -96,21 +105,27 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 		return html`
 			<menu>
-				<li><a href=${this.tracksOrigin}>${this.params.slug}</a></li>
+				<li><a href=${this.channelOrigin}>${this.params.slug}</a></li>
 				<li><r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play></li>
 				<li>
-					<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label=" Play results"></r4-button-play>
-				</li>
-				<li>
 					<form>
-						<label><input placeholder="Dig tracks..." type="search" @input=${this.onSearch.bind(this)} /></label>
+						<label>Search <input placeholder="tracks" type="search" @input=${this.onSearch.bind(this)} /></label>
 					</form>
+				</li>
+				<li>${this.renderTracksCount()}</li>
+				<li>
+					<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label=" Play results"></r4-button-play>
 				</li>
 				<li><a href=${mentionsHref} label>@Mentions</a></li>
 				<li><a href=${tagsHref} label>#Tags</a></li>
 				<li><a href=${jazzTagHref} label>#jazz</a></li>
 			</menu>
 		`
+	}
+	renderTracksCount() {
+		if (this.query.filters) {
+			return html`${this.count} tracks`
+		}
 	}
 
 	async onSearch(event) {
@@ -141,7 +156,15 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 
 	renderTracksList() {
-		return html` <r4-list> ${this.renderListItems()} </r4-list> `
+		if (this.tracks?.length) {
+			return html` <r4-list> ${this.renderListItems()} </r4-list> `
+		} else {
+			return html`
+				<r4-list>
+					<r4-list-item>No result for this query</r4-list-item>
+				</r4-list>
+			`
+		}
 	}
 	renderListItems() {
 		return repeat(
@@ -149,18 +172,13 @@ export default class R4PageChannelTracks extends BaseChannel {
 			(t) => t.id,
 			(t) => html`
 				<r4-list-item>
-					<r4-button-play
-						.channel=${this.channel}
-						.track=${t}
-						.tracks=${this.tracks}
-						?playing=${this.config.playingTrack?.id === t.id}
-					></r4-button-play>
 					<r4-track
+						.channel=${this.channel}
 						.track=${t}
 						.config=${this.config}
 						href=${this.config.href}
 						origin=${'' || this.tracksOrigin}
-						.canEdit=${this.canEdit}
+						.canEdit="${this.canEdit}1"
 					></r4-track>
 				</r4-list-item>
 			`

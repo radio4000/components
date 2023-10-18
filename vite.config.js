@@ -37,6 +37,7 @@ const examples = await generateExampleInputFiles()
 export default defineConfig({
 	plugins: [vitePluginR4AppSPA()],
 	base: './',
+	publicDir: 'assets',
 	build: {
 		// https://vitejs.dev/guide/build.html#library-mode
 		rollupOptions: {

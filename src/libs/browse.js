@@ -55,7 +55,10 @@ export async function query({
 	filters = [],
 }) {
 	// We add count exact: to get a .total property back in the response. head:false ensures we still get the rows.
-	let query = supabase.from(table).select(select, {count: 'exact', head: false})
+	let query = supabase.from(table).select(select, {
+		count: 'exact',
+		head: false,
+	})
 
 	/*
 		 add filters to the query,

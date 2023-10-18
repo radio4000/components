@@ -1,6 +1,5 @@
 import {sdk} from '@radio4000/sdk'
 import {LitElement, html} from 'lit'
-import page from 'page/page.mjs'
 
 export default class R4Track extends LitElement {
 	static properties = {
@@ -8,6 +7,7 @@ export default class R4Track extends LitElement {
 		href: {type: String},
 		id: {type: String},
 		track: {type: Object},
+		channel: {type: Object},
 		config: {type: Object}, // from r4-app
 		loading: {type: Boolean, reflect: true, state: true},
 		playing: {type: Boolean, reflect: true},
@@ -51,7 +51,7 @@ export default class R4Track extends LitElement {
 	async readTrack() {
 		this.loading = true
 		try {
-			const res = await sdk.tracks.readTrack(this.track.id)
+			const res = await sdk.tracks.readTrack(this.id)
 			if (res.error) throw res
 			return res.data
 		} catch (error) {
@@ -74,70 +74,124 @@ export default class R4Track extends LitElement {
 	}
 
 	render() {
-		if (!this.track) return this.renderNoTrack()
-		const t = this.track
-		const title = t.title || t.id
-		return html`
-			${this.playing ? '' : ''}
-			<r4-track-body>
-				<r4-track-title>${this.link ? html`<a href=${this.url}>${title}</a>` : html`${title}`} </r4-track-title>
-				<r4-track-description>${t.description}</r4-track-description>
-			</r4-track-body>
-			${t.discogs_url &&
-			html`<r4-track-discogs-url><a href="${t.discogs_url}">View on Discogs</a></r4-track-discogs-url>`}
-			<r4-track-tags><menu>${t.tags?.map((tag) => this.renderTag(tag))}</menu></r4-track-tags>
-			<r4-track-mentions>${t.mentions?.map((m) => this.renderMention(m))}</r4-track-mentions>
-			${this.canEdit
-				? html`<r4-track-actions id=${t.id} .canEdit=${this.canEdit} @input=${this.onAction}></r4-track-actions>`
-				: ''}
+		if (!this.track || !this.channel) {
+			return this.renderNoTrack()
+		}
 
-			<r4-dialog>
-				<span slot="dialog">
-					<r4-track-update
-						id=${t.id}
-						url=${t.url}
-						title=${t.title}
-						discogsUrl=${t.discogsUrl}
-						description=${t.description}
-						@submit=${this.onUpdate}
-					></r4-track-update>
-				</span>
+		return html`
+			<r4-button-play .channel=${this.channel} .track=${this.track}></r4-button-play>
+			<r4-track-title>${this.renderTitle()}</r4-track-title>
+			${this.track.description ? this.renderDescription() : null}
+			${this.track.discogs_url ? this.renderDiscogsUrl() : null} ${this.track?.tags?.length ? this.renderTags() : null}
+			${this.track?.mentions?.length ? this.renderMentions() : null} ${this.renderMenu()}
+
+			<r4-dialog name="update">
+				<r4-track-update
+					slot="dialog"
+					id=${this.track.id}
+					url=${this.track.url}
+					title=${this.track.title}
+					discogsUrl=${this.track.discogsUrl}
+					description=${this.track.description}
+					@submit=${this.onUpdate}
+				></r4-track-update>
+			</r4-dialog>
+			<r4-dialog name="delete">
+				<r4-track-delete slot="dialog" id=${this.track.id} @submit=${this.onDelete}></r4-track-delete>
+			</r4-dialog>
+			<r4-dialog name="share">
+				<r4-share slot="dialog" origin=${this.url} slug=${this.channel.slug} track-id=${this.track.id}></r4-share>
 			</r4-dialog>
 		`
 	}
 
+	renderTitle() {
+		const title = this.track.title || this.track.id
+		return this.link ? html`<a href=${this.url}>${title}</a>` : title
+	}
+	renderDescription() {
+		return html`<r4-track-description>${this.track.description}</r4-track-description>`
+	}
+	renderDiscogsUrl() {
+		return html`<r4-track-discogs-url>(<a href="${this.track.discogs_url}">Discogs</a>)</r4-track-discogs-url>`
+	}
+	renderTags() {
+		return html`<r4-track-tags><menu>${this.track.tags?.map((tag) => this.renderTag(tag))}</menu></r4-track-tags>`
+	}
 	renderTag(label) {
 		if (!label) return null
 		const filter = JSON.stringify({column: 'tags', operator: 'contains', value: label})
 		const url = `${this.origin}?filters=[${filter}]`
 		return html`<li><a href="${url}" label>${label}</a></li>`
 	}
-
+	renderMentions() {
+		return html` <r4-track-mentions>
+			<menu> ${this.track.mentions?.map((m) => this.renderMention(m))} </menu>
+		</r4-track-mentions>`
+	}
 	renderMention(slug) {
 		if (!slug) return null
 		const url = `${this.href}/${slug}`
 		return html`<li><a href="${url}" label>${slug}</a></li>`
 	}
-
+	renderMenu() {
+		if (this.canEdit) {
+			return html`
+				<menu>
+					<li>
+						<button @click=${() => this.openDialog('share')}>Share</button>
+					</li>
+					<li>
+						<button @click=${() => this.openDialog('update')}>Update</button>
+					</li>
+					<li>
+						<button @click=${() => this.openDialog('delete')}>Delete</button>
+					</li>
+				</menu>
+			`
+		} else {
+			return html`
+				<menu>
+					<li>
+						<button @click=${() => this.openDialog('share')}>Share</button>
+					</li>
+				</menu>
+			`
+		}
+	}
 	renderNoTrack() {
 		return html`Track not found`
 	}
-
 	async onUpdate(event) {
 		if (!event.detail.error) {
-			this.track = await this.readTrack() // to-rerender
-			this.querySelector('r4-dialog').close()
+			this.track = await this.readTrack()
+			this.closeDialog()
 		}
+	}
+	async onDelete(event) {
+		if (!event.detail.error) {
+			this.track = await this.readTrack()
+			this.closeDialog()
+		}
+	}
+	openDialog(name) {
+		this.querySelector(`r4-dialog[name="${name}"]`).open()
+	}
+	closeDialog() {
+		this.querySelector('r4-dialog').close()
 	}
 
 	onAction({detail}) {
-		console.log(detail)
 		if (detail === 'update') {
-			this.querySelector('r4-dialog').open()
-			// page(`/${this.track.slug}/tracks/${this.track.id}/update`)
+			/* this.querySelector('r4-dialog').open() */
+			page(`/${this.channel.slug}/tracks/${this.track.id}/update`)
 		}
-		if (detail === 'delete') page(`/${this.track.slug}/tracks/${this.track.id}/delete`)
-		if (detail === 'play') this.play()
+		if (detail === 'delete') {
+			page(`/${this.channel.slug}/tracks/${this.track.id}/delete`)
+		}
+		if (detail === 'play') {
+			this.play()
+		}
 	}
 
 	createRenderRoot() {

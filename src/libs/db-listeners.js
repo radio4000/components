@@ -35,6 +35,22 @@ export default class DatabaseListeners extends EventTarget {
 					}
 				)
 				.subscribe()
+
+			sdk.supabase
+				.channel('yser-account')
+				.on(
+					'postgres_changes',
+					{
+						event: '*',
+						schema: 'public',
+						table: 'accounts',
+						filter: `id=eq.${user.id}`,
+					},
+					(payload) => {
+						this.dispatchEvent(new CustomEvent('user-account', {detail: payload}))
+					}
+				)
+				.subscribe()
 		}
 
 		const channelId = this.r4App.selectedChannel?.id

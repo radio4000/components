@@ -15,7 +15,7 @@ fieldsTemplate.innerHTML = `
 		</fieldset>
 		<fieldset>
 			<label for="title" title="After pasting a URL the title will write itself">Title</label>
-			<input name="title" type="text" required placeholder="" />
+			<input name="title" type="text" required placeholder="Artist Name - Track Name"/>
 		</fieldset>
 		<fieldset>
 			<label for="description" title="Optionally give your track a description">Description</label>

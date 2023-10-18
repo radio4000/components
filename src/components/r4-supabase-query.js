@@ -9,16 +9,16 @@ const {tables, tableNames} = dbSchema
  */
 export default class R4SupabaseQuery extends LitElement {
 	static properties = {
-		page: {type: Number, reflect: true, searchParam: true},
-		limit: {type: Number, reflect: true, searchParam: true},
+		page: {type: Number, reflect: true},
+		limit: {type: Number, reflect: true},
 		count: {type: Number},
 
 		/* supabase query parameters */
-		table: {type: String, reflect: true, searchParam: true},
-		select: {type: String, searchParam: true},
-		filters: {type: Array, searchParam: true, reflect: true},
-		orderBy: {type: String, attribute: 'order-by', reflect: true, searchParam: true},
-		orderConfig: {type: Object, attribute: 'order-config', reflect: true, searchParam: true},
+		table: {type: String, reflect: true},
+		select: {type: String},
+		filters: {type: Array, reflect: true},
+		orderBy: {type: String, attribute: 'order-by', reflect: true},
+		orderConfig: {type: Object, attribute: 'order-config', reflect: true},
 	}
 
 	get totalPages() {
@@ -145,23 +145,23 @@ export default class R4SupabaseQuery extends LitElement {
 			<r4-supabase-select>
 				<form @submit=${this.onFormSubmit}>${[this.renderQueryTable(), this.renderQuerySelect()]}</form>
 			</r4-supabase-select>
-			<r4-supabase-filters
-				table=${this.table}
-				.filters=${this.filters}
-				@filters=${this.onFilters}
-			></r4-supabase-filters>
 			<r4-supabase-modifiers>
 				<form @submit=${this.onFormSubmit}>
 					${[this.renderQueryOrderKey(), this.renderOrderConfig(), this.renderQueryPage(), this.renderQueryLimit()]}
 				</form>
 			</r4-supabase-modifiers>
+			<r4-supabase-filters
+				table=${this.table}
+				.filters=${this.filters}
+				@filters=${this.onFilters}
+			></r4-supabase-filters>
 		`
 	}
 
 	renderQueryTable() {
 		return html`
 			<fieldset name="table">
-				<label for="table">table</label>
+				<legend for="table">table</legend>
 				<select id="table" name="table" @input=${this.onInput}>
 					<optgroup disabled>
 						<option>${this.table}</option>
@@ -175,7 +175,7 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQuerySelect() {
 		return html`
 			<fieldset name="select">
-				<label for="select">Select</label>
+				<legend for="select">Select</legend>
 				<select id="select" name="select" @input=${this.onInput}>
 					<optgroup disabled>
 						<option>${this.select}</option>
@@ -197,7 +197,7 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQueryPage() {
 		return html`
 			<fieldset name="page">
-				<label for="page">Page</label>
+				<legend for="page">Page</legend>
 				<input
 					id="page"
 					name="page"
@@ -217,7 +217,7 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQueryLimit() {
 		return html`
 			<fieldset name="limit">
-				<label for="limit">Limit</label>
+				<legend for="limit">Limit</legend>
 				<input
 					id="limit"
 					name="limit"
@@ -237,7 +237,7 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQueryOrderKey() {
 		return html`
 			<fieldset name="orderBy">
-				<label for="orderBy">Order by</label>
+				<legend for="orderBy">Order by</legend>
 				<select id="orderBy" name="orderBy" @input=${this.onInput}>
 					<optgroup disabled>
 						<option>${this.orderBy}</option>
@@ -252,7 +252,7 @@ export default class R4SupabaseQuery extends LitElement {
 		const ascending = this.orderConfig?.ascending
 		return html`
 			<fieldset name="ascending">
-				<label for="ascending"> ${ascending ? '↑' : '↓'} </label>
+				<legend for="ascending">${ascending ? '↑' : '↓'}</legend>
 				<input id="ascending" name="ascending" @input=${this.onInput} type="checkbox" ?checked=${ascending} />
 			</fieldset>
 		`

@@ -9,41 +9,48 @@ import {sdk} from '@radio4000/sdk'
  */
 export default class R4Search extends LitElement {
 	static properties = {
-		value: {type: String, reflect: true},
-		table: {type: String, reflect: true},
+		search: {type: String, reflect: true},
 		results: {type: Array},
-
 		// To construct a link that works where this component is used
 		href: {type: String, reflect: true},
-
 		// Only needed for r4-track-search
 		slug: {type: String, reflect: true},
-
-		autofocus: {type: Boolean, reflect: true},
+		autofocus: {type: Boolean},
 	}
-
+	get searchValid() {
+		return this.search.length > 2
+	}
+	constructor() {
+		super()
+		this.search = ''
+		this.autofocus = false
+	}
 	connectedCallback() {
 		super.connectedCallback()
 		// If the element has an initial value, search for it.
-		if (this.value) this.onInput({target: {value: this.value}})
+		if (this.search) this.onInput({target: {value: this.value}})
 	}
-
+	firstUpdated() {
+		if (this.autofocus) {
+			this.focusInput()
+		}
+	}
 	onSubmit(event) {
 		event.preventDefault()
 	}
-
+	focusInput() {
+		this.querySelector('input[type="search"]').focus()
+	}
 	async onInput(event) {
-		const value = event.target.value
-		// Clear results if input is.
-		if (value.length === 0) this.results = null
-		// Only search once we have +3 characters.
-		if (value.length < 2) return
+		this.search = event.target.value
+		if (!this.searchValid) {
+			return
+		}
 		// Query and set results
-		const res = await this.query(value)
+		const res = await this.query(this.search)
 		this.results = res.data ?? []
 		this.dispatchEvent(new CustomEvent('query', {bubbles: true, detail: res.data}))
 	}
-
 	render() {
 		return html`
 			${this.renderForm()}
@@ -53,19 +60,31 @@ export default class R4Search extends LitElement {
 						.tracks=${this.results}
 						label=" Play search selection"
 				  ></r4-button-play>`
-				: ''}
-			${this.results?.length
-				? html` <ul list>
-						${repeat(
-							this.results,
-							(item) => item.id,
-							(item, index) => html` <li>${this.renderResult(item, index)}</li> `
-						)}
-				  </ul>`
-				: ''}
+				: null}
+			${this.results?.length ? this.renderResults() : this.renderNoResults()}
 		`
 	}
-
+	renderResults() {
+		return html`
+			<r4-list>
+				${repeat(
+					this.results,
+					(item) => item.id,
+					(item, index) => this.renderResult(item, index)
+				)}
+			</r4-list>
+		`
+	}
+	renderNoResults() {
+		const buildDom = () => {
+			if (this.searchValid) {
+				return html`No <i>${this.label}</i> result for <i>${this.search}.</i>`
+			} else {
+				return html`Search <i>${this.label}</i> (minimum 3 characters).`
+			}
+		}
+		return html`<r4-search-404>${buildDom()}</r4-search-404>`
+	}
 	renderForm() {
 		return html`
 			<r4-search-form>
@@ -105,7 +124,11 @@ export class R4ChannelSearch extends R4Search {
 	}
 
 	renderResult(item) {
-		return html`<r4-channel-card origin=${this.channelOrigin} .channel="${item}"></r4-channel-card>`
+		return html`
+			<r4-list-item>
+				<r4-channel-card origin=${this.channelOrigin} .channel="${item}"></r4-channel-card>
+			</r4-list-item>
+		`
 	}
 }
 

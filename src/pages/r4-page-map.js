@@ -1,7 +1,8 @@
 // import BaseChannel from './base-channel'
-import {LitElement, html} from 'lit'
+import {html} from 'lit'
+import R4Page from '../components/r4-page.js'
 
-export default class R4PageMap extends LitElement {
+export default class R4PageMap extends R4Page {
 	static properties = {
 		config: {type: Object},
 		searchParams: {type: Object},
@@ -15,9 +16,5 @@ export default class R4PageMap extends LitElement {
 				slug=${this.searchParams.get('slug')}
 			></r4-map>
 		`
-	}
-
-	createRenderRoot() {
-		return this
 	}
 }
