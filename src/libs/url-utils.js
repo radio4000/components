@@ -7,7 +7,6 @@ const R4_QUERY_ATTR = ['page', 'limit', 'count', 'table', 'select', 'filters', '
 				 Can be used to turn a web-component's output (dataObj),
 				 into URLSearchParams (so element state is in the current URL) */
 export function propertiesToSearch(elementProperties, dataObj) {
-	console.log(elementProperties, dataObj)
 	const searchParams = new URLSearchParams()
 	elementProperties.forEach((elementProperty) => {
 		const paramValue = dataObj[elementProperty]
@@ -76,7 +75,6 @@ export function updateSearchParams(query, excludeList = []) {
 		const searchParams = propertiesToSearch(props, query)
 		const searchParamsString = `?${searchParams.toString()}`
 		const search = decodeURIComponent(searchParamsString)
-		console.log('search', search, props, searchParams)
 		window.history.replaceState(null, null, search)
 	} else {
 		window.history.replaceState(null, null, '')
