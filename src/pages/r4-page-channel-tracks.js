@@ -26,6 +26,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		this.tracks = []
 		this.channel = null
 		this.query = {}
+		this.userFilters = []
 	}
 
 	get defaultFilters() {
@@ -146,12 +147,21 @@ export default class R4PageChannelTracks extends BaseChannel {
 				<li><r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play></li>
 				<li>
 					<form>
-						<label>Search <input placeholder="tracks" type="search" @input=${this.onSearch.bind(this)} /></label>
+						<label
+							>Search
+							<input placeholder="tracks" type="search" @input=${this.onSearch.bind(this)} value=${this.searchQuery}
+						/></label>
 					</form>
 				</li>
 				<li>${this.renderTracksCount()}</li>
 				<li>
-					<r4-button-play .tracks=${this.tracks} .channel=${this.channel} label=" Play results"></r4-button-play>
+					<r4-button-play
+						.tracks=${this.tracks}
+						.channel=${this.channel}
+						.filters=${this.filters}
+						label="Play results"
+						search=${this.searchQuery}
+					></r4-button-play>
 				</li>
 				<li><a href=${mentionsHref} label>@Mentions</a></li>
 				<li><a href=${tagsHref} label>#Tags</a></li>

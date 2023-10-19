@@ -20,7 +20,10 @@ export default class R4ButtonPlay extends LitElement {
 		tracks: {type: Array},
 		/* the channel data object */
 		channel: {type: Object, state: true},
-
+		/* a user search query */
+		search: {type: String},
+		/* the filters used by a user */
+		filters: {type: Array},
 		playing: {type: Boolean, reflect: true},
 	}
 
@@ -39,6 +42,8 @@ export default class R4ButtonPlay extends LitElement {
 				channel: this.channel,
 				track: this.track,
 				tracks: this.tracks,
+				search: this.search,
+				filters: this.filters,
 			},
 		})
 		this.dispatchEvent(playEvent)
