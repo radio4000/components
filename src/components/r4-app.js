@@ -167,6 +167,7 @@ export default class R4App extends LitElement {
 			this.themeStyles = await this.fetchTheme(this.store.userAccount.theme)
 		} else {
 			this.theme = 'default'
+			this.themeStyles = await this.fetchTheme(this.theme)
 		}
 		if (this.store.userAccount?.color_scheme) {
 			this.colorScheme = this.store.userAccount.color_scheme
