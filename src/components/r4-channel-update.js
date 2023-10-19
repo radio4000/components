@@ -52,7 +52,7 @@ export default class R4ChannelUpdate extends R4Form {
 	}
 
 	errors = {
-		'default': {
+		default: {
 			message: 'Unhandled error',
 		},
 		'22P02': {
@@ -88,11 +88,11 @@ export default class R4ChannelUpdate extends R4Form {
 		this.disableForm()
 
 		const channelId = this.state.id
-		const changes = { ...this.state }
+		const changes = {...this.state}
 		delete changes.id
 
 		let res = {}
-		let	error = null
+		let error = null
 
 		try {
 			res = await sdk.channels.updateChannel(channelId, changes)
@@ -108,6 +108,6 @@ export default class R4ChannelUpdate extends R4Form {
 		}
 		this.enableForm()
 
-		super.handleSubmit({error, data: changes})
+		super.handleSubmit({error, data: {...changes, id: channelId}})
 	}
 }

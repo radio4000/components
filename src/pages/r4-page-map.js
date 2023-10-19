@@ -13,7 +13,6 @@ export default class R4PageMap extends R4Page {
 				href=${this.config.href}
 				latitude=${this.searchParams.get('latitude')}
 				longitude=${this.searchParams.get('longitude')}
-				slug=${this.searchParams.get('slug')}
 			></r4-map>
 		`
 	}

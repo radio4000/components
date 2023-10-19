@@ -69,8 +69,8 @@ export default class R4Map extends LitElement {
 			const {data} = await sdk.channels.readChannels()
 			if (!data) return
 			this.channels = data.filter((c) => c.longitude && c.latitude)
-			this.channels.forEach((c) => this.addMarker([c.longitude, c.latitude], c))
 		}
+		this.channels?.forEach((c) => this.addMarker([c.longitude, c.latitude], c))
 	}
 
 	createMap() {
@@ -147,9 +147,7 @@ export default class R4Map extends LitElement {
 	}
 
 	onClick(event) {
-		// this.addMarker(event.coordinate)
 		const coordinate = event.coordinate
-		// console.log('clicked', coordinate)
 		this.clickedCoordinate = coordinate
 		this.dispatchEvent(
 			new CustomEvent('r4-map-click', {

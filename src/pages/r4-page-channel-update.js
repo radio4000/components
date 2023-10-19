@@ -40,11 +40,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 
 			<section>
 				<h2>Map</h2>
-				<r4-map-position
-					@submit=${this.onMapSubmit}
-					longitude=${channel.longitude}
-					latitude=${channel.latitude}
-				></r4-map-position>
+				<r4-map-position .channel=${channel} @submit=${this.onMapSubmit} href=${this.config.href}></r4-map-position>
 			</section>
 			<section>
 				<h2>Delete channel</h2>
@@ -56,10 +52,11 @@ export default class R4PageChannelUpdate extends BaseChannel {
 	async onUpdate({detail}) {
 		const newSlug = detail?.data?.slug
 		if (newSlug && newSlug !== this.params.slug) {
-			page(`/${newSlug}`)
+			page(`/${newSlug}/update`)
 		}
 		if (!detail.error && detail.data) {
-			// we good
+			// we good, update (missing id)
+			this.channel = detail.data
 		}
 	}
 
