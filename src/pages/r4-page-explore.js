@@ -19,6 +19,7 @@ export default class R4PageExplore extends R4Page {
 
 	async onQuery(event) {
 		this.query = event.detail
+		console.log('onQueyr', this.query)
 		urlUtils.updateSearchParams(this.query, ['table', 'select'])
 		const res = await browse(this.query)
 		this.count = res.count

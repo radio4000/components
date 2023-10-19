@@ -23,7 +23,7 @@ export default class R4SupabaseQuery extends LitElement {
 
 	get totalPages() {
 		const count = this.count || 0
-		return Math.round(count / this.limit) + 1
+		return Math.round(count / this.limit || 1) + 1
 	}
 
 	constructor() {
@@ -207,7 +207,6 @@ export default class R4SupabaseQuery extends LitElement {
 					step="1"
 					min="1"
 					max=${this.totalPages}
-					pattern="[0-9]"
 					placeholder="page"
 				/>/${this.totalPages}
 			</fieldset>
@@ -227,7 +226,6 @@ export default class R4SupabaseQuery extends LitElement {
 					step="1"
 					min="1"
 					max="4000"
-					pattern="[0-9]"
 					placeholder="limit"
 				/>
 			</fieldset>
