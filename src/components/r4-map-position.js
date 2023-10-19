@@ -6,16 +6,27 @@ import {LitElement, html} from 'lit'
 export default class R4MapPosition extends LitElement {
 	static properties = {
 		/* public */
-		channel: {type: Object},
+		channel: {type: Object, state: true},
 		href: {type: String},
 
 		/* state */
 		newLongitude: {type: Number, state: true},
 		newLatitude: {type: Number, state: true},
+		mapChannels: {type: Array, state: true},
 	}
 
 	get mapChannels() {
-		return [this.channel]
+		return [
+			{
+				...this.channel,
+			},
+			{
+				...this.channel,
+				title: `New position for ${this.channel.slug}`,
+				longitude: this.newLongitude,
+				latitude: this.newLatitude,
+			},
+		]
 	}
 
 	onMapClick(event) {
@@ -35,6 +46,7 @@ export default class R4MapPosition extends LitElement {
 			},
 		})
 		this.dispatchEvent(positionEvent)
+		this.cancelChanges()
 		// if (!this.newLongitude || !this.newLatitude) removeChannelOrigin({viewer: this.viewer})
 	}
 
@@ -46,7 +58,7 @@ export default class R4MapPosition extends LitElement {
 
 	deletePosition() {
 		const deletePositionEvent = new CustomEvent('submit', {
-			bubbles: true,
+			bubbles: false,
 			detail: null,
 		})
 		this.dispatchEvent(deletePositionEvent)

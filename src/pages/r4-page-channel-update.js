@@ -75,6 +75,10 @@ export default class R4PageChannelUpdate extends BaseChannel {
 					latitude: null,
 				})
 			}
+			const {data, error} = await sdk.channels.readChannel(this.channel.slug)
+			if (data) {
+				this.channel = data
+			}
 		} catch (error) {
 			console.log('error saving map data', error)
 		}

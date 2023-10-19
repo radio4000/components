@@ -32,6 +32,9 @@ export default class R4Map extends LitElement {
 		// The channel that is currently selected on the map.
 		channel: {type: Object, state: true},
 
+		// List of channels markers "ol layers"
+		markers: {type: Array, state: true},
+
 		// Optional, initial map position
 		longitude: {type: Number},
 		latitude: {type: Number},
@@ -53,6 +56,7 @@ export default class R4Map extends LitElement {
 		// Default values
 		this.longitude = 0
 		this.latitude = 0
+		this.markers = []
 	}
 
 	get channelOrigin() {
@@ -70,7 +74,15 @@ export default class R4Map extends LitElement {
 			if (!data) return
 			this.channels = data.filter((c) => c.longitude && c.latitude)
 		}
-		this.channels?.forEach((c) => this.addMarker([c.longitude, c.latitude], c))
+		this.markers = this.channels?.map((c) => this.createMarker([c.longitude, c.latitude], c))
+	}
+	willUpdate(changedProperties) {
+		if (changedProperties.has('channels')) {
+			if (this.map) {
+				this.removeMarkers()
+				this.markers = this.channels?.map((c) => this.createMarker([c.longitude, c.latitude], c))
+			}
+		}
 	}
 
 	createMap() {
@@ -124,7 +136,7 @@ export default class R4Map extends LitElement {
 		this.map.addInteraction(select)
 	}
 
-	addMarker(coordinate, details) {
+	createMarker(coordinate, details) {
 		const feature = new Feature({
 			geometry: new Point(coordinate),
 			details,
@@ -144,6 +156,12 @@ export default class R4Map extends LitElement {
 		})
 		const vectorLayer = new VectorLayer({source, style: [circle]})
 		this.map.addLayer(vectorLayer)
+		return vectorLayer
+	}
+	removeMarkers() {
+		this.markers?.forEach((layer) => {
+			this.map.removeLayer(layer)
+		})
 	}
 
 	onClick(event) {
