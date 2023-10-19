@@ -7,7 +7,8 @@ export default class R4Player extends LitElement {
 	playerRef = createRef()
 
 	static properties = {
-		name: {type: String}, // of the context
+		title: {type: String},
+		query: {type: String},
 		image: {type: String},
 		tracks: {type: Array},
 		track: {type: String},
@@ -54,6 +55,7 @@ export default class R4Player extends LitElement {
 				title: this.name,
 				image: createImage(this.image),
 				tracks: this.tracks,
+				query: this.query,
 			}
 			this.$player.updatePlaylist(playlist)
 		} else {
@@ -77,11 +79,11 @@ export default class R4Player extends LitElement {
 	}
 
 	stop() {
-		const el = this
-		el.removeAttribute('track')
-		el.removeAttribute('image')
-		el.removeAttribute('name')
-		el.removeAttribute('tracks')
+		this.removeAttribute('track')
+		this.removeAttribute('image')
+		this.removeAttribute('title')
+		this.removeAttribute('query')
+		this.removeAttribute('tracks')
 	}
 
 	onTrackChanged(event) {

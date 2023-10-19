@@ -368,6 +368,9 @@ radio4000-player .PlayerControl-group .Btn {
 [color-scheme='dark'] radio4000-player .Layout .Tracklist-item {
 	border: 0;
 }
+[color-scheme='dark'] radio4000-player .Layout .Tracklist-query {
+	background-color: none;
+}
 
 [color-scheme='dark'] radio4000-player .PlayPause-controller::after,
 [color-scheme='dark'] radio4000-player .PlayPause-controller::before {

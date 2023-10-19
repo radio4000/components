@@ -252,8 +252,6 @@ export default class R4App extends LitElement {
 		if (!detail) {
 			return this.stop()
 		}
-		console.info('onPlay', detail)
-
 		const {channel, tracks, track, search, query} = detail
 		const el = this.playerRef.value
 		this.isPlaying = true
@@ -267,7 +265,7 @@ export default class R4App extends LitElement {
 			channelTracks = data.reverse()
 		}
 
-		if (tracks) {
+		if (channelTracks) {
 			el.tracks = channelTracks
 		} else {
 			el.tracks = []
@@ -277,6 +275,12 @@ export default class R4App extends LitElement {
 			el.setAttribute('name', channel.name)
 		} else {
 			el.removeAttribute('name')
+		}
+
+		if (search) {
+			el.setAttribute('query', search)
+		} else {
+			el.removeAttribute('query')
 		}
 
 		if (channel?.image) {
@@ -311,6 +315,7 @@ export default class R4App extends LitElement {
 		el.removeAttribute('track')
 		el.removeAttribute('image')
 		el.removeAttribute('name')
+		el.removeAttribute('query')
 		el.removeAttribute('tracks')
 	}
 
