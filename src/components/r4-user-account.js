@@ -1,7 +1,7 @@
 import {LitElement, html} from 'lit'
 import {sdk} from '@radio4000/sdk'
 
-const THEMES = ['default', 'jellybeans']
+const THEMES = ['radio4000/theme-default', 'radio4000/theme-jellybeans']
 const COLOR_SCHEMES = ['os', 'light', 'dark']
 
 export default class R4UserAccount extends LitElement {
