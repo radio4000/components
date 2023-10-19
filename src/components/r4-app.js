@@ -178,17 +178,14 @@ export default class R4App extends LitElement {
 		}
 	}
 	async fetchTheme(name) {
-		const url = `/theme-${name}.css`
-		const themeUrl = new URL(url, import.meta.url).href
-		const themeData = await fetch(themeUrl).then((res) => {
-			const text = res.text()
-			if (res.status === 404) {
-				return null
+		const themeUrl = new URL(`../../assets/theme-${name}.css`, import.meta.url).href
+		return await import(themeUrl).then(async (module) => {
+			if (module.default) {
+				return module.default
 			} else {
-				return text
+				return null
 			}
 		})
-		return themeData
 	}
 
 	render() {
