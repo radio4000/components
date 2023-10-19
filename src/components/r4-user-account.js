@@ -2,7 +2,7 @@ import {LitElement, html} from 'lit'
 import {sdk} from '@radio4000/sdk'
 
 const THEMES = ['default', 'jellybeans']
-const COLOR_SCHEMES = ['dark', 'light']
+const COLOR_SCHEMES = ['os', 'dark', 'light']
 
 export default class R4UserAccount extends LitElement {
 	static properties = {
@@ -55,7 +55,9 @@ export default class R4UserAccount extends LitElement {
 		return html` <option value=${theme} ?selected=${this.currentTheme === theme}>${theme}</option> `
 	}
 	renderColorScheme() {
-		return COLOR_SCHEMES.map((scheme) => {
+		return COLOR_SCHEMES.map((scheme, index) => {
+			// reset the color scheme value for "os" scheme
+			const value = index === 0 ? '' : scheme
 			const disabled = this.account.color_scheme === scheme
 			return html` <button value=${scheme} @click="${this.onColorScheme}" ?disabled=${disabled}>${scheme}</button> `
 		})
