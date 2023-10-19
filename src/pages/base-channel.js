@@ -155,7 +155,6 @@ export default class BaseChannel extends R4Page {
 	renderCoordinates() {
 		return html`<li><r4-channel-coordinates>${this.renderMap()}</r4-channel-coordinates></li>`
 	}
-
 	renderAddTrack() {
 		return html`
 			<li>
@@ -163,7 +162,6 @@ export default class BaseChannel extends R4Page {
 			</li>
 		`
 	}
-
 	renderEdit() {
 		return html`
 			<li>
@@ -188,7 +186,6 @@ export default class BaseChannel extends R4Page {
 		if (!image) return null
 		return html` <r4-avatar image=${image} size="small"></r4-avatar> `
 	}
-
 	renderMap() {
 		const mapUrl = `${this.config.href}/map/?longitude=${this.coordinates.longitude}&latitude=${this.coordinates.latitude}&slug=${this.channel.slug}`
 		return html`<a href=${mapUrl}><r4-icon name="map_position"></r4-icon></a>`

@@ -45,7 +45,7 @@ export const supabaseOperators = Object.keys(supabaseOperatorsTable)
 	 (query params ->) components-attributes -> supbase-query
 	 this does not render the list, just browses it
  */
-export async function query({
+export async function browse({
 	page = 1,
 	limit = 1,
 	table = '',
@@ -109,7 +109,7 @@ export async function query({
 	const {from, to, limit: l} = getBrowseParams({page, limit})
 	query = query.range(from, to).limit(l)
 
-	console.log('browse.query', query.url.search)
+	/* console.info('browse.query', query.url.search) */
 
 	return query
 }

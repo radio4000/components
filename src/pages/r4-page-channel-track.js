@@ -8,7 +8,6 @@ export default class R4PageChannelTrack extends BaseChannelTrack {
 	renderMain() {
 		return html`
 			<r4-track
-				id=${this.params.track_id}
 				.channel=${this.channel}
 				.track=${this.track}
 				.canEdit=${this.canEdit}

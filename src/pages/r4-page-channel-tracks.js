@@ -3,7 +3,7 @@ import {repeat} from 'lit/directives/repeat.js'
 import {sdk} from '@radio4000/sdk'
 import BaseChannel from './base-channel'
 import urlUtils from '../libs/url-utils.js'
-import {query} from '../libs/browse.js'
+import {browse} from '../libs/browse.js'
 // import {formatDate} from '../libs/date.js'
 import page from 'page/page.mjs'
 
@@ -15,6 +15,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		count: {type: Number, state: true},
 		query: {type: Object},
 		searchQuery: {type: String, state: true},
+		userFilters: {type: Object},
 		href: {type: String},
 		origin: {type: String},
 		// + props from BaseChannel
@@ -32,9 +33,12 @@ export default class R4PageChannelTracks extends BaseChannel {
 			{
 				operator: 'eq',
 				column: 'slug',
-				value: this.channel?.slug,
+				value: this.slug,
 			},
 		]
+	}
+	get filters() {
+		return [...this.userFilters, ...this.defaultFilters]
 	}
 
 	async connectedCallback() {
@@ -47,12 +51,16 @@ export default class R4PageChannelTracks extends BaseChannel {
 	async onQuery(event) {
 		const userQuery = event.detail
 		urlUtils.updateSearchParams(userQuery, ['table', 'select'])
-		const filtersWithDefaults = [...(userQuery.filters || []), ...this.defaultFilters]
-		const queryWithFilters = {...userQuery, filters: filtersWithDefaults}
-		this.query = queryWithFilters
-		const res = await query(this.query)
-		this.count = res.count
-		this.tracks = res.data
+		this.userFilters = userQuery.filters || []
+		this.query = {...userQuery, filters: this.filters}
+		const {count, data, error} = await browse(this.query)
+		if (!error) {
+			this.count = count
+			this.tracks = data
+		} else {
+			this.count = 0
+			this.tracks = []
+		}
 	}
 
 	renderHeader() {
@@ -66,6 +74,35 @@ export default class R4PageChannelTracks extends BaseChannel {
 		if (this.channel) {
 			return this.renderTracksList()
 		}
+	}
+	renderTracksList() {
+		if (this.tracks?.length) {
+			return html` <r4-list> ${this.renderListItems()} </r4-list> `
+		} else {
+			return html`
+				<r4-list>
+					<r4-list-item>No result for this query</r4-list-item>
+				</r4-list>
+			`
+		}
+	}
+	renderListItems() {
+		return repeat(
+			this.tracks,
+			(t) => t.id,
+			(t) => html`
+				<r4-list-item>
+					<r4-track
+						.track=${t}
+						.channel=${this.channel}
+						.config=${this.config}
+						.canEdit="${this.canEdit}"
+						href=${this.config.href}
+						origin=${this.tracksOrigin}
+					></r4-track>
+				</r4-list-item>
+			`
+		)
 	}
 
 	renderTracksQuery() {
@@ -87,7 +124,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		`
 	}
 	renderQueryFiltersSummary() {
-		const filtersLen = this.query?.filters?.length
+		const filtersLen = this.userFilters?.length
 		if (filtersLen) {
 			return html`(<a href=${this.tracksOrigin}>clear ${filtersLen}</a>)`
 		}
@@ -154,42 +191,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		const url = this.config.href + '/' + slug
 		return html`<a href="${url}" label>${slug}</a>`
 	}
-
-	renderTracksList() {
-		if (this.tracks?.length) {
-			return html` <r4-list> ${this.renderListItems()} </r4-list> `
-		} else {
-			return html`
-				<r4-list>
-					<r4-list-item>No result for this query</r4-list-item>
-				</r4-list>
-			`
-		}
-	}
-	renderListItems() {
-		return repeat(
-			this.tracks,
-			(t) => t.id,
-			(t) => html`
-				<r4-list-item>
-					<r4-track
-						.channel=${this.channel}
-						.track=${t}
-						.config=${this.config}
-						href=${this.config.href}
-						origin=${'' || this.tracksOrigin}
-						.canEdit="${this.canEdit}1"
-					></r4-track>
-				</r4-list-item>
-			`
-		)
-	}
-
 	renderNoPage() {
 		return html` <r4-page-main> 404 - No channel with this slug </r4-page-main> `
-	}
-
-	createRenderRoot() {
-		return this
 	}
 }

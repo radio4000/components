@@ -1,6 +1,6 @@
 import {html} from 'lit'
 import {repeat} from 'lit/directives/repeat.js'
-import {query} from '../libs/browse'
+import {browse} from '../libs/browse'
 import urlUtils from '../libs/url-utils'
 import R4Page from '../components/r4-page.js'
 
@@ -20,7 +20,7 @@ export default class R4PageExplore extends R4Page {
 	async onQuery(event) {
 		this.query = event.detail
 		urlUtils.updateSearchParams(this.query, ['table', 'select'])
-		const res = await query(this.query)
+		const res = await browse(this.query)
 		this.count = res.count
 		this.channels = res.data
 	}

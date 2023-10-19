@@ -3,7 +3,7 @@ import {repeat} from 'lit/directives/repeat.js'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
 import {sdk} from '@radio4000/sdk'
-import {query} from '../libs/browse'
+import {browse} from '../libs/browse'
 
 export default class R4PageChannel extends BaseChannel {
 	static properties = {
@@ -25,7 +25,7 @@ export default class R4PageChannel extends BaseChannel {
 			page: 1,
 			limit: 8,
 		}
-		return (await query(channelTracksQuery)).data
+		return (await browse(channelTracksQuery)).data
 	}
 	async connectedCallback() {
 		super.connectedCallback()
@@ -70,11 +70,11 @@ export default class R4PageChannel extends BaseChannel {
 			<r4-list-item>
 				<r4-track
 					.track=${track}
+					.channel=${this.channel}
+					.canEdit=${this.canEdit}
 					href=${this.config.href}
 					origin=${this.tracksOrigin}
-					.canEdit=${this.canEdit}
 					?playing=${this.config.playingTrack?.id === track.id}
-					.channel=${this.channel}
 				></r4-track>
 			</r4-list-item>
 		`

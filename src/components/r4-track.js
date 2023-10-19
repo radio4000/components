@@ -23,7 +23,9 @@ export default class R4Track extends LitElement {
 	/* if the attribute changed, re-render */
 	async willUpdate(changedProperties) {
 		if (changedProperties.has('id')) {
-			this.track = await this.readTrack()
+			if (this.id) {
+				this.track = await this.readTrack()
+			}
 		}
 	}
 
@@ -34,15 +36,20 @@ export default class R4Track extends LitElement {
 	}
 
 	set playing(value) {
-		// console.log('set playing', value)
+		// console.info('set playing', value)
 	}
 
 	get url() {
 		return this.origin + this.track.id
 	}
 
+	get trackId() {
+		return this.id || this.track?.id
+	}
+
 	async connectedCallback() {
 		super.connectedCallback()
+		/* load by id if no track */
 		if (!this.track && this.id) {
 			this.track = await this.readTrack()
 		}
@@ -51,7 +58,7 @@ export default class R4Track extends LitElement {
 	async readTrack() {
 		this.loading = true
 		try {
-			const res = await sdk.tracks.readTrack(this.id)
+			const res = await sdk.tracks.readTrack(this.trackId)
 			if (res.error) throw res
 			return res.data
 		} catch (error) {
@@ -164,36 +171,26 @@ export default class R4Track extends LitElement {
 	}
 	async onUpdate(event) {
 		if (!event.detail.error) {
-			this.track = await this.readTrack()
-			this.closeDialog()
+			if (this.trackId) {
+				this.track = await this.readTrack()
+			}
+			this.closeDialog('update')
 		}
 	}
 	async onDelete(event) {
 		if (!event.detail.error) {
-			this.track = await this.readTrack()
-			this.closeDialog()
+			this.id = null
+			this.track = null
+			this.remove()
+			this.closeDialog('delete')
 		}
 	}
 	openDialog(name) {
 		this.querySelector(`r4-dialog[name="${name}"]`).open()
 	}
-	closeDialog() {
-		this.querySelector('r4-dialog').close()
+	closeDialog(name) {
+		this.querySelector(`r4-dialog[name="${name}"]`).close()
 	}
-
-	onAction({detail}) {
-		if (detail === 'update') {
-			/* this.querySelector('r4-dialog').open() */
-			page(`/${this.channel.slug}/tracks/${this.track.id}/update`)
-		}
-		if (detail === 'delete') {
-			page(`/${this.channel.slug}/tracks/${this.track.id}/delete`)
-		}
-		if (detail === 'play') {
-			this.play()
-		}
-	}
-
 	createRenderRoot() {
 		return this
 	}

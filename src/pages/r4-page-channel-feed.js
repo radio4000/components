@@ -85,7 +85,6 @@ export default class R4PageChannelFeed extends BaseChannel {
 			<r4-list-item>
 				<date>${formatDate(track.created_at)}</date>
 				<r4-track
-					slug=${group.slug}
 					.track=${track}
 					.channel=${channel}
 					.config=${this.config}

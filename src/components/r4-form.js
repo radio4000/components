@@ -248,7 +248,7 @@ export default class R4Form extends HTMLElement {
 		error.field = field
 		error.message = message || error.message
 		if (!error?.code) {
-			console.log('form:unhandled error', error)
+			console.info('form:unhandled error', error)
 		}
 
 		/* set errors on outputs */
@@ -292,7 +292,6 @@ export default class R4Form extends HTMLElement {
 	}
 
 	resetForm() {
-		console.log('resetting form', this.$form)
 		if (this.$form) {
 			this.$form.reset()
 		}

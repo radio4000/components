@@ -9,6 +9,10 @@ export default class R4PageAdd extends BaseChannel {
 		selectedId: {type: String, state: true},
 		lastAddedTrack: {type: Object, state: true},
 	}
+	/* overwritte for the add page */
+	get channelOrigin() {
+		return this.config.singleChannel ? this.config.href : `${this.config.href}/${this.selectedSlug}`
+	}
 	get selectedSlug() {
 		if (this.hasOneChannel) {
 			return this.store.userChannels[0].slug
