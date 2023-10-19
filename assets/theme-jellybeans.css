@@ -241,34 +241,30 @@ r4-app fieldset [type='submit'] {
 	margin-top: calc(var(--s) / 2);
 }
 
-/* Form styles inside a dialog */
-/* r4-dialog::part(form) { */
-/* 	display: flex; */
-/* 	justify-content: flex-end; */
-/* 	margin-bottom: var(--s); */
-/* } */
-/* r4-dialog form { */
-/* 	width: 30rem; */
-/* 	max-width: 100%; */
-/* } */
-
 r4-track[playing] r4-track-title a {
 	color: var(--c-link);
 }
 
+/* Smaller, right aligned track menu in lists */
 r4-list-item r4-track {
 	flex: 1;
 }
-r4-list-item r4-track menu {
+r4-list-item r4-track > menu {
 	margin-left: auto;
 }
+r4-list-item r4-track > menu li {
+	padding: 0 1px;
+}
+r4-list-item r4-track > menu button {
+	font-size: 13px;
+}
 
+r4-list-item r4-track r4-button-play {
+	padding-left: 0;
+}
 r4-track-title,
 r4-track-description {
 	font-size: 15px;
-}
-r4-list-item r4-track r4-button-play {
-	padding-left: 0;
 }
 r4-track-title a {
 	color: var(--c-fg);
@@ -281,6 +277,9 @@ r4-track-description {
 }
 [color-scheme='dark'] r4-track-description {
 	color: var(--c-gray4);
+}
+r4-list-item r4-track-description {
+	margin-left: 1em;
 }
 
 /* Tracklist layout for smaller screens */
@@ -297,15 +296,11 @@ r4-track-description {
 r4-channel-description {
 	display: block;
 }
-r4-avatar img {
-	vertical-align: bottom;
-	height: 3rem;
-}
 
 /* Cards */
 r4-channel-card {
 	align-items: center;
-	padding: calc(var(--s) / 3);
+	padding: 1rem;
 	background: var(--c-bg2);
 	border-radius: var(--s-radius);
 	box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px;
@@ -331,10 +326,26 @@ r4-app[color-scheme='dark'] a[label] {
 	color: var(--c-green3);
 }
 
-r4-list-item + r4-list-item > r4-channel-card{
+r4-track-mentions a::before, r4-track-tags a::before {
+	color: inherit;
+	padding-right: 0;
+}
+
+r4-track-description::before, r4-track-mentions menu::before, r4-track-tags menu::before, r4-channel-slug::before, r4-channel-description::before, r4-channel-url::before {
+display: none;
+}
+
+r4-list-item + r4-list-item {
+	margin: 0;
+}
+r4-list-item + r4-list-item > r4-channel-card {
 	margin-top: calc(var(--s) / 4);
 }
 
 /* 6.4rem height to hide video completely */
 /* 19rem height to show youtube controls */
 /* 22rem width to show vol and time ui */
+
+r4-page-channel r4-page-header r4-channel-card {
+	max-width: 50ch;
+}
