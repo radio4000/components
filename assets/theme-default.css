@@ -336,6 +336,12 @@ r4-map .ol-viewport {
 r4-map .ol-viewport {
 	min-height: 30vh;
 }
+r4-map r4-channel-card {
+	background-color: var(--c-bg);
+	padding: calc(var(--s) / 2);
+	max-width: calc(100vw / 2);
+	border: 1px solid var(--c-fg);
+}
 
 r4-page-header,
 r4-page-main {
