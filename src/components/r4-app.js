@@ -6,6 +6,7 @@ import DatabaseListeners from '../libs/db-listeners'
 import '../pages/'
 import ROUTES_CMS from '../data/routes-cms.json'
 import ROUTES_SINGLE from '../data/routes-single.json'
+import {THEMES, prefersDark} from '../libs/appearence.js'
 
 export default class R4App extends LitElement {
 	playerRef = createRef()
@@ -166,14 +167,13 @@ export default class R4App extends LitElement {
 			this.theme = this.store.userAccount.theme
 			this.themeStyles = await this.fetchTheme(this.store.userAccount.theme)
 		} else {
-			this.theme = 'default'
+			this.theme = THEMES[0]
 			this.themeStyles = await this.fetchTheme(this.theme)
 		}
 		if (this.store.userAccount?.color_scheme) {
 			this.colorScheme = this.store.userAccount.color_scheme
 		} else {
 			// From OS settings
-			const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
 			this.colorScheme = prefersDark ? 'dark' : 'light'
 		}
 	}
