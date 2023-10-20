@@ -8,9 +8,13 @@ export default class R4PageSign extends R4Page {
 		config: {type: Object, state: true},
 		store: {type: Object, state: true},
 	}
+	migrateUrl = 'https://migrate.radio4000.com'
 
 	renderHeader() {
-		return html` <h1>Sign ${this.params.method ? this.params.method : null}</h1> `
+		return html`
+			<h1>Sign ${this.params.method ? this.params.method : null}</h1>
+			<p>User authentication, <i>signing</i> <strong>${this.params.method}</strong> to <r4-title></r4-title></p>
+		`
 	}
 	renderMain() {
 		const {method} = this.params
@@ -47,21 +51,32 @@ export default class R4PageSign extends R4Page {
 	renderForgotPass() {
 		return html`
 			<section>
-				<details>
-					<summary>Forgot password?</summary>
-					<r4-reset-password></r4-reset-password>
-					<p>Enter the email address of the account, to receive the password reset instructions.</p>
-				</details>
-			</section>
-			<section>
-				<p><a href=${this.config.href + '/sign/up'}>Sign up</a> if you don't yet have an account.</p>
+				<ul>
+					<li>
+						<details>
+							<summary>Forgot password?</summary>
+							<i>Enter the email address of the account, to receive the password reset instructions.</i>
+							<r4-password-reset></r4-password-reset>
+						</details>
+					</li>
+					<li><a href=${this.config.href + '/sign/up'}>Sign up</a> if you don't yet have an account.</li>
+				</ul>
 			</section>
 		`
 	}
 	renderExistingAccount() {
 		return html`
 			<section>
-				<p><a href=${this.config.href + '/sign/in'}>Sign in</a> if you already have an existing account.</p>
+				<ul>
+					<li>
+						Sign-up first, to <a href=${this.migrateUrl}>import/migrate</a> an existing radio (from the previous
+						<a href="https://radio4000.com">site</a>).
+					</li>
+					<li>
+						<a href=${this.config.href + '/sign/in'}>Sign in</a>
+						if you already have an existing account.
+					</li>
+				</ul>
 			</section>
 		`
 	}

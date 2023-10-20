@@ -17,12 +17,14 @@ import R4ChannelCreate from './r4-channel-create.js'
 import R4ChannelDelete from './r4-channel-delete.js'
 import R4ChannelUpdate from './r4-channel-update.js'
 import R4Dialog from './r4-dialog.js'
+import R4EmailUpdate from './r4-email-update.js'
 import R4Favicon from './r4-favicon.js'
 import R4Layout from './r4-layout.js'
 import R4Map from './r4-map.js'
 import R4MapPosition from './r4-map-position.js'
 import R4Player from './r4-player.js'
-import R4ResetPassword from './r4-reset-password.js'
+import R4PasswordUpdate from './r4-password-update.js'
+import R4PasswordReset from './r4-password-reset.js'
 import R4Router from './r4-router.js'
 import {R4ChannelSearch, R4TrackSearch} from './r4-search.js'
 import R4Share from './r4-share.js'
@@ -33,8 +35,6 @@ import R4SupabaseQuery from './r4-supabase-query.js'
 import R4SupabaseFilters from './r4-supabase-filters.js'
 import R4Title from './r4-title.js'
 import R4Track from './r4-track.js'
-import R4EmailUpdate from './r4-email-update.js'
-import R4PasswordUpdate from './r4-password-update.js'
 import R4TrackCreate from './r4-track-create.js'
 import R4TrackDelete from './r4-track-delete.js'
 import R4TrackUpdate from './r4-track-update.js'
@@ -67,8 +67,8 @@ customElements.define('r4-layout', R4Layout)
 customElements.define('r4-map', R4Map)
 customElements.define('r4-map-position', R4MapPosition)
 customElements.define('r4-password-update', R4PasswordUpdate)
+customElements.define('r4-password-reset', R4PasswordReset)
 customElements.define('r4-player', R4Player)
-customElements.define('r4-reset-password', R4ResetPassword)
 customElements.define('r4-router', R4Router)
 customElements.define('r4-share', R4Share)
 customElements.define('r4-sign-in', R4SignIn)
@@ -112,9 +112,9 @@ export default {
 	R4Player,
 	R4Map,
 	R4MapPosition,
-	R4ResetPassword,
-	R4Router,
+	R4PasswordReset,
 	R4PasswordUpdate,
+	R4Router,
 	R4SignIn,
 	R4SignOut,
 	R4SignUp,
