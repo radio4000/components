@@ -170,7 +170,7 @@ export default class BaseChannel extends R4Page {
 		`
 	}
 	renderSocial() {
-		if (!this.config?.singleChannel) {
+		if (!this.config?.singleChannel && this.store.user) {
 			return html`
 				<r4-channel-social>
 					<r4-button-follow
