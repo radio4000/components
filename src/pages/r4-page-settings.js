@@ -36,7 +36,7 @@ export default class R4PageSettings extends R4Page {
 		if (this.store.user) {
 			return [this.renderAppearance(), this.renderUser()]
 		} else {
-			return [this.renderAppearance(), this.renderNoUser()]
+			return [this.renderNoUser()]
 		}
 	}
 	renderUser() {
@@ -71,7 +71,7 @@ export default class R4PageSettings extends R4Page {
 				<p>
 					Your are signed out.
 					<a href="${this.config.href}/sign/in">Sign in</a> to an existing user account, or
-					<a href="${this.config.href}/sign/up">sign up</a> for a new one.
+					<a href="${this.config.href}/sign/up">sign up</a> for a new one to customize the settings.
 				</p>
 			</section>
 		`
