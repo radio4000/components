@@ -252,21 +252,20 @@ export default class R4App extends LitElement {
 		if (!detail) {
 			return this.stop()
 		}
-		const {channel, tracks, track, search, query} = detail
+		let {channel, tracks, track, search, query} = detail
 		const el = this.playerRef.value
 		this.isPlaying = true
 		this.playingChannel = channel
 		this.playingTrack = track
 
 		const slug = channel?.slug || track.slug
-		let channelTracks = tracks
 		if (!tracks && slug) {
 			const {data} = await sdk.channels.readChannelTracks(slug)
-			channelTracks = data.reverse()
+			tracks = data.reverse()
 		}
 
-		if (channelTracks) {
-			el.tracks = channelTracks
+		if (tracks) {
+			el.tracks = tracks
 		} else {
 			el.tracks = []
 		}
