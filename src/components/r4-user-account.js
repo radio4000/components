@@ -11,10 +11,6 @@ export default class R4UserAccount extends LitElement {
 		return this.account?.theme || THEMES[0]
 	}
 
-	get prefersDark() {
-		return window.matchMedia('(prefers-color-scheme: dark)').matches
-	}
-
 	/* save functions */
 	async saveTheme(value) {
 		if (!value) return
@@ -29,6 +25,10 @@ export default class R4UserAccount extends LitElement {
 		}
 	}
 
+	// Disable shadow DOM
+	createRenderRoot() {
+		return this
+	}
 	render() {
 		return html`
 			<section>
@@ -60,13 +60,7 @@ export default class R4UserAccount extends LitElement {
 			return html` <button value=${scheme} @click="${this.onColorScheme}" ?disabled=${disabled}>${scheme}</button> `
 		})
 	}
-
-	// Disable shadow DOM
-	createRenderRoot() {
-		return this
-	}
-
-	/* events handle */
+	/* events handler */
 	onTheme({target}) {
 		this.saveTheme(target.value)
 	}

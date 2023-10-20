@@ -17,25 +17,12 @@ export default class R4PageSettings extends R4Page {
 
 	async changeEmail(event) {
 		event.preventDefault()
-		const email = event.target.email.value
-		if (email === this.store.user.email) return
-		const {error} = await sdk.supabase.auth.updateUser({email})
-		this.changeEmail.msg = error
-			? 'Could not update your email'
-			: 'Please confirm the link sent to both your new and old email'
-		if (error) {
-			console.log(error)
-		}
+		/* console.log("changing email", event.detail) */
 	}
 
 	async changePassword(event) {
 		event.preventDefault()
-		const password = event.target.password.value
-		const {error} = await sdk.supabase.auth.updateUser({password})
-		this.changePassword.msg = error ? 'Could not update password' : 'Password updated!'
-		if (error) {
-			console.log('error changing password', error)
-		}
+		/* console.log('changing password', event) */
 	}
 
 	renderHeader() {
@@ -63,29 +50,9 @@ export default class R4PageSettings extends R4Page {
 			</section>
 			<section>
 				<h2>Account</h2>
-				<form @submit=${this.changeEmail}>
-					<fieldset>
-						<label for="email">Change email</label>
-						<input type="email" name="email" value=${this.store.user?.email} required />
-					</fieldset>
-					<fieldset>
-						<button type="submit">Save</button>
-					</fieldset>
-					<output>${this.changeEmail.msg ? html`<p>${this.changeEmail.msg}</p>` : null}</output>
-				</form>
-				<form @submit=${this.changePassword}>
-					<fieldset hidden>
-						<input name="username" value=${this.store.user?.email} readonly hidden autocomplete="username" />
-					</fieldset>
-					<fieldset>
-						<label for="password">Change password</label>
-						<input type="password" name="password" required autocomplete="new-password" />
-					</fieldset>
-					<fieldset>
-						<button type="submit">Save</button>
-					</fieldset>
-					<output> ${this.changePassword.msg ? this.changePassword.msg : null} </output>
-				</form>
+				${this.store.user.new_email ? this.renderNewEmail() : null}
+				<r4-email-update email=${this.store.user.email} @submit=${this.changeEmail}></r4-email-update>
+				<r4-password-update @submit=${this.changePassword}></r4-password-update>
 			</section>
 			<section>
 				<h2>Danger zone</h2>
@@ -116,6 +83,14 @@ export default class R4PageSettings extends R4Page {
 				<p>Customize the application's look and feel.</p>
 				<r4-user-account .account=${this.store.userAccount}></r4-user-account>
 			</section>
+		`
+	}
+	renderNewEmail() {
+		return html`
+			<mark>
+				<i>${this.store.user.new_email}</i>
+				(waiting for confirmation)
+			</mark>
 		`
 	}
 
