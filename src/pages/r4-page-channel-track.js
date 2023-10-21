@@ -11,7 +11,7 @@ export default class R4PageChannelTrack extends BaseChannelTrack {
 				.channel=${this.channel}
 				.track=${this.track}
 				.canEdit=${this.canEdit}
-				origin=${this.tracksOrigin}
+				origin=${this.channelOrigin}
 				href=${this.config.href}
 			></r4-track>
 		`

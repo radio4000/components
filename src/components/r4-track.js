@@ -107,7 +107,7 @@ export default class R4Track extends LitElement {
 				<r4-track-delete slot="dialog" id=${this.track.id} @submit=${this.onDelete}></r4-track-delete>
 			</r4-dialog>
 			<r4-dialog name="share">
-				<r4-share slot="dialog" origin=${this.url} slug=${this.channel.slug} track-id=${this.track.id}></r4-share>
+				<r4-share slot="dialog" origin=${this.origin} track-id=${this.track.id}></r4-share>
 			</r4-dialog>
 		`
 	}

@@ -40,7 +40,7 @@ export default class R4ChannelShare extends HTMLElement {
 		return this.getAttribute('track-id')
 	}
 
-	/* Used to make a link to the channel's homepage.
+	/* Used to make a link to the ""channel origin", its homepage.
 		 It could point to different URL schemes:
 		 - on root: https://radio.example.org/
 		 - on subpage: https://music.example.org/test-radio-2
@@ -48,10 +48,13 @@ export default class R4ChannelShare extends HTMLElement {
 		 To handle all case, we replace the `{{slug}}` token in the string
 	 */
 	get origin() {
-		const url = this.getAttribute('origin')
+		let url = this.getAttribute('origin')
 		if (typeof url === 'string') {
 			if (this.slug) {
-				return url.replace('{{slug}}', this.slug)
+				url = url.replace('{{slug}}', this.slug)
+			}
+			if (url.endsWith('/')) {
+				url = url.slice(0, url.length - 1)
 			}
 		}
 		return url
@@ -87,9 +90,7 @@ export default class R4ChannelShare extends HTMLElement {
 	}
 
 	async connectedCallback() {
-		if (this.slug) {
-			this.render()
-		}
+		this.render()
 	}
 
 	render() {
