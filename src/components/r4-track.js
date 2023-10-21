@@ -120,7 +120,7 @@ export default class R4Track extends LitElement {
 		return html`<r4-track-description>${this.track.description}</r4-track-description>`
 	}
 	renderDiscogsUrl() {
-		return html`<r4-track-discogs-url>(<a href="${this.track.discogs_url}">Discogs</a>)</r4-track-discogs-url>`
+		return html`<r4-track-discogs-url><a href="${this.track.discogs_url}">Discogs</a></r4-track-discogs-url>`
 	}
 	renderTags() {
 		return html`<r4-track-tags><menu>${this.track.tags?.map((tag) => this.renderTag(tag))}</menu></r4-track-tags>`
