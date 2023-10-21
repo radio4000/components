@@ -24,17 +24,17 @@ export default class R4SignIn extends R4Form {
 	}
 
 	errors = {
-		'default': {
+		default: {
 			message: 'Unhandled error',
 		},
 		'email-not-confirmed': {
 			field: 'email',
-			message: 'Email must be confirmed to login'
+			message: 'Email must be confirmed to login (check your inbox)',
 		},
 		'invalid-login-credentials': {
 			field: 'email',
 			message: 'The Email & Password combination is incorect',
-		}
+		},
 	}
 
 	async handleSubmit(event) {
@@ -66,12 +66,10 @@ export default class R4SignIn extends R4Form {
 
 		this.enableForm()
 
-		const { data } = res
+		const {data} = res
 		if (data?.user && data.session) {
 			this.resetForm()
 		}
-
-		console.log(res)
 
 		super.handleSubmit({
 			error,

@@ -24,9 +24,8 @@ export default class R4UserDelete extends LitElement {
 		if (!window.confirm('Do you really want to delete your account, channels and tracks?')) return
 		const {error} = await sdk.users.deleteUser()
 		if (!error) {
-			console.log('Successfully deleted user account, channels and tracks')
-			await sdk.auth.signOut()
-			window.location.reload()
+			console.info('Successfully deleted user account, channels and tracks')
+			// no-need to logout the user, already done by supabase
 		} else {
 			console.log('Error deleting user account', error)
 		}

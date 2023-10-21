@@ -6,14 +6,14 @@ const fieldsTemplate = document.createElement('template')
 fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
-			<label for="email">Email</label>
+			<legend for="email">Email</legend>
 			<input type="email" autocomplete="username" name="email" required placeholder="email@example.org"/>
 		</fieldset>
 	</slot>
 `
 
 export default class R4PasswordReset extends R4Form {
-	submitText = 'Send reset password link'
+	submitText = 'Send reset password (magic) link'
 
 	constructor() {
 		super()
@@ -36,7 +36,12 @@ export default class R4PasswordReset extends R4Form {
 
 		try {
 			/* {redirectTo: '/settings'} */
-			res = await sdk.supabase.auth.resetPasswordForEmail(this.state.email)
+			res = await sdk.supabase.auth.signInWithOtp({
+				email: this.state.email,
+				options: {
+					emailRedirectTo: window.location.href,
+				},
+			})
 			if (res.error) {
 				console.log('Error reseting password', res)
 				throw res.error

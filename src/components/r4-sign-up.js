@@ -23,24 +23,24 @@ export default class R4SignUp extends R4Form {
 	}
 
 	errors = {
-		'default': {
+		default: {
 			message: 'Unhandled error',
 		},
 		'email-not-confirmed': {
 			field: 'email',
-			message: 'You\'re signed up, confirm your email to login '
+			message: "You're signed up, confirm your email to login ",
 		},
 		'invalid-login-credentials': {
 			field: 'email',
 			message: 'The email & password combination is incorrect',
 		},
 		'email-rate-limit': {
-			message: 'Rate limit exceeded. Wait five minutes before trying again'
+			message: 'Rate limit exceeded. Wait five minutes before trying again',
 		},
 		'password-too-short': {
 			field: 'password',
 			message: 'Password should be at least 6 characters',
-		}
+		},
 	}
 
 	async handleSubmit(event) {
@@ -74,15 +74,12 @@ export default class R4SignUp extends R4Form {
 			this.handleError(err)
 		}
 
-		const { data } = res
+		const {data} = res
 		if (data?.user?.id) {
-			alert(`Welcome. Please check your email to confirm your account`)
 			this.resetForm()
 		} else {
 			this.enableForm()
 		}
-
-		console.log(res)
 
 		super.handleSubmit({
 			error,
