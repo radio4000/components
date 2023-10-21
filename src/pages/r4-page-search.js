@@ -1,8 +1,8 @@
 import {html} from 'lit'
-import R4Page from '../components/r4-page.js'
+import BaseChannels from './base-channels.js'
 
-export default class R4PageSearch extends R4Page {
-	renderHeader() {
+export default class R4PageSearch extends BaseChannels {
+	renderMain() {
 		return html`<r4-channel-search href=${this.config.href}></r4-channel-search>`
 	}
 }

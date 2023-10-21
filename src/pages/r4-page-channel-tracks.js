@@ -38,8 +38,17 @@ export default class R4PageChannelTracks extends BaseChannel {
 			},
 		]
 	}
+
 	get filters() {
 		return [...this.userFilters, ...this.defaultFilters]
+	}
+
+	get searchFilter() {
+		return (
+			this.query?.filters?.filter(({column}) => {
+				return column === 'fts'
+			})[0] || null
+		)
 	}
 
 	async connectedCallback() {
@@ -146,12 +155,11 @@ export default class R4PageChannelTracks extends BaseChannel {
 				<li><a href=${this.channelOrigin}>${this.params.slug}</a></li>
 				<li><r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play></li>
 				<li>
-					<form>
-						<label
-							>Search
-							<input placeholder="tracks" type="search" @input=${this.onSearch.bind(this)} value=${this.searchQuery}
-						/></label>
-					</form>
+					<r4-supabase-filter-search
+						@input=${this.onSearch}
+						.filter=${this.searchFilter}
+						placeholder="channel tracks"
+					></r4-supabase-filter-search>
 				</li>
 				<li>${this.renderTracksCount()}</li>
 				<li>
@@ -177,13 +185,16 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	async onSearch(event) {
 		event.preventDefault()
-		this.searchQuery = event.target.value
-		if (!this.searchQuery) {
+		const filter = event.detail
+		this.searchQuery = event.target.search
+
+		if (!filter) {
 			page(this.tracksOrigin.replace(this.config.href, ''))
 			return
 		}
-		if (this.searchQuery.length < 2) return
-		const filter = {column: 'fts', operator: 'textSearch', value: `'${this.searchQuery}':*`}
+		if (this.searchQuery?.length < 2) {
+			return
+		}
 		const url = `?filters=[${JSON.stringify(filter)}]`
 		page(this.tracksOrigin.replace(this.config.href, '') + url)
 	}

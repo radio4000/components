@@ -33,6 +33,7 @@ import R4SignOut from './r4-sign-out.js'
 import R4SignUp from './r4-sign-up.js'
 import R4SupabaseQuery from './r4-supabase-query.js'
 import R4SupabaseFilters from './r4-supabase-filters.js'
+import R4SupabaseFilterSearch from './r4-supabase-filter-search.js'
 import R4Title from './r4-title.js'
 import R4Track from './r4-track.js'
 import R4TrackCreate from './r4-track-create.js'
@@ -76,6 +77,7 @@ customElements.define('r4-sign-out', R4SignOut)
 customElements.define('r4-sign-up', R4SignUp)
 customElements.define('r4-supabase-query', R4SupabaseQuery)
 customElements.define('r4-supabase-filters', R4SupabaseFilters)
+customElements.define('r4-supabase-filter-search', R4SupabaseFilterSearch)
 customElements.define('r4-title', R4Title)
 customElements.define('r4-track', R4Track)
 customElements.define('r4-track-create', R4TrackCreate)
@@ -121,6 +123,7 @@ export default {
 	R4Share,
 	R4SupabaseQuery,
 	R4SupabaseFilters,
+	R4SupabaseFilterSearch,
 	R4Title,
 	R4Track,
 	R4TrackCreate,
