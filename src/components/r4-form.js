@@ -210,7 +210,7 @@ export default class R4Form extends HTMLElement {
 
 	// Allow forms to be submitted with ctrl/cmd + enter
 	handleKeydown(event) {
-		if ((event.ctrlKey || event.metaKeyc) && event.key === 'Enter') {
+		if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
 			event.target.form?.requestSubmit()
 		}
 	}
