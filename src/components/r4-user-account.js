@@ -1,6 +1,6 @@
 import {LitElement, html} from 'lit'
 import {sdk} from '@radio4000/sdk'
-import {THEMES, COLOR_SCHEMES} from '../libs/appearence.js'
+import {THEMES, COLOR_SCHEMES} from '../libs/apperance.js'
 
 export default class R4UserAccount extends LitElement {
 	static properties = {

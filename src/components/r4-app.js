@@ -6,7 +6,7 @@ import DatabaseListeners from '../libs/db-listeners'
 import '../pages/'
 import ROUTES_CMS from '../data/routes-cms.json'
 import ROUTES_SINGLE from '../data/routes-single.json'
-import {THEMES, prefersDark} from '../libs/appearence.js'
+import {THEMES, prefersDark} from '../libs/appearance.js'
 
 export default class R4App extends LitElement {
 	playerRef = createRef()
