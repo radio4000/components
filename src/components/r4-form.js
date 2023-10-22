@@ -173,7 +173,7 @@ export default class R4Form extends HTMLElement {
 				}
 
 				/* add the id on the field "input", to make the legend work with minimal markup */
-				if (!$field.getAttribute('id')) {
+				if (!fieldName === 'submit' && !$field.getAttribute('id')) {
 					$field.setAttribute('id', fieldName)
 				}
 
