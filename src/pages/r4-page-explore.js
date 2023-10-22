@@ -27,7 +27,7 @@ export default class R4PageExplore extends R4Page {
 
 	renderHeader() {
 		return html`
-			<details open="true">
+			<details>
 				<summary>Exploring ${this.count || '…'} radio channels.</summary>
 				<r4-supabase-query
 					table="channels"
