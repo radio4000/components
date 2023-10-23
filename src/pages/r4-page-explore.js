@@ -12,6 +12,7 @@ export default class R4PageExplore extends BaseChannels {
 			return html` No channels yet.`
 		}
 	}
+
 	renderListItems() {
 		return repeat(
 			this.channels || [],

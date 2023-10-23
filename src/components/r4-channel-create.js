@@ -39,11 +39,11 @@ export default class R4ChannelCreate extends R4Form {
 			field: 'slug',
 		},
 		42501: {
-			message: 'Sign-in to create a channel',
+			message: 'Sign in to create a channel',
 			field: 'slug',
 		},
 		'sign-in': {
-			message: 'You need to sign-in to create a radio channel',
+			message: 'You need to sign in to create a radio channel',
 		},
 	}
 

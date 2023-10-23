@@ -28,8 +28,8 @@ export default class R4AppMenu extends LitElement {
 	}
 	renderNoAuth() {
 		return html`
-			<li><a href=${this.href + '/sign/up'}>Sign-up</a></li>
-			<li><a href=${this.href + '/sign/in'}>Sign-in</a></li>
+			<li><a href=${this.href + '/sign/up'}>Sign up</a></li>
+			<li><a href=${this.href + '/sign/in'}>Sign in</a></li>
 		`
 	}
 	renderAuth() {
