@@ -18,7 +18,6 @@ export default class R4SupabaseFilterSearch extends LitElement {
 	set filter(data) {
 		const search = this.getFilterSearch(data)
 		this.search = search || ''
-		return data
 	}
 
 	getFilterSearch(filter) {
@@ -41,7 +40,7 @@ export default class R4SupabaseFilterSearch extends LitElement {
 			</form>
 		`
 	}
-	async onInput() {
+	async onInput(event) {
 		event.preventDefault()
 		event.stopPropagation()
 		this.search = event.target.value

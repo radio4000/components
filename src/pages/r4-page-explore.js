@@ -1,7 +1,5 @@
 import {html} from 'lit'
 import {repeat} from 'lit/directives/repeat.js'
-import {browse} from '../libs/browse'
-import urlUtils from '../libs/url-utils'
 import BaseChannels from './base-channels.js'
 
 export default class R4PageExplore extends BaseChannels {
