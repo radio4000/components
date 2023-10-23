@@ -83,9 +83,9 @@ export default class R4PageSign extends R4Page {
 					<li><a href=${this.config.href + '/sign/up'}>Sign up</a> if you don't yet have an account.</li>
 					<li>
 						<details>
-							<summary>Forgot password? Sign-in with magic link!</summary>
+							<summary>Forgot password? Sign in with magic link!</summary>
 							<i
-								>Enter the email address of the account, to receive a magic link to sign-in without password. You can
+								>Enter the email address of the account, to receive a magic link to sign in without password. You can
 								then reset your password from the settings page.</i
 							>
 							<r4-password-reset email=${this.email} @submit=${this.onPasswordReset}></r4-password-reset>
@@ -104,7 +104,7 @@ export default class R4PageSign extends R4Page {
 						if you already have an existing account.
 					</li>
 					<li>
-						Sign-up first, to <a href=${this.migrateUrl}>import/migrate</a> an existing radio (from the previous
+						Sign up first, to <a href=${this.migrateUrl}>import/migrate</a> an existing radio (from the previous
 						<a href="https://radio4000.com">site</a>).
 					</li>
 				</ul>

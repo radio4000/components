@@ -46,7 +46,7 @@ export default class R4PageHome extends R4Page {
 				<details open="true">
 					<summary>This is a beta version!</summary>
 					<p>
-						The web-app <a href=${this.config.href}>${this.config.client}</a> is a public demo of the new
+						This web app <a href=${this.config.href}>${this.config.client}</a> is a public demo of the new
 						<r4-title></r4-title> beta version. Try it out now or see the
 						<a href=${this.config.href + `/about`}>about</a> page.
 					</p>
