@@ -45,12 +45,12 @@ export default class BaseChannels extends R4Page {
 	renderHeader() {
 		return html`
 			<details open="true">
+				<summary>Exploring ${this.count || '…'} radio channels.</summary>
 				<r4-supabase-filter-search
 					@input=${this.onSearch}
 					.filter=${this.searchFilter}
-					placeholder="channel tracks"
+					placeholder="channels"
 				></r4-supabase-filter-search>
-				<summary>Exploring ${this.count || '…'} radio channels.</summary>
 				<r4-supabase-query
 					table="channels"
 					page=${this.searchParams.get('page')}
