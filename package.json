@@ -31,8 +31,8 @@
     "radio4000-player": "^0.6.24"
   },
   "devDependencies": {
-    "eslint": "^8.51.0",
-    "eslint-plugin-lit": "^1.9.1",
+    "eslint": "^8.52.0",
+    "eslint-plugin-lit": "^1.10.0",
     "eslint-plugin-wc": "^2.0.4",
     "prettier": "^3.0.3",
     "recursive-readdir": "^2.2.3",
