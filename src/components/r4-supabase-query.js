@@ -153,7 +153,7 @@ export default class R4SupabaseQuery extends LitElement {
 			<r4-supabase-filters
 				table=${this.table}
 				.filters=${this.filters}
-				@filters=${this.onFilters}
+				@input=${this.onFilters}
 			></r4-supabase-filters>
 		`
 	}

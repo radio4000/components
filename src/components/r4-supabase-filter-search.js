@@ -1,6 +1,6 @@
 import {LitElement, html} from 'lit'
-/* import {sdk} from '@radio4000/sdk' */
 
+// Renders a search input, and fires @input event with a Supabase SDK search filter.
 export default class R4SupabaseFilterSearch extends LitElement {
 	static properties = {
 		search: {type: String, state: true},

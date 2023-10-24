@@ -10,9 +10,9 @@ const {tables} = dbSchema
  * @prop {string} value
  */
 
- /*
+/*
 	 An interface to create and manage filters for the Supabase SDK (`supabase.from()...`)
-	 Fires @filters event whenever any filter is created or changed.
+	 Fires @input event whenever any filter is created or changed.
  */
 export default class R4SupabaseFilters extends LitElement {
 	static properties = {
@@ -33,13 +33,14 @@ export default class R4SupabaseFilters extends LitElement {
 		if (attr.get('filters')) this.onFilters()
 	}
 
-	// When any filter is added or changed, a "filters" event is fired.
+	// When any filter is set or changed
 	async onFilters() {
-		const filtersEvent = new CustomEvent('filters', {
-			bubbles: true,
-			detail: this.filters,
-		})
-		this.dispatchEvent(filtersEvent)
+		this.dispatchEvent(
+			new CustomEvent('input', {
+				bubbles: true,
+				detail: this.filters,
+			})
+		)
 	}
 
 	onFormSubmit(event) {
