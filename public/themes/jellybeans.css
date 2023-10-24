@@ -104,6 +104,7 @@ r4-app {
 	overflow-y: auto;
 	max-height: 100vh;
 	background-color: var(--c-bg);
+	transition: background-color 0.3s;
 }
 
 /* Overwrite things from default theme */
@@ -257,6 +258,7 @@ r4-track[playing] r4-track-title a {
 /* Smaller, right aligned track menu in lists */
 r4-list-item r4-track {
 	flex: 1;
+	border-bottom: 1px solid rgba(0 0 0 / 20%);
 }
 r4-list-item r4-track > menu {
 	margin-left: auto;
@@ -302,6 +304,9 @@ r4-list-item r4-track-description {
 	}
 }
 /* Channels */
+r4-channel-name {
+	font-size: 1.25rem;
+}
 r4-channel-description {
 	display: block;
   margin-left: 0.5em;
@@ -362,7 +367,15 @@ r4-list-item + r4-list-item > r4-channel-card {
 /* 19rem height to show youtube controls */
 /* 22rem width to show vol and time ui */
 
-r4-page-channel r4-page-header r4-channel-card {
+r4-page-channel {
+	max-width: 1500px;
+}
+r4-page-channel r4-page-header r4-button-play button {
+	background-color: var(--c-link);
+	color: var(--c-bg);
+}
+r4-page-channel r4-page-header r4-channel-name {
+	font-size: 2rem;
 }
 
 r4-app-menu {
