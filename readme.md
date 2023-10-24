@@ -49,6 +49,9 @@ npm install
 npm run dev
 ```
 
+### Themes
+See the [themes github repo](https://github.com/4www/themes)
+
 ## Build and releases
 
 To release this package under `@radio4000/components` on NPM, bump the version in package.json, create a commit, tag it. Create a new release on Github and let the Github action publish it.

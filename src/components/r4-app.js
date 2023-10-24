@@ -14,6 +14,7 @@ export default class R4App extends LitElement {
 	static properties = {
 		// public
 		singleChannel: {type: Boolean, reflect: true, attribute: 'single-channel'},
+		themesURL: {type: String, attribute: 'themes-url', reflect: true},
 		// the channel slug
 		selectedSlug: {type: String, reflect: true, attribute: 'channel'},
 		href: {
@@ -47,6 +48,10 @@ export default class R4App extends LitElement {
 		config: {type: Object, state: true},
 	}
 
+	getThemesURL() {
+		return this.themesURL || 'https://cdn.jsdelivr.net/gh'
+	}
+
 	// This gets passed to all r4-pages.
 	get store() {
 		return {
@@ -60,7 +65,7 @@ export default class R4App extends LitElement {
 	}
 
 	get config() {
-		const client = this.href.split('://')[1]
+		const client = this.href?.split('://')[1]
 		return {
 			href: this.href,
 			client,

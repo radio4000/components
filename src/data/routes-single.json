@@ -6,6 +6,7 @@
 	{"path": "/tracks/:track_id", "page": "channel-track"},
 	{"path": "/followers", "page": "channel-followers"},
 	{"path": "/following", "page": "channel-followings"},
+	{"path": "/feed", "page": "channel-feed"},
 	{"path": "/add", "page": "add"},
 	{"path": "/settings", "page": "settings"}
 ]

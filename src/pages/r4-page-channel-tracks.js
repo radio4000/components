@@ -122,7 +122,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 						origin=${this.tracksOrigin}
 					></r4-track>
 				</r4-list-item>
-			`
+			`,
 		)
 	}
 
@@ -134,11 +134,11 @@ export default class R4PageChannelTracks extends BaseChannel {
 				<r4-supabase-query
 					table="channel_tracks"
 					count=${this.count}
-					page=${params.get('page') || 1}
-					limit=${params.get('limit') || 50}
-					order-by=${params.get('order-by') || 'created_at'}
-					order-config=${params.get('order-config') || JSON.stringify({ascending: false})}
-					filters=${params.get('filters')}
+					page=${this.query?.page}
+					limit=${this.query?.limit}
+					order-by=${this.query?.orderBy}
+					order-config=${this.query?.orderConfig}
+					filters=${this.query?.filters}
 					@query=${this.onQuery}
 				></r4-supabase-query>
 			</details>
@@ -163,7 +163,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 		return html`
 			<menu>
-				<li><a href=${this.channelOrigin}>${this.params.slug}</a></li>
+				<li><a href=${this.channelOrigin}>${this.slug}</a></li>
 				<li><r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play></li>
 				<li>
 					<r4-supabase-filter-search
