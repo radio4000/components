@@ -41,7 +41,6 @@ export default class R4App extends LitElement {
 
 		theme: {type: String, reflect: true},
 		colorScheme: {type: String, attribute: 'color-scheme', reflect: true},
-		themeStyles: {type: String, state: true},
 
 		/* state for global usage */
 		store: {type: Object, state: true},
@@ -77,11 +76,18 @@ export default class R4App extends LitElement {
 		return this.userChannels.find((c) => c.slug === this.selectedSlug)
 	}
 
+	constructor() {
+		super()
+		// Set default theme.
+		this.theme = THEMES[0]
+	}
+
 	async connectedCallback() {
 		super.connectedCallback()
 
 		this.listeners = new DatabaseListeners(this)
 		this.listeners.addEventListener('auth', async (event) => {
+			console.log('auth', event.detail.eventType)
 			this.user = event.detail.user
 			this.refreshUserData()
 			this.refreshUserAccount()
@@ -100,6 +106,7 @@ export default class R4App extends LitElement {
 			}
 		})
 		this.listeners.addEventListener('user-account', ({detail}) => {
+			console.log('user-account listener', detail.eventType)
 			if (['INSERT', 'DELETE', 'UPDATE'].includes(detail.eventType)) {
 				this.refreshUserAccount(detail.new)
 			}
@@ -161,33 +168,12 @@ export default class R4App extends LitElement {
 	}
 
 	async setTheme() {
-		// From local storage
-		// From database
-		if (this.store.userAccount?.theme) {
-			this.theme = this.store.userAccount.theme
-			this.themeStyles = await this.fetchTheme(this.store.userAccount.theme)
-		} else {
-			this.theme = THEMES[0]
-			this.themeStyles = await this.fetchTheme(this.theme)
-		}
-		if (this.store.userAccount?.color_scheme) {
-			this.colorScheme = this.store.userAccount.color_scheme
-		} else {
-			// From OS settings
-			this.colorScheme = prefersDark ? 'dark' : 'light'
-		}
-	}
-	async fetchTheme(name) {
-		const [actor, repo] = name.split('/')
-		const themeUrl = `https://cdn.jsdelivr.net/gh/${actor}/${repo}/${repo}.css`
-		return await fetch(themeUrl).then(async (res) => {
-			const css = await res.text()
-			if (res.code === 404) {
-				return null
-			} else {
-				return css
-			}
-		})
+		const {theme, color_scheme} = this.store.userAccount
+		console.log(this.colorScheme, 'set theme because of listener', {theme, color_scheme, prefersDark})
+		this.theme = theme || THEMES[0]
+		const newScheme = color_scheme || prefersDark ? 'dark' : 'light'
+		this.colorScheme = newScheme
+		console.log('new color scheme', newScheme, this.colorScheme)
 	}
 
 	render() {
@@ -202,8 +188,8 @@ export default class R4App extends LitElement {
 					?is-playing=${this.isPlaying}
 					@trackchanged=${this.onTrackChange}
 				></r4-player>
-				${this.themeStyles ? this.renderThemeStyles() : null}
 			</r4-layout>
+			<link rel="stylesheet" href=${`/themes/${this.theme}.css`} />
 		`
 	}
 
@@ -228,15 +214,6 @@ export default class R4App extends LitElement {
 			<header slot="menu">
 				<r4-app-menu ?auth=${this.store?.user} href=${this.config?.href} slug=${this.selectedSlug}></r4-app-menu>
 			</header>
-		`
-	}
-	renderThemeStyles() {
-		return html`
-			<aside>
-				<style>
-					${this.themeStyles}
-				</style>
-			</aside>
 		`
 	}
 

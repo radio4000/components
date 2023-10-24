@@ -1,0 +1,439 @@
+/*
+	A minimal default theme, with mostly:
+	- required defaults to make the work (though it should without CSS)
+*/
+
+/* these changes are "user personalisation" for color themes */
+r4-app {
+	/* sizes */
+	--s-font: 18px;
+	--s: 0.5rem;
+	--s-line-height: 1.3;
+	--s-youtube: 16rem;
+
+	/* reference functional variables using the colors */
+	--c-fg: inherit;
+	--c-bg: inherit;
+	--c-link: limegreen;
+
+	/* colors */
+	--c-light: cornsilk;
+	--c-dark: black;
+	--c-light--accent: mediumorchid;
+	--c-dark--accent: chartreuse;
+}
+
+/* Ensure the font is the same */
+r4-app button,
+r4-app input,
+r4-app optgroup,
+r4-app select,
+r4-app textarea,
+r4-app r4-layout::part(controls-button) {
+	font-family: inherit;
+}
+r4-app button,
+r4-app select,
+r4-app input,
+r4-app textarea,
+r4-app r4-layout::part(controls-button) {
+	padding: calc(var(--s) / 2);
+	font-size: 1rem;
+}
+r4-app input:not([type="checkbox"]),
+r4-app textarea {
+	/* flex-grow: 1; */
+}
+r4-app fieldset {
+	border: none;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	margin-top: calc(var(--s) / 2);
+	margin-bottom: calc(var(--s) / 2);
+}
+r4-app legend,
+r4-app label {
+	margin-right: var(--s);
+}
+r4-app fieldset legend,
+r4-app fieldset label,
+r4-app summary {
+	font-style: italic;
+}
+r4-app summary,
+r4-app button,
+r4-app r4-layout::part(controls-button) {
+	cursor: pointer;
+}
+
+/*
+	the layout
+*/
+r4-layout {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+@media (min-width: 70rem) {
+	r4-layout {
+		flex-direction: row;
+	}
+}
+
+/* can make the layout "panel" & its "main" part the full viewport height,
+	 so on page change, all interface does not jump */
+r4-layout::part(panel),
+r4-layout::part(main) {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+
+r4-router > * {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+r4-route {
+	display: none;
+}
+
+r4-layout::part(playback) {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+}
+/* basic styles for details and summary of the playback layout part */
+r4-layout::part(playback-details) {
+	background-color: var(--c-bg);
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	align-items: flex-end;
+}
+r4-layout::part(playback-summary) {
+	cursor: pointer;
+}
+
+/* hide player slot content if not playing, and in 'close' state  */
+r4-layout:not([is-playing]) slot[name="player"]::slotted(*),
+r4-layout[ui-state="close"] [slot="player"]::slotted(*) {
+	display: none;
+}
+/* make the player summary not display its icon */
+r4-layout::part(playback-summary) {
+	display: flex;
+	justify-content: flex-end;
+}
+
+/* the player */
+r4-layout r4-player,
+r4-layout radio4000-player {
+	flex-grow: 1;
+}
+
+/* hide the player summary when fullscreen */
+r4-layout[ui-state="fullscreen"]::part(playback-summary) {
+	display: none;
+}
+/* and make the player full height */
+r4-layout[ui-state="fullscreen"] radio4000-player {
+	height: 100vh;
+}
+
+/* hide the bullets of the playback menu (should all menu?), make it inline by default */
+r4-layout::part(playback-menu) {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+}
+
+/* by default, make the playback menu inline (mobile first) */
+r4-layout::part(playback-menu) {
+}
+
+/*
+	ui-state = minimize
+*/
+
+/* keep the player visible, but small */
+r4-layout[ui-state="minimize"] radio4000-player {
+	min-height: auto;
+	max-height: var(--s-youtube); /* youtube guidelines for video, @to-keep */
+}
+r4-layout r4-player radio4000-player .Layout {
+	border-color: var(--c-link);
+}
+/* overwrite some of radio4000-player library styles */
+r4-layout[ui-state="minimize"] radio4000-player .Layout-header,
+r4-layout[ui-state="minimize"] radio4000-player .Layout-main {
+	display: none;
+}
+
+/*
+	ui-state = minimal & dock
+	- make the playback sticky at top of viewport,
+	so "r4-app" router does not scroll to the top on page change
+	- also keep the "panel" over the "playback"
+*/
+
+/* make the "playback" sticky at the top of viewport */
+r4-layout[ui-state="minimize"]::part(playback),
+r4-layout[ui-state="dock"]::part(playback) {
+	position: sticky;
+	bottom: 0;
+	z-index: 2;
+}
+@media (min-width: 70rem) {
+	r4-layout[ui-state="minimize"]::part(playback),
+	r4-layout[ui-state="dock"]::part(playback) {
+		top: 0;
+		bottom: auto;
+		max-height: 100vh;
+	}
+	r4-layout[is-playing]::part(playback) {
+		min-width: 30vw;
+	}
+}
+
+/* keep panel over the playback */
+r4-layout[ui-state="minimize"]::part(panel),
+r4-layout[ui-state="dock"]::part(panel) {
+	z-index: 1;
+	/* background-color: var(--c-bg); */
+}
+
+/*
+	can start targetting "more specific customization"
+*/
+
+/* make the panel min height, the viewport, so "route change" don't make the UI jump */
+r4-layout [slot="menu"] {
+}
+r4-layout [slot="main"],
+r4-layout [slot="player"] {
+	display: flex;
+	flex-direction: column;
+}
+r4-layout [slot="main"] {
+	flex-grow: 1;
+}
+r4-layout [slot="player"] {
+	justify-content: flex-end;
+	width: 100%;
+}
+
+r4-router {
+	flex-grow: 1;
+	display: flex;
+}
+/* all r4-pages-* are the only children of r4-router */
+r4-router > * {
+	flex-grow: 1;
+}
+/* Routes are only used as data, and DOM wrapper to hide them */
+r4-routes,
+r4-route {
+	display: none;
+}
+
+/* the map full height */
+r4-map,
+r4-map main,
+r4-map .ol-viewport {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+r4-map .ol-viewport {
+	min-height: 30vh;
+}
+r4-map r4-channel-card {
+	background-color: var(--c-bg);
+	padding: calc(var(--s) / 2);
+	max-width: calc(100vw / 2);
+	border: 1px solid var(--c-fg);
+}
+
+r4-page-header,
+r4-page-main {
+	padding: var(--s);
+}
+
+/* Hide table+select from /explore and tracks pages */
+r4-page-explore r4-supabase-select,
+r4-page-channel r4-supabase-select,
+r4-page-channel-tracks r4-supabase-select,
+r4-page-channel r4-supabase-query {
+	display: none;
+}
+
+/* Quick dark-mode for the player */
+[color-scheme="dark"] radio4000-player,
+r4-app[color-scheme] radio4000-player .Header,
+radio4000-player .PlayerControl-group .Btn {
+	background: var(--c-bg);
+	color: var(--c-fg);
+}
+[color-scheme="dark"] radio4000-player .Layout .Header,
+[color-scheme="dark"] radio4000-player .Layout .PlayerControl,
+[color-scheme="dark"] radio4000-player .Layout .PlayerControl .Btn {
+	background: transparent;
+}
+[color-scheme="dark"] radio4000-player .Layout .TrackItem {
+	color: inherit;
+}
+[color-scheme="dark"] radio4000-player .Layout .Tracklist-item {
+	border: 0;
+}
+[color-scheme="dark"] radio4000-player .Layout .Tracklist-query {
+	background-color: none;
+}
+
+[color-scheme="dark"] radio4000-player .PlayPause-controller::after,
+[color-scheme="dark"] radio4000-player .PlayPause-controller::before {
+	border-color: var(--c-link);
+}
+
+/* other specific components */
+r4-supabase-modifiers form {
+	display: flex;
+	flex-wrap: wrap;
+}
+r4-channel-card,
+r4-channel-card a,
+r4-track {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+}
+r4-channel-card r4-avatar,
+r4-channel-card r4-button-play {
+	padding: calc(var(--s) / 2);
+}
+r4-avatar,
+r4-avatar picture {
+	display: inline-flex;
+}
+
+r4-list {
+	display: flex;
+	flex-direction: column;
+}
+r4-list-item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+r4-list-item + r4-list-item {
+	margin-top: var(--s);
+}
+
+r4-avatar-update,
+r4-avatar-upload form {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+r4-supabase-modifiers form {
+	display: flex;
+	flex-wrap: wrap;
+}
+r4-supabase-modifiers input {
+	max-width: calc(var(--s) * 10);
+}
+r4-supabase-modifiers fieldset + fieldset {
+	margin-left: var(--s);
+}
+
+r4-supabase-query {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+/* hide some interface for specific pages */
+r4-supabase-query[table="channel_tracks"]
+	fieldset[name="orderBy"]
+	option[value="fts"],
+r4-supabase-query[table="channel_tracks"]
+	fieldset[name="orderBy"]
+	option[value="slug"],
+r4-supabase-query[table="channel_tracks"]
+	fieldset[name="orderBy"]
+	option[value="id"] {
+	display: none;
+}
+
+r4-supabase-query[table="channels"]
+	fieldset[name="orderBy"]
+	option[value="fts"],
+r4-supabase-query[table="channels"] fieldset[name="orderBy"] option[value="id"],
+r4-supabase-query[table="channels"]
+	fieldset[name="orderBy"]
+	option[value="firebase"],
+r4-supabase-query[table="channels"]
+	fieldset[name="orderBy"]
+	option[value="coordinates"],
+r4-supabase-filters[table="channels"]
+	fieldset[name="column"]
+	option[value="id"],
+r4-supabase-filters[table="channels"]
+	fieldset[name="column"]
+	option[value="coordinates"],
+r4-supabase-filters[table="channels"]
+	fieldset[name="column"]
+	option[value="fts"],
+r4-supabase-filters[table="channels"]
+	fieldset[name="column"]
+	option[value="firebase"] {
+	display: none;
+}
+
+/* tracks */
+r4-track {
+}
+r4-track-description::before,
+r4-track-discogs-url::before,
+r4-track-mentions menu::before,
+r4-track-tags menu::before,
+r4-channel-slug::before,
+r4-channel-description::before,
+r4-channel-url::before {
+	content: "—";
+	display: inline;
+	float: left;
+	padding-left: var(--s);
+	padding-right: var(--s);
+	color: var(--c-fg);
+}
+r4-track-mentions a::before,
+r4-track-tags a::before {
+	color: var(--c-bg);
+	display: inline;
+	float: left;
+	padding-left: calc(var(--s) / 2);
+	padding-right: calc(var(--s) / 2);
+}
+r4-track-mentions a::before {
+	content: "@";
+}
+r4-track-tags a::before {
+	content: "#";
+}
+
+r4-button-play {
+	padding: calc(var(--s) / 2);
+}
+
+r4-dialog::part(dialog)::backdrop {
+	/* css variables do not seem to work here */
+	background-color: black;
+	opacity: 0.6;
+}
