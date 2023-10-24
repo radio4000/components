@@ -84,14 +84,32 @@ export default class BaseChannels extends R4Page {
 	}
 
 	renderHeader() {
+		return [this.renderMenu(), this.renderQuery()]
+	}
+	renderQueryFiltersSummary() {
+		const filtersLen = this.query?.filters?.length
+		if (filtersLen) {
+			return html`(<a href=${this.config.href + '/explore'}>clear ${filtersLen}</a>)`
+		}
+	}
+	renderMenu() {
 		return html`
-			<details open="true">
-				<summary>Exploring ${this.count || '…'} radio channels.</summary>
-				<r4-supabase-filter-search
-					@input=${this.onFilter}
-					.filter=${this.searchFilter}
-					placeholder="channels"
-				></r4-supabase-filter-search>
+			<menu>
+				<li>
+					<r4-supabase-filter-search
+						@input=${this.onFilter}
+						.filter=${this.searchFilter}
+						placeholder="channels"
+					></r4-supabase-filter-search>
+				</li>
+				<li>${this.count === 0 ? 0 : this.count || '…'} radio channels</li>
+			</menu>
+		`
+	}
+	renderQuery() {
+		return html`
+			<details>
+				<summary>Filters ${this.renderQueryFiltersSummary()}</summary>
 				<r4-supabase-query
 					table="channels"
 					page=${this.query?.page}
