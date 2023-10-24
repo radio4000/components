@@ -159,6 +159,10 @@ r4-app button,
 r4-app r4-layout::part(controls-button) {
 	cursor: pointer;
 }
+r4-app r4-layout::part(controls-button) {
+	padding: var(--s);
+	margin-left: calc(var(--s) / 2);
+}
 
 /*
 	the layout
