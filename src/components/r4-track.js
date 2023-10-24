@@ -142,29 +142,20 @@ export default class R4Track extends LitElement {
 		return html`<li><a href="${url}" label>${slug}</a></li>`
 	}
 	renderMenu() {
-		if (this.canEdit) {
-			return html`
-				<menu>
-					<li>
-						<button @click=${() => this.openDialog('share')}>Share</button>
-					</li>
-					<li>
-						<button @click=${() => this.openDialog('update')}>Update</button>
-					</li>
-					<li>
-						<button @click=${() => this.openDialog('delete')}>Delete</button>
-					</li>
-				</menu>
-			`
-		} else {
-			return html`
-				<menu>
-					<li>
-						<button @click=${() => this.openDialog('share')}>Share</button>
-					</li>
-				</menu>
-			`
-		}
+		return html`
+		<r4-list-actions>
+			<details>
+				<summary>⏷</summary>
+				<details-menu role="menu">
+					<button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button>
+					${this.canEdit ? html`
+					<button type="button" role="menuitem" @click=${() => this.openDialog('update')}>Update</button>
+					<button type="button" role="menuitem" @click=${() => this.openDialog('delete')}>Delete</button>
+					` : null}
+				</details-menu>
+			</details>
+			</r4-list-actions>
+		`
 	}
 	renderNoTrack() {
 		return html`Track not found`
