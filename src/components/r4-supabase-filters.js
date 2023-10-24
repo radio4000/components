@@ -32,9 +32,10 @@ export default class R4SupabaseFilters extends LitElement {
 		this.dispatchEvent(
 			new CustomEvent('input', {
 				bubbles: true,
-				detail: this.filters,
+				detail: this.filters.filter((filter) => !!filter),
 			})
 		)
+		this.dispatchEvent(filtersEvent)
 	}
 
 	onFormSubmit(event) {

@@ -13,33 +13,70 @@ export default class BaseChannels extends R4Page {
 		query: {type: Object, state: true},
 	}
 
+	constructor() {
+		super()
+		this.channels = []
+		/* this.query = {} */
+	}
+	async connectedCallback() {
+		super.connectedCallback()
+		console.log('this.searchParams', this.searchParams)
+		let filters
+		try {
+			filters = JSON.parse(this.searchParams.get('filters'))
+		} catch (e) {
+			filters = []
+		}
+
+		this.query = {
+			page: this.searchParams.get('page'),
+			limit: this.searchParams.get('limit'),
+			orderBy: this.searchParams.get('orderBy'),
+			orderConfig: this.searchParams.get('orderConfig'),
+			filters,
+		}
+	}
+
 	get channelOrigin() {
 		return `${this.config.href}/{{slug}}`
 	}
 
-	async onQuery(event) {
-		this.query = event.detail
-		urlUtils.updateSearchParams(this.query, ['table', 'select'])
-		this.filters = this.query.filters || []
-		const res = await browse(this.query)
-		this.count = res.count
-		this.channels = res.data
+	get searchFilter() {
+		return this.query?.filters?.filter((filter) => {
+			return filter?.column === 'fts'
+		})[0]
 	}
 
-	async onSearch(event) {
-		event.preventDefault()
-		const filter = event.detail
-		this.searchQuery = event.target.search
+	setQuery(query) {
+		urlUtils.updateSearchParams(query, ['table', 'select'])
+		this.query = query
+	}
 
-		if (!filter) {
-			page(window.location.href.replace(this.config.href, ''))
-			return
+	async setChannels() {
+		if (this.query) {
+			const res = await browse(this.query)
+			this.count = res.count
+			this.channels = res.data
 		}
-		if (this.searchQuery?.length < 2) {
-			return
+	}
+
+	async onQuery(event) {
+		console.log(event.detail)
+		this.setQuery(event.detail)
+		await this.setChannels()
+	}
+
+	async onFilter(event) {
+		event.preventDefault()
+		const {detail: filter} = event
+		console.log('on filter', filter)
+		if (filter) {
+			this.setQuery({
+				...this.query,
+				filters: [filter],
+			})
 		}
-		const url = `?filters=[${JSON.stringify(filter)}]`
-		page(window.location.href.replace(this.config.href, '') + url)
+		await this.setChannels()
 	}
 
 	renderHeader() {
@@ -47,24 +84,25 @@ export default class BaseChannels extends R4Page {
 			<details open="true">
 				<summary>Exploring ${this.count || '…'} radio channels.</summary>
 				<r4-supabase-filter-search
-					@input=${this.onSearch}
+					@input=${this.onFilter}
 					.filter=${this.searchFilter}
 					placeholder="channels"
 				></r4-supabase-filter-search>
 				<r4-supabase-query
 					table="channels"
-					page=${this.searchParams.get('page')}
-					limit=${this.searchParams.get('limit')}
-					count=${this.count}
-					order-by=${this.searchParams.get('order-by')}
-					order-config=${this.searchParams.get('order-config')}
-					filters=${this.searchParams.get('filters')}
+					page=${this.query?.page}
+					limit=${this.query?.limit}
+					order-by=${this.query?.orderBy}
+					order-config=${this.query?.orderConfig}
+					filters=${this.query?.filters}
 					@query=${this.onQuery}
+					count=${this.count}
 				></r4-supabase-query>
 			</details>
 		`
 	}
 	renderMain() {
+		// use this.channels
 		return html``
 	}
 }
