@@ -23,6 +23,89 @@ r4-app {
 	--c-dark--accent: chartreuse;
 }
 
+r4-app[color-scheme="dark"] {
+	--c-bg: var(--c-dark);
+	--c-fg: var(--c-light);
+	--c-link: var(--c-dark--accent);
+	color-scheme: dark;
+}
+
+r4-app[color-scheme="light"] {
+	--c-bg: var(--c-light);
+	--c-fg: var(--c-dark);
+	--c-link: var(--c-light--accent);
+	color-scheme: light;
+}
+
+/* and the customization using the variables */
+r4-app {
+	display: flex;
+	flex-direction: column;
+	background-color: var(--c-bg);
+	color: var(--c-fg);
+	font-size: var(--s-font);
+	font-family: var(--font);
+	line-height: var(--s-line-height);
+}
+
+/* Defaults */
+r4-app,
+r4-app * {
+	box-sizing: border-box;
+}
+r4-app ul,
+r4-app ol {
+	margin: 0;
+	padding: var(--s);
+}
+r4-app ul li + li,
+r4-app ol li + li {
+	margin-top: var(--s);
+}
+r4-app menu {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	list-style: none;
+}
+r4-app menu a {
+	/* so the UI is different that "normal links" */
+	filter: invert(1);
+}
+r4-app menu li {
+	display: inline-flex;
+	padding: calc(var(--s) / 2);
+}
+r4-app table {
+	width: 100%;
+	border-collapse: collapse;
+}
+r4-app th {
+	text-align: left;
+}
+r4-app img {
+	width: auto;
+	display: inline-block;
+}
+r4-app a {
+	color: var(--c-link);
+	text-decoration: none;
+}
+r4-app h1,
+r4-app h2,
+r4-app h3,
+r4-app p {
+	margin-top: 0;
+	margin-bottom: var(--s);
+}
+r4-app section {
+	margin-bottom: calc(var(--s) * 3);
+}
+r4-app form {
+}
+
 /* Ensure the font is the same */
 r4-app button,
 r4-app input,
@@ -243,6 +326,7 @@ r4-route {
 }
 
 /* the map full height */
+r4-page-map r4-page-main,
 r4-map,
 r4-map main,
 r4-map .ol-viewport {

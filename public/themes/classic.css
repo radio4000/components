@@ -3,7 +3,7 @@
  */
 
 /* Build on top of default theme */
-@import url('https://cdn.jsdelivr.net/gh/radio4000/theme-default/theme-default.min.css');
+@import url('/themes/default.css');
 
 /* Overwrite things from default theme */
 r4-app menu a {

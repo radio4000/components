@@ -168,12 +168,17 @@ export default class R4App extends LitElement {
 	}
 
 	async setTheme() {
-		const {theme, color_scheme} = this.store.userAccount
-		console.log(this.colorScheme, 'set theme because of listener', {theme, color_scheme, prefersDark})
-		this.theme = theme || THEMES[0]
-		const newScheme = color_scheme || prefersDark ? 'dark' : 'light'
-		this.colorScheme = newScheme
-		console.log('new color scheme', newScheme, this.colorScheme)
+		if (this.store.userAccount?.theme) {
+			this.theme = this.store.userAccount.theme
+		} else {
+			this.theme = THEMES[0]
+		}
+		if (this.store.userAccount?.color_scheme) {
+			this.colorScheme = this.store.userAccount.color_scheme
+		} else {
+			// From OS settings
+			this.colorScheme = prefersDark ? 'dark' : 'light'
+		}
 	}
 
 	render() {
