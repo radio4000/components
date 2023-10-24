@@ -42,7 +42,6 @@ export default class R4App extends LitElement {
 
 		theme: {type: String, reflect: true},
 		colorScheme: {type: String, attribute: 'color-scheme', reflect: true},
-		themeStyles: {type: String, state: true},
 
 		/* state for global usage */
 		store: {type: Object, state: true},
@@ -80,6 +79,12 @@ export default class R4App extends LitElement {
 	get selectedChannel() {
 		if (!this.userChannels || !this.selectedSlug || !this.user) return null
 		return this.userChannels.find((c) => c.slug === this.selectedSlug)
+	}
+
+	constructor() {
+		super()
+		// Set default theme.
+		this.theme = THEMES[0]
 	}
 
 	async connectedCallback() {
@@ -166,14 +171,10 @@ export default class R4App extends LitElement {
 	}
 
 	async setTheme() {
-		// From local storage
-		// From database
 		if (this.store.userAccount?.theme) {
 			this.theme = this.store.userAccount.theme
-			this.themeStyles = await this.fetchTheme(this.store.userAccount.theme)
 		} else {
 			this.theme = THEMES[0]
-			this.themeStyles = await this.fetchTheme(this.theme)
 		}
 		if (this.store.userAccount?.color_scheme) {
 			this.colorScheme = this.store.userAccount.color_scheme
@@ -181,18 +182,6 @@ export default class R4App extends LitElement {
 			// From OS settings
 			this.colorScheme = prefersDark ? 'dark' : 'light'
 		}
-	}
-	async fetchTheme(name) {
-		const [actor, repo] = name.split('/')
-		const themeUrl = `${this.getThemesURL()}/${actor}/${repo}/${repo}.css`
-		return await fetch(themeUrl).then(async (res) => {
-			const css = await res.text()
-			if (res.code === 404) {
-				return null
-			} else {
-				return css
-			}
-		})
 	}
 
 	render() {
@@ -207,8 +196,8 @@ export default class R4App extends LitElement {
 					?is-playing=${this.isPlaying}
 					@trackchanged=${this.onTrackChange}
 				></r4-player>
-				${this.themeStyles ? this.renderThemeStyles() : null}
 			</r4-layout>
+			<link rel="stylesheet" href=${`/themes/${this.theme}.css`} />
 		`
 	}
 
@@ -233,15 +222,6 @@ export default class R4App extends LitElement {
 			<header slot="menu">
 				<r4-app-menu ?auth=${this.store?.user} href=${this.config?.href} slug=${this.selectedSlug}></r4-app-menu>
 			</header>
-		`
-	}
-	renderThemeStyles() {
-		return html`
-			<aside>
-				<style>
-					${this.themeStyles}
-				</style>
-			</aside>
 		`
 	}
 

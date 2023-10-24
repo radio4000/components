@@ -1,0 +1,390 @@
+/**
+ * The Jellybeans Theme
+ * inspired the vim theme of the same name.
+ */
+
+/* Build on top of default theme */
+@import url('/themes/default.css');
+
+/* Overwrite things from default theme */
+r4-app menu a {
+	filter: none;
+}
+
+r4-app {
+	/* --c-white: hsl(0 0% 100%); */
+	--c-gray1: hsl(50 14% 96%);
+	--c-gray2: hsl(50 14% 91%);
+	--c-gray3: hsl(50 10% 76%);
+	--c-gray4: hsl(50 10% 56%);
+	--c-gray5: hsl(30 10% 36%);
+	--c-gray6: hsl(30 10% 26%);
+	--c-gray7: hsl(30 10% 16%);
+	--c-gray8: hsl(30 8% 7%);
+	--c-gray9: hsl(30 2% 4%);
+	/* --c-black: hsl(0 0% 0%); */
+
+	--c-red1: hsl(17 100% 95%);
+	--c-red2: hsl(17 80% 85%);
+	--c-red3: hsl(17 70% 75%);
+	--c-red4: hsl(17 70% 65%);
+	--c-red5: hsl(17 70% 55%);
+	--c-red6: hsl(17 70% 45%);
+	--c-red7: hsl(17 70% 35%);
+	--c-red8: hsl(17 70% 25%);
+	--c-red9: hsl(17 70% 15%);
+	/* --c-red9: hsl(17 100% 7%); */
+
+	--c-green1: hsl(98 21% 95%);
+	--c-green2: hsl(98 21% 85%);
+	--c-green3: hsl(98 21% 75%);
+	--c-green4: hsl(98 23% 65%);
+	--c-green5: hsl(98 25% 55%);
+	--c-green6: hsl(98 23% 45%);
+	--c-green7: hsl(98 21% 35%);
+	--c-green8: hsl(98 21% 25%);
+	--c-green9: hsl(98 21% 15%);
+
+	/* --c-blue5: hsl(221 29% 60%); */
+	/* --c-blue6: hsl(221 37% 43%); */
+	--c-blue1: hsl(221 30% 94%);
+	--c-blue2: hsl(221 30% 84%);
+	--c-blue3: hsl(221 31% 74%);
+	--c-blue4: hsl(221 33% 64%);
+	--c-blue5: hsl(221 35% 54%);
+	--c-blue6: hsl(221 40% 44%);
+	--c-blue7: hsl(221 30% 34%);
+	--c-blue8: hsl(221 27% 24%);
+	--c-blue9: hsl(221 27% 14%);
+
+	/* --c-yellow: hsl(41 79% 69%); */
+	--c-yellow1: hsl(41 79% 95%);
+	--c-yellow2: hsl(41 79% 85%);
+	--c-yellow3: hsl(41 79% 75%);
+	--c-yellow4: hsl(41 79% 65%);
+	--c-yellow5: hsl(41 79% 55%);
+	--c-yellow6: hsl(41 79% 45%);
+	--c-yellow7: hsl(41 79% 35%);
+	--c-yellow8: hsl(41 79% 25%);
+	--c-yellow9: hsl(41 79% 15%);
+
+	--font: system-ui, sans-serif;
+
+	--s-font: 16px;
+	--s: 1rem;
+	--s-radius: 4px;
+	--s-line-height: var(--s);
+	/* hmm */
+	/* background-image: linear-gradient(hsla(0, 0%, 60%, 0.1) 0.15%, transparent 5%); */
+	/* background-size: 100% var(--s); */
+}
+
+r4-app[color-scheme="os"],
+r4-app[color-scheme="light"] {
+	--c-bg: var(--c-gray1);
+	--c-bg2: var(--c-gray2);
+	--c-bg3: var(--c-gray3);
+	--c-fg: var(--c-gray9);
+	--c-link: var(--c-blue6);
+	--c-border: var(--c-gray3);
+	--c-headlines: var(--c-red6);
+}
+
+r4-app[color-scheme="dark"] {
+	--c-bg: var(--c-gray9);
+	--c-bg2: var(--c-gray8);
+	--c-bg3: var(--c-gray7);
+	--c-fg: var(--c-gray1);
+	--c-link: var(--c-blue4);
+	--c-border: var(--c-gray7);
+	--c-headlines: var(--c-red5);
+}
+
+r4-app {
+	overflow-y: auto;
+	max-height: 100vh;
+	background-color: var(--c-bg);
+}
+
+/* Overwrite things from default theme */
+r4-app menu a {
+	filter: none;
+	text-decoration: underline;
+}
+
+r4-app h1,
+r4-app h2,
+r4-app h3,
+r4-app p {
+	margin-bottom: var(--s);
+}
+
+r4-app h1 {
+	font-size: 2rem;
+	color: var(--c-headlines);
+}
+r4-app h2 {
+	font-size: 1.5rem;
+}
+r4-app h3 {
+	font-size: 1rem;
+}
+
+r4-app section {
+	margin-bottom: calc(var(--s) * 2);
+}
+
+/* Clickable things */
+r4-app a,
+r4-app button:not(:disabled),
+r4-app input[type="checkbox"],
+r4-app select {
+	cursor: pointer;
+}
+
+/* Buttons and text inputs */
+r4-app button,
+r4-app select,
+r4-app input[type="text"],
+r4-app input[type="number"],
+r4-app input[type="email"],
+r4-app input[type="password"],
+r4-app input[type="search"],
+r4-app input[type="url"],
+r4-app textarea {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+	flex-shrink: 0;
+	font-size: inherit;
+	user-select: none;
+	position: relative;
+	vertical-align: top;
+	line-height: 1;
+	min-width: 2rem;
+	height: 1.5rem;
+	padding: 0 0.3rem;
+	background-color: var(--c-bg);
+	border: 1px solid var(--c-border, initial);
+	border-radius: var(--s-radius);
+}
+
+r4-app input[type="text"],
+r4-app input[type="number"],
+r4-app input[type="email"],
+r4-app input[type="password"],
+r4-app input[type="search"],
+r4-app input[type="url"],
+r4-app textarea {
+	background: var(--c-bg2);
+	font-size: 14px;
+}
+
+r4-app input[type="text"]:hover,
+r4-app input[type="number"]:hover,
+r4-app input[type="email"]:hover,
+r4-app input[type="password"]:hover,
+r4-app input[type="search"]:hover,
+r4-app input[type="url"]:hover,
+r4-app textarea:hover {
+	/* background-color: var(--c-bg2); */
+}
+
+r4-app textarea {
+	height: calc(var(--s) * 3);
+	padding-top: 0.5rem;
+}
+
+r4-app input[type="number"] {
+	min-width: 3rem;
+	max-width: 7rem;
+}
+
+r4-app button {
+	padding: 0 1rem;
+}
+
+/* "Buttons" */
+r4-app select,
+r4-app button {
+	font-size: 1rem;
+	background: var(--c-bg3);
+	border: 1px solid var(--c-gray6);
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+}
+r4-app button:not(disabled):hover,
+r4-app select:not(disabled):hover {
+	background: var(--c-bg3);
+}
+/* Primary buttons */
+r4-app button[type="submit"] {
+	/* background-color: var(--c-green7); */
+}
+r4-app button[type="submit"]:hover {
+	/* background-color: var(--c-green6); */
+}
+/* Danger buttons */
+r4-app button[destructive] {
+	background: var(--c-red6);
+	color: var(--c-red1);
+}
+r4-app button[destructive]:hover {
+	background: var(--c-red5);
+	color: var(--c-red9);
+}
+
+/* Forms */
+r4-app form {
+	max-width: 60ch;
+}
+r4-app fieldset label {
+	margin-bottom: 0.1rem;
+	font-weight: 600;
+}
+r4-app fieldset input:not([type="checkbox"]),
+r4-app fieldset textarea {
+	flex: 1;
+}
+r4-app fieldset [type="submit"] {
+	margin-top: calc(var(--s) / 2);
+}
+
+r4-track[playing] r4-track-title a {
+	color: var(--c-link);
+}
+
+/* Smaller, right aligned track menu in lists */
+r4-list-item r4-track {
+	flex: 1;
+}
+r4-list-item r4-track > menu {
+	margin-left: auto;
+}
+r4-list-item r4-track > menu li {
+	padding: 0 1px;
+}
+r4-list-item r4-track > menu button {
+	font-size: 13px;
+}
+
+r4-list-item r4-track r4-button-play {
+	padding-left: 0;
+}
+r4-track-title,
+r4-track-description {
+	font-size: 15px;
+}
+r4-track-title a {
+	color: var(--c-fg);
+}
+[color-scheme="dark"] r4-track-title a {
+	color: var(--c-gray2);
+}
+r4-track-description {
+	color: var(--c-gray5);
+}
+[color-scheme="dark"] r4-track-description {
+	color: var(--c-gray4);
+}
+r4-list-item r4-track-description {
+	margin-left: 1em;
+}
+
+/* Tracklist layout for smaller screens */
+@media (max-width: 700px) {
+	r4-track-body {
+		font-size: 14px;
+	}
+	r4-track-tags,
+	r4-track-mentions {
+		display: none;
+	}
+}
+/* Channels */
+r4-channel-description {
+	display: block;
+  margin-left: 0.5em;
+}
+
+/* Cards */
+r4-channel-card {
+	align-items: center;
+	padding: 1rem;
+	background: var(--c-bg2);
+	border-radius: var(--s-radius);
+	box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px;
+	border: 1px solid rgb(239, 241, 244);
+	min-height: calc(var(--s) * 2);
+}
+[color-scheme="dark"] r4-channel-card {
+	border: 1px solid rgb(50, 51, 70);
+}
+
+/* Tags and mentions aka labels */
+r4-app a[label] {
+	background: var(--c-green3);
+	color: var(--c-green9);
+	padding: 0 4px;
+	border-radius: calc(var(--s-radius) * 2);
+	text-decoration: none;
+	font-size: 13px;
+	white-space: nowrap;
+}
+r4-app[color-scheme="dark"] a[label] {
+	background: var(--c-green9);
+	color: var(--c-green3);
+}
+
+r4-track-mentions a::before,
+r4-track-tags a::before {
+	color: inherit;
+	padding-right: 0;
+}
+
+r4-track-description::before,
+r4-track-mentions menu::before,
+r4-track-tags menu::before,
+r4-channel-slug::before,
+r4-channel-description::before,
+r4-channel-url::before {
+	display: none;
+}
+
+r4-list-item + r4-list-item {
+	margin: 0;
+}
+r4-list-item + r4-list-item > r4-channel-card {
+	margin-top: calc(var(--s) / 4);
+}
+
+/* 6.4rem height to hide video completely */
+/* 19rem height to show youtube controls */
+/* 22rem width to show vol and time ui */
+
+r4-page-channel r4-page-header r4-channel-card {
+}
+
+r4-app-menu {
+	display: block;
+	margin-top: calc(var(--s) / 2);
+	margin-left: calc(var(--s) / 2);
+}
+
+r4-page-explore r4-page-main > r4-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill,minmax(18rem,1fr));
+	gap: var(--s);
+}
+
+r4-channel-card {
+	width: 100%;
+}
+
+r4-channel-card r4-channel-slug {
+	display: none;
+}
+
+r4-app summary {
+  user-select: none;
+}
