@@ -6,7 +6,6 @@
 		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
 		<title>r4-supabase-filter-search</title>
 		<meta name="description" content="r4-supabase-filter-search" />
-		<link rel="stylesheet" href="/styles/index.css" />
 		<script type="module" src="/src/index.js"></script>
 	</head>
 	<body>
@@ -17,21 +16,14 @@
 			</li>
 			<li>Click <a href="./">reset search</a>, to re-set default values (clears the query params in URL)</li>
 		</menu>
+
 		<r4-supabase-filter-search></r4-supabase-filter-search>
+
 		<script type="module">
-			const paramName = 'search-filter'
-			const $search = document.querySelector('r4-supabase-filter-search')
-			$search.addEventListener('input', ({detail}) => {
-				console.log(detail)
-				let urlSearchString
-				if (detail) {
-					window.history.replaceState(null, null, `?${paramName}=${JSON.stringify(detail)}`)
-				} else {
-					window.history.replaceState(null, null, './')
-				}
-			})
 			const params = new URLSearchParams(window.location.search)
+			const paramName = 'search-filter'
 			const paramValue = params.get(paramName)
+
 			if (paramValue) {
 				$search.setAttribute('search', paramValue)
 				try {
@@ -41,6 +33,16 @@
 					console.log('error parsing filter from URL', error)
 				}
 			}
+
+			const $search = document.querySelector('r4-supabase-filter-search')
+			$search.addEventListener('input', ({detail}) => {
+				console.log('supabase-filter-search event', detail)
+				if (detail) {
+					window.history.replaceState(null, null, `?${paramName}=${JSON.stringify(detail)}`)
+				} else {
+					window.history.replaceState(null, null, './')
+				}
+			})
 		</script>
 	</body>
 </html>

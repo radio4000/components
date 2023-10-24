@@ -45,7 +45,7 @@
 				Helps build a list of filters for a query to supabase (via the js sdk) using
 				<a href="https://supabase.com/docs/reference/javascript/using-filters">filters</a>
 			</li>
-			<li>Fires a "filters" event anytime a filter is set or updated.</li>
+			<li>Fires an "input" event anytime a filter is set or updated.</li>
 		</menu>
 
 		<r4-supabase-filters table="tracks"></r4-supabase-filters>
@@ -54,13 +54,10 @@
 			import R4SupabaseFilters from '../../src/components/r4-supabase-filters.js'
 
 			const $examples = document.querySelectorAll('r4-supabase-filters')
-
-			function onFilter(event) {
-				console.log('filter changed', event.detail)
-			}
-
 			$examples.forEach(($example) => {
-				$example.addEventListener('filters', onFilter)
+				$example.addEventListener('input', (event) => {
+					console.log('filter changed', event.detail)
+				})
 			})
 		</script>
 	</body>

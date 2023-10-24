@@ -21,12 +21,6 @@ export default class R4SupabaseFilters extends LitElement {
 		filters: {type: Array, reflect: true, state: true},
 	}
 
-	// constructor() {
-	// 	super()
-	// 	this.table = ''
-	// 	// this.filters = []
-	// }
-
 	updated(attr) {
 		/* always update the list when any attribute change
 			 for some attribute, first clear the existing search query */
