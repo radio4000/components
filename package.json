@@ -8,7 +8,9 @@
   "exports": {
     ".": "./dist/r4.js"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier src --write",
@@ -22,6 +24,7 @@
   "dependencies": {
     "@radio4000/sdk": "^0.4.3",
     "lit": "^3.0.0",
+    "lodash.debounce": "^4.0.8",
     "media-url-parser": "^0.2.4",
     "ol": "^7.4.0",
     "page": "^1.11.6",

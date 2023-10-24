@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+		<title>r4-supabase-filter-search</title>
+		<meta name="description" content="r4-supabase-filter-search" />
+		<script type="module" src="/src/index.js"></script>
+	</head>
+	<body>
+		<menu>
+			<li>
+				Helps build a search "fts" filters for a query to supabase (via the js sdk) using
+				<a href="https://supabase.com/docs/reference/javascript/using-filters">filters</a>
+			</li>
+			<li>Click <a href="./">reset search</a>, to re-set default values (clears the query params in URL)</li>
+		</menu>
+
+		<r4-supabase-filter-search></r4-supabase-filter-search>
+
+		<script type="module">
+			const params = new URLSearchParams(window.location.search)
+			const paramName = 'search-filter'
+			const paramValue = params.get(paramName)
+
+			if (paramValue) {
+				$search.setAttribute('search', paramValue)
+				try {
+					const filter = JSON.parse(paramValue)
+					$search.filter = filter
+				} catch (error) {
+					console.log('error parsing filter from URL', error)
+				}
+			}
+
+			const $search = document.querySelector('r4-supabase-filter-search')
+			$search.addEventListener('input', ({detail}) => {
+				console.log('supabase-filter-search event', detail)
+				if (detail) {
+					window.history.replaceState(null, null, `?${paramName}=${JSON.stringify(detail)}`)
+				} else {
+					window.history.replaceState(null, null, './')
+				}
+			})
+		</script>
+	</body>
+</html>

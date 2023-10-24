@@ -18,7 +18,6 @@ export default class R4AppMenu extends LitElement {
 				<li>
 					<a href=${this.href + '/'}><r4-title size="small"></r4-title></a>
 				</li>
-				<li><a href=${this.href + '/search'}>Search</a></li>
 				<li><a href=${this.href + '/explore'}>Explore</a></li>
 				<li><a href=${this.href + '/map'}>Map</a></li>
 				<li><a href=${this.href + '/settings'}>Settings</a></li>

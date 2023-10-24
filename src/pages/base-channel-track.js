@@ -29,7 +29,6 @@ export default class BaseChannelTrack extends BaseChannel {
 		/* no error? we deleted */
 		if (!detail?.data) {
 			console.log('url', this.channelOrigin + '/tracks/')
-			debugger
 			page(this.channelOrigin + '/tracks/')
 		}
 	}

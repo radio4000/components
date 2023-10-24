@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width">
-		<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
 		<title>r4-supabase-filters</title>
-		<meta name="description" content="r4-supabase-filters">
-		<link rel="stylesheet" href="/styles/index.css" />
+		<meta name="description" content="r4-supabase-filters" />
 		<script type="module" src="/src/index.js"></script>
 
 		<style>
@@ -43,48 +42,23 @@
 	<body>
 		<menu>
 			<li>
-				Helps build a list of filters for a query to supabase (via the js sdk) using <a href="https://supabase.com/docs/reference/javascript/using-filters">filters</a>
+				Helps build a list of filters for a query to supabase (via the js sdk) using
+				<a href="https://supabase.com/docs/reference/javascript/using-filters">filters</a>
 			</li>
-
-			<li>
-				Click <a href="./">reset search</a>, to re-set default values (clears the query params in URL)
-			</li>
+			<li>Fires an "input" event anytime a filter is set or updated.</li>
 		</menu>
 
 		<r4-supabase-filters table="tracks"></r4-supabase-filters>
 
 		<script type="module">
 			import R4SupabaseFilters from '../../src/components/r4-supabase-filters.js'
-			import urlUtils from '../../src/libs/url-utils.js'
-
-			const {
-				getElementProperties,
-				propertiesToSearch,
-				propertiesFromSearch,
-			} = urlUtils
 
 			const $examples = document.querySelectorAll('r4-supabase-filters')
-			const elementProperties = getElementProperties(R4SupabaseFilters)
-
-			const onSubmit = function (event) {
-				const {target, detail} = event
-
-				const urlSearch = propertiesToSearch(elementProperties, detail)
-				const urlSearchString = `?${urlSearch.toString()}`
-				window.history.replaceState(null, null, urlSearchString)
-			}
-
 			$examples.forEach(($example) => {
-				$example.addEventListener('submit', onSubmit)
-			})
-
-			const initialProperties = propertiesFromSearch(elementProperties)
-			if (initialProperties) {
-				initialProperties.map(prop => {
-					$examples[0].setAttribute(prop.attribute, prop.value)
+				$example.addEventListener('input', (event) => {
+					console.log('filter changed', event.detail)
 				})
-			}
+			})
 		</script>
 	</body>
-
 </html>

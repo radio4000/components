@@ -3,20 +3,22 @@ import {supabaseOperators} from '../libs/browse.js'
 import dbSchema from '../libs/db-schemas.js'
 const {tables} = dbSchema
 
+/**
+ * @typedef {object} QueryFilter
+ * @prop {string} column
+ * @prop {string} operator
+ * @prop {string} value
+ */
+
 /*
-	 supabase-filters
-	 to manage "filters" applied by the supabase sdk on a `supabase.from()`
+	 An interface to create and manage filters for the Supabase SDK (`supabase.from()...`)
+	 Fires @input event whenever any filter is created or changed.
  */
 export default class R4SupabaseFilters extends LitElement {
 	static properties = {
+		// Name of the SQL table to filter
 		table: {type: String, reflect: true},
 		filters: {type: Array, reflect: true, state: true},
-	}
-
-	constructor() {
-		super()
-		this.table = ''
-		// this.filters = []
 	}
 
 	updated(attr) {
@@ -25,13 +27,15 @@ export default class R4SupabaseFilters extends LitElement {
 		if (attr.get('filters')) this.onFilters()
 	}
 
+	// When any filter is set or changed
 	async onFilters() {
-		/* if (!this.table) return */
-		const filtersEvent = new CustomEvent('filters', {
-			bubbles: true,
-			detail: this.filters,
-		})
-		this.dispatchEvent(filtersEvent)
+		console.log('on filters')
+		this.dispatchEvent(
+			new CustomEvent('input', {
+				bubbles: true,
+				detail: this.filters?.filter((filter) => !!filter),
+			})
+		)
 	}
 
 	onFormSubmit(event) {

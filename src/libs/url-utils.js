@@ -3,9 +3,9 @@ import R4SupabaseQuery from '../components/r4-supabase-query'
 const R4_QUERY_ATTR = ['page', 'limit', 'count', 'table', 'select', 'filters', 'orderBy', 'orderConfig']
 
 /* From a LitElement properties, and a data object,
-				 will return a URLSearchParam ready to go into a URL.
-				 Can be used to turn a web-component's output (dataObj),
-				 into URLSearchParams (so element state is in the current URL) */
+	 will return a URLSearchParam ready to go into a URL.
+	 Can be used to turn a web-component's output (dataObj),
+	 into URLSearchParams (so element state is in the current URL) */
 export function propertiesToSearch(elementProperties, dataObj) {
 	const searchParams = new URLSearchParams()
 	elementProperties.forEach((elementProperty) => {
