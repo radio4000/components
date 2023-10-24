@@ -46,6 +46,23 @@ export default class R4ChannelCard extends LitElement {
 				<r4-channel-slug>@${this.channel.slug}</r4-channel-slug>
 			</a>
 			${this.renderDescription()} ${this.renderUrl()}
+					<r4-details-menu left>
+						<details>
+							<summary>⏷</summary>
+							<menu>
+								<li>
+									<a href="${this.channelOrigin + '/feed'}">Feed</a>
+								</li>
+								<li>
+									<a href="${this.channelOrigin + '/following'}">Following</a>
+								</li>
+								<li>
+									<button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button>
+								</li>
+							</menu>
+						</details>
+					</r4-details-menu>
+
 		`
 	}
 	renderDescription() {

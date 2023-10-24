@@ -1,32 +1,48 @@
-r4-list-actions details {
+/* A dropdown with a vertical menu */
+r4-details-menu details {
 	position: relative;
 }
-r4-list-actions summary {
-	user-select: none;
-	list-style: none;
+r4-details-menu details:not([open]) menu {
+	display: none;
 }
-r4-list-actions details-menu {
-	box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
-	backdrop-filter: blur(12px) saturate(190%) contrast(50%) brightness(130%);
-	background-color: rgba(255,255,255,0.8);
-	padding: var(--s);
-	border: 1px solid rgb(216, 216, 216);
-	border-radius: 8px;
+r4-details-menu summary {
 	list-style: none;
+	user-select: none;
+}
+r4-app r4-details-menu menu {
+	display: flex;
+	flex-flow: column;
+	list-style: none;
+	padding: var(--s);
+	background-color: var(--bg-overlay, rgba(255,255,255,0.8));
+	border: 1px solid var(--border-color, rgb(216, 216, 216));
+	border-radius: var(--border-radius);
+	box-shadow: var(--box-shadow, rgba(0, 0, 0, 0.09) 0px 3px 12px);
 	position: absolute;
 	top: 100%;
 	right: 0;
 	width: 160px;
 	z-index: 100;
-	display: flex;
-	flex-flow: column;
 }
-r4-list-item r4-list-actions {
-	margin-left: auto;
+r4-app r4-details-menu[left] menu {
+	right: auto;
+	left: 0;
 }
-
-r4-app[color-scheme="dark"] r4-list-actions details-menu {
-	background-color: rgb(0 0 0 / 41%);
+r4-app[color-scheme="dark"] r4-details-menu menu {
+	background-color: rgb(0 0 0 / 90%);
 	border-color: transparent;
 }
-
+r4-app r4-details-menu menu li {
+	width: 100%;
+	padding: 0;
+}
+r4-app r4-details-menu button {
+	width: 100%;
+}
+r4-app r4-details-menu a {
+	width: 100%;
+	padding: var(--s);
+}
+r4-list-item r4-details-menu {
+	margin-left: auto;
+}
