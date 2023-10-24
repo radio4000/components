@@ -16,14 +16,12 @@ export default class R4UserAccount extends LitElement {
 		if (!value) return
 		if (this.account) {
 			await sdk.supabase.from('accounts').update({theme: value}).eq('id', this.account.id)
-			console.log('saved theme')
 		}
 	}
 	async saveColorScheme(value) {
 		if (!value) return
 		if (this.account) {
 			await sdk.supabase.from('accounts').update({color_scheme: value}).eq('id', this.account.id)
-			console.log('saved color scheme')
 		}
 	}
 
