@@ -48,8 +48,8 @@ export default class BaseChannels extends R4Page {
 	}
 
 	setQuery(query) {
-		urlUtils.updateSearchParams(query, ['table', 'select'])
-		this.query = query
+		urlUtils.updateSearchParams({...query}, ['table', 'select'])
+		this.query = {...query}
 	}
 
 	async setChannels() {
@@ -61,7 +61,8 @@ export default class BaseChannels extends R4Page {
 	}
 
 	async onQuery(event) {
-		console.log(event.detail)
+		event.preventDefault()
+		console.log('on query', event.detail)
 		this.setQuery(event.detail)
 		await this.setChannels()
 	}
@@ -94,7 +95,7 @@ export default class BaseChannels extends R4Page {
 					limit=${this.query?.limit}
 					order-by=${this.query?.orderBy}
 					order-config=${this.query?.orderConfig}
-					filters=${this.query?.filters}
+					.filters=${this.query?.filters}
 					@query=${this.onQuery}
 					count=${this.count}
 				></r4-supabase-query>

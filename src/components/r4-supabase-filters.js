@@ -29,13 +29,13 @@ export default class R4SupabaseFilters extends LitElement {
 
 	// When any filter is set or changed
 	async onFilters() {
+		console.log('on filters')
 		this.dispatchEvent(
 			new CustomEvent('input', {
 				bubbles: true,
-				detail: this.filters.filter((filter) => !!filter),
+				detail: this.filters?.filter((filter) => !!filter),
 			})
 		)
-		this.dispatchEvent(filtersEvent)
 	}
 
 	onFormSubmit(event) {
