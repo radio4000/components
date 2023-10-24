@@ -3,6 +3,7 @@ import {browse} from '../libs/browse'
 import urlUtils from '../libs/url-utils'
 import R4Page from '../components/r4-page.js'
 import page from 'page/page.mjs'
+import debounce from 'lodash.debounce'
 
 export default class BaseChannels extends R4Page {
 	static properties = {
@@ -20,7 +21,6 @@ export default class BaseChannels extends R4Page {
 	}
 	async connectedCallback() {
 		super.connectedCallback()
-		console.log('this.searchParams', this.searchParams)
 		let filters
 		try {
 			filters = JSON.parse(this.searchParams.get('filters'))
@@ -62,22 +62,25 @@ export default class BaseChannels extends R4Page {
 
 	async onQuery(event) {
 		event.preventDefault()
-		console.log('on query', event.detail)
 		this.setQuery(event.detail)
 		await this.setChannels()
 	}
 
-	async onFilter(event) {
+	onFilter(event) {
 		event.preventDefault()
 		const {detail: filter} = event
-		console.log('on filter', filter)
 		if (filter) {
 			this.setQuery({
 				...this.query,
 				filters: [filter],
 			})
+		} else {
+			this.setQuery({
+				...this.query,
+				filters: [],
+			})
 		}
-		await this.setChannels()
+		debounce(this.setChannels, 333)
 	}
 
 	renderHeader() {
