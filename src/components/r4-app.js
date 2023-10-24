@@ -87,7 +87,6 @@ export default class R4App extends LitElement {
 
 		this.listeners = new DatabaseListeners(this)
 		this.listeners.addEventListener('auth', async (event) => {
-			console.log('auth', event.detail.eventType)
 			this.user = event.detail.user
 			this.refreshUserData()
 			this.refreshUserAccount()
@@ -106,7 +105,6 @@ export default class R4App extends LitElement {
 			}
 		})
 		this.listeners.addEventListener('user-account', ({detail}) => {
-			console.log('user-account listener', detail.eventType)
 			if (['INSERT', 'DELETE', 'UPDATE'].includes(detail.eventType)) {
 				this.refreshUserAccount(detail.new)
 			}
