@@ -3,6 +3,7 @@
  * except for R4Components, which is only used for the demo page.
  */
 
+import R4Actions from './r4-actions.js'
 import R4App from './r4-app.js'
 import R4AppMenu from './r4-app-menu.js'
 import R4Avatar from './r4-avatar.js'
@@ -16,7 +17,6 @@ import R4ChannelCard from './r4-channel-card.js'
 import R4ChannelCreate from './r4-channel-create.js'
 import R4ChannelDelete from './r4-channel-delete.js'
 import R4ChannelUpdate from './r4-channel-update.js'
-import R4Actions from './r4-actions.js'
 import R4Dialog from './r4-dialog.js'
 import R4EmailUpdate from './r4-email-update.js'
 import R4Favicon from './r4-favicon.js'
@@ -48,6 +48,7 @@ import R4UserChannelsSelect from './r4-user-channels-select.js'
 import R4Pagination from './r4-pagination.js'
 import R4Icon from './r4-icon.js'
 
+customElements.define('r4-actions', R4Actions)
 customElements.define('r4-app', R4App)
 customElements.define('r4-app-menu', R4AppMenu)
 customElements.define('r4-avatar', R4Avatar)
@@ -62,7 +63,6 @@ customElements.define('r4-channel-create', R4ChannelCreate)
 customElements.define('r4-channel-delete', R4ChannelDelete)
 customElements.define('r4-channel-update', R4ChannelUpdate)
 customElements.define('r4-channel-search', R4ChannelSearch)
-customElements.define('r4-actions', R4Actions)
 customElements.define('r4-dialog', R4Dialog)
 customElements.define('r4-email-update', R4EmailUpdate)
 customElements.define('r4-favicon', R4Favicon)
@@ -95,6 +95,7 @@ customElements.define('r4-pagination', R4Pagination)
 customElements.define('r4-icon', R4Icon)
 
 export default {
+	R4Actions,
 	R4App,
 	R4AppMenu,
 	R4Avatar,
@@ -109,7 +110,6 @@ export default {
 	R4ChannelDelete,
 	R4ChannelUpdate,
 	R4ChannelSearch,
-	R4Actions,
 	R4Dialog,
 	R4EmailUpdate,
 	R4Favicon,
