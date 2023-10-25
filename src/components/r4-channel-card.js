@@ -50,15 +50,9 @@ export default class R4ChannelCard extends LitElement {
 				<details>
 					<summary>⏷</summary>
 					<menu>
-						<li>
-							<a href="${this.channelOrigin + '/feed'}">Feed</a>
-						</li>
-						<li>
-							<a href="${this.channelOrigin + '/following'}">Following</a>
-						</li>
-						<li>
-							<button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button>
-						</li>
+						<li><a href="${this.channelOrigin + '/feed'}">Feed</a></li>
+						<li><a href="${this.channelOrigin + '/following'}">Following</a></li>
+						<li><button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button></li>
 					</menu>
 				</details>
 			</r4-actions>

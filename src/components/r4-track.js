@@ -147,11 +147,15 @@ export default class R4Track extends LitElement {
 				<details>
 					<summary>⏷</summary>
 					<menu>
-						<button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button>
+						<li><button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button></li>
 						${this.canEdit
 							? html`
-									<button type="button" role="menuitem" @click=${() => this.openDialog('update')}>Update</button>
-									<button type="button" role="menuitem" @click=${() => this.openDialog('delete')}>Delete</button>
+									<li>
+										<button type="button" role="menuitem" @click=${() => this.openDialog('update')}>Update</button>
+									</li>
+									<li>
+										<button type="button" role="menuitem" @click=${() => this.openDialog('delete')}>Delete</button>
+									</li>
 							  `
 							: null}
 					</menu>
