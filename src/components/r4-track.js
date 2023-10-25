@@ -76,7 +76,7 @@ export default class R4Track extends LitElement {
 				detail: {
 					track: this.track,
 				},
-			}),
+			})
 		)
 	}
 
@@ -143,18 +143,20 @@ export default class R4Track extends LitElement {
 	}
 	renderMenu() {
 		return html`
-			<r4-details-menu>
+			<r4-actions>
 				<details>
 					<summary>⏷</summary>
 					<menu>
-					<button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button>
-					${this.canEdit ? html`
-						<button type="button" role="menuitem" @click=${() => this.openDialog('update')}>Update</button>
-						<button type="button" role="menuitem" @click=${() => this.openDialog('delete')}>Delete</button>
-					` : null}
+						<button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button>
+						${this.canEdit
+							? html`
+									<button type="button" role="menuitem" @click=${() => this.openDialog('update')}>Update</button>
+									<button type="button" role="menuitem" @click=${() => this.openDialog('delete')}>Delete</button>
+							  `
+							: null}
 					</menu>
 				</details>
-			</r4-details-menu>
+			</r4-actions>
 		`
 	}
 	renderNoTrack() {

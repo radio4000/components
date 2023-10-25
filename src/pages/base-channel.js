@@ -135,7 +135,7 @@ export default class BaseChannel extends R4Page {
 				</li>
 				<li>${this.renderSocial()}</li>
 				<li>
-					<r4-details-menu>
+					<r4-actions>
 						<details>
 							<summary>⏷</summary>
 							<menu>
@@ -153,7 +153,7 @@ export default class BaseChannel extends R4Page {
 								</li>
 							</menu>
 						</details>
-					</r4-details-menu>
+					</r4-actions>
 				</li>
 				${this.coordinates && !this.config.singleChannel ? this.renderCoordinates() : null}
 				${this.canEdit ? [this.renderAddTrack(), this.renderEdit()] : null}

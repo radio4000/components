@@ -2,9 +2,8 @@ import {LitElement, html} from 'lit'
 
 /**
  * A dropdown menu
-*/
-
-export default class R4DetailsMenu extends LitElement {
+ */
+export default class R4Actions extends LitElement {
 	// static properties = {}
 	// render() {
 	// 	return html`
@@ -44,7 +43,7 @@ export default class R4DetailsMenu extends LitElement {
 
 // function closeCurrentMenu(details) {
 // 	if (!details.hasAttribute('open')) return
-// 	for (const menu of document.querySelectorAll('details[open] > details-menu')) {
+// 	for (const menu of document.querySelectorAll('r4-actions details[open] > menu')) {
 // 		const opened = menu.closest('details')
 // 		if (opened && opened !== details && !opened.contains(details)) {
 // 			opened.removeAttribute('open')

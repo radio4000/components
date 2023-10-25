@@ -1,21 +1,30 @@
-/* A dropdown with a vertical menu */
-r4-details-menu details {
+/* A dropdown with a stacked, vertical menu */
+r4-actions details {
 	position: relative;
 }
-r4-details-menu details:not([open]) menu {
+
+/* Hide dropdown when not open */
+r4-actions details:not([open]) menu {
 	display: none;
 }
-r4-details-menu summary {
-	list-style: none;
+
+/* Hide browser default icon */
+r4-actions summary {
 	user-select: none;
+	list-style: none;
+	font-style: normal;
+	padding: 0 var(--s);
 }
-r4-app r4-details-menu menu {
+
+/* Style like a dropdown menu/overlay/thing */
+r4-app r4-actions menu {
 	display: flex;
 	flex-flow: column;
+	align-items: stretch;
 	list-style: none;
-	padding: var(--s);
+	padding: 0;
 	background-color: var(--bg-overlay, rgba(255,255,255,0.8));
-	border: 1px solid var(--border-color, rgb(216, 216, 216));
+	border: 1px solid var(--c-border, rgb(216, 216, 216));
 	border-radius: var(--border-radius);
 	box-shadow: var(--box-shadow, rgba(0, 0, 0, 0.09) 0px 3px 12px);
 	position: absolute;
@@ -24,25 +33,31 @@ r4-app r4-details-menu menu {
 	width: 160px;
 	z-index: 100;
 }
-r4-app r4-details-menu[left] menu {
+
+r4-actions menu button {
+	margin: var(--s);
+}
+
+/* By default the dropdown is right-aligned, here it is left-aligned */
+r4-app r4-actions[left] menu {
 	right: auto;
 	left: 0;
 }
-r4-app[color-scheme="dark"] r4-details-menu menu {
-	background-color: rgb(0 0 0 / 90%);
-	border-color: transparent;
+
+/* Dark theme */
+r4-app[color-scheme="dark"] r4-actions menu {
+	background-color: var(--bg-overlay, rgb(0 0 0 / 90%));
 }
-r4-app r4-details-menu menu li {
+
+/* Make items full width inside the menu */
+r4-app r4-actions menu li {
 	width: 100%;
 	padding: 0;
 }
-r4-app r4-details-menu button {
-	width: 100%;
+r4-app r4-actions button {
+	/* width: 100%; */
 }
-r4-app r4-details-menu a {
+r4-app r4-actions a {
 	width: 100%;
 	padding: var(--s);
-}
-r4-list-item r4-details-menu {
-	margin-left: auto;
 }
