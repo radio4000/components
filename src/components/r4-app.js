@@ -38,6 +38,7 @@ export default class R4App extends LitElement {
 
 		isPlaying: {type: Boolean, attribute: 'is-playing', reflects: true},
 		playingChannel: {type: Object},
+		playingTracks: {type: Array},
 		playingTrack: {type: Object},
 
 		theme: {type: String, reflect: true},
@@ -69,6 +70,7 @@ export default class R4App extends LitElement {
 			selectedSlug: this.selectedSlug,
 			isPlaying: this.isPlaying,
 			playingChannel: this.playingChannel,
+			playingTracks: this.playingTracks,
 			playingTrack: this.playingTrack,
 		}
 	}
@@ -78,6 +80,7 @@ export default class R4App extends LitElement {
 		return this.userChannels.find((c) => c.slug === this.selectedSlug)
 	}
 
+	// Allows loading the CSS themes from different sources.
 	get themeHref() {
 		const file = `${this.theme}.css`
 		if (this.cdn?.length > 4) {
