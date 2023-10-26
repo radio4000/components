@@ -4,7 +4,7 @@
  */
 
 /* Build on top of default theme */
-@import url('/themes/default-extended.css');
+@import url('./default-extended.css');
 
 r4-app {
 	--font: system-ui, sans-serif;

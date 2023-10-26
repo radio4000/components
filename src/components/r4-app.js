@@ -14,7 +14,7 @@ export default class R4App extends LitElement {
 	static properties = {
 		// public
 		singleChannel: {type: Boolean, reflect: true, attribute: 'single-channel'},
-		themesURL: {type: String, attribute: 'themes-url', reflect: true},
+		cdn: {type: String, reflect: true},
 		// the channel slug
 		selectedSlug: {type: String, reflect: true, attribute: 'channel'},
 		href: {
@@ -48,10 +48,6 @@ export default class R4App extends LitElement {
 		config: {type: Object, state: true},
 	}
 
-	getThemesURL() {
-		return this.themesURL || 'https://cdn.jsdelivr.net/gh'
-	}
-
 	// This gets passed to all r4-pages.
 	get store() {
 		return {
@@ -79,6 +75,17 @@ export default class R4App extends LitElement {
 	get selectedChannel() {
 		if (!this.userChannels || !this.selectedSlug || !this.user) return null
 		return this.userChannels.find((c) => c.slug === this.selectedSlug)
+	}
+
+	get themeHref() {
+		const file = `${this.theme}.css`
+		if (this.cdn?.length > 4) {
+			return `${this.cdn}/dist/themes/${file}`
+		} else if (this.cdn) {
+			return `https://cdn.jsdelivr.net/npm/@radio4000/components/dist/themes/${file}`
+		} else {
+			return `/themes/${file}`
+		}
 	}
 
 	constructor() {
@@ -198,7 +205,7 @@ export default class R4App extends LitElement {
 					@trackchanged=${this.onTrackChange}
 				></r4-player>
 			</r4-layout>
-			<link rel="stylesheet" href=${`/themes/${this.theme}.css`} />
+			<link rel="stylesheet" href=${this.themeHref} />
 		`
 	}
 
