@@ -2,8 +2,6 @@
  * A theme resembling classic R4
  */
 
-@import url('./default-extended.css');
-
 /* Shared between light and dark color schemes */
 r4-app {
 	--font: Maison Neue, system-ui, sans-serif;
@@ -50,10 +48,6 @@ r4-app[color-scheme='dark'] button {
 	box-shadow: none;
 }
 
-r4-app button[disabled] {
-	opacity: 0.5;
-}
-
 r4-channel-card {
 	--c-border: rgba(115, 115, 115, 0.4);
 }
@@ -86,4 +80,42 @@ r4-channel-card {
 		format('woff2');
 	font-weight: bold;
 	font-style: italic;
+}
+
+
+/* Control the header sizes */
+r4-app h1 {
+	font-size: 2rem;
+}
+r4-app h2 {
+	font-size: 1.5rem;
+}
+r4-app h3 {
+	font-size: 1rem;
+}
+
+/* Differentiate channels and track lists by using a grid */
+r4-page-explore r4-page-main > r4-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+	gap: var(--s);
+	align-items: stretch;
+}
+
+r4-channel-card r4-channel-slug {
+	display: none;
+}
+
+r4-list-item r4-track {
+	border-bottom: 1px solid rgba(0 0 0 / 20%);
+	padding: calc(var(--s) / 2) 0;
+	gap: calc(var(--s) / 2);
+}
+
+r4-app-menu a {
+	padding: var(--s) calc(var(--s) / 2);
+}
+
+r4-track a {
+	text-decoration: none;
 }
