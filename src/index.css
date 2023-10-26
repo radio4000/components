@@ -31,9 +31,6 @@ r4-actions details menu {
 	right: 2rem;
 	width: 160px;
 	z-index: 100;
-
-
-r4-actions menu button {
 }
 
 /* By default the dropdown is right-aligned, here it is left-aligned */
@@ -51,9 +48,6 @@ r4-app[color-scheme="dark"] r4-actions menu {
 r4-app r4-actions menu li {
 	width: 100%;
 	padding: 0;
-}
-r4-app r4-actions button {
-	/* width: 100%; */
 }
 r4-app r4-actions a {
 	width: 100%;
