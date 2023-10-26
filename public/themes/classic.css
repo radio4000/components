@@ -2,7 +2,7 @@
  * A theme resembling classic R4
  */
 
-@import url('/themes/default-extended.css');
+@import url('./default-extended.css');
 
 /* Shared between light and dark color schemes */
 r4-app {

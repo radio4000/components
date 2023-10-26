@@ -25,6 +25,8 @@
 			const channel = params.get('channel')
 			const singleChannel = params.get('single-channel')
 
+			//$app.setAttribute('cdn', true)
+			//$app.setAttribute('cdn', 'https://jsdelivr.net/npm/@radio4000/components')
 			$app.setAttribute('href', window.location.origin + '/examples/r4-app/')
 			channel && $app.setAttribute('channel', channel)
 			singleChannel && $app.setAttribute('single-channel', true)
