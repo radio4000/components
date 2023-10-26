@@ -125,10 +125,6 @@ r4-app r4-layout::part(controls-button) {
 	padding-right: calc(var(--s) / 2);
 	font-size: 1rem;
 }
-r4-app input:not([type='checkbox']),
-r4-app textarea {
-	/* flex-grow: 1; */
-}
 r4-app fieldset {
 	border: none;
 	padding: 0;
@@ -240,8 +236,7 @@ r4-layout::part(playback-menu) {
 }
 
 /* by default, make the playback menu inline (mobile first) */
-r4-layout::part(playback-menu) {
-}
+/* r4-layout::part(playback-menu) {} */
 
 /*
 	ui-state = minimize
@@ -302,8 +297,7 @@ r4-layout[ui-state='dock']::part(panel) {
 */
 
 /* make the panel min height, the viewport, so "route change" don't make the UI jump */
-r4-layout [slot='menu'] {
-}
+/* r4-layout [slot='menu'] {} */
 r4-layout [slot='main'],
 r4-layout [slot='player'] {
 	display: flex;
