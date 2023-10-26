@@ -133,29 +133,20 @@ export default class BaseChannel extends R4Page {
 				<li>
 					<a href="${this.channelOrigin + '/tracks'}">Tracks</a>
 				</li>
-				<li>${this.renderSocial()}</li>
 				<li>
-					<r4-actions>
-						<details>
-							<summary>⏷</summary>
-							<menu>
-								<li>
-									<a href="${this.channelOrigin + '/feed'}">Feed</a>
-								</li>
-								<li>
-									<a href="${this.channelOrigin + '/following'}">Following</a>
-								</li>
-								<li>
-									<a href="${this.channelOrigin + '/followers'}">Followers</a>
-								</li>
-								<li>
-									<button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button>
-								</li>
-							</menu>
-						</details>
-					</r4-actions>
+					<a href="${this.channelOrigin + '/feed'}">Feed</a>
+				</li>
+				<li>
+					<a href="${this.channelOrigin + '/following'}">Following</a>
+				</li>
+				<li>
+					<a href="${this.channelOrigin + '/followers'}">Followers</a>
 				</li>
 				${this.coordinates && !this.config.singleChannel ? this.renderCoordinates() : null}
+				<li>
+					<button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button>
+				</li>
+				<li>${this.renderSocial()}</li>
 				${this.canEdit ? [this.renderAddTrack(), this.renderEdit()] : null}
 			</menu>
 		`

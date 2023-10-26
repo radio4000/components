@@ -17,7 +17,7 @@ r4-actions summary {
 }
 
 /* Style like a dropdown menu/overlay/thing */
-r4-app r4-actions menu {
+r4-actions details menu {
 	display: flex;
 	flex-flow: column;
 	align-items: stretch;

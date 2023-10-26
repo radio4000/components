@@ -1,8 +1,6 @@
 import {html} from 'lit'
 import {repeat} from 'lit/directives/repeat.js'
-import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
-import {sdk} from '@radio4000/sdk'
 import {browse} from '../libs/browse'
 
 export default class R4PageChannel extends BaseChannel {

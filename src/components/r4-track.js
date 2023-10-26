@@ -76,7 +76,7 @@ export default class R4Track extends LitElement {
 				detail: {
 					track: this.track,
 				},
-			})
+			}),
 		)
 	}
 
