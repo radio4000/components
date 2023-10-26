@@ -1,5 +1,5 @@
 /* Extends the default theme with, well, more defaults */
-@import url('/themes/default.css');
+@import url('./default.css');
 
 r4-app menu a {
 	text-decoration: underline;
