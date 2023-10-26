@@ -46,6 +46,8 @@ r4-app {
 	font-size: var(--s-font);
 	font-family: var(--font);
 	line-height: var(--s-line-height);
+	overflow-y: auto;
+	max-height: 100vh;
 }
 
 /* Defaults */
@@ -114,7 +116,10 @@ r4-app select,
 r4-app textarea,
 r4-app r4-layout::part(controls-button) {
 	font-family: inherit;
-	line-height: 1.3;
+	line-height: var(--s-line-height);
+}
+r4-app textarea {
+	height: calc(var(--s) * 3);
 }
 r4-app button,
 r4-app select,
@@ -511,3 +516,4 @@ r4-dialog::part(dialog)::backdrop {
 	background-color: black;
 	opacity: 0.6;
 }
+
