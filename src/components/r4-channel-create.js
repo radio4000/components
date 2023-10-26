@@ -1,5 +1,6 @@
 import {sdk} from '@radio4000/sdk'
 import R4Form from './r4-form.js'
+import slugify from '../libs/slugify.js'
 
 const fieldsTemplate = document.createElement('template')
 fieldsTemplate.innerHTML = `
@@ -20,6 +21,17 @@ export default class R4ChannelCreate extends R4Form {
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate
+	}
+
+	connectedCallback() {
+		super.connectedCallback()
+		this.querySelector('input[name="name"]').addEventListener('input', this.setSlugOnNameChange.bind(this))
+	}
+
+	setSlugOnNameChange(event) {
+		const slug = slugify(event.target.value)
+		const input = this.querySelector('input[name="slug"]')
+		input.value = slug
 	}
 
 	errors = {
