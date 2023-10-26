@@ -76,6 +76,7 @@ export default class R4Map extends LitElement {
 		}
 		this.markers = this.channels?.map((c) => this.createMarker([c.longitude, c.latitude], c))
 	}
+
 	willUpdate(changedProperties) {
 		if (changedProperties.has('channels')) {
 			if (this.map) {

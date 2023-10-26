@@ -2,7 +2,6 @@ import {html} from 'lit'
 import {browse} from '../libs/browse'
 import urlUtils from '../libs/url-utils'
 import R4Page from '../components/r4-page.js'
-import page from 'page/page.mjs'
 import debounce from 'lodash.debounce'
 
 export default class BaseChannels extends R4Page {
