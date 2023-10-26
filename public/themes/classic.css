@@ -34,10 +34,6 @@ r4-app[color-scheme='light'] {
 
 r4-app[color-scheme='dark'] {}
 
-r4-layout {
-	padding: var(--s);
-}
-
 r4-app menu li {
 	padding: var(--s);
 }
@@ -88,17 +84,21 @@ r4-channel-card {
 	padding: var(--s);
 }
 
-r4-list-item r4-track {
-	border-bottom: 1px solid rgba(0 0 0 / 20%);
-}
-
 r4-track-title a {
 	color: var(--text);
 }
+
 r4-list-item r4-track r4-actions {
 	margin-left: 0.5em;
 }
 
+r4-list-item + r4-list-item {
+	margin-top: 0;
+}
+
+r4-list-item r4-track {
+	border-bottom: 1px solid rgba(0 0 0 / 20%);
+}
 
 /* Maison Neue regular/italic + bold/italic from Cloudinary */
 @font-face {
@@ -129,4 +129,3 @@ r4-list-item r4-track r4-actions {
 	font-weight: bold;
 	font-style: italic;
 }
-

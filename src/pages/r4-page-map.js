@@ -3,6 +3,11 @@ import {html} from 'lit'
 import BaseChannels from './base-channels.js'
 
 export default class R4PageMap extends BaseChannels {
+	connectedCallback() {
+		super.connectedCallback()
+		// Overwrite default limit to avoid pagination.
+		this.query.limit = 4000
+	}
 	renderMain() {
 		return html`
 			<r4-map
