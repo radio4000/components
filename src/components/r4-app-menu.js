@@ -20,8 +20,8 @@ export default class R4AppMenu extends LitElement {
 				</li>
 				<li><a href=${this.href + '/explore'}>Explore</a></li>
 				<li><a href=${this.href + '/map'}>Map</a></li>
-				<li><a href=${this.href + '/settings'}>Settings</a></li>
 				${!this.auth ? this.renderNoAuth() : this.renderAuth()} ${this.canAdd ? this.renderAdd() : null}
+				<li><a href=${this.href + '/settings'}>Settings</a></li>
 			</menu>
 		`
 	}
