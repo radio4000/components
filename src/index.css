@@ -19,23 +19,21 @@ r4-actions summary {
 /* Style like a dropdown menu/overlay/thing */
 r4-actions details menu {
 	display: flex;
-	flex-flow: column;
 	align-items: stretch;
 	list-style: none;
 	padding: 0;
-	background-color: var(--bg-overlay, rgba(255,255,255,0.8));
+	background-color: var(--bg-overlay, rgba(255,255,255,0.9));
 	border: 1px solid var(--c-border, rgb(216, 216, 216));
 	border-radius: var(--border-radius);
-	box-shadow: var(--box-shadow, rgba(0, 0, 0, 0.09) 0px 3px 12px);
+	box-shadow: var(--box-shadow, rgba(0, 0, 0, 0.1) 0px 3px 12px);
 	position: absolute;
 	top: 100%;
-	right: 0;
+	right: 2rem;
 	width: 160px;
 	z-index: 100;
-}
+
 
 r4-actions menu button {
-	margin: var(--s);
 }
 
 /* By default the dropdown is right-aligned, here it is left-aligned */
