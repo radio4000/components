@@ -42,17 +42,23 @@ export default class R4PageSettings extends R4Page {
 	renderUser() {
 		return html`
 			<section>
-				<h2>Authentication</h2>
+				<h2>Account</h2>
 				<p>
 					You are signed in as <em>${this.store?.user?.email}</em> (<a href="${this.config.href}/sign/out">sign out</a
 					>).
 				</p>
-			</section>
-			<section>
-				<h2>Account</h2>
 				${this.store.user.new_email ? this.renderNewEmail() : null}
 				<r4-email-update email=${this.store.user.email} @submit=${this.changeEmail}></r4-email-update>
 				<r4-password-update @submit=${this.changePassword}></r4-password-update>
+			</section>
+			<section>
+				<h2>Channels</h2>
+				<ul>
+					${this.store?.userChannels.map(x => html`<li>
+						<a href=${`${this.config.href}/${x.slug}`}>${x.name}</a>
+						(<a href=${`${this.config.href}/${x.slug}/update`}>update</a>)
+					</li>`)}
+				</ul>
 			</section>
 			<section>
 				<h2>Danger zone</h2>
