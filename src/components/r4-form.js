@@ -243,13 +243,14 @@ export default class R4Form extends HTMLElement {
 			$out.innerHTML = ''
 		})
 
+
 		const {code = 'default'} = error
-		const {message, field} = this.errors[code]
-		error.field = field
-		error.message = message || error.message
-		if (!error?.code) {
-			console.info('form:unhandled error', error)
+		const knownError = this.errors[error.code] || this.errors.default
+			console.log(error, knownError)
+		if (!error.code) {
+			console.log(error)
 		}
+		const {message, field} = knownError
 
 		/* set errors on outputs */
 		let $out

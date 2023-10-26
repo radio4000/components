@@ -32,6 +32,8 @@ export default class R4ChannelCreate extends R4Form {
 		const slug = slugify(event.target.value)
 		const input = this.querySelector('input[name="slug"]')
 		input.value = slug
+		// Manually update state since it's not caught by r4-form.
+		this.state.slug = slug
 	}
 
 	errors = {
@@ -41,6 +43,10 @@ export default class R4ChannelCreate extends R4Form {
 		'slug-exists-firebase': {
 			message: 'This slug is already in use by an other channel',
 			field: 'slug',
+		},
+		23502: {
+			message: 'Fill out the slug field',
+			field: 'slug'
 		},
 		23514: {
 			message: 'The slug needs to be between 3 and 40 characters',
