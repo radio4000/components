@@ -31,10 +31,6 @@ r4-app[color-scheme='light'] {
 
 r4-app[color-scheme='dark'] {}
 
-r4-layout {
-	padding: var(--s);
-}
-
 r4-app menu li {
 	padding: var(--s);
 }
@@ -88,6 +84,10 @@ r4-channel-card {
 r4-list-item r4-track {
 	flex: 1;
 	border-bottom: 1px solid rgba(0 0 0 / 20%);
+}
+
+r4-list-item + r4-list-item {
+	margin-top: 0;
 }
 
 /* Maison Neue regular/italic + bold/italic from Cloudinary */
