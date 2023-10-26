@@ -138,6 +138,7 @@ export default class R4App extends LitElement {
 		this.refreshUserData.running = true
 
 		if (!this.user) {
+			this.selectedSlug = null
 			this.userChannels = []
 			this.followers = []
 			this.following = []
