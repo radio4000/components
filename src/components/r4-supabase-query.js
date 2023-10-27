@@ -30,7 +30,8 @@ export default class R4SupabaseQuery extends LitElement {
 		super()
 		/* non-string properties need to have correct defaults */
 		this.filters = []
-		this.orderConfig = {ascending: false}
+		// this.orderBy = 'created_at'
+		// this.orderConfig = {ascending: false}
 	}
 
 	connectedCallback() {
@@ -49,9 +50,9 @@ export default class R4SupabaseQuery extends LitElement {
 
 	/* set the correct component initial values, for each table's capacities */
 	setInitialValues() {
+		if (!this.table) this.table = tables[0]
 		if (!this.page) this.page = 1
 		if (!this.limit) this.limit = 10
-		if (!this.table) this.table = tables[0]
 		const tableData = tables[this.table]
 		this.select = this.select || tableData?.selects[0] || '*'
 		if (tableData?.junctions) {
@@ -63,33 +64,11 @@ export default class R4SupabaseQuery extends LitElement {
 		}
 	}
 
-	async onQuery() {
-		const query = {
-			table: this.table,
-			select: this.select,
-			filters: this.filters,
-			orderBy: this.orderBy,
-			orderConfig: this.orderConfig,
-			page: this.page,
-			limit: this.limit,
-		}
-		console.log('dispatching query', query)
-		this.dispatchEvent(
-			new CustomEvent('query', {
-				bubbles: true,
-				detail: query,
-			})
-		)
-	}
-
 	onInput(event) {
 		event.stopPropagation()
 		event.preventDefault()
-
 		const {name, value, valueAsNumber, type: inputType, checked} = event.target
-
-		console.log('onInput', name, value, checked)
-
+		console.log('@onInput', name, value, checked)
 		/* handle correctly input type="number" */
 		if (inputType === 'number') {
 			this[name] = valueAsNumber
@@ -120,6 +99,25 @@ export default class R4SupabaseQuery extends LitElement {
 		}
 	}
 
+	async onQuery() {
+		const query = {
+			table: this.table,
+			select: this.select,
+			filters: this.filters,
+			orderBy: this.orderBy,
+			orderConfig: this.orderConfig,
+			page: this.page,
+			limit: this.limit,
+		}
+		console.log('r4-supabase-query@query', query)
+		this.dispatchEvent(
+			new CustomEvent('query', {
+				bubbles: true,
+				detail: query,
+			}),
+		)
+	}
+
 	onFormSubmit(event) {
 		event.preventDefault()
 		event.stopPropagation()
@@ -131,7 +129,6 @@ export default class R4SupabaseQuery extends LitElement {
 		 is triggered before invoquing "onQuery"*/
 	cleanQuery() {
 		this.page = 1
-
 		if (!this.table) {
 			// handle the case where there is no table selected; to display no result problably, or error
 		} else if (this.table) {
@@ -154,6 +151,7 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	render() {
+		console.log('render', this.orderBy, this.orderConfig)
 		return html`
 			<r4-supabase-select>
 				<form @submit=${this.onFormSubmit}>${[this.renderQueryTable(), this.renderQuerySelect()]}</form>
@@ -256,6 +254,7 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	renderOrderConfig() {
+		console.log('orderConfig', this.orderConfig)
 		const ascending = this.orderConfig?.ascending
 		return html`
 			<fieldset name="ascending">
@@ -276,7 +275,7 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQuerySelectByTable() {
 		if (!this.table) return null
 		return tables[this.table].selects.map((sqlSelect) =>
-			this.renderOption(sqlSelect, {selected: sqlSelect === this.select})
+			this.renderOption(sqlSelect, {selected: sqlSelect === this.select}),
 		)
 	}
 

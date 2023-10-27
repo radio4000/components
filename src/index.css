@@ -426,6 +426,9 @@ r4-list-item {
 	flex-direction: row;
 	align-items: center;
 }
+r4-list-item r4-track {
+	flex: 1;
+}
 
 r4-avatar-update,
 r4-avatar-upload form {

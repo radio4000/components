@@ -26,22 +26,18 @@ export default class BaseChannels extends R4Page {
 	}
 
 	setQueryFromUrl() {
-		let filters
-		try {
-			filters = JSON.parse(this.searchParams.get('filters'))
-		} catch (e) {
-			filters = []
-		}
-		this.query = {
+		const {searchParams} = this
+		const query = {
 			table: 'channels',
-			select: '*',
-			page: this.searchParams.get('page') || 1,
-			limit: this.searchParams.get('limit') || 30,
-			orderBy: this.searchParams.get('orderBy') || 'created_at',
-			orderConfig: this.searchParams.get('orderConfig') || {ascending: false},
-			filters,
+			page: searchParams.get('page') || 1,
+			limit: searchParams.get('limit') || 10,
+			orderBy: searchParams.get('orderBy') || 'created_at',
+			orderConfig: JSON.parse(searchParams.get('orderConfig')) || {ascending: false},
 		}
+		const filters = JSON.parse(searchParams.get('filters'))
+		if (filters) query.filters = filters
 		console.log('setting query from searchParams', this.query)
+		this.setQuery(query)
 		this.setChannels()
 	}
 
@@ -62,7 +58,6 @@ export default class BaseChannels extends R4Page {
 	}
 
 	async setChannels() {
-		console.log('setChannels')
 		const res = await browse(this.query)
 		if (res.error) {
 			console.log('error browsing channels')
@@ -110,9 +105,7 @@ export default class BaseChannels extends R4Page {
 
 	renderQueryFiltersSummary() {
 		const filtersLen = this.query?.filters?.length
-		if (filtersLen) {
-			return html`<button @click=${this.clearFilters}>clear ${filtersLen}</button>`
-		}
+		filtersLen ? html`<button @click=${this.clearFilters}>clear ${filtersLen}</button>` : null
 	}
 
 	renderMenu() {
@@ -132,16 +125,16 @@ export default class BaseChannels extends R4Page {
 
 	renderQuery() {
 		return html`
-			<details>
+			<details open>
 				<summary>Filters ${this.renderQueryFiltersSummary()}</summary>
+				<p>test: ${this.query.orderConfig.ascending}</p>
 				<r4-supabase-query
 					table="channels"
-					query=${this.query}
+					.filters=${this.query?.filters}
 					page=${this.query?.page}
 					limit=${this.query?.limit}
 					order-by=${this.query?.orderBy}
-					order-config=${this.query?.orderConfig}
-					.filters=${this.query?.filters}
+					.orderConfig=${this.query?.orderConfig}
 					count=${this.count}
 					@query=${this.onQuery}
 				></r4-supabase-query>

@@ -8,8 +8,6 @@ import {browse} from '../libs/browse.js'
 import page from 'page/page.mjs'
 import debounce from 'lodash.debounce'
 
-if (!window.r4sdk) window.r4sdk = sdk
-
 export default class R4PageChannelTracks extends BaseChannel {
 	static properties = {
 		tracks: {type: Array, state: true},
@@ -26,9 +24,9 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	constructor() {
 		super()
-		this.channel = null
-		this.tracks = []
-		this.query = {}
+		// this.channel = null
+		// this.tracks = []
+		// this.query = {}
 	}
 
 	async connectedCallback() {
@@ -41,7 +39,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 
 	get defaultFilters() {
-		return [{ operator: 'eq', column: 'slug', value: this.slug}]
+		return [{operator: 'eq', column: 'slug', value: this.slug}]
 	}
 
 	get queryWithDefaults() {
@@ -61,7 +59,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 			page: params.get('page') || 1,
 			limit: params.get('limit') || 10,
 			orderBy: params.get('orderBy') || 'created_at',
-			orderConfig: params.get('orderConfig') || {ascending:false},
+			orderConfig: JSON.parse(params.get('orderConfig')) || {ascending: false},
 		}
 		const filters = JSON.parse(params.get('filters'))
 		if (filters) query.filters = filters
@@ -109,7 +107,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 
 	async setTracks() {
-		console.log('setTracks')
 		if (this.query) {
 			const res = await browse(this.queryWithDefaults)
 			if (res.error) {
@@ -135,11 +132,13 @@ export default class R4PageChannelTracks extends BaseChannel {
 			return [this.renderTracksMenu(), this.renderTracksQuery()]
 		}
 	}
+
 	renderMain() {
 		if (this.channel) {
 			return this.renderTracksList()
 		}
 	}
+
 	renderTracksList() {
 		if (this.tracks?.length) {
 			return html` <r4-list> ${this.renderListItems()} </r4-list> `
@@ -151,6 +150,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 			`
 		}
 	}
+
 	renderListItems() {
 		return repeat(
 			this.tracks,
@@ -179,7 +179,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 					page=${this.query?.page}
 					limit=${this.query?.limit}
 					order-by=${this.query?.orderBy}
-					order-config=${this.query?.orderConfig}
+					.orderConfig=${this.query?.orderConfig}
 					.filters=${this.query?.filters}
 					count=${this.count}
 					@query=${this.onQuery}
@@ -187,11 +187,14 @@ export default class R4PageChannelTracks extends BaseChannel {
 			</details>
 		`
 	}
+
 	renderQueryFiltersSummary() {
 		const filtersLen = this.query?.filters?.length
-		if (filtersLen) {
-			return html`(<a href=${this.tracksOrigin}>clear ${filtersLen}</a>)`
-		}
+		filtersLen ? html`<button @click=${this.clearFilters}>clear ${filtersLen}</button>` : null
+	}
+
+	clearFilters() {
+		this.setQuery({...this.query, filters: []})
 	}
 
 	renderTracksMenu() {

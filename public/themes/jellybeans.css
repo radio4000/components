@@ -259,7 +259,7 @@ r4-channel-card r4-channel-slug {
 }
 
 r4-list-item r4-track {
-	border-bottom: 1px solid rgba(0 0 0 / 20%);
+	border-bottom: 1px solid var(--c-border);
 	padding: calc(var(--s) / 2) 0;
 	gap: calc(var(--s) / 2);
 }
