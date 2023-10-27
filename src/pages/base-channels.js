@@ -125,7 +125,7 @@ export default class BaseChannels extends R4Page {
 
 	renderQuery() {
 		return html`
-			<details open>
+			<details>
 				<summary>Filters ${this.renderQueryFiltersSummary()}</summary>
 				<r4-supabase-query
 					table="channels"

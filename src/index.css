@@ -53,10 +53,6 @@ r4-app ol {
 	margin: 0;
 	padding: var(--s);
 }
-r4-app ul li + li,
-r4-app ol li + li {
-	margin-top: var(--s);
-}
 r4-app menu {
 	margin: 0;
 	padding: 0;
@@ -142,10 +138,6 @@ r4-app summary,
 r4-app button,
 r4-app r4-layout::part(controls-button) {
 	cursor: pointer;
-}
-r4-app r4-layout::part(controls-button) {
-	padding: var(--s);
-	margin-left: calc(var(--s) / 2);
 }
 
 /*
@@ -287,6 +279,9 @@ r4-layout[ui-state='dock']::part(playback) {
 	r4-layout[is-playing]::part(playback) {
 		min-width: 30vw;
 	}
+	r4-layout [slot="player"] {
+		height: calc(100vh - calc(var(--s) * 1.5));
+	}
 }
 
 /* keep panel over the playback */
@@ -313,6 +308,7 @@ r4-layout [slot='main'] {
 r4-layout [slot='player'] {
 	justify-content: flex-end;
 	width: 100%;
+	flex: 1;
 }
 
 r4-router {
