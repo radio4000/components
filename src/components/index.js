@@ -3,6 +3,7 @@
  * except for R4Components, which is only used for the demo page.
  */
 
+import R4Actions from './r4-actions.js'
 import R4App from './r4-app.js'
 import R4AppMenu from './r4-app-menu.js'
 import R4Avatar from './r4-avatar.js'
@@ -47,6 +48,7 @@ import R4UserChannelsSelect from './r4-user-channels-select.js'
 import R4Pagination from './r4-pagination.js'
 import R4Icon from './r4-icon.js'
 
+customElements.define('r4-actions', R4Actions)
 customElements.define('r4-app', R4App)
 customElements.define('r4-app-menu', R4AppMenu)
 customElements.define('r4-avatar', R4Avatar)
@@ -93,6 +95,7 @@ customElements.define('r4-pagination', R4Pagination)
 customElements.define('r4-icon', R4Icon)
 
 export default {
+	R4Actions,
 	R4App,
 	R4AppMenu,
 	R4Avatar,

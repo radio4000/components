@@ -487,3 +487,57 @@ r4-track-mentions a::before {
 r4-track-tags a::before {
 	content: '#';
 }
+
+/* <r4-actions> A dropdown with a stacked, vertical menu */
+r4-actions details {
+	position: relative;
+}
+/* Hide dropdown when not open */
+r4-actions details:not([open]) menu {
+	display: none;
+}
+/* Hide browser default icon */
+r4-actions summary {
+	user-select: none;
+	list-style: none;
+	font-style: normal;
+	padding: 0 var(--s);
+}
+/* Style like a dropdown menu/overlay/thing */
+r4-actions details menu {
+	display: flex;
+	align-items: stretch;
+	list-style: none;
+	padding: 0;
+	background-color: var(--bg-overlay, rgba(255,255,255,0.9));
+	border: 1px solid var(--c-border, rgb(216, 216, 216));
+	border-radius: var(--border-radius);
+	box-shadow: var(--box-shadow, rgba(0, 0, 0, 0.1) 0px 3px 12px);
+	position: absolute;
+	top: 100%;
+	right: 1rem;
+	width: 160px;
+	z-index: 100;
+	padding: 3px;
+}
+/* By default the dropdown is right-aligned, here it is left-aligned */
+r4-app r4-actions[left] menu {
+	right: auto;
+	left: 0;
+}
+/* Dark theme */
+r4-app[color-scheme="dark"] r4-actions menu {
+	background-color: var(--bg-overlay, rgb(0 0 0 / 90%));
+}
+/* Make items full width inside the menu */
+r4-app r4-actions menu li {
+	width: 100%;
+	padding: 0;
+}
+r4-app r4-actions a {
+	width: 100%;
+	padding: var(--s);
+}
+r4-app r4-actions button {
+	flex: 1;
+}

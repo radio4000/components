@@ -190,6 +190,7 @@ r4-app form {
 r4-app fieldset label {
 	font-weight: 600;
 }
+
 /* Cards */
 r4-channel-card {
 	background: var(--c-bg2);
@@ -227,6 +228,15 @@ r4-track-description {
 	r4-track-mentions {
 		display: none;
 	}
+}
+
+/* Channels */
+r4-channel-name {
+	font-size: 1.25rem;
+}
+r4-channel-description {
+	display: block;
+  margin-left: 0.5em;
 }
 
 /* Tags and mentions aka labels */
@@ -297,4 +307,9 @@ radio4000-player .PlayerControl-group .Btn {
 }
 .TrackItem.active .TrackItem-title {
 	background-color: var(--c-link) !important;
+}
+
+/* Inside lists */
+r4-list-item r4-actions {
+	margin-left: auto;
 }
