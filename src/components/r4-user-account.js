@@ -7,6 +7,7 @@ export default class R4UserAccount extends LitElement {
 		/* the account ID is the user ID (relationship) */
 		account: {type: Object, state: true},
 	}
+
 	get currentTheme() {
 		return this.account?.theme || THEMES[0]
 	}
