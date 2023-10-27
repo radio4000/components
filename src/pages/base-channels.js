@@ -104,7 +104,7 @@ export default class BaseChannels extends R4Page {
 	}
 
 	renderQueryFiltersSummary() {
-		const filtersLen = this.query.filters.length
+		const filtersLen = this.query?.filters?.length
 		return filtersLen ? html`<button @click=${this.clearFilters}>Clear ${filtersLen}</button>` : null
 	}
 
