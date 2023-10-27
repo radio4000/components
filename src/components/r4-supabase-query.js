@@ -64,7 +64,6 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	async onQuery() {
-		console.log('dispatching query')
 		const query = {
 			table: this.table,
 			select: this.select,
@@ -74,6 +73,7 @@ export default class R4SupabaseQuery extends LitElement {
 			page: this.page,
 			limit: this.limit,
 		}
+		console.log('dispatching query', query)
 		this.dispatchEvent(
 			new CustomEvent('query', {
 				bubbles: true,

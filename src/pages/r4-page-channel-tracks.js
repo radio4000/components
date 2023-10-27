@@ -61,7 +61,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 			page: params.get('page') || 1,
 			limit: params.get('limit') || 10,
 			orderBy: params.get('orderBy') || 'created_at',
-			orderConfig: params.get('orderConfig') || {"ascending":false},
+			orderConfig: params.get('orderConfig') || {ascending:false},
 		}
 		const filters = JSON.parse(params.get('filters'))
 		if (filters) query.filters = filters
@@ -82,7 +82,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		await this.setTracks()
 	}
 
-	onSearchFilter(event) {
+	async onSearchFilter(event) {
 		event.preventDefault()
 		const {detail: filter} = event
 		console.log('onSearchFilter', filter)
@@ -97,7 +97,8 @@ export default class R4PageChannelTracks extends BaseChannel {
 				filters: [],
 			})
 		}
-		debounce(this.setTracks, 333)
+		await this.setTracks()
+		// debounce(this.setTracks.bind(this), 333)
 	}
 
 	setQuery(query) {
