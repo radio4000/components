@@ -515,9 +515,10 @@ r4-actions details menu {
 	box-shadow: var(--box-shadow, rgba(0, 0, 0, 0.1) 0px 3px 12px);
 	position: absolute;
 	top: 100%;
-	right: 2rem;
+	right: 1rem;
 	width: 160px;
 	z-index: 100;
+	padding: 3px;
 }
 /* By default the dropdown is right-aligned, here it is left-aligned */
 r4-app r4-actions[left] menu {
@@ -536,4 +537,7 @@ r4-app r4-actions menu li {
 r4-app r4-actions a {
 	width: 100%;
 	padding: var(--s);
+}
+r4-app r4-actions button {
+	flex: 1;
 }
