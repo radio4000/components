@@ -190,7 +190,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	renderQueryFiltersSummary() {
 		const filtersLen = this.query?.filters?.length
-		filtersLen ? html`<button @click=${this.clearFilters}>clear ${filtersLen}</button>` : null
+		return filtersLen ? html`<button @click=${this.clearFilters}>Clear ${filtersLen}</button>` : null
 	}
 
 	clearFilters() {
