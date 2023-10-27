@@ -38,6 +38,7 @@ export default class R4App extends LitElement {
 
 		isPlaying: {type: Boolean, attribute: 'is-playing', reflects: true},
 		playingChannel: {type: Object},
+		playingTracks: {type: Array},
 		playingTrack: {type: Object},
 
 		theme: {type: String, reflect: true},
@@ -67,7 +68,9 @@ export default class R4App extends LitElement {
 			client,
 			singleChannel: this.singleChannel,
 			selectedSlug: this.selectedSlug,
+			isPlaying: this.isPlaying,
 			playingChannel: this.playingChannel,
+			playingTracks: this.playingTracks,
 			playingTrack: this.playingTrack,
 		}
 	}
@@ -77,6 +80,7 @@ export default class R4App extends LitElement {
 		return this.userChannels.find((c) => c.slug === this.selectedSlug)
 	}
 
+	// Allows loading the CSS themes from different sources.
 	get themeHref() {
 		const file = `${this.theme}.css`
 		if (this.cdn?.length > 4) {
@@ -204,7 +208,7 @@ export default class R4App extends LitElement {
 					slot="player"
 					${ref(this.playerRef)}
 					?is-playing=${this.isPlaying}
-					@trackchanged=${this.onTrackChange}
+					@trackchange=${this.onTrackChange}
 				></r4-player>
 			</r4-layout>
 			<link rel="stylesheet" href=${this.themeHref} />
@@ -249,21 +253,23 @@ export default class R4App extends LitElement {
 		}
 		let {channel, tracks, track, search, query} = detail
 		const el = this.playerRef.value
-		this.isPlaying = true
-		this.playingChannel = channel
-		this.playingTrack = track
 
 		const slug = channel?.slug || track.slug
 		if (!tracks && slug) {
 			const {data} = await sdk.channels.readChannelTracks(slug)
 			tracks = data.reverse()
 		}
-
 		if (tracks) {
 			el.tracks = tracks
 		} else {
 			el.tracks = []
 		}
+
+		// Update state about what's playing.
+		this.isPlaying = true
+		this.playingChannel = channel
+		this.playingTrack = track
+		this.playingTracks = tracks
 
 		if (channel?.name) {
 			el.setAttribute('name', channel.name)
@@ -297,7 +303,8 @@ export default class R4App extends LitElement {
 	}
 
 	onTrackChange(event) {
-		/* console.info(event.detail) */
+		this.playingTrack = event.detail[0].track
+		// add to history?
 	}
 
 	stop() {
