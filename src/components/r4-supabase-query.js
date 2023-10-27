@@ -258,7 +258,8 @@ export default class R4SupabaseQuery extends LitElement {
 		const ascending = this.orderConfig?.ascending
 		return html`
 			<fieldset name="ascending">
-				<legend for="ascending">${ascending ? '↑' : '↓'}</legend>
+				<legend>Direction</legend>
+				<label for="ascending">${ascending ? '↑' : '↓'}</label>
 				<input id="ascending" name="ascending" @input=${this.onInput} type="checkbox" ?checked=${ascending} />
 			</fieldset>
 		`
