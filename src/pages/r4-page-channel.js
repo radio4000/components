@@ -6,18 +6,19 @@ import {sdk} from '@radio4000/sdk'
 import {browse} from '../libs/browse'
 
 export default class R4PageChannel extends BaseChannel {
-	static properties = {
-		tracksQueryFilters: {type: Array, state: true, reflect: true},
-	}
-	get tracksQueryFilters() {
-		return [{operator: 'eq', column: 'slug', value: this.channel?.slug}]
+	async willUpdate(changedProperties) {
+		await super.willUpdate(changedProperties)
+		if (changedProperties.has('channel')) {
+			console.log('fetching tracks because channel changed')
+			await this.setTracks()
+		}
 	}
 
-	async getTracks() {
+	async setTracks() {
 		const channelTracksQuery = {
 			table: 'channel_tracks',
 			select: '*',
-			filters: this.tracksQueryFilters,
+			filters: [{operator: 'eq', column: 'slug', value: this.channel?.slug}],
 			orderBy: 'created_at',
 			orderConfig: {
 				ascending: false,
@@ -25,21 +26,7 @@ export default class R4PageChannel extends BaseChannel {
 			page: 1,
 			limit: 8,
 		}
-		return (await browse(channelTracksQuery)).data
-	}
-	async connectedCallback() {
-		super.connectedCallback()
-		await this.setChannel()
-		await this.setTracks()
-	}
-	async willUpdate(changedProperties) {
-		await super.willUpdate(changedProperties)
-		if (changedProperties.has('channel')) {
-			await this.setTracks()
-		}
-	}
-	async setTracks() {
-		this.tracks = await this.getTracks()
+		this.tracks =  (await browse(channelTracksQuery)).data
 	}
 
 	renderMain() {
@@ -63,6 +50,7 @@ export default class R4PageChannel extends BaseChannel {
 					(t) => this.renderTrackItem(t)
 				)}
 			</r4-list>
+			<r4-supabase-query table="channel_tracks" />
 		`
 	}
 	renderTrackItem(track) {

@@ -71,6 +71,7 @@ export function propertiesFromSearch(elementProperties) {
  */
 export function updateSearchParams(query, excludeList = []) {
 	const props = R4_QUERY_ATTR.filter((name) => !excludeList.includes(name))
+	console.log('updateSearchParams', query)
 	if (props?.length) {
 		const searchParams = propertiesToSearch(props, query)
 		const searchParamsString = `?${searchParams.toString()}`
