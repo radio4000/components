@@ -43,7 +43,8 @@ export default class R4SupabaseQuery extends LitElement {
 		// Avoid double-fetch when count is passed back down.
 		if (attr.get('count') === 0) return
 		// Update the list when any attribute changes
-		this.onQuery()
+		// console.log('query component update', attr)
+		// this.onQuery()
 	}
 
 	/* set the correct component initial values, for each table's capacities */
@@ -52,13 +53,13 @@ export default class R4SupabaseQuery extends LitElement {
 		if (!this.limit) this.limit = 10
 		if (!this.table) this.table = tables[0]
 		const tableData = tables[this.table]
-		this.select = this.select || tableData.selects[0]
-		if (tableData.junctions) {
+		this.select = this.select || tableData?.selects[0] || '*'
+		if (tableData?.junctions) {
 			const [foreignTable, foreignColumn] = tableData.junctions[0].split('.')
 			this.orderBy = this.orderBy || foreignColumn
 			this.orderConfig = {...this.orderConfig, foreignTable: foreignTable}
 		} else {
-			this.orderBy = this.orderBy || tableData.columns[0]
+			this.orderBy = this.orderBy || tableData?.columns[0]
 		}
 	}
 
@@ -72,6 +73,7 @@ export default class R4SupabaseQuery extends LitElement {
 			page: this.page,
 			limit: this.limit,
 		}
+		console.log('dispatching query', query)
 		this.dispatchEvent(
 			new CustomEvent('query', {
 				bubbles: true,
@@ -83,7 +85,10 @@ export default class R4SupabaseQuery extends LitElement {
 	onInput(event) {
 		event.stopPropagation()
 		event.preventDefault()
+
 		const {name, value, valueAsNumber, type: inputType, checked} = event.target
+
+		console.log('onInput', name, value, checked)
 
 		/* handle correctly input type="number" */
 		if (inputType === 'number') {
@@ -102,13 +107,17 @@ export default class R4SupabaseQuery extends LitElement {
 		} else if (name) {
 			this[name] = value
 		}
+		this.onQuery()
 	}
 
 	onFilters(event) {
 		event.preventDefault()
 		event.stopPropagation()
-		const {detail} = event
-		this.filters = detail
+		console.log('caught onFilters. Overwriting filters in r4-supabase-query from r4-supabase-filters', event.detail)
+		if (event.detail) {
+			this.filters = event.detail
+			this.onQuery()
+		}
 	}
 
 	onFormSubmit(event) {
@@ -183,12 +192,12 @@ export default class R4SupabaseQuery extends LitElement {
 					${this.renderQuerySelectByTable()}
 				</select>
 				<input
+					type="text"
 					id="select-display"
 					name="select"
-					@input=${this.onInput}
-					type="text"
-					.value=${this.select}
 					placeholder="postgresql select"
+					.value=${this.select}
+					@input=${this.onInput}
 				/>
 			</fieldset>
 		`
@@ -201,13 +210,13 @@ export default class R4SupabaseQuery extends LitElement {
 				<input
 					id="page"
 					name="page"
-					@input=${this.onInput}
 					type="number"
+					placeholder="page"
 					.value=${this.page}
 					step="1"
 					min="1"
 					max=${this.totalPages}
-					placeholder="page"
+					@input=${this.onInput}
 				/>/${this.totalPages}
 			</fieldset>
 		`
@@ -220,13 +229,13 @@ export default class R4SupabaseQuery extends LitElement {
 				<input
 					id="limit"
 					name="limit"
-					@input=${this.onInput}
 					type="number"
+					placeholder="limit"
 					.value=${this.limit}
 					step="1"
 					min="1"
 					max="4000"
-					placeholder="limit"
+					@input=${this.onInput}
 				/>
 			</fieldset>
 		`

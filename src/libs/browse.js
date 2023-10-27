@@ -54,6 +54,7 @@ export async function browse({
 	orderConfig = {},
 	filters = [],
 }) {
+	console.log('browse', {table, select, page, limit, orderBy, orderConfig, filters})
 	// We add count exact: to get a .total property back in the response. head:false ensures we still get the rows.
 	let query = supabase.from(table).select(select, {
 		count: 'exact',
@@ -107,8 +108,8 @@ export async function browse({
 
 	// And pagination.
 	const {from, to, limit: l} = getBrowseParams({page, limit})
+	console.log('pagination', {page, limit}, {from, to, limit: l})
 	query = query.range(from, to).limit(l)
-
 	/* console.info('browse.query', query.url.search) */
 
 	return query
