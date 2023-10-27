@@ -51,8 +51,8 @@
 		</menu>
 
 		<details open>
-			<summary>Universal db query, controls the URL too</summary>
-			<r4-supabase-query id="everything"></r4-supabase-query>
+			<summary>Universal db query</summary>
+			<r4-supabase-query id="everything" table="channels"></r4-supabase-query>
 			<textarea name="everything" readonly></textarea>
 		</details>
 
@@ -66,7 +66,6 @@
 			<textarea name="ko002" readonly></textarea>
 		</details>
 
-
 		<script type="module">
 			import R4SupabaseQuery from '../../src/components/r4-supabase-query.js'
 			import urlUtils from '../../src/libs/url-utils.js'
@@ -77,15 +76,15 @@
 			} = urlUtils
 
 			const $examples = document.querySelectorAll('r4-supabase-query')
-			//const elementProperties = getElementProperties(R4SupabaseQuery)
 
 			const onQuery = function (event) {
-				console.log('query', event.detail)
-				const {target, detail} = event
+				/*
+				console.log('example query', event.detail)
 				const urlSearch = propertiesToSearch(elementProperties, detail)
 				const urlSearchString = `?${urlSearch.toString()}`
 				window.history.replaceState(null, null, urlSearchString)
-				document.querySelector(`textarea[name="${target.id}"]`).innerText = JSON.stringify(detail.data)
+				*/
+				document.querySelector(`textarea[name="${event.target.id}"]`).innerText = JSON.stringify(event.detail)
 			}
 
 			$examples.forEach(($example) => {
