@@ -14,7 +14,7 @@ export default class R4App extends LitElement {
 	static properties = {
 		// public
 		singleChannel: {type: Boolean, reflect: true, attribute: 'single-channel'},
-		themesURL: {type: String, attribute: 'themes-url', reflect: true},
+		cdn: {type: String, reflect: true},
 		// the channel slug
 		selectedSlug: {type: String, reflect: true, attribute: 'channel'},
 		href: {
@@ -38,6 +38,7 @@ export default class R4App extends LitElement {
 
 		isPlaying: {type: Boolean, attribute: 'is-playing', reflects: true},
 		playingChannel: {type: Object},
+		playingTracks: {type: Array},
 		playingTrack: {type: Object},
 
 		theme: {type: String, reflect: true},
@@ -46,10 +47,6 @@ export default class R4App extends LitElement {
 		/* state for global usage */
 		store: {type: Object, state: true},
 		config: {type: Object, state: true},
-	}
-
-	getThemesURL() {
-		return this.themesURL || 'https://cdn.jsdelivr.net/gh'
 	}
 
 	// This gets passed to all r4-pages.
@@ -71,7 +68,9 @@ export default class R4App extends LitElement {
 			client,
 			singleChannel: this.singleChannel,
 			selectedSlug: this.selectedSlug,
+			isPlaying: this.isPlaying,
 			playingChannel: this.playingChannel,
+			playingTracks: this.playingTracks,
 			playingTrack: this.playingTrack,
 		}
 	}
@@ -79,6 +78,18 @@ export default class R4App extends LitElement {
 	get selectedChannel() {
 		if (!this.userChannels || !this.selectedSlug || !this.user) return null
 		return this.userChannels.find((c) => c.slug === this.selectedSlug)
+	}
+
+	// Allows loading the CSS themes from different sources.
+	get themeHref() {
+		const file = `${this.theme}.css`
+		if (this.cdn?.length > 4) {
+			return `${this.cdn}/dist/themes/${file}`
+		} else if (this.cdn) {
+			return `https://cdn.jsdelivr.net/npm/@radio4000@latest/components/dist/themes/${file}`
+		} else {
+			return `/themes/${file}`
+		}
 	}
 
 	constructor() {
@@ -147,6 +158,8 @@ export default class R4App extends LitElement {
 			this.userChannels = (await sdk.channels.readUserChannels()).data
 			if (this.userChannels?.length && !this.selectedSlug) {
 				this.selectedSlug = this.userChannels[0].slug
+			} else {
+				this.selectedSlug = null
 			}
 
 			// Set followers and following
@@ -195,10 +208,10 @@ export default class R4App extends LitElement {
 					slot="player"
 					${ref(this.playerRef)}
 					?is-playing=${this.isPlaying}
-					@trackchanged=${this.onTrackChange}
+					@trackchange=${this.onTrackChange}
 				></r4-player>
 			</r4-layout>
-			<link rel="stylesheet" href=${`/themes/${this.theme}.css`} />
+			<link rel="stylesheet" href=${this.themeHref} />
 		`
 	}
 
@@ -240,21 +253,23 @@ export default class R4App extends LitElement {
 		}
 		let {channel, tracks, track, search, query} = detail
 		const el = this.playerRef.value
-		this.isPlaying = true
-		this.playingChannel = channel
-		this.playingTrack = track
 
 		const slug = channel?.slug || track.slug
 		if (!tracks && slug) {
 			const {data} = await sdk.channels.readChannelTracks(slug)
 			tracks = data.reverse()
 		}
-
 		if (tracks) {
 			el.tracks = tracks
 		} else {
 			el.tracks = []
 		}
+
+		// Update state about what's playing.
+		this.isPlaying = true
+		this.playingChannel = channel
+		this.playingTrack = track
+		this.playingTracks = tracks
 
 		if (channel?.name) {
 			el.setAttribute('name', channel.name)
@@ -288,7 +303,8 @@ export default class R4App extends LitElement {
 	}
 
 	onTrackChange(event) {
-		/* console.info(event.detail) */
+		this.playingTrack = event.detail[0].track
+		// add to history?
 	}
 
 	stop() {

@@ -21,19 +21,27 @@ export default class R4SupabaseFilters extends LitElement {
 		filters: {type: Array, reflect: true, state: true},
 	}
 
+	// constructor() {
+	// 	super()
+	// 	if (!this.filters) this.filters = []
+	// }
+
 	updated(attr) {
 		/* always update the list when any attribute change
 			 for some attribute, first clear the existing search query */
-		if (attr.get('filters')) this.onFilters()
+		// if (attr.get('filters')) {
+		// 	console.log('filters changeD?')
+		// 	// this.onFilters()
+		// }
 	}
 
 	// When any filter is set or changed
-	async onFilters() {
-		console.log('on filters')
+	async onFilters(updatedFilters) {
+		console.log('onFilters', this.filters, updatedFilters)
 		this.dispatchEvent(
 			new CustomEvent('input', {
 				bubbles: true,
-				detail: this.filters?.filter((filter) => !!filter),
+				detail: updatedFilters?.filter((filter) => !!filter),
 			})
 		)
 	}
@@ -50,19 +58,22 @@ export default class R4SupabaseFilters extends LitElement {
 			column: this.filters?.at(0)?.column || tables[this.table].columns[0],
 			value: '',
 		}
-		const filters = this.filters || []
-		this.filters = [...(filters || []), newFilter]
-	}
-
-	removeFilter(index) {
-		this.filters = this.filters.filter((_, i) => i !== index)
+		console.log('add filter', newFilter)
+		if (!this.filters) this.filters = []
+		this.onFilters([...this.filters, newFilter])
 	}
 
 	updateFilter(index, field, value) {
+		console.log('updateFilter', field, value)
 		/* replace existing filters, including the new one */
 		const newFilters = [...this.filters]
 		newFilters[index][field] = value
-		this.filters = newFilters
+		this.onFilters(newFilters)
+	}
+
+	removeFilter(index) {
+		console.log('removeFilter', index)
+		this.onFilters(this.filters.filter((_, i) => i !== index))
 	}
 
 	createRenderRoot() {

@@ -1,6 +1,7 @@
 import {html, LitElement} from 'lit'
 import {sdk} from '@radio4000/sdk'
 import R4Page from '../components/r4-page.js'
+import urlUtils from '../libs/url-utils.js'
 
 // Base class to extend from
 export default class BaseChannel extends R4Page {
@@ -12,27 +13,51 @@ export default class BaseChannel extends R4Page {
 		alreadyFollowing: {type: Boolean, state: true},
 		followsYou: {type: Boolean, state: true},
 		isFirebaseChannel: {type: Boolean, state: true},
-
-		// from the router
+		// from router
 		params: {type: Object, state: true},
 		store: {type: Object, state: true},
 		config: {type: Object, state: true},
 		searchParams: {type: Object, state: true},
 	}
 
+	async willUpdate(changedProperties) {
+		if (changedProperties.has('params')) {
+			console.log('fetching channel because params changed')
+			// await this.setChannel()
+		}
+	}
+
+	async connectedCallback() {
+		super.connectedCallback()
+		if (!this.channel) {
+			await this.setChannel()
+		}
+		this.readQueryFromURL()
+	}
+
+	readQueryFromURL() {
+		const params = this.searchParams
+		const filters = JSON.parse(params.get('filters'))
+		const query = {
+			page: params.get('page'),
+			limit: params.get('limit'),
+			orderBy: params.get('orderBy'),
+			orderConfig: params.get('orderConfig'),
+		}
+		if (filters) query.filters = filters
+		console.log('got initial query', query)
+	}
+
 	get slug() {
 		return this.config.singleChannel ? this.config.selectedSlug : this.params.slug
 	}
-
 	get channelOrigin() {
 		return this.config.singleChannel ? this.config.href : `${this.config.href}/${this.params.slug}`
 	}
-
 	get tracksOrigin() {
 		const {singleChannel, href} = this.config
 		return singleChannel ? `${href}/tracks/` : `${href}/${this.params.slug}/tracks/`
 	}
-
 	get coordinates() {
 		if (this.channel.longitude && this.channel.latitude) {
 			return {
@@ -42,7 +67,6 @@ export default class BaseChannel extends R4Page {
 		}
 		return undefined
 	}
-
 	get hasOneChannel() {
 		if (!this.store.user) return false
 		return this.store?.userChannels?.length === 1 ? true : false
@@ -56,24 +80,14 @@ export default class BaseChannel extends R4Page {
 		return this.store.followers?.map((c) => c.slug).includes(this.config.selectedSlug)
 	}
 
-	async willUpdate(changedProperties) {
-		if (changedProperties.has('params')) {
-			await this.setChannel()
-		}
-	}
-	async connectedCallback() {
-		super.connectedCallback()
-		if (!this.channel) {
-			await this.setChannel()
-		}
-	}
-
 	// Set channel from the slug in the URL.
 	async setChannel() {
 		const slug = this.config.singleChannel && this.config.selectedSlug ? this.config.selectedSlug : this.params.slug
 
 		// No need to set again if channel the same channel is loaded.
 		if (this.channel?.slug === slug) return
+
+		console.log('fetching channel')
 
 		const {data, error} = await sdk.channels.readChannel(slug)
 		this.canEdit = await sdk.channels.canEditChannel(slug)
@@ -94,12 +108,15 @@ export default class BaseChannel extends R4Page {
 			this.channel = data
 		}
 	}
+
 	createRenderRoot() {
 		return this
 	}
+
 	renderAside() {
 		return html`<r4-page-aside> ${this.channel ? this.renderChannelShare() : null}</r4-page-aside>`
 	}
+
 	renderHeader() {
 		if (this.isFirebaseChannel) {
 			return html`

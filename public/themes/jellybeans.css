@@ -3,15 +3,13 @@
  * inspired the vim theme of the same name.
  */
 
-/* Build on top of default theme */
-@import url('/themes/default.css');
-
-/* Overwrite things from default theme */
-r4-app menu a {
-	filter: none;
-}
-
 r4-app {
+	--font: system-ui, sans-serif;
+	--s-font: 16px;
+	--s: 1rem;
+	--s-radius: 4px;
+	--s-line-height: 1.3125;
+
 	/* --c-white: hsl(0 0% 100%); */
 	--c-gray1: hsl(50 14% 96%);
 	--c-gray2: hsl(50 14% 91%);
@@ -68,19 +66,13 @@ r4-app {
 	--c-yellow8: hsl(41 79% 25%);
 	--c-yellow9: hsl(41 79% 15%);
 
-	--font: system-ui, sans-serif;
-
-	--s-font: 16px;
-	--s: 1rem;
-	--s-radius: 4px;
-	--s-line-height: var(--s);
 	/* hmm */
 	/* background-image: linear-gradient(hsla(0, 0%, 60%, 0.1) 0.15%, transparent 5%); */
 	/* background-size: 100% var(--s); */
 }
 
-r4-app[color-scheme="os"],
-r4-app[color-scheme="light"] {
+r4-app[color-scheme='os'],
+r4-app[color-scheme='light'] {
 	--c-bg: var(--c-gray1);
 	--c-bg2: var(--c-gray2);
 	--c-bg3: var(--c-gray3);
@@ -90,7 +82,7 @@ r4-app[color-scheme="light"] {
 	--c-headlines: var(--c-red6);
 }
 
-r4-app[color-scheme="dark"] {
+r4-app[color-scheme='dark'] {
 	--c-bg: var(--c-gray9);
 	--c-bg2: var(--c-gray8);
 	--c-bg3: var(--c-gray7);
@@ -100,59 +92,17 @@ r4-app[color-scheme="dark"] {
 	--c-headlines: var(--c-red5);
 }
 
-r4-app {
-	overflow-y: auto;
-	max-height: 100vh;
-	background-color: var(--c-bg);
-	transition: background-color 0.3s;
-}
-
-/* Overwrite things from default theme */
-r4-app menu a {
-	filter: none;
-	text-decoration: underline;
-}
-
-r4-app h1,
-r4-app h2,
-r4-app h3,
-r4-app p {
-	margin-bottom: var(--s);
-}
-
-r4-app h1 {
-	font-size: 2rem;
-	color: var(--c-headlines);
-}
-r4-app h2 {
-	font-size: 1.5rem;
-}
-r4-app h3 {
-	font-size: 1rem;
-}
-
-r4-app section {
-	margin-bottom: calc(var(--s) * 2);
-}
-
-/* Clickable things */
-r4-app a,
-r4-app button:not(:disabled),
-r4-app input[type="checkbox"],
-r4-app select {
-	cursor: pointer;
-}
-
 /* Buttons and text inputs */
 r4-app button,
 r4-app select,
-r4-app input[type="text"],
-r4-app input[type="number"],
-r4-app input[type="email"],
-r4-app input[type="password"],
-r4-app input[type="search"],
-r4-app input[type="url"],
-r4-app textarea {
+r4-app input[type='text'],
+r4-app input[type='number'],
+r4-app input[type='email'],
+r4-app input[type='password'],
+r4-app input[type='search'],
+r4-app input[type='url'],
+r4-app textarea,
+r4-app r4-layout::part(controls-button) {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -171,36 +121,26 @@ r4-app textarea {
 	border-radius: var(--s-radius);
 }
 
-r4-app input[type="text"],
-r4-app input[type="number"],
-r4-app input[type="email"],
-r4-app input[type="password"],
-r4-app input[type="search"],
-r4-app input[type="url"],
+r4-app input[type='text'],
+r4-app input[type='number'],
+r4-app input[type='email'],
+r4-app input[type='password'],
+r4-app input[type='search'],
+r4-app input[type='url'],
 r4-app textarea {
 	background: var(--c-bg2);
 	font-size: 14px;
 }
 
-r4-app input[type="text"]:hover,
-r4-app input[type="number"]:hover,
-r4-app input[type="email"]:hover,
-r4-app input[type="password"]:hover,
-r4-app input[type="search"]:hover,
-r4-app input[type="url"]:hover,
-r4-app textarea:hover {
-	/* background-color: var(--c-bg2); */
-}
-
-r4-app textarea {
-	height: calc(var(--s) * 3);
-	padding-top: 0.5rem;
-}
-
-r4-app input[type="number"] {
-	min-width: 3rem;
-	max-width: 7rem;
-}
+/* r4-app input[type="text"]:hover, */
+/* r4-app input[type="number"]:hover, */
+/* r4-app input[type="email"]:hover, */
+/* r4-app input[type="password"]:hover, */
+/* r4-app input[type="search"]:hover, */
+/* r4-app input[type="url"]:hover, */
+/* r4-app textarea:hover { */
+/* 	background-color: var(--c-bg25); */
+/* } */
 
 r4-app button {
 	padding: 0 1rem;
@@ -219,12 +159,20 @@ r4-app select:not(disabled):hover {
 	background: var(--c-bg3);
 }
 /* Primary buttons */
-r4-app button[type="submit"] {
-	/* background-color: var(--c-green7); */
+r4-app button[type='submit'] {
+	background-color: var(--c-green5);
 }
-r4-app button[type="submit"]:hover {
-	/* background-color: var(--c-green6); */
+r4-app button[type='submit']:hover {
+	background-color: var(--c-green4);
 }
+
+r4-app[color-scheme='dark'] button[type='submit'] {
+	background-color: var(--c-green7);
+}
+r4-app[color-scheme='dark'] button[type='submit']:hover {
+	background-color: var(--c-green6);
+}
+
 /* Danger buttons */
 r4-app button[destructive] {
 	background: var(--c-red6);
@@ -240,69 +188,48 @@ r4-app form {
 	max-width: 60ch;
 }
 r4-app fieldset label {
-	margin-bottom: 0.1rem;
 	font-weight: 600;
 }
-r4-app fieldset input:not([type="checkbox"]),
-r4-app fieldset textarea {
-	flex: 1;
+
+/* Cards */
+r4-channel-card {
+	background: var(--c-bg2);
 }
-r4-app fieldset [type="submit"] {
-	margin-top: calc(var(--s) / 2);
+[color-scheme='dark'] r4-channel-card {
+	--c-border: rgb(50, 51, 70);
+}
+r4-channel-card r4-channel-slug {
+	display: none;
+}
+r4-channel-card r4-channel-description {
+	margin-left: 0.5em;
 }
 
-r4-track[playing] r4-track-title a {
-	color: var(--c-link);
-}
-
-/* Smaller, right aligned track menu in lists */
-r4-list-item r4-track {
-	flex: 1;
-	border-bottom: 1px solid rgba(0 0 0 / 20%);
-}
-r4-list-item r4-track > menu {
-	margin-left: auto;
-}
-r4-list-item r4-track > menu li {
-	padding: 0 1px;
-}
-r4-list-item r4-track > menu button {
-	font-size: 13px;
-}
-
-r4-list-item r4-track r4-button-play {
-	padding-left: 0;
-}
+/* Track lists */
 r4-track-title,
 r4-track-description {
-	font-size: 15px;
+	font-size: 14px;
 }
 r4-track-title a {
 	color: var(--c-fg);
 }
-[color-scheme="dark"] r4-track-title a {
+[color-scheme='dark'] r4-track-title a {
 	color: var(--c-gray2);
 }
 r4-track-description {
 	color: var(--c-gray5);
 }
-[color-scheme="dark"] r4-track-description {
+[color-scheme='dark'] r4-track-description {
 	color: var(--c-gray4);
 }
-r4-list-item r4-track-description {
-	margin-left: 1em;
-}
-
 /* Tracklist layout for smaller screens */
 @media (max-width: 700px) {
-	r4-track-body {
-		font-size: 14px;
-	}
 	r4-track-tags,
 	r4-track-mentions {
 		display: none;
 	}
 }
+
 /* Channels */
 r4-channel-name {
 	font-size: 1.25rem;
@@ -312,94 +239,74 @@ r4-channel-description {
   margin-left: 0.5em;
 }
 
-/* Cards */
-r4-channel-card {
-	align-items: center;
-	padding: 1rem;
-	background: var(--c-bg2);
-	border-radius: var(--s-radius);
-	box-shadow: var(--box-shadow, rgba(0, 0, 0, 0.2) 0px 2px 4px);
-	border: 1px solid var(--c-border,  rgb(239, 241, 244));
-	min-height: calc(var(--s) * 2);
-}
-[color-scheme="dark"] r4-channel-card {
-	border: 1px solid var(--c-border, rgb(50, 51, 70));
-}
-
 /* Tags and mentions aka labels */
 r4-app a[label] {
 	background: var(--c-green3);
 	color: var(--c-green9);
-	padding: 0 4px;
+	padding: 0 calc(var(--s) / 4);
 	border-radius: calc(var(--s-radius) * 2);
 	text-decoration: none;
 	font-size: 13px;
 	white-space: nowrap;
 }
-r4-app[color-scheme="dark"] a[label] {
+r4-app[color-scheme='dark'] a[label] {
 	background: var(--c-green9);
 	color: var(--c-green3);
 }
 
-r4-track-mentions a::before,
-r4-track-tags a::before {
-	color: inherit;
-	padding-right: 0;
-}
-
-r4-track-description::before,
-r4-track-mentions menu::before,
-r4-track-tags menu::before,
-r4-channel-slug::before,
-r4-channel-description::before,
-r4-channel-url::before {
-	display: none;
-}
-
-r4-list-item + r4-list-item {
-	margin: 0;
-}
-r4-list-item + r4-list-item > r4-channel-card {
-	margin-top: calc(var(--s) / 4);
-}
-
-/* 6.4rem height to hide video completely */
-/* 19rem height to show youtube controls */
-/* 22rem width to show vol and time ui */
-
-r4-page-channel {
-	max-width: 1500px;
-}
-r4-page-channel r4-page-header r4-button-play button {
-	background-color: var(--c-link);
-	color: var(--c-bg);
+/* Channel page */
+r4-channel-name {
+	font-size: 1.25rem;
 }
 r4-page-channel r4-page-header r4-channel-name {
+	/* Like <h1> */
 	font-size: 2rem;
 }
 
-r4-app-menu {
-	display: block;
-	margin-top: calc(var(--s) / 2);
-	margin-left: calc(var(--s) / 2);
-}
-
+/* Differentiate channels and track lists by using a grid */
 r4-page-explore r4-page-main > r4-list {
 	display: grid;
-	grid-template-columns: repeat(auto-fill,minmax(18rem,1fr));
+	grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
 	gap: var(--s);
+	align-items: stretch;
 }
 
-r4-channel-card {
-	width: 100%;
+r4-list-item r4-track {
+	border-bottom: 1px solid var(--c-border);
+	padding: calc(var(--s) / 2) 0;
+	gap: calc(var(--s) / 2);
 }
 
-r4-channel-card r4-channel-slug {
-	display: none;
+/* Ordinary menus */
+r4-app-menu a,
+r4-page-channel r4-page-header > menu a {
+	padding: var(--s) calc(var(--s) / 2);
 }
 
-r4-app summary {
-  user-select: none;
+r4-track a {
+	text-decoration: none;
+}
+
+/* Player styles */
+r4-layout::part(playback-summary) {
+	/* background: var(--c-link); */
+	/* height: calc(var(--s) * 2); */
+}
+r4-layout::part(playback-details) {
+	background: var(--c-bg2);
+}
+radio4000-player {
+	background-color: var(--c-bg);
+	color: var(--c-fg);
+}
+radio4000-player .Layout {
+	border: 0;
+}
+radio4000-player .PlayerControl-group .Btn {
+	height: auto;
+}
+.TrackItem.active .TrackItem-title {
+	background-color: var(--c-link) !important;
 }
 
 /* Inside lists */

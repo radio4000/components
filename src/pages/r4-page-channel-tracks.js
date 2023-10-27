@@ -6,82 +6,123 @@ import urlUtils from '../libs/url-utils.js'
 import {browse} from '../libs/browse.js'
 // import {formatDate} from '../libs/date.js'
 import page from 'page/page.mjs'
-
-if (!window.r4sdk) window.r4sdk = sdk
+import debounce from 'lodash.debounce'
 
 export default class R4PageChannelTracks extends BaseChannel {
 	static properties = {
 		tracks: {type: Array, state: true},
-		count: {type: Number, state: true},
-		query: {type: Object},
+		count: {type: Number},
+		// query: {type: Object},
+		query: {type: Object, state: true},
 		searchQuery: {type: String, state: true},
-		userFilters: {type: Object},
 		href: {type: String},
 		origin: {type: String},
-		// + props from BaseChannel
-	}
-	get defaultFilters() {
-		return [
-			{
-				operator: 'eq',
-				column: 'slug',
-				value: this.slug,
-			},
-		]
+		// from router
+		config: {type: Object},
+		searchParams: {type: Object, state: true},
 	}
 
-	get filters() {
-		return [...this.userFilters, ...this.defaultFilters]
-	}
-
-	get searchFilter() {
-		return (
-			this.query?.filters?.filter(({column}) => {
-				return column === 'fts'
-			})[0] || null
-		)
-	}
-	async onQuery(event) {
-		const userQuery = event.detail
-		urlUtils.updateSearchParams(userQuery, ['table', 'select'])
-		this.userFilters = userQuery.filters || []
-		this.query = {...userQuery, filters: this.filters}
-		const {count, data, error} = await browse(this.query)
-		if (!error) {
-			this.count = count
-			this.tracks = data
-		} else {
-			this.count = 0
-			this.tracks = []
-		}
-	}
-	async onSearch(event) {
-		event.preventDefault()
-		const filter = event.detail
-		this.searchQuery = event.target.search
-
-		if (!filter) {
-			page(this.tracksOrigin.replace(this.config.href, ''))
-			return
-		}
-		if (this.searchQuery?.length < 2) {
-			return
-		}
-		const url = `?filters=[${JSON.stringify(filter)}]`
-		page(this.tracksOrigin.replace(this.config.href, '') + url)
-	}
 	constructor() {
 		super()
-		this.tracks = []
-		this.channel = null
-		this.query = {}
-		this.userFilters = []
+		// this.channel = null
+		// this.tracks = []
+		// this.query = {}
 	}
+
 	async connectedCallback() {
 		super.connectedCallback()
 		const {data, error} = await sdk.channels.readChannel(this.slug)
 		this.channel = data
 		this.channelError = error
+		this.setQueryFromUrl()
+		await this.setTracks()
+	}
+
+	get defaultFilters() {
+		return [{operator: 'eq', column: 'slug', value: this.slug}]
+	}
+
+	get queryWithDefaults() {
+		const q = {...this.query}
+		if (q.filters?.length) {
+			q.filters = [...q.filters, this.defaultFilters]
+		} else {
+			q.filters = this.defaultFilters
+		}
+		return q
+	}
+
+	setQueryFromUrl() {
+		const params = this.searchParams
+		const query = {
+			table: 'channel_tracks',
+			page: params.get('page') || 1,
+			limit: params.get('limit') || 10,
+			orderBy: params.get('orderBy') || 'created_at',
+			orderConfig: JSON.parse(params.get('orderConfig')) || {ascending: false},
+		}
+		const filters = JSON.parse(params.get('filters'))
+		if (filters) query.filters = filters
+		console.log('setting query from searchParams', query)
+		this.setQuery(query)
+	}
+
+	get searchFilter() {
+		return this.query?.filters?.filter(({column}) => {
+			return column === 'fts'
+		})[0]
+	}
+
+	async onQuery(event) {
+		const query = event.detail
+		console.log('onQuery', query)
+		this.setQuery(query)
+		await this.setTracks()
+	}
+
+	async onSearchFilter(event) {
+		event.preventDefault()
+		const {detail: filter} = event
+		console.log('onSearchFilter', filter)
+		if (filter) {
+			this.setQuery({
+				...this.query,
+				filters: [filter],
+			})
+		} else {
+			this.setQuery({
+				...this.query,
+				filters: [],
+			})
+		}
+		await this.setTracks()
+		// debounce(this.setTracks.bind(this), 333)
+	}
+
+	setQuery(query) {
+		urlUtils.updateSearchParams(query, ['table', 'select'])
+		const q = {...query}
+		this.query = q
+		console.log('setQuery', q)
+	}
+
+	async setTracks() {
+		if (this.query) {
+			const res = await browse(this.queryWithDefaults)
+			if (res.error) {
+				console.log('error browsing channels')
+				if (res.error.code === 'PGRST103') {
+					// @todo "range not satisfiable" -> reset pagination
+				}
+			}
+			this.count = res.count
+			this.tracks = res.data
+			console.log('setting tracks', res)
+		} else {
+			this.count = 0
+			this.tracks = []
+			console.log('this happens??')
+		}
 	}
 
 	renderHeader() {
@@ -91,11 +132,13 @@ export default class R4PageChannelTracks extends BaseChannel {
 			return [this.renderTracksMenu(), this.renderTracksQuery()]
 		}
 	}
+
 	renderMain() {
 		if (this.channel) {
 			return this.renderTracksList()
 		}
 	}
+
 	renderTracksList() {
 		if (this.tracks?.length) {
 			return html` <r4-list> ${this.renderListItems()} </r4-list> `
@@ -107,6 +150,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 			`
 		}
 	}
+
 	renderListItems() {
 		return repeat(
 			this.tracks,
@@ -127,28 +171,30 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 
 	renderTracksQuery() {
-		const params = this.searchParams
 		return html`
 			<details open="true">
 				<summary>Filters ${this.renderQueryFiltersSummary()}</summary>
 				<r4-supabase-query
 					table="channel_tracks"
-					count=${this.count}
 					page=${this.query?.page}
 					limit=${this.query?.limit}
 					order-by=${this.query?.orderBy}
-					order-config=${this.query?.orderConfig}
-					filters=${this.query?.filters}
+					.orderConfig=${this.query?.orderConfig}
+					.filters=${this.query?.filters}
+					count=${this.count}
 					@query=${this.onQuery}
 				></r4-supabase-query>
 			</details>
 		`
 	}
+
 	renderQueryFiltersSummary() {
-		const filtersLen = this.userFilters?.length
-		if (filtersLen) {
-			return html`(<a href=${this.tracksOrigin}>clear ${filtersLen}</a>)`
-		}
+		const filtersLen = this.query?.filters?.length
+		return filtersLen ? html`<button @click=${this.clearFilters}>Clear ${filtersLen}</button>` : null
+	}
+
+	clearFilters() {
+		this.setQuery({...this.query, filters: []})
 	}
 
 	renderTracksMenu() {
@@ -167,7 +213,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 				<li><r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play></li>
 				<li>
 					<r4-supabase-filter-search
-						@input=${this.onSearch}
+						@input=${this.onSearchFilter}
 						.filter=${this.searchFilter}
 						placeholder="channel tracks"
 					></r4-supabase-filter-search>

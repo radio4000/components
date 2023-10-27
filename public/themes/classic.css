@@ -1,55 +1,28 @@
-/**
- * A theme resembling classic R4
- */
+/* A theme resembling classic R4 */
 
-/* Build on top of default theme */
-@import url('/themes/default.css');
-
-/* Overwrite things from default theme */
-r4-app menu a {
-	filter: none;
-}
-
-/* Shared between light and dark color schemes */
 r4-app {
-	--font: Maison Neue, system-ui, sans-serif;
-	--s-radius: 3px;
 	--s-font: 15px;
+	--s: 1rem;
+	--s-radius: 3px;
+	--font: Maison Neue, system-ui, sans-serif;
 	--s-line-height: 1.3125;
 	--c-light: hsl(0deg 0% 98%);
-	--c-dark: hsl(0deg 0% 10%);
+	--c-dark: hsl(0deg 0% 8%);
 	--c-purple: #5d1ae6;
 	--c-light--accent: var(--c-purple);
 	--c-dark--accent: #9c8fff;
 	--c-link: var(--c-purple);
-	transition: background-color 0.3s;
 
 	/* new vars */
 	--c-bg-button: hsl(0, 0%, 98%);
 }
 
+r4-app[color-scheme='os'],
 r4-app[color-scheme='light'] {
 	--c-bg: hsl(40, 6%, 90%);
 }
 
-r4-app[color-scheme='dark'] {}
-
-r4-app menu li {
-	padding: var(--s);
-}
-
-r4-app h1,
-r4-app h2 {
-	line-height: 1.1;
-}
-
-r4-app h1 {
-	font-size: 2rem;
-}
-
-r4-app h2 {
-	font-size: 1.5rem;
-}
+/* r4-app[color-scheme='dark'] {} */
 
 r4-app button {
 	display: inline-block;
@@ -74,27 +47,55 @@ r4-app[color-scheme='dark'] button {
 	box-shadow: none;
 }
 
-r4-app button[disabled] {
-	opacity: 0.5;
+r4-channel-card {
+	--c-border: rgba(115, 115, 115, 0.4);
 }
 
-r4-channel-card {
-	background-color: var(--c-bg);
-	border: 1px solid rgba(115, 115, 115, 0.4);
-	padding: var(--s);
+/* Control the header sizes */
+r4-app h1 {
+	font-size: 2rem;
+}
+r4-app h2 {
+	font-size: 1.5rem;
+}
+r4-app h3 {
+	font-size: 1rem;
+}
+
+/* Differentiate channels and track lists by using a grid */
+r4-page-explore r4-page-main > r4-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+	gap: var(--s);
+	align-items: stretch;
+}
+
+r4-channel-card r4-channel-slug {
+	display: none;
+}
+r4-channel-card r4-channel-description {
+	margin-left: 0.5em;
 }
 
 r4-track-title a {
 	color: var(--text);
 }
 
-r4-list-item + r4-list-item {
-	margin-top: 0;
+/* Ordinary menus */
+r4-app-menu a,
+r4-page-channel r4-page-header > menu a {
+	padding: var(--s) calc(var(--s) / 2);
+}
+
+r4-track a {
+	text-decoration: none;
 }
 
 r4-list-item r4-track {
 	position: relative;
-	border-bottom: 1px solid rgba(0 0 0 / 20%);
+  border-bottom: 1px solid var(--c-border);
+	padding: calc(var(--s) / 2) 0;
+	gap: calc(var(--s) / 2);
 }
 
 r4-list-item r4-track r4-actions {
@@ -133,3 +134,4 @@ r4-list-item r4-track r4-actions {
 	font-weight: bold;
 	font-style: italic;
 }
+
