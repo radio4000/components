@@ -22,13 +22,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 		searchParams: {type: Object, state: true},
 	}
 
-	constructor() {
-		super()
-		// this.channel = null
-		// this.tracks = []
-		// this.query = {}
-	}
-
 	async connectedCallback() {
 		super.connectedCallback()
 		const {data, error} = await sdk.channels.readChannel(this.slug)
@@ -45,7 +38,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 	get queryWithDefaults() {
 		const q = {...this.query}
 		if (q.filters?.length) {
-			q.filters = [...q.filters, this.defaultFilters]
+			q.filters = [...q.filters, ...this.defaultFilters]
 		} else {
 			q.filters = this.defaultFilters
 		}
@@ -199,26 +192,17 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	renderTracksMenu() {
 		if (!this.tracks) return null
-
-		let filter = JSON.stringify({column: 'tags', operator: 'neq', value: '{}'})
-		const tagsHref = `${this.tracksOrigin}?filters=[${filter}]`
-		filter = JSON.stringify({column: 'tags', operator: 'contains', value: 'jazz'})
-		const jazzTagHref = `${this.tracksOrigin}?filters=[${filter}]`
-		filter = JSON.stringify({column: 'mentions', operator: 'neq', value: '{}'})
-		const mentionsHref = `${this.tracksOrigin}?filters=[${filter}]`
-
 		return html`
 			<menu>
-				<li><a href=${this.channelOrigin}>${this.slug}</a></li>
+				<li><a href=${this.channelOrigin}>@${this.slug}</a></li>
 				<li><r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play></li>
 				<li>
 					<r4-supabase-filter-search
-						@input=${this.onSearchFilter}
+						placeholder="${this.count + ' tracks'}"
 						.filter=${this.searchFilter}
-						placeholder="channel tracks"
+						@input=${this.onSearchFilter}
 					></r4-supabase-filter-search>
 				</li>
-				<li>${this.renderTracksCount()}</li>
 				<li>
 					<r4-button-play
 						.tracks=${this.tracks}
@@ -228,16 +212,8 @@ export default class R4PageChannelTracks extends BaseChannel {
 						search=${this.searchQuery}
 					></r4-button-play>
 				</li>
-				<li><a href=${mentionsHref} label>@Mentions</a></li>
-				<li><a href=${tagsHref} label>#Tags</a></li>
-				<li><a href=${jazzTagHref} label>#jazz</a></li>
 			</menu>
 		`
-	}
-	renderTracksCount() {
-		if (this.query.filters) {
-			return html`${this.count} tracks`
-		}
 	}
 
 	createTagUrl(tag) {
