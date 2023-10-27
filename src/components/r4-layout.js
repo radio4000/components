@@ -55,7 +55,7 @@ export default class R4Layout extends LitElement {
 			},
 			{
 				threshold: [1],
-			}
+			},
 		)
 		observer.observe(this)
 		return observer
@@ -143,5 +143,8 @@ export default class R4Layout extends LitElement {
 
 	onControlClick({target: {value: uiStateNext}}) {
 		this.uiState = this.uiStates[uiStateNext]
+		if (!this.detailsRef?.value?.getAttribute('open')) {
+			this.detailsRef?.value?.setAttribute('open', true)
+		}
 	}
 }
