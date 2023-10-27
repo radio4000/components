@@ -127,7 +127,6 @@ export default class BaseChannels extends R4Page {
 		return html`
 			<details open>
 				<summary>Filters ${this.renderQueryFiltersSummary()}</summary>
-				<p>test: ${this.query.orderConfig.ascending}</p>
 				<r4-supabase-query
 					table="channels"
 					.filters=${this.query?.filters}
