@@ -13,29 +13,21 @@ if (!window.r4sdk) window.r4sdk = sdk
 export default class R4PageChannelTracks extends BaseChannel {
 	static properties = {
 		tracks: {type: Array, state: true},
-		count: {type: Number, state: true},
-		query: {type: Object},
+		count: {type: Number},
+		// query: {type: Object},
+		query: {type: Object, state: true},
 		searchQuery: {type: String, state: true},
 		href: {type: String},
 		origin: {type: String},
-		// + props from BaseChannel
+		// from router
+		config: {type: Object},
 		searchParams: {type: Object, state: true},
-	}
-
-	get defaultFilters() {
-		return [
-			{
-				operator: 'eq',
-				column: 'slug',
-				value: this.slug,
-			},
-		]
 	}
 
 	constructor() {
 		super()
-		this.tracks = []
 		this.channel = null
+		this.tracks = []
 		this.query = {}
 	}
 
@@ -44,20 +36,37 @@ export default class R4PageChannelTracks extends BaseChannel {
 		const {data, error} = await sdk.channels.readChannel(this.slug)
 		this.channel = data
 		this.channelError = error
-		let filters
-		try {
-			filters = JSON.parse(this.searchParams.get('filters'))
-		} catch (e) {
-			filters = []
+		this.setQueryFromUrl()
+		await this.setTracks()
+	}
+
+	get defaultFilters() {
+		return [{ operator: 'eq', column: 'slug', value: this.slug}]
+	}
+
+	get queryWithDefaults() {
+		const q = {...this.query}
+		if (q.filters?.length) {
+			q.filters = [...q.filters, this.defaultFilters]
+		} else {
+			q.filters = this.defaultFilters
 		}
-		if (!filters) filters = []
-		this.setQuery({
-			page: this.searchParams.get('page'),
-			limit: this.searchParams.get('limit'),
-			orderBy: this.searchParams.get('orderBy'),
-			orderConfig: this.searchParams.get('orderConfig'),
-			filters
-		})
+		return q
+	}
+
+	setQueryFromUrl() {
+		const params = this.searchParams
+		const query = {
+			table: 'channel_tracks',
+			page: params.get('page') || 1,
+			limit: params.get('limit') || 10,
+			orderBy: params.get('orderBy') || 'created_at',
+			orderConfig: params.get('orderConfig') || {"ascending":false},
+		}
+		const filters = JSON.parse(params.get('filters'))
+		if (filters) query.filters = filters
+		console.log('setting query from searchParams', query)
+		this.setQuery(query)
 	}
 
 	get searchFilter() {
@@ -76,7 +85,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 	onSearchFilter(event) {
 		event.preventDefault()
 		const {detail: filter} = event
-		// console.log('onSearchFilter', filter)
+		console.log('onSearchFilter', filter)
 		if (filter) {
 			this.setQuery({
 				...this.query,
@@ -93,19 +102,24 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	setQuery(query) {
 		urlUtils.updateSearchParams(query, ['table', 'select'])
-		console.log('setQuery', query, q)
 		const q = {...query}
-		q.filters = [...this.defaultFilters, ...q.filters],
 		this.query = q
+		console.log('setQuery', q)
 	}
 
 	async setTracks() {
+		console.log('setTracks')
 		if (this.query) {
-			console.log('ready to browse', this.query)
-			// const res = await browse(this.query)
+			const res = await browse(this.queryWithDefaults)
+			if (res.error) {
+				console.log('error browsing channels')
+				if (res.error.code === 'PGRST103') {
+					// @todo "range not satisfiable" -> reset pagination
+				}
+			}
 			this.count = res.count
 			this.tracks = res.data
-			console.log('setTracks', res, this.query, this.tracks)
+			console.log('setting tracks', res)
 		} else {
 			this.count = 0
 			this.tracks = []

@@ -14,11 +14,15 @@ export default class R4PageChannel extends BaseChannel {
 		}
 	}
 
+	get defaultFilters() {
+		return [{operator: 'eq', column: 'slug', value: this.channel?.slug}]
+	}
+
 	async setTracks() {
 		const channelTracksQuery = {
 			table: 'channel_tracks',
 			select: '*',
-			filters: [{operator: 'eq', column: 'slug', value: this.channel?.slug}],
+			filters: this.defaultFilters,
 			orderBy: 'created_at',
 			orderConfig: {
 				ascending: false,
@@ -53,6 +57,7 @@ export default class R4PageChannel extends BaseChannel {
 			<r4-supabase-query table="channel_tracks" />
 		`
 	}
+
 	renderTrackItem(track) {
 		return html`
 			<r4-list-item>

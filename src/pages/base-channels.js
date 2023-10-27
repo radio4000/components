@@ -22,10 +22,10 @@ export default class BaseChannels extends R4Page {
 
 	async connectedCallback() {
 		super.connectedCallback()
-		this.queryFromUrl()
+		this.setQueryFromUrl()
 	}
 
-	queryFromUrl() {
+	setQueryFromUrl() {
 		let filters
 		try {
 			filters = JSON.parse(this.searchParams.get('filters'))
@@ -35,10 +35,10 @@ export default class BaseChannels extends R4Page {
 		this.query = {
 			table: 'channels',
 			select: '*',
-			page: this.searchParams.get('page'),
-			limit: this.searchParams.get('limit'),
-			orderBy: this.searchParams.get('orderBy'),
-			orderConfig: this.searchParams.get('orderConfig'),
+			page: this.searchParams.get('page') || 1,
+			limit: this.searchParams.get('limit') || 30,
+			orderBy: this.searchParams.get('orderBy') || 'created_at',
+			orderConfig: this.searchParams.get('orderConfig') || {ascending: false},
 			filters,
 		}
 		console.log('setting query from searchParams', this.query)
@@ -63,21 +63,16 @@ export default class BaseChannels extends R4Page {
 
 	async setChannels() {
 		console.log('setChannels')
-		if (this.query) {
-			const res = await browse(this.query)
-			if (res.error) {
-				console.log('error browsing channels')
-				if (res.error.code === 'PGRST103') {
-					// @todo "range not satisfiable" -> reset pagination
-				}
+		const res = await browse(this.query)
+		if (res.error) {
+			console.log('error browsing channels')
+			if (res.error.code === 'PGRST103') {
+				// @todo "range not satisfiable" -> reset pagination
 			}
-			console.log('setting channels', res)
-			this.count = res.count
-			this.channels = res.data
-		} else {
-			console.log('this happens??')
-			debugger
 		}
+		console.log('setting channels', res)
+		this.count = res.count
+		this.channels = res.data
 	}
 
 	async onQuery(event) {
