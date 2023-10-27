@@ -10,7 +10,7 @@ fieldsTemplate.innerHTML = `
 		</fieldset>
 		<fieldset>
 			<label for="confirmation">Confirmation</label>
-			<input name="confirmation" type="checkbox" required/>
+			<input id="confirmation" name="confirmation" type="checkbox" required/>
 		</fieldset>
 	</slot>
 `
