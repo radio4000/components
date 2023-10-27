@@ -3,7 +3,7 @@
 r4-app {
 	--s-font: 15px;
 	--s: 1rem;
-	--s-radius: 3px;
+	--s-radius: 4px;
 	--font: Maison Neue, system-ui, sans-serif;
 	--s-line-height: 1.3125;
 	--c-light: hsl(0deg 0% 98%);
@@ -12,6 +12,7 @@ r4-app {
 	--c-light--accent: var(--c-purple);
 	--c-dark--accent: #9c8fff;
 	--c-link: var(--c-purple);
+	--c-border: rgba(115, 115, 115, 0.4);
 
 	/* new vars */
 	--c-bg-button: hsl(0, 0%, 98%);
@@ -28,7 +29,7 @@ r4-app button {
 	display: inline-block;
 	font-size: 0.86667rem;
 	font-weight: bold;
-	border: 1px solid rgba(115, 115, 115, 0.4);
+	border: 1px solid var(--c-border);
 	border-radius: var(--s-radius);
 	box-shadow: 0 3px 0 -1px rgba(204, 204, 204, 0.9);
 	box-sizing: border-box;
@@ -47,21 +48,6 @@ r4-app[color-scheme='dark'] button {
 	box-shadow: none;
 }
 
-r4-channel-card {
-	--c-border: rgba(115, 115, 115, 0.4);
-}
-
-/* Control the header sizes */
-r4-app h1 {
-	font-size: 2rem;
-}
-r4-app h2 {
-	font-size: 1.5rem;
-}
-r4-app h3 {
-	font-size: 1rem;
-}
-
 /* Differentiate channels and track lists by using a grid */
 r4-page-explore r4-page-main > r4-list {
 	display: grid;
@@ -70,39 +56,21 @@ r4-page-explore r4-page-main > r4-list {
 	align-items: stretch;
 }
 
-r4-channel-card r4-channel-slug {
-	display: none;
-}
-r4-channel-card r4-channel-description {
-	margin-left: 0.5em;
-}
-
-r4-track-title a {
-	color: var(--text);
-}
-
-/* Ordinary menus */
+/* Nav menus */
 r4-app-menu a,
 r4-page-channel r4-page-header > menu a {
 	padding: var(--s) calc(var(--s) / 2);
 }
 
-r4-track a {
+/* Channel cards */
+r4-channel-card r4-channel-slug {
+	display: none;
+}
+
+r4-list-item r4-track-title a {
+	color: var(--c-fg);
+	padding: 0 var(--s);
 	text-decoration: none;
-}
-
-r4-list-item r4-track {
-	position: relative;
-  border-bottom: 1px solid var(--c-border);
-	padding: calc(var(--s) / 2) 0;
-	gap: calc(var(--s) / 2);
-}
-
-r4-list-item r4-track r4-actions {
-	margin-left: 0.5em;
-	position: absolute;
-	top: 0;
-	right: var(--s);
 }
 
 /* Maison Neue regular/italic + bold/italic from Cloudinary */

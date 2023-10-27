@@ -34,10 +34,6 @@ r4-app summary {
 r4-list-item + r4-list-item {
 	margin-top: var(--s);
 }
-r4-list-item > r4-track {
-	flex: 1;
-}
-
 r4-track-description::before,
 r4-track-discogs-url::before,
 r4-track-mentions menu::before,
@@ -55,8 +51,6 @@ r4-channel-url::before {
 r4-track-mentions a::before,
 r4-track-tags a::before {
 	color: var(--c-bg);
-	padding-left: calc(var(--s) / 2);
-	padding-right: calc(var(--s) / 2);
 }
 
 r4-app r4-layout::part(controls-button) {
