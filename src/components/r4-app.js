@@ -158,7 +158,10 @@ export default class R4App extends LitElement {
 			this.userChannels = (await sdk.channels.readUserChannels()).data
 			if (this.userChannels?.length && !this.selectedSlug) {
 				this.selectedSlug = this.userChannels[0].slug
-			} else {
+			}
+
+			// On deleted channel
+			if (!this.userChannels?.length && this.selectedSlug) {
 				this.selectedSlug = null
 			}
 
