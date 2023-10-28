@@ -145,7 +145,9 @@ export default class R4Track extends LitElement {
 		return html`
 			<r4-actions>
 				<details>
-					<summary>⏷</summary>
+					<summary>
+						<svg aria-viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M8 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM1.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm13 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path></svg>
+					</summary>
 					<menu>
 						<li><button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button></li>
 						${this.canEdit
