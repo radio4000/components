@@ -57,20 +57,38 @@ r4-page-explore r4-page-main > r4-list {
 }
 
 /* Nav menus */
+r4-app-menu menu {
+	padding-left: calc(var(--s) / 2);
+}
 r4-app-menu a,
 r4-page-channel r4-page-header > menu a {
 	padding: var(--s) calc(var(--s) / 2);
 }
 
 /* Channel cards */
+r4-channel-card {
+}
 r4-channel-card r4-channel-slug {
 	display: none;
 }
 
+r4-list:has(r4-track) {
+	border: 1px solid var(--c-border);
+	border-radius: var(--s-radius);
+}
+r4-list-item:has(r4-track):not(:last-child) r4-track {
+	border-bottom: 1px solid var(--c-border);
+}
+r4-list-item r4-track {
+	padding: calc(var(--s) / 2);
+}
 r4-list-item r4-track-title a {
 	color: var(--c-fg);
 	padding: 0 var(--s);
 	text-decoration: none;
+}
+r4-list r4-track r4-actions {
+	margin-left: auto;
 }
 
 /* Maison Neue regular/italic + bold/italic from Cloudinary */
