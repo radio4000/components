@@ -1,6 +1,6 @@
 import {html} from 'lit'
 import page from 'page/page.mjs'
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 import BaseChannel from './base-channel'
 
 export default class R4PageChannelUpdate extends BaseChannel {

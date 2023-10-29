@@ -1,6 +1,6 @@
 import {html} from 'lit'
 import {repeat} from 'lit/directives/repeat.js'
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 import BaseChannel from './base-channel'
 import urlUtils from '../libs/url-utils.js'
 import {browse} from '../libs/browse.js'

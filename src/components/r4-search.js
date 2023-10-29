@@ -1,6 +1,6 @@
 import {LitElement, html} from 'lit'
 import {repeat} from 'lit/directives/repeat.js'
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 
 /**
  * This is the base class for R4ChannelSearch and R4TrackSearch

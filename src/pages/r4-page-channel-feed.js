@@ -1,7 +1,7 @@
 import {html} from 'lit'
 import BaseChannel from './base-channel'
 import {repeat} from 'lit/directives/repeat.js'
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 import {formatDate} from '../libs/date.js'
 
 /* should probably refactor this page into a r4-feed,

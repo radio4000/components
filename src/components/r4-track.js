@@ -1,4 +1,4 @@
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 import {LitElement, html} from 'lit'
 
 export default class R4Track extends LitElement {

@@ -3,7 +3,7 @@
  */
 
 /* external librairies */
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 import * as lit from 'lit'
 import page from 'page/page.mjs'
 import radio4000player from 'radio4000-player'

@@ -1,5 +1,5 @@
 import {html, LitElement} from 'lit'
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 import R4Page from '../components/r4-page.js'
 import urlUtils from '../libs/url-utils.js'
 

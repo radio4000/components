@@ -1,5 +1,5 @@
 import {LitElement, html} from 'lit'
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 
 export default class R4ButtonFollow extends LitElement {
 	static properties = {
