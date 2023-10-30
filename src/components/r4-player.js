@@ -12,8 +12,9 @@ export default class R4Player extends LitElement {
 		image: {type: String},
 		tracks: {type: Array},
 		track: {type: String},
-		isPlaying: {type: Boolean, attribute: 'is-playing', reflect: true},
 		shuffle: {type: Boolean},
+		// The config contains isPlaying, playingChannel, playingTracks, playingTrack
+		config: {type: Object},
 	}
 
 	render() {
@@ -39,8 +40,8 @@ export default class R4Player extends LitElement {
 		if (changedProps.has('tracks') || changedProps.has('track')) {
 			this.play()
 		}
-		if (changedProps.has('isPlaying')) {
-			if (this.isPlaying) {
+		if (changedProps.has('config')) {
+			if (this.config.isPlaying) {
 				this.play()
 			} else {
 				this.pause()
@@ -57,6 +58,7 @@ export default class R4Player extends LitElement {
 				tracks: this.tracks,
 				query: this.query,
 			}
+			this.$player.channelSlug = this.config.playingChannel?.slug
 			this.$player.updatePlaylist(playlist)
 		} else {
 			this.$player.updatePlaylist({tracks: []})
@@ -73,7 +75,7 @@ export default class R4Player extends LitElement {
 	pause() {
 		/* click the radio400-player button */
 		// when in play mode, toggle pause
-		if (this.$playButton.checked === true) {
+		if (this.$playButton?.checked === true) {
 			this.$playButton.click()
 		}
 	}
