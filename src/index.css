@@ -545,3 +545,7 @@ r4-app r4-actions button {
 	flex: 1;
 }
 
+
+r4-app menu a[active] {
+	color: red;
+}
