@@ -1,4 +1,3 @@
-// import {sdk} from '../libs/sdk.js'
 import {sdk} from './sdk.js'
 
 const {supabase} = sdk

@@ -1,4 +1,4 @@
-import {sdk} from '../libs/sdk.js'
+import {sdk} from './sdk.js'
 
 // This class listens to different events from the database and dispatches new ones.
 // Pass it an instance of `r4-app` and call .start() to start listening
