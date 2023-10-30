@@ -3,9 +3,8 @@ import {LitElement, html} from 'lit'
 export default class R4AppMenu extends LitElement {
 	static properties = {
 		href: {type: String},
-		pathname: {type: String},
 		slug: {type: String},
-		auth: {type: Boolean},
+		auth: {type: Boolean}
 	}
 
 	get canAdd() {
@@ -19,10 +18,10 @@ export default class R4AppMenu extends LitElement {
 	}
 
 	render() {
-		console.log('RENDER', this.pathname, this.activePath)
+		console.log('app-menu', this.activePath)
 		return html`
 			<menu>
-				<li>hey ${this.pathname}/${this.activePath}</li>
+				<li>active? ${this.activePath}</li>
 				<li>
 					<a ?active=${this.activePath === '/'} href=${this.href + '/'}><r4-title size="small"></r4-title></a>
 				</li>

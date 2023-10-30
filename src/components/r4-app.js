@@ -35,6 +35,7 @@ export default class R4App extends LitElement {
 		followers: {type: Array || null, state: true},
 		following: {type: Array || null, state: true},
 		didLoad: {type: Boolean, state: true},
+		routePath: {type: String},
 
 		isPlaying: {type: Boolean, attribute: 'is-playing', reflects: true},
 		playingChannel: {type: Object},
@@ -237,7 +238,7 @@ export default class R4App extends LitElement {
 	renderMenu() {
 		return html`
 			<header slot="menu">
-				<r4-app-menu ?auth=${this.store?.user} href=${this.config?.href} slug=${this.selectedSlug}></r4-app-menu>
+				<r4-app-menu ?auth=${this.store?.user} href=${this.config?.href} slug=${this.selectedSlug} .routePath=${this.routePath}></r4-app-menu>
 			</header>
 		`
 	}

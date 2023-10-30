@@ -13,6 +13,7 @@ export default class R4PageSign extends R4Page {
 		user: {type: Object, state: true},
 		showConfirmEmail: {type: Boolean, state: true},
 	}
+
 	migrateUrl = 'https://migrate.radio4000.com'
 
 	get showConfirm() {
