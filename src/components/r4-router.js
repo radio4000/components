@@ -75,10 +75,8 @@ export default class R4Router extends LitElement {
 	// Called by page.js when a route is matched.
 	renderRoute(route, ctx) {
 		const {page} = route
-		/* console.info('render route') */
 		this.params = ctx.params
 		this.searchParams = ctx.searchParams
-		/* console.info('ctx.params', ctx.searchParams) */
 		this.componentName = `r4-page-${page}`
 		// Schedules a new render.
 		this.requestUpdate()
@@ -87,7 +85,7 @@ export default class R4Router extends LitElement {
 	render() {
 		if (!this.componentName) return
 		const tag = literal`${unsafeStatic(this.componentName)}`
-		console.log('router', tag, this.routePath)
+		console.log('router', this.componentName, this.routePath)
 		// eslint-disable-next-line
 		const $pageDom = html`<${tag} .store=${this.store} .config=${this.config} .searchParams=${this.searchParams} .params=${this.params} .routePath=${this.routePath}></${tag}>`
 		return $pageDom
