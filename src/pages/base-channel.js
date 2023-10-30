@@ -1,7 +1,6 @@
-import {html, LitElement} from 'lit'
+import {html} from 'lit'
 import {sdk} from '@radio4000/sdk'
 import R4Page from '../components/r4-page.js'
-import urlUtils from '../libs/url-utils.js'
 
 // Base class to extend from
 export default class BaseChannel extends R4Page {
@@ -18,13 +17,6 @@ export default class BaseChannel extends R4Page {
 		store: {type: Object, state: true},
 		config: {type: Object, state: true},
 		searchParams: {type: Object, state: true},
-	}
-
-	async willUpdate(changedProperties) {
-		if (changedProperties.has('params')) {
-			console.log('fetching channel because params changed')
-			// await this.setChannel()
-		}
 	}
 
 	async connectedCallback() {
@@ -80,7 +72,7 @@ export default class BaseChannel extends R4Page {
 		return this.store.followers?.map((c) => c.slug).includes(this.config.selectedSlug)
 	}
 
-	// Set channel from the slug in the URL.
+	// Set channel from the config or URL params.
 	async setChannel() {
 		const slug = this.config.singleChannel && this.config.selectedSlug ? this.config.selectedSlug : this.params.slug
 
