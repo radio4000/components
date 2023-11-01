@@ -1,10 +1,21 @@
-import {LitElement, html} from 'lit'
+import {LitElement, html, nothing} from 'lit'
 
 export default class R4AppMenu extends LitElement {
 	static properties = {
 		href: {type: String},
 		slug: {type: String},
 		auth: {type: Boolean},
+		// Used to set active link.
+		path: {type: Boolean, state: true},
+	}
+
+	constructor() {
+		super()
+
+		// Set "path" on every navigation.
+		window.navigation.addEventListener('navigate', (e) => {
+			this.path = e.destination.url.replace(this.href, '').split('?')[0]
+		})
 	}
 
 	get canAdd() {
@@ -12,34 +23,41 @@ export default class R4AppMenu extends LitElement {
 		return this.auth && this.slug
 	}
 
+	isCurrent(path) {
+		return this.path === path ? 'page' : nothing
+	}
+
 	render() {
+		const {href, path} = this
 		return html`
 			<menu>
 				<li>
-					<a href=${this.href + '/'}><r4-title size="small"></r4-title></a>
+					<a aria-current=${this.isCurrent('/')} href=${href + '/'}><r4-title size="small"></r4-title></a>
 				</li>
-				<li><a href=${this.href + '/explore'}>Explore</a></li>
-				<li><a href=${this.href + '/map'}>Map</a></li>
-				${!this.auth ? this.renderNoAuth() : this.renderAuth()} ${this.canAdd ? this.renderAdd() : null}
-				<li><a href=${this.href + '/settings'}>Settings</a></li>
+				<li><a aria-current=${this.isCurrent('/explore')} href=${href + '/explore'}>Explore</a></li>
+				<li><a aria-current=${this.isCurrent('/map')} href=${href + '/map'}>Map</a></li>
+				${this.auth ? this.renderAuth() : this.renderNoAuth()} ${this.canAdd ? this.renderAdd() : null}
+				<li><a aria-current=${this.isCurrent('/settings')} href=${href + '/settings'}>Settings</a></li>
 			</menu>
 		`
 	}
 	renderNoAuth() {
 		return html`
-			<li><a href=${this.href + '/sign/up'}>Sign up</a></li>
-			<li><a href=${this.href + '/sign/in'}>Sign in</a></li>
+			<li><a aria-current=${this.isCurrent('/sign/up')} href=${this.href + '/sign/up'}>Sign up</a></li>
+			<li><a aria-current=${this.isCurrent('/sign/in')} href=${this.href + '/sign/in'}>Sign in</a></li>
 		`
 	}
 	renderAuth() {
 		if (this.slug) {
-			return html`<li><a href=${this.href + '/' + this.slug}>@${this.slug}</a></li>`
+			return html`<li>
+				<a aria-current=${this.isCurrent(`/${this.slug}`)} href=${this.href + '/' + this.slug}>@${this.slug}</a>
+			</li>`
 		} else {
-			return html`<li><a href=${this.href + '/new'}>New radio</a></li>`
+			return html`<li><a aria-current=${this.isCurrent('/new')} href=${this.href + '/new'}>New radio</a></li>`
 		}
 	}
 	renderAdd() {
-		return html`<li><a href=${this.href + '/add?slug=' + this.slug}>Add</a></li>`
+		return html`<li><a aria-current=${this.isCurrent('/add')} href=${this.href + '/add?slug=' + this.slug}>Add</a></li>`
 	}
 	createRenderRoot() {
 		return this
