@@ -1,4 +1,4 @@
-import {sdk} from '@radio4000/sdk'
+import {sdk} from './sdk.js'
 
 const {supabase} = sdk
 

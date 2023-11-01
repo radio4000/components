@@ -1,6 +1,6 @@
 import {html, LitElement} from 'lit'
 import {ref, createRef} from 'lit/directives/ref.js'
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 import page from 'page/page.mjs'
 import DatabaseListeners from '../libs/db-listeners'
 import '../pages/'

@@ -1,4 +1,4 @@
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 
 export default class R4UserChannelsSelect extends HTMLElement {
 	static get observedAttributes() {
