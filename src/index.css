@@ -546,6 +546,6 @@ r4-app r4-actions button {
 }
 
 
-r4-app menu a[active] {
+r4-app menu a[aria-current] {
 	color: red;
 }
