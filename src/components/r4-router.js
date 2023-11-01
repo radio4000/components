@@ -23,8 +23,7 @@ export default class R4Router extends LitElement {
 	/* used to setup the base of the url handled by page.js router */
 	get pathname() {
 		const href = this.config.href || window.location.href
-		const name = new URL(href).pathname
-		return name
+		return new URL(href).pathname
 	}
 
 	connectedCallback() {
@@ -70,10 +69,8 @@ export default class R4Router extends LitElement {
 	// Called by page.js when a route is matched.
 	renderRoute(route, ctx) {
 		const {page} = route
-		/* console.info('render route') */
 		this.params = ctx.params
 		this.searchParams = ctx.searchParams
-		/* console.info('ctx.params', ctx.searchParams) */
 		this.componentName = `r4-page-${page}`
 		// Schedules a new render.
 		this.requestUpdate()
