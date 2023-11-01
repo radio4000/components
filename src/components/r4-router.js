@@ -85,7 +85,7 @@ export default class R4Router extends LitElement {
 	render() {
 		if (!this.componentName) return
 		const tag = literal`${unsafeStatic(this.componentName)}`
-		console.log('router', this.componentName, this.routePath)
+		// console.log('router', this.componentName, this.routePath)
 		// eslint-disable-next-line
 		const $pageDom = html`<${tag} .store=${this.store} .config=${this.config} .searchParams=${this.searchParams} .params=${this.params} .routePath=${this.routePath}></${tag}>`
 		return $pageDom
