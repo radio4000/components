@@ -210,7 +210,7 @@ export default class R4App extends LitElement {
 				<r4-player
 					slot="player"
 					${ref(this.playerRef)}
-					?is-playing=${this.isPlaying}
+					.config=${this.config}
 					@trackchange=${this.onTrackChange}
 				></r4-player>
 			</r4-layout>
