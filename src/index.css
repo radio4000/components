@@ -66,6 +66,9 @@ r4-app menu {
 r4-app menu li {
 	display: inline-flex;
 }
+r4-app menu a[aria-current] {
+	/* Use this selector to style active menu items */
+}
 r4-app table {
 	width: 100%;
 	border-collapse: collapse;
@@ -545,7 +548,3 @@ r4-app r4-actions button {
 	flex: 1;
 }
 
-
-r4-app menu a[aria-current] {
-	color: red;
-}
