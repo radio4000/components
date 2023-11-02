@@ -2,6 +2,8 @@ import {html} from 'lit'
 import {sdk} from '@radio4000/sdk'
 import R4Page from '../components/r4-page.js'
 
+const debug = false
+
 // Base class to extend from
 export default class BaseChannel extends R4Page {
 	static properties = {
@@ -37,7 +39,7 @@ export default class BaseChannel extends R4Page {
 			orderConfig: params.get('orderConfig'),
 		}
 		if (filters) query.filters = filters
-		console.log('got initial query', query)
+		if (debug) console.log('got initial query', query)
 	}
 
 	get slug() {
@@ -79,7 +81,7 @@ export default class BaseChannel extends R4Page {
 		// No need to set again if channel the same channel is loaded.
 		if (this.channel?.slug === slug) return
 
-		console.log('fetching channel')
+		if (debug) console.log('fetching channel')
 
 		const {data, error} = await sdk.channels.readChannel(slug)
 		this.canEdit = await sdk.channels.canEditChannel(slug)

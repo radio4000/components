@@ -7,7 +7,6 @@ export default class R4PageChannel extends BaseChannel {
 	async willUpdate(changedProperties) {
 		await super.willUpdate(changedProperties)
 		if (changedProperties.has('channel')) {
-			console.log('fetching tracks because channel changed')
 			await this.setTracks()
 		}
 	}

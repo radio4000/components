@@ -3,6 +3,8 @@ import dbSchema from '../libs/db-schemas.js'
 
 const {tables, tableNames} = dbSchema
 
+const debug = false
+
 /*
 	 list-channels, default `page="1"`, `limit="1"`;
 	 its attributes are bound to the supabase sdk table (data model) query values
@@ -68,7 +70,7 @@ export default class R4SupabaseQuery extends LitElement {
 		event.stopPropagation()
 		event.preventDefault()
 		const {name, value, valueAsNumber, type: inputType, checked} = event.target
-		console.log('@onInput', name, value, checked)
+		if (debug) console.log('@onInput', name, value, checked)
 		/* handle correctly input type="number" */
 		if (inputType === 'number') {
 			this[name] = valueAsNumber
@@ -92,7 +94,7 @@ export default class R4SupabaseQuery extends LitElement {
 	onFilters(event) {
 		event.preventDefault()
 		event.stopPropagation()
-		console.log('caught onFilters. Overwriting filters in r4-supabase-query from r4-supabase-filters', event.detail)
+		if (debug) console.log('caught onFilters. Overwriting filters in r4-supabase-query from r4-supabase-filters', event.detail)
 		if (event.detail) {
 			this.filters = event.detail
 			this.onQuery()
@@ -109,7 +111,7 @@ export default class R4SupabaseQuery extends LitElement {
 			page: this.page,
 			limit: this.limit,
 		}
-		console.log('r4-supabase-query@query', query)
+		if (debug) console.log('r4-supabase-query@query', query)
 		this.dispatchEvent(
 			new CustomEvent('query', {
 				bubbles: true,
@@ -151,7 +153,7 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	render() {
-		console.log('render', this.orderBy, this.orderConfig)
+		if (debug) console.log('render', this.orderBy, this.orderConfig)
 		return html`
 			<r4-supabase-select>
 				<form @submit=${this.onFormSubmit}>${[this.renderQueryTable(), this.renderQuerySelect()]}</form>
@@ -254,7 +256,7 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	renderOrderConfig() {
-		console.log('orderConfig', this.orderConfig)
+		if (debug) console.log('orderConfig', this.orderConfig)
 		const ascending = this.orderConfig?.ascending
 		return html`
 			<fieldset name="ascending">
