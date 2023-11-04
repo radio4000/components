@@ -4,39 +4,30 @@ import {sdk} from '../libs/sdk.js'
 import BaseChannel from './base-channel'
 import urlUtils from '../libs/url-utils.js'
 import {browse} from '../libs/browse.js'
-// import {formatDate} from '../libs/date.js'
-import page from 'page/page.mjs'
-import debounce from 'lodash.debounce'
+// import debounce from 'lodash.debounce'
 
 export default class R4PageChannelTracks extends BaseChannel {
 	static properties = {
-		tracks: {type: Array, state: true},
-		count: {type: Number},
-		// query: {type: Object},
-		query: {type: Object, state: true},
-		searchQuery: {type: String, state: true},
-		href: {type: String},
-		origin: {type: String},
 		// from router
 		config: {type: Object},
 		searchParams: {type: Object, state: true},
-	}
 
-	async connectedCallback() {
-		super.connectedCallback()
-		const {data, error} = await sdk.channels.readChannel(this.slug)
-		this.channel = data
-		this.channelError = error
-		this.setQueryFromUrl()
-		await this.setTracks()
+		tracks: {type: Array, state: true},
+		count: {type: Number},
+		query: {type: Object, state: true},
+
+		searchQuery: {type: String, state: true},
+		href: {type: String},
+		origin: {type: String},
 	}
 
 	get defaultFilters() {
 		return [{operator: 'eq', column: 'slug', value: this.slug}]
 	}
 
+	// Here you can add modify the query before it is passed to browse()
 	get queryWithDefaults() {
-		const q = {...this.query}
+		const q = {...this.query, table: 'channel_tracks'}
 		if (q.filters?.length) {
 			q.filters = [...q.filters, ...this.defaultFilters]
 		} else {
@@ -45,32 +36,26 @@ export default class R4PageChannelTracks extends BaseChannel {
 		return q
 	}
 
-	setQueryFromUrl() {
-		const params = this.searchParams
-		const query = {
-			table: 'channel_tracks',
-			page: params.get('page') || 1,
-			limit: params.get('limit') || 10,
-			orderBy: params.get('orderBy') || 'created_at',
-			orderConfig: JSON.parse(params.get('orderConfig')) || {ascending: false},
-		}
-		const filters = JSON.parse(params.get('filters'))
-		if (filters) query.filters = filters
-		console.log('setting query from searchParams', query)
-		this.setQuery(query)
-	}
-
 	get searchFilter() {
 		return this.query?.filters?.filter(({column}) => {
 			return column === 'fts'
 		})[0]
 	}
 
+	async connectedCallback() {
+		const {data, error} = await sdk.channels.readChannel(this.slug)
+		this.channel = data
+		this.channelError = error
+		this.setQueryFromUrl()
+		// await this.setTracks()
+		super.connectedCallback()
+	}
+
 	async onQuery(event) {
-		const query = event.detail
-		console.log('onQuery', query)
-		this.setQuery(query)
+		console.log('caught @onQuery -> setTracks + setSearchParams', this.query, event.detail)
+		this.setQuery(event.detail)
 		await this.setTracks()
+		urlUtils.setSearchParams({...event.detail}, ['table', 'select'])
 	}
 
 	async onSearchFilter(event) {
@@ -93,10 +78,8 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 
 	setQuery(query) {
-		urlUtils.updateSearchParams(query, ['table', 'select'])
-		const q = {...query}
-		this.query = q
-		console.log('setQuery', q)
+		console.log('setQuery', query)
+		this.query = query
 	}
 
 	async setTracks() {
@@ -169,11 +152,11 @@ export default class R4PageChannelTracks extends BaseChannel {
 				<summary>Filters ${this.renderQueryFiltersSummary()}</summary>
 				<r4-supabase-query
 					table="channel_tracks"
+					.filters=${this.query?.filters}
+					order-by=${this.query?.orderBy}
+					order=${this.query?.order}
 					page=${this.query?.page}
 					limit=${this.query?.limit}
-					order-by=${this.query?.orderBy}
-					.orderConfig=${this.query?.orderConfig}
-					.filters=${this.query?.filters}
 					count=${this.count}
 					@query=${this.onQuery}
 				></r4-supabase-query>

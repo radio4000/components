@@ -1,6 +1,7 @@
 import {html} from 'lit'
 import {sdk} from '../libs/sdk.js'
 import R4Page from '../components/r4-page.js'
+import urlUtils from '../libs/url-utils.js'
 
 // Base class to extend from
 export default class BaseChannel extends R4Page {
@@ -12,6 +13,7 @@ export default class BaseChannel extends R4Page {
 		alreadyFollowing: {type: Boolean, state: true},
 		followsYou: {type: Boolean, state: true},
 		isFirebaseChannel: {type: Boolean, state: true},
+		query: {type: Object, state: true},
 		// from router
 		params: {type: Object, state: true},
 		store: {type: Object, state: true},
@@ -20,24 +22,15 @@ export default class BaseChannel extends R4Page {
 	}
 
 	async connectedCallback() {
+		if (!this.channel) await this.setChannel()
+		// this.setQueryFromUrl()
 		super.connectedCallback()
-		if (!this.channel) {
-			await this.setChannel()
-		}
-		this.readQueryFromURL()
 	}
 
-	readQueryFromURL() {
-		const params = this.searchParams
-		const filters = JSON.parse(params.get('filters'))
-		const query = {
-			page: params.get('page'),
-			limit: params.get('limit'),
-			orderBy: params.get('orderBy'),
-			orderConfig: params.get('orderConfig'),
-		}
-		if (filters) query.filters = filters
-		console.log('got initial query', query)
+	// Collect relevant params from the URLSearchParams.
+	setQueryFromUrl() {
+		this.query = urlUtils.getQueryFromUrl(this.searchParams)
+		console.log('setQueryFromUrl', this.query)
 	}
 
 	get slug() {

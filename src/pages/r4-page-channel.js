@@ -12,31 +12,27 @@ export default class R4PageChannel extends BaseChannel {
 		}
 	}
 
-	get defaultFilters() {
-		return [{operator: 'eq', column: 'slug', value: this.channel?.slug}]
-	}
-
-	async setTracks() {
-		const channelTracksQuery = {
+	get queryWithDefaults() {
+		return {
 			table: 'channel_tracks',
 			select: '*',
-			filters: this.defaultFilters,
+			filters: [{operator: 'eq', column: 'slug', value: this.channel?.slug}],
 			orderBy: 'created_at',
-			orderConfig: {
-				ascending: false,
-			},
+			order: 'desc',
 			page: 1,
 			limit: 8,
 		}
-		this.tracks =  (await browse(channelTracksQuery)).data
+	}
+
+	async setTracks() {
+		this.tracks = (await browse(this.queryWithDefaults)).data
 	}
 
 	renderMain() {
 		if (this.isFirebaseChannel) {
 			return html`<radio4000-player channel-slug=${this.params.slug}></radio4000-player>`
 		}
-		if (this.channelError) {
-		}
+		// if (this.channelError) {}
 		if (this.channel) {
 			return html` <section>${this.renderTracksList()}</section> `
 		}
@@ -49,10 +45,10 @@ export default class R4PageChannel extends BaseChannel {
 				${repeat(
 					this.tracks,
 					(t) => t.id,
-					(t) => this.renderTrackItem(t)
+					(t) => this.renderTrackItem(t),
 				)}
 			</r4-list>
-			<r4-supabase-query table="channel_tracks" />
+			<r4-supabase-query table="channel_tracks" order=${this.searchParams.get('order')} />
 		`
 	}
 

@@ -1,6 +1,12 @@
-import R4SupabaseQuery from '../components/r4-supabase-query'
+const R4_QUERY_ATTR = ['table', 'select', 'page', 'limit', 'count', 'filters', 'orderBy', 'order' /*'orderConfig'*/]
 
-const R4_QUERY_ATTR = ['page', 'limit', 'count', 'table', 'select', 'filters', 'orderBy', 'orderConfig']
+/**
+ * @typedef {object} URLQuery
+ * @prop {Array} filters
+ * @prop {string} orderBy
+ * @prop {string} order
+ * @prop {string} page
+ * @prop {string} limit
 
 /* From a LitElement properties, and a data object,
 	 will return a URLSearchParam ready to go into a URL.
@@ -69,9 +75,9 @@ export function propertiesFromSearch(elementProperties) {
  * @param {R4Query} query - object with all the query params to be
  * @param {Array.<string>} excludeList - list of properties not to include in the URL
  */
-export function updateSearchParams(query, excludeList = []) {
+export function setSearchParams(query, excludeList = []) {
 	const props = R4_QUERY_ATTR.filter((name) => !excludeList.includes(name))
-	console.log('updateSearchParams', query)
+	console.log('setSearchParams', query)
 	if (props?.length) {
 		const searchParams = propertiesToSearch(props, query)
 		const searchParamsString = `?${searchParams.toString()}`
@@ -82,8 +88,34 @@ export function updateSearchParams(query, excludeList = []) {
 	}
 }
 
+/**
+ * Remove keys with empty values and arrays
+ * @param {object} obj
+ */
+function removeEmptyKeys(obj) {
+	return Object.fromEntries(
+		Object.entries(obj).filter(([, value]) => {
+			if (Array.isArray(value)) return value.length
+			return !!value
+		})
+	)
+}
+
+// Collect relevant params from the URLSearchParams.
+function getQueryFromUrl(searchParams) {
+	return removeEmptyKeys({
+		filters: searchParams.getAll('filter'),
+		orderBy: searchParams.get('orderBy'),
+		order: searchParams.get('order'),
+		page: searchParams.get('page'),
+		limit: searchParams.get('limit'),
+	})
+}
+
 export default {
 	propertiesToSearch,
 	propertiesFromSearch,
-	updateSearchParams,
+	setSearchParams,
+	removeEmptyKeys,
+	getQueryFromUrl,
 }
