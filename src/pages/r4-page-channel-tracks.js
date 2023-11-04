@@ -4,7 +4,7 @@ import {sdk} from '../libs/sdk.js'
 import BaseChannel from './base-channel'
 import urlUtils from '../libs/url-utils.js'
 import {browse} from '../libs/browse.js'
-// import debounce from 'lodash.debounce'
+import debounce from 'lodash.debounce'
 
 export default class R4PageChannelTracks extends BaseChannel {
 	static properties = {
@@ -12,13 +12,16 @@ export default class R4PageChannelTracks extends BaseChannel {
 		config: {type: Object},
 		searchParams: {type: Object, state: true},
 
-		tracks: {type: Array, state: true},
-		count: {type: Number},
-		query: {type: Object, state: true},
-
-		searchQuery: {type: String, state: true},
 		href: {type: String},
 		origin: {type: String},
+		tracks: {type: Array, state: true},
+		query: {type: Object, state: true},
+		count: {type: Number},
+	}
+
+	constructor() {
+		super()
+		this.debouncedSetTracks = debounce(() => this.setTracks(), 500, {leading: false, trailing: true})
 	}
 
 	get defaultFilters() {
@@ -33,6 +36,10 @@ export default class R4PageChannelTracks extends BaseChannel {
 		} else {
 			q.filters = this.defaultFilters
 		}
+		if (this.query.search) {
+			if (!q.filters) q.filters = []
+			q.filters = [...q.filters, urlUtils.createSearchFilter(this.query.search)]
+		}
 		return q
 	}
 
@@ -46,35 +53,24 @@ export default class R4PageChannelTracks extends BaseChannel {
 		const {data, error} = await sdk.channels.readChannel(this.slug)
 		this.channel = data
 		this.channelError = error
-		this.setQueryFromUrl()
-		// await this.setTracks()
 		super.connectedCallback()
 	}
 
 	async onQuery(event) {
-		console.log('caught @onQuery -> setTracks + setSearchParams', this.query, event.detail)
+		event.preventDefault()
+		console.log('caught @onQuery -> setTracks + setSearchParams', event.detail)
 		this.setQuery(event.detail)
-		await this.setTracks()
 		urlUtils.setSearchParams({...event.detail}, ['table', 'select'])
+		await this.setTracks()
 	}
 
 	async onSearchFilter(event) {
 		event.preventDefault()
-		const {detail: filter} = event
-		console.log('onSearchFilter', filter)
-		if (filter) {
-			this.setQuery({
-				...this.query,
-				filters: [filter],
-			})
-		} else {
-			this.setQuery({
-				...this.query,
-				filters: [],
-			})
-		}
-		await this.setTracks()
-		// debounce(this.setTracks.bind(this), 333)
+		const {search} = event.detail
+		this.query.search = search
+		console.log('adding search param')
+		urlUtils.setSearchParams({search}, ['page', 'limit', 'order', 'orderBy'])
+		this.debouncedSetTracks()
 	}
 
 	setQuery(query) {
@@ -155,6 +151,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 					.filters=${this.query?.filters}
 					order-by=${this.query?.orderBy}
 					order=${this.query?.order}
+					search=${this.query?.search}
 					page=${this.query?.page}
 					limit=${this.query?.limit}
 					count=${this.count}
@@ -181,6 +178,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 				<li><r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play></li>
 				<li>
 					<r4-supabase-filter-search
+						search=${this.query?.search}
 						placeholder="${this.count + ' tracks'}"
 						.filter=${this.searchFilter}
 						@input=${this.onSearchFilter}
@@ -192,7 +190,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 						.channel=${this.channel}
 						.filters=${this.filters}
 						label="Play results"
-						search=${this.searchQuery}
 					></r4-button-play>
 				</li>
 			</menu>

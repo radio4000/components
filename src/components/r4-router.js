@@ -72,6 +72,7 @@ export default class R4Router extends LitElement {
 		this.params = ctx.params
 		this.searchParams = ctx.searchParams
 		this.componentName = `r4-page-${page}`
+		console.log('renderRoute', ctx.querystring)
 		// Schedules a new render.
 		this.requestUpdate()
 	}
@@ -80,7 +81,7 @@ export default class R4Router extends LitElement {
 		if (!this.componentName) return
 		const tag = literal`${unsafeStatic(this.componentName)}`
 		// eslint-disable-next-line
-		const $pageDom = html`<${tag} .store=${this.store} .config=${this.config} .searchParams=${this.searchParams} .params=${this.params}></${tag}>`
+		const $pageDom = html`<${tag} .store=${this.store} .config=${this.config} .params=${this.params} .searchParams=${this.searchParams}></${tag}>`
 		return $pageDom
 	}
 

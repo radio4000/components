@@ -2,7 +2,7 @@ import {html} from 'lit'
 import {browse} from '../libs/browse'
 import urlUtils from '../libs/url-utils'
 import R4Page from '../components/r4-page.js'
-// import debounce from 'lodash.debounce'
+import debounce from 'lodash.debounce'
 
 export default class BaseChannels extends R4Page {
 	static properties = {
@@ -11,8 +11,8 @@ export default class BaseChannels extends R4Page {
 		searchParams: {type: Object, state: true},
 
 		channels: {type: Array, state: true},
-		count: {type: Number},
 		query: {type: Object, state: true},
+		count: {type: Number},
 	}
 
 	get channelOrigin() {
@@ -20,14 +20,34 @@ export default class BaseChannels extends R4Page {
 	}
 
 	get searchFilter() {
+		// return {column: 'fts', operator: 'textSearch', value: `'${this.query?.search}':*`}
 		return this.query?.filters?.filter((filter) => {
 			return filter?.column === 'fts'
 		})[0]
 	}
 
+	get defaultFilters() {
+		return []
+	}
+
 	// Here you can add modify the query before it is passed to browse().
 	get queryWithDefaults() {
-		return {...this.query, table: 'channels'}
+		const q = {...this.query, table: 'channels'}
+		if (q.filters?.length) {
+			q.filters = [...q.filters, ...this.defaultFilters]
+		} else {
+			q.filters = this.defaultFilters
+		}
+		if (this.query.search) {
+			if (!q.filters) q.filters = []
+			q.filters = [...q.filters, urlUtils.createSearchFilter(this.query.search)]
+		}
+		return q
+	}
+
+	constructor() {
+		super()
+		this.debouncedSetChannels = debounce(() => this.setChannels(), 500, {leading: false, trailing: true})
 	}
 
 	async connectedCallback() {
@@ -42,8 +62,8 @@ export default class BaseChannels extends R4Page {
 	}
 
 	setQuery(query) {
-		console.log('setQuery', query)
 		this.query = query
+		console.log('setQuery', query)
 	}
 
 	async setChannels() {
@@ -61,27 +81,16 @@ export default class BaseChannels extends R4Page {
 		event.preventDefault()
 		console.log('caught @onQuery -> setChannels & setSearchParams', this.query, event.detail)
 		this.setQuery(event.detail)
-		await this.setChannels()
 		urlUtils.setSearchParams({...event.detail}, ['table', 'select'])
+		await this.setChannels()
 	}
 
 	async onSearchFilter(event) {
 		event.preventDefault()
-		const {detail: filter} = event
-		console.log('onSearchFilter', filter)
-		if (filter) {
-			this.setQuery({
-				...this.query,
-				filters: [filter],
-			})
-		} else {
-			this.setQuery({
-				...this.query,
-				filters: [],
-			})
-		}
-		await this.setChannels()
-		// debounce(this.setChannels, 333, {trailing: true})
+		const {search} = event.detail
+		this.query.search = search
+		urlUtils.setSearchParams({search}, ['page', 'limit', 'order', 'orderBy'])
+		this.debouncedSetChannels()
 	}
 
 	clearFilters() {
@@ -101,10 +110,12 @@ export default class BaseChannels extends R4Page {
 		return html`
 			<menu>
 				<li>
+					hello? ${this.query?.search}
 					<r4-supabase-filter-search
-						@input=${this.onSearchFilter}
-						.filter=${this.searchFilter}
+						search=${this.query?.search}
 						placeholder="channels"
+						.filter=${this.searchFilter}
+						@input=${this.onSearchFilter}
 					></r4-supabase-filter-search>
 				</li>
 				<li>${this.count === 0 ? 0 : this.count || '…'} radio channels</li>
@@ -121,6 +132,7 @@ export default class BaseChannels extends R4Page {
 					.filters=${this.query?.filters}
 					order-by=${this.query?.orderBy}
 					order=${this.query?.order}
+					search=${this.query?.search}
 					page=${this.query?.page}
 					limit=${this.query?.limit}
 					count=${this.count}

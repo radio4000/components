@@ -23,7 +23,7 @@ export default class BaseChannel extends R4Page {
 
 	async connectedCallback() {
 		if (!this.channel) await this.setChannel()
-		// this.setQueryFromUrl()
+		this.setQueryFromUrl()
 		super.connectedCallback()
 	}
 

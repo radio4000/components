@@ -1,19 +1,23 @@
-const R4_QUERY_ATTR = ['table', 'select', 'page', 'limit', 'count', 'filters', 'orderBy', 'order' /*'orderConfig'*/]
-
-/**
- * @typedef {object} URLQuery
- * @prop {Array} filters
- * @prop {string} orderBy
- * @prop {string} order
- * @prop {string} page
- * @prop {string} limit
+const R4_QUERY_ATTR = [
+	'table',
+	'select',
+	'page',
+	'limit',
+	'count',
+	'search',
+	'filters',
+	'orderBy',
+	'order' /*'orderConfig'*/,
+]
 
 /* From a LitElement properties, and a data object,
 	 will return a URLSearchParam ready to go into a URL.
 	 Can be used to turn a web-component's output (dataObj),
-	 into URLSearchParams (so element state is in the current URL) */
+	 into URLSearchParams (so element state is in the current URL)
+
+*/
 export function propertiesToSearch(elementProperties, dataObj) {
-	const searchParams = new URLSearchParams()
+	const searchParams = new URLSearchParams(location.search)
 	elementProperties.forEach((elementProperty) => {
 		const paramValue = dataObj[elementProperty]
 		if (paramValue) {
@@ -53,6 +57,15 @@ export function propertiesFromSearch(elementProperties) {
 }
 
 /**
+ * @typedef {object} R4UrlQuery
+ * @prop {Array} [filters]
+ * @prop {string} [search]
+ * @prop {string} [orderBy]
+ * @prop {string} [order] - 'asc' or 'desc'
+ * @prop {string} [page]
+ * @prop {string} [limit]
+
+/**
  * @typedef {object} R4Query
  * @prop {string} [select] - sql query to select columns
  * @prop {string} [table] - table name
@@ -72,7 +85,7 @@ export function propertiesFromSearch(elementProperties) {
 
 /**
  * Sets URL search params from a query object
- * @param {R4Query} query - object with all the query params to be
+ * @param {R4UrlQuery} query - object with all the query params to be
  * @param {Array.<string>} excludeList - list of properties not to include in the URL
  */
 export function setSearchParams(query, excludeList = []) {
@@ -97,14 +110,15 @@ function removeEmptyKeys(obj) {
 		Object.entries(obj).filter(([, value]) => {
 			if (Array.isArray(value)) return value.length
 			return !!value
-		})
+		}),
 	)
 }
 
 // Collect relevant params from the URLSearchParams.
-function getQueryFromUrl(searchParams) {
+export function getQueryFromUrl(searchParams) {
 	return removeEmptyKeys({
 		filters: searchParams.getAll('filter'),
+		search: searchParams.get('search'),
 		orderBy: searchParams.get('orderBy'),
 		order: searchParams.get('order'),
 		page: searchParams.get('page'),
@@ -112,10 +126,28 @@ function getQueryFromUrl(searchParams) {
 	})
 }
 
+export function createSearchFilter(search) {
+	return {
+		column: 'fts',
+		operator: 'textSearch',
+		value: `'${search}':*`,
+	}
+}
+
+// extractSearchFilterValue(filter) {
+// 	const search = filter?.value.split(':')[0].split("'")[1]
+// 	return search
+// }
+
+// function addSearchToQuery(query, search) {
+// 	if (!search) return query
+// }
+
 export default {
 	propertiesToSearch,
 	propertiesFromSearch,
 	setSearchParams,
 	removeEmptyKeys,
 	getQueryFromUrl,
+	createSearchFilter,
 }

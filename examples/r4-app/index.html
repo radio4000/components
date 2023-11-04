@@ -22,17 +22,21 @@
 		<script>
 			const $app = document.createElement('r4-app')
 			const params = new URLSearchParams(window.location.search)
-			const channel = params.get('channel')
-			const singleChannel = params.has('single-channel')
 
 			//$app.setAttribute('cdn', true)
 			//$app.setAttribute('cdn', 'https://jsdelivr.net/npm/@radio4000/components')
-			$app.setAttribute('href', window.location.origin + '/examples/r4-app/')
-			channel && $app.setAttribute('channel', channel)
-			singleChannel && $app.setAttribute('single-channel', true)
-			/* !import.meta.env.PROD && $app.setAttribute('themes-url', 'http://localhost:4001') */
 
-			console.log({channel, singleChannel})
+			$app.setAttribute('href', window.location.origin + '/examples/r4-app/')
+
+			// If ?channel, start the app in single-channel mode.
+			const channel = params.get('channel')
+			channel && $app.setAttribute('channel', channel)
+
+			// If ?single-channel, start in single-channel mode.
+			const singleChannel = params.has('single-channel')
+			singleChannel && $app.setAttribute('single-channel', true)
+
+			/* !import.meta.env.PROD && $app.setAttribute('themes-url', 'http://localhost:4001') */
 			document.querySelector('body').append($app)
 		</script>
 	</body>

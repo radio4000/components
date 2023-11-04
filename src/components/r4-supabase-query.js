@@ -16,10 +16,12 @@ export default class R4SupabaseQuery extends LitElement {
 		select: {type: String},
 		filters: {type: Array, reflect: true},
 		orderBy: {type: String, attribute: 'order-by', reflect: true},
-		order: {type: String, reflect: true},
 		orderConfig: {type: Object, attribute: 'order-config', reflect: true},
 		page: {type: Number, reflect: true},
 		limit: {type: Number, reflect: true},
+		/* custom parameters that map to the supabase ones */
+		order: {type: String, reflect: true},
+		search: {type: String, reflect: true},
 	}
 
 	get totalPages() {
@@ -35,6 +37,7 @@ export default class R4SupabaseQuery extends LitElement {
 			filters: this.filters,
 			orderBy: this.orderBy,
 			order: this.order,
+			search: this.search,
 			// orderConfig: this.orderConfig,
 			page: this.page,
 			limit: this.limit,
