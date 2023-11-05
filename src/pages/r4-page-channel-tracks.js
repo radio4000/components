@@ -42,12 +42,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 		return q
 	}
 
-	get searchFilter() {
-		return this.query?.filters?.filter(({column}) => {
-			return column === 'fts'
-		})[0]
-	}
-
 	async onQuery(event) {
 		event.preventDefault()
 		console.log('caught @onQuery -> setTracks + setSearchParams', event.detail)
@@ -66,23 +60,16 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 
 	async setTracks() {
-		if (this.query) {
-			const res = await browse(this.queryWithDefaults)
-			if (res.error) {
-				console.log('error browsing tracks')
-				if (res.error.code === 'PGRST103') {
-					// @todo "range not satisfiable" -> reset pagination
-					// if (res.error.code === 'PGRST103') {}
-				}
+		const res = await browse(this.queryWithDefaults)
+		if (res.error) {
+			console.log('error browsing tracks')
+			if (res.error.code === 'PGRST103') {
+				// @todo "range not satisfiable" -> reset pagination
+				// if (res.error.code === 'PGRST103') {}
 			}
-			this.count = res.count
-			this.tracks = res.data
-			console.log('setting tracks', res)
-		} else {
-			this.count = 0
-			this.tracks = []
-			console.log('this happens??')
 		}
+		this.count = res.count
+		this.tracks = res.data
 	}
 
 	renderHeader() {
@@ -169,7 +156,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 					<r4-supabase-filter-search
 						search=${this.query?.search}
 						placeholder="${this.count + ' tracks'}"
-						.filter=${this.searchFilter}
 						@input=${this.onSearchFilter}
 					></r4-supabase-filter-search>
 				</li>

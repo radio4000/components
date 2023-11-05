@@ -19,20 +19,13 @@ export default class BaseChannels extends R4Page {
 		return `${this.config.href}/{{slug}}`
 	}
 
-	get searchFilter() {
-		// return {column: 'fts', operator: 'textSearch', value: `'${this.query?.search}':*`}
-		return this.query?.filters?.filter((filter) => {
-			return filter?.column === 'fts'
-		})[0]
-	}
-
 	get defaultFilters() {
 		return []
 	}
 
 	// Here you can add modify the query before it is passed to browse().
 	get queryWithDefaults() {
-		const q = {...this.query, table: 'channels'}
+		const q = {...this.query}
 		if (q.filters?.length) {
 			q.filters = [...q.filters, ...this.defaultFilters]
 		} else {
@@ -106,7 +99,6 @@ export default class BaseChannels extends R4Page {
 					<r4-supabase-filter-search
 						search=${this.query?.search}
 						placeholder="channels"
-						.filter=${this.searchFilter}
 						@input=${this.onSearchFilter}
 					></r4-supabase-filter-search>
 				</li>
