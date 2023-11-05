@@ -4,7 +4,7 @@ import BaseChannels from './base-channels.js'
 
 export default class R4PageExplore extends BaseChannels {
 	renderMain() {
-		if (this.channels) {
+		if (this.data) {
 			return html` <r4-list> ${this.renderListItems()} </r4-list> `
 		} else {
 			return html` No channels yet.`
@@ -13,7 +13,7 @@ export default class R4PageExplore extends BaseChannels {
 
 	renderListItems() {
 		return repeat(
-			this.channels || [],
+			this.data || [],
 			(c) => c.id,
 			(c) => html`
 				<r4-list-item>

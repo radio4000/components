@@ -1,31 +1,28 @@
 import {html} from 'lit'
 import {repeat} from 'lit/directives/repeat.js'
 import BaseChannel from './base-channel'
-import {browse} from '../libs/browse'
 
 export default class R4PageChannel extends BaseChannel {
+	constructor() {
+		super()
+		this.query = {
+			table: 'channel_tracks',
+			orderBy: 'created_at',
+			order: 'desc',
+			page: 1,
+			limit: 8
+		}
+	}
 	async willUpdate(changedProperties) {
 		await super.willUpdate(changedProperties)
 		if (changedProperties.has('channel')) {
 			console.log('fetching tracks because channel changed')
-			await this.setTracks()
+			await this.fetchData()
 		}
 	}
 
-	get queryWithDefaults() {
-		return {
-			table: 'channel_tracks',
-			select: '*',
-			filters: [{operator: 'eq', column: 'slug', value: this.channel?.slug}],
-			orderBy: 'created_at',
-			order: 'desc',
-			page: 1,
-			limit: 8,
-		}
-	}
-
-	async setTracks() {
-		this.tracks = (await browse(this.queryWithDefaults)).data
+	get defaultFilters() {
+		return [{operator: 'eq', column: 'slug', value: this.channel?.slug}]
 	}
 
 	renderMain() {
@@ -34,21 +31,22 @@ export default class R4PageChannel extends BaseChannel {
 		}
 		// if (this.channelError) {}
 		if (this.channel) {
-			return html` <section>${this.renderTracksList()}</section> `
+			return html`
+				<section>${this.renderQuery()}</section>
+				<section>${this.renderTracksList()}</section> `
 		}
 	}
 
 	renderTracksList() {
-		if (!this.tracks) return null
+		if (!this.data) return null
 		return html`
 			<r4-list>
 				${repeat(
-					this.tracks,
+					this.data,
 					(t) => t.id,
 					(t) => this.renderTrackItem(t),
 				)}
 			</r4-list>
-			<r4-supabase-query table="channel_tracks" order=${this.searchParams.get('order')}></r4-supabase-query>
 		`
 	}
 

@@ -1,19 +1,22 @@
 import {html} from 'lit'
 import {sdk} from '../libs/sdk.js'
-import R4Page from '../components/r4-page.js'
-import urlUtils from '../libs/url-utils.js'
+import BaseQuery from './base-query.js'
 
 // Base class to extend from
-export default class BaseChannel extends R4Page {
+export default class BaseChannel extends BaseQuery {
 	static properties = {
 		channel: {type: Object, state: true},
-		tracks: {type: Array, state: true},
 		channelError: {type: Object, state: true},
 		canEdit: {type: Boolean, state: true},
 		alreadyFollowing: {type: Boolean, state: true},
 		followsYou: {type: Boolean, state: true},
 		isFirebaseChannel: {type: Boolean, state: true},
-		query: {type: Object, state: true},
+
+		// from BaseQuery
+		count: {type: Number},
+		data: {type: Array},
+		query: {type: Object},
+
 		// from router
 		params: {type: Object, state: true},
 		store: {type: Object, state: true},
@@ -21,14 +24,8 @@ export default class BaseChannel extends R4Page {
 		searchParams: {type: Object, state: true},
 	}
 
-	constructor() {
-		super()
-	}
-
 	async connectedCallback() {
 		if (!this.channel) await this.setChannel()
-		// Collect relevant params from the URLSearchParams.
-		this.query = urlUtils.getQueryFromUrl(this.searchParams)
 		super.connectedCallback()
 	}
 
