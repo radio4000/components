@@ -10,12 +10,13 @@ export default class R4PageChannelTracks extends BaseChannel {
 		// from router
 		config: {type: Object},
 		searchParams: {type: Object, state: true},
-
-		href: {type: String},
-		origin: {type: String},
+		// query related
 		tracks: {type: Array, state: true},
 		query: {type: Object, state: true},
 		count: {type: Number},
+		// other
+		href: {type: String},
+		origin: {type: String},
 	}
 
 	constructor() {
@@ -46,16 +47,16 @@ export default class R4PageChannelTracks extends BaseChannel {
 		event.preventDefault()
 		console.log('@onQuery -> update url + fetch', event.detail)
 		this.query = event.detail
-		urlUtils.setSearchParams(event.detail, ['table', 'select'])
+		urlUtils.setSearchParams(event.detail)
 		this.debouncedSetTracks()
 	}
 
 	async onSearch(event) {
 		event.preventDefault()
 		const {search} = event.detail
+		console.log('@onSearch -> update url + fetch', search)
 		this.query.search = search
-		console.log('@onSearch', search)
-		urlUtils.setSearchParams({search}, ['page', 'limit', 'order', 'orderBy'])
+		urlUtils.setSearchParams({search}, {includeList: ['search']})
 		this.debouncedSetTracks()
 	}
 

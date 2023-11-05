@@ -48,7 +48,7 @@ export default class R4PageChannel extends BaseChannel {
 					(t) => this.renderTrackItem(t),
 				)}
 			</r4-list>
-			<r4-supabase-query table="channel_tracks" order=${this.searchParams.get('order')} />
+			<r4-supabase-query table="channel_tracks" order=${this.searchParams.get('order')}></r4-supabase-query>
 		`
 	}
 

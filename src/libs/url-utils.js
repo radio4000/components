@@ -1,7 +1,7 @@
-// Params we want in the URL.
-const validQueryParams = [
-	// 'table',
-	// 'select',
+// Params we allow in the URL.
+const R4_QUERY_PARAMS = [
+	'table',
+	'select',
 	'page',
 	'limit',
 	'search',
@@ -14,14 +14,19 @@ const validQueryParams = [
 
 /**
  * Sets URL search params from a query object
- * @param {import("./query-page").R4Query} query - object with all the query params to be
- * @param {Array.<string>} excludeList - list of properties not to include in the URL
+ * It will only set params in the `includeList` list.
+ * It won't set params in the `excludeList` list.
+ * @param {import("../pages/base-query").R4Query} query - object with all the query params to be
+ * @param {{includeList?: String[], excludeList?: String[]}} [options]
  */
-export function setSearchParams(query, excludeList = []) {
+export function setSearchParams(query, options = {}) {
 	const searchParams = new URLSearchParams(location.search)
+	const includeList = options.includeList || R4_QUERY_PARAMS
+	const excludeList = options.excludeList || ['table', 'select']
+
 	for (const [key, value] of Object.entries(query)) {
 		// Ensure the key is valid, and not exluded.
-		if (!validQueryParams.includes(key) || excludeList.includes(key)) continue
+		if (!includeList.includes(key) || excludeList.includes(key)) continue
 
 		if (Array.isArray(value)) {
 			// If non-empty array, stringify and set

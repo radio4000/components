@@ -79,7 +79,7 @@ export default class BaseChannels extends R4Page {
 	// Also updates URL params and reloads data.
 	setQuery(query, excludeList) {
 		this.query = query
-		urlUtils.setSearchParams(query, excludeList)
+		urlUtils.setSearchParams(query, {excludeList})
 		this.debouncedSetChannels()
 	}
 
