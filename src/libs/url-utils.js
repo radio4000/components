@@ -57,11 +57,15 @@ function removeEmptyKeys(obj) {
 		Object.entries(obj).filter(([, value]) => {
 			// if (Array.isArray(value)) return value.length
 			return !!value
-		})
+		}),
 	)
 }
 
-// Create a `R4Query` from URLSearchParams.
+/**
+ * Create a `R4Query` from URLSearchParams
+ * @param {URLSearchParams} searchParams
+ * @returns {import("../pages/base-query").R4Query}
+ */
 export function getQueryFromUrl(searchParams) {
 	return removeEmptyKeys({
 		search: searchParams.get('search'),
@@ -72,7 +76,7 @@ export function getQueryFromUrl(searchParams) {
 		// Either as ?filter={}&filter={}
 		// filters: searchParams.getAll('filter').map(x => JSON.parse(x)),
 		// ... or filters=[{}, {}]
-		filters: JSON.parse(searchParams.get('filters'))
+		filters: JSON.parse(searchParams.get('filters')),
 	})
 }
 
@@ -83,11 +87,6 @@ export function createSearchFilter(search) {
 		value: `'${search}':*`,
 	}
 }
-
-// extractSearchFilterValue(filter) {
-// 	const search = filter?.value.split(':')[0].split("'")[1]
-// 	return search
-// }
 
 export default {
 	setSearchParams,
