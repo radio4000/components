@@ -68,8 +68,6 @@ export default class BaseChannel extends BaseQuery {
 		// No need to set again if channel the same channel is loaded.
 		if (this.channel?.slug === slug) return
 
-		console.log('fetching channel')
-
 		const {data, error} = await sdk.channels.readChannel(slug)
 		this.canEdit = await sdk.channels.canEditChannel(slug)
 

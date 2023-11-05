@@ -7,17 +7,7 @@ export default class R4PageChannel extends BaseChannel {
 		super()
 		this.query = {
 			table: 'channel_tracks',
-			orderBy: 'created_at',
-			order: 'desc',
-			page: 1,
 			limit: 8
-		}
-	}
-	async willUpdate(changedProperties) {
-		await super.willUpdate(changedProperties)
-		if (changedProperties.has('channel')) {
-			console.log('fetching tracks because channel changed')
-			await this.fetchData()
 		}
 	}
 

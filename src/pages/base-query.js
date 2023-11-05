@@ -99,7 +99,6 @@ export default class BaseQuery extends R4Page {
 
 	onQuery(event) {
 		event.preventDefault()
-		console.log('got it!', event.detail)
 		this.query = event.detail
 		urlUtils.setSearchParams(event.detail)
 		this.debouncedFetchData()

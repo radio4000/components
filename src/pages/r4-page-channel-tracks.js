@@ -40,7 +40,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		if (this.channelError) {
 			return this.renderNoPage()
 		} else {
-			return this.renderQuery()
+			return [this.renderTracksMenu(), this.renderQuery()]
 		}
 	}
 
