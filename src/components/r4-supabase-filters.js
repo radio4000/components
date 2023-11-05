@@ -10,9 +10,9 @@ const {tables} = dbSchema
  * @prop {string} value
  */
 
-/*
-	 An interface to create and manage filters for the Supabase SDK (`supabase.from()...`)
-	 Fires @input event whenever any filter is created or changed.
+/**
+ * An interface to create and manage filters for the Supabase SDK (`supabase.from()...`)
+ * Fires @input event whenever any filter is created or changed.
  */
 export default class R4SupabaseFilters extends LitElement {
 	static properties = {
@@ -21,27 +21,12 @@ export default class R4SupabaseFilters extends LitElement {
 		filters: {type: Array, reflect: true, state: true},
 	}
 
-	// constructor() {
-	// 	super()
-	// 	if (!this.filters) this.filters = []
-	// }
-
-	updated(attr) {
-		/* always update the list when any attribute change
-			 for some attribute, first clear the existing search query */
-		// if (attr.get('filters')) {
-		// 	console.log('filters changeD?')
-		// 	// this.onFilters()
-		// }
-	}
-
-	// When any filter is set or changed
+	// Called when any filter is added, updated or removed
 	onFilters(updatedFilters) {
-		console.log('onFilters', updatedFilters)
 		this.dispatchEvent(
 			new CustomEvent('input', {
 				bubbles: true,
-				detail: updatedFilters?.filter((filter) => !!filter),
+				detail: updatedFilters//?.filter((filter) => !!filter),
 			})
 		)
 	}

@@ -78,6 +78,7 @@ export default class R4SupabaseQuery extends LitElement {
 		}
 	}
 
+	// Also calls onQuery
 	onInput(event) {
 		event.stopPropagation()
 		event.preventDefault()
@@ -104,11 +105,12 @@ export default class R4SupabaseQuery extends LitElement {
 		this.onQuery()
 	}
 
+	// Also calls onQuery
 	onFilters(event) {
 		event.preventDefault()
 		event.stopPropagation()
-		console.log('<r4-supabase-query@onFilters - overwriting .filters from <r4-supabase-filters>', event.detail)
 		if (event.detail) {
+			console.log('<r4-supabase-query@onFilters - overwriting .filters from <r4-supabase-filters>', event.detail)
 			this.filters = event.detail
 			this.onQuery()
 		}
@@ -116,7 +118,7 @@ export default class R4SupabaseQuery extends LitElement {
 
 	onQuery() {
 		const query = this.query
-		console.log('<r4-supabase-query>.onQuery', this.limit, query)
+		console.log('<r4-supabase-query>.onQuery', this.filters, query)
 		this.dispatchEvent(
 			new CustomEvent('query', {
 				bubbles: true,
@@ -158,18 +160,6 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	render() {
-		console.log(
-			'<r4-supabase-query>.render',
-			this.table,
-			this.select,
-			this.filters,
-			this.orderBy,
-			this.order,
-			'page',
-			this.page,
-			'limit',
-			this.limit,
-		)
 		return html`
 			<r4-supabase-select>
 				<form @submit=${this.onFormSubmit}>${[this.renderQueryTable(), this.renderQuerySelect()]}</form>

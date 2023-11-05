@@ -44,17 +44,17 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	async onQuery(event) {
 		event.preventDefault()
-		console.log('caught @onQuery -> setTracks + setSearchParams', event.detail)
+		console.log('@onQuery -> update url + fetch', event.detail)
 		this.query = event.detail
 		urlUtils.setSearchParams(event.detail, ['table', 'select'])
 		this.debouncedSetTracks()
 	}
 
-	async onSearchFilter(event) {
+	async onSearch(event) {
 		event.preventDefault()
 		const {search} = event.detail
 		this.query.search = search
-		console.log('adding search param')
+		console.log('@onSearch', search)
 		urlUtils.setSearchParams({search}, ['page', 'limit', 'order', 'orderBy'])
 		this.debouncedSetTracks()
 	}
@@ -142,7 +142,13 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 
 	clearFilters() {
-		this.query.filters = []
+		this.setQuery({...this.query, filters: []})
+	}
+
+	// Also updates URL params and reloads data.
+	setQuery(query, excludeList) {
+		this.query = query
+		urlUtils.setSearchParams(query, excludeList)
 		this.debouncedSetTracks()
 	}
 
@@ -156,7 +162,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 					<r4-supabase-filter-search
 						search=${this.query?.search}
 						placeholder="${this.count + ' tracks'}"
-						@input=${this.onSearchFilter}
+						@input=${this.onSearch}
 					></r4-supabase-filter-search>
 				</li>
 				<li>

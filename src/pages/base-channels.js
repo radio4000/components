@@ -15,6 +15,17 @@ export default class BaseChannels extends R4Page {
 		count: {type: Number},
 	}
 
+	constructor() {
+		super()
+		this.debouncedSetChannels = debounce(() => this.setChannels(), 400, {leading: true, trailing: true})
+	}
+
+	connectedCallback() {
+		// Collect relevant params from the URLSearchParams.
+		this.query = urlUtils.getQueryFromUrl(this.searchParams)
+		super.connectedCallback()
+	}
+
 	get channelOrigin() {
 		return `${this.config.href}/{{slug}}`
 	}
@@ -38,22 +49,10 @@ export default class BaseChannels extends R4Page {
 		return q
 	}
 
-	constructor() {
-		super()
-		this.debouncedSetChannels = debounce(() => this.setChannels(), 400, {leading: true, trailing: true})
-	}
-
-	connectedCallback() {
-		// Collect relevant params from the URLSearchParams.
-		this.query = urlUtils.getQueryFromUrl(this.searchParams)
-		console.log('BaseChannels:initial query', this.query)
-		super.connectedCallback()
-	}
-
 	async setChannels() {
 		const res = await browse(this.queryWithDefaults)
 		if (res.error) {
-			console.log('error browsing channels')
+			console.log('error browsing channels', res.error)
 			// @todo "range not satisfiable" -> reset pagination
 			// if (res.error.code === 'PGRST103') {}
 		}
@@ -63,23 +62,24 @@ export default class BaseChannels extends R4Page {
 
 	onQuery(event) {
 		event.preventDefault()
-		console.log('caught @onQuery -> setChannels & setSearchParams', this.query, event.detail)
-		this.query = event.detail
-		urlUtils.setSearchParams({...event.detail}, ['table', 'select'])
-		this.debouncedSetChannels()
+		console.log('@onQuery', event.detail)
+		this.setQuery(event.detail, ['table', 'select'])
 	}
 
-	onSearchFilter(event) {
+	onSearch(event) {
 		event.preventDefault()
 		const {search} = event.detail
-		this.query.search = search
-		urlUtils.setSearchParams({search}, ['page', 'limit', 'order', 'orderBy'])
-		this.debouncedSetChannels()
+		this.setQuery({...this.query, search}, ['page', 'limit', 'order', 'orderBy'])
 	}
 
 	clearFilters() {
-		this.query.filters = []
-		urlUtils.setSearchParams(this.query)
+		this.setQuery({...this.query, filters: []})
+	}
+
+	// Also updates URL params and reloads data.
+	setQuery(query, excludeList) {
+		this.query = query
+		urlUtils.setSearchParams(query, excludeList)
 		this.debouncedSetChannels()
 	}
 
@@ -99,7 +99,7 @@ export default class BaseChannels extends R4Page {
 					<r4-supabase-filter-search
 						search=${this.query?.search}
 						placeholder="channels"
-						@input=${this.onSearchFilter}
+						@input=${this.onSearch}
 					></r4-supabase-filter-search>
 				</li>
 				<li>${this.count === 0 ? 0 : this.count || '…'} radio channels</li>
