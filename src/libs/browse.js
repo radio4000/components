@@ -41,9 +41,11 @@ export const supabaseOperatorsTable = {
 
 export const supabaseOperators = Object.keys(supabaseOperatorsTable)
 
-/* browse the list (of db table) like it is paginated;
-	 (query params ->) components-attributes -> supbase-query
-	 this does not render the list, just browses it
+/**
+ * browse the list (of db table) like it is paginated;
+ * (query params ->) components-attributes -> supbase-query
+ * this does not render the list, just browses it
+ * @param {import('./query-page.js').R4Query} props
  */
 export async function browse(props) {
 	const {table, select, filters, orderBy, order, page = 1, limit = 1} = props

@@ -30,6 +30,7 @@ export default class R4SupabaseQuery extends LitElement {
 		return Math.round(count / limit) + 1
 	}
 
+	/** @type {import('../libs/query-page.js').R4Query} */
 	get query() {
 		return urlUtils.removeEmptyKeys({
 			table: this.table,
@@ -53,10 +54,7 @@ export default class R4SupabaseQuery extends LitElement {
 	updated(attr) {
 		if (attr.get('table')) this.cleanQuery()
 		// Avoid double-fetch when count is passed back down.
-		if (attr.get('count') === 0) return
-		// Update the list when any attribute changes
-		// console.log('query component update', attr)
-		// this.onQuery()
+		// if (attr.get('count') === 0) return
 	}
 
 	/* set the correct component initial values, for each table's capacities */
@@ -109,10 +107,7 @@ export default class R4SupabaseQuery extends LitElement {
 	onFilters(event) {
 		event.preventDefault()
 		event.stopPropagation()
-		console.log(
-			'<r4-supabase-query@onFilters - overwriting .filters from <r4-supabase-filters>',
-			event.detail
-		)
+		console.log('<r4-supabase-query@onFilters - overwriting .filters from <r4-supabase-filters>', event.detail)
 		if (event.detail) {
 			this.filters = event.detail
 			this.onQuery()
@@ -126,7 +121,7 @@ export default class R4SupabaseQuery extends LitElement {
 			new CustomEvent('query', {
 				bubbles: true,
 				detail: query,
-			})
+			}),
 		)
 	}
 
@@ -170,9 +165,10 @@ export default class R4SupabaseQuery extends LitElement {
 			this.filters,
 			this.orderBy,
 			this.order,
-			this.orderConfig,
-			'page', this.page,
-			'limit', this.limit
+			'page',
+			this.page,
+			'limit',
+			this.limit,
 		)
 		return html`
 			<r4-supabase-select>
@@ -245,7 +241,7 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQueryLimit() {
 		return html`
 			<fieldset name="limit">
-				<legend for="limit">Limit</legend>
+				<legend for="limit">Per Page</legend>
 				<input
 					id="limit"
 					name="limit"
@@ -297,7 +293,7 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQuerySelectByTable() {
 		if (!this.table) return null
 		return tables[this.table].selects.map((sqlSelect) =>
-			this.renderOption(sqlSelect, {selected: sqlSelect === this.select})
+			this.renderOption(sqlSelect, {selected: sqlSelect === this.select}),
 		)
 	}
 

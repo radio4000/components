@@ -1,6 +1,5 @@
 import {html} from 'lit'
 import {repeat} from 'lit/directives/repeat.js'
-import {sdk} from '../libs/sdk.js'
 import BaseChannel from './base-channel'
 import urlUtils from '../libs/url-utils.js'
 import {browse} from '../libs/browse.js'
@@ -21,7 +20,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	constructor() {
 		super()
-		this.debouncedSetTracks = debounce(() => this.setTracks(), 500, {leading: false, trailing: true})
+		this.debouncedSetTracks = debounce(() => this.setTracks(), 400, {leading: true, trailing: true})
 	}
 
 	get defaultFilters() {
@@ -30,7 +29,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	// Here you can add modify the query before it is passed to browse()
 	get queryWithDefaults() {
-		const q = {...this.query, table: 'channel_tracks'}
+		const q = {...this.query}
 		if (q.filters?.length) {
 			q.filters = [...q.filters, ...this.defaultFilters]
 		} else {
@@ -49,19 +48,12 @@ export default class R4PageChannelTracks extends BaseChannel {
 		})[0]
 	}
 
-	async connectedCallback() {
-		const {data, error} = await sdk.channels.readChannel(this.slug)
-		this.channel = data
-		this.channelError = error
-		super.connectedCallback()
-	}
-
 	async onQuery(event) {
 		event.preventDefault()
 		console.log('caught @onQuery -> setTracks + setSearchParams', event.detail)
-		this.setQuery(event.detail)
-		urlUtils.setSearchParams({...event.detail}, ['table', 'select'])
-		await this.setTracks()
+		this.query = event.detail
+		urlUtils.setSearchParams(event.detail, ['table', 'select'])
+		this.debouncedSetTracks()
 	}
 
 	async onSearchFilter(event) {
@@ -73,18 +65,14 @@ export default class R4PageChannelTracks extends BaseChannel {
 		this.debouncedSetTracks()
 	}
 
-	setQuery(query) {
-		console.log('setQuery', query)
-		this.query = query
-	}
-
 	async setTracks() {
 		if (this.query) {
 			const res = await browse(this.queryWithDefaults)
 			if (res.error) {
-				console.log('error browsing channels')
+				console.log('error browsing tracks')
 				if (res.error.code === 'PGRST103') {
 					// @todo "range not satisfiable" -> reset pagination
+					// if (res.error.code === 'PGRST103') {}
 				}
 			}
 			this.count = res.count
@@ -167,7 +155,8 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 
 	clearFilters() {
-		this.setQuery({...this.query, filters: []})
+		this.query.filters = []
+		this.debouncedSetTracks()
 	}
 
 	renderTracksMenu() {

@@ -36,8 +36,8 @@ export default class R4SupabaseFilters extends LitElement {
 	}
 
 	// When any filter is set or changed
-	async onFilters(updatedFilters) {
-		console.log('onFilters', this.filters, updatedFilters)
+	onFilters(updatedFilters) {
+		console.log('onFilters', updatedFilters)
 		this.dispatchEvent(
 			new CustomEvent('input', {
 				bubbles: true,

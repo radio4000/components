@@ -47,29 +47,20 @@ export default class BaseChannels extends R4Page {
 
 	constructor() {
 		super()
-		this.debouncedSetChannels = debounce(() => this.setChannels(), 500, {leading: false, trailing: true})
+		this.debouncedSetChannels = debounce(() => this.setChannels(), 400, {leading: true, trailing: true})
 	}
 
-	async connectedCallback() {
-		this.setQueryFromUrl()
-		super.connectedCallback()
-	}
-
-	// Collect relevant params from the URLSearchParams.
-	setQueryFromUrl() {
+	connectedCallback() {
+		// Collect relevant params from the URLSearchParams.
 		this.query = urlUtils.getQueryFromUrl(this.searchParams)
-		console.log('setQueryFromUrl', this.query)
-	}
-
-	setQuery(query) {
-		this.query = query
-		console.log('setQuery', query)
+		console.log('BaseChannels:initial query', this.query)
+		super.connectedCallback()
 	}
 
 	async setChannels() {
 		const res = await browse(this.queryWithDefaults)
 		if (res.error) {
-			console.log('error setting channels')
+			console.log('error browsing channels')
 			// @todo "range not satisfiable" -> reset pagination
 			// if (res.error.code === 'PGRST103') {}
 		}
@@ -77,15 +68,15 @@ export default class BaseChannels extends R4Page {
 		this.channels = res.data
 	}
 
-	async onQuery(event) {
+	onQuery(event) {
 		event.preventDefault()
 		console.log('caught @onQuery -> setChannels & setSearchParams', this.query, event.detail)
-		this.setQuery(event.detail)
+		this.query = event.detail
 		urlUtils.setSearchParams({...event.detail}, ['table', 'select'])
-		await this.setChannels()
+		this.debouncedSetChannels()
 	}
 
-	async onSearchFilter(event) {
+	onSearchFilter(event) {
 		event.preventDefault()
 		const {search} = event.detail
 		this.query.search = search
@@ -94,7 +85,9 @@ export default class BaseChannels extends R4Page {
 	}
 
 	clearFilters() {
-		this.setQuery({...this.query, filters: []})
+		this.query.filters = []
+		urlUtils.setSearchParams(this.query)
+		this.debouncedSetChannels()
 	}
 
 	renderHeader() {
@@ -110,7 +103,6 @@ export default class BaseChannels extends R4Page {
 		return html`
 			<menu>
 				<li>
-					hello? ${this.query?.search}
 					<r4-supabase-filter-search
 						search=${this.query?.search}
 						placeholder="channels"

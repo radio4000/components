@@ -21,16 +21,15 @@ export default class BaseChannel extends R4Page {
 		searchParams: {type: Object, state: true},
 	}
 
-	async connectedCallback() {
-		if (!this.channel) await this.setChannel()
-		this.setQueryFromUrl()
-		super.connectedCallback()
+	constructor() {
+		super()
 	}
 
-	// Collect relevant params from the URLSearchParams.
-	setQueryFromUrl() {
+	async connectedCallback() {
+		if (!this.channel) await this.setChannel()
+		// Collect relevant params from the URLSearchParams.
 		this.query = urlUtils.getQueryFromUrl(this.searchParams)
-		console.log('setQueryFromUrl', this.query)
+		super.connectedCallback()
 	}
 
 	get slug() {
