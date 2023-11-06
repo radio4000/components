@@ -1,5 +1,23 @@
 import {sdk} from '@radio4000/sdk'
 import {LitElement, html} from 'lit'
+import {unsafeHTML} from 'lit/directives/unsafe-html.js'
+
+// https://regex101.com/r/pJ4wC5/1
+const hashtagRegex = /(^|\s)(#[a-z\d-]+)/gi
+
+/**
+ * Finds #hashtags and @mentions inside a string and turn them into HTML links
+ * @param {string} str
+ * @param {string} origin - to build a URL that works anywhere R4-app is
+ * @returns {string} with hashtags and mentions linked.
+ */
+function linkHashtags(str, origin) {
+	if (!origin) return str
+	// const newstr = str.replace(hashtagRegex, `$1<a href="${origin}?filters=[{"column":"fts","operator":"textSearch","value":"$2':*"}]'">$2</a>`)
+	const newstr = str.replace(hashtagRegex, `$1<a href="${origin}?search=$2">$2</a>`)
+	// console.log(newstr)
+	return newstr
+}
 
 export default class R4Track extends LitElement {
 	static properties = {
@@ -76,7 +94,7 @@ export default class R4Track extends LitElement {
 				detail: {
 					track: this.track,
 				},
-			}),
+			})
 		)
 	}
 
@@ -117,7 +135,8 @@ export default class R4Track extends LitElement {
 		return this.link ? html`<a href=${this.url}>${title}</a>` : title
 	}
 	renderDescription() {
-		return html`<r4-track-description>${this.track.description}</r4-track-description>`
+		const withLinks = unsafeHTML(linkHashtags(this.track.description, this.origin))
+		return html`<r4-track-description >${withLinks}</r4-track-description>`
 	}
 	renderDiscogsUrl() {
 		return html`<r4-track-discogs-url><a href="${this.track.discogs_url}">Discogs</a></r4-track-discogs-url>`
