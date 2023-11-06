@@ -7,8 +7,7 @@ export default class R4PageChannel extends BaseChannel {
 		super()
 		this.query = {
 			table: 'channel_tracks',
-			limit: 8
-		}
+    }
 	}
 
 	get defaultFilters() {

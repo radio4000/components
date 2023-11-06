@@ -2,6 +2,8 @@ import {sdk} from './sdk.js'
 
 const {supabase} = sdk
 
+const debug = false
+
 /*
 	 all known supabase query filter operators
 
@@ -49,9 +51,8 @@ export const supabaseOperators = Object.keys(supabaseOperatorsTable)
  */
 export async function browse(props) {
 	const {table, select, filters, orderBy, order, page = 1, limit = 1} = props
-
 	if (!table) throw new Error('missing "table" to browse')
-
+  
 	// We add count exact: to get a .total property back in the response. head:false ensures we still get the rows.
 	let query = supabase.from(table).select(select, {
 		count: 'exact',
@@ -107,9 +108,7 @@ export async function browse(props) {
 	// And pagination.
 	const {from, to, limit: l} = getBrowseParams({page, limit})
 	query = query.range(from, to).limit(l)
-
 	console.log('browse', props, query.url.search, {from, to, limit})
-
 	return query
 }
 

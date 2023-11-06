@@ -2,6 +2,8 @@ import {html} from 'lit'
 import {sdk} from '../libs/sdk.js'
 import BaseQuery from './base-query.js'
 
+const debug = false
+
 // Base class to extend from
 export default class BaseChannel extends BaseQuery {
 	static properties = {
@@ -28,7 +30,7 @@ export default class BaseChannel extends BaseQuery {
 		if (!this.channel) await this.setChannel()
 		super.connectedCallback()
 	}
-
+  
 	get slug() {
 		return this.config.singleChannel ? this.config.selectedSlug : this.params.slug
 	}

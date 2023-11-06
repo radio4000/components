@@ -4,6 +4,8 @@ import urlUtils from '../libs/url-utils.js'
 
 const {tables, tableNames} = dbSchema
 
+const debug = false
+
 /*
 	 list-channels, default `page="1"`, `limit="1"`;
 	 its attributes are bound to the supabase sdk table (data model) query values
@@ -119,6 +121,15 @@ export default class R4SupabaseQuery extends LitElement {
 	onQuery() {
 		const query = this.query
 		console.log('<r4-supabase-query>.onQuery', query)
+		const query = {
+			table: this.table,
+			select: this.select,
+			filters: this.filters,
+			orderBy: this.orderBy,
+			orderConfig: this.orderConfig,
+			page: this.page,
+			limit: this.limit,
+		}
 		this.dispatchEvent(
 			new CustomEvent('query', {
 				bubbles: true,
