@@ -44,15 +44,13 @@ export const supabaseOperatorsTable = {
 export const supabaseOperators = Object.keys(supabaseOperatorsTable)
 
 /**
- * browse the list (of db table) like it is paginated;
- * (query params ->) components-attributes -> supbase-query
- * this does not render the list, just browses it
+ * Browse a PostgreSQL database via Postgrest
  * @param {import('../pages/base-query.js').R4Query} props
  */
 export async function browse(props) {
 	const {table, select, filters, orderBy, order, page = 1, limit = 1} = props
 	if (!table) throw new Error('missing "table" to browse')
-  
+
 	// We add count exact: to get a .total property back in the response. head:false ensures we still get the rows.
 	let query = supabase.from(table).select(select, {
 		count: 'exact',
@@ -108,7 +106,8 @@ export async function browse(props) {
 	// And pagination.
 	const {from, to, limit: l} = getBrowseParams({page, limit})
 	query = query.range(from, to).limit(l)
-	console.log('browse', props, query.url.search, {from, to, limit})
+
+	console.log('browse', query.url.pathname.replace('/rest/v1',''), query.url.search)
 	return query
 }
 
