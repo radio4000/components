@@ -36,6 +36,10 @@ export default class R4SupabaseFilterSearch extends LitElement {
 		)
 	}
 
+	// extractSearchFilterValue(filter) {
+	// 	return filter?.value.split(':')[0].split("'")[1]
+	// }
+
 	// Disable shadow DOM
 	createRenderRoot() {
 		return this
