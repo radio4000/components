@@ -95,6 +95,7 @@ export default class BaseQuery extends R4Page {
 		if (res.error) console.log('error fetching data', res)
 		this.count = res.count
 		this.data = res.data
+		this.dispatchEvent(new CustomEvent('data', {detail: res}))
 	}
 
 	onQuery(event) {
