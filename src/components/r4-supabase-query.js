@@ -220,7 +220,7 @@ export default class R4SupabaseQuery extends LitElement {
 					name="page"
 					type="number"
 					placeholder="page"
-					.value=${this.page}
+					.value=${this.page || 1}
 					step="1"
 					min="1"
 					max=${this.totalPages}
