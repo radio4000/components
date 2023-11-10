@@ -1,4 +1,4 @@
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 import mediaUrlParser from 'media-url-parser'
 import R4Form from './r4-form.js'
 

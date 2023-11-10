@@ -1,5 +1,5 @@
 import {LitElement, html} from 'lit'
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 import {THEMES, COLOR_SCHEMES} from '../libs/appearence.js'
 
 export default class R4UserAccount extends LitElement {
@@ -16,13 +16,15 @@ export default class R4UserAccount extends LitElement {
 	async saveTheme(value) {
 		if (!value) return
 		if (this.account) {
-			await sdk.supabase.from('accounts').update({theme: value}).eq('id', this.account.id)
+			const {error} = await sdk.supabase.from('accounts').update({theme: value}).eq('id', this.account.id)
+			if (error) console.log(error)
 		}
 	}
 	async saveColorScheme(value) {
 		if (!value) return
 		if (this.account) {
-			await sdk.supabase.from('accounts').update({color_scheme: value}).eq('id', this.account.id)
+			const {error} = await sdk.supabase.from('accounts').update({color_scheme: value}).eq('id', this.account.id)
+			if (error) console.log(error)
 		}
 	}
 

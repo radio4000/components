@@ -5,6 +5,7 @@
 
 import R4Actions from './r4-actions.js'
 import R4App from './r4-app.js'
+import R4BaseQuery from './r4-base-query.js'
 import R4AppMenu from './r4-app-menu.js'
 import R4Avatar from './r4-avatar.js'
 import R4AvatarUpdate from './r4-avatar-update.js'
@@ -55,6 +56,7 @@ customElements.define('r4-avatar', R4Avatar)
 customElements.define('r4-avatar-update', R4AvatarUpdate)
 customElements.define('r4-avatar-upload', R4AvatarUpload)
 customElements.define('r4-auth-status', R4AuthStatus)
+customElements.define('r4-base-query', R4BaseQuery)
 customElements.define('r4-button-play', R4ButtonPlay)
 customElements.define('r4-button-follow', R4ButtonFollow)
 customElements.define('r4-channel', R4Channel)
@@ -102,6 +104,7 @@ export default {
 	R4AvatarUpdate,
 	R4AvatarUpload,
 	R4AuthStatus,
+	R4BaseQuery,
 	R4ButtonPlay,
 	R4ButtonFollow,
 	R4Channel,

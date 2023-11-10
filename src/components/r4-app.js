@@ -1,6 +1,6 @@
 import {html, LitElement} from 'lit'
 import {ref, createRef} from 'lit/directives/ref.js'
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 import page from 'page/page.mjs'
 import DatabaseListeners from '../libs/db-listeners'
 import '../pages/'
@@ -210,7 +210,7 @@ export default class R4App extends LitElement {
 				<r4-player
 					slot="player"
 					${ref(this.playerRef)}
-					?is-playing=${this.isPlaying}
+					.config=${this.config}
 					@trackchange=${this.onTrackChange}
 				></r4-player>
 			</r4-layout>

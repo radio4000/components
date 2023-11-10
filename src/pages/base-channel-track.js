@@ -1,5 +1,5 @@
 import {html} from 'lit'
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
 

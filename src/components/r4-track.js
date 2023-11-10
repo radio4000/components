@@ -1,4 +1,4 @@
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 import {LitElement, html} from 'lit'
 import {unsafeHTML} from 'lit/directives/unsafe-html.js'
 
