@@ -1,5 +1,7 @@
 import {sdk} from '../libs/sdk.js'
 import {LitElement, html} from 'lit'
+import {unsafeHTML} from 'lit/directives/unsafe-html.js'
+import {linkEntities} from '../libs/link-tags-mentions.js'
 
 export default class R4Track extends LitElement {
 	static properties = {
@@ -89,8 +91,9 @@ export default class R4Track extends LitElement {
 			<r4-button-play .channel=${this.channel} .track=${this.track}></r4-button-play>
 			<r4-track-title>${this.renderTitle()}</r4-track-title>
 			${this.track.description ? this.renderDescription() : null}
-			${this.track.discogs_url ? this.renderDiscogsUrl() : null} ${this.track?.tags?.length ? this.renderTags() : null}
-			${this.track?.mentions?.length ? this.renderMentions() : null} ${this.renderMenu()}
+			${this.track.discogs_url ? this.renderDiscogsUrl() : null}
+			${this.track?.DISABLEDtags?.length ? this.renderTags() : null}
+			${this.track?.DISABLEDmentions?.length ? this.renderMentions() : null} ${this.renderMenu()}
 
 			<r4-dialog name="update">
 				<r4-track-update
@@ -116,37 +119,48 @@ export default class R4Track extends LitElement {
 		const title = this.track.title || this.track.id
 		return this.link ? html`<a href=${this.url}>${title}</a>` : title
 	}
+
 	renderDescription() {
-		return html`<r4-track-description>${this.track.description}</r4-track-description>`
+		const withLinks = unsafeHTML(linkEntities(this.track.description, this.href, this.origin))
+		return html`<r4-track-description>${withLinks}</r4-track-description>`
 	}
+
 	renderDiscogsUrl() {
 		return html`<r4-track-discogs-url><a href="${this.track.discogs_url}">Discogs</a></r4-track-discogs-url>`
 	}
+
 	renderTags() {
 		return html`<r4-track-tags><menu>${this.track.tags?.map((tag) => this.renderTag(tag))}</menu></r4-track-tags>`
 	}
+
 	renderTag(label) {
 		if (!label) return null
-		const filter = JSON.stringify({column: 'tags', operator: 'contains', value: label})
-		const url = `${this.origin}?filters=[${filter}]`
+		const url = `${this.origin}?search=${label.replace('#', '')}`
 		return html`<li><a href="${url}" label>${label}</a></li>`
 	}
+
 	renderMentions() {
 		return html` <r4-track-mentions>
 			<menu> ${this.track.mentions?.map((m) => this.renderMention(m))} </menu>
 		</r4-track-mentions>`
 	}
+
 	renderMention(slug) {
 		if (!slug) return null
 		const url = `${this.href}/${slug}`
 		return html`<li><a href="${url}" label>${slug}</a></li>`
 	}
+
 	renderMenu() {
 		return html`
 			<r4-actions>
 				<details>
 					<summary>
-						<svg aria-viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M8 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM1.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm13 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path></svg>
+						<svg aria-viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
+							<path
+								d="M8 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM1.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm13 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"
+							></path>
+						</svg>
 					</summary>
 					<menu>
 						<li><button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button></li>
@@ -165,9 +179,11 @@ export default class R4Track extends LitElement {
 			</r4-actions>
 		`
 	}
+
 	renderNoTrack() {
 		return html`Track not found`
 	}
+
 	async onUpdate(event) {
 		if (!event.detail.error) {
 			if (this.trackId) {
@@ -176,6 +192,7 @@ export default class R4Track extends LitElement {
 			this.closeDialog('update')
 		}
 	}
+
 	async onDelete(event) {
 		if (!event.detail.error) {
 			this.id = null
@@ -184,12 +201,15 @@ export default class R4Track extends LitElement {
 			this.closeDialog('delete')
 		}
 	}
+
 	openDialog(name) {
 		this.querySelector(`r4-dialog[name="${name}"]`).open()
 	}
+
 	closeDialog(name) {
 		this.querySelector(`r4-dialog[name="${name}"]`).close()
 	}
+
 	createRenderRoot() {
 		return this
 	}

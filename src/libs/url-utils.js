@@ -37,8 +37,12 @@ export function setSearchParams(query, options = {}) {
 				searchParams.delete(key)
 			}
 		} else {
-			// strings and numbers can just be set
-			searchParams.set(key, value)
+			if (value) {
+				// strings and numbers can just be set
+				searchParams.set(key, value)
+			} else {
+				searchParams.delete(key)
+			}
 		}
 	}
 	const searchParamsString = `?${searchParams.toString()}`

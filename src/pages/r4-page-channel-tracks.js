@@ -45,6 +45,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 			<r4-base-query
 				.defaultFilters=${[{operator: 'eq', column: 'slug', value: this.channel?.slug}]}
 				.initialQuery=${this.query}
+				.searchParams=${this.searchParams}
 				@data=${this.handleData}
 			></r4-base-query>
 		`
@@ -94,13 +95,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 				<li><a href=${this.channelOrigin}>@${this.slug}</a></li>
 				<li><r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play></li>
 				<li>
-					<r4-supabase-filter-search
-						search=${this.query?.search}
-						placeholder="${this.count + ' tracks'}"
-						@input=${this.onSearch}
-					></r4-supabase-filter-search>
-				</li>
-				<li>
 					<r4-button-play
 						.tracks=${this.tracks}
 						.channel=${this.channel}
@@ -112,19 +106,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 		`
 	}
 
-	createTagUrl(tag) {
-		const filter = JSON.stringify({column: 'tags', operator: 'contains', value: tag})
-		return `${this.tracksOrigin}?filters=[${filter}]`
-	}
-
-	renderTag(tag) {
-		return html`<a href=${this.createTagUrl(tag)} label>${tag}</a>`
-	}
-
-	renderMention(slug) {
-		const url = this.config.href + '/' + slug
-		return html`<a href="${url}" label>${slug}</a>`
-	}
 	renderNoPage() {
 		return html` <r4-page-main> 404 - No channel with this slug </r4-page-main> `
 	}
