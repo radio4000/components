@@ -53,6 +53,9 @@ export default class R4BaseQuery extends LitElement {
 		this.initialQuery = {}
 		this.query = {}
 
+		/** @type {R4Filter[]} */
+		this.defaultFilters = []
+
 		/** A debounced version of fetchData() */
 		this.debouncedFetchData = debounce(() => this.fetchData(), 400, {leading: true, trailing: true})
 	}
@@ -63,14 +66,6 @@ export default class R4BaseQuery extends LitElement {
 		console.log('<base-query> connected', this.query)
 		super.connectedCallback()
 	}
-
-	/**
-	 * @type {R4Filter[]}
-	 * This is a getter so we can access class properties like `this.slug` when accessed.
-	 */
-	// get defaultFilters() {
-	// 	return []
-	// }
 
 	/**
 	 * Essentially this.query + this.defaultFilters
@@ -96,6 +91,12 @@ export default class R4BaseQuery extends LitElement {
 	async fetchData() {
 		const res = await browse(this.browseQuery)
 		if (res.error) console.log('error fetching data', res)
+
+		// reset pagination while searching?
+		if (res.error?.code === 'PGRST103') {
+			this.setQuery({page: 1, limit: 10})
+		}
+
 		this.count = res.count
 		this.data = res.data
 		this.dispatchEvent(new CustomEvent('data', {detail: res}))
