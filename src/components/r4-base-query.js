@@ -1,8 +1,7 @@
-import {html} from 'lit'
+import {LitElement, html} from 'lit'
 import debounce from 'lodash.debounce'
 import urlUtils from '../libs/url-utils.js'
 import {browse} from '../libs/browse.js'
-import R4Page from '../components/r4-page.js'
 
 // This is not in use anywhere.
 // It is a sketch for later.
@@ -30,13 +29,15 @@ import R4Page from '../components/r4-page.js'
 /**
  * Adds all the neccessary things to query the database with search, filters, ordering and pagination.
  */
-export default class BaseQuery extends R4Page {
-	static get properties() {
-		return {
-			count: {type: Number},
-			data: {type: Array},
-			query: {type: Object},
-		}
+export default class R4BaseQuery extends LitElement {
+	static properties = {
+		// pass these down
+		initialQuery: {type: Object},
+		defaultFilters: {type: Array},
+		// inside we have
+		query: {type: Object, state: true},
+		data: {type: Array, state: true},
+		count: {type: Number, state: true},
 	}
 
 	constructor() {
@@ -49,15 +50,17 @@ export default class BaseQuery extends R4Page {
 		this.data = []
 
 		/** @type {R4Query} */
+		this.initialQuery = {}
 		this.query = {}
 
 		/** A debounced version of fetchData() */
-		this.debouncedFetchData = debounce(() => this.fetchData(), 400, {leading: false, trailing: true})
+		this.debouncedFetchData = debounce(() => this.fetchData(), 400, {leading: true, trailing: true})
 	}
 
 	connectedCallback() {
 		// As soon as the DOM is ready, read the URL query params
-		this.query = {...this.query, ...urlUtils.getQueryFromUrl(new URLSearchParams(location.search))}
+		this.query = {...this.initialQuery, ...urlUtils.getQueryFromUrl(new URLSearchParams(location.search))}
+		console.log('<base-query> connected', this.query)
 		super.connectedCallback()
 	}
 
@@ -65,9 +68,9 @@ export default class BaseQuery extends R4Page {
 	 * @type {R4Filter[]}
 	 * This is a getter so we can access class properties like `this.slug` when accessed.
 	 */
-	get defaultFilters() {
-		return []
-	}
+	// get defaultFilters() {
+	// 	return []
+	// }
 
 	/**
 	 * Essentially this.query + this.defaultFilters
@@ -100,17 +103,13 @@ export default class BaseQuery extends R4Page {
 
 	onQuery(event) {
 		event.preventDefault()
-		this.query = event.detail
-		urlUtils.setSearchParams(event.detail)
-		this.debouncedFetchData()
+		this.setQuery(event.detail)
 	}
 
 	onSearch(event) {
 		event.preventDefault()
 		const {search} = event.detail
-		this.query.search = search
-		urlUtils.setSearchParams({search}, {includeList: ['search']}) // only update "search" param
-		this.debouncedFetchData()
+		this.setQuery({search})
 	}
 
 	clearFilters() {
@@ -119,12 +118,16 @@ export default class BaseQuery extends R4Page {
 
 	// Just a shortcut when no extra logic is needed. Also updates URL params and reloads data.
 	setQuery(query) {
-		this.query = query
+		this.query = {...this.query, ...query}
 		urlUtils.setSearchParams(this.query)
 		this.debouncedFetchData()
 	}
 
-	renderQuery() {
+	render() {
+		return html`${this.renderControls()}`
+	}
+
+	renderControls() {
 		const filtersLen = this.query?.filters?.length
 		return html`
 			<menu>
@@ -153,5 +156,9 @@ export default class BaseQuery extends R4Page {
 				></r4-supabase-query>
 			</details>
 		`
+	}
+
+	createRenderRoot() {
+		return this
 	}
 }

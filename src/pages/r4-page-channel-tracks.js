@@ -4,6 +4,8 @@ import BaseChannel from './base-channel'
 
 export default class R4PageChannelTracks extends BaseChannel {
 	static properties = {
+		tracks: {type: Array, state: true},
+
 		// from BaseChannel
 		channel: {type: Object, state: true},
 		channelError: {type: Object, state: true},
@@ -11,10 +13,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		alreadyFollowing: {type: Boolean, state: true},
 		followsYou: {type: Boolean, state: true},
 		isFirebaseChannel: {type: Boolean, state: true},
-		// from BaseQuery
-		count: {type: Number},
-		data: {type: Array},
-		query: {type: Object},
+
 		// from router
 		params: {type: Object, state: true},
 		store: {type: Object, state: true},
@@ -25,10 +24,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 		origin: {type: String},
 	}
 
-	get defaultFilters() {
-		return [{operator: 'eq', column: 'slug', value: this.slug}]
-	}
-
 	constructor() {
 		super()
 		this.query = {
@@ -36,12 +31,23 @@ export default class R4PageChannelTracks extends BaseChannel {
 		}
 	}
 
+	handleData(event) {
+		const {data: tracks, count} = event.detail
+		this.tracks = tracks
+		this.count = count
+	}
+
 	renderHeader() {
-		if (this.channelError) {
-			return this.renderNoPage()
-		} else {
-			return [this.renderTracksMenu(), this.renderQuery()]
-		}
+		if (this.channelError) return this.renderNoPage()
+
+		return html`
+			${this.renderTracksMenu()}
+			<r4-base-query
+				.defaultFilters=${[{operator: 'eq', column: 'slug', value: this.channel?.slug}]}
+				.initialQuery=${this.query}
+				@data=${this.handleData}
+			></r4-base-query>
+		`
 	}
 
 	renderMain() {
@@ -51,12 +57,12 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 
 	renderTracksList() {
-		if (this.data?.length) {
+		if (this.tracks?.length) {
 			return html` <r4-list> ${this.renderListItems()} </r4-list> `
 		} else {
 			return html`
 				<r4-list>
-					<r4-list-item>No result for this query</r4-list-item>
+					<r4-list-item>No tracks found for this query</r4-list-item>
 				</r4-list>
 			`
 		}
@@ -64,7 +70,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	renderListItems() {
 		return repeat(
-			this.data,
+			this.tracks,
 			(t) => t.id,
 			(t) => html`
 				<r4-list-item>
@@ -72,7 +78,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 						.track=${t}
 						.channel=${this.channel}
 						.config=${this.config}
-						.canEdit="${this.canEdit}"
+						.canEdit=${this.canEdit}
 						href=${this.config.href}
 						origin=${this.tracksOrigin}
 					></r4-track>
@@ -82,7 +88,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 	}
 
 	renderTracksMenu() {
-		if (!this.data) return null
+		if (!this.tracks) return null
 		return html`
 			<menu>
 				<li><a href=${this.channelOrigin}>@${this.slug}</a></li>
@@ -96,7 +102,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 				</li>
 				<li>
 					<r4-button-play
-						.tracks=${this.data}
+						.tracks=${this.tracks}
 						.channel=${this.channel}
 						.filters=${this.filters}
 						label="Play results"

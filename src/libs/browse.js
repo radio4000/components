@@ -45,7 +45,7 @@ export const supabaseOperators = Object.keys(supabaseOperatorsTable)
 
 /**
  * Browse a PostgreSQL database via Postgrest
- * @param {import('../pages/base-query.js').R4Query} props
+ * @param {import('../components/r4-base-query.js').R4Query} props
  */
 export async function browse(props) {
 	const {table, select, filters, orderBy, order, page = 1, limit = 1} = props

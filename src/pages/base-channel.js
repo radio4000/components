@@ -1,11 +1,8 @@
 import {html} from 'lit'
 import {sdk} from '../libs/sdk.js'
-import BaseQuery from './base-query.js'
+import R4Page from '../components/r4-page.js'
 
-const debug = false
-
-// Base class to extend from
-export default class BaseChannel extends BaseQuery {
+export default class BaseChannel extends R4Page {
 	static properties = {
 		channel: {type: Object, state: true},
 		channelError: {type: Object, state: true},
@@ -13,12 +10,6 @@ export default class BaseChannel extends BaseQuery {
 		alreadyFollowing: {type: Boolean, state: true},
 		followsYou: {type: Boolean, state: true},
 		isFirebaseChannel: {type: Boolean, state: true},
-
-		// from BaseQuery
-		count: {type: Number},
-		data: {type: Array},
-		query: {type: Object},
-
 		// from router
 		params: {type: Object, state: true},
 		store: {type: Object, state: true},
@@ -30,17 +21,20 @@ export default class BaseChannel extends BaseQuery {
 		if (!this.channel) await this.setChannel()
 		super.connectedCallback()
 	}
-  
+
 	get slug() {
 		return this.config.singleChannel ? this.config.selectedSlug : this.params.slug
 	}
+
 	get channelOrigin() {
 		return this.config.singleChannel ? this.config.href : `${this.config.href}/${this.params.slug}`
 	}
+
 	get tracksOrigin() {
 		const {singleChannel, href} = this.config
 		return singleChannel ? `${href}/tracks/` : `${href}/${this.params.slug}/tracks/`
 	}
+
 	get coordinates() {
 		if (this.channel.longitude && this.channel.latitude) {
 			return {
@@ -50,14 +44,17 @@ export default class BaseChannel extends BaseQuery {
 		}
 		return undefined
 	}
+
 	get hasOneChannel() {
 		if (!this.store.user) return false
 		return this.store?.userChannels?.length === 1 ? true : false
 	}
+
 	get alreadyFollowing() {
 		if (!this.store.user) return false
 		return this.store.following?.map((c) => c.slug).includes(this.channel?.slug)
 	}
+
 	get followsYou() {
 		if (!this.store.user) return false
 		return this.store.followers?.map((c) => c.slug).includes(this.config.selectedSlug)
@@ -95,7 +92,7 @@ export default class BaseChannel extends BaseQuery {
 	}
 
 	renderAside() {
-		return html`<r4-page-aside> ${this.channel ? this.renderChannelShare() : null}</r4-page-aside>`
+		return html`${this.channel ? this.renderChannelShare() : null}`
 	}
 
 	renderHeader() {

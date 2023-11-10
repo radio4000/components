@@ -1,28 +1,13 @@
-import BaseQuery from './base-query.js'
+import R4Page from '../components/r4-page.js'
 
-export default class BaseChannels extends BaseQuery {
+export default class BaseChannels extends R4Page {
 	static properties = {
 		// from router
 		config: {type: Object},
 		searchParams: {type: Object, state: true},
-		// from BaseQuery
-		count: {type: Number},
-		data: {type: Array},
-		query: {type: Object},
-	}
-
-	constructor() {
-		super()
-		this.query = {
-			table: 'channels',
-		}
 	}
 
 	get channelOrigin() {
 		return `${this.config.href}/{{slug}}`
-	}
-
-	renderHeader() {
-		return this.renderQuery()
 	}
 }
