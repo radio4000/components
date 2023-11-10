@@ -64,6 +64,9 @@ r4-app-menu a,
 r4-page-channel r4-page-header > menu a {
 	padding: var(--s) calc(var(--s) / 2);
 }
+r4-app-menu a[aria-current] {
+	color: var(--c-fg);
+}
 
 /* Channel cards */
 r4-channel-card {

@@ -279,6 +279,9 @@ r4-app-menu a,
 r4-page-channel r4-page-header > menu a {
 	padding: var(--s) calc(var(--s) / 2);
 }
+r4-app-menu a[aria-current] {
+	color: var(--c-headlines);
+}
 
 /* Player styles */
 r4-layout::part(playback-summary) {
