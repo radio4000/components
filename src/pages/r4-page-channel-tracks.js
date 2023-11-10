@@ -45,6 +45,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 			<r4-base-query
 				.defaultFilters=${[{operator: 'eq', column: 'slug', value: this.channel?.slug}]}
 				.initialQuery=${this.query}
+				.searchParams=${this.searchParams}
 				@data=${this.handleData}
 			></r4-base-query>
 		`

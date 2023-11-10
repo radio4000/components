@@ -34,6 +34,7 @@ export default class R4BaseQuery extends LitElement {
 		// pass these down
 		initialQuery: {type: Object},
 		defaultFilters: {type: Array},
+		searchParams: {type: Object},
 		// inside we have
 		query: {type: Object, state: true},
 		data: {type: Array, state: true},
@@ -66,6 +67,17 @@ export default class R4BaseQuery extends LitElement {
 		console.log('<base-query> connected', this.query)
 		super.connectedCallback()
 	}
+
+	willUpdate(changedProperties) {
+		// trigger an update if url params changed. to be watched
+		if (changedProperties.has('searchParams')) {
+			console.log('triggered extra update via search params')
+			this.setQuery(
+				urlUtils.getQueryFromUrl(new URLSearchParams(location.search))
+			)
+		}
+	}
+
 
 	/**
 	 * Essentially this.query + this.defaultFilters
