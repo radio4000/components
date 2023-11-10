@@ -1,25 +1,7 @@
 import {sdk} from '../libs/sdk.js'
 import {LitElement, html} from 'lit'
 import {unsafeHTML} from 'lit/directives/unsafe-html.js'
-
-/**
- * Finds #hashtags and @mentions inside a string and turn them into HTML links for R4
- * @param {string} str
- * @param {string} origin - to build a URL that works anywhere R4-app is
- * @returns {string} with hashtags and mentions linked.
- */
-const linkEntitiesRegex = /(^|\s)([#@][a-z\d-]+)/gi
-function linkHashtags(str, href, origin) {
-	if (!origin) return str
-	return str.replace(linkEntitiesRegex, (match, prefix, entity) => {
-		const type = entity.startsWith('#') ? 'hashtag' : 'mention'
-		let url = `${origin}?search=${entity.substring(1)}`
-		if (type === 'mention') {
-			url = `${href}/${entity.substring(1)}`
-		}
-		return `<a href="${url}">${entity}</a>`
-	})
-}
+import {linkEntities} from '../libs/link-tags-mentions.js'
 
 export default class R4Track extends LitElement {
 	static properties = {
@@ -139,7 +121,7 @@ export default class R4Track extends LitElement {
 	}
 
 	renderDescription() {
-		const withLinks = unsafeHTML(linkHashtags(this.track.description, this.href, this.origin))
+		const withLinks = unsafeHTML(linkEntities(this.track.description, this.href, this.origin))
 		return html`<r4-track-description>${withLinks}</r4-track-description>`
 	}
 
