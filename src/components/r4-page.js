@@ -1,5 +1,8 @@
-import {html, LitElement} from 'lit'
+import {LitElement, html} from 'lit'
 
+/**
+ * A DOM structure/pattern for pages to re-use for consistency
+ */
 export default class R4Page extends LitElement {
 	render() {
 		return html`

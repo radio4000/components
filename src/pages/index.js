@@ -12,12 +12,12 @@ import R4PageHome from './r4-page-home.js'
 import R4PageMap from './r4-page-map.js'
 import R4PageSearch from './r4-page-search.js'
 import R4PageNew from './r4-page-new.js'
-import R4PageSettings from './r4-page-settings'
+import R4PageSettings from './r4-page-settings.js'
 import R4PageSign from './r4-page-sign.js'
 import R4PageChannelTrack from './r4-page-channel-track'
 import R4PageTrackUpdate from './r4-page-track-update.js'
 import R4PageTrackDelete from './r4-page-track-delete.js'
-import R4PageChannelTracks from './r4-page-channel-tracks'
+import R4PageChannelTracks from './r4-page-channel-tracks.js'
 
 customElements.define('r4-page-about', R4PageAbout)
 customElements.define('r4-page-sign', R4PageSign)

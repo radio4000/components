@@ -9,7 +9,6 @@
 	{"path": "/map", "page": "map"},
 	{"path": "/search", "page": "search"},
 	{"path": "/about", "page": "about"},
-	{"path": "/playground/:color", "page": "playground"},
 	{"path": "/:slug", "page": "channel"},
 	{"path": "/:slug/feed", "page": "channel-feed"},
 	{"path": "/:slug/update", "page": "channel-update"},

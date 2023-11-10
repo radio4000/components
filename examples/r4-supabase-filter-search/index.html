@@ -38,7 +38,7 @@
 			$search.addEventListener('input', ({detail}) => {
 				console.log('supabase-filter-search event', detail)
 				if (detail) {
-					window.history.replaceState(null, null, `?${paramName}=${JSON.stringify(detail)}`)
+					window.history.replaceState(null, null, `?${paramName}=${JSON.stringify(detail.filter)}`)
 				} else {
 					window.history.replaceState(null, null, './')
 				}

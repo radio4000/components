@@ -43,20 +43,14 @@ export const supabaseOperatorsTable = {
 
 export const supabaseOperators = Object.keys(supabaseOperatorsTable)
 
-/* browse the list (of db table) like it is paginated;
-	 (query params ->) components-attributes -> supbase-query
-	 this does not render the list, just browses it
+/**
+ * Browse a PostgreSQL database via Postgrest
+ * @param {import('../components/r4-base-query.js').R4Query} props
  */
-export async function browse({
-	page = 1,
-	limit = 1,
-	table = '',
-	select = '',
-	orderBy = '',
-	orderConfig = {},
-	filters = [],
-}) {
-	if (debug) console.log('browse', {table, select, page, limit, orderBy, orderConfig, filters})
+export async function browse(props) {
+	const {table, select, filters, orderBy, order, page = 1, limit = 1} = props
+	if (!table) throw new Error('missing "table" to browse')
+
 	// We add count exact: to get a .total property back in the response. head:false ensures we still get the rows.
 	let query = supabase.from(table).select(select, {
 		count: 'exact',
@@ -101,7 +95,8 @@ export async function browse({
 
 	// After filters we add sorting.
 	if (orderBy) {
-		if (orderConfig) {
+		if (order) {
+			const orderConfig = {ascending: order === 'asc'}
 			query = query.order(orderBy, orderConfig)
 		} else {
 			query = query.order(orderBy)
@@ -110,9 +105,9 @@ export async function browse({
 
 	// And pagination.
 	const {from, to, limit: l} = getBrowseParams({page, limit})
-	if (debug) console.log('pagination', {page, limit}, {from, to, limit: l})
 	query = query.range(from, to).limit(l)
-	/* console.info('browse.query', query.url.search) */
+
+	console.log('browse', query.url.pathname.replace('/rest/v1',''), query.url.search)
 	return query
 }
 
@@ -124,6 +119,5 @@ export async function browse({
 export function getBrowseParams({page, limit}) {
 	const from = (page - 1) * limit
 	const to = from + limit - 1
-	const params = {from, to, limit}
-	return params
+	return {from, to, limit}
 }

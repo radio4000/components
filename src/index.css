@@ -358,8 +358,13 @@ r4-page-map r4-supabase-query fieldset[name='ascending'] {
 /* Hide table+select from /explore and tracks pages */
 r4-page-explore r4-supabase-select,
 r4-page-channel r4-supabase-select,
-r4-page-channel-tracks r4-supabase-select,
-r4-page-channel r4-supabase-query {
+r4-page-channel-tracks r4-supabase-select {
+	display: none;
+}
+
+/* Hide query ui on /:slug page */
+r4-page-channel menu:has(r4-supabase-filter-search),
+r4-page-channel details:has(r4-supabase-query) {
 	display: none;
 }
 

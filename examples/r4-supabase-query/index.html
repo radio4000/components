@@ -70,20 +70,9 @@
 			import R4SupabaseQuery from '../../src/components/r4-supabase-query.js'
 			import urlUtils from '../../src/libs/url-utils.js'
 
-			const {
-				propertiesToSearch,
-				propertiesFromSearch,
-			} = urlUtils
-
 			const $examples = document.querySelectorAll('r4-supabase-query')
 
 			const onQuery = function (event) {
-				/*
-				console.log('example query', event.detail)
-				const urlSearch = propertiesToSearch(elementProperties, detail)
-				const urlSearchString = `?${urlSearch.toString()}`
-				window.history.replaceState(null, null, urlSearchString)
-				*/
 				document.querySelector(`textarea[name="${event.target.id}"]`).innerText = JSON.stringify(event.detail)
 			}
 
