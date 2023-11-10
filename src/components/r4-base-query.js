@@ -88,7 +88,7 @@ export default class R4BaseQuery extends LitElement {
 		const q = {...this.query}
 		// Apply default filters if there are some.
 		if (q.filters?.length) {
-			q.filters = [...q.filters]
+			q.filters = [...q.filters, ...this.defaultFilters]
 		} else {
 			q.filters = this.defaultFilters
 		}
