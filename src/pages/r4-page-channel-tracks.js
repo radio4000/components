@@ -113,19 +113,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 		`
 	}
 
-	createTagUrl(tag) {
-		const filter = JSON.stringify({column: 'tags', operator: 'contains', value: tag})
-		return `${this.tracksOrigin}?filters=[${filter}]`
-	}
-
-	renderTag(tag) {
-		return html`<a href=${this.createTagUrl(tag)} label>${tag}</a>`
-	}
-
-	renderMention(slug) {
-		const url = this.config.href + '/' + slug
-		return html`<a href="${url}" label>${slug}</a>`
-	}
 	renderNoPage() {
 		return html` <r4-page-main> 404 - No channel with this slug </r4-page-main> `
 	}
