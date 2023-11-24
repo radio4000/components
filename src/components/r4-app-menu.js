@@ -11,9 +11,8 @@ export default class R4AppMenu extends LitElement {
 
 	constructor() {
 		super()
-
 		// Set "path" on every navigation.
-		window.navigation.addEventListener('navigate', (e) => {
+		window?.navigation?.addEventListener('navigate', (e) => {
 			this.path = e.destination.url.replace(this.href, '').split('?')[0]
 		})
 	}
