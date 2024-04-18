@@ -9,6 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Set env
+        run: |
+          echo "VITE_SUPABASE_URL=$SUPABASE_URL" >> $GITHUB_ENV
+          echo "VITE_SUPABASE_KEY=$SUPABASE_KEY" >> $GITHUB_ENV
       - uses: actions/setup-node@v3
       - run: npm ci
       - run: npm run build
