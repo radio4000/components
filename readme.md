@@ -68,3 +68,7 @@ To make sure the build workflows:
 - import and export it in `./src/components/index.js`
 - create an demo in `./examples/r4-*/index.html`
 - reference the demo HTML page in `./vite.config.js`
+
+### Connection to the Radio4000 database
+
+All components use the @radio4000/sdk. The exact db is configured in https://github.com/radio4000/components/blob/main/src/libs/sdk.js.
