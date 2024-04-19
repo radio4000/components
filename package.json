@@ -2,7 +2,7 @@
   "name": "@radio4000/components",
   "description": "web components for radio4000.com",
   "private": false,
-  "version": "0.1.38",
+  "version": "0.1.39",
   "type": "module",
   "main": "dist/r4.js",
   "exports": {
@@ -20,7 +20,7 @@
     "build-website": "vite build --config vite.config.js"
   },
   "dependencies": {
-    "@radio4000/sdk": "^0.4.3",
+    "@radio4000/sdk": "^0.4.4",
     "lit": "^3.0.0",
     "lodash.debounce": "^4.0.8",
     "media-url-parser": "^0.2.4",
