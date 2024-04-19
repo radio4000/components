@@ -32,7 +32,11 @@ export default class R4PageExplore extends R4Page {
 			<r4-page-main>
 				<r4-base-query .initialQuery=${this.query} @data=${this.handleData}></r4-base-query>
 				<r4-list>${this.renderListItems()}</r4-list>
+				<p>Missing a radio? The radios you see above have all moved to the new Radio4000.<br>
+				Other radios can still be browsed on <a href="https://v1.radio4000.com">v1</a>.
 			</r4-page-main>
+			<r4-page-aside>
+			<r4-page-aside>
 		`
 	}
 
