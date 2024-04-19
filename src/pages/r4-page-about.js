@@ -41,30 +41,26 @@ export default class R4PageAbout extends R4Page {
 	renderMain() {
 		const {name} = this.latestTag
 		return html`
-			<p>Hello. This is going to be the next version of <r4-title></r4-title>.</p>
 			<p>
-				The current version is still live on
-				<a href="https://radio4000.com">radio4000.com</a>; keep using it normally, until the beta is ready to replace
-				it.
-			</p>
-			<p>
-				On the beta, you can freely import your existing radio channel, test it with the new features; delete it and
-				start again.
+				Hello. This is is the next version of <r4-title></r4-title>. The old, or first, version is still live on
+				<a href="https://v1.radio4000.com">v1.radio4000.com</a>; it is in read-only mode. Here you can freely import
+				your existing radio channel, test it with the new features.
 			</p>
 			<p>
 				<strong
-					>Play around, test it out and come say hi in the
+					>Come say hi in the
 					<a href="https://matrix.to/#/${this.roomAlias}" rel="noreferrer">
 						community chat
 						<small>(${this.roomAlias})</small>
 					</a>
-					.</strong
-				>
+				</strong>
 			</p>
+			<p>Prefer mail? Write us at <a href="mailto:contact@radio4000.com">contact@radio4000.com</a>.</p>
 			<p>
 				Contribute to the design and development on <a href="https://github.com/radio4000">github.com/radio4000</a>.
 			</p>
 			<p>The latest version is <a href=${this.releasesUrl}>${name ? name : '…'}</a>.</p>
+			<p>Read the <a href="https://blog.radio4000.com/" rel="noreferrer">blog</a></p>
 			<p>Cheers!</p>
 			<p>
 				<a href="${this.config.href}/">← back to the home page</a>

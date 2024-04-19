@@ -80,6 +80,7 @@ export default class R4PageSign extends R4Page {
 	renderForgotPass() {
 		return html`
 			<section>
+				<p>Need help? <a href=${this.config.href + `/about`}>About &rarr;</a></p>
 				<ul>
 					<li><a href=${this.config.href + '/sign/up'}>Sign up</a> if you don't yet have an account.</li>
 					<li>
@@ -99,6 +100,7 @@ export default class R4PageSign extends R4Page {
 	renderExistingAccount() {
 		return html`
 			<section>
+				<p>Need help? <a href=${this.config.href + `/about`}>About &rarr;</a></p>
 				<ul>
 					<li>
 						<a href=${this.config.href + '/sign/in'}>Sign in</a>

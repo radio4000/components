@@ -43,19 +43,11 @@ export default class R4PageHome extends R4Page {
 	renderBetaNote() {
 		return html`
 			<section>
-				<details open="true">
-					<summary>This is a beta version!</summary>
-					<p>
-						This web app <a href=${this.config.href}>${this.config.client}</a> is a public demo of the new
-						<r4-title></r4-title> beta version. Try it out now or see the
-						<a href=${this.config.href + `/about`}>about</a> page.
-					</p>
-					<p>
-						<strong>¿¡WARNING!?</strong> All data created on the beta website will be deleted regularely (PS: it's full
-						of bugs and missing features D: !).
-					</p>
-					<p>Keep adding new tracks in the <a href="https://radio4000.com/" target="_blank">classic application</a>, until we make the switch.</p>
-				</details>
+				 <p><strong>Radio4000</strong>. Welcome. This is version two; went live on the 20th of April 2024, ten years later to the date.</p>
+				 <blockquote>
+				 <p>¿¡NOTICE!? For (technical) reasons we will all have to create new users. All radios are still here.<br>Once you have created a new user, you you can migrate your radio over here.</p>
+				 </blockquote>
+				<p><a href=${this.config.href + `/about`}>About &rarr;</a></p>
 			</section>
 		`
 	}
