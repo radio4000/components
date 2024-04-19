@@ -74,7 +74,7 @@ export default class BaseChannel extends R4Page {
 			try {
 				const res = await fetch('https://radio4000.firebaseio.com/channels.json?orderBy="slug"&equalTo="' + slug + '"')
 				const list = await res.json()
-				this.isFirebaseChannel = Object.keys(list).length > 0
+				this.isFirebaseChannel = list[Object.keys(list)[0]]
 			} catch (e) {
 				//
 			}
@@ -99,7 +99,8 @@ export default class BaseChannel extends R4Page {
 		if (this.isFirebaseChannel) {
 			return html`
 				<h1>@${this.params.slug}</h1>
-				<p>This channel has not yet migrated to the new Radio4000. That's ok, you can still listen.</p>
+				<p>${this.isFirebaseChannel.body}</p>
+				<r4-avatar image=${this.isFirebaseChannel?.image} size="medium"></r4-avatar>
 			`
 		}
 		if (this.channelError) {
