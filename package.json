@@ -23,8 +23,8 @@
     "build-website": "vite build --config src/vite/site.config.js"
   },
   "dependencies": {
-    "@radio4000/sdk": "^0.4.4",
-    "lit": "^3.0.0",
+    "@radio4000/sdk": "^0.4.5",
+    "lit": "^3.1.3",
     "lodash.debounce": "^4.0.8",
     "media-url-parser": "^0.2.4",
     "ol": "^7.4.0",
@@ -33,11 +33,11 @@
   },
   "devDependencies": {
     "eslint": "^8.52.0",
-    "eslint-plugin-lit": "^1.10.0",
-    "eslint-plugin-wc": "^2.0.4",
-    "prettier": "^3.0.3",
+    "eslint-plugin-lit": "^1.11.0",
+    "eslint-plugin-wc": "^2.1.0",
+    "prettier": "^3.2.5",
     "recursive-readdir": "^2.2.3",
-    "vite": "^4.5.0"
+    "vite": "^5.2.10"
   },
   "repository": {
     "type": "git",
