@@ -72,3 +72,10 @@ To make sure the build workflows:
 ### Connection to the Radio4000 database
 
 All components use the @radio4000/sdk. The exact db is configured in https://github.com/radio4000/components/blob/main/src/libs/sdk.js.
+
+
+# Production
+Currently deployed on cloudflare pages (which has the env vars manually added).
+
+> Github pages is not used because it does not support SPA redirects
+> (like in the public folder for other hosting; @TODO: wait then migrate)
