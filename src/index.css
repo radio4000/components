@@ -401,27 +401,21 @@ r4-supabase-modifiers form {
 	display: flex;
 	flex-wrap: wrap;
 }
-r4-channel-card,
-r4-channel-card a,
 r4-track {
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
 }
-r4-channel-card {
-	flex: 1;
-	background-color: var(--c-bg);
-	border: 1px solid var(--c-border);
-	border-radius: var(--s-radius);
-	padding: var(--s);
-}
-r4-channel-card r4-avatar,
-r4-channel-card r4-button-play {
-	padding: calc(var(--s) / 2);
-}
-r4-avatar,
-r4-avatar picture {
+
+r4-avatar {
 	display: inline-flex;
+}
+r4-avatar picture,
+r4-avatar img {
+	width: 100%;
+}
+r4-avatar img {
+	vertical-align: bottom;
 }
 
 r4-list {
@@ -442,6 +436,43 @@ r4-avatar-upload form {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
+}
+
+/* Default, portrait card layout */
+r4-channel-card {
+	display: block;
+	flex: 1;
+	background-color: var(--c-bg);
+	border: 1px solid var(--c-border);
+	border-radius: var(--s-radius);
+	container: card / inline-size;
+}
+r4-channel-card-inner {
+	display: flex;
+	flex-flow: column nowrap;
+}
+r4-channel-card r4-avatar {
+	width: 100%;
+}
+r4-channel-card-body {
+	flex: 1;
+	display: block;
+}
+
+/* Horizontal card layout */
+@container card (min-width: 500px) {
+	r4-channel-card-inner {
+		flex-direction: row;
+		align-items: center;
+		gap: var(--s);
+	}
+	r4-channel-card a:has(r4-avatar) {
+		width: 13rem;
+	}
+}
+
+r4-channel-description {
+	display: block;
 }
 
 r4-supabase-modifiers form {
