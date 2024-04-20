@@ -1,12 +1,13 @@
 import 'radio4000-player'
 import {html, LitElement} from 'lit'
 import {ref, createRef} from 'lit/directives/ref.js'
+import { createImage } from './r4-avatar.js'
 
 export default class R4Player extends LitElement {
 	playerRef = createRef()
 
 	static properties = {
-		title: {type: String},
+		name: {type: String},
 		query: {type: String},
 		image: {type: String},
 		tracks: {type: Array},
@@ -17,8 +18,8 @@ export default class R4Player extends LitElement {
 
 	get playlist() {
 		return {
-			title: this.title,
-			image: this.image,
+			title: this.name,
+			image: createImage(this.image),
 			tracks: this.tracks,
 			query: this.query,
 		}
@@ -85,7 +86,7 @@ export default class R4Player extends LitElement {
 	stop() {
 		this.removeAttribute('track')
 		this.removeAttribute('image')
-		this.removeAttribute('title')
+		this.removeAttribute('name')
 		this.removeAttribute('query')
 		this.removeAttribute('tracks')
 	}
