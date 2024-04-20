@@ -291,7 +291,7 @@ export default class R4App extends LitElement {
 		}
 
 		if (channel?.image) {
-			const imageUrl = channel.image
+			const imageUrl = createImage(channel.image)
 			el.setAttribute('image', imageUrl)
 		} else {
 			el.removeAttribute('image')
