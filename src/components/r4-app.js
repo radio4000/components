@@ -1,5 +1,6 @@
 import {html, LitElement} from 'lit'
 import {ref, createRef} from 'lit/directives/ref.js'
+import pkg from '../../package.json'
 import {sdk} from '../libs/sdk.js'
 import page from 'page/page.mjs'
 import DatabaseListeners from '../libs/db-listeners'
@@ -42,6 +43,7 @@ export default class R4App extends LitElement {
 		playingTracks: {type: Array},
 		playingTrack: {type: Object},
 
+		version: {type: String, reflect: true},
 		theme: {type: String, reflect: true},
 		colorScheme: {type: String, attribute: 'color-scheme', reflect: true},
 
@@ -67,6 +69,7 @@ export default class R4App extends LitElement {
 		return {
 			href: this.href,
 			client,
+			version: this.version,
 			singleChannel: this.singleChannel,
 			selectedSlug: this.selectedSlug,
 			isPlaying: this.isPlaying,
@@ -95,6 +98,8 @@ export default class R4App extends LitElement {
 
 	constructor() {
 		super()
+		// Set current version
+		this.version = pkg.version
 		// Set default theme.
 		this.theme = THEMES[0]
 	}

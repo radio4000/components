@@ -36,7 +36,8 @@ export default class R4AppMenu extends LitElement {
 				<li><a aria-current=${this.isCurrent('/explore')} href=${href + '/explore'}>Explore</a></li>
 				<li><a aria-current=${this.isCurrent('/map')} href=${href + '/map'}>Map</a></li>
 				<li><a aria-current=${this.isCurrent('/settings')} href=${href + '/settings'}>Settings</a></li>
-				<li>${this.auth ? this.renderAuth() : this.renderNoAuth()} ${this.canAdd ? this.renderAdd() : null}</li>
+				<li>${this.auth ? this.renderAuth() : this.renderNoAuth()}</li>
+				<li>${this.canAdd ? this.renderAdd() : null}</li>
 			</menu>
 		`
 	}

@@ -42,12 +42,12 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 		return html`
 			${this.renderTracksMenu()}
-			<r4-base-query
+			<r4-query
 				.defaultFilters=${[{operator: 'eq', column: 'slug', value: this.channel?.slug}]}
 				.initialQuery=${this.query}
 				.searchParams=${this.searchParams}
 				@data=${this.handleData}
-			></r4-base-query>
+			></r4-query>
 		`
 	}
 
@@ -59,7 +59,13 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	renderTracksList() {
 		if (this.tracks?.length) {
-			return html`<r4-list> ${ repeat(this.tracks, (t) => t.id, (t) => this.renderTrackItem(t)) } </r4-list> `
+			return html`<r4-list>
+				${repeat(
+					this.tracks,
+					(t) => t.id,
+					(t) => this.renderTrackItem(t),
+				)}
+			</r4-list> `
 		} else {
 			return html`
 				<r4-list>

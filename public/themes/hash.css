@@ -1,18 +1,50 @@
+/* vars */
 r4-app {
 	/* colors */
-	--c-link: limegreen;
 	--c-light: cornsilk;
 	--c-dark: black;
-	--c-light--accent: mediumorchid;
-	--c-dark--accent: chartreuse;
+	--c-high: dimgray;
+	--c-theme: chartreuse;
+	--c-theme2: rebeccapurple;
 }
 
+/* color schemes */
+r4-app[color-scheme='os'] {
+}
+r4-app[color-scheme='dark'] {
+	color-scheme: dark;
+	--c-bg: var(--c-dark);
+	--c-fg: var(--c-light);
+	--c-hi
+	--c-high: var(--c-theme);
+}
+r4-app[color-scheme='light'] {
+	color-scheme: light;
+	--c-bg: var(--c-light);
+	--c-fg: var(--c-dark);
+	--c-high: var(--c-theme);
+}
+
+/* app */
 r4-app a {
 	text-decoration: none;
+}
+r4-app h1,
+r4-app h2,
+r4-app h3 {
+	font-size: 1.3rem;
+	margin-top: 0;
 }
 
 r4-app menu li {
 	padding: calc(var(--s) / 2);
+}
+r4-app menu a {
+	background-color: var(--c-high);
+	padding: calc(var(--s) / 2);
+}
+r4-app a[aria-current='page'] {
+	background-color: transparent;
 }
 
 r4-app ul li + li,
@@ -20,15 +52,16 @@ r4-app ol li + li {
 	margin-top: var(--s);
 }
 
-r4-app menu a {
-	/* so the UI is different that "normal links" */
-	filter: invert(1);
+r4-app details[open],
+r4-app summary {
+	padding: calc(var(--s));
 }
 
 r4-app form {
 	max-width: calc(var(--s) * 100);
 	padding: var(--s);
-	background-color: var(--c-fg);
+	background-color: var(--c-high);
+	border-radius: calc(var(--s) / 3);
 }
 r4-app summary,
 r4-app form legend,
@@ -45,6 +78,22 @@ r4-app textarea {
 r4-app textarea {
 	min-height: calc(var(--s) * 5);
 	resize: vertical;
+}
+
+/* pages */
+r4-page-add r4-page-header {
+	order: 1;
+}
+r4-page-add r4-page-header menu {
+	display: none;
+}
+
+/* components */
+r4-page-header:not(:empty) {
+	padding: var(--s);
+}
+r4-page-header h1 {
+	margin-bottom: 0;
 }
 r4-list-item + r4-list-item {
 	margin-top: var(--s);
@@ -66,6 +115,15 @@ r4-channel-url::before {
 r4-track-mentions a::before,
 r4-track-tags a::before {
 	color: var(--c-bg);
+}
+r4-query {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: calc(var(--s) / 2);
+}
+r4-button-play {
+	margin: calc(var(--s) / 2);
 }
 
 r4-app r4-layout::part(controls-button) {

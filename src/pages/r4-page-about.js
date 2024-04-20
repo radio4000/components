@@ -39,7 +39,7 @@ export default class R4PageAbout extends R4Page {
 		return html`<h1>About <r4-title></r4-title></h1>`
 	}
 	renderMain() {
-		const {name} = this.latestTag
+		const {name: latestVersion} = this.latestTag
 		return html`
 			<p>
 				Hello. This is is the next version of <r4-title></r4-title>. The old, or first, version is still live on
@@ -57,8 +57,10 @@ export default class R4PageAbout extends R4Page {
 			</p>
 			<p>Write us with email <a href="mailto:contact@radio4000.com">contact@radio4000.com</a>.</p>
 			<p>
-				Contribute to the design and development on <a href="https://github.com/radio4000" rel="noreferrer">github.com/radio4000</a>.
-				The latest version is <a href=${this.releasesUrl}>${name ? name : '…'}</a>.</p>
+				Contribute to the design and development on
+				<a href="https://github.com/radio4000" rel="noreferrer">github.com/radio4000</a>. The latest version is
+				<a href=${this.releasesUrl}>${latestVersion ? latestVersion : '…'}</a>.
+			</p>
 			<p>Read the <a href="https://blog.radio4000.com/">blog</a>.</p>
 			<p>Cheers!</p>
 			<p>

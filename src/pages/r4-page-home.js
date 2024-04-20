@@ -8,22 +8,29 @@ export default class R4PageHome extends R4Page {
 	}
 
 	renderHeader() {
-		return this.renderBetaNote()
+		return this.store.user ? this.renderIn() : this.renderOut()
 	}
 	renderMain() {
 		return html`
-			${this.store.userChannels?.length ? this.renderUserChannels() : null}
+			${this.store.userChannels?.length ? this.renderUserChannels() : this.renderCreateChannel()}
 			${this.store.following?.length ? this.renderFollowingChannels() : null}
 		`
+	}
+	renderIn() {}
+	renderOut() {
+		return this.renderBetaNote()
 	}
 	renderUserChannels() {
 		const {userChannels} = this.store
 		return html`
 			<section>
-				<h2>Your channel${userChannels?.length > 1 ? 's' : ''}</h2>
+				<h2>Channel${userChannels?.length > 1 ? 's' : ''}</h2>
 				<r4-list> ${userChannels.map((channel) => this.renderChannelCard(channel, this.config.href))} </r4-list>
 			</section>
 		`
+	}
+	renderCreateChannel() {
+		return html`import?`
 	}
 	renderFollowingChannels() {
 		const {following} = this.store
@@ -43,13 +50,18 @@ export default class R4PageHome extends R4Page {
 	renderBetaNote() {
 		return html`
 			<section>
-				 <p><strong>Radio4000</strong>. Welcome, hello. This is version two; it went live on the 20th of April 2024, ten years later to the date.</p>
+				<p>Welcome to <r4-title></r4-title> version 2 (beta).</p>
 
-				 <h2>Important ¿¡NOTICE!?</h2>
-				 <blockquote>
-				 <p>¿¡NOTICE!? For (technical) reasons we will all have to create new users. All radios are still here.<br>Once you have created a new user, you can migrate your radio here.</p>
-					<p>It's a bit of hassle (not really, a few clicks), and it's worth it. Once you've moved your radio, it'll appear on /explore again as usual.</p>
-				 </blockquote>
+				<blockquote>
+					<p>
+						¿¡NOTICE!? For (technical) reasons we will all have to create new users. All radios are still here.<br />Once
+						you have created a new user, you can migrate your radio here.
+					</p>
+					<p>
+						It's a bit of hassle (not really, a few clicks), and it's worth it. Once you've moved your radio, it'll
+						appear on /explore again as usual.
+					</p>
+				</blockquote>
 				<p><a href=${this.config.href + `/about`}>About &rarr;</a></p>
 			</section>
 		`

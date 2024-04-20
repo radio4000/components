@@ -32,11 +32,11 @@ export default class R4PageChannel extends BaseChannel {
 
 	renderAside() {
 		return html`
-			<r4-base-query
+			<r4-query
 				.defaultFilters=${[{operator: 'eq', column: 'slug', value: this.channel?.slug}]}
 				.initialQuery=${this.query}
 				@data=${this.handleData}
-			></r4-base-query>
+			></r4-query>
 			${this.channel ? this.renderChannelShare() : null}
 		`
 	}
@@ -44,11 +44,13 @@ export default class R4PageChannel extends BaseChannel {
 	renderMain() {
 		if (this.isFirebaseChannel) {
 			return html`
-			<radio4000-player channel-slug=${this.params.slug}></radio4000-player>
-			<p><small>
-				This channel has not yet migrated to the new Radio4000. That's ok, you can still listen here or on
-				<a href="https://v1.radio4000.com/${this.params.slug}">v1</a>
-			</small></p>
+				<radio4000-player channel-slug=${this.params.slug}></radio4000-player>
+				<p>
+					<small>
+						This channel has not yet migrated to the new Radio4000. That's ok, you can still listen here or on
+						<a href="https://v1.radio4000.com/${this.params.slug}">v1</a>
+					</small>
+				</p>
 			`
 		}
 		// if (this.channelError) {}

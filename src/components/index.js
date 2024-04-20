@@ -5,7 +5,6 @@
 
 import R4Actions from './r4-actions.js'
 import R4App from './r4-app.js'
-import R4BaseQuery from './r4-base-query.js'
 import R4AppMenu from './r4-app-menu.js'
 import R4Avatar from './r4-avatar.js'
 import R4AvatarUpdate from './r4-avatar-update.js'
@@ -29,6 +28,7 @@ import R4MapPosition from './r4-map-position.js'
 import R4Player from './r4-player.js'
 import R4PasswordUpdate from './r4-password-update.js'
 import R4PasswordReset from './r4-password-reset.js'
+import R4Query from './r4-query.js'
 import R4Router from './r4-router.js'
 import {R4ChannelSearch, R4TrackSearch} from './r4-search.js'
 import R4Share from './r4-share.js'
@@ -58,7 +58,6 @@ customElements.define('r4-avatar', R4Avatar)
 customElements.define('r4-avatar-update', R4AvatarUpdate)
 customElements.define('r4-avatar-upload', R4AvatarUpload)
 customElements.define('r4-auth-status', R4AuthStatus)
-customElements.define('r4-base-query', R4BaseQuery)
 customElements.define('r4-button-play', R4ButtonPlay)
 customElements.define('r4-button-follow', R4ButtonFollow)
 customElements.define('r4-channel', R4Channel)
@@ -78,6 +77,7 @@ customElements.define('r4-map-position', R4MapPosition)
 customElements.define('r4-password-update', R4PasswordUpdate)
 customElements.define('r4-password-reset', R4PasswordReset)
 customElements.define('r4-player', R4Player)
+customElements.define('r4-query', R4Query)
 customElements.define('r4-router', R4Router)
 customElements.define('r4-share', R4Share)
 customElements.define('r4-sign-in', R4SignIn)
@@ -108,7 +108,6 @@ export default {
 	R4AvatarUpdate,
 	R4AvatarUpload,
 	R4AuthStatus,
-	R4BaseQuery,
 	R4ButtonPlay,
 	R4ButtonFollow,
 	R4Channel,
@@ -127,6 +126,7 @@ export default {
 	R4MapPosition,
 	R4PasswordReset,
 	R4PasswordUpdate,
+	R4Query,
 	R4Router,
 	R4SignIn,
 	R4SignOut,

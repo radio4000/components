@@ -146,7 +146,7 @@ export default class R4BaseQuery extends LitElement {
 					></r4-supabase-filter-search>
 				</li>
 			</menu>
-			<details open="true">
+			<details>
 				<summary>
 					Filters ${filtersLen ? html`<button @click=${this.clearFilters}>Clear ${filtersLen}</button>` : null}
 				</summary>
