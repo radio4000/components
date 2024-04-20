@@ -145,6 +145,10 @@ r4-app r4-layout::part(controls-button) {
 	cursor: pointer;
 }
 
+r4-app progress[is='r4-loading'] {
+	align-self: center;
+}
+
 /*
 	the layout
 */
@@ -166,7 +170,6 @@ r4-page-main {
 	padding-right: var(--s);
 }
 
-
 /* can make the layout "panel" & its "main" part the full viewport height,
 	 so on page change, all interface does not jump */
 r4-layout::part(panel),
@@ -183,6 +186,12 @@ r4-router > * {
 }
 r4-route {
 	display: none;
+}
+r4-loading {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 r4-layout::part(playback) {
@@ -285,7 +294,7 @@ r4-layout[ui-state='dock']::part(playback) {
 	r4-layout[is-playing]::part(playback) {
 		min-width: 30vw;
 	}
-	r4-layout [slot="player"] {
+	r4-layout [slot='player'] {
 		height: calc(100vh - calc(var(--s) * 1.5));
 	}
 }
@@ -336,7 +345,7 @@ r4-page-map r4-page-main,
 r4-map,
 r4-map main,
 r4-map .ol-viewport {
-	display :flex;
+	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
 }
@@ -551,7 +560,7 @@ r4-actions details menu {
 	align-items: stretch;
 	list-style: none;
 	padding: 0;
-	background-color: var(--bg-overlay, rgba(255,255,255,0.9));
+	background-color: var(--bg-overlay, rgba(255, 255, 255, 0.9));
 	border: 1px solid var(--c-border, rgb(216, 216, 216));
 	border-radius: var(--border-radius);
 	box-shadow: var(--box-shadow, rgba(0, 0, 0, 0.1) 0px 3px 12px);
@@ -569,7 +578,7 @@ r4-app r4-actions[left] menu {
 	left: 0;
 }
 /* Dark theme */
-r4-app[color-scheme="dark"] r4-actions menu {
+r4-app[color-scheme='dark'] r4-actions menu {
 	background-color: var(--bg-overlay, rgb(0 0 0 / 90%));
 }
 /* Make items full width inside the menu */

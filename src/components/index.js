@@ -23,6 +23,7 @@ import R4Dialog from './r4-dialog.js'
 import R4EmailUpdate from './r4-email-update.js'
 import R4Favicon from './r4-favicon.js'
 import R4Layout from './r4-layout.js'
+import R4Loading from './r4-loading.js'
 import R4Map from './r4-map.js'
 import R4MapPosition from './r4-map-position.js'
 import R4Player from './r4-player.js'
@@ -71,6 +72,7 @@ customElements.define('r4-dialog', R4Dialog)
 customElements.define('r4-email-update', R4EmailUpdate)
 customElements.define('r4-favicon', R4Favicon)
 customElements.define('r4-layout', R4Layout)
+customElements.define('r4-loading', R4Loading)
 customElements.define('r4-map', R4Map)
 customElements.define('r4-map-position', R4MapPosition)
 customElements.define('r4-password-update', R4PasswordUpdate)
@@ -119,6 +121,7 @@ export default {
 	R4EmailUpdate,
 	R4Favicon,
 	R4Layout,
+	R4Loading,
 	R4Player,
 	R4Map,
 	R4MapPosition,
