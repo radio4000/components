@@ -95,7 +95,7 @@ r4-app h1 {
 }
 
 r4-app section {
-	margin-bottom: calc(var(--s) * 3);
+	margin-bottom: calc(var(--s) * 2);
 }
 r4-app summary {
 	/* Don't want to select <summaries> text when toggling */
@@ -162,7 +162,8 @@ r4-layout {
 }
 r4-page-header,
 r4-page-main {
-	padding: var(--s);
+	padding-left: var(--s);
+	padding-right: var(--s);
 }
 
 
@@ -552,4 +553,3 @@ r4-app r4-actions a {
 r4-app r4-actions button {
 	flex: 1;
 }
-

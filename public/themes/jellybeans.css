@@ -117,7 +117,7 @@ r4-app r4-layout::part(controls-button) {
 	user-select: none;
 	position: relative;
 	vertical-align: top;
-	line-height: 1;
+	line-height: 1.5;
 	min-width: 2rem;
 	height: 1.5rem;
 	padding: 0 0.3rem;
@@ -191,6 +191,9 @@ r4-app button[destructive]:hover {
 /* Forms */
 r4-app form {
 	max-width: 60ch;
+}
+r4-app fieldset[hidden] {
+	display: none;
 }
 r4-app fieldset label {
 	font-weight: 600;
@@ -276,7 +279,8 @@ r4-channel-name {
 
 /* Ordinary menus */
 r4-app-menu a,
-r4-page-channel r4-page-header > menu a {
+r4-page-channel r4-page-header > menu a,
+r4-page-channel-track r4-page-header > menu a {
 	padding: var(--s) calc(var(--s) / 2);
 }
 r4-app-menu a[aria-current] {
@@ -304,4 +308,3 @@ radio4000-player .PlayerControl-group .Btn {
 .TrackItem.active .TrackItem-title {
 	background-color: var(--c-link) !important;
 }
-

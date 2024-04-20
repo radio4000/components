@@ -55,12 +55,11 @@ export default class R4PageAbout extends R4Page {
 					</a>
 				</strong>
 			</p>
-			<p>Prefer mail? Write us at <a href="mailto:contact@radio4000.com">contact@radio4000.com</a>.</p>
+			<p>Write us with email <a href="mailto:contact@radio4000.com">contact@radio4000.com</a>.</p>
 			<p>
-				Contribute to the design and development on <a href="https://github.com/radio4000">github.com/radio4000</a>.
-			</p>
-			<p>The latest version is <a href=${this.releasesUrl}>${name ? name : '…'}</a>.</p>
-			<p>Read the <a href="https://blog.radio4000.com/" rel="noreferrer">blog</a></p>
+				Contribute to the design and development on <a href="https://github.com/radio4000" rel="noreferrer">github.com/radio4000</a>.
+				The latest version is <a href=${this.releasesUrl}>${name ? name : '…'}</a>.</p>
+			<p>Read the <a href="https://blog.radio4000.com/">blog</a>.</p>
 			<p>Cheers!</p>
 			<p>
 				<a href="${this.config.href}/">← back to the home page</a>
