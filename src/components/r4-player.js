@@ -52,10 +52,15 @@ export default class R4Player extends LitElement {
 	play() {
 		if (!this.$player) return
 		if (this.tracks?.length) {
+			// Convert tracks to playlist format
+			const tracks = this.tracks.map((track) => {
+				track.body = track.description
+				return track
+			})
 			const playlist = {
 				title: this.name,
 				image: createImage(this.image),
-				tracks: this.tracks,
+				tracks,
 				query: this.query,
 			}
 			this.$player.channelSlug = this.config.playingChannel?.slug
