@@ -59,7 +59,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	renderTracksList() {
 		if (this.tracks?.length) {
-			return html` <r4-list> ${this.renderListItems()} </r4-list> `
+			return html`<r4-list> ${ repeat(this.tracks, (t) => t.id, (t) => this.renderTrackItem(t)) } </r4-list> `
 		} else {
 			return html`
 				<r4-list>
@@ -67,25 +67,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 				</r4-list>
 			`
 		}
-	}
-
-	renderListItems() {
-		return repeat(
-			this.tracks,
-			(t) => t.id,
-			(t) => html`
-				<r4-list-item>
-					<r4-track
-						.track=${t}
-						.channel=${this.channel}
-						.config=${this.config}
-						.canEdit=${this.canEdit}
-						href=${this.config.href}
-						origin=${this.tracksOrigin}
-					></r4-track>
-				</r4-list-item>
-			`,
-		)
 	}
 
 	renderTracksMenu() {

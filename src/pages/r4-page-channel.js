@@ -69,19 +69,4 @@ export default class R4PageChannel extends BaseChannel {
 			</r4-list>
 		`
 	}
-
-	renderTrackItem(track) {
-		return html`
-			<r4-list-item>
-				<r4-track
-					.track=${track}
-					.channel=${this.channel}
-					.canEdit=${this.canEdit}
-					href=${this.config.href}
-					origin=${this.tracksOrigin}
-					?playing=${this.config.playingTrack?.id === track.id}
-				></r4-track>
-			</r4-list-item>
-		`
-	}
 }

@@ -181,6 +181,23 @@ export default class BaseChannel extends R4Page {
 		if (!image) return null
 		return html` <r4-avatar image=${image} size="small"></r4-avatar> `
 	}
+
+	renderTrackItem(track) {
+		return html`
+			<r4-list-item>
+				<r4-track
+					.track=${track}
+					.channel=${this.channel}
+					.canEdit=${this.canEdit}
+					.config=${this.config}
+					href=${this.config.href}
+					origin=${this.tracksOrigin}
+					?playing=${this.config.playingTrack?.id === track.id}
+				></r4-track>
+			</r4-list-item>
+		`
+	}
+
 	renderMap() {
 		const mapUrl = `${this.config.href}/map/?longitude=${this.coordinates.longitude}&latitude=${this.coordinates.latitude}&slug=${this.channel.slug}`
 		return html`<a href=${mapUrl}><r4-icon name="map_position"></r4-icon></a>`
