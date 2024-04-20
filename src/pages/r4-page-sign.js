@@ -61,12 +61,12 @@ export default class R4PageSign extends R4Page {
 	renderMethodSelection() {
 		return html`
 			<p>To use <r4-title></r4-title>, sign into your user account.</p>
-			<r4-menu direction="row">
-				<a href=${this.config.href + '/sign'}>sign</a>
-				<a href=${this.config.href + '/sign/up'}>up</a>
-				<a href=${this.config.href + '/sign/in'}>in</a>
-				<a href=${this.config.href + '/sign/out'}>out</a>
-			</r4-menu>
+			<menu>
+				<li><a href=${this.config.href + '/sign'}>sign:</a></li>
+				<li><a href=${this.config.href + '/sign/up'}>up (new account)</a></li>
+				<li><a href=${this.config.href + '/sign/in'}>in (existing account)</a></li>
+				<li><a href=${this.config.href + '/sign/out'}>out (logout account)</a></li>
+			</menu>
 		`
 	}
 

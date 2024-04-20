@@ -35,28 +35,25 @@ export default class R4AppMenu extends LitElement {
 				</li>
 				<li><a aria-current=${this.isCurrent('/explore')} href=${href + '/explore'}>Explore</a></li>
 				<li><a aria-current=${this.isCurrent('/map')} href=${href + '/map'}>Map</a></li>
-				${this.auth ? this.renderAuth() : this.renderNoAuth()} ${this.canAdd ? this.renderAdd() : null}
 				<li><a aria-current=${this.isCurrent('/settings')} href=${href + '/settings'}>Settings</a></li>
+				<li>${this.auth ? this.renderAuth() : this.renderNoAuth()} ${this.canAdd ? this.renderAdd() : null}</li>
 			</menu>
 		`
 	}
 	renderNoAuth() {
-		return html`
-			<li><a aria-current=${this.isCurrent('/sign/up')} href=${this.href + '/sign/up'}>Sign up</a></li>
-			<li><a aria-current=${this.isCurrent('/sign/in')} href=${this.href + '/sign/in'}>Sign in</a></li>
-		`
+		return html`<a aria-current=${this.isCurrent('/about')} href=${this.href + '/about'}>About</a>`
 	}
 	renderAuth() {
 		if (this.slug) {
-			return html`<li>
+			return html`
 				<a aria-current=${this.isCurrent(`/${this.slug}`)} href=${this.href + '/' + this.slug}>@${this.slug}</a>
-			</li>`
+			`
 		} else {
-			return html`<li><a aria-current=${this.isCurrent('/new')} href=${this.href + '/new'}>New radio</a></li>`
+			return html`<a aria-current=${this.isCurrent('/new')} href=${this.href + '/new'}>New radio</a>`
 		}
 	}
 	renderAdd() {
-		return html`<li><a aria-current=${this.isCurrent('/add')} href=${this.href + '/add?slug=' + this.slug}>Add</a></li>`
+		return html`<a aria-current=${this.isCurrent('/add')} href=${this.href + '/add?slug=' + this.slug}>Add</a>`
 	}
 	createRenderRoot() {
 		return this
