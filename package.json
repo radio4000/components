@@ -1,12 +1,12 @@
 {
   "name": "@radio4000/components",
-  "description": "web components for radio4000.com",
+  "description": "Web components for radio4000.com",
   "private": false,
   "version": "0.1.41",
   "type": "module",
   "main": "dist-lib/r4.js",
   "exports": {
-    ".": "./dist-lib/r4.js",
+    "default": "./dist-lib/r4.js",
     "styles": "./dist-lib/style.js"
   },
   "files": ["dist-lib"],
@@ -15,7 +15,7 @@
     "format": "prettier src --write",
     "lint": "eslint src",
     "start": "npm run dev",
-    "dev": "vite --port 4000",
+    "dev": "vite --port 4000 --config src/vite/site.config.js",
     "build": "npm run build-website && npm run build-library",
     "build-library": "vite build --config src/vite/lib.config.js",
     "build-website": "vite build --config src/vite/site.config.js"
