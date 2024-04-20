@@ -262,12 +262,8 @@ export default class R4App extends LitElement {
 		if (!tracks && slug) {
 			const {data} = await sdk.channels.readChannelTracks(slug)
 			tracks = data.reverse().map((track) => {
-				return {
-					title: track.title,
-					body: track.description,
-					image: createImage(track.image),
-					url: track.url,
-				}
+				track.body = track.description
+				return track
 			})
 		}
 		if (tracks) {
