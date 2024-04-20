@@ -23,6 +23,9 @@ export default class R4Loading extends HTMLElement {
 	get randomSentence() {
 		return this.sentences[Math.floor(Math.random() * this.sentences.length)]
 	}
+	attributeChangedCallback() {
+		this.render()
+	}
 	connectedCallback() {
 		if (!this.text) {
 			this.text = this.randomSentence
