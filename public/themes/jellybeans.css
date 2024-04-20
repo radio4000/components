@@ -22,7 +22,7 @@ r4-app {
 	--c-gray4: hsl(50 10% 56%);
 	--c-gray5: hsl(30 10% 36%);
 	--c-gray6: hsl(30 10% 26%);
-	--c-gray7: hsl(30 10% 16%);
+	--c-gray7: hsl(30 8% 16%);
 	--c-gray8: hsl(30 8% 7%);
 	--c-gray9: hsl(30 2% 4%);
 	/* --c-black: hsl(0 0% 0%); */
@@ -305,13 +305,33 @@ r4-channel-name {
 	font-size: 1.25rem;
 }
 
+/* Primary menu */
+r4-app-menu {
+	display: block;
+	background: var(--c-link);
+	margin-bottom: var(--s);
+	[color-scheme="dark"] & {
+		background: var(--c-gray7);
+	}
+}
+r4-app-menu a {
+	text-decoration: none;
+	color: var(--c-bg);
+	[color-scheme="dark"] & {
+		color: var(--fg);
+	}
+}
+r4-app-menu a[aria-current] {
+	background: color-mix(in oklch, var(--c-link) 100%, white 15%);
+	[color-scheme="dark"] & {
+		background: var(--c-link);
+	}
+}
+
 /* Ordinary menus */
 r4-app-menu a,
 r4-page-header > menu a {
 	padding: calc(var(--s) / 3) calc(var(--s) / 3);
-}
-r4-app-menu a[aria-current] {
-	color: var(--c-headlines);
 }
 
 /* Player styles */
