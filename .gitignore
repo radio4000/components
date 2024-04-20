@@ -13,6 +13,7 @@ node_modules
 dist
 dist-ssr
 dist-lib
+dist-website
 *.local
 
 # Editor directories and files

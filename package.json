@@ -4,22 +4,21 @@
   "private": false,
   "version": "0.1.41",
   "type": "module",
-  "main": "dist/r4.js",
+  "main": "dist-lib/r4.js",
   "exports": {
-    ".": "./dist/r4.js"
+    ".": "./dist-lib/r4.js",
+    "styles": "./dist-lib/style.js"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist-lib"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier src --write",
     "lint": "eslint src",
     "start": "npm run dev",
     "dev": "vite --port 4000",
-    "build": "npm run build-website; npm run build-library; mv dist-lib/r4.js dist/r4.js; mv dist-lib/style.css dist/r4.css; rm -r dist-lib",
-    "build-library": "vite build --config vite-lib.config.js",
-    "build-website": "vite build --config vite.config.js"
+    "build": "npm run build-website && npm run build-library",
+    "build-library": "vite build --config src/vite/lib.config.js",
+    "build-website": "vite build --config src/vite/site.config.js"
   },
   "dependencies": {
     "@radio4000/sdk": "^0.4.4",

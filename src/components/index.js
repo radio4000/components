@@ -18,6 +18,7 @@ import R4ChannelCard from './r4-channel-card.js'
 import R4ChannelCreate from './r4-channel-create.js'
 import R4ChannelDelete from './r4-channel-delete.js'
 import R4ChannelUpdate from './r4-channel-update.js'
+import R4Components from './r4-components.js'
 import R4Dialog from './r4-dialog.js'
 import R4EmailUpdate from './r4-email-update.js'
 import R4Favicon from './r4-favicon.js'
@@ -65,6 +66,7 @@ customElements.define('r4-channel-create', R4ChannelCreate)
 customElements.define('r4-channel-delete', R4ChannelDelete)
 customElements.define('r4-channel-update', R4ChannelUpdate)
 customElements.define('r4-channel-search', R4ChannelSearch)
+customElements.define('r4-components', R4Components)
 customElements.define('r4-dialog', R4Dialog)
 customElements.define('r4-email-update', R4EmailUpdate)
 customElements.define('r4-favicon', R4Favicon)
