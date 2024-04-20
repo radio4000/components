@@ -25,12 +25,27 @@ r4-app menu a {
 	filter: invert(1);
 }
 
-r4-app fieldset legend,
-r4-app fieldset label,
-r4-app summary {
+r4-app form {
+	max-width: calc(var(--s) * 100);
+	padding: var(--s);
+	background-color: var(--c-fg);
+}
+r4-app summary,
+r4-app form legend,
+r4-app form label {
 	font-style: italic;
 }
-
+r4-app fieldset {
+	display: flex;
+}
+r4-app input,
+r4-app textarea {
+	flex-grow: 1;
+}
+r4-app textarea {
+	min-height: calc(var(--s) * 5);
+	resize: vertical;
+}
 r4-list-item + r4-list-item {
 	margin-top: var(--s);
 }
@@ -60,7 +75,7 @@ r4-app r4-layout::part(controls-button) {
 
 /* Hack because slots and flex full height wasn't working*/
 @media (min-width: 70rem) {
-	r4-layout [slot="player"] {
+	r4-layout [slot='player'] {
 		height: calc(100vh - calc(var(--s) * 5.1));
 	}
 }
