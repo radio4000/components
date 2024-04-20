@@ -40,16 +40,6 @@ export default class R4PageSettings extends R4Page {
 	renderUser() {
 		return html`
 			<section>
-				<h2>Account</h2>
-				<p>
-					You are signed in as <em>${this.store?.user?.email}</em> (<a href="${this.config.href}/sign/out">sign out</a
-					>).
-				</p>
-				${this.store.user.new_email ? this.renderNewEmail() : null}
-				<r4-email-update email=${this.store.user.email} @submit=${this.changeEmail}></r4-email-update>
-				<r4-password-update @submit=${this.changePassword}></r4-password-update>
-			</section>
-			<section>
 				<h2>Channels</h2>
 				<ul>
 					${this.store?.userChannels.map(
@@ -63,6 +53,16 @@ export default class R4PageSettings extends R4Page {
 						? html`<li>No channels yet. <a href=${this.config.href + '/new'}>Create a new radio</a></li>`
 						: null}
 				</ul>
+			</section>
+			<section>
+				<h2>Account</h2>
+				<p>
+					You are signed in as <em>${this.store?.user?.email}</em> (<a href="${this.config.href}/sign/out">sign out</a
+					>).
+				</p>
+				${this.store.user.new_email ? this.renderNewEmail() : null}
+				<r4-email-update email=${this.store.user.email} @submit=${this.changeEmail}></r4-email-update>
+				<r4-password-update @submit=${this.changePassword}></r4-password-update>
 			</section>
 			<section>
 				<h2>Danger zone</h2>
