@@ -28,7 +28,7 @@ templateTrack.innerHTML = `
 
 export default class R4ChannelShare extends HTMLElement {
 	static get observedAttributes() {
-		return ['origin', 'api-origin', 'icon-origin', 'slug', 'track-id']
+		return ['origin', 'player-origin', 'icon-origin', 'slug', 'track-id']
 	}
 
 	/* some attributes, that can be used to fetch model data,
@@ -64,8 +64,8 @@ export default class R4ChannelShare extends HTMLElement {
 	}
 
 	/* the link to the r4 api */
-	get apiOrigin() {
-		return this.getAttribute('api-origin') || 'https://api.radio4000.com'
+	get playerOrigin() {
+		return this.getAttribute('player-origin') || 'https://player.radio4000.com/v2'
 	}
 
 	/* the link to the image icon src on the r4 assets domain */
@@ -75,7 +75,7 @@ export default class R4ChannelShare extends HTMLElement {
 
 	/* generated HTML markup for an embedable iframe */
 	get iframe() {
-		return `<iframe src="${this.apiOrigin}/embed?slug=${this.slug}" width="320" height="500" frameborder="0"></iframe>`
+		return `<iframe src="${this.playerOrigin}/?slug=${this.slug}" width="320" height="500" frameborder="0"></iframe>`
 	}
 
 	/* generated HTML icon img + anchor, for and embedable link to channel */
