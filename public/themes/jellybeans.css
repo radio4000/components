@@ -329,9 +329,15 @@ r4-page-explore r4-page-main > r4-list {
 		}
 	}
 }
-
+r4-channel-card + menu {
+	margin: calc(var(--s) / 2) 0 calc(var(--s) * 2);
+}
 r4-page-channel r4-page-header r4-channel-name {
 	font-size: 2rem;
+	font-weight: bold;
+}
+r4-page-channel r4-page-header a:has(r4-channel-name) {
+	text-decoration: none;
 }
 r4-channel-name {
 	font-size: 1.25rem;

@@ -36,32 +36,39 @@ export default class R4PageAbout extends R4Page {
 	}
 
 	renderHeader() {
-		return html`<h1>About <r4-title></r4-title></h1>`
+		return html`<h1><r4-title></r4-title></h1>`
 	}
 	renderMain() {
 		const {name: latestVersion} = this.latestTag
 		return html`
 			<p>
-				Hello. This is is the next version of <r4-title></r4-title>. The old, or first, version is still live on
-				<a href="https://v1.radio4000.com">v1.radio4000.com</a>; it is in read-only mode. Here you can freely import
-				your existing radio channel, test it with the new features.
+				The old or first version of R4 was live for ten years. Since April 2024 we've put it into <em>listen-only</em> mode on <a href="https://v1.radio4000.com">v1.radio4000.com</a>.
 			</p>
+			<p>You are now looking at the next x years:</p>
+			<ul>
+				<li>We are free of a few heavy tech dependencies like Google, Firebase and Facebook.</li>
+				<li>Find exactly the tracks you want. Filter on tags, search queries, dates, sorting and all of it bookmarkable.</li>
+				<li>Web components galore. Using the  the web platform</li>
+				<li>And maybe the most important feature: we are now able to play with R4 again.</p>
+			</ul>
+			<p>We hope people will continue to share the music. Create a new account and radio - or migrate your existing one</strong>.</p>
+
+			<h2>Contact</h2>
 			<p>
-				<strong
-					>Come say hi in the
 					<a href="https://matrix.to/#/${this.roomAlias}" rel="noreferrer">
-						community chat
+						Community chat
 						<small>(${this.roomAlias})</small>
 					</a>
-				</strong>
 			</p>
-			<p>Write us with email <a href="mailto:contact@radio4000.com">contact@radio4000.com</a>.</p>
+			<p><a href="mailto:contact@radio4000.com">contact@radio4000.com</a>.</p>
+
+			<h2>Design & Development</h2>
 			<p>
 				Contribute to the design and development on
 				<a href="https://github.com/radio4000" rel="noreferrer">github.com/radio4000</a>. The latest version is
 				<a href=${this.releasesUrl}>${latestVersion ? latestVersion : '…'}</a>.
 			</p>
-			<p>Read the <a href="https://blog.radio4000.com/">blog</a>.</p>
+			<p>Read the <a href="https://github.com/radio4000/publications/blob/main/user-agreement-privacy-policy-terms-of-use.md">privacy/terms</a>. See the <a href="https://blog.radio4000.com/">blog</a>.</p>
 			<p>Cheers!</p>
 			<p>
 				<a href="${this.config.href}/">← back to the home page</a>

@@ -70,9 +70,17 @@ r4-app-menu a[aria-current] {
 
 /* Channel cards */
 r4-channel-card {
+	background-color: color-mix(in oklch, var(--c-bg) 100%, white 50%);
 }
 r4-channel-card r4-channel-slug {
 	display: none;
+}
+r4-channel-card r4-button-play {
+	margin-top: var(--s);
+	margin-left: var(--s);
+}
+r4-channel-card-body {
+	padding: var(--s);
 }
 
 r4-list:has(r4-track) {
