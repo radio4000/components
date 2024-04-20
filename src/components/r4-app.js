@@ -271,9 +271,9 @@ export default class R4App extends LitElement {
 			})
 		}
 		if (tracks) {
-			el.setAttribute('tracks', tracks)
+			el.tracks = tracks
 		} else {
-			el.removeAttribute('tracks')
+			el.tracks = []
 		}
 
 		// Update state about what's playing.
