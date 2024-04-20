@@ -19,7 +19,6 @@ export default class AvatarUpdate extends LitElement {
 	async onDelete() {
 		this.image = null
 		const {error} = await sdk.supabase.from('channels').update({image: this.image}).eq('slug', this.slug)
-		if (error) console.log(error)
 	}
 	render() {
 		return html`

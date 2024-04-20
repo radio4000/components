@@ -56,9 +56,8 @@ export default class R4SignUp extends R4Form {
 				email: this.state.email,
 				password: this.state.password,
 			})
-			console.log('sign up res', res)
+
 			if (res.error) {
-				console.log('Error signing up', res)
 				if (res.error.message.startsWith('For security purposes, you can only request this after')) {
 					res.error.code = 'email-not-confirmed'
 				}

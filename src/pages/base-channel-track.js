@@ -28,7 +28,6 @@ export default class BaseChannelTrack extends BaseChannel {
 	async onDelete({detail}) {
 		/* no error? we deleted */
 		if (!detail?.data) {
-			console.log('url', this.channelOrigin + '/tracks/')
 			page(this.channelOrigin + '/tracks/')
 		}
 	}

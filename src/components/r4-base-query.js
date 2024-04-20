@@ -64,20 +64,15 @@ export default class R4BaseQuery extends LitElement {
 	connectedCallback() {
 		// As soon as the DOM is ready, read the URL query params
 		this.query = {...this.initialQuery, ...urlUtils.getQueryFromUrl(new URLSearchParams(location.search))}
-		console.log('<base-query> connected', this.query)
 		super.connectedCallback()
 	}
 
 	willUpdate(changedProperties) {
 		// trigger an update if url params changed. to be watched
 		if (changedProperties.has('searchParams')) {
-			console.log('triggered extra update via search params')
-			this.setQuery(
-				urlUtils.getQueryFromUrl(new URLSearchParams(location.search))
-			)
+			this.setQuery(urlUtils.getQueryFromUrl(new URLSearchParams(location.search)))
 		}
 	}
-
 
 	/**
 	 * Essentially this.query + this.defaultFilters
@@ -102,7 +97,6 @@ export default class R4BaseQuery extends LitElement {
 
 	async fetchData() {
 		const res = await browse(this.browseQuery)
-		if (res.error) console.log('error fetching data', res)
 
 		// reset pagination while searching?
 		if (res.error?.code === 'PGRST103') {

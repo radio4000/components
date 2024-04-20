@@ -80,7 +80,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 				this.channel = data
 			}
 		} catch (error) {
-			console.log('error saving map data', error)
+			console.error('error saving map data', error)
 		}
 	}
 

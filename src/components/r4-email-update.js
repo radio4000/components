@@ -38,7 +38,6 @@ export default class R4EmailUpdate extends R4Form {
 				email: this.state.email,
 			})
 			if (res.error) {
-				console.log('Error updating email', res)
 				throw res.error
 			}
 		} catch (error) {
@@ -55,8 +54,6 @@ export default class R4EmailUpdate extends R4Form {
 		if (data?.user) {
 			this.resetForm()
 		}
-
-		console.log(res)
 
 		super.handleSubmit({
 			error,

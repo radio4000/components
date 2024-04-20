@@ -81,7 +81,6 @@ export default class R4TrackCreate extends R4Form {
 		}
 
 		if (name === 'discogsUrl' && value) {
-			console.log('@todo fetch & display discogs data')
 		}
 	}
 

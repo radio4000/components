@@ -48,7 +48,6 @@ export function setSearchParams(query, options = {}) {
 	const searchParamsString = `?${searchParams.toString()}`
 	const search = decodeURIComponent(searchParamsString)
 	window.history.replaceState(null, null, search)
-	console.log('searchParams', search)
 }
 
 /**

@@ -43,7 +43,6 @@ export default class R4PasswordReset extends R4Form {
 				},
 			})
 			if (res.error) {
-				console.log('Error reseting password', res)
 				throw res.error
 			}
 		} catch (error) {
@@ -60,8 +59,6 @@ export default class R4PasswordReset extends R4Form {
 		if (!data?.error) {
 			this.resetForm()
 		}
-
-		console.log(res)
 
 		super.handleSubmit({
 			error,

@@ -106,8 +106,6 @@ export async function browse(props) {
 	// And pagination.
 	const {from, to, limit: l} = getBrowseParams({page, limit})
 	query = query.range(from, to).limit(l)
-
-	console.log('browse', query.url.pathname.replace('/rest/v1',''), query.url.search)
 	return query
 }
 

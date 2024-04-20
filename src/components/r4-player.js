@@ -63,7 +63,6 @@ export default class R4Player extends LitElement {
 		if (!this.$player) return
 
 		if (this.tracks?.length) {
-			console.log('playlist', this.playlist)
 			this.$player.updatePlaylist(this.playlist)
 		} else {
 			this.$player.updatePlaylist(this.emptyPlaylist)

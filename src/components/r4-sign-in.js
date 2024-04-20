@@ -51,7 +51,6 @@ export default class R4SignIn extends R4Form {
 				password: this.state.password,
 			})
 			if (res.error) {
-				console.log('Error signing in', res)
 				if (res.error.message === 'Email not confirmed') {
 					res.error.code = 'email-not-confirmed'
 				}

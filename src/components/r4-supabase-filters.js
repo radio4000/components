@@ -26,8 +26,8 @@ export default class R4SupabaseFilters extends LitElement {
 		this.dispatchEvent(
 			new CustomEvent('input', {
 				bubbles: true,
-				detail: updatedFilters//?.filter((filter) => !!filter),
-			})
+				detail: updatedFilters, //?.filter((filter) => !!filter),
+			}),
 		)
 	}
 
@@ -43,13 +43,11 @@ export default class R4SupabaseFilters extends LitElement {
 			column: this.filters?.at(0)?.column || tables[this.table].columns[0],
 			value: '',
 		}
-		console.log('add filter', newFilter)
 		if (!this.filters) this.filters = []
 		this.onFilters([...this.filters, newFilter])
 	}
 
 	updateFilter(index, field, value) {
-		console.log('updateFilter', field, value)
 		/* replace existing filters, including the new one */
 		const newFilters = [...this.filters]
 		newFilters[index][field] = value
@@ -57,7 +55,6 @@ export default class R4SupabaseFilters extends LitElement {
 	}
 
 	removeFilter(index) {
-		console.log('removeFilter', index)
 		this.onFilters(this.filters.filter((_, i) => i !== index))
 	}
 

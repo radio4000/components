@@ -17,12 +17,10 @@ export default class R4PageSettings extends R4Page {
 
 	async changeEmail(event) {
 		event.preventDefault()
-		/* console.log("changing email", event.detail) */
 	}
 
 	async changePassword(event) {
 		event.preventDefault()
-		/* console.log('changing password', event) */
 	}
 
 	renderHeader() {
@@ -54,11 +52,16 @@ export default class R4PageSettings extends R4Page {
 			<section>
 				<h2>Channels</h2>
 				<ul>
-					${this.store?.userChannels.map(x => html`<li>
-						<a href=${`${this.config.href}/${x.slug}`}>${x.name}</a>
-						(<a href=${`${this.config.href}/${x.slug}/update`}>update</a>)
-					</li>`)}
-					${!this.store?.userChannels.length ? html`<li>No channels yet. <a href=${this.config.href + '/new'}>Create a new radio</a></li>` : null}
+					${this.store?.userChannels.map(
+						(x) =>
+							html`<li>
+								<a href=${`${this.config.href}/${x.slug}`}>${x.name}</a>
+								(<a href=${`${this.config.href}/${x.slug}/update`}>update</a>)
+							</li>`,
+					)}
+					${!this.store?.userChannels.length
+						? html`<li>No channels yet. <a href=${this.config.href + '/new'}>Create a new radio</a></li>`
+						: null}
 				</ul>
 			</section>
 			<section>

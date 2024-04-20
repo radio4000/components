@@ -85,7 +85,7 @@ export default class R4SupabaseQuery extends LitElement {
 		event.stopPropagation()
 		event.preventDefault()
 		const {name, value, valueAsNumber, type: inputType, checked} = event.target
-		console.log('<query> onInput', {name, value, checked})
+
 		/* handle correctly input type="number" */
 		if (inputType === 'number') {
 			this[name] = valueAsNumber
@@ -112,19 +112,16 @@ export default class R4SupabaseQuery extends LitElement {
 		event.preventDefault()
 		event.stopPropagation()
 		if (event.detail) {
-			console.log('<query> onFilters - overwriting .filters from <r4-supabase-filters>', event.detail)
 			this.filters = event.detail
 			this.onQuery()
 		}
 	}
 
 	onQuery() {
-		const query = this.query
-		console.log('<query> onQuery', query)
 		this.dispatchEvent(
 			new CustomEvent('query', {
 				bubbles: true,
-				detail: query,
+				detail: this.query,
 			}),
 		)
 	}

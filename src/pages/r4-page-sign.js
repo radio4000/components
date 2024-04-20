@@ -148,7 +148,5 @@ export default class R4PageSign extends R4Page {
 			page('/')
 		}
 	}
-	onPasswordReset(event) {
-		console.log('reset', event)
-	}
+	onPasswordReset(event) {}
 }

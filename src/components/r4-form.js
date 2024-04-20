@@ -243,12 +243,10 @@ export default class R4Form extends HTMLElement {
 			$out.innerHTML = ''
 		})
 
-
 		const {code = 'default'} = error
 		const knownError = this.errors[error.code] || this.errors.default
-			console.log(error, knownError)
 		if (!error.code) {
-			console.log(error)
+			console.error(error)
 		}
 		const {message, field} = knownError
 

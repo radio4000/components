@@ -27,7 +27,7 @@ export default class R4UserDelete extends LitElement {
 			console.info('Successfully deleted user account, channels and tracks')
 			// no-need to logout the user, already done by supabase
 		} else {
-			console.log('Error deleting user account', error)
+			console.error('Error deleting user account', error)
 		}
 	}
 
