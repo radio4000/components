@@ -53,7 +53,7 @@ r4-app * {
 r4-app ul,
 r4-app ol {
 	margin: 0;
-	padding: var(--s);
+	padding: 0 0 0 var(--s);
 }
 r4-app menu {
 	margin: 0;

@@ -103,11 +103,11 @@ export default class R4App extends LitElement {
 		super.connectedCallback()
 
 		this.listeners = new DatabaseListeners(this)
-		this.listeners.addEventListener('auth', async (event) => {
-			this.user = event.detail.user
+		this.listeners.addEventListener('auth', async ({detail}) => {
+			this.user = detail.user
 			this.refreshUserData()
 			this.refreshUserAccount()
-			if (event.detail === 'PASSWORD_RECOVERY') {
+			if (detail === 'PASSWORD_RECOVERY') {
 				this.passwordRecovery()
 			}
 		})
@@ -146,7 +146,9 @@ export default class R4App extends LitElement {
 
 	async refreshUserData() {
 		// Ensure it doesn't run multiple times in parallel.
-		if (this.refreshUserData.running) return
+		if (this.refreshUserData.running) {
+			return
+		}
 		this.refreshUserData.running = true
 
 		if (!this.user) {
