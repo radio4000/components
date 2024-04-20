@@ -8,7 +8,7 @@ These components can be inserted in the HTML of any web pages, and are made to i
 - [View examples of all components](https://radio4000.github.io/components/examples/)
 - [View example of the `<r4-app>` component](https://beta.radio4000.com)
 
-## Usage 
+## Usage
 
 Depending on whether you have a build system or not, you can either import the module from NPM, from a CDN or download it locally.
 
