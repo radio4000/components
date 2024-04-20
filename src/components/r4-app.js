@@ -7,6 +7,7 @@ import '../pages/'
 import ROUTES_CMS from '../data/routes-cms.json'
 import ROUTES_SINGLE from '../data/routes-single.json'
 import {THEMES, prefersDark} from '../libs/appearence.js'
+import {createImage} from './r4-avatar.js'
 
 export default class R4App extends LitElement {
 	playerRef = createRef()
@@ -260,12 +261,19 @@ export default class R4App extends LitElement {
 		const slug = channel?.slug || track.slug
 		if (!tracks && slug) {
 			const {data} = await sdk.channels.readChannelTracks(slug)
-			tracks = data.reverse()
+			tracks = data.reverse().map((track) => {
+				return {
+					title: track.title,
+					body: track.description,
+					image: createImage(track.image),
+					url: track.url,
+				}
+			})
 		}
 		if (tracks) {
-			el.tracks = tracks
+			el.setAttribute('tracks', tracks)
 		} else {
-			el.tracks = []
+			el.removeAttribute('tracks')
 		}
 
 		// Update state about what's playing.

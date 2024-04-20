@@ -1,7 +1,6 @@
 import 'radio4000-player'
 import {html, LitElement} from 'lit'
 import {ref, createRef} from 'lit/directives/ref.js'
-import {createImage} from './r4-avatar.js'
 
 export default class R4Player extends LitElement {
 	playerRef = createRef()
@@ -13,8 +12,19 @@ export default class R4Player extends LitElement {
 		tracks: {type: Array},
 		track: {type: String},
 		shuffle: {type: Boolean},
-		// The config contains isPlaying, playingChannel, playingTracks, playingTrack
 		config: {type: Object},
+	}
+
+	get playlist() {
+		return {
+			title: this.title,
+			image: this.image,
+			tracks: this.tracks,
+			query: this.query,
+		}
+	}
+	get emptyPlaylist() {
+		return {tracks: []}
 	}
 
 	render() {
@@ -51,22 +61,12 @@ export default class R4Player extends LitElement {
 
 	play() {
 		if (!this.$player) return
+
 		if (this.tracks?.length) {
-			// Convert tracks to playlist format
-			const tracks = this.tracks.map((track) => {
-				track.body = track.description
-				return track
-			})
-			const playlist = {
-				title: this.name,
-				image: createImage(this.image),
-				tracks,
-				query: this.query,
-			}
-			this.$player.channelSlug = this.config.playingChannel?.slug
-			this.$player.updatePlaylist(playlist)
+			console.log('playlist', this.playlist)
+			this.$player.updatePlaylist(this.playlist)
 		} else {
-			this.$player.updatePlaylist({tracks: []})
+			this.$player.updatePlaylist(this.emptyPlaylist)
 		}
 
 		if (this.track) {
@@ -78,8 +78,6 @@ export default class R4Player extends LitElement {
 	}
 
 	pause() {
-		/* click the radio400-player button */
-		// when in play mode, toggle pause
 		if (this.$playButton?.checked === true) {
 			this.$playButton.click()
 		}
@@ -98,7 +96,7 @@ export default class R4Player extends LitElement {
 			new CustomEvent('trackchange', {
 				bubbles: true,
 				detail: event.detail,
-			})
+			}),
 		)
 	}
 

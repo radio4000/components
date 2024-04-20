@@ -42,9 +42,9 @@ export default class R4Avatar extends LitElement {
  * @param {string} sizeLabel -
  * @param {string} format -
  */
-export function createImage(id, sizeLabel, format = 'webp') {
+export function createImage(id, sizeLabel = 'medium', format = 'webp') {
 	const baseUrl = 'https://res.cloudinary.com/radio4000/image/upload'
-	const size = SIZES[sizeLabel || 'medium']
+	const size = SIZES[sizeLabel]
 	const dimensions = `w_${size},h_${size}`
 	const crop = 'c_thumb,q_60'
 	return `${baseUrl}/${dimensions},${crop},fl_awebp/${id}.${format}`
