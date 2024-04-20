@@ -30,16 +30,9 @@ export default class R4Loading extends HTMLElement {
 		if (!this.text) {
 			this.text = this.randomSentence
 		}
-		this.render({
-			text: this.text,
-			value: this.value,
-			max: this.max,
-		})
+		this.render()
 	}
-
-	render(props) {
-		if (!props) return
-		const {text, value, max} = props
+	render({text = this.text, value = this.value, max = this.max} = {}) {
 		const progress = document.createElement('progress')
 		if (value && max) {
 			progress.setAttribute('value', value)
