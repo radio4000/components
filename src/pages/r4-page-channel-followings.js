@@ -48,6 +48,6 @@ export default class R4PageChannelFollowings extends BaseChannel {
 		</r4-list-item>`
 	}
 	renderNoChannels() {
-		return html`Not following any channel yet.`
+		return html`Not following any channels yet.`
 	}
 }

@@ -192,6 +192,9 @@ r4-app button[destructive]:hover {
 r4-app form {
 	max-width: 60ch;
 }
+r4-app form label {
+	font-size: 14px;
+}
 r4-app fieldset[hidden] {
 	display: none;
 }
@@ -199,6 +202,20 @@ r4-app fieldset label {
 	font-weight: 600;
 }
 
+/* Vertical form layout */
+r4-track-create {
+	label {
+		display: block;
+	}
+	input[type='text'],
+	input[type='url'],
+	textarea {
+		width: 100%;
+	}
+	textarea {
+		min-height: 3em;
+	}
+}
 /* Cards */
 r4-channel-card {
 	background: var(--c-bg2);
@@ -279,9 +296,8 @@ r4-channel-name {
 
 /* Ordinary menus */
 r4-app-menu a,
-r4-page-channel r4-page-header > menu a,
-r4-page-channel-track r4-page-header > menu a {
-	padding: var(--s) calc(var(--s) / 2);
+r4-page-header > menu a {
+	padding: calc(var(--s) / 3) calc(var(--s) / 3);
 }
 r4-app-menu a[aria-current] {
 	color: var(--c-headlines);
