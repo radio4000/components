@@ -254,10 +254,9 @@ export default class R4App extends LitElement {
 	}
 
 	async onPlay({detail}) {
-		if (!detail) {
-			return this.stop()
-		}
-		let {channel, tracks, track, search, query} = detail
+		if (!detail) return this.stop()
+
+		let {channel, tracks, track, search} = detail
 		const el = this.playerRef.value
 
 		const slug = channel?.slug || track.slug
@@ -268,11 +267,8 @@ export default class R4App extends LitElement {
 				return track
 			})
 		}
-		if (tracks) {
-			el.tracks = tracks
-		} else {
-			el.tracks = []
-		}
+
+		el.tracks = tracks || []
 
 		// Update state about what's playing.
 		this.isPlaying = true
