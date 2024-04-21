@@ -36,7 +36,7 @@ export default class R4PageAbout extends R4Page {
 	}
 
 	renderHeader() {
-		return html`<h1><r4-title></r4-title></h1>`
+		return html`<h1>About <r4-title></r4-title></h1>`
 	}
 	renderMain() {
 		const {name: latestVersion} = this.latestTag
