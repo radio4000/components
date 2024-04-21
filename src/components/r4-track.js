@@ -89,8 +89,10 @@ export default class R4Track extends LitElement {
 
 		return html`
 			<r4-button-play .channel=${this.channel} .track=${this.track}></r4-button-play>
-			<r4-track-title>${this.renderTitle()}</r4-track-title>
-			${this.track.description ? this.renderDescription() : null}
+			<r4-track-body>
+				<r4-track-title>${this.renderTitle()}</r4-track-title>
+				${this.track.description ? this.renderDescription() : null}
+			</r4-track-body>
 			${this.track.discogs_url ? this.renderDiscogsUrl() : null}
 			${this.track?.DISABLEDtags?.length ? this.renderTags() : null}
 			${this.track?.DISABLEDmentions?.length ? this.renderMentions() : null} ${this.renderMenu()}

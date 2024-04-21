@@ -322,11 +322,14 @@ r4-page-explore r4-page-main > r4-list {
 	align-items: stretch;
 }
 
-r4-page-channel {
-	r4-channel-card {
-		text-align: center;
+@media (max-width: 700px) {
+	r4-page-channel {
+		r4-channel-card {
+			text-align: center;
+		}
 	}
 }
+
 r4-page-channel r4-page-header r4-channel-name {
 	font-size: 2rem;
 }
@@ -401,4 +404,3 @@ r4-page-channel  {
 		padding-right: 0;
 	}
 }
-
