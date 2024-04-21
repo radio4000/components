@@ -315,7 +315,6 @@ r4-layout [slot='main'] {
 	flex-grow: 1;
 }
 r4-layout [slot='player'] {
-	justify-content: flex-end;
 	width: 100%;
 	flex: 1;
 }

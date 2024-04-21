@@ -168,6 +168,10 @@ r4-track {
 	background-color: var(--c-bg2);
 	padding: calc(var(--s) / 2);
 }
+r4-track a {
+	background-color: transparent;
+	text-decoration: none;
+}
 r4-track-description a {
 	padding-left: calc(var(--s) / 4);
 	padding-right: calc(var(--s) / 4);
