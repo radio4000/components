@@ -39,6 +39,7 @@ r4-app {
 	--c-light: hsl(0deg 0% 98%);
 	--c-dark: hsl(0deg 0% 8%);
 	--c-purple: #5d1ae6;
+	--c-purple-light: #999fff;
 	--c-light--accent: var(--c-purple);
 	--c-dark--accent: #9c8fff;
 	--c-link: var(--c-purple);
@@ -70,6 +71,11 @@ r4-layout header[slot='menu'] {
 r4-app a {
 	background-color: var(--c-light);
 	padding: calc(var(--s) / 6) calc(var(--s) / 4);
+
+	[color-scheme='dark'] & {
+		background: hsl(0deg 2.6% 12.75%);
+		color: var(--c-dark--accent);
+	}
 }
 r4-app li {
 	margin-bottom: calc(var(--s) / 3);
@@ -187,7 +193,8 @@ r4-track a {
 	background-color: transparent;
 	text-decoration: none;
 }
-r4-track-title a {
+r4-track-title a,
+[color-scheme='dark'] r4-track-title a {
 	color: var(--c-fg);
 }
 r4-track-description a {
