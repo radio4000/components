@@ -14,8 +14,6 @@ export default class R4PageSign extends R4Page {
 		showConfirmEmail: {type: Boolean, state: true},
 	}
 
-	migrateUrl = 'https://migrate.radio4000.com'
-
 	get showConfirm() {
 		return this.showConfirmEmail && this.params.method === 'up'
 	}
@@ -107,8 +105,8 @@ export default class R4PageSign extends R4Page {
 						if you already have an existing account.
 					</li>
 					<li>
-						Sign up first, to <a href=${this.migrateUrl}>import/migrate</a> an existing radio (from the previous
-						<a href="https://radio4000.com">site</a>).
+						Sign up first, to <a href="${this.config.hrefMigrate}">import/migrate</a> an existing radio (from the
+						previous <a href="https://radio4000.com">site</a>).
 					</li>
 				</ul>
 			</section>

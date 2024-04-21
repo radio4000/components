@@ -102,7 +102,7 @@ export default class BaseChannel extends R4Page {
 					<p>
 						This Radio4000 channel is from <a href="https://v1.radio4000.com/${this.params.slug}">version 1</a>. If you
 						are the channel operator, consider importing it to
-						<a href="https://migrate.radio4000.com/?slug=${this.params.slug}">version 2</a>.
+						<a href="${this.config.hrefMigrate}/?slug=${this.params.slug}">version 2</a>.
 					</p>
 					<form method="dialog">
 						<button>Got it!</button>

@@ -68,6 +68,8 @@ export default class R4App extends LitElement {
 		const client = this.href?.split('://')[1]
 		return {
 			href: this.href,
+			hrefV1: 'https://v1.radio4000.com',
+			hrefMigrate: 'https://migrate.radio4000.com',
 			client,
 			version: this.version,
 			singleChannel: this.singleChannel,
@@ -112,7 +114,7 @@ export default class R4App extends LitElement {
 			const sameUser = (this.user && this.user.id) === (detail.user && detail.user.id)
 			if (
 				detail.eventType === 'INITIAL_SESSION' ||
-				detail.eventType === 'SIGNED_IN' && !sameUser ||
+				(detail.eventType === 'SIGNED_IN' && !sameUser) ||
 				detail.eventType === 'SIGNED_OUT'
 			) {
 				this.user = detail.user

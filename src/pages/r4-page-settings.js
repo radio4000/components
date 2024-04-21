@@ -81,7 +81,7 @@ export default class R4PageSettings extends R4Page {
 				<ul>
 					<li><a href="${this.config.href}/sign/in">Sign in</a> an existing account</li>
 					<li><a href="${this.config.href}/sign/up">Sign up</a> to register a new account</li>
-					<li><a href="https://migrate.radio4000.com">Migrate</a> a channel from v1 to v2</li>
+					<li><a href="${this.config.hrefMigrate}">Migrate</a> a channel from v1 to v2</li>
 				</ul>
 			</section>
 		`

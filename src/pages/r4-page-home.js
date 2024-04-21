@@ -16,12 +16,7 @@ export default class R4PageHome extends R4Page {
 			${this.store.following?.length ? this.renderFollowingChannels() : null}
 		`
 	}
-	renderIn() {
-		return html`
-			<h1>Home</h1>
-			<p></p>
-		`
-	}
+	renderIn() {}
 	renderOut() {
 		return this.renderBetaNote()
 	}
@@ -62,11 +57,11 @@ export default class R4PageHome extends R4Page {
 					<p>Welcome to the new <r4-title></r4-title>, version 2 (<strong>v2</strong>).</p>
 					<p>
 						All previous radio channels are still available on the
-						<a href="https://v1.radio400.com">v1</a> website.
+						<a href="${this.config.hrefV1}">v1</a> website.
 					</p>
 					<p>
 						To import a radio channel from v1 to v2, see
-						<a href="https://migrate.radio4000.com">migration</a>.
+						<a href="${this.config.hrefMigrate}">migration</a>.
 					</p>
 				</dialog>
 			</section>

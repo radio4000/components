@@ -19,13 +19,16 @@ export default class R4PageNew extends R4Page {
 	}
 
 	renderHeader() {
-		return html` `
+		return html``
 	}
 	renderMain() {
 		return html`
 			<h2>Do you already have a radio from the old site?</h2>
-			<p>1. Create a new account below.<br>
-			2. Follow the steps on <a href="https://migrate.radio4000.com"><strong>migrate.radio4000</strong></a> &larr; it'll only take a minute (<a href="${this.config.href}/about">about</a>).</p>
+			<p>
+				1. Create a new account below.<br />
+				2. Follow the steps on <a href="${this.config.hrefMigrate}"><strong>migrate.radio4000</strong></a> &larr; it'll
+				only take a minute (<a href="${this.config.href}/about">about</a>).
+			</p>
 			<p>If you are new here, nevermind that notice and welcome!</p>
 
 			<h1>Create radio channel</h1>

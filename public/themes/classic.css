@@ -50,10 +50,10 @@ r4-app {
 }
 
 r4-app[color-scheme='os'] {
-}
-r4-app[color-scheme='light'] {
 	--c-bg: hsl(40, 6%, 90%);
 	--c-bg2: color-mix(in oklch, var(--c-bg) 100%, white 50%);
+}
+r4-app[color-scheme='light'] {
 }
 
 r4-app[color-scheme='dark'] {
@@ -204,7 +204,8 @@ r4-track-description a {
 }
 
 /* search query */
-r4-query { }
+r4-query {
+}
 r4-query menu,
 r4-query details {
 	padding: calc(var(--s) / 3);
