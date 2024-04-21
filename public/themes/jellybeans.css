@@ -247,6 +247,18 @@ r4-list-item r4-track {
 	border-bottom: 1px solid var(--c-border);
 	padding: calc(var(--s) / 2);
 	padding-right: 0;
+
+	r4-dialog {
+		/* Avoid dialogs inside tracklists distoring layout */
+		position: absolute;
+	}
+
+	r4-button-play button {
+		/* Smaller buttons */
+		background: none;
+		padding-left: 0;
+		padding-right: 0;
+	}
 }
 r4-list-item r4-track:hover {
 	background-color: color-mix(in oklch, var(--c-bg) 100%, black 2%);
