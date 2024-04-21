@@ -33,16 +33,10 @@ export default class R4PageExplore extends R4Page {
 				<section>
 					<r4-list>${this.renderListItems()}</r4-list>
 				</section>
-				<p>
-					Missing a radio? The radios you see above have all moved to the new Radio4000.<br />
-					Other radios can still be browsed on <a href="https://v1.radio4000.com">v1</a>.
-				</p>
-			</r4-page-main>
-			<r4-page-aside>
 				<p>Where's my radio? There used to be thousands of radios, what happened?</p>
 				<p>The radios you see above have all migrated to the new Radio4000. Find the rest via their URL (like radio4000.com/my-radio) or visit <a href="https://v1.radio4000.com">v1</a>. </p>
-				<p>We encourage everyone to <a href="${this.config.href}/sign-up">create a new account</a> and migrate your radio. It'll immediately appear on Explore again and you have access to the new system and features.</p>
-			</r4-page-aside>
+				<p>We encourage everyone to <a href="${this.config.href}/sign-up">create a new account</a> and follow the steps to migrate your radio. It'll immediately appear on Explore again and you have access to the new system and features.</p>
+			</r4-page-main>
 		`
 	}
 

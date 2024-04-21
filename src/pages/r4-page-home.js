@@ -30,7 +30,9 @@ export default class R4PageHome extends R4Page {
 		`
 	}
 	renderCreateChannel() {
-		return html`import?`
+		return html`
+				<p><a href="${this.config.href}/new">Create radio</a></p>
+			`
 	}
 	renderFollowingChannels() {
 		const {following} = this.store
