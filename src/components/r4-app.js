@@ -109,9 +109,19 @@ export default class R4App extends LitElement {
 
 		this.listeners = new DatabaseListeners(this)
 		this.listeners.addEventListener('auth', async ({detail}) => {
-			this.user = detail.user
-			this.refreshUserData()
-			this.refreshUserAccount()
+			const sameUser = (this.user && this.user.id) === (detail.user && detail.user.id)
+			if (
+				detail.eventType === 'INITIAL_SESSION' ||
+				detail.eventType === 'SIGNED_IN' && !sameUser ||
+				detail.eventType === 'SIGNED_OUT'
+			) {
+				this.user = detail.user
+				this.refreshUserData()
+				this.refreshUserAccount()
+			} else {
+				// same user, no need to update
+			}
+
 			if (detail === 'PASSWORD_RECOVERY') {
 				this.passwordRecovery()
 			}
