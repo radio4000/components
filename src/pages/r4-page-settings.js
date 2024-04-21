@@ -80,8 +80,8 @@ export default class R4PageSettings extends R4Page {
 				<h2>Account</h2>
 				<p>Your are signed out.</p>
 				<ul>
-					<li><a href="${this.config.href}/sign/in">Sign in</a> an existing user account</li>
-					<li><a href="${this.config.href}/sign/up">Sign up</a> to register a new user</li>
+					<li><a href="${this.config.href}/sign/in">Sign in</a> an existing account</li>
+					<li><a href="${this.config.href}/sign/up">Sign up</a> to register a new account</li>
 				</ul>
 			</section>
 		`
