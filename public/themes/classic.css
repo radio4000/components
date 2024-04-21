@@ -54,9 +54,11 @@ r4-app[color-scheme='os'] {
 	--c-bg2: color-mix(in oklch, var(--c-bg) 100%, white 50%);
 }
 r4-app[color-scheme='light'] {
+	color-scheme: light;
 }
 
 r4-app[color-scheme='dark'] {
+	color-scheme: dark;
 	--c-fg: var(--c-light);
 	--c-bg: var(--c-dark);
 	--c-bg2: var(--c-border);
@@ -134,7 +136,8 @@ r4-page-explore r4-page-main > r4-list {
 r4-app-menu menu {
 	padding-left: calc(var(--s) / 2);
 }
-r4-app-menu a {}
+r4-app-menu a {
+}
 r4-page-channel r4-page-header menu a {
 	background: none;
 }
