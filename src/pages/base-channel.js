@@ -136,7 +136,7 @@ export default class BaseChannel extends R4Page {
 				<li>
 					<a href="${this.channelOrigin + '/tracks'}">Tracks</a>
 				</li>
-				<li>
+				<li hidden="true">
 					<a href="${this.channelOrigin + '/feed'}">Feed</a>
 				</li>
 				<li>

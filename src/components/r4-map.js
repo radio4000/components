@@ -175,7 +175,7 @@ export default class R4Map extends LitElement {
 					longitude: event.coordinate[0],
 					latitude: event.coordinate[1],
 				},
-			})
+			}),
 		)
 	}
 
@@ -198,10 +198,10 @@ export default class R4Map extends LitElement {
 			<main></main>
 			<r4-map-popup class="ol-popup">
 				<button class="ol-popup-closer">✖</button>
-				<r4-popup-content>
+				<dialog open inline>
 					${this.channel ? this.renderChannel() : null}
 					<code>${toStringHDMS(this.clickedCoordinate)}</code>
-				</r4-popup-content>
+				</dialog>
 			</r4-map-popup>
 		`
 	}

@@ -31,12 +31,15 @@ export default class R4PageSettings extends R4Page {
 	}
 	renderMain() {
 		if (this.store.user) {
-			return [this.renderAppearance(), this.renderUser()]
+			return [this.renderUserChannels(), this.renderAppearance(), this.renderUser()]
 		} else {
 			return [this.renderNoUser()]
 		}
 	}
-	renderUser() {
+	renderFooter() {
+		return this.renderAbout()
+	}
+	renderUserChannels() {
 		return html`
 			<section>
 				<h2>Channels</h2>
@@ -49,22 +52,32 @@ export default class R4PageSettings extends R4Page {
 							</li>`,
 					)}
 					${!this.store?.userChannels.length
-						? html`<li>No channels yet. <a href=${this.config.href + '/new'}>Create a new radio</a></li>`
+						? html`<li>
+								No channels yet. <a href=${this.config.href + '/new'}>Create a new radio</a> or
+								<a href=${this.config.hrefV1}>import from v1</a>.
+						  </li>`
 						: null}
 				</ul>
 			</section>
+		`
+	}
+	renderUser() {
+		return html`
 			<section>
-				<h2>Account</h2>
+				<h2>Email</h2>
 				<p>
 					You are signed in as <em>${this.store?.user?.email}</em> (<a href="${this.config.href}/sign/out">sign out</a
 					>).
 				</p>
 				${this.store.user.new_email ? this.renderNewEmail() : null}
 				<r4-email-update email=${this.store.user.email} @submit=${this.changeEmail}></r4-email-update>
+			</section>
+			<section>
+				<h2>Password</h2>
 				<r4-password-update @submit=${this.changePassword}></r4-password-update>
 			</section>
 			<section>
-				<h2>Danger zone</h2>
+				<h2>Account management</h2>
 				<r4-user-delete
 					.user=${this.store.user}
 					.userChannels=${this.store.userChannels}
@@ -81,7 +94,7 @@ export default class R4PageSettings extends R4Page {
 				<ul>
 					<li><a href="${this.config.href}/sign/in">Sign in</a> an existing account</li>
 					<li><a href="${this.config.href}/sign/up">Sign up</a> to register a new account</li>
-					<li><a href="${this.config.hrefMigrate}">Migrate</a> a channel from v1 to v2</li>
+					<li><a href="${this.config.hrefMigrate}">Migrate </a> from version 1 to a version 2 radio channel</li>
 				</ul>
 			</section>
 		`
@@ -89,8 +102,6 @@ export default class R4PageSettings extends R4Page {
 	renderAppearance() {
 		return html`
 			<section>
-				<h2>Appearance</h2>
-				<p>Customize the application's look and feel.</p>
 				<r4-user-account .account=${this.store.userAccount}></r4-user-account>
 			</section>
 		`
@@ -101,6 +112,26 @@ export default class R4PageSettings extends R4Page {
 				<i>${this.store.user.new_email}</i>
 				(waiting for confirmation)
 			</mark>
+		`
+	}
+	renderAbout() {
+		return html`
+			<section>
+				<h2><r4-title></r4-title></h2>
+				<p>The project is built by and for its users</p>
+				<ul>
+					<li>Contact by <a href="mailto:contact@radio4000.com">email</a></li>
+					<li>Community <a href="https://matrix.to/#/${this.config.roomAlias}" rel="noreferrer"> chat </a></li>
+					<li>Source <a href="https://github.com/radio4000" rel="noreferrer">code</a></li>
+					<li>
+						Read the
+						<a href="https://github.com/radio4000/publications/blob/main/user-agreement-privacy-policy-terms-of-use.md"
+							>privacy/terms</a
+						>
+					</li>
+					<li>See the <a href="https://blog.radio4000.com/">blog</a></li>
+				</ul>
+			</section>
 		`
 	}
 

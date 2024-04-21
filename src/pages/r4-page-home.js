@@ -30,10 +30,7 @@ export default class R4PageHome extends R4Page {
 		`
 	}
 	renderCreateChannel() {
-		return html`
-			<p><a href="${this.config.href}/new">Create radio &rarr;</a></p>
-			<p><a href=${this.config.href + `/about`}>About &rarr;</a></p>
-		`
+		return html` <p><a href="${this.config.href}/new">Create radio &rarr;</a></p> `
 	}
 	renderFollowingChannels() {
 		const {following} = this.store
@@ -61,7 +58,7 @@ export default class R4PageHome extends R4Page {
 					</p>
 					<p>
 						To import a radio channel from v1 to v2, see
-						<a href="${this.config.hrefMigrate}">migration</a>.
+						<a href="${this.config.hrefMigrate}">migrate</a>.
 					</p>
 				</dialog>
 			</section>

@@ -32,8 +32,8 @@ export default class R4PageSign extends R4Page {
 	}
 	renderHeader() {
 		return html`
-			<h1>Sign ${this.params.method ? this.params.method : null}</h1>
-			<p>User authentication, <i>signing</i> <strong>${this.params.method}</strong> to <r4-title></r4-title></p>
+			<h1>Sign<i>${this.params.method ? this.params.method : null}</i></h1>
+			<p><r4-title></r4-title> user authentication.</p>
 		`
 	}
 	renderMain() {
@@ -58,13 +58,11 @@ export default class R4PageSign extends R4Page {
 
 	renderMethodSelection() {
 		return html`
-			<p>To use <r4-title></r4-title>, sign into your user account.</p>
-			<menu>
-				<li><a href=${this.config.href + '/sign'}>sign:</a></li>
-				<li><a href=${this.config.href + '/sign/up'}>up (new account)</a></li>
-				<li><a href=${this.config.href + '/sign/in'}>in (existing account)</a></li>
-				<li><a href=${this.config.href + '/sign/out'}>out (logout account)</a></li>
-			</menu>
+			<ol>
+				<li><a href=${this.config.href + '/sign/up'}>sign-up (new account)</a></li>
+				<li><a href=${this.config.href + '/sign/in'}>sign-in (existing account)</a></li>
+				<li><a href=${this.config.href + '/sign/out'}>sign-out (logout account)</a></li>
+			</ol>
 		`
 	}
 

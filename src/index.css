@@ -79,8 +79,8 @@ r4-app h1 {
 }
 
 r4-app section {
-	margin-top: calc(var(--s) * 2);
-	margin-bottom: calc(var(--s) * 2);
+	margin-top: var(--s);
+	margin-bottom: var(--s);
 }
 r4-app summary {
 	/* Don't want to select <summaries> text when toggling */
@@ -128,7 +128,7 @@ r4-app summary,
 r4-app button,
 r4-app r4-layout::part(controls-button) {
 	cursor: pointer;
-	margin: calc(var(--s) / 10);
+	/* margin: calc(var(--s) / 10); */
 }
 
 r4-app progress[is='r4-loading'] {
@@ -152,7 +152,8 @@ r4-layout {
 }
 
 r4-page-header,
-r4-page-main {
+r4-page-main,
+r4-page-footer {
 	padding-left: var(--s);
 	padding-right: var(--s);
 }
@@ -283,7 +284,7 @@ r4-layout r4-page-main radio4000-player {
 r4-layout[ui-state='minimize']::part(playback),
 r4-layout[ui-state='dock']::part(playback) {
 	position: sticky;
-	bottom: 0;
+	top: 0;
 	z-index: 2;
 }
 @media (min-width: 70rem) {
@@ -293,7 +294,7 @@ r4-layout[ui-state='dock']::part(playback) {
 		bottom: auto;
 		max-height: 100vh;
 	}
-	r4-layout[is-playing]::part(playback) {
+	r4-layout[is-playing][ui-state='dock']::part(playback-details) {
 		min-width: 30vw;
 	}
 	r4-layout [slot='player'] {

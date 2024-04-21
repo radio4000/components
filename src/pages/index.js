@@ -1,4 +1,3 @@
-import R4PageAbout from './r4-page-about.js'
 import R4PageAdd from './r4-page-add.js'
 import R4PageChannel from './r4-page-channel.js'
 import R4PageChannelUpdate from './r4-page-channel-update.js'
@@ -19,7 +18,6 @@ import R4PageTrackUpdate from './r4-page-track-update.js'
 import R4PageTrackDelete from './r4-page-track-delete.js'
 import R4PageChannelTracks from './r4-page-channel-tracks.js'
 
-customElements.define('r4-page-about', R4PageAbout)
 customElements.define('r4-page-sign', R4PageSign)
 customElements.define('r4-page-home', R4PageHome)
 customElements.define('r4-page-explore', R4PageExplore)
@@ -41,7 +39,6 @@ customElements.define('r4-page-track-update', R4PageTrackUpdate)
 customElements.define('r4-page-track-delete', R4PageTrackDelete)
 
 export default {
-	R4PageAbout,
 	R4PageAdd,
 	R4PageChannel,
 	R4PageChannelUpdate,

@@ -10,11 +10,11 @@ r4-app {
 
 /* color schemes */
 r4-app[color-scheme='os'] {
-	--c-bg: inherit;
-	--c-fg: inherit;
-	--c-link: inherit;
-	--c-menu-bg: inherit;
-	--c-form-bg: inherit;
+	--c-bg: initial;
+	--c-fg: initial;
+	--c-link: initial;
+	--c-menu-bg: initial;
+	--c-form-bg: initial;
 }
 r4-app[color-scheme='dark'] {
 	color-scheme: dark;
@@ -29,12 +29,12 @@ r4-app[color-scheme='light'] {
 	--c-bg: var(--c-light);
 	--c-fg: var(--c-dark);
 	--c-link: var(--c-moderate);
-	--c-menu-bg: var(--c-dim);
-	--c-form-bg: var(--c-dim);
+	--c-menu-bg: var(--c-intense);
+	--c-form-bg: var(--c-intense);
 }
 
 /* app */
-r4-app a {
+r4-app:not([color-scheme='os']) a {
 	text-decoration: none;
 	color: var(--c-link);
 }
@@ -54,6 +54,9 @@ r4-app menu a {
 }
 r4-app a[aria-current='page'] {
 	background-color: transparent;
+}
+r4-app[color-scheme='os'] a[aria-current='page'] {
+	text-decoration: none;
 }
 
 r4-app ul li + li,

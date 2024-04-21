@@ -146,11 +146,8 @@ r4-app-menu menu {
 }
 r4-app-menu a {
 }
-r4-page-channel r4-page-header menu a {
-	background: none;
-}
 r4-page-channel r4-page-header menu li {
-	margin: 0;
+	margin: calc(var(--s) / 4);
 }
 r4-app-menu a[aria-current] {
 	color: var(--c-fg);

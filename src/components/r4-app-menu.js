@@ -41,9 +41,7 @@ export default class R4AppMenu extends LitElement {
 			</menu>
 		`
 	}
-	renderNoAuth() {
-		return html`<a aria-current=${this.isCurrent('/about')} href=${this.href + '/about'}>About</a>`
-	}
+	renderNoAuth() {}
 	renderAuth() {
 		if (this.slug) {
 			return html`
