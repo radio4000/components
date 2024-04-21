@@ -96,6 +96,20 @@ export default class BaseChannel extends R4Page {
 	}
 
 	renderHeader() {
+		if (this.isFirebaseChannel) {
+			return html`
+				<dialog open inline>
+					<p>
+						This Radio4000 channel is from <a href="https://v1.radio4000.com/${this.params.slug}">version 1</a>. If you
+						are the channel operator, consider importing it to
+						<a href="https://migrate.radio4000.com/?slug=${this.params.slug}">version 2</a>.
+					</p>
+					<form method="dialog">
+						<button>Got it!</button>
+					</form>
+				</dialog>
+			`
+		}
 		if (this.channelError) {
 			return this.renderChannelError()
 		}

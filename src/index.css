@@ -520,6 +520,10 @@ r4-dialog::part(dialog)::backdrop {
 	background-color: black;
 	opacity: 0.6;
 }
+r4-app dialog[inline] {
+	position: relative;
+	margin: var(--s);
+}
 
 /* Hashtags and mentions */
 r4-track-mentions a::before,
