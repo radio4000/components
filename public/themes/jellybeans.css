@@ -15,7 +15,6 @@ r4-app {
 	--s-radius: 4px;
 	--s-line-height: 1.3125;
 
-	/* --c-white: hsl(0 0% 100%); */
 	--c-gray1: hsl(50 14% 96%);
 	--c-gray2: hsl(50 14% 91%);
 	--c-gray3: hsl(50 10% 76%);
@@ -25,7 +24,6 @@ r4-app {
 	--c-gray7: hsl(30 8% 16%);
 	--c-gray8: hsl(30 8% 7%);
 	--c-gray9: hsl(30 2% 4%);
-	/* --c-black: hsl(0 0% 0%); */
 
 	--c-red1: hsl(17 100% 95%);
 	--c-red2: hsl(17 80% 85%);
@@ -36,7 +34,6 @@ r4-app {
 	--c-red7: hsl(17 70% 35%);
 	--c-red8: hsl(17 70% 25%);
 	--c-red9: hsl(17 70% 15%);
-	/* --c-red9: hsl(17 100% 7%); */
 
 	--c-green1: hsl(98 21% 95%);
 	--c-green2: hsl(98 21% 85%);
@@ -48,8 +45,6 @@ r4-app {
 	--c-green8: hsl(98 21% 25%);
 	--c-green9: hsl(98 21% 15%);
 
-	/* --c-blue5: hsl(221 29% 60%); */
-	/* --c-blue6: hsl(221 37% 43%); */
 	--c-blue1: hsl(221 30% 94%);
 	--c-blue2: hsl(221 30% 84%);
 	--c-blue3: hsl(221 31% 74%);
@@ -60,7 +55,6 @@ r4-app {
 	--c-blue8: hsl(221 27% 24%);
 	--c-blue9: hsl(221 27% 14%);
 
-	/* --c-yellow: hsl(41 79% 69%); */
 	--c-yellow1: hsl(41 79% 95%);
 	--c-yellow2: hsl(41 79% 85%);
 	--c-yellow3: hsl(41 79% 75%);
@@ -97,7 +91,31 @@ r4-app[color-scheme='dark'] {
 	--c-headlines: var(--c-red5);
 }
 
-/* Buttons and text inputs */
+/* Different defaults */
+r4-app {
+	h1,
+	h2,
+	h3,
+	p {
+		margin: 0;
+	}
+	ul,
+	ol {
+		padding: 0 0 0 2rem;
+	}
+	section {
+		margin-bottom: 2rem;
+		section {
+			margin: 1rem 0 0 1.5rem;
+		}
+	}
+	r4-query {
+		display: block;
+		margin-bottom: 1rem;
+	}
+}
+
+/* Sharede between buttons and text inputs */
 r4-app button,
 r4-app select,
 r4-app input[type='text'],
@@ -126,6 +144,7 @@ r4-app r4-layout::part(controls-button) {
 	border-radius: var(--s-radius);
 }
 
+/* Text inputs */
 r4-app input[type='text'],
 r4-app input[type='number'],
 r4-app input[type='email'],
@@ -141,16 +160,7 @@ r4-app textarea {
 	}
 }
 
-r4-app {
-	h1,
-	h2,
-	h3,
-	p {
-		margin: 0 0 var(--s);
-	}
-}
-
-/* "Buttons" */
+/* "Buttons */
 r4-app button {
 	padding: 0 var(--s);
 }
@@ -165,6 +175,7 @@ r4-app button:not(disabled):hover,
 r4-app select:not(disabled):hover {
 	background: var(--c-bg3);
 }
+
 
 /* Primary buttons */
 r4-app button[type='submit'] {
@@ -269,12 +280,10 @@ r4-list-item r4-track:hover {
 r4-track-title,
 r4-track-description {
 	font-size: 14px;
-
 }
 r4-track-title a {
 	color: var(--c-fg);
 	text-decoration: none;
-	/* margin: 0 0.5em; */
 	/* overflow: hidden; */
 	/* text-overflow: ellipsis; */
 	/* white-space: nowrap; */
@@ -288,15 +297,15 @@ r4-track-description {
 [color-scheme='dark'] r4-track-description {
 	color: var(--c-gray4);
 }
+r4-list-item r4-actions {
+	margin-left: auto;
+}
 /* Tracklist layout for smaller screens */
 @media (max-width: 700px) {
 	r4-list-item r4-track-tags,
 	r4-list-item r4-track-mentions {
 		display: none;
 	}
-}
-r4-list-item r4-actions {
-	margin-left: auto;
 }
 
 /* Tags and mentions aka labels */
@@ -329,38 +338,23 @@ r4-page-explore r4-page-main r4-list:has(r4-channel-card) {
 		}
 	}
 }
-r4-channel-card + menu {
-	margin: calc(var(--s) / 2) 0 calc(var(--s) * 2);
-}
-r4-page-channel r4-page-header r4-channel-name {
-	font-size: 2rem;
-	font-weight: bold;
-}
-r4-page-channel r4-page-header a:has(r4-channel-name) {
-	text-decoration: none;
-}
+
+
 r4-channel-name {
 	font-size: 1.25rem;
-}
-
-/* Add track page */
-r4-page-add r4-page-header {
-	order: 1;
-}
-r4-page-add r4-page-header menu {
-	display: none;
 }
 
 /* Primary menu */
 r4-app-menu {
 	display: block;
-	background: var(--c-link);
 	margin-bottom: var(--s);
+	background: var(--c-link);
 	[color-scheme="dark"] & {
 		background: var(--c-gray7);
 	}
 }
 r4-app-menu a {
+	font-size: 15px;
 	text-decoration: none;
 	color: var(--c-bg);
 	[color-scheme="dark"] & {
@@ -370,7 +364,7 @@ r4-app-menu a {
 r4-app-menu a[aria-current] {
 	background: color-mix(in oklch, var(--c-link) 100%, white 15%);
 	[color-scheme="dark"] & {
-		background: var(--c-link);
+		background: color-mix(in oklch, var(--c-link) 100%, black 20%);
 	}
 }
 
@@ -378,6 +372,12 @@ r4-app-menu a[aria-current] {
 r4-app-menu a,
 r4-page-header > menu a {
 	padding: calc(var(--s) / 3) calc(var(--s) / 3);
+	line-height: 1.7;
+}
+
+/* Menu below channel card */
+r4-channel-card + menu {
+	margin: calc(var(--s) / 2) 0 calc(var(--s) * 2);
 }
 
 /* Player styles */
@@ -388,6 +388,7 @@ r4-layout::part(playback-summary) {
 r4-layout::part(playback-details) {
 	background: var(--c-bg2);
 }
+/* v1 Player styles */
 radio4000-player {
 	background-color: var(--c-bg);
 	color: var(--c-fg);
@@ -400,6 +401,23 @@ radio4000-player .PlayerControl-group .Btn {
 }
 .TrackItem.active .TrackItem-title {
 	background-color: var(--c-link) !important;
+}
+
+/* Channel page */
+r4-page-channel r4-page-header r4-channel-name {
+	font-size: 2rem;
+	font-weight: bold;
+}
+r4-page-channel r4-page-header a:has(r4-channel-name) {
+	text-decoration: none;
+}
+
+/* Add track page */
+r4-page-add r4-page-header {
+	order: 1;
+}
+r4-page-add r4-page-header menu {
+	display: none;
 }
 
 /* Full-width pages */
