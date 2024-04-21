@@ -135,23 +135,25 @@ r4-app input[type='url'],
 r4-app textarea {
 	background: var(--c-bg2);
 	font-size: 14px;
+
+	 &:hover {
+		 /* background-color: var(--c-bg3); */
+	}
 }
 
-/* r4-app input[type="text"]:hover, */
-/* r4-app input[type="number"]:hover, */
-/* r4-app input[type="email"]:hover, */
-/* r4-app input[type="password"]:hover, */
-/* r4-app input[type="search"]:hover, */
-/* r4-app input[type="url"]:hover, */
-/* r4-app textarea:hover { */
-/* 	background-color: var(--c-bg25); */
-/* } */
-
-r4-app button {
-	padding: 0 1rem;
+r4-app {
+	h1,
+	h2,
+	h3,
+	p {
+		margin: 0 0 var(--s);
+	}
 }
 
 /* "Buttons" */
+r4-app button {
+	padding: 0 var(--s);
+}
 r4-app select,
 r4-app button {
 	font-size: 1rem;
@@ -235,10 +237,16 @@ r4-channel-card r4-channel-slug {
 	display: none;
 }
 
+r4-channel-card + menu {
+	margin-bottom: var(--s);
+}
+
 /* Track lists */
 r4-list-item r4-track {
+	gap: calc(var(--s) / 2);
 	border-bottom: 1px solid var(--c-border);
-	padding: calc(var(--s) / 2) 0;
+	padding: calc(var(--s) / 2);
+	padding-right: 0;
 }
 r4-list-item r4-track:hover {
 	background-color: color-mix(in oklch, var(--c-bg) 100%, black 2%);
@@ -249,11 +257,15 @@ r4-list-item r4-track:hover {
 r4-track-title,
 r4-track-description {
 	font-size: 14px;
+
 }
 r4-track-title a {
 	color: var(--c-fg);
 	text-decoration: none;
-	margin: 0 0.5em;
+	/* margin: 0 0.5em; */
+	/* overflow: hidden; */
+	/* text-overflow: ellipsis; */
+	/* white-space: nowrap; */
 }
 [color-scheme='dark'] r4-track-title a {
 	color: var(--c-gray2);
@@ -298,6 +310,11 @@ r4-page-explore r4-page-main > r4-list {
 	align-items: stretch;
 }
 
+r4-page-channel {
+	r4-channel-card {
+		text-align: center;
+	}
+}
 r4-page-channel r4-page-header r4-channel-name {
 	font-size: 2rem;
 }
@@ -363,3 +380,13 @@ radio4000-player .PlayerControl-group .Btn {
 .TrackItem.active .TrackItem-title {
 	background-color: var(--c-link) !important;
 }
+
+/* Full-width pages */
+r4-page-channel-tracks,
+r4-page-channel  {
+	r4-page-main {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
