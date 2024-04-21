@@ -54,17 +54,6 @@ export default class R4PageHome extends R4Page {
 		return html`
 			<section>
 				<p>Welcome to <r4-title></r4-title> version 2 (beta).</p>
-
-				<blockquote>
-					<p>
-						¿¡NOTICE!? For (technical) reasons we will all have to create new users. All radios are still here.<br />Once
-						you have created a new user, you can migrate your radio here.
-					</p>
-					<p>
-						It's a bit of hassle (not really, a few clicks), and it's worth it. Once you've moved your radio, it'll
-						appear on /explore again as usual.
-					</p>
-				</blockquote>
 			</section>
 		`
 	}
