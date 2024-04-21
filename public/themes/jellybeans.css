@@ -277,6 +277,11 @@ r4-list-item r4-track:hover {
 [color-scheme="dark"] r4-list-item r4-track:hover {
 	background-color: color-mix(in oklch, var(--c-bg) 100%, white 8%);
 }
+
+r4-track[playing] r4-button-play button {
+	background-color: var(--headlines);
+}
+
 r4-track-title,
 r4-track-description {
 	font-size: 14px;
