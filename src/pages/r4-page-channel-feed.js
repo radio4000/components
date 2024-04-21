@@ -46,7 +46,7 @@ export default class R4PageChannelFeed extends BaseChannel {
 
 	renderGroups() {
 		if (!this.tracks) {
-			return html` <r4-list> <r4-list-item>Cannot build feed if not following any channel.</r4-list-item></r4-list> `
+			return html` <section>Cannot build feed if not following any channel.</section> `
 		}
 		const groups = groupTracks(this.tracks)
 		/* console.info(groups) */
@@ -61,7 +61,7 @@ export default class R4PageChannelFeed extends BaseChannel {
 				${repeat(
 					group.groups,
 					(x) => x.month,
-					(x) => html`<r4-list-item>${this.renderGroup(x)}</r4-list-item>`
+					(x) => html`<r4-list-item>${this.renderGroup(x)}</r4-list-item>`,
 				)}
 			</r4-list>
 		`
@@ -75,7 +75,7 @@ export default class R4PageChannelFeed extends BaseChannel {
 				${repeat(
 					group.tracks,
 					(track) => track.id,
-					(track) => this.renderTrackItem(track, group, groupChannel)
+					(track) => this.renderTrackItem(track, group, groupChannel),
 				)}
 			</r4-list>
 		`

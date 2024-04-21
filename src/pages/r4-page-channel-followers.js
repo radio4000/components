@@ -30,13 +30,15 @@ export default class R4PageChannelFollowers extends BaseChannel {
 	}
 	renderChannels() {
 		return html`
-			<r4-list>
-				${repeat(
-					this.channels || [],
-					(c) => c.id,
-					(c) => this.renderChannel(c)
-				)}
-			</r4-list>
+			<section>
+				<r4-list>
+					${repeat(
+						this.channels || [],
+						(c) => c.id,
+						(c) => this.renderChannel(c),
+					)}
+				</r4-list>
+			</section>
 		`
 	}
 	renderChannel(c) {
@@ -45,6 +47,6 @@ export default class R4PageChannelFollowers extends BaseChannel {
 		</r4-list-item>`
 	}
 	renderNoChannels() {
-		return html`No followers yet.`
+		return html` <section>No followers yet.</section> `
 	}
 }

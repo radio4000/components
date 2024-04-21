@@ -95,13 +95,14 @@ r4-app[color-scheme='dark'] button {
 
 /* pages */
 r4-page-header {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
+	/* display: flex; */
+	/* flex-wrap: wrap; */
+	/* align-items: center; */
 }
 r4-page-header r4-channel-card {
 	margin: calc(var(--s) / 2);
-	/* flex-basis: 100%; */
+	flex-grow: 1;
+	flex-shrink: 0;
 }
 r4-page-header menu {
 	/* flex-basis: 100%; */
@@ -130,8 +131,6 @@ r4-app-menu a[aria-current] {
 	background-color: transparent;
 }
 r4-app menu {
-	flex-wrap: nowrap;
-	overflow-x: auto;
 }
 r4-app menu li {
 	margin: calc(var(--s) / 4);
@@ -163,17 +162,6 @@ r4-list:has(r4-track) {
 r4-list-item:has(r4-track):not(:last-child) r4-track {
 	border-bottom: 1px solid var(--c-border);
 }
-r4-list-item r4-track {
-	padding: calc(var(--s) / 2);
-}
-r4-list-item r4-track-title a {
-	color: var(--c-fg);
-	padding: 0 var(--s);
-	text-decoration: none;
-}
-r4-list r4-track r4-actions {
-	margin-left: auto;
-}
 
 /* track */
 r4-track {
@@ -188,16 +176,8 @@ r4-track-description a {
 
 /* search query */
 r4-query {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: center;
 }
 r4-query menu,
 r4-query details {
 	padding: calc(var(--s) / 3);
-}
-
-r4-track {
-	overflow: auto;
 }
