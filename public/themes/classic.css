@@ -51,9 +51,16 @@ r4-app {
 r4-app[color-scheme='os'],
 r4-app[color-scheme='light'] {
 	--c-bg: hsl(40, 6%, 90%);
+	--c-bg2: color-mix(in oklch, var(--c-bg) 100%, white 50%);
 }
 
 /* r4-app[color-scheme='dark'] {} */
+
+r4-layout header[slot='menu'] {
+	position: sticky;
+	top: 0;
+	background-color: var(--c-bg);
+}
 
 r4-app a {
 	background-color: var(--c-light);
@@ -90,8 +97,14 @@ r4-app[color-scheme='dark'] button {
 r4-page-header {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
 	align-items: center;
+}
+r4-page-header r4-channel-card {
+	margin: calc(var(--s) / 2);
+	/* flex-basis: 100%; */
+}
+r4-page-header menu {
+	/* flex-basis: 100%; */
 }
 r4-page-header h1 {
 	margin: 0;
@@ -111,18 +124,26 @@ r4-app-menu menu {
 }
 r4-app-menu a,
 r4-page-channel r4-page-header menu a {
-	padding: calc(var(--s) / 2) calc(var(--s) / 2);
-	margin: calc(var(--s) / 4);
-	text-decoration: none;
 }
 r4-app-menu a[aria-current] {
 	color: var(--c-fg);
 	background-color: transparent;
 }
+r4-app menu {
+	flex-wrap: nowrap;
+	overflow-x: auto;
+}
+r4-app menu li {
+	margin: calc(var(--s) / 4);
+}
+r4-app menu a {
+	padding: calc(var(--s) / 2) calc(var(--s) / 2);
+	text-decoration: none;
+}
 
 /* Channel cards */
 r4-channel-card {
-	background-color: color-mix(in oklch, var(--c-bg) 100%, white 50%);
+	background-color: var(--c-bg2);
 }
 r4-channel-card r4-channel-slug {
 	display: none;
@@ -155,9 +176,14 @@ r4-list r4-track r4-actions {
 }
 
 /* track */
+r4-track {
+	background-color: var(--c-bg2);
+	padding: calc(var(--s) / 2);
+}
 r4-track-description a {
 	padding-left: calc(var(--s) / 4);
 	padding-right: calc(var(--s) / 4);
+	margin: 0.1rem;
 }
 
 /* search query */
@@ -170,4 +196,8 @@ r4-query {
 r4-query menu,
 r4-query details {
 	padding: calc(var(--s) / 3);
+}
+
+r4-track {
+	overflow: auto;
 }

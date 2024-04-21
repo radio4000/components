@@ -79,6 +79,7 @@ r4-app h1 {
 }
 
 r4-app section {
+	margin-top: calc(var(--s) * 2);
 	margin-bottom: calc(var(--s) * 2);
 }
 r4-app summary {

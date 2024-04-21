@@ -56,7 +56,8 @@ export default class R4PageSettings extends R4Page {
 			<section>
 				<h2>Account</h2>
 				<p>
-					You are signed in as <em>${this.store?.user?.email}</em> (<a href="${this.config.href}/sign/out">sign out</a >).
+					You are signed in as <em>${this.store?.user?.email}</em> (<a href="${this.config.href}/sign/out">sign out</a
+					>).
 				</p>
 				${this.store.user.new_email ? this.renderNewEmail() : null}
 				<r4-email-update email=${this.store.user.email} @submit=${this.changeEmail}></r4-email-update>
@@ -80,6 +81,7 @@ export default class R4PageSettings extends R4Page {
 				<ul>
 					<li><a href="${this.config.href}/sign/in">Sign in</a> an existing account</li>
 					<li><a href="${this.config.href}/sign/up">Sign up</a> to register a new account</li>
+					<li><a href="https://migrate.radio4000.com">Migrate</a> a channel from v1 to v2</li>
 				</ul>
 			</section>
 		`
