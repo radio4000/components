@@ -4,13 +4,13 @@
   "private": false,
   "version": "0.1.45",
   "type": "module",
-  "main": "dist-lib/r4.js",
+  "main": "dist/r4.js",
   "exports": {
-    "default": "./dist-lib/r4.js",
-    "styles": "./dist-lib/style.js"
+    "default": "./dist/r4.js",
+    "styles": "./dist/style.js"
   },
   "files": [
-    "dist-lib"
+    "dist"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

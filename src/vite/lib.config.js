@@ -11,7 +11,7 @@ export default defineConfig({
 		},
 		rollupOptions: {
 			output: {
-				dir: 'dist-lib',
+				dir: 'dist',
 			},
 		},
 	},
