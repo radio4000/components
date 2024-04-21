@@ -305,6 +305,14 @@ r4-channel-name {
 	font-size: 1.25rem;
 }
 
+/* Add track page */
+r4-page-add r4-page-header {
+	order: 1;
+}
+r4-page-add r4-page-header menu {
+	display: none;
+}
+
 /* Primary menu */
 r4-app-menu {
 	display: block;
