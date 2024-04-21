@@ -580,3 +580,17 @@ r4-app r4-actions a {
 r4-app r4-actions button {
 	flex: 1;
 }
+
+/* beta logo */
+r4-app r4-app-menu r4-title::before,
+r4-app r4-app-menu r4-title::after {
+	font-size: 0.7rem;
+	color: var(--link);
+	font-style: italic;
+}
+r4-app r4-app-menu r4-title::before {
+	content: 'beta.';
+}
+r4-app r4-app-menu r4-title::after {
+	content: '.v2';
+}
