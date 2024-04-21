@@ -315,7 +315,7 @@ r4-app[color-scheme='dark'] a[label] {
 }
 
 /* Differentiate channels and track lists by using a grid */
-r4-page-explore r4-page-main > r4-list {
+r4-page-explore r4-page-main r4-list:has(r4-channel-card) {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
 	gap: var(--s);
