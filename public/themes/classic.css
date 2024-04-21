@@ -136,8 +136,10 @@ r4-app menu li {
 	margin: calc(var(--s) / 4);
 }
 r4-app menu a {
+	font-size: 16px;
 	padding: calc(var(--s) / 2) calc(var(--s) / 2);
 	text-decoration: none;
+	/* border-radius: var(--s-radius); */
 }
 
 /* Channel cards */
@@ -158,6 +160,10 @@ r4-channel-card-body {
 r4-list:has(r4-track) {
 	border: 1px solid var(--c-border);
 	border-radius: var(--s-radius);
+
+	r4-track-body {
+		font-size: 15px;
+	}
 }
 r4-list-item:has(r4-track):not(:last-child) r4-track {
 	border-bottom: 1px solid var(--c-border);
@@ -172,6 +178,9 @@ r4-track a {
 	background-color: transparent;
 	text-decoration: none;
 }
+r4-track-title a {
+	color: var(--c-fg);
+}
 r4-track-description a {
 	padding-left: calc(var(--s) / 4);
 	padding-right: calc(var(--s) / 4);
@@ -179,8 +188,7 @@ r4-track-description a {
 }
 
 /* search query */
-r4-query {
-}
+r4-query { }
 r4-query menu,
 r4-query details {
 	padding: calc(var(--s) / 3);

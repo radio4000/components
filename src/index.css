@@ -408,7 +408,7 @@ r4-supabase-modifiers form {
 r4-track {
 	display: grid;
 	grid-template-columns: auto 1fr auto;
-	gap: calc(var(--s) / 2);
+	gap: 0 calc(var(--s) / 2);
 	align-items: center;
 }
 r4-avatar {
