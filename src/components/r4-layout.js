@@ -1,5 +1,6 @@
 import {html, LitElement} from 'lit'
 import {ref, createRef} from 'lit/directives/ref.js'
+import {UI_STATES} from '../libs/appearence.js'
 
 export default class R4Layout extends LitElement {
 	static properties = {
@@ -14,18 +15,7 @@ export default class R4Layout extends LitElement {
 
 	constructor() {
 		super()
-		this.uiStates = {
-			Close: 'close',
-			Dock: 'dock',
-			Minimize: 'minimize',
-			Fullscreen: 'fullscreen',
-		}
-		this.uiStatesUnicodes = {
-			[this.uiStates.Close]: 'x',
-			[this.uiStates.Dock]: '⌃',
-			[this.uiStates.Minimize]: '⌄',
-			[this.uiStates.Fullscreen]: '⌆',
-		}
+		this.uiStates = UI_STATES
 		this.uiState = this.uiStates.Minimize
 		document.addEventListener('fullscreenchange', this.onFullscreen.bind(this))
 
@@ -125,18 +115,22 @@ export default class R4Layout extends LitElement {
 		return html`
 			<details open part="playback-details" ${ref(this.detailsRef)}>
 				<summary part="playback-summary">
+					${this.isPlaying ? this.renderPlaybackIcon() : null}
 					<slot name="playback-controls"> ${Object.entries(this.uiStates).map(this.renderUiState.bind(this))} </slot>
 				</summary>
 				<slot name="player"></slot>
 			</details>
 		`
 	}
+	renderPlaybackIcon() {
+		return html`<r4-icon name="player_status" part="playback-status"></r4-icon>`
+	}
 
 	renderUiState(uiState) {
 		const [value, name] = uiState
 		return html`
 			<button @click=${this.onControlClick} value=${value} title=${name} name=${name} part="controls-button">
-				${this.uiStatesUnicodes[name]}
+				<r4-icon name="player_${name}"></r4-icon>
 			</button>
 		`
 	}

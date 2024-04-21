@@ -128,6 +128,7 @@ r4-app summary,
 r4-app button,
 r4-app r4-layout::part(controls-button) {
 	cursor: pointer;
+	margin: calc(var(--s) / 10);
 }
 
 r4-app progress[is='r4-loading'] {
@@ -218,6 +219,13 @@ r4-layout r4-player radio4000-player .Layout {
 	border-color: var(--c-link);
 }
 
+r4-layout::part(playback-status) {
+	display: flex;
+	flex-grow: 1;
+	align-self: center;
+	padding: calc(var(--s) / 3);
+	opacity: 0.3;
+}
 /* hide the player summary when fullscreen */
 r4-layout[ui-state='fullscreen']::part(playback-summary) {
 	display: none;

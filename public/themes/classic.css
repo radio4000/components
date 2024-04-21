@@ -106,6 +106,14 @@ r4-app[color-scheme='dark'] button {
 	box-shadow: none;
 }
 
+r4-layout::part(playback) {
+	position: sticky;
+	top: 0;
+}
+r4-layout::part(playback-summary) {
+	background-color: var(--c-bg2);
+}
+
 /* pages */
 r4-page-header {
 	/* display: flex; */
@@ -122,7 +130,7 @@ r4-page-header menu {
 }
 r4-page-header h1 {
 	margin: 0;
-	padding: var(--s);
+	padding: calc(var(--s) / 2);
 }
 /* Differentiate channels and track lists by using a grid */
 r4-page-explore r4-page-main > r4-list {

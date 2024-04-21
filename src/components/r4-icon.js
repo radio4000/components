@@ -8,23 +8,8 @@ export default class R4Icon extends HTMLElement {
 	get icon() {
 		return ICONS[this.name] || ''
 	}
-	attributeChangedCallback() {
-		this.render()
-		this.renderAttr()
-	}
 	connectedCallback() {
-		this.render()
-	}
-	render() {
-		this.innerHTML = ''
-		this.innerText = this.icon
-	}
-	renderAttr() {
-		if (this.name) {
-			this.setAttribute('title', `${this.name} icon`)
-		} else {
-			this.removeAttribute('title')
-		}
+		this.replaceChildren(this.icon)
 	}
 }
 
@@ -35,4 +20,11 @@ const ICONS = {
 	globe: '🌍',
 	dark: '🌘',
 	light: '🌖',
+	player_status: '♫',
+	player_close: 'x',
+	player_dock: '⌃',
+	player_minimize: '⌄',
+	player_fullscreen: '⌆',
+	follow: '☆',
+	unfollow: '★',
 }

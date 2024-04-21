@@ -28,13 +28,19 @@ export default class R4ButtonFollow extends LitElement {
 	renderUnfollow() {
 		return html`
 			<button @click=${this.unfollow} title="Un-subscribe from this channel's updates, by un-following it">
-				Unfollow
+				<r4-icon name="unfollow"></r4-icon>
 			</button>
 		`
 	}
 	renderFollow() {
 		return html`
-			<button @click=${this.follow} ?disabled=${!this.userChannel} title="Subscribe to this channel's updates, by following it">Follow</button>
+			<button
+				@click=${this.follow}
+				?disabled=${!this.userChannel}
+				title="Subscribe to this channel's updates, by following it"
+			>
+				<r4-icon name="follow"></r4-icon>
+			</button>
 		`
 	}
 
