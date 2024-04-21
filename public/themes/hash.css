@@ -3,31 +3,40 @@ r4-app {
 	/* colors */
 	--c-light: cornsilk;
 	--c-dark: black;
-	--c-high: dimgray;
-	--c-theme: chartreuse;
-	--c-theme2: rebeccapurple;
+	--c-dim: dimgray;
+	--c-intense: chartreuse;
+	--c-moderate: rebeccapurple;
 }
 
 /* color schemes */
 r4-app[color-scheme='os'] {
+	--c-bg: inherit;
+	--c-fg: inherit;
+	--c-link: inherit;
+	--c-menu-bg: inherit;
+	--c-form-bg: inherit;
 }
 r4-app[color-scheme='dark'] {
 	color-scheme: dark;
 	--c-bg: var(--c-dark);
 	--c-fg: var(--c-light);
-	--c-hi
-	--c-high: var(--c-theme);
+	--c-link: var(--c-intense);
+	--c-menu-bg: var(--c-dim);
+	--c-form-bg: var(--c-dim);
 }
 r4-app[color-scheme='light'] {
 	color-scheme: light;
 	--c-bg: var(--c-light);
 	--c-fg: var(--c-dark);
-	--c-high: var(--c-theme);
+	--c-link: var(--c-moderate);
+	--c-menu-bg: var(--c-dim);
+	--c-form-bg: var(--c-dim);
 }
 
 /* app */
 r4-app a {
 	text-decoration: none;
+	color: var(--c-link);
 }
 r4-app h1,
 r4-app h2,
@@ -40,7 +49,7 @@ r4-app menu li {
 	padding: calc(var(--s) / 2);
 }
 r4-app menu a {
-	background-color: var(--c-high);
+	background-color: var(--c-menu-bg);
 	padding: calc(var(--s) / 2);
 }
 r4-app a[aria-current='page'] {
@@ -60,7 +69,7 @@ r4-app summary {
 r4-app form {
 	max-width: calc(var(--s) * 100);
 	padding: var(--s);
-	background-color: var(--c-high);
+	background-color: var(--c-form-bg);
 	border-radius: calc(var(--s) / 3);
 }
 r4-app summary,
@@ -98,6 +107,7 @@ r4-page-header h1 {
 r4-list-item + r4-list-item {
 	margin-top: var(--s);
 }
+r4-track-title::before,
 r4-track-description::before,
 r4-track-discogs-url::before,
 r4-track-mentions menu::before,

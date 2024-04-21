@@ -239,7 +239,7 @@ r4-layout::part(playback-menu) {
 */
 
 /* keep the player visible, but small */
-r4-layout[ui-state='minimize'] radio4000-player {
+r4-layout[ui-state='minimize'] r4-player radio4000-player {
 	min-height: auto;
 	max-height: var(--s-youtube); /* youtube guidelines for video, @to-keep */
 	/* 6.4rem height to hide video completely */
@@ -250,11 +250,19 @@ r4-layout r4-player radio4000-player .Layout {
 	border-color: var(--c-link);
 }
 /* overwrite some of radio4000-player library styles */
-r4-layout[ui-state='minimize'] radio4000-player .Layout-header,
-r4-layout[ui-state='minimize'] radio4000-player .Layout-main {
+r4-layout[ui-state='minimize'] r4-player radio4000-player .Layout-header,
+r4-layout[ui-state='minimize'] r4-player radio4000-player .Layout-main {
 	display: none;
 }
 
+r4-layout r4-page-main:has(radio4000-player) {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+r4-layout r4-page-main radio4000-player {
+	max-height: none;
+}
 /*
 	ui-state = minimal & dock
 	- make the playback sticky at top of viewport,

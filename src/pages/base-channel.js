@@ -96,13 +96,6 @@ export default class BaseChannel extends R4Page {
 	}
 
 	renderHeader() {
-		if (this.isFirebaseChannel) {
-			return html`
-				<h1>@${this.params.slug}</h1>
-				<p>${this.isFirebaseChannel.body}</p>
-				<r4-avatar image=${this.isFirebaseChannel?.image} size="medium"></r4-avatar>
-			`
-		}
 		if (this.channelError) {
 			return this.renderChannelError()
 		}

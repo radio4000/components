@@ -44,13 +44,14 @@ export default class R4PageChannel extends BaseChannel {
 	renderMain() {
 		if (this.isFirebaseChannel) {
 			return html`
-				<radio4000-player channel-slug=${this.params.slug}></radio4000-player>
-				<p>
+				<r4-info>
 					<small>
-						This channel has not yet migrated to the new Radio4000. That's ok, you can still listen here or on
-						<a href="https://v1.radio4000.com/${this.params.slug}">v1</a>
+						This Radio4000 channel is from <a href="https://v1.radio4000.com/${this.params.slug}">version 1</a>. If your
+						are the channel operator, import it to
+						<a href="https://migrate.radio4000.com/?slug=${this.params.slug}">version 2</a>.
 					</small>
-				</p>
+				</r4-info>
+				<radio4000-player channel-slug=${this.params.slug}></radio4000-player>
 			`
 		}
 		// if (this.channelError) {}
