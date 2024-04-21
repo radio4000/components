@@ -214,6 +214,9 @@ r4-layout r4-player,
 r4-layout radio4000-player {
 	flex-grow: 1;
 }
+r4-layout r4-player radio4000-player .Layout {
+	border-color: var(--c-link);
+}
 
 /* hide the player summary when fullscreen */
 r4-layout[ui-state='fullscreen']::part(playback-summary) {
@@ -246,9 +249,6 @@ r4-layout[ui-state='minimize'] r4-player radio4000-player {
 	/* 6.4rem height to hide video completely */
 	/* 19rem height to show youtube controls */
 	/* 22rem width to show vol and time ui */
-}
-r4-layout r4-player radio4000-player .Layout {
-	border-color: var(--c-link);
 }
 /* overwrite some of radio4000-player library styles */
 r4-layout[ui-state='minimize'] r4-player radio4000-player .Layout-header,

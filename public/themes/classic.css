@@ -48,13 +48,18 @@ r4-app {
 	--c-bg-button: hsl(0, 0%, 98%);
 }
 
-r4-app[color-scheme='os'],
+r4-app[color-scheme='os'] {
+}
 r4-app[color-scheme='light'] {
 	--c-bg: hsl(40, 6%, 90%);
 	--c-bg2: color-mix(in oklch, var(--c-bg) 100%, white 50%);
 }
 
-/* r4-app[color-scheme='dark'] {} */
+r4-app[color-scheme='dark'] {
+	--c-fg: var(--c-light);
+	--c-bg: var(--c-dark);
+	--c-bg2: var(--c-border);
+}
 
 r4-layout header[slot='menu'] {
 	position: sticky;
