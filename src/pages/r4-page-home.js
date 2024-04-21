@@ -31,7 +31,8 @@ export default class R4PageHome extends R4Page {
 	}
 	renderCreateChannel() {
 		return html`
-				<p><a href="${this.config.href}/new">Create radio</a></p>
+				<p><a href="${this.config.href}/new">Create radio &rarr;</a></p>
+				<p><a href=${this.config.href + `/about`}>About &rarr;</a></p>
 			`
 	}
 	renderFollowingChannels() {
@@ -64,7 +65,6 @@ export default class R4PageHome extends R4Page {
 						appear on /explore again as usual.
 					</p>
 				</blockquote>
-				<p><a href=${this.config.href + `/about`}>About &rarr;</a></p>
 			</section>
 		`
 	}
