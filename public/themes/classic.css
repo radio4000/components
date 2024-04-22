@@ -141,6 +141,7 @@ r4-page-header r4-channel-card {
 	margin: calc(var(--s) / 2);
 	flex-grow: 1;
 	flex-shrink: 0;
+	max-width: 45rem;
 }
 r4-page-header h1 {
 	margin: calc(var(--s) / 2) 0;
