@@ -21,6 +21,7 @@ export default class R4PageSign extends R4Page {
 	get email() {
 		return this.user?.email
 	}
+
 	connectedCallback() {
 		super.connectedCallback()
 		if (this.store.user && this.params.method === 'in') {
@@ -30,19 +31,22 @@ export default class R4PageSign extends R4Page {
 			page('/sign/in')
 		}
 	}
+
 	renderHeader() {
 		return html`
 			<h1>Sign<i>${this.params.method ? this.params.method : null}</i></h1>
 			<p><r4-title></r4-title> user authentication.</p>
 		`
 	}
+
 	renderMain() {
 		const {method} = this.params
 		return html`
 			${method ? this.renderMethodPage(method) : this.renderMethodSelection()}
-			${this.showConfirm ? this.renderConfirmEmail() : null} ${this.renderFooter()}
+			${this.showConfirm ? this.renderConfirmEmail() : null}
 		`
 	}
+
 	renderMethodPage(method) {
 		if (this.showConfirm) {
 			return null
@@ -68,15 +72,15 @@ export default class R4PageSign extends R4Page {
 
 	renderFooter() {
 		if (this.params.method === 'in') {
-			return this.renderForgotPass()
+			return this.renderSignInFooter()
 		} else if (this.params.method === 'up') {
-			return this.renderExistingAccount()
+			return this.renderSignOutFooter()
 		}
 	}
-	renderForgotPass() {
+
+	renderSignInFooter() {
 		return html`
 			<section>
-				<p>Need help? <a href=${this.config.href + `/about`}>About &rarr;</a></p>
 				<ul>
 					<li><a href=${this.config.href + '/sign/up'}>Sign up</a> if you don't yet have an account.</li>
 					<li>
@@ -90,13 +94,14 @@ export default class R4PageSign extends R4Page {
 						</details>
 					</li>
 				</ul>
+				<p>Need help? See chat and email support on <a href=${this.config.href + `/settings`}>settings &rarr;</a></p>
 			</section>
 		`
 	}
-	renderExistingAccount() {
+
+	renderSignOutFooter() {
 		return html`
 			<section>
-				<p>Need help? <a href=${this.config.href + `/about`}>About &rarr;</a></p>
 				<ul>
 					<li>
 						<a href=${this.config.href + '/sign/in'}>Sign in</a>
@@ -104,12 +109,14 @@ export default class R4PageSign extends R4Page {
 					</li>
 					<li>
 						Sign up first, to <a href="${this.config.hrefMigrate}">import/migrate</a> an existing radio (from the
-						previous <a href="https://radio4000.com">site</a>).
+						previous <a href="https://v1.radio4000.com">site</a>).
 					</li>
 				</ul>
+				<p>Need help? See chat and email support on <a href=${this.config.href + `/settings`}>settings &rarr;</a></p>
 			</section>
 		`
 	}
+
 	renderConfirmEmail() {
 		return html`
 			<section>
@@ -144,5 +151,6 @@ export default class R4PageSign extends R4Page {
 			page('/')
 		}
 	}
+
 	onPasswordReset(event) {}
 }
