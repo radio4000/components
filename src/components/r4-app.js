@@ -2,6 +2,7 @@ import {html, LitElement} from 'lit'
 import {ref, createRef} from 'lit/directives/ref.js'
 import pkg from '../../package.json'
 import {sdk} from '../libs/sdk.js'
+import {UI_STATES} from '../libs/appearence.js'
 import page from 'page/page.mjs'
 import DatabaseListeners from '../libs/db-listeners'
 import '../pages/'
@@ -221,49 +222,6 @@ export default class R4App extends LitElement {
 		}
 	}
 
-	render() {
-		if (!this.didLoad) {
-			return html`<r4-layout><r4-loading slot="main"></r4-loading></r4-layout>`
-		}
-		return html`
-			<r4-layout @r4-play=${this.onPlay} ?is-playing=${this.isPlaying}>
-				${!this.config.singleChannel ? this.renderMenu() : null}
-				<main slot="main">${this.renderRouter()}</main>
-				<r4-player
-					slot="player"
-					${ref(this.playerRef)}
-					.config=${this.config}
-					@trackchange=${this.onTrackChange}
-				></r4-player>
-			</r4-layout>
-			<link rel="stylesheet" href=${this.themeHref} />
-		`
-	}
-
-	/* the default routers:
-		 - one for the channel in CMS mode (all channels are accessible)
-		 - one for when only one channel should be displayed in the UI
-	 */
-	renderRouter() {
-		if (this.singleChannel) {
-			return html`
-				<r4-router name="channel" .store=${this.store} .config=${this.config} .routes=${ROUTES_SINGLE}></r4-router>
-			`
-		} else {
-			return html`
-				<r4-router name="application" .store=${this.store} .config=${this.config} .routes=${ROUTES_CMS}> </r4-router>
-			`
-		}
-	}
-
-	renderMenu() {
-		return html`
-			<header slot="menu">
-				<r4-app-menu ?auth=${this.store?.user} href=${this.config?.href} slug=${this.selectedSlug}></r4-app-menu>
-			</header>
-		`
-	}
-
 	onChannelSelect({detail}) {
 		if (detail.channel) {
 			const {slug} = detail.channel
@@ -343,6 +301,59 @@ export default class R4App extends LitElement {
 		el.removeAttribute('name')
 		el.removeAttribute('query')
 		el.removeAttribute('tracks')
+	}
+
+	render() {
+		if (!this.didLoad) {
+			return html`<r4-layout><r4-loading slot="main"></r4-loading></r4-layout>`
+		}
+		return html`
+			<r4-layout @r4-play=${this.onPlay} ?is-playing=${this.isPlaying}>
+				${!this.config.singleChannel ? this.renderMenu() : null}
+				<main slot="main">${this.renderRouter()}</main>
+				<r4-player
+					slot="player"
+					${ref(this.playerRef)}
+					.config=${this.config}
+					@trackchange=${this.onTrackChange}
+				></r4-player>
+				<form slot="playback-controls">${Object.entries(UI_STATES).map(this.renderPlayerUICtrl.bind(this))}</form>
+			</r4-layout>
+			<link rel="stylesheet" href=${this.themeHref} />
+		`
+	}
+
+	/* the default routers:
+		 - one for the channel in CMS mode (all channels are accessible)
+		 - one for when only one channel should be displayed in the UI
+	 */
+	renderRouter() {
+		if (this.singleChannel) {
+			return html`
+				<r4-router name="channel" .store=${this.store} .config=${this.config} .routes=${ROUTES_SINGLE}></r4-router>
+			`
+		} else {
+			return html`
+				<r4-router name="application" .store=${this.store} .config=${this.config} .routes=${ROUTES_CMS}> </r4-router>
+			`
+		}
+	}
+
+	renderMenu() {
+		return html`
+			<header slot="menu">
+				<r4-app-menu ?auth=${this.store?.user} href=${this.config?.href} slug=${this.selectedSlug}></r4-app-menu>
+			</header>
+		`
+	}
+
+	renderPlayerUICtrl(uiState) {
+		const [value, name] = uiState
+		return html`
+			<button value=${value} title=${name} name=${name} type="submit">
+				<r4-icon name="player_${name}"></r4-icon>
+			</button>
+		`
 	}
 
 	createRenderRoot() {

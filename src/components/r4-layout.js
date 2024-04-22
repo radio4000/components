@@ -24,8 +24,6 @@ export default class R4Layout extends LitElement {
 
 	disconnectedCallback() {
 		document.removeEventListener('fullscreenchange', this.onFullscreen)
-		// remove the observer
-		// this.topObserver
 	}
 
 	willUpdate(changedProps) {
@@ -94,7 +92,19 @@ export default class R4Layout extends LitElement {
 			}
 		}
 	}
-
+	onControlSubmit(event) {
+		const {
+			currentTarget: {value: stateNonSlotted},
+			submitter,
+		} = event
+		const stateSlot = submitter.getAttribute('value')
+		const state = stateSlot || stateNonSlotted
+		event.preventDefault()
+		this.uiState = this.uiStates[state]
+		if (!this.detailsRef?.value?.getAttribute('open')) {
+			this.detailsRef?.value?.setAttribute('open', true)
+		}
+	}
 	render() {
 		return html`
 			<r4-layout-panel part="panel">
@@ -116,7 +126,9 @@ export default class R4Layout extends LitElement {
 			<details open part="playback-details" ${ref(this.detailsRef)}>
 				<summary part="playback-summary">
 					${this.isPlaying ? this.renderPlaybackIcon() : null}
-					<slot name="playback-controls"> ${Object.entries(this.uiStates).map(this.renderUiState.bind(this))} </slot>
+					<slot name="playback-controls" @submit=${this.onControlSubmit}>
+						${Object.entries(this.uiStates).map(this.renderUiState.bind(this))}
+					</slot>
 				</summary>
 				<slot name="player"></slot>
 			</details>
@@ -129,16 +141,9 @@ export default class R4Layout extends LitElement {
 	renderUiState(uiState) {
 		const [value, name] = uiState
 		return html`
-			<button @click=${this.onControlClick} value=${value} title=${name} name=${name} part="controls-button">
+			<button value=${value} title=${name} name=${name} part="controls-button">
 				<r4-icon name="player_${name}"></r4-icon>
 			</button>
 		`
-	}
-
-	onControlClick({currentTarget: {value: uiStateNext}}) {
-		this.uiState = this.uiStates[uiStateNext]
-		if (!this.detailsRef?.value?.getAttribute('open')) {
-			this.detailsRef?.value?.setAttribute('open', true)
-		}
 	}
 }
