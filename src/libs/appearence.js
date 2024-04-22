@@ -15,10 +15,10 @@ export const UI_STATES = {
 }
 
 /*
-"detail" is "micro" - is the the one you always wanted, player still there playing, but not visible
+"detail" is "micro"
 "close" is close
 "mini" is displaying just the video
 "dock" is docked to the side/bottom/top (full height or width)
 "fullscreen" is full vh/vw/z-index
-"close" is to "finish playback", what you always wanted too
+"close" is to "finish playback"
 */
