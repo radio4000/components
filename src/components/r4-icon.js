@@ -24,7 +24,7 @@ const ICONS = {
 	player_close: 'x',
 	player_dock: '⌃',
 	player_minimize: '⌄',
-	player_fullscreen: '⌆',
+	player_fullscreen: '⛶', // ⌆
 	follow: '☆',
 	unfollow: '★',
 }
