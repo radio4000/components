@@ -208,8 +208,27 @@ r4-layout[ui-state='close'] [slot='player']::slotted(*) {
 /* make the player summary not display its icon */
 r4-layout::part(playback-summary) {
 	display: flex;
-	justify-content: flex-end;
+	/* justify-content: flex-end; */
+	background-color: var(--c-bg2);
 }
+
+r4-layout::part(playback-status-title) {
+	align-self: center;
+	justify-self: flex-start;
+	font-size: 14px;
+	flex-grow: 1;
+}
+
+r4-layout::part(name=[playback-controls]) {
+	margin-left: auto;
+}
+
+
+r4-layout::part(playback) {
+	position: sticky;
+	top: 0;
+}
+
 
 /* the player */
 r4-layout r4-player,
@@ -222,7 +241,6 @@ r4-layout r4-player radio4000-player .Layout {
 
 r4-layout::part(playback-status) {
 	display: flex;
-	flex-grow: 1;
 	align-self: center;
 	padding: calc(var(--s) / 3);
 	opacity: 0.3;
