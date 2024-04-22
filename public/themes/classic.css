@@ -166,20 +166,18 @@ r4-page-add r4-page-header menu {
 }
 
 /* Nav menus */
-r4-app menu {
-}
+r4-app menu {}
 r4-app menu li {
 	margin: calc(var(--s) / 4);
 }
 r4-app menu a {
-	font-size: 16px;
 	padding: calc(var(--s) / 2) calc(var(--s) / 2);
 	text-decoration: none;
 	background: none;
 }
 r4-app-menu a[aria-current] {
 	color: var(--c-fg);
-	background-color: transparent;
+	background-color: var(--c-bg2);
 }
 /* Main menu */
 r4-app-menu {
@@ -268,6 +266,10 @@ r4-track-description a {
 	padding-left: calc(var(--s) / 4);
 	padding-right: calc(var(--s) / 4);
 	margin: 0.1rem;
+}
+r4-track[playing] r4-button-play button {
+	color: var(--c-purple);
+	border-color: var(--c-purple);
 }
 
 /* search query */
