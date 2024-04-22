@@ -320,6 +320,7 @@ export default class R4App extends LitElement {
 			const lastTrack = tracks[tracks.length - 1]
 			if (lastTrack) {
 				el.setAttribute('track', lastTrack.id)
+				this.playingTrack = lastTrack
 			}
 		} else {
 			el.removeAttribute('track')
