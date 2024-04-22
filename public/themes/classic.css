@@ -91,7 +91,7 @@ r4-app li {
 /* Default button */
 r4-app button {
 	display: inline-block;
-	font-size: 16px;
+	font-size: calc(16/18*1rem);
 	font-weight: bold;
 	border: 1px solid var(--c-border);
 	border-radius: var(--s-radius);
@@ -240,7 +240,7 @@ r4-track {
 	padding: calc(var(--s) / 2);
 }
 r4-track-body {
-	font-size: 16px;
+	font-size: calc(16/18*1rem);
 }
 r4-track a {
 	background-color: transparent;
