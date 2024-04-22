@@ -275,6 +275,22 @@ r4-query menu,
 r4-query details {
 	padding: calc(var(--s) / 3);
 }
+r4-query menu li {
+	margin: 0;
+}
+
+/* Puts filters and search in one row */
+r4-page-channel-tracks r4-page-header r4-query {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	> menu {
+		order: 2;
+	}
+	details {
+		padding-top: 1.3rem;
+	}
+}
 
 /* Vertical track form layout */
 r4-track-create {
@@ -289,4 +305,9 @@ r4-track-create {
 	textarea {
 		min-height: 3em;
 	}
+}
+
+/* remove styles from <a> */
+radio4000-player .Layout .TrackItem {
+	background-color: inherit;
 }
