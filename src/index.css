@@ -615,3 +615,8 @@ r4-app r4-app-menu r4-title::before {
 r4-app r4-app-menu r4-title::after {
 	content: '.v2';
 }
+
+/* icon done in css and unicode ascii only */
+r4-icon[icon]::before {
+	content: attr(icon);
+}

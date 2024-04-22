@@ -9,7 +9,7 @@ export default class R4Icon extends HTMLElement {
 		return ICONS[this.name] || ''
 	}
 	connectedCallback() {
-		this.replaceChildren(this.icon)
+		this.setAttribute('icon', this.icon)
 	}
 }
 
