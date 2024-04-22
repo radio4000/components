@@ -60,7 +60,7 @@ export default class R4ChannelShare extends HTMLElement {
 		return url
 	}
 	get trackOrigin() {
-		return `${this.origin}/tracks/${this.trackId}`
+		return `${this.origin}/${this.trackId}`
 	}
 
 	/* the link to the r4 api */
