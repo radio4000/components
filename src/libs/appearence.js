@@ -1,11 +1,24 @@
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-const THEMES = ['classic', 'jellybeans', 'minimal', 'hash']
-const COLOR_SCHEMES = ['os', 'light', 'dark']
-const UI_STATES = {
+// Each of these correspond to a matching css file in public/themes/.
+export const THEMES = ['classic', 'jellybeans', 'minimal', 'hash']
+
+// We allow the user to choose their prefered appearance as well. It is up to the selected theme to implement.
+export const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+export const COLOR_SCHEMES = ['os', 'light', 'dark']
+
+// This determine the position of the player among other things.
+export const UI_STATES = {
+	// and we have a detail
 	Close: 'close',
-	Dock: 'dock',
 	Minimize: 'minimize',
+	Dock: 'dock',
 	Fullscreen: 'fullscreen',
 }
 
-export {UI_STATES, THEMES, COLOR_SCHEMES, prefersDark}
+/*
+"detail" is "micro" - is the the one you always wanted, player still there playing, but not visible
+"close" is close
+"mini" is displaying just the video
+"dock" is docked to the side/bottom/top (full height or width)
+"fullscreen" is full vh/vw/z-index
+"close" is to "finish playback", what you always wanted too
+*/
