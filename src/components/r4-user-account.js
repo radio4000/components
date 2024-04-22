@@ -1,6 +1,6 @@
 import {LitElement, html} from 'lit'
 import {sdk} from '../libs/sdk.js'
-import {THEMES, COLOR_SCHEMES} from '../libs/appearence.js'
+import {THEMES, COLOR_SCHEMES} from '../libs/appearance.js'
 
 export default class R4UserAccount extends LitElement {
 	static properties = {

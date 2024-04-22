@@ -1,6 +1,6 @@
 import {html, LitElement} from 'lit'
 import {ref, createRef} from 'lit/directives/ref.js'
-import {UI_STATES} from '../libs/appearence.js'
+import {UI_STATES} from '../libs/appearance.js'
 
 export default class R4Layout extends LitElement {
 	static properties = {
