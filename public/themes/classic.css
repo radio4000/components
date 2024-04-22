@@ -43,7 +43,7 @@ r4-app {
 	--c-light--accent: var(--c-purple);
 	--c-dark--accent: #9c8fff;
 	--c-link: var(--c-purple);
-	--c-border: rgba(115, 115, 115, 0.25);
+	--c-border: rgba(115, 115, 115, 0.3);
 
 	/* new vars */
 	--c-bg-button: hsl(0, 0%, 98%);
@@ -87,6 +87,7 @@ r4-app li {
 	margin-bottom: calc(var(--s) / 3);
 }
 
+/* Default button */
 r4-app button {
 	display: inline-block;
 	font-size: 0.86667rem;
@@ -104,11 +105,28 @@ r4-app button {
 	text-align: center;
 	text-decoration: none;
 }
-
 r4-app[color-scheme='dark'] button {
 	background-color: hsl(0deg 0% 23.14%);
 	box-shadow: none;
 }
+
+/* Text inputs */
+r4-app {
+	[type=email],
+	[type=password],
+	[type=search],
+	[type=tel],
+	[type=text],
+	[type=url],
+	textarea {
+	    box-shadow: 1px 2px 2px #e7e6e4 inset;
+	    background-color: #fafafa;
+	    border: 1px solid var(--c-border);
+	    border-radius: var(--s-radius);
+	    font-size: 1rem;
+	}
+}
+
 
 r4-layout::part(playback) {
 	position: sticky;
@@ -234,4 +252,19 @@ r4-track-description a {
 r4-query menu,
 r4-query details {
 	padding: calc(var(--s) / 3);
+}
+
+/* Vertical track form layout */
+r4-track-create {
+	label {
+		display: block;
+	}
+	input[type='text'],
+	input[type='url'],
+	textarea {
+		width: 100%;
+	}
+	textarea {
+		min-height: 3em;
+	}
 }
