@@ -135,7 +135,7 @@ export default class R4Layout extends LitElement {
 		`
 	}
 
-	onControlClick({target: {value: uiStateNext}}) {
+	onControlClick({currentTarget: {value: uiStateNext}}) {
 		this.uiState = this.uiStates[uiStateNext]
 		if (!this.detailsRef?.value?.getAttribute('open')) {
 			this.detailsRef?.value?.setAttribute('open', true)
