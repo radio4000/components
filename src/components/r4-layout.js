@@ -115,7 +115,10 @@ export default class R4Layout extends LitElement {
 		return html`
 			<details open part="playback-details" ${ref(this.detailsRef)}>
 				<summary part="playback-summary">
-					${this.isPlaying ? this.renderPlaybackIcon() : null}
+					${this.isPlaying ?
+						html`${this.renderPlaybackIcon()}
+							<span part="playback-status-title">${this.config.playingChannel?.name} - ${this.config.playingTrack?.title}</span>
+							` : null}
 					<slot name="playback-controls"> ${Object.entries(this.uiStates).map(this.renderUiState.bind(this))} </slot>
 				</summary>
 				<slot name="player"></slot>
@@ -135,7 +138,7 @@ export default class R4Layout extends LitElement {
 		`
 	}
 
-	onControlClick({target: {value: uiStateNext}}) {
+	onControlClick({currentTarget: {value: uiStateNext}}) {
 		this.uiState = this.uiStates[uiStateNext]
 		if (!this.detailsRef?.value?.getAttribute('open')) {
 			this.detailsRef?.value?.setAttribute('open', true)

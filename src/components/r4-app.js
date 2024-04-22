@@ -226,7 +226,7 @@ export default class R4App extends LitElement {
 			return html`<r4-layout><r4-loading slot="main"></r4-loading></r4-layout>`
 		}
 		return html`
-			<r4-layout @r4-play=${this.onPlay} ?is-playing=${this.isPlaying}>
+			<r4-layout @r4-play=${this.onPlay} ?is-playing=${this.isPlaying} .config=${this.config}>
 				${!this.config.singleChannel ? this.renderMenu() : null}
 				<main slot="main">${this.renderRouter()}</main>
 				<r4-player
