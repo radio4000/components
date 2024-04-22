@@ -79,6 +79,10 @@ r4-app a {
 		color: var(--c-dark--accent);
 	}
 }
+r4-app a:has(r4-avatar) {
+	background: none;
+	padding: initial;
+}
 r4-app li {
 	margin-bottom: calc(var(--s) / 3);
 }
