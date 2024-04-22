@@ -91,7 +91,7 @@ r4-app li {
 /* Default button */
 r4-app button {
 	display: inline-block;
-	font-size: 0.86667rem;
+	font-size: 16px;
 	font-weight: bold;
 	border: 1px solid var(--c-border);
 	border-radius: var(--s-radius);
@@ -293,7 +293,11 @@ r4-page-channel-tracks r4-page-header r4-query {
 }
 
 /* Vertical track form layout */
+r4-dialog form,
 r4-track-create {
+	width: 30rem;
+	max-width: 100%;
+
 	label {
 		display: block;
 	}
