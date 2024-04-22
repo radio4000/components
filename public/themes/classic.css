@@ -208,6 +208,7 @@ r4-channel-card-body {
 	padding: var(--s);
 }
 
+/* Tracklists */
 r4-list:has(r4-track) {
 	border: 1px solid var(--c-border);
 	border-radius: var(--s-radius);
@@ -219,16 +220,9 @@ r4-list:has(r4-track) {
 		border-bottom-left-radius: var(--s-radius);
 		border-bottom-right-radius: var(--s-radius);
 	}
-	r4-track-body {
-		font-size: 15px;
+	r4-list-item:not(:last-child) r4-track {
+		border-bottom: 1px solid var(--c-border);
 	}
-	r4-track-title a {
-		padding: 0;
-	}
-}
-
-r4-list-item:has(r4-track):not(:last-child) r4-track {
-	border-bottom: 1px solid var(--c-border);
 }
 
 /* track */
@@ -236,9 +230,15 @@ r4-track {
 	background-color: var(--c-bg2);
 	padding: calc(var(--s) / 2);
 }
+r4-track-body {
+	font-size: 15px;
+}
 r4-track a {
 	background-color: transparent;
 	text-decoration: none;
+}
+r4-track-title a {
+	padding: 0;
 }
 r4-track-title a,
 [color-scheme='dark'] r4-track-title a {
