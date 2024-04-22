@@ -407,6 +407,7 @@ radio4000-player .PlayerControl-group .Btn {
 }
 [color-scheme='dark'] radio4000-player .Layout .TrackItem {
 	color: inherit;
+	background: inherit;
 }
 [color-scheme='dark'] radio4000-player .Layout .Tracklist-item {
 	border: 0;
