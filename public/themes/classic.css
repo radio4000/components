@@ -152,6 +152,12 @@ r4-page-explore r4-page-main > r4-list {
 	gap: var(--s);
 	align-items: stretch;
 }
+r4-page-add r4-page-header {
+	order: 1;
+}
+r4-page-add r4-page-header menu {
+	display: none;
+}
 
 /* Nav menus */
 r4-app menu {
