@@ -12,13 +12,14 @@ export default class R4SupabaseFilterSearch extends LitElement {
 		return html`
 			<form>
 				<fieldset>
-					<label>Search</label>
-					<input
-						type="search"
-						placeholder=${this.placeholder || 'search'}
-						@input=${this.onInput}
-						value=${this.search}
-					/>
+					<label>Search
+						<input
+							type="search"
+							placeholder=${this.placeholder || 'search'}
+							@input=${this.onInput}
+							value=${this.search}
+						/>
+					</label>
 				</fieldset>
 			</form>
 		`
