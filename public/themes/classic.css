@@ -119,22 +119,13 @@ r4-layout::part(playback-summary) {
 }
 
 /* pages */
-r4-page-header {
-	/* display: flex; */
-	/* flex-wrap: wrap; */
-	/* align-items: center; */
-}
 r4-page-header r4-channel-card {
 	margin: calc(var(--s) / 2);
 	flex-grow: 1;
 	flex-shrink: 0;
 }
-r4-page-header menu {
-	/* flex-basis: 100%; */
-}
 r4-page-header h1 {
-	margin: 0;
-	padding: calc(var(--s) / 2);
+	margin: calc(var(--s) / 2) 0;
 }
 /* Differentiate channels and track lists by using a grid */
 r4-page-explore r4-page-main > r4-list {
@@ -145,18 +136,6 @@ r4-page-explore r4-page-main > r4-list {
 }
 
 /* Nav menus */
-r4-app-menu menu {
-	padding-left: calc(var(--s) / 2);
-}
-r4-app-menu a {
-}
-r4-page-channel r4-page-header menu li {
-	margin: calc(var(--s) / 4);
-}
-r4-app-menu a[aria-current] {
-	color: var(--c-fg);
-	background-color: transparent;
-}
 r4-app menu {
 }
 r4-app menu li {
@@ -166,7 +145,28 @@ r4-app menu a {
 	font-size: 16px;
 	padding: calc(var(--s) / 2) calc(var(--s) / 2);
 	text-decoration: none;
-	/* border-radius: var(--s-radius); */
+	background: none;
+}
+r4-app-menu a[aria-current] {
+	color: var(--c-fg);
+	background-color: transparent;
+}
+/* Main menu */
+r4-app-menu {
+	display: inline-block;
+	border: 1px solid var(--c-border);
+	margin: calc(var(--s) / 4);
+	border-radius: var(--s-radius);
+}
+r4-app-menu menu li {
+	margin: 0;
+}
+r4-app-menu a {
+	background: none;
+}
+/* Channel menu */
+r4-page-channel r4-page-header menu li {
+	margin: calc(var(--s) / 4);
 }
 
 /* Channel cards */
@@ -187,7 +187,14 @@ r4-channel-card-body {
 r4-list:has(r4-track) {
 	border: 1px solid var(--c-border);
 	border-radius: var(--s-radius);
-
+	r4-list-item:first-of-type r4-track {
+		border-top-left-radius: var(--s-radius);
+		border-top-right-radius: var(--s-radius);
+	}
+	r4-list-item:last-of-type r4-track {
+		border-bottom-left-radius: var(--s-radius);
+		border-bottom-right-radius: var(--s-radius);
+	}
 	r4-track-body {
 		font-size: 15px;
 	}
@@ -195,9 +202,7 @@ r4-list:has(r4-track) {
 		padding: 0;
 	}
 }
-r4-track-description {
-	display: block;
-}
+
 r4-list-item:has(r4-track):not(:last-child) r4-track {
 	border-bottom: 1px solid var(--c-border);
 }
@@ -215,6 +220,10 @@ r4-track-title a,
 [color-scheme='dark'] r4-track-title a {
 	color: var(--c-fg);
 }
+r4-track-description {
+	display: block;
+	word-break: break-word;
+}
 r4-track-description a {
 	padding-left: calc(var(--s) / 4);
 	padding-right: calc(var(--s) / 4);
@@ -222,8 +231,6 @@ r4-track-description a {
 }
 
 /* search query */
-r4-query {
-}
 r4-query menu,
 r4-query details {
 	padding: calc(var(--s) / 3);
