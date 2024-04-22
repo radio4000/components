@@ -53,6 +53,7 @@ r4-app[color-scheme='os'] {
 }
 r4-app[color-scheme='light'] {
 	color-scheme: light;
+	--c-fg: hsl(40, 6%, 5%);
 	--c-bg: hsl(40, 6%, 90%);
 	--c-bg2: color-mix(in oklch, var(--c-bg) 100%, white 50%);
 }
@@ -109,6 +110,10 @@ r4-app[color-scheme='dark'] button {
 	background-color: hsl(0deg 0% 23.14%);
 	box-shadow: none;
 }
+r4-button-play button:active {
+	position: relative;
+	top: 1px;
+}
 
 /* Text inputs */
 r4-app {
@@ -138,10 +143,10 @@ r4-layout::part(playback-summary) {
 
 /* pages */
 r4-page-header r4-channel-card {
-	margin: calc(var(--s) / 2);
+	margin: calc(var(--s) / 2) 0;
 	flex-grow: 1;
 	flex-shrink: 0;
-	max-width: 45rem;
+	max-width: 50rem;
 }
 r4-page-header h1 {
 	margin: calc(var(--s) / 2) 0;
@@ -193,6 +198,11 @@ r4-app-menu a {
 r4-page-channel r4-page-header menu li {
 	margin: calc(var(--s) / 4);
 }
+r4-page-channel {
+	r4-list:has(r4-track) {
+		max-width: 50rem;
+	}
+}
 
 /* Channel cards */
 r4-channel-card {
@@ -232,7 +242,7 @@ r4-track {
 	padding: calc(var(--s) / 2);
 }
 r4-track-body {
-	font-size: 15px;
+	font-size: 16px;
 }
 r4-track a {
 	background-color: transparent;
@@ -248,6 +258,11 @@ r4-track-title a,
 r4-track-description {
 	display: block;
 	word-break: break-word;
+	color: color-mix(in oklch, var(--c-fg) 100%, white 50%);
+	font-style: italic;
+	a {
+		font-style: initial;
+	}
 }
 r4-track-description a {
 	padding-left: calc(var(--s) / 4);
