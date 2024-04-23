@@ -313,7 +313,7 @@ r4-layout[ui-state='dock']::part(playback) {
 		bottom: auto;
 		max-height: 100vh;
 	}
-	r4-layout[is-playing][ui-state='dock']::part(playback-details) {
+	r4-layout[is-playing][ui-state='dock'] r4-player {
 		min-width: 30vw;
 	}
 	r4-layout [slot='player'] {
