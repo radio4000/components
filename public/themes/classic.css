@@ -159,6 +159,10 @@ r4-layout::part(playback) {
 	position: sticky;
 	top: 0;
 }
+r4-layout::part(panel) {
+	background-color: var(--c-bg);
+	z-index: 1;
+}
 
 r4-layout::part(playback-summary) {
 	background-color: var(--c-bg2);
@@ -169,13 +173,11 @@ r4-page-header:has(r4-channel-card) {
 	display: flex;
 	flex-direction: column;
 }
-@media (min-width: 40rem) {
-	r4-page-header {
-		position: sticky;
-		top: 0;
-		z-index: 1;
-		background-color: var(--c-bg);
-	}
+r4-page-header {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	background-color: var(--c-bg);
 }
 r4-page-header r4-channel-card {
 	margin: calc(var(--s) / 2) 0;
