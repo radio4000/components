@@ -49,9 +49,9 @@ export default class R4CommandMenu extends LitElement {
 		const slug = params?.slug
 		if (slug) {
 			cmds.push(
-				{title: 'Tracks', action: () => go('/tracks')},
-				{title: 'Following', action: () => go('/following')},
-				{title: 'Followers', action: () => go('/followers')},
+				{title: 'Tracks', action: () => go(`$/{slug}/tracks`)},
+				{title: 'Following', action: () => go(`$/{slug}/following`)},
+				{title: 'Followers', action: () => go(`$/{slug}/followers`)},
 				// {title: 'Feed', action: () => go('/feed')}
 			)
 		}
@@ -63,7 +63,7 @@ export default class R4CommandMenu extends LitElement {
 				cmds.push({title: c.slug, subtitle: c.name, action: () => go('/' + c.slug)})
 				cmds.push(
 					{title: 'Add track', action: () => go('/add')},
-					{title: 'Update radio', action: () => go('/' + c.slug + '/update')}
+					{title: 'Update radio', action: () => go('/' + c.slug + '/update')},
 				)
 			}
 		}
@@ -76,12 +76,12 @@ export default class R4CommandMenu extends LitElement {
 					subtitle: 'Your account, appearance and customizations',
 					action: () => go('/settings'),
 				},
-				{title: 'Sign out', action: () => go('/sign/out')}
+				{title: 'Sign out', action: () => go('/sign/out')},
 			)
 		} else {
 			cmds.push(
 				{title: 'Sign up', subtitle: 'Create new radio channel', action: () => go('/sign/up')},
-				{title: 'Sign in', subtitle: 'My radio', action: () => go('/sign/in')}
+				{title: 'Sign in', subtitle: 'My radio', action: () => go('/sign/in')},
 			)
 		}
 
@@ -90,4 +90,3 @@ export default class R4CommandMenu extends LitElement {
 		return cmds
 	}
 }
-
