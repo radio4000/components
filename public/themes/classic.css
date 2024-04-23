@@ -177,12 +177,6 @@ r4-page-header:has(r4-channel-card) {
 		background-color: var(--c-bg);
 	}
 }
-r4-page-header menu {
-	position: sticky;
-	top: 0;
-	z-index: 2;
-	background-color: var(--c-bg);
-}
 r4-page-header r4-channel-card {
 	margin: calc(var(--s) / 2) 0;
 	flex-grow: 1;

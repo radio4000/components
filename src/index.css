@@ -199,7 +199,6 @@ r4-layout::part(playback-details) {
 	flex-direction: column;
 	height: 100%;
 	align-items: flex-end;
-	align-self: flex-end;
 }
 r4-layout::part(playback-summary) {
 	cursor: pointer;
