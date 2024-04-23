@@ -68,7 +68,7 @@ export default class BaseChannel extends R4Page {
 		if (this.channel?.slug === slug) return
 
 		const {data, error} = await sdk.channels.readChannel(slug)
-		this.canEdit = this.store?.user && await sdk.channels.canEditChannel(slug)
+		this.canEdit = await sdk.channels.canEditChannel(slug)
 
 		if (error) {
 			try {

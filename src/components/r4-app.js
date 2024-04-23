@@ -320,6 +320,7 @@ export default class R4App extends LitElement {
 				></r4-player>
 				<form slot="playback-controls">${Object.entries(UI_STATES).map(this.renderPlayerUICtrl.bind(this))}</form>
 			</r4-layout>
+			<r4-command-menu modal .config=${this.config} .store=${this.store}></r4-command-menu>
 			<link rel="stylesheet" href=${this.themeHref} />
 		`
 	}

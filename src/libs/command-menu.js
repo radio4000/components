@@ -330,4 +330,3 @@ class CommandMenu extends LitElement {
 }
 
 customElements.define('command-menu', CommandMenu)
-

@@ -639,3 +639,8 @@ r4-app r4-app-menu r4-title::after {
 r4-icon[icon]::before {
 	content: attr(icon);
 }
+
+r4-command-menu {
+	margin-left: auto;
+	margin-right: auto;
+}
