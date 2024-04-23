@@ -1,4 +1,4 @@
-import {html} from 'lit'
+import {html, nothing} from 'lit'
 import {sdk} from '../libs/sdk.js'
 import R4Page from '../components/r4-page.js'
 
@@ -15,6 +15,18 @@ export default class BaseChannel extends R4Page {
 		store: {type: Object, state: true},
 		config: {type: Object, state: true},
 		searchParams: {type: Object, state: true},
+		// Used to set active link.
+		path: {type: Boolean, state: true},
+	}
+
+	constructor() {
+		super()
+
+		// Set "path" active navigation. Maybe this should be on the router?
+		window?.navigation?.addEventListener('navigate', (e) => {
+			this.path = e.destination.url.split('?')[0]
+		})
+		if (!this.path) this.path = window.location.href
 	}
 
 	async connectedCallback() {
@@ -130,23 +142,30 @@ export default class BaseChannel extends R4Page {
 	renderChannelCard() {
 		return html` <r4-channel-card .channel=${this.channel} origin=${this.channelOrigin}></r4-channel-card> `
 	}
+
+	/** @arg {string} path */
+	isCurrent(path) {
+		return this.path === path ? 'page' : nothing
+	}
+
 	renderChannelMenu() {
+		const o = this.channelOrigin
 		return html`
 			<menu>
 				<li>
-					<a href="${this.channelOrigin}">@${this.channel.slug}</a>
+					<a aria-current=${this.isCurrent(o)} href=${o}>@${this.channel.slug}</a>
 				</li>
 				<li>
-					<a href="${this.channelOrigin + '/tracks'}">Tracks</a>
+					<a aria-current=${this.isCurrent(o + '/tracks')} href=${o + '/tracks'}>Tracks</a>
 				</li>
 				<li hidden="true">
-					<a href="${this.channelOrigin + '/feed'}">Feed</a>
+					<a aria-current=${this.isCurrent(o + '/feed')} href=${o + '/feed'}>Feed</a>
 				</li>
 				<li>
-					<a href="${this.channelOrigin + '/following'}">Following</a>
+					<a aria-current=${this.isCurrent(o + '/following')} href=${o + '/following'}>Following</a>
 				</li>
 				<li>
-					<a href="${this.channelOrigin + '/followers'}">Followers</a>
+					<a aria-current=${this.isCurrent(o + '/followers')} href=${o + '/followers'}>Followers</a>
 				</li>
 				${this.coordinates && !this.config.singleChannel ? this.renderCoordinates() : null}
 				<li>

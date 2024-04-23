@@ -212,17 +212,15 @@ r4-page-add r4-page-header menu {
 r4-app menu li {
 	margin: calc(var(--s) / 4);
 }
-
 r4-app menu a {
 	padding: calc(var(--s) / 2) calc(var(--s) / 2);
 	text-decoration: none;
 	background: none;
 }
-
-r4-app-menu a[aria-current] {
-	color: var(--c-fg);
-	background-color: var(--c-bg2);
+r4-app menu a[aria-current] {
+	text-decoration: underline;
 }
+
 
 /* Main menu */
 r4-app-menu {
@@ -231,13 +229,16 @@ r4-app-menu {
 	margin: calc(var(--s) / 4);
 	border-radius: var(--s-radius);
 }
-
 r4-app-menu menu li {
 	margin: 0;
 }
-
 r4-app-menu a {
 	background: none;
+}
+r4-app-menu a[aria-current] {
+	color: var(--c-fg);
+	background-color: var(--c-bg2);
+	text-decoration: none;
 }
 
 /* Channel menu */
