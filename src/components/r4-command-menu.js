@@ -49,9 +49,9 @@ export default class R4CommandMenu extends LitElement {
 		const slug = params?.slug
 		if (slug) {
 			cmds.push(
-				{title: 'Tracks', action: () => go(`$/{slug}/tracks`)},
-				{title: 'Following', action: () => go(`$/{slug}/following`)},
-				{title: 'Followers', action: () => go(`$/{slug}/followers`)},
+				{title: 'Tracks', action: () => go('/tracks')},
+				{title: 'Following', action: () => go('/following')},
+				{title: 'Followers', action: () => go('/followers')},
 				// {title: 'Feed', action: () => go('/feed')}
 			)
 		}
