@@ -1,0 +1,428 @@
+/**
+ * The Jellybeans Theme
+ * inspired the vim theme of the same name.
+ *
+ * Light and dark color schemes
+ * Lots of button styles
+ * Tags and Mentions as "pills"
+ * Grid of channel cards
+ */
+
+r4-app {
+	--font: system-ui, sans-serif;
+	--s-font: 16px;
+	--s: 1rem;
+	--s-radius: 4px;
+	--s-line-height: 1.3125;
+
+	--c-gray1: hsl(50 14% 96%);
+	--c-gray2: hsl(50 14% 91%);
+	--c-gray3: hsl(50 10% 76%);
+	--c-gray4: hsl(50 10% 56%);
+	--c-gray5: hsl(30 10% 36%);
+	--c-gray6: hsl(30 10% 26%);
+	--c-gray7: hsl(30 8% 16%);
+	--c-gray8: hsl(30 8% 7%);
+	--c-gray9: hsl(30 2% 4%);
+
+	--c-red1: hsl(17 100% 95%);
+	--c-red2: hsl(17 80% 85%);
+	--c-red3: hsl(17 70% 75%);
+	--c-red4: hsl(17 70% 65%);
+	--c-red5: hsl(17 70% 55%);
+	--c-red6: hsl(17 70% 45%);
+	--c-red7: hsl(17 70% 35%);
+	--c-red8: hsl(17 70% 25%);
+	--c-red9: hsl(17 70% 15%);
+
+	--c-green1: hsl(98 21% 95%);
+	--c-green2: hsl(98 21% 85%);
+	--c-green3: hsl(98 21% 75%);
+	--c-green4: hsl(98 23% 65%);
+	--c-green5: hsl(98 25% 55%);
+	--c-green6: hsl(98 23% 45%);
+	--c-green7: hsl(98 21% 35%);
+	--c-green8: hsl(98 21% 25%);
+	--c-green9: hsl(98 21% 15%);
+
+	--c-blue1: hsl(221 30% 94%);
+	--c-blue2: hsl(221 30% 84%);
+	--c-blue3: hsl(221 31% 74%);
+	--c-blue4: hsl(221 33% 64%);
+	--c-blue5: hsl(221 35% 54%);
+	--c-blue6: hsl(221 40% 44%);
+	--c-blue7: hsl(221 30% 34%);
+	--c-blue8: hsl(221 27% 24%);
+	--c-blue9: hsl(221 27% 14%);
+
+	--c-yellow1: hsl(41 79% 95%);
+	--c-yellow2: hsl(41 79% 85%);
+	--c-yellow3: hsl(41 79% 75%);
+	--c-yellow4: hsl(41 79% 65%);
+	--c-yellow5: hsl(41 79% 55%);
+	--c-yellow6: hsl(41 79% 45%);
+	--c-yellow7: hsl(41 79% 35%);
+	--c-yellow8: hsl(41 79% 25%);
+	--c-yellow9: hsl(41 79% 15%);
+
+	/* hmm */
+	/* background-image: linear-gradient(hsla(0, 0%, 60%, 0.1) 0.15%, transparent 5%); */
+	/* background-size: 100% var(--s); */
+}
+
+r4-app[color-scheme='os'],
+r4-app[color-scheme='light'] {
+	--c-bg: var(--c-gray1);
+	--c-bg2: var(--c-gray2);
+	--c-bg3: var(--c-gray3);
+	--c-fg: var(--c-gray9);
+	--c-link: var(--c-blue6);
+	--c-border: var(--c-gray3);
+	--c-headlines: var(--c-red6);
+}
+
+r4-app[color-scheme='dark'] {
+	--c-bg: var(--c-gray9);
+	--c-bg2: var(--c-gray8);
+	--c-bg3: var(--c-gray7);
+	--c-fg: var(--c-gray1);
+	--c-link: var(--c-blue4);
+	--c-border: var(--c-gray7);
+	--c-headlines: var(--c-red5);
+}
+
+/* Different defaults */
+r4-app {
+	h1,
+	h2,
+	h3,
+	p {
+		margin: 0;
+	}
+	ul,
+	ol {
+		padding: 0 0 0 2rem;
+	}
+	section {
+		margin-bottom: 2rem;
+	}
+	r4-query {
+		display: block;
+		margin-bottom: 1rem;
+	}
+}
+
+/* Sharede between buttons and text inputs */
+r4-app button,
+r4-app select,
+r4-app input[type='text'],
+r4-app input[type='number'],
+r4-app input[type='email'],
+r4-app input[type='password'],
+r4-app input[type='search'],
+r4-app input[type='url'],
+r4-app textarea,
+r4-app r4-layout::part(controls-button) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+	flex-shrink: 0;
+	font-size: inherit;
+	user-select: none;
+	position: relative;
+	vertical-align: top;
+	line-height: 1.5;
+	min-width: 2rem;
+	height: 1.5rem;
+	padding: 0 0.3rem;
+	background-color: var(--c-bg);
+	border: 1px solid var(--c-border, initial);
+	border-radius: var(--s-radius);
+}
+
+/* Text inputs */
+r4-app input[type='text'],
+r4-app input[type='number'],
+r4-app input[type='email'],
+r4-app input[type='password'],
+r4-app input[type='search'],
+r4-app input[type='url'],
+r4-app textarea {
+	background: var(--c-bg2);
+	font-size: 14px;
+
+	 &:hover {
+		 /* background-color: var(--c-bg3); */
+	}
+}
+
+/* "Buttons */
+r4-app button {
+	padding: 0 var(--s);
+}
+r4-app select,
+r4-app button {
+	font-size: 1rem;
+	background: var(--c-bg3);
+	border: 1px solid var(--c-gray6);
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+}
+r4-app button:not(disabled):hover,
+r4-app select:not(disabled):hover {
+	background: var(--c-bg3);
+}
+
+/* Primary buttons */
+r4-app button[type='submit'] {
+	background-color: var(--c-green5);
+}
+r4-app button[type='submit']:hover {
+	background-color: var(--c-green4);
+}
+r4-app[color-scheme='dark'] button[type='submit'] {
+	background-color: var(--c-green7);
+}
+r4-app[color-scheme='dark'] button[type='submit']:hover {
+	background-color: var(--c-green6);
+}
+
+/* Danger buttons */
+r4-app button[destructive] {
+	background: var(--c-red6);
+	color: var(--c-red1);
+}
+r4-app button[destructive]:hover {
+	background: var(--c-red5);
+	color: var(--c-red9);
+}
+
+/* Forms */
+r4-app form {
+	max-width: 60ch;
+}
+r4-app form label {
+	font-size: 14px;
+}
+r4-app fieldset[hidden] {
+	display: none;
+}
+r4-app fieldset label {
+	font-weight: 600;
+}
+
+/* Vertical form layout */
+r4-track-create {
+	label {
+		display: block;
+	}
+	input[type='text'],
+	input[type='url'],
+	textarea {
+		width: 100%;
+	}
+	textarea {
+		min-height: 3em;
+	}
+}
+
+/* Cards */
+r4-channel-card {
+	background: var(--c-bg2);
+}
+[color-scheme='dark'] r4-channel-card {
+	--c-border: rgb(50, 51, 70);
+}
+r4-channel-card r4-button-play {
+	margin-top: var(--s);
+	margin-left: var(--s);
+}
+r4-channel-card-body {
+	padding: var(--s);
+}
+r4-channel-card r4-channel-slug {
+	display: none;
+}
+r4-channel-card + menu {
+	margin-bottom: var(--s);
+}
+
+/* <r4-track> */
+r4-track[playing] r4-button-play button {
+	background-color: var(--headlines);
+}
+r4-track-title,
+r4-track-description {
+	font-size: 14px;
+}
+r4-track-title a {
+	color: var(--c-fg);
+	text-decoration: none;
+	/* overflow: hidden; */
+	/* text-overflow: ellipsis; */
+	/* white-space: nowrap; */
+}
+[color-scheme='dark'] r4-track-title a {
+	color: var(--c-gray2);
+}
+r4-track-description {
+	color: var(--c-gray5);
+}
+[color-scheme='dark'] r4-track-description {
+	color: var(--c-gray4);
+}
+
+/* Track lists */
+r4-list-item r4-track {
+	gap: calc(var(--s) / 2);
+	border-bottom: 1px solid var(--c-border);
+	padding: calc(var(--s) / 2);
+	padding-right: 0;
+
+	r4-dialog {
+		/* Avoid dialogs inside tracklists distoring layout */
+		position: absolute;
+	}
+
+	r4-button-play button {
+		/* Smaller buttons */
+		background: none;
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+r4-list-item r4-track:hover {
+	background-color: color-mix(in oklch, var(--c-bg) 100%, black 2%);
+}
+[color-scheme="dark"] r4-list-item r4-track:hover {
+	background-color: color-mix(in oklch, var(--c-bg) 100%, white 8%);
+}
+r4-list-item r4-actions {
+	margin-left: auto;
+}
+/* Tracklist layout for smaller screens */
+@media (max-width: 700px) {
+	r4-list-item r4-track-tags,
+	r4-list-item r4-track-mentions {
+		display: none;
+	}
+}
+
+/* Tags and mentions aka labels */
+r4-app a[label] {
+	background: var(--c-green3);
+	color: var(--c-green9);
+	padding: 0 calc(var(--s) / 4);
+	border-radius: calc(var(--s-radius) * 2);
+	text-decoration: none;
+	font-size: 13px;
+	white-space: nowrap;
+}
+r4-app[color-scheme='dark'] a[label] {
+	background: var(--c-green9);
+	color: var(--c-green3);
+}
+
+/* Differentiate channels and track lists by using a grid */
+r4-page-explore r4-page-main r4-list:has(r4-channel-card) {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+	gap: var(--s);
+	align-items: stretch;
+}
+
+r4-channel-name {
+	font-size: 1.25rem;
+}
+
+/* Primary menu */
+r4-app-menu {
+	display: block;
+	margin-bottom: var(--s);
+	background: var(--c-link);
+	[color-scheme="dark"] & {
+		background: var(--c-gray7);
+	}
+}
+r4-app-menu a {
+	font-size: 15px;
+	text-decoration: none;
+	color: var(--c-bg);
+	[color-scheme="dark"] & {
+		color: var(--fg);
+	}
+}
+r4-app-menu a[aria-current] {
+	background: color-mix(in oklch, var(--c-link) 100%, white 15%);
+	[color-scheme="dark"] & {
+		background: color-mix(in oklch, var(--c-link) 100%, black 20%);
+	}
+}
+
+/* Ordinary menus */
+r4-app-menu a,
+r4-page-header > menu a {
+	padding: calc(var(--s) / 3) calc(var(--s) / 3);
+	line-height: 1.7;
+}
+
+/* Menu below channel card */
+r4-channel-card + menu {
+	margin: calc(var(--s) / 2) 0 calc(var(--s) * 2);
+}
+
+/* Player styles */
+r4-layout::part(playback-summary) {
+	/* background: var(--c-link); */
+	/* height: calc(var(--s) * 2); */
+}
+r4-layout::part(playback-details) {
+	background: var(--c-bg2);
+}
+/* v1 Player styles */
+radio4000-player {
+	background-color: var(--c-bg);
+	color: var(--c-fg);
+}
+radio4000-player .Layout {
+	border: 0;
+}
+radio4000-player .PlayerControl-group .Btn {
+	height: auto;
+}
+.TrackItem.active .TrackItem-title {
+	background-color: var(--c-link) !important;
+}
+
+/* Channel page */
+r4-page-channel r4-page-header r4-channel-name {
+	font-size: 2rem;
+	font-weight: bold;
+}
+r4-page-channel r4-page-header a:has(r4-channel-name) {
+	text-decoration: none;
+}
+@media (max-width: 700px) {
+	r4-page-channel {
+		r4-channel-card {
+			text-align: center;
+		}
+	}
+}
+
+/* Add track page */
+r4-page-add r4-page-header {
+	order: 1;
+}
+r4-page-add r4-page-header menu {
+	display: none;
+}
+
+/* Full-width pages */
+r4-page-channel-tracks,
+r4-page-channel  {
+	r4-page-main {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}

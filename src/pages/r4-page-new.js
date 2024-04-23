@@ -1,10 +1,11 @@
-import { LitElement, html } from 'lit'
+import {html} from 'lit'
 import page from 'page/page.mjs'
+import R4Page from '../components/r4-page.js'
 
-export default class R4PageNew extends LitElement {
+export default class R4PageNew extends R4Page {
 	static properties = {
-		store: { type: Object, state: true },
-		config: { type: Object, state: true },
+		store: {type: Object, state: true},
+		config: {type: Object, state: true},
 	}
 
 	connectedCallback() {
@@ -17,23 +18,29 @@ export default class R4PageNew extends LitElement {
 		}
 	}
 
-	render() {
+	renderHeader() {
+		return html``
+	}
+	renderMain() {
 		return html`
-			<main>
-				<h1>Create radio channel</h1>
-				<r4-channel-create @submit=${this.onChannelCreate}></r4-channel-create>
-				<p>The slug is what will be used for the URL of your channel. You can always change it later.</p>
-			</main>
+			<h2>Do you already have a radio channel from the old site?</h2>
+			<ol>
+				<li>
+					Visit <a href="${this.config.hrefMigrate}"><strong>migrate.radio4000</strong></a> to import the existing radio
+					channel.
+				</li>
+			</ol>
+			<p>If you are new here, nevermind that notice and welcome!</p>
+
+			<h1>Create radio channel</h1>
+			<r4-channel-create @submit=${this.onChannelCreate}></r4-channel-create>
+			<p>The slug is what will be used for the URL of your channel. You can always change it later.</p>
 		`
 	}
 
-	onChannelCreate({ detail: { data } }) {
+	onChannelCreate({detail: {data}}) {
 		if (data) {
 			page(`/${data.slug}`)
 		}
-	}
-
-	createRenderRoot() {
-		return this
 	}
 }

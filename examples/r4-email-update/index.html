@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+
+		<title>r4-email-update</title>
+		<meta name="description" content="r4-email-update" />
+
+		<script type="module" src="/src/index.js"></script>
+	</head>
+
+	<body>
+		<menu> <li>A form to update the user account email</li></menu>
+
+		<r4-email-update email="me@example.org"></r4-email-update>
+
+		<script>
+			function handleSubmit(event) {
+				console.log('Update did submit', event.detail)
+			}
+			document.querySelector('r4-email-update').addEventListener('submit', handleSubmit)
+		</script>
+	</body>
+</html>

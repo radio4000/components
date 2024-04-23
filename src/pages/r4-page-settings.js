@@ -1,8 +1,7 @@
-import {LitElement, html} from 'lit'
-import {sdk} from '@radio4000/sdk'
-// import page from 'page/page.mjs'
+import {html} from 'lit'
+import R4Page from '../components/r4-page.js'
 
-export default class R4PageSettings extends LitElement {
+export default class R4PageSettings extends R4Page {
 	static properties = {
 		/* props */
 		store: {type: Object, state: true},
@@ -17,77 +16,122 @@ export default class R4PageSettings extends LitElement {
 
 	async changeEmail(event) {
 		event.preventDefault()
-		const email = event.target.email.value
-		if (email === this.store.user.email) return
-		const {error} = await sdk.supabase.auth.updateUser({email})
-		this.changeEmail.msg = error
-			? 'Could not update your email'
-			: 'Please confirm the link sent to both your new and old email'
-		if (error) {
-			console.log(error)
-		}
 	}
 
 	async changePassword(event) {
 		event.preventDefault()
-		const password = event.target.password.value
-		const {error} = await sdk.supabase.auth.updateUser({password})
-		this.changePassword.msg = error ? 'Could not update password' : 'Password updated!'
-		if (error) {
-			console.log('error changing password', error)
-		}
 	}
 
-	render() {
+	renderHeader() {
+		const {user} = this.store
 		return html`
-			<header>
-				<nav>
-					<nav-item><code>/</code>settings</nav-item>
-				</nav>
-				<h1>Settings</h1>
-			</header>
-			<h2>Account</h2>
-			<p>You are signed in as <em>${this.store?.user?.email}</em>.</p>
-			<br />
-			<form @submit=${this.changeEmail}>
-				<fieldset>
-					<label for="email">Change email</label>
-					<input type="email" name="email" value=${this.store.user?.email} required />
-				</fieldset>
-				<fieldset>
-					<button type="submit">Save</button>
-				</fieldset>
-				<output>${this.changeEmail.msg ? html`<p>${this.changeEmail.msg}</p>` : null}</output>
-			</form>
-			<br />
-			<form @submit=${this.changePassword}>
-				<fieldset hidden>
-					<input name="username" value=${this.store.user?.email} readonly hidden autocomplete="username" />
-				</fieldset>
-				<fieldset>
-					<label for="password">Change password</label>
-					<input type="password" name="password" required autocomplete="new-password" />
-				</fieldset>
-				<fieldset>
-					<button type="submit">Save</button>
-				</fieldset>
-				<output> ${this.changePassword.msg ? html`<p>${this.changePassword.msg}</p>` : null} </output>
-			</form>
-
-			<h2>Appearance</h2>
-			<r4-color-scheme .user=${this.store.user}></r4-color-scheme>
-
-			<h2>Danger zone</h2>
-			<r4-user-delete
-				.user=${this.store.user}
-				.userChannels=${this.store.userChannels}
-				.href=${this.config.href}
-			></r4-user-delete>
-
-			<br />
-			<p>
-				<a href="${this.config.href}/sign/out">Sign out</a>
-			</p>
+			<h1>Settings</h1>
+			<p>Application configuration and user settings.</p>
+		`
+	}
+	renderMain() {
+		if (this.store.user) {
+			return [this.renderUserChannels(), this.renderAppearance(), this.renderUser()]
+		} else {
+			return [this.renderNoUser()]
+		}
+	}
+	renderFooter() {
+		return this.renderAbout()
+	}
+	renderUserChannels() {
+		return html`
+			<section>
+				<h2>Channels</h2>
+				<ul>
+					${this.store?.userChannels.map(
+						(x) =>
+							html`<li>
+								<a href=${`${this.config.href}/${x.slug}`}>${x.name}</a>
+								(<a href=${`${this.config.href}/${x.slug}/update`}>update</a>)
+							</li>`,
+					)}
+					${!this.store?.userChannels.length
+						? html`<li>
+								No channels yet. <a href=${this.config.href + '/new'}>Create a new radio</a> or
+								<a href=${this.config.hrefV1}>import from v1</a>.
+						  </li>`
+						: null}
+				</ul>
+			</section>
+		`
+	}
+	renderUser() {
+		return html`
+			<section>
+				<h2>Email</h2>
+				<p>
+					You are signed in as <em>${this.store?.user?.email}</em> (<a href="${this.config.href}/sign/out">sign out</a
+					>).
+				</p>
+				${this.store.user.new_email ? this.renderNewEmail() : null}
+				<r4-email-update email=${this.store.user.email} @submit=${this.changeEmail}></r4-email-update>
+			</section>
+			<section>
+				<h2>Password</h2>
+				<r4-password-update @submit=${this.changePassword}></r4-password-update>
+			</section>
+			<section>
+				<h2>Account management</h2>
+				<r4-user-delete
+					.user=${this.store.user}
+					.userChannels=${this.store.userChannels}
+					.href=${this.config.href}
+				></r4-user-delete>
+			</section>
+		`
+	}
+	renderNoUser() {
+		return html`
+			<section>
+				<h2>Account</h2>
+				<p>Your are signed out.</p>
+				<ul>
+					<li><a href="${this.config.href}/sign/in">Sign in</a> an existing account</li>
+					<li><a href="${this.config.href}/sign/up">Sign up</a> to register a new account</li>
+					<li><a href="${this.config.hrefMigrate}">Migrate </a> from version 1 to a version 2 radio channel</li>
+				</ul>
+			</section>
+		`
+	}
+	renderAppearance() {
+		return html`
+			<section>
+				<r4-user-account .account=${this.store.userAccount}></r4-user-account>
+			</section>
+		`
+	}
+	renderNewEmail() {
+		return html`
+			<mark>
+				<i>${this.store.user.new_email}</i>
+				(waiting for confirmation)
+			</mark>
+		`
+	}
+	renderAbout() {
+		return html`
+			<section>
+				<h2><r4-title></r4-title></h2>
+				<p>The project is built by and for its users</p>
+				<ul>
+					<li>Contact by <a href="mailto:contact@radio4000.com">email</a></li>
+					<li>Community <a href="https://matrix.to/#/#radio4000:matrix.org" rel="noreferrer"> chat </a></li>
+					<li>Source <a href="https://github.com/radio4000" rel="noreferrer">code</a></li>
+					<li>
+						Read the
+						<a href="https://github.com/radio4000/publications/blob/main/user-agreement-privacy-policy-terms-of-use.md"
+							>privacy/terms</a
+						>
+					</li>
+					<li>See the <a href="https://blog.radio4000.com/">blog</a></li>
+				</ul>
+			</section>
 		`
 	}
 

@@ -3,32 +3,26 @@ import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
 
 export default class R4PageChannelDelete extends BaseChannel {
-	render() {
-		const link = this.channelOrigin
-		const channel = this.store.userChannels.find((channel) => {
-			return channel.id === this.channel?.id
-		})
-		return html`
-			<nav>
-				<nav-item> <code>@</code><a href=${link}>${this.params.slug}</a> </nav-item>
-				${this.canEdit ? html`<nav-item><a href=${link + '/update'}>Update</a></nav-item>` : ''}
-				${this.canEdit ? html`<nav-item>Delete</nav-item>` : ''}
-			</nav>
-			<main>
-				<h1>Delete channel</h1>
-				${channel ? html`<r4-channel-delete id=${channel.id} @submit=${this.onDelete}></r4-channel-delete>` : ''}
-			</main>
-		`
+	renderMain() {
+		if (this.channel) {
+			return html`
+				<section>
+					<h1>Delete channel</h1>
+					<p>Permanently delete this radio channel and all its content?</p>
+					<p>
+						This will remove all references to <a href=${this.channelOrigin}>${this.params.slug}</a> in the database.
+					</p>
+				</section>
+				<section>
+					<r4-channel-delete id=${this.channel.id} @submit=${this.onDelete}></r4-channel-delete>
+				</section>
+			`
+		}
 	}
-
 	async onDelete({detail}) {
 		/* no error? we deleted */
 		if (!detail.data) {
 			page('/')
 		}
-	}
-
-	createRenderRoot() {
-		return this
 	}
 }

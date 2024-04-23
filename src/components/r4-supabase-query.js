@@ -1,7 +1,10 @@
 import {LitElement, html} from 'lit'
 import dbSchema from '../libs/db-schemas.js'
+import urlUtils from '../libs/url-utils.js'
 
 const {tables, tableNames} = dbSchema
+
+const debug = false
 
 /*
 	 list-channels, default `page="1"`, `limit="1"`;
@@ -9,77 +12,75 @@ const {tables, tableNames} = dbSchema
  */
 export default class R4SupabaseQuery extends LitElement {
 	static properties = {
-		page: {type: Number, reflect: true, searchParam: true},
-		limit: {type: Number, reflect: true, searchParam: true},
 		count: {type: Number},
-		hiddenui: {type: Boolean},
-
 		/* supabase query parameters */
-		table: {type: String, reflect: true, searchParam: true},
-		select: {type: String, searchParam: true},
-		filters: {type: Array, searchParam: true, reflect: true},
-		orderBy: {type: String, attribute: 'order-by', reflect: true, searchParam: true},
-		orderConfig: {type: Object, attribute: 'order-config', reflect: true, searchParam: true},
+		table: {type: String, reflect: true},
+		select: {type: String},
+		filters: {type: Array, reflect: true},
+		orderBy: {type: String, attribute: 'order-by', reflect: true},
+		orderConfig: {type: Object, attribute: 'order-config', reflect: true},
+		page: {type: Number, reflect: true},
+		limit: {type: Number, reflect: true},
+		/* custom parameters that map to the supabase ones */
+		order: {type: String, reflect: true},
+		search: {type: String, reflect: true},
 	}
 
 	get totalPages() {
 		const count = this.count || 0
-		return Math.round(count / this.limit) + 1
+		const limit = this.limit || 1
+		return Math.round(count / limit) + 1
 	}
 
-	constructor() {
-		super()
-		/* non-string properties need to have correct defaults */
-		this.filters = []
-		this.orderConfig = {ascending: false}
+	/** @type {import('./r4-query.js').R4Query} */
+	get query() {
+		return urlUtils.removeEmptyKeys({
+			table: this.table,
+			select: this.select,
+			filters: this.filters,
+			orderBy: this.orderBy,
+			order: this.order,
+			search: this.search,
+			// orderConfig: this.orderConfig,
+			page: this.page,
+			limit: this.limit,
+		})
 	}
 
 	connectedCallback() {
 		super.connectedCallback()
 		this.setInitialValues()
+		this.onQuery()
 	}
 
 	updated(attr) {
 		if (attr.get('table')) this.cleanQuery()
 		// Avoid double-fetch when count is passed back down.
-		if (attr.get('count') === 0) return
-		// Update the list when any attribute changes
-		this.onQuery()
+		// if (attr.get('count') === 0) return
 	}
 
 	/* set the correct component initial values, for each table's capacities */
 	setInitialValues() {
+		if (!this.table) this.table = tables[0]
+		if (!this.order) this.order = 'desc'
+		if (!this.orderConfig) this.orderConfig = {ascending: false}
 		if (!this.page) this.page = 1
 		if (!this.limit) this.limit = 10
-		if (!this.table) this.table = tables[0]
+		if (!this.filters) this.filters = []
+
 		const tableData = tables[this.table]
-		this.select = this.select || tableData.selects[0]
-		if (tableData.junctions) {
+		this.select = this.select || tableData?.selects[0] || '*'
+
+		if (tableData?.junctions) {
 			const [foreignTable, foreignColumn] = tableData.junctions[0].split('.')
 			this.orderBy = this.orderBy || foreignColumn
 			this.orderConfig = {...this.orderConfig, foreignTable: foreignTable}
 		} else {
-			this.orderBy = this.orderBy || tableData.columns[0]
+			this.orderBy = this.orderBy || tableData?.columns[0]
 		}
 	}
 
-	async onQuery() {
-		const query = {
-			table: this.table,
-			select: this.select,
-			filters: this.filters,
-			orderBy: this.orderBy,
-			orderConfig: this.orderConfig,
-			page: this.page,
-			limit: this.limit,
-		}
-		const queryEvent = new CustomEvent('query', {
-			bubbles: true,
-			detail: query,
-		})
-		this.dispatchEvent(queryEvent)
-	}
-
+	// Also calls onQuery
 	onInput(event) {
 		event.stopPropagation()
 		event.preventDefault()
@@ -88,8 +89,9 @@ export default class R4SupabaseQuery extends LitElement {
 		/* handle correctly input type="number" */
 		if (inputType === 'number') {
 			this[name] = valueAsNumber
-		} else if (name === 'ascending') {
+		} else if (name === 'order') {
 			/* this is a input[checkbox] and setting, inside a nested Object */
+			this.order = checked ? 'asc' : 'desc'
 			this.orderConfig = {...this.orderConfig, [name]: checked}
 		} else if (name === 'orderBy') {
 			const [foreignTable, foreignColumn] = value.split('.')
@@ -102,10 +104,26 @@ export default class R4SupabaseQuery extends LitElement {
 		} else if (name) {
 			this[name] = value
 		}
+		this.onQuery()
 	}
 
-	onFilters({detail}) {
-		this.filters = detail
+	// Also calls onQuery
+	onFilters(event) {
+		event.preventDefault()
+		event.stopPropagation()
+		if (event.detail) {
+			this.filters = event.detail
+			this.onQuery()
+		}
+	}
+
+	onQuery() {
+		this.dispatchEvent(
+			new CustomEvent('query', {
+				bubbles: true,
+				detail: this.query,
+			}),
+		)
 	}
 
 	onFormSubmit(event) {
@@ -119,7 +137,6 @@ export default class R4SupabaseQuery extends LitElement {
 		 is triggered before invoquing "onQuery"*/
 	cleanQuery() {
 		this.page = 1
-
 		if (!this.table) {
 			// handle the case where there is no table selected; to display no result problably, or error
 		} else if (this.table) {
@@ -129,9 +146,9 @@ export default class R4SupabaseQuery extends LitElement {
 			if (tableData.junctions) {
 				const [foreignTable, foreignColumn] = tableData.junctions[0].split('.')
 				this.orderBy = foreignColumn
-				this.orderConfig = {...this.orderConfig, foreignTable: foreignTable}
+				// this.orderConfig = {...this.orderConfig, foreignTable: foreignTable}
 			} else {
-				this.orderConfig = {...this.orderConfig, foreignTable: null}
+				// this.orderConfig = {...this.orderConfig, foreignTable: null}
 				this.orderBy = tableData.columns[0]
 			}
 		}
@@ -143,28 +160,22 @@ export default class R4SupabaseQuery extends LitElement {
 
 	render() {
 		return html`
-			<div ?hidden=${this.hiddenui}>
-				<r4-supabase-select>
-					<form @submit=${this.onFormSubmit}>${[this.renderQueryTable(), this.renderQuerySelect()]}</form>
-				</r4-supabase-select>
-				<r4-supabase-filters
-					table=${this.table}
-					.filters=${this.filters}
-					@filters=${this.onFilters}
-				></r4-supabase-filters>
-				<r4-supabase-modifiers>
-					<form @submit=${this.onFormSubmit}>
-						${[this.renderQueryOrderKey(), this.renderOrderConfig(), this.renderQueryPage(), this.renderQueryLimit()]}
-					</form>
-				</r4-supabase-modifiers>
-			</div>
+			<r4-supabase-select>
+				<form @submit=${this.onFormSubmit}>${[this.renderQueryTable(), this.renderQuerySelect()]}</form>
+			</r4-supabase-select>
+			<r4-supabase-modifiers>
+				<form @submit=${this.onFormSubmit}>
+					${[this.renderQueryOrderKey(), this.renderOrderConfig(), this.renderQueryPage(), this.renderQueryLimit()]}
+				</form>
+			</r4-supabase-modifiers>
+			<r4-supabase-filters table=${this.table} .filters=${this.filters} @input=${this.onFilters}></r4-supabase-filters>
 		`
 	}
 
 	renderQueryTable() {
 		return html`
 			<fieldset name="table">
-				<label for="table">table</label>
+				<legend for="table">table</legend>
 				<select id="table" name="table" @input=${this.onInput}>
 					<optgroup disabled>
 						<option>${this.table}</option>
@@ -178,7 +189,7 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQuerySelect() {
 		return html`
 			<fieldset name="select">
-				<label for="select">Select</label>
+				<legend for="select">Select</legend>
 				<select id="select" name="select" @input=${this.onInput}>
 					<optgroup disabled>
 						<option>${this.select}</option>
@@ -186,12 +197,12 @@ export default class R4SupabaseQuery extends LitElement {
 					${this.renderQuerySelectByTable()}
 				</select>
 				<input
+					type="text"
 					id="select-display"
 					name="select"
-					@input=${this.onInput}
-					type="text"
-					.value=${this.select}
 					placeholder="postgresql select"
+					.value=${this.select}
+					@input=${this.onInput}
 				/>
 			</fieldset>
 		`
@@ -200,18 +211,17 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQueryPage() {
 		return html`
 			<fieldset name="page">
-				<label for="page">Page</label>
+				<legend for="page">Page</legend>
 				<input
 					id="page"
 					name="page"
-					@input=${this.onInput}
 					type="number"
-					.value=${this.page}
+					placeholder="page"
+					.value=${this.page || 1}
 					step="1"
 					min="1"
 					max=${this.totalPages}
-					pattern="[0-9]"
-					placeholder="page"
+					@input=${this.onInput}
 				/>/${this.totalPages}
 			</fieldset>
 		`
@@ -220,18 +230,17 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQueryLimit() {
 		return html`
 			<fieldset name="limit">
-				<label for="limit">Limit</label>
+				<legend for="limit">Per Page</legend>
 				<input
 					id="limit"
 					name="limit"
-					@input=${this.onInput}
 					type="number"
+					placeholder="limit"
 					.value=${this.limit}
 					step="1"
 					min="1"
 					max="4000"
-					pattern="[0-9]"
-					placeholder="limit"
+					@input=${this.onInput}
 				/>
 			</fieldset>
 		`
@@ -240,7 +249,7 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQueryOrderKey() {
 		return html`
 			<fieldset name="orderBy">
-				<label for="orderBy">Order by</label>
+				<legend for="orderBy">Order by</legend>
 				<select id="orderBy" name="orderBy" @input=${this.onInput}>
 					<optgroup disabled>
 						<option>${this.orderBy}</option>
@@ -252,11 +261,12 @@ export default class R4SupabaseQuery extends LitElement {
 	}
 
 	renderOrderConfig() {
-		const ascending = this.orderConfig?.ascending
+		const ascending = this.order === 'asc'
 		return html`
-			<fieldset name="ascending">
-				<label for="ascending"> ${ascending ? '↑' : '↓'} </label>
-				<input id="ascending" name="ascending" @input=${this.onInput} type="checkbox" ?checked=${ascending} />
+			<fieldset name="order">
+				<legend>Order</legend>
+				<label for="order">${ascending ? '↑' : '↓'}</label>
+				<input id="order" name="order" @input=${this.onInput} type="checkbox" ?checked=${ascending} />
 			</fieldset>
 		`
 	}
@@ -272,7 +282,7 @@ export default class R4SupabaseQuery extends LitElement {
 	renderQuerySelectByTable() {
 		if (!this.table) return null
 		return tables[this.table].selects.map((sqlSelect) =>
-			this.renderOption(sqlSelect, {selected: sqlSelect === this.select})
+			this.renderOption(sqlSelect, {selected: sqlSelect === this.select}),
 		)
 	}
 

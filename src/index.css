@@ -1,0 +1,641 @@
+/*
+	A minimal default theme, with mostly:
+	- required defaults to make the work (though it should without CSS)
+*/
+
+/* these changes are "user personalisation" for color themes */
+r4-app {
+	--s: 0.5rem;
+	--s-youtube: 16rem;
+}
+
+r4-app[color-scheme='dark'] {
+	color-scheme: dark;
+}
+
+r4-app[color-scheme='light'] {
+	color-scheme: light;
+}
+
+/* utilities */
+r4-app [hidden='true'] {
+	display: none;
+}
+
+/* and the customization using the variables */
+r4-app {
+	display: flex;
+	flex-direction: column;
+	background-color: var(--c-bg);
+	color: var(--c-fg);
+	font-size: var(--s-font);
+	font-family: var(--font);
+	line-height: var(--s-line-height);
+	overflow-y: auto;
+	max-height: 100vh;
+}
+
+/* Defaults */
+r4-app,
+r4-app * {
+	box-sizing: border-box;
+}
+r4-app ul,
+r4-app ol {
+	margin: 0;
+	padding: 0 0 var(--s) 2rem;
+}
+r4-app menu {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	list-style: none;
+}
+r4-app menu li {
+	display: inline-flex;
+}
+r4-app menu a[aria-current] {
+	/* Use this selector to style active menu items */
+}
+r4-app table {
+	width: 100%;
+	border-collapse: collapse;
+}
+r4-app th {
+	text-align: left;
+}
+r4-app img {
+	width: auto;
+	display: inline-block;
+}
+r4-app a {
+	color: var(--c-link);
+}
+
+r4-app h1 {
+	color: var(--c-headlines);
+}
+
+r4-app section {
+	margin-top: var(--s);
+	margin-bottom: var(--s);
+}
+r4-app summary {
+	/* Don't want to select <summaries> text when toggling */
+	user-select: none;
+}
+
+/* Ensure the font is the same */
+r4-app button,
+r4-app input,
+r4-app optgroup,
+r4-app select,
+r4-app textarea,
+r4-app r4-layout::part(controls-button) {
+	font-family: inherit;
+	line-height: var(--s-line-height);
+}
+r4-app textarea {
+	height: calc(var(--s) * 3);
+}
+r4-app button,
+r4-app select,
+r4-app input,
+r4-app textarea,
+r4-app r4-layout::part(controls-button) {
+	padding-top: calc(var(--s) / 1.7);
+	padding-bottom: calc(var(--s) / 2);
+	padding-left: calc(var(--s) / 2);
+	padding-right: calc(var(--s) / 2);
+	font-size: 1rem;
+}
+r4-app fieldset {
+	border: none;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	margin-top: calc(var(--s) / 2);
+	margin-bottom: calc(var(--s) / 2);
+}
+r4-app summary,
+r4-app button,
+r4-app r4-layout::part(controls-button) {
+	cursor: pointer;
+	/* margin: calc(var(--s) / 10); */
+}
+
+r4-app progress[is='r4-loading'] {
+	align-self: center;
+}
+
+/*
+	the layout
+*/
+
+r4-layout {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+@media (min-width: 70rem) {
+	r4-layout {
+		flex-direction: row;
+	}
+}
+
+r4-page-header,
+r4-page-main,
+r4-page-footer {
+	padding-left: var(--s);
+	padding-right: var(--s);
+}
+
+/* can make the layout "panel" & its "main" part the full viewport height,
+	 so on page change, all interface does not jump */
+r4-layout::part(panel),
+r4-layout::part(main) {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+
+r4-layout::part(menu) {
+	order: 1;
+	z-index: 1;
+	position: sticky;
+	bottom: 0;
+	overflow-x: auto;
+}
+
+r4-router > * {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+r4-route {
+	display: none;
+}
+r4-loading {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+r4-layout::part(playback) {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+}
+@media (max-width: 70rem) {
+	r4-layout::part(playback) {
+		order: -1;
+	}
+}
+/* basic styles for details and summary of the playback layout part */
+r4-layout::part(playback-details) {
+	background-color: var(--c-bg);
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	align-items: flex-end;
+}
+r4-layout::part(playback-summary) {
+	cursor: pointer;
+}
+
+/* hide player slot content if not playing, and in 'close' state  */
+r4-layout:not([is-playing]) slot[name='player']::slotted(*),
+r4-layout[ui-state='close'] [slot='player']::slotted(*) {
+	display: none;
+}
+/* make the player summary not display its icon */
+r4-layout::part(playback-summary) {
+	display: flex;
+	justify-content: flex-end;
+}
+
+/* the player */
+r4-layout r4-player,
+r4-layout radio4000-player {
+	flex-grow: 1;
+}
+r4-layout r4-player radio4000-player .Layout {
+	border-color: var(--c-link);
+}
+
+r4-layout::part(playback-status) {
+	display: flex;
+	flex-grow: 1;
+	align-self: center;
+	padding: calc(var(--s) / 3);
+	opacity: 0.3;
+}
+r4-layout::part(playback-status)::before {
+	content: attr(icon);
+}
+r4-layout[is-playing]::part(playback-status)::before {
+	color: var(--c-purple);
+}
+/* hide the player summary when fullscreen */
+r4-layout[ui-state='fullscreen']::part(playback-summary) {
+	display: none;
+}
+/* and make the player full height */
+r4-layout[ui-state='fullscreen'] radio4000-player {
+	height: 100vh;
+}
+
+/* hide the bullets of the playback menu (should all menu?), make it inline by default */
+r4-layout::part(playback-menu) {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+}
+
+/* by default, make the playback menu inline (mobile first) */
+/* r4-layout::part(playback-menu) {} */
+
+/*
+	ui-state = minimize
+*/
+
+/* keep the player visible, but small */
+r4-layout[ui-state='minimize'] r4-player radio4000-player {
+	min-height: auto;
+	max-height: var(--s-youtube); /* youtube guidelines for video, @to-keep */
+	/* 6.4rem height to hide video completely */
+	/* 19rem height to show youtube controls */
+	/* 22rem width to show vol and time ui */
+}
+/* overwrite some of radio4000-player library styles */
+r4-layout[ui-state='minimize'] r4-player radio4000-player .Layout-header,
+r4-layout[ui-state='minimize'] r4-player radio4000-player .Layout-main {
+	display: none;
+}
+
+r4-layout r4-page-main:has(radio4000-player) {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+r4-layout r4-page-main radio4000-player {
+	max-height: none;
+}
+/*
+	ui-state = minimal & dock
+	- make the playback sticky at top of viewport,
+	so "r4-app" router does not scroll to the top on page change
+	- also keep the "panel" over the "playback"
+*/
+
+/* make the "playback" sticky at the top of viewport */
+r4-layout[ui-state='minimize']::part(playback),
+r4-layout[ui-state='dock']::part(playback) {
+	position: sticky;
+	top: 0;
+	z-index: 2;
+}
+@media (min-width: 70rem) {
+	r4-layout[ui-state='minimize']::part(playback),
+	r4-layout[ui-state='dock']::part(playback) {
+		top: 0;
+		bottom: auto;
+		max-height: 100vh;
+	}
+	r4-layout[is-playing][ui-state='dock'] r4-player {
+		min-width: 30vw;
+	}
+	r4-layout [slot='player'] {
+		height: calc(100vh - calc(var(--s) * 1.5));
+	}
+}
+
+/* keep panel over the playback */
+r4-layout[ui-state='minimize']::part(panel),
+r4-layout[ui-state='dock']::part(panel) {
+	z-index: 1;
+	/* background-color: var(--c-bg); */
+}
+
+/*
+	can start targetting "more specific customization"
+*/
+
+/* make the panel min height, the viewport, so "route change" don't make the UI jump */
+/* r4-layout [slot='menu'] {} */
+r4-layout [slot='main'],
+r4-layout [slot='player'] {
+	display: flex;
+	flex-direction: column;
+}
+r4-layout [slot='main'] {
+	flex-grow: 1;
+}
+r4-layout [slot='player'] {
+	width: 100%;
+	flex: 1;
+}
+
+r4-router {
+	flex-grow: 1;
+	display: flex;
+}
+/* all r4-pages-* are the only children of r4-router */
+r4-router > * {
+	flex-grow: 1;
+}
+/* Routes are only used as data, and DOM wrapper to hide them */
+r4-routes,
+r4-route {
+	display: none;
+}
+
+/* the map full height */
+r4-page-map r4-page-main,
+r4-map,
+r4-map main,
+r4-map .ol-viewport {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	padding: 0;
+}
+r4-map .ol-viewport {
+	min-height: 30vh;
+}
+r4-map r4-channel-card {
+	background-color: var(--c-bg);
+	padding: calc(var(--s) / 2);
+	max-width: calc(100vw / 2);
+	border: 1px solid var(--c-fg);
+}
+r4-page-map r4-supabase-query fieldset[name='table'],
+r4-page-map r4-supabase-query fieldset[name='select'],
+r4-page-map r4-supabase-query fieldset[name='orderBy'],
+r4-page-map r4-supabase-query fieldset[name='ascending'] {
+	display: none;
+}
+
+/* Hide table+select from /explore and tracks pages */
+r4-page-explore r4-supabase-select,
+r4-page-channel r4-supabase-select,
+r4-page-channel-tracks r4-supabase-select {
+	display: none;
+}
+
+/* Hide query ui on /:slug page */
+r4-page-channel menu:has(r4-supabase-filter-search),
+r4-page-channel details:has(r4-supabase-query) {
+	display: none;
+}
+
+/* Quick dark-mode for the player */
+[color-scheme='dark'] radio4000-player,
+r4-app[color-scheme] radio4000-player .Header,
+radio4000-player .PlayerControl-group .Btn {
+	background: var(--c-bg);
+	color: var(--c-fg);
+}
+[color-scheme='dark'] radio4000-player .Layout .Header,
+[color-scheme='dark'] radio4000-player .Layout .PlayerControl,
+[color-scheme='dark'] radio4000-player .Layout .PlayerControl .Btn {
+	background: transparent;
+}
+[color-scheme='dark'] radio4000-player .Layout .TrackItem {
+	color: inherit;
+}
+[color-scheme='dark'] radio4000-player .Layout .Tracklist-item {
+	border: 0;
+}
+[color-scheme='dark'] radio4000-player .Layout .Tracklist-query {
+	background-color: none;
+}
+
+[color-scheme='dark'] radio4000-player .PlayPause-controller::after,
+[color-scheme='dark'] radio4000-player .PlayPause-controller::before {
+	border-color: var(--c-link);
+}
+
+/* other specific components */
+r4-supabase-modifiers form {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+/* button + title + actions */
+r4-track {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	gap: 0 calc(var(--s) / 2);
+	align-items: center;
+}
+r4-avatar {
+	display: inline-flex;
+}
+r4-avatar picture,
+r4-avatar img {
+	width: 100%;
+}
+r4-avatar img {
+	vertical-align: bottom;
+}
+
+r4-list {
+	display: flex;
+	flex-direction: column;
+}
+r4-list-item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+r4-list-item r4-track {
+	flex: 1;
+}
+
+r4-avatar-update,
+r4-avatar-upload form {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+/* Default, portrait card layout */
+r4-channel-card {
+	display: block;
+	flex: 1;
+	background-color: var(--c-bg);
+	border: 1px solid var(--c-border);
+	border-radius: var(--s-radius);
+	container: card / inline-size;
+}
+r4-channel-card-inner {
+	display: flex;
+	flex-flow: column nowrap;
+}
+r4-channel-card r4-avatar {
+	width: 100%;
+}
+r4-channel-card-body {
+	flex: 1;
+	display: block;
+}
+
+/* Horizontal card layout */
+@container card (min-width: 25rem) {
+	r4-channel-card-inner {
+		flex-direction: row;
+		align-items: center;
+		gap: var(--s);
+	}
+	r4-channel-card a:has(r4-avatar) {
+		width: calc(100vmax / 10);
+	}
+}
+
+r4-channel-description {
+	display: block;
+}
+
+r4-supabase-modifiers form {
+	display: flex;
+	flex-wrap: wrap;
+}
+r4-supabase-modifiers input {
+	max-width: calc(var(--s) * 10);
+}
+r4-supabase-modifiers fieldset + fieldset {
+	margin-left: var(--s);
+}
+
+r4-supabase-query {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+/* hide some interface for specific pages */
+r4-supabase-query[table='channel_tracks'] fieldset[name='orderBy'] option[value='fts'],
+r4-supabase-query[table='channel_tracks'] fieldset[name='orderBy'] option[value='slug'],
+r4-supabase-query[table='channel_tracks'] fieldset[name='orderBy'] option[value='id'] {
+	display: none;
+}
+
+r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='fts'],
+r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='id'],
+r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='firebase'],
+r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='coordinates'],
+r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='id'],
+r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='coordinates'],
+r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='fts'],
+r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='firebase'] {
+	display: none;
+}
+
+/* tracks */
+r4-dialog::part(dialog)::backdrop {
+	/* css variables do not seem to work here */
+	background-color: black;
+	opacity: 0.6;
+}
+r4-app dialog[inline] {
+	position: relative;
+	margin: var(--s);
+}
+
+/* Hashtags and mentions */
+r4-track-mentions a::before,
+r4-track-tags a::before {
+	display: inline;
+	float: left;
+}
+r4-track-mentions a::before {
+	content: '@';
+}
+r4-track-tags a::before {
+	content: '#';
+}
+
+/* <r4-actions> A dropdown with a stacked, vertical menu */
+r4-actions details {
+	position: relative;
+}
+/* Hide dropdown when not open */
+r4-actions details:not([open]) menu {
+	display: none;
+}
+/* Hide browser default icon */
+r4-actions summary {
+	user-select: none;
+	list-style: none;
+	font-style: normal;
+	padding: 0 var(--s);
+}
+/* Style like a dropdown menu/overlay/thing */
+r4-actions details menu {
+	display: flex;
+	align-items: stretch;
+	list-style: none;
+	padding: 0;
+	background-color: var(--bg-overlay, rgba(255, 255, 255, 0.9));
+	border: 1px solid var(--c-border, rgb(216, 216, 216));
+	border-radius: var(--s-radius);
+	box-shadow: var(--box-shadow, rgba(0, 0, 0, 0.1) 0px 3px 12px);
+	/* box-shadow: rgb(48, 54, 61) 0px 0px 0px 1px, rgba(1, 4, 9, 0.85) 0px 16px 32px; */
+	position: absolute;
+	top: 100%;
+	right: 1rem;
+	width: 160px;
+	z-index: 100;
+	padding: 3px;
+}
+r4-actions details menu li {
+	margin: 0;
+}
+/* By default the dropdown is right-aligned, here it is left-aligned */
+r4-app r4-actions[left] menu {
+	right: auto;
+	left: 0;
+}
+/* Dark theme */
+r4-app[color-scheme='dark'] r4-actions menu {
+	background-color: var(--bg-overlay, rgb(0 0 0 / 90%));
+}
+/* Make items full width inside the menu */
+r4-app r4-actions menu li {
+	width: 100%;
+	padding: 0;
+}
+r4-app r4-actions a {
+	width: 100%;
+	padding: var(--s);
+}
+r4-app r4-actions button {
+	flex: 1;
+}
+
+/* beta logo */
+r4-app r4-app-menu r4-title::before,
+r4-app r4-app-menu r4-title::after {
+	font-size: 0.7rem;
+	color: var(--link);
+	font-style: italic;
+}
+r4-app r4-app-menu r4-title::before {
+	content: 'beta.';
+}
+r4-app r4-app-menu r4-title::after {
+	content: '.v2';
+}
+
+/* icon done in css and unicode ascii only */
+r4-icon[icon]::before {
+	content: attr(icon);
+}

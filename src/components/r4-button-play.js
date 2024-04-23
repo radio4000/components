@@ -1,5 +1,5 @@
 import {LitElement, html} from 'lit'
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 
 /**
  * Renders a button, to play a channel by slug / track (id)
@@ -10,20 +10,20 @@ import {sdk} from '@radio4000/sdk'
 
 export default class R4ButtonPlay extends LitElement {
 	static properties = {
-		/* a channel's slug */
-		slug: {type: String, reflect: true},
-
-		/* a track object */
-		track: {type: Object},
-
-		/* or tracks list */
-		tracks: {type: Array},
-
 		label: {type: String},
 
+		/* a channel's slug */
+		slug: {type: String, reflect: true},
+		/* a track object */
+		track: {type: Object},
+		/* or tracks list */
+		tracks: {type: Array},
 		/* the channel data object */
 		channel: {type: Object, state: true},
-
+		/* a user search query */
+		search: {type: String},
+		/* the filters used by a user */
+		filters: {type: Array},
 		playing: {type: Boolean, reflect: true},
 	}
 
@@ -42,6 +42,8 @@ export default class R4ButtonPlay extends LitElement {
 				channel: this.channel,
 				track: this.track,
 				tracks: this.tracks,
+				search: this.search,
+				filters: this.filters,
 			},
 		})
 		this.dispatchEvent(playEvent)

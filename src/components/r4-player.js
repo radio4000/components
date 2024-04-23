@@ -6,12 +6,25 @@ export default class R4Player extends LitElement {
 	playerRef = createRef()
 
 	static properties = {
-		name: {type: String}, // of the context
+		name: {type: String},
+		query: {type: String},
 		image: {type: String},
 		tracks: {type: Array},
 		track: {type: String},
-		isPlaying: {type: Boolean, attribute: 'is-playing', reflect: true},
 		shuffle: {type: Boolean},
+		config: {type: Object},
+	}
+
+	get playlist() {
+		return {
+			title: this.name,
+			image: this.image,
+			tracks: this.tracks,
+			query: this.query,
+		}
+	}
+	get emptyPlaylist() {
+		return {tracks: []}
 	}
 
 	render() {
@@ -19,7 +32,7 @@ export default class R4Player extends LitElement {
 			<radio4000-player
 				${ref(this.playerRef)}
 				@playerReady=${this.onPlayerReady}
-				@trackChanged=${this.onTrackChange}
+				@trackChanged=${this.onTrackChanged}
 			></radio4000-player>
 		`
 	}
@@ -37,8 +50,8 @@ export default class R4Player extends LitElement {
 		if (changedProps.has('tracks') || changedProps.has('track')) {
 			this.play()
 		}
-		if (changedProps.has('isPlaying')) {
-			if (this.isPlaying) {
+		if (changedProps.has('config')) {
+			if (this.config.isPlaying) {
 				this.play()
 			} else {
 				this.pause()
@@ -50,14 +63,9 @@ export default class R4Player extends LitElement {
 		if (!this.$player) return
 
 		if (this.tracks?.length) {
-			const playlist = {
-				title: this.name,
-				image: this.image,
-				tracks: this.tracks,
-			}
-			this.$player.updatePlaylist(playlist)
+			this.$player.updatePlaylist(this.playlist)
 		} else {
-			this.$player.updatePlaylist({tracks: []})
+			this.$player.updatePlaylist(this.emptyPlaylist)
 		}
 
 		if (this.track) {
@@ -69,28 +77,25 @@ export default class R4Player extends LitElement {
 	}
 
 	pause() {
-		/* click the radio400-player button */
-		// when in play mode, toggle pause
-		if (this.$playButton.checked === true) {
+		if (this.$playButton?.checked === true) {
 			this.$playButton.click()
 		}
 	}
 
 	stop() {
-		const el = this
-		el.removeAttribute('track')
-		el.removeAttribute('image')
-		el.removeAttribute('name')
-		el.removeAttribute('tracks')
+		this.removeAttribute('track')
+		this.removeAttribute('image')
+		this.removeAttribute('name')
+		this.removeAttribute('query')
+		this.removeAttribute('tracks')
 	}
 
-	onTrackChange(event) {
-		console.log('trackchange', event.detail)
+	onTrackChanged(event) {
 		this.dispatchEvent(
 			new CustomEvent('trackchange', {
 				bubbles: true,
 				detail: event.detail,
-			})
+			}),
 		)
 	}
 

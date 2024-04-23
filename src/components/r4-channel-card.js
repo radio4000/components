@@ -1,5 +1,5 @@
-import { LitElement, html } from 'lit'
-import { sdk } from '@radio4000/sdk'
+import {LitElement, html} from 'lit'
+import {sdk} from '../libs/sdk.js'
 
 /**
  * Renders an image in a predefined format for channel avatars.
@@ -9,9 +9,9 @@ import { sdk } from '@radio4000/sdk'
  */
 export default class R4ChannelCard extends LitElement {
 	static properties = {
-		slug: { type: String, reflect: true },
-		origin: { type: String },
-		channel: { type: Object, state: true },
+		slug: {type: String, reflect: true},
+		origin: {type: String},
+		channel: {type: Object, state: true},
 	}
 
 	get url() {
@@ -21,7 +21,7 @@ export default class R4ChannelCard extends LitElement {
 	async connectedCallback() {
 		super.connectedCallback()
 		if (this.slug) {
-			const { data } = await sdk.channels.readChannel(this.slug)
+			const {data} = await sdk.channels.readChannel(this.slug)
 			this.channel = data
 		}
 	}
@@ -29,26 +29,58 @@ export default class R4ChannelCard extends LitElement {
 	play() {
 		const playEvent = new CustomEvent('r4-play', {
 			bubbles: true,
-			detail: { channel: this.channel },
+			detail: {channel: this.channel},
 		})
 		this.dispatchEvent(playEvent)
 	}
 
 	render() {
-		const { channel } = this
-		if (!channel) return html`Loading...`
+		if (!this.channel) {
+			return html`Loading...`
+		}
 		return html`
-			<r4-button-play .channel=${channel}></r4-button-play>
+			<r4-channel-card-inner>
 			<a href="${this.url}">
-				<r4-avatar image=${channel.image}></r4-avatar>
-				<r4-name role="heading" aria-level="3">${channel.name}</r4-name>
-				<r4-slug>@${channel.slug}</r4-slug>
+				${this.renderAvatar()}
 			</a>
-			<r4-description>${channel.description}</r4-description>
+			<r4-button-play .channel=${this.channel}></r4-button-play>
+			<r4-channel-card-body>
+				<a href="${this.url}">
+					<r4-channel-name>${this.channel.name}</r4-channel-name>
+					<r4-channel-slug>@${this.channel.slug}</r4-channel-slug>
+				</a>
+				${this.renderDescription()}
+				${this.renderUrl()}
+			</r4-channel-card-body>
+			<r4-actions hidden>
+				<menu>
+					<li><a href="${this.channelOrigin + '/feed'}">Feed</a></li>
+					<li><a href="${this.channelOrigin + '/following'}">Following</a></li>
+					<li><button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button></li>
+				</menu>
+			</r4-actions>
+			</r4-channel-card-inner>
 		`
 	}
-
-	// Disable shadow DOM
+	renderDescription() {
+		if (this.channel.description) {
+			return html`<r4-channel-description> ${this.channel.description} </r4-channel-description>`
+		}
+	}
+	renderAvatar() {
+		if (this.channel.image) {
+			return html`<r4-avatar size="medium" image=${this.channel.image}></r4-avatar>`
+		}
+	}
+	renderUrl() {
+		if (this.channel.url) {
+			return html`
+				<r4-channel-url>
+					<a target="_blank" ref="norel noreferer" href=${this.channel.url}> ${this.channel.url} </a>
+				</r4-channel-url>
+			`
+		}
+	}
 	createRenderRoot() {
 		return this
 	}

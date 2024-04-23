@@ -1,6 +1,8 @@
-import {sdk} from '@radio4000/sdk'
+import {sdk} from './sdk.js'
 
 const {supabase} = sdk
+
+const debug = false
 
 /*
 	 all known supabase query filter operators
@@ -41,21 +43,19 @@ export const supabaseOperatorsTable = {
 
 export const supabaseOperators = Object.keys(supabaseOperatorsTable)
 
-/* browse the list (of db table) like it is paginated;
-	 (query params ->) components-attributes -> supbase-query
-	 this does not render the list, just browses it
+/**
+ * Browse a PostgreSQL database via Postgrest
+ * @param {import('../components/r4-query.js').R4Query} props
  */
-export async function query({
-	page = 1,
-	limit = 1,
-	table = '',
-	select = '',
-	orderBy = '',
-	orderConfig = {},
-	filters = [],
-}) {
+export async function browse(props) {
+	const {table, select, filters, orderBy, order, page = 1, limit = 1} = props
+	if (!table) throw new Error('missing "table" to browse')
+
 	// We add count exact: to get a .total property back in the response. head:false ensures we still get the rows.
-	let query = supabase.from(table).select(select, {count: 'exact', head: false})
+	let query = supabase.from(table).select(select, {
+		count: 'exact',
+		head: false,
+	})
 
 	/*
 		 add filters to the query,
@@ -95,7 +95,8 @@ export async function query({
 
 	// After filters we add sorting.
 	if (orderBy) {
-		if (orderConfig) {
+		if (order) {
+			const orderConfig = {ascending: order === 'asc'}
 			query = query.order(orderBy, orderConfig)
 		} else {
 			query = query.order(orderBy)
@@ -105,9 +106,6 @@ export async function query({
 	// And pagination.
 	const {from, to, limit: l} = getBrowseParams({page, limit})
 	query = query.range(from, to).limit(l)
-
-	console.log('browse.query', query.url.search)
-
 	return query
 }
 
@@ -119,6 +117,5 @@ export async function query({
 export function getBrowseParams({page, limit}) {
 	const from = (page - 1) * limit
 	const to = from + limit - 1
-	const params = {from, to, limit}
-	return params
+	return {from, to, limit}
 }

@@ -1,4 +1,4 @@
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
@@ -6,50 +6,51 @@ fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
 			<label for="email">Email</label>
-			<input name="email" type="email" autocomplete="username" required/>
+			<input name="email" type="email" autocomplete="username" required placeholder="user@example.com"/>
 		</fieldset>
 		<fieldset>
 			<label for="password">Password</label>
-			<input name="password" type="password" autocomplete="current-password" required />
+			<input name="password" type="password" autocomplete="current-password" required placeholder="my-private-password"/>
 		</fieldset>
 	</slot>
 `
 
 export default class R4SignIn extends R4Form {
 	submitText = 'Sign in'
+
 	constructor() {
 		super()
 		this.fieldsTemplate = fieldsTemplate
 	}
 
 	errors = {
-		'default': {
+		default: {
 			message: 'Unhandled error',
 		},
 		'email-not-confirmed': {
 			field: 'email',
-			message: 'Email must be confirmed to login'
+			message: 'Email must be confirmed to login (check your inbox)',
 		},
 		'invalid-login-credentials': {
 			field: 'email',
 			message: 'The Email & Password combination is incorect',
-		}
+		},
 	}
 
 	async handleSubmit(event) {
 		event.preventDefault()
 		event.stopPropagation()
-
 		this.disableForm()
-		let res = {},
-			error = null
+
+		let res = {}
+		let error = null
+
 		try {
 			res = await sdk.auth.signIn({
 				email: this.state.email,
 				password: this.state.password,
 			})
 			if (res.error) {
-				console.log(res)
 				if (res.error.message === 'Email not confirmed') {
 					res.error.code = 'email-not-confirmed'
 				}
@@ -61,10 +62,11 @@ export default class R4SignIn extends R4Form {
 		} catch (err) {
 			this.handleError(err)
 		}
+
 		this.enableForm()
 
-		const { data } = res
-		if (data && data.user && data.session) {
+		const {data} = res
+		if (data?.user && data.session) {
 			this.resetForm()
 		}
 

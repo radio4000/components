@@ -1,5 +1,6 @@
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 import R4Form from './r4-form.js'
+import slugify from '../libs/slugify.js'
 
 const fieldsTemplate = document.createElement('template')
 fieldsTemplate.innerHTML = `
@@ -22,6 +23,19 @@ export default class R4ChannelCreate extends R4Form {
 		this.fieldsTemplate = fieldsTemplate
 	}
 
+	connectedCallback() {
+		super.connectedCallback()
+		this.querySelector('input[name="name"]').addEventListener('input', this.setSlugOnNameChange.bind(this))
+	}
+
+	setSlugOnNameChange(event) {
+		const slug = slugify(event.target.value)
+		const input = this.querySelector('input[name="slug"]')
+		input.value = slug
+		// Manually update state since it's not caught by r4-form.
+		this.state.slug = slug
+	}
+
 	errors = {
 		default: {
 			message: 'Unhandled error',
@@ -29,6 +43,10 @@ export default class R4ChannelCreate extends R4Form {
 		'slug-exists-firebase': {
 			message: 'This slug is already in use by an other channel',
 			field: 'slug',
+		},
+		23502: {
+			message: 'Fill out the slug field',
+			field: 'slug'
 		},
 		23514: {
 			message: 'The slug needs to be between 3 and 40 characters',
@@ -39,11 +57,11 @@ export default class R4ChannelCreate extends R4Form {
 			field: 'slug',
 		},
 		42501: {
-			message: 'Sign-in to create a channel',
+			message: 'Sign in to create a channel',
 			field: 'slug',
 		},
 		'sign-in': {
-			message: 'You need to sign-in to create a radio channel',
+			message: 'You need to sign in to create a radio channel',
 		},
 	}
 

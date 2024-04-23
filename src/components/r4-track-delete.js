@@ -1,4 +1,4 @@
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
@@ -15,7 +15,6 @@ fieldsTemplate.innerHTML = `
 	</slot>
 `
 
-
 export default class R4TrackDelete extends R4Form {
 	submitText = 'Delete track'
 
@@ -25,14 +24,14 @@ export default class R4TrackDelete extends R4Form {
 	}
 
 	errors = {
-		'default': {
+		default: {
 			message: 'Unhandled error',
 			field: null,
 		},
-		'confirmation': {
+		confirmation: {
 			message: 'Really sure to delete this track?',
 			field: 'confirmation',
-		}
+		},
 	}
 
 	connectedCallback() {
@@ -46,9 +45,10 @@ export default class R4TrackDelete extends R4Form {
 
 	async handleSubmit(event) {
 		event.preventDefault()
+		event.stopPropagation()
 		this.disableForm()
 
-		const { id, confirmation } = this.state
+		const {id, confirmation} = this.state
 
 		if (!confirmation) {
 			this.enableForm()

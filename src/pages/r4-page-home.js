@@ -1,64 +1,67 @@
-import {LitElement, html} from 'lit'
+import {html} from 'lit'
+import R4Page from '../components/r4-page.js'
 
-export default class R4PageHome extends LitElement {
+export default class R4PageHome extends R4Page {
 	static properties = {
 		config: {type: Object, state: true},
 		store: {type: Object, state: true},
 	}
 
-	render() {
-		const {href} = this.config
-		const {user, userChannels, following} = this.store
+	renderHeader() {
+		return this.store.user ? this.renderIn() : this.renderOut()
+	}
+	renderMain() {
 		return html`
-			<header>
-				<nav>
-					<nav-item><code>/</code></nav-item>
-				</nav>
-			</header>
-
-			<main>
-				<h1 style="margin-bottom:0">Radio4000 b3t4</h1>
-				<p>
-					This is the public beta for a new Radio4000. Try it out or
-					<a href=${href + `/about`}>what's this?</a>.
-				</p>
-				${user ? this.renderMenuUser() : null}
-				${userChannels?.length
-					? html`
-							<section>
-								<h2>Your channel${userChannels?.length > 1 ? 's' : ''}</h2>
-								<ul list>
-									${userChannels.map((channel) => this.renderChannelCard(channel, href))}
-								</ul>
-							</section>
-					  `
-					: null}
-				${following?.length
-					? html`
-							<section>
-								<h2>Following</h2>
-								<ul list>
-									${following?.map((channel) => this.renderChannelCard(channel, href))}
-								</ul>
-							</section>
-					  `
-					: null}
-			</main>
+			${this.store.userChannels?.length ? this.renderUserChannels() : this.renderCreateChannel()}
+			${this.store.following?.length ? this.renderFollowingChannels() : null}
+		`
+	}
+	renderIn() {}
+	renderOut() {
+		return this.renderBetaNote()
+	}
+	renderUserChannels() {
+		const {userChannels} = this.store
+		return html`
+			<section>
+				<h2>Channel${userChannels?.length > 1 ? 's' : ''}</h2>
+				<r4-list> ${userChannels.map((channel) => this.renderChannelCard(channel, this.config.href))} </r4-list>
+			</section>
+		`
+	}
+	renderCreateChannel() {
+		return html` <p><a href="${this.config.href}/new">Create radio &rarr;</a></p> `
+	}
+	renderFollowingChannels() {
+		const {following} = this.store
+		return html`
+			<section>
+				<h2>Network</h2>
+				<r4-list> ${following?.map((channel) => this.renderChannelCard(channel, this.config.href))} </r4-list>
+			</section>
 		`
 	}
 
-	renderChannelCard(channel) {
-		const channelOrigin = `${this.config.href}/${channel.slug}`
-		return html` <li>
-			<r4-channel-card .channel=${channel} origin=${channelOrigin}></r4-channel-card>
-		</li>`
+	renderChannelCard(channel, origin) {
+		return html` <r4-list-item>
+			<r4-channel-card .channel=${channel} origin="${origin}/${channel.slug}"></r4-channel-card>
+		</r4-list-item>`
 	}
-
-	renderMenuUser() {
-		return html``
-	}
-
-	createRenderRoot() {
-		return this
+	renderBetaNote() {
+		return html`
+			<section>
+				<dialog open inline>
+					<p>Welcome to the new <r4-title></r4-title>, version 2 (<strong>v2</strong>).</p>
+					<p>
+						All previous radio channels are still available on the
+						<a href="${this.config.hrefV1}">v1</a> website.
+					</p>
+					<p>
+						To import a radio channel from v1 to v2, see
+						<a href="${this.config.hrefMigrate}">migrate</a>.
+					</p>
+				</dialog>
+			</section>
+		`
 	}
 }

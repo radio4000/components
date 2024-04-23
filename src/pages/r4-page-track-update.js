@@ -1,60 +1,45 @@
 import {html} from 'lit'
-import {sdk} from '@radio4000/sdk'
-import BaseChannel from './base-channel'
+import {sdk} from '../libs/sdk.js'
+import page from 'page/page.mjs'
+import BaseChannelTrack from './base-channel-track'
 
-export default class R4PageChannelUpdate extends BaseChannel {
-	async loadTrack() {
-		const {data, error} = await sdk.tracks.readTrack(this.params.track_id)
-		this.track = data
-		this.error = error
-	}
-
-	render() {
-		if (!this.track) {
-			this.loadTrack()
-		}
-
-		if (this.error) {
+export default class R4PageChannelUpdate extends BaseChannelTrack {
+	renderHeader() {
+		if (this.trackError) {
 			return html`<p>Error: ${this.error.message}</p>`
 		}
-
-		const {track} = this
-		const link = this.channelOrigin
-
+		if (!this.track) {
+			return html`<p>Loading...</p>`
+		}
 		return html`
-			<nav>
-				<nav-item> <code>@</code><a href=${link}>${this.params.slug}</a> </nav-item>
-				<nav-item><code>></code> <a href=${link + '/tracks'}>Tracks</a></nav-item>
-				<nav-item><code>></code> ${track?.title}</nav-item>
-			</nav>
-			<main>
-				<h1>Update track</h1>
-				${track
-					? html`<r4-track-update
-								id=${track.id}
-								url=${track.url}
-								title=${track.title}
-								discogsUrl=${track.discogsUrl}
-								description=${track.description}
-								@submit=${this.onUpdate}
-							></r4-track-update>
-							<p>
-								<a href=${link + '/tracks/' + track.id + '/delete'}>Delete track</a>
-							</p>
-							<p></p> `
-					: html`<p>Loading...</p>`}
-			</main>
+			<r4-channel-card
+				.channel=${this.channel}
+				origin=${this.channelOrigin}
+				></r4-channel-card>
+			<r4-track
+				.track=${this.track}
+				.config=${this.config}
+				href==${this.config.href}
+				origin=${this.tracksOrigin}
+				></r4-track>
 		`
 	}
-
-	async onUpdate({detail}) {
-		console.log(detail)
-		if (!detail.error) {
-			// all good
+	renderMain() {
+		if (this.trackError) {
+			return html`<p>Error: ${this.error.message}</p>`
 		}
-	}
-
-	createRenderRoot() {
-		return this
+		if (!this.track) {
+			return html`<p>Loading...</p>`
+		}
+		return html`
+			<r4-track-update
+				id=${this.track.id}
+				url=${this.track.url}
+				title=${this.track.title}
+				discogsUrl=${this.track.discogsUrl}
+				description=${this.track.description}
+				@submit=${this.onUpdate}
+			></r4-track-update>
+		`
 	}
 }

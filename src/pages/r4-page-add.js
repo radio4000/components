@@ -1,5 +1,5 @@
 import {LitElement, html} from 'lit'
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 import page from 'page/page.mjs'
 import BaseChannel from './base-channel'
 
@@ -9,7 +9,10 @@ export default class R4PageAdd extends BaseChannel {
 		selectedId: {type: String, state: true},
 		lastAddedTrack: {type: Object, state: true},
 	}
-
+	/* overwritte for the add page */
+	get channelOrigin() {
+		return this.config.singleChannel ? this.config.href : `${this.config.href}/${this.selectedSlug}`
+	}
 	get selectedSlug() {
 		if (this.hasOneChannel) {
 			return this.store.userChannels[0].slug
@@ -18,20 +21,24 @@ export default class R4PageAdd extends BaseChannel {
 		} else if (this.config.selectedSlug) {
 			return this.config.selectedSlug
 		}
-		return undefined
+		return ''
 	}
-	// set selectedSlug(val) {
-	// 	return val
-	// }
-
+	get selectedId() {
+		return this.channel?.id
+	}
+	get selectedChannelOrigin() {
+		return `${this.config.href}/${this.selectedSlug}`
+	}
 	async connectedCallback() {
 		super.connectedCallback()
 		if (this.selectedSlug) {
-			this.selectedId = await this.findSelectedChannel()
+			this.channel = await this.findSelectedChannel()
 		}
-		this.requestUpdate()
 	}
-
+	async findSelectedChannel() {
+		const {data} = await sdk.channels.readChannel(this.selectedSlug)
+		return data
+	}
 	async onChannelSelect({detail}) {
 		if (detail?.channel?.slug) {
 			this.selectedSlug = detail?.channel?.slug
@@ -41,52 +48,15 @@ export default class R4PageAdd extends BaseChannel {
 		}
 		page(`/add?slug=${detail?.channel?.slug}`)
 	}
-
-	/* find the current channel id we want to add to */
-	async findSelectedChannel() {
-		const {data} = await sdk.channels.readChannel(this.selectedSlug)
-		if (data?.id) return data.id
-	}
-
 	onTrackCreate({detail}) {
 		if (detail.data) {
 			this.lastAddedTrack = detail.data
 			this.focus()
 		}
 	}
-
-	render() {
-		const link = `${this.config.href}/${this.selectedSlug}`
-		const $channelsSelect = html`<r4-user-channels-select
-			channel=${this.selectedSlug}
-			@input=${this.onChannelSelect}
-		></r4-user-channels-select>`
-
-		return html`
-			<header>
-				<nav>
-					<nav-item
-						>${this.hasOneChannel
-							? html`<code>@</code><a href=${link}>${this.selectedSlug}</a>`
-							: $channelsSelect}</nav-item
-					>
-					<nav-item><code>></code> <a href=${link + '/tracks'}>Tracks</a></nav-item>
-					<nav-item>Add</nav-item>
-				</nav>
-				<h1>Add track</h1>
-			</header>
-			<main>
-				${this.renderAdd()}
-				${this.lastAddedTrack
-					? html`Added track:
-							<a href=${`${this.config.href}/${this.selectedSlug}/tracks/${this.lastAddedTrack.id}`}
-								>${this.lastAddedTrack.title}</a
-							>`
-					: null}
-			</main>
-		`
+	renderMain() {
+		return [this.renderAdd(), this.lastAddedTrack ? this.renderLastAddedTrack() : null]
 	}
-
 	renderAdd() {
 		return html`
 			<r4-track-create
@@ -94,6 +64,21 @@ export default class R4PageAdd extends BaseChannel {
 				url=${this.searchParams.get('url')}
 				@submit=${this.onTrackCreate}
 			></r4-track-create>
+		`
+	}
+	renderLastAddedTrack() {
+		return html`
+			<r4-list>
+				<r4-list-item>
+					<r4-track
+						.track=${this.lastAddedTrack}
+						.canEdit="${this.canEdit}"
+						.channel="${this.channel}"
+						href="${this.config.href}"
+						origin="${this.selectedChannelOrigin}/tracks/"
+					></r4-track>
+				</r4-list-item>
+			</r4-list>
 		`
 	}
 

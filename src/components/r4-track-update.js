@@ -1,4 +1,4 @@
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
@@ -17,12 +17,12 @@ fieldsTemplate.innerHTML = `
 			<input name="title" type="text" required/>
 		</fieldset>
 		<fieldset>
-			<label for="discogsUrl">Discogs URL</label>
-			<input name="discogsUrl" type="url"/>
-		</fieldset>
-		<fieldset>
 			<label for="description">Description</label>
 			<textarea name="description"></textarea>
+		</fieldset>
+		<fieldset>
+			<label for="discogsUrl">Discogs URL</label>
+			<input name="discogsUrl" type="url"/>
 		</fieldset>
 	</slot>
 `

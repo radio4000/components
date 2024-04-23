@@ -1,4 +1,4 @@
-import {sdk} from '@radio4000/sdk'
+import {sdk} from './sdk.js'
 
 // This class listens to different events from the database and dispatches new ones.
 // Pass it an instance of `r4-app` and call .start() to start listening
@@ -32,6 +32,22 @@ export default class DatabaseListeners extends EventTarget {
 					},
 					(payload) => {
 						this.dispatchEvent(new CustomEvent('user-channels', {detail: payload}))
+					}
+				)
+				.subscribe()
+
+			sdk.supabase
+				.channel('yser-account')
+				.on(
+					'postgres_changes',
+					{
+						event: '*',
+						schema: 'public',
+						table: 'accounts',
+						filter: `id=eq.${user.id}`,
+					},
+					(payload) => {
+						this.dispatchEvent(new CustomEvent('user-account', {detail: payload}))
 					}
 				)
 				.subscribe()

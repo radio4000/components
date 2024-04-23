@@ -8,7 +8,7 @@ These components can be inserted in the HTML of any web pages, and are made to i
 - [View examples of all components](https://radio4000.github.io/components/examples/)
 - [View example of the `<r4-app>` component](https://beta.radio4000.com)
 
-## Usage 
+## Usage
 
 Depending on whether you have a build system or not, you can either import the module from NPM, from a CDN or download it locally.
 
@@ -49,6 +49,9 @@ npm install
 npm run dev
 ```
 
+### Themes
+See the [themes github repo](https://github.com/4www/themes)
+
 ## Build and releases
 
 To release this package under `@radio4000/components` on NPM, bump the version in package.json, create a commit, tag it. Create a new release on Github and let the Github action publish it.
@@ -65,3 +68,14 @@ To make sure the build workflows:
 - import and export it in `./src/components/index.js`
 - create an demo in `./examples/r4-*/index.html`
 - reference the demo HTML page in `./vite.config.js`
+
+### Connection to the Radio4000 database
+
+All components use the @radio4000/sdk. The exact db is configured in https://github.com/radio4000/components/blob/main/src/libs/sdk.js.
+
+
+# Production
+Currently deployed on cloudflare pages (which has the env vars manually added).
+
+> Github pages is not used because it does not support SPA redirects
+> (like in the public folder for other hosting; @TODO: wait then migrate)

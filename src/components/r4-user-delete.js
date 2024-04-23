@@ -1,5 +1,5 @@
 import {LitElement, html} from 'lit'
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 
 /**
  * Renders a <form> to delete the user account, channels and tracks.
@@ -24,11 +24,10 @@ export default class R4UserDelete extends LitElement {
 		if (!window.confirm('Do you really want to delete your account, channels and tracks?')) return
 		const {error} = await sdk.users.deleteUser()
 		if (!error) {
-			console.log('Successfully deleted user account, channels and tracks')
-			await sdk.auth.signOut()
-			window.location.reload()
+			console.info('Successfully deleted user account, channels and tracks')
+			// no-need to logout the user, already done by supabase
 		} else {
-			console.log('Error deleting user account', error)
+			console.error('Error deleting user account', error)
 		}
 	}
 
@@ -46,7 +45,7 @@ export default class R4UserDelete extends LitElement {
 						</label>
 					</p>
 					${this.userChannels?.length ? this.userChannels.map((c) => this.renderChannelCheckbox(c)) : null}
-					<button type="submit" role="destructive">Delete my account</button>
+					<button type="submit" destructive>Delete my account</button>
 				</details>
 			</form>
 		`

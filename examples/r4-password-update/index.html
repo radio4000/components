@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+
+		<title>r4-password-update</title>
+		<meta name="description" content="r4-password-update" />
+
+		<script type="module" src="/src/index.js"></script>
+	</head>
+
+	<body>
+		<menu> <li>A form to update the user account password</li></menu>
+
+		<r4-password-update></r4-password-update>
+
+		<script>
+			function handleSubmit(event) {
+				console.log('Update did submit', event.detail)
+			}
+			document.querySelector('r4-password-update').addEventListener('submit', handleSubmit)
+		</script>
+	</body>
+</html>

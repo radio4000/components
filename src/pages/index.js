@@ -1,4 +1,3 @@
-import R4PageAbout from './r4-page-about.js'
 import R4PageAdd from './r4-page-add.js'
 import R4PageChannel from './r4-page-channel.js'
 import R4PageChannelUpdate from './r4-page-channel-update.js'
@@ -12,15 +11,13 @@ import R4PageHome from './r4-page-home.js'
 import R4PageMap from './r4-page-map.js'
 import R4PageSearch from './r4-page-search.js'
 import R4PageNew from './r4-page-new.js'
-import R4PageSettings from './r4-page-settings'
+import R4PageSettings from './r4-page-settings.js'
 import R4PageSign from './r4-page-sign.js'
 import R4PageChannelTrack from './r4-page-channel-track'
 import R4PageTrackUpdate from './r4-page-track-update.js'
 import R4PageTrackDelete from './r4-page-track-delete.js'
-import R4PageChannelTracks from './r4-page-channel-tracks'
-import R4PagePlayground from './r4-page-playground.js'
+import R4PageChannelTracks from './r4-page-channel-tracks.js'
 
-customElements.define('r4-page-about', R4PageAbout)
 customElements.define('r4-page-sign', R4PageSign)
 customElements.define('r4-page-home', R4PageHome)
 customElements.define('r4-page-explore', R4PageExplore)
@@ -38,12 +35,10 @@ customElements.define('r4-page-channel-track', R4PageChannelTrack)
 customElements.define('r4-page-channel-tracks', R4PageChannelTracks)
 customElements.define('r4-page-channel-followings', R4PageChannelFollowings)
 customElements.define('r4-page-channel-followers', R4PageChannelFollowers)
-customElements.define('r4-page-playground', R4PagePlayground)
 customElements.define('r4-page-track-update', R4PageTrackUpdate)
 customElements.define('r4-page-track-delete', R4PageTrackDelete)
 
 export default {
-	R4PageAbout,
 	R4PageAdd,
 	R4PageChannel,
 	R4PageChannelUpdate,
