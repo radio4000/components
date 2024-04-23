@@ -396,6 +396,10 @@ r4-page-channel details:has(r4-supabase-query) {
 	display: none;
 }
 
+/* fix control player font size */
+radio4000-player .PlayerControl {
+	font-size: 0.7rem;
+}
 /* Quick dark-mode for the player */
 [color-scheme='dark'] radio4000-player,
 r4-app[color-scheme] radio4000-player .Header,
