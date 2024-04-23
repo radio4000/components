@@ -341,10 +341,7 @@ r4-query {
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
-	menu,
-	details {
-		padding: calc(var(--s) / 3);
-	}
+	gap: var(--s);
 	menu {
 		order: 2;
 		justify-self: flex-start;
@@ -353,6 +350,10 @@ r4-query {
 			margin: 0;
 		}
 	}
+}
+
+r4-supabase-filter-search label {
+	color: var(--c-fg2);
 }
 
 /* Forms */
