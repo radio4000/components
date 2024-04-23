@@ -294,6 +294,12 @@ r4-page-channel-tracks r4-page-header r4-query {
 	}
 }
 
+/* Forms */
+r4-app form legend,
+r4-app form label {
+	margin-right: var(--s);
+}
+
 /* Vertical track form layout */
 r4-dialog form,
 r4-track-create {
@@ -313,7 +319,10 @@ r4-track-create {
 	}
 }
 
-/* remove styles from <a> */
+/* remove styles that shouldn't touch v1 player */
 radio4000-player .Layout .TrackItem {
 	background-color: inherit;
+}
+radio4000-player .PlayerControl-group .Btn {
+	min-height: 0;
 }
