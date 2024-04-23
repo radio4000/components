@@ -220,7 +220,6 @@ export default class R4App extends LitElement {
 			// From OS settings
 			this.colorScheme = prefersDark ? 'dark' : 'light'
 		}
-		// this.setAttribute('color-scheme', theme)
 	}
 
 	onChannelSelect({detail}) {
