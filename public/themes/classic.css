@@ -2,29 +2,28 @@
 /* Maison Neue regular/italic + bold/italic from Cloudinary */
 @font-face {
 	font-family: 'Maison Neue';
-	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-book_ee98sm.woff2')
-		format('woff2');
+	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-book_ee98sm.woff2') format('woff2');
 	font-weight: normal;
 	font-style: normal;
 }
+
 @font-face {
 	font-family: 'Maison Neue';
-	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bookitalic_szjrvl.woff2')
-		format('woff2');
+	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bookitalic_szjrvl.woff2') format('woff2');
 	font-weight: normal;
 	font-style: italic;
 }
+
 @font-face {
 	font-family: 'Maison Neue';
-	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bold_rvmbzr.woff2')
-		format('woff2');
+	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bold_rvmbzr.woff2') format('woff2');
 	font-weight: bold;
 	font-style: normal;
 }
+
 @font-face {
 	font-family: 'Maison Neue';
-	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bolditalic_awvcg5.woff2')
-		format('woff2');
+	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bolditalic_awvcg5.woff2') format('woff2');
 	font-weight: bold;
 	font-style: italic;
 }
@@ -42,15 +41,14 @@ r4-app {
 	--c-purple-light: #999fff;
 	--c-light--accent: var(--c-purple);
 	--c-dark--accent: #9c8fff;
-	--c-dark-lighter: hsl(0deg 2.6% 12.75%);
+	--c-dark-lighter: hsl(0deg 2.6% 13%);
 	--c-link: var(--c-purple);
 	--c-border: rgba(115, 115, 115, 0.4);
 
 	/* new vars */
-	--c-fg2: color-mix(in oklch, var(--c-fg) 100%, white 50%);
 	--c-bg-button: hsl(0, 0%, 98%);
 	--c-bg-button2: color-mix(in oklch, var(--c-bg-button) 50%, white 80%);
-	--c-bg-input: #fafafa;
+	--c-bg-input: hsl(0deg 0% 98%);
 	--c-shadow-input: 1px 2px 2px #e7e6e4 inset;
 	--c-shadow-button: 0 3px 0 -1px rgba(204, 204, 204, 0.9);
 	--c-shadow-modal: 0 3px 12px rgba(0, 0, 0, 0.1);
@@ -58,18 +56,20 @@ r4-app {
 
 r4-app[color-scheme='os'],
 r4-app[color-scheme='light'] {
-	color-scheme: light;
 	--c-fg: hsl(40, 6%, 5%);
+	--c-fg2: color-mix(in oklch, var(--c-fg) 100%, white 50%);
 	--c-bg: hsl(40, 6%, 90%);
 	--c-bg2: color-mix(in oklch, var(--c-bg) 100%, white 50%);
 }
 
 r4-app[color-scheme='dark'] {
-	color-scheme: dark;
 	--c-fg: var(--c-light);
+	--c-fg2: color-mix(in oklch, var(--c-fg) 100%, black 50%);
 	--c-bg: var(--c-dark);
 	--c-bg2: var(--c-border);
-	--c-bg-button: hsl(0deg 0% 23.14%);
+	--c-bg-button: hsl(0deg 0% 23%);
+	--c-bg-input: hsl(0deg 0% 2%);
+	--c-shadow-input: none;
 }
 
 r4-layout header[slot='menu'] {
@@ -87,10 +87,12 @@ r4-app a {
 		color: var(--c-dark--accent);
 	}
 }
+
 r4-app a:has(r4-avatar) {
 	background: none;
 	padding: initial;
 }
+
 r4-app li {
 	/* margin-bottom: calc(var(--s) / 3); */
 }
@@ -117,13 +119,16 @@ r4-app button {
 		background-color: var(--c-bg-button2);
 	}
 }
+
 r4-app[color-scheme='dark'] button {
 	box-shadow: none;
 }
+
 r4-button-play button:active {
 	position: relative;
 	top: 1px;
 }
+
 r4-app select {
 	border-radius: var(--s-radius);
 	border-color: var(--c-border);
@@ -131,6 +136,7 @@ r4-app select {
 
 /* Text inputs */
 r4-app {
+
 	[type=email],
 	[type=password],
 	[type=search],
@@ -138,11 +144,11 @@ r4-app {
 	[type=text],
 	[type=url],
 	textarea {
-	    box-shadow: var(--c-shadow-input);
-	    background-color: var(--c-bg-input);
-	    border: 1px solid var(--c-border);
-	    border-radius: var(--s-radius);
-	    font-size: 1rem;
+		background-color: var(--c-bg-input);
+		border: 1px solid var(--c-border);
+		border-radius: var(--s-radius);
+		box-shadow: var(--c-shadow-input);
+		font-size: 1rem;
 	}
 }
 
@@ -150,6 +156,7 @@ r4-layout::part(playback) {
 	position: sticky;
 	top: 0;
 }
+
 r4-layout::part(playback-summary) {
 	background-color: var(--c-bg2);
 }
@@ -161,9 +168,11 @@ r4-page-header r4-channel-card {
 	flex-shrink: 0;
 	max-width: 50rem;
 }
+
 r4-page-header h1 {
 	margin: calc(var(--s) / 2) 0;
 }
+
 /* Differentiate channels and track lists by using a grid */
 r4-page-explore r4-list:has(r4-channel-card) {
 	display: grid;
@@ -171,27 +180,33 @@ r4-page-explore r4-list:has(r4-channel-card) {
 	gap: var(--s);
 	align-items: stretch;
 }
+
 r4-page-add r4-page-header {
 	order: 1;
 }
+
 r4-page-add r4-page-header menu {
 	display: none;
 }
 
 /* Nav menus */
 r4-app menu {}
+
 r4-app menu li {
 	margin: calc(var(--s) / 4);
 }
+
 r4-app menu a {
 	padding: calc(var(--s) / 2) calc(var(--s) / 2);
 	text-decoration: none;
 	background: none;
 }
+
 r4-app-menu a[aria-current] {
 	color: var(--c-fg);
 	background-color: var(--c-bg2);
 }
+
 /* Main menu */
 r4-app-menu {
 	display: inline-block;
@@ -199,16 +214,20 @@ r4-app-menu {
 	margin: calc(var(--s) / 4);
 	border-radius: var(--s-radius);
 }
+
 r4-app-menu menu li {
 	margin: 0;
 }
+
 r4-app-menu a {
 	background: none;
 }
+
 /* Channel menu */
 r4-page-channel r4-page-header menu li {
 	margin: calc(var(--s) / 4);
 }
+
 r4-page-channel {
 	r4-list:has(r4-track) {
 		max-width: 50rem;
@@ -219,13 +238,16 @@ r4-page-channel {
 r4-channel-card {
 	background-color: var(--c-bg2);
 }
+
 r4-channel-card r4-channel-slug {
 	display: none;
 }
+
 r4-channel-card r4-button-play {
 	margin-top: var(--s);
 	margin-left: var(--s);
 }
+
 r4-channel-card-body {
 	padding: var(--s);
 }
@@ -234,14 +256,17 @@ r4-channel-card-body {
 r4-list:has(r4-track) {
 	border: 1px solid var(--c-border);
 	border-radius: var(--s-radius);
+
 	r4-list-item:first-of-type r4-track {
 		border-top-left-radius: var(--s-radius);
 		border-top-right-radius: var(--s-radius);
 	}
+
 	r4-list-item:last-of-type r4-track {
 		border-bottom-left-radius: var(--s-radius);
 		border-bottom-right-radius: var(--s-radius);
 	}
+
 	r4-list-item:not(:last-child) r4-track {
 		border-bottom: 1px solid var(--c-border);
 	}
@@ -249,37 +274,44 @@ r4-list:has(r4-track) {
 
 /* track */
 r4-track {
-	background-color: var(--c-bg2);
 	padding: calc(var(--s) / 2);
+	r4-app[color-scheme="light"] & {
+		background-color: var(--c-bg2);
+	}
 }
-r4-track-body {
-	font-size: calc(16/18*1rem);
+@media (max-width: 600px) {
+	r4-track-body {
+		font-size: calc(15/16*1rem);
+	}
 }
 r4-track a {
 	background-color: transparent;
 	text-decoration: none;
 }
+
 r4-track-title a {
 	padding: 0;
 }
+
 r4-track-title a,
 [color-scheme='dark'] r4-track-title a {
 	color: var(--c-fg);
 }
+
 r4-track-description {
+	font-size: calc(16/16*1em);
 	display: block;
 	word-break: break-word;
-	color: var(--c-fg-faded);
+	color: var(--c-fg2);
 	font-style: italic;
-	a {
-		font-style: initial;
-	}
 }
+
 r4-track-description a {
 	padding-left: calc(var(--s) / 4);
 	padding-right: calc(var(--s) / 4);
-	margin: 0.1rem;
+	font-style: initial;
 }
+
 r4-track[playing] r4-button-play button {
 	color: var(--c-purple);
 	border-color: var(--c-purple);
@@ -290,6 +322,7 @@ r4-query menu,
 r4-query details {
 	padding: calc(var(--s) / 3);
 }
+
 r4-query menu li {
 	margin: 0;
 }
@@ -299,9 +332,11 @@ r4-page-channel-tracks r4-page-header r4-query {
 	display: flex;
 	align-items: flex-start;
 	justify-content: space-between;
-	> menu {
+
+	>menu {
 		order: 2;
 	}
+
 	details {
 		padding-top: 1.3rem;
 	}
@@ -324,11 +359,13 @@ r4-track-create {
 		font-weight: bold;
 		font-size: calc(16/18*1rem);
 	}
+
 	input[type='text'],
 	input[type='url'],
 	textarea {
 		width: 100%;
 	}
+
 	textarea {
 		min-height: 3em;
 	}
@@ -338,6 +375,7 @@ r4-track-create {
 radio4000-player .Layout .TrackItem {
 	background-color: inherit;
 }
+
 radio4000-player .PlayerControl-group .Btn {
 	min-height: 0;
 }
