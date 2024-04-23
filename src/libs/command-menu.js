@@ -1,5 +1,5 @@
 import {LitElement, html, css} from 'lit'
-import fuzzysort from 'https://cdn.skypack.dev/fuzzysort'
+import fuzzysort from 'https://cdn.jsdelivr.net/npm/fuzzysort/+esm'
 
 // copy pasted from github.com/oskarrough/command-menu
 

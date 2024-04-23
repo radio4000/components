@@ -25,6 +25,7 @@ export default class R4CommandMenu extends LitElement {
 		return html`<command-menu modal .commands=${this.generateCommands()}></command-menu>`
 	}
 
+	/** @arg {string} route */
 	go(route) {
 		page.redirect(route)
 	}
@@ -40,8 +41,8 @@ export default class R4CommandMenu extends LitElement {
 
 		const cmds = []
 		cmds.push({title: 'R4', subtitle: 'Homepage', action: () => go('/')})
+		// cmds.push({title: 'Search radios', action: () => go('/explore')})
 		cmds.push({title: 'Explore', subtitle: 'All radio channels', action: () => go('/explore')})
-		cmds.push({title: 'Search radios', action: () => go('/search')})
 		cmds.push({title: 'Map', subtitle: 'a cool map', action: () => go('/map')})
 
 		// If on a slug (channel) page
@@ -51,7 +52,7 @@ export default class R4CommandMenu extends LitElement {
 				{title: 'Tracks', action: () => go('/tracks')},
 				{title: 'Following', action: () => go('/following')},
 				{title: 'Followers', action: () => go('/followers')},
-				{title: 'Feed', action: () => go('/feed')}
+				// {title: 'Feed', action: () => go('/feed')}
 			)
 		}
 
@@ -62,7 +63,7 @@ export default class R4CommandMenu extends LitElement {
 				cmds.push({title: c.slug, subtitle: c.name, action: () => go('/' + c.slug)})
 				cmds.push(
 					{title: 'Add track', action: () => go('/add')},
-					{title: 'Update', action: () => go('/' + c.slug + '/update')}
+					{title: 'Update radio', action: () => go('/' + c.slug + '/update')}
 				)
 			}
 		}
@@ -72,7 +73,7 @@ export default class R4CommandMenu extends LitElement {
 			cmds.push(
 				{
 					title: 'Settings',
-					subtitle: 'Control your account, appearance and customizations',
+					subtitle: 'Your account, appearance and customizations',
 					action: () => go('/settings'),
 				},
 				{title: 'Sign out', action: () => go('/sign/out')}
@@ -84,8 +85,7 @@ export default class R4CommandMenu extends LitElement {
 			)
 		}
 
-		cmds.push({title: 'About', subtitle: "What's this?", action: () => go('/about')})
-		console.log('generated commands', {config, store, params}, cmds)
+		console.debug('Generated commands for <command-menu>', {config, store, params}, cmds)
 
 		return cmds
 	}
