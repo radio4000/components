@@ -85,7 +85,7 @@ r4-app a:has(r4-avatar) {
 	padding: initial;
 }
 r4-app li {
-	margin-bottom: calc(var(--s) / 3);
+	/* margin-bottom: calc(var(--s) / 3); */
 }
 
 /* Default button */
@@ -117,6 +117,10 @@ r4-app[color-scheme='dark'] button {
 r4-button-play button:active {
 	position: relative;
 	top: 1px;
+}
+r4-app select {
+	border-radius: var(--s-radius);
+	border-color: var(--c-border);
 }
 
 /* Text inputs */
