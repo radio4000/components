@@ -28,6 +28,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		super()
 		this.query = {
 			table: 'channel_tracks',
+			limit: 100,
 		}
 	}
 
@@ -41,13 +42,26 @@ export default class R4PageChannelTracks extends BaseChannel {
 		if (this.channelError) return this.renderNoPage()
 
 		return html`
-			${this.renderTracksMenu()}
-			<r4-query
-				.defaultFilters=${[{operator: 'eq', column: 'slug', value: this.channel?.slug}]}
-				.initialQuery=${this.query}
-				.searchParams=${this.searchParams}
-				@data=${this.handleData}
-			></r4-query>
+			<menu>
+				<li><a href=${this.channelOrigin}>@${this.slug}</a></li>
+				<li><r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play></li>
+				<li>
+					<r4-button-play
+						.tracks=${this.tracks}
+						.channel=${this.channel}
+						.filters=${this.filters}
+						label="Play results"
+					></r4-button-play>
+				</li>
+				<li>
+					<r4-query
+						.defaultFilters=${[{operator: 'eq', column: 'slug', value: this.channel?.slug}]}
+						.initialQuery=${this.query}
+						.searchParams=${this.searchParams}
+						@data=${this.handleData}
+					></r4-query>
+				</li>
+			</menu>
 		`
 	}
 
@@ -73,24 +87,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 				</r4-list>
 			`
 		}
-	}
-
-	renderTracksMenu() {
-		if (!this.tracks) return null
-		return html`
-			<menu>
-				<li><a href=${this.channelOrigin}>@${this.slug}</a></li>
-				<li><r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play></li>
-				<li>
-					<r4-button-play
-						.tracks=${this.tracks}
-						.channel=${this.channel}
-						.filters=${this.filters}
-						label="Play results"
-					></r4-button-play>
-				</li>
-			</menu>
-		`
 	}
 
 	renderNoPage() {

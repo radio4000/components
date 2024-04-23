@@ -16,7 +16,7 @@ export default class R4Layout extends LitElement {
 	constructor() {
 		super()
 		this.uiStates = UI_STATES
-		this.uiState = this.uiStates.Minimize
+		this.uiState = this.uiStates.Dock
 		document.addEventListener('fullscreenchange', this.onFullscreen.bind(this))
 
 		this.topObserver = this.initTopOberserver()

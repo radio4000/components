@@ -2,28 +2,32 @@
 /* Maison Neue regular/italic + bold/italic from Cloudinary */
 @font-face {
 	font-family: 'Maison Neue';
-	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-book_ee98sm.woff2') format('woff2');
+	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-book_ee98sm.woff2')
+		format('woff2');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'Maison Neue';
-	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bookitalic_szjrvl.woff2') format('woff2');
+	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bookitalic_szjrvl.woff2')
+		format('woff2');
 	font-weight: normal;
 	font-style: italic;
 }
 
 @font-face {
 	font-family: 'Maison Neue';
-	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bold_rvmbzr.woff2') format('woff2');
+	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bold_rvmbzr.woff2')
+		format('woff2');
 	font-weight: bold;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'Maison Neue';
-	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bolditalic_awvcg5.woff2') format('woff2');
+	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bolditalic_awvcg5.woff2')
+		format('woff2');
 	font-weight: bold;
 	font-style: italic;
 }
@@ -100,7 +104,7 @@ r4-app li {
 /* Default button */
 r4-app button {
 	display: inline-block;
-	font-size: calc(16/18*1rem);
+	font-size: calc(16 / 18 * 1rem);
 	font-weight: bold;
 	border: 1px solid var(--c-border);
 	border-radius: var(--s-radius);
@@ -136,13 +140,12 @@ r4-app select {
 
 /* Text inputs */
 r4-app {
-
-	[type=email],
-	[type=password],
-	[type=search],
-	[type=tel],
-	[type=text],
-	[type=url],
+	[type='email'],
+	[type='password'],
+	[type='search'],
+	[type='tel'],
+	[type='text'],
+	[type='url'],
 	textarea {
 		background-color: var(--c-bg-input);
 		border: 1px solid var(--c-border);
@@ -162,11 +165,24 @@ r4-layout::part(playback-summary) {
 }
 
 /* pages */
+r4-page-header:has(r4-channel-card) {
+	display: flex;
+	flex-direction: column;
+}
+@media (min-width: 40rem) {
+	r4-page-header {
+		position: sticky;
+		top: 0;
+		z-index: 1;
+		background-color: var(--c-bg);
+	}
+}
 r4-page-header r4-channel-card {
 	margin: calc(var(--s) / 2) 0;
 	flex-grow: 1;
 	flex-shrink: 0;
 	max-width: 50rem;
+	order: 1;
 }
 
 r4-page-header h1 {
@@ -190,8 +206,6 @@ r4-page-add r4-page-header menu {
 }
 
 /* Nav menus */
-r4-app menu {}
-
 r4-app menu li {
 	margin: calc(var(--s) / 4);
 }
@@ -275,14 +289,18 @@ r4-list:has(r4-track) {
 /* track */
 r4-track {
 	padding: calc(var(--s) / 2);
-	r4-app[color-scheme="light"] & {
+	r4-app[color-scheme='light'] & {
 		background-color: var(--c-bg2);
 	}
 }
+
 @media (max-width: 600px) {
 	r4-track-body {
-		font-size: calc(15/16*1rem);
+		font-size: calc(15 / 16 * 1rem);
 	}
+}
+r4-track-body {
+	font-size: calc(16 / 18 * 1rem);
 }
 r4-track a {
 	background-color: transparent;
@@ -299,7 +317,7 @@ r4-track-title a,
 }
 
 r4-track-description {
-	font-size: calc(16/16*1em);
+	font-size: calc(16 / 16 * 1em);
 	display: block;
 	word-break: break-word;
 	color: var(--c-fg2);
@@ -317,24 +335,22 @@ r4-track[playing] r4-button-play button {
 	border-color: var(--c-purple);
 }
 
-/* search query */
-r4-query menu,
-r4-query details {
-	padding: calc(var(--s) / 3);
-}
-
-r4-query menu li {
-	margin: 0;
-}
-
 /* Puts filters and search in one row */
-r4-page-channel-tracks r4-page-header r4-query {
+r4-query {
 	display: flex;
-	align-items: flex-start;
+	flex-wrap: wrap;
+	align-items: center;
 	justify-content: space-between;
-
-	>menu {
+	menu,
+	details {
+		padding: calc(var(--s) / 3);
+	}
+	menu {
 		order: 2;
+		justify-self: flex-start;
+		li {
+			margin: 0;
+		}
 	}
 
 	details {
@@ -357,7 +373,7 @@ r4-track-create {
 	label {
 		display: block;
 		font-weight: bold;
-		font-size: calc(16/18*1rem);
+		font-size: calc(16 / 18 * 1rem);
 	}
 
 	input[type='text'],
