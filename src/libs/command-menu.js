@@ -1,5 +1,5 @@
 import {LitElement, html, css} from 'lit'
-import fuzzysort from 'https://cdn.jsdelivr.net/npm/fuzzysort/+esm'
+import fuzzysort from 'fuzzysort'
 
 // copy pasted from github.com/oskarrough/command-menu
 
@@ -181,7 +181,6 @@ class CommandMenu extends LitElement {
 	}
 
 	onListKeydown(event) {
-		console.log('keydown', event.key)
 		if (typeof this['on' + event.key] === 'function') {
 			event.preventDefault()
 			this['on' + event.key]()

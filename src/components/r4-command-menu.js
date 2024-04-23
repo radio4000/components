@@ -40,7 +40,7 @@ export default class R4CommandMenu extends LitElement {
 		const go = this.go
 
 		const cmds = []
-		cmds.push({title: 'R4', subtitle: 'Homepage', action: () => go('/')})
+		cmds.push({title: 'R4 Home', action: () => go('/')})
 		// cmds.push({title: 'Search radios', action: () => go('/explore')})
 		cmds.push({title: 'Explore', subtitle: 'All radio channels', action: () => go('/explore')})
 		cmds.push({title: 'Map', subtitle: 'a cool map', action: () => go('/map')})
