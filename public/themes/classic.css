@@ -393,3 +393,13 @@ radio4000-player .Layout .TrackItem {
 radio4000-player .PlayerControl-group .Btn {
 	min-height: 0;
 }
+
+/* Add "Listen" to the play button */
+r4-page-channel r4-page-header r4-button-play button {
+	font-size: 2rem;
+	&::after {
+		content: ' Listen';
+		display: inline;
+	}
+}
+
