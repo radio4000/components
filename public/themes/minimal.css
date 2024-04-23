@@ -1,3 +1,20 @@
 /* Nothing here. This is like not choosing a theme. */
 
 /* Like all other themes, it does build on top of index.css from this repo. */
+
+r4-app {
+	--c-fg: var(--c-light);
+	--c-bg: var(--c-dark);
+}
+
+r4-app[color-scheme='os'],
+r4-app[color-scheme='light'] {
+	--c-light: white;
+	--c-dark: black;
+}
+
+r4-app[color-scheme='dark'] {
+	--c-light: black;
+	--c-dark: white;
+}
+
