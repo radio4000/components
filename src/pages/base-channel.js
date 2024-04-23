@@ -193,6 +193,8 @@ export default class BaseChannel extends R4Page {
 	}
 
 	renderTrackItem(track) {
+		// Playing status is disabled because it makes things VERY slow whenever it updates
+		// ?playing=${this.config.playingTrack?.id === track.id}
 		return html`
 			<r4-list-item>
 				<r4-track
@@ -202,7 +204,6 @@ export default class BaseChannel extends R4Page {
 					.config=${this.config}
 					href=${this.config.href}
 					origin=${this.tracksOrigin}
-					?playing=${this.config.playingTrack?.id === track.id}
 				></r4-track>
 			</r4-list-item>
 		`
