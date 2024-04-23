@@ -43,7 +43,7 @@ r4-app {
 	--c-light--accent: var(--c-purple);
 	--c-dark--accent: #9c8fff;
 	--c-link: var(--c-purple);
-	--c-border: rgba(115, 115, 115, 0.3);
+	--c-border: rgba(115, 115, 115, 0.4);
 
 	/* new vars */
 	--c-bg-button: hsl(0, 0%, 98%);
@@ -105,6 +105,10 @@ r4-app button {
 	color: var(--c-fg);
 	text-align: center;
 	text-decoration: none;
+
+	&:hover {
+		background-color: color-mix(in oklch, var(--c-bg-button) 50%, white 80%);
+	}
 }
 r4-app[color-scheme='dark'] button {
 	background-color: hsl(0deg 0% 23.14%);
@@ -131,7 +135,6 @@ r4-app {
 	    font-size: 1rem;
 	}
 }
-
 
 r4-layout::part(playback) {
 	position: sticky;
