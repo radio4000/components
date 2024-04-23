@@ -240,6 +240,12 @@ r4-layout::part(playback-status) {
 	padding: calc(var(--s) / 3);
 	opacity: 0.3;
 }
+r4-layout::part(playback-status)::before {
+	content: attr(icon);
+}
+r4-layout[is-playing]::part(playback-status)::before {
+	color: var(--c-purple);
+}
 /* hide the player summary when fullscreen */
 r4-layout[ui-state='fullscreen']::part(playback-summary) {
 	display: none;
