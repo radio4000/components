@@ -236,6 +236,18 @@ r4-layout::part(playback-status)::before {
 }
 r4-layout[is-playing]::part(playback-status)::before {
 	color: var(--c-purple);
+	r4-app[color-scheme='dark'] & {
+		color: hotpink;
+	}
+}
+r4-app[color-scheme='dark'] {
+	.TrackItem.active,
+	.TrackItem:hover {
+		background-color: var(--c-bg2);
+	}
+}
+r4-app[color-scheme='dark'] r4-layout[is-playing]::part(playback-status)::before {
+	color: var(--c-fg);
 }
 /* hide the player summary when fullscreen */
 r4-layout[ui-state='fullscreen']::part(playback-summary) {
@@ -385,15 +397,18 @@ radio4000-player .PlayerControl {
 }
 /* Quick dark-mode for the player */
 [color-scheme='dark'] radio4000-player,
+radio4000-player > .Layout[class],
 r4-app[color-scheme] radio4000-player .Header,
 radio4000-player .PlayerControl-group .Btn {
 	background: var(--c-bg);
 	color: var(--c-fg);
+	border-color: var(--c-border);
 }
 [color-scheme='dark'] radio4000-player .Layout .Header,
 [color-scheme='dark'] radio4000-player .Layout .PlayerControl,
 [color-scheme='dark'] radio4000-player .Layout .PlayerControl .Btn {
 	background: transparent;
+	border-color: var(--c-border);
 }
 [color-scheme='dark'] radio4000-player .Layout .TrackItem {
 	color: inherit;

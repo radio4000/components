@@ -71,6 +71,7 @@ r4-app[color-scheme='dark'] {
 	--c-fg2: color-mix(in oklch, var(--c-fg) 100%, black 50%);
 	--c-bg: var(--c-dark);
 	--c-bg2: var(--c-border);
+	--c-bg2: rgb(0 0 0 / 40%);
 	--c-bg-button: hsl(0deg 0% 23%);
 	--c-bg-input: hsl(0deg 0% 2%);
 	--c-shadow-input: none;
