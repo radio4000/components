@@ -29,6 +29,7 @@ export default class R4PageSettings extends R4Page {
 			<p>Application configuration and user settings.</p>
 		`
 	}
+
 	renderMain() {
 		if (this.store.user) {
 			return [this.renderUserChannels(), this.renderAppearance(), this.renderUser()]
@@ -36,13 +37,25 @@ export default class R4PageSettings extends R4Page {
 			return [this.renderNoUser()]
 		}
 	}
-	renderFooter() {
-		return this.renderAbout()
+
+	renderNoUser() {
+		return html`
+			<section>
+				<h2>Account</h2>
+				<p>Your are signed out.</p>
+				<ul>
+					<li><a href="${this.config.href}/sign/in">Sign in</a> an existing account</li>
+					<li><a href="${this.config.href}/sign/up">Sign up</a> to register a new account</li>
+					<li><a href="${this.config.hrefMigrate}">Migrate </a> from version 1 to a version 2 radio channel</li>
+				</ul>
+			</section>
+		`
 	}
+
 	renderUserChannels() {
 		return html`
 			<section>
-				<h2>Channels</h2>
+				<h2>Radio channel</h2>
 				<ul>
 					${this.store?.userChannels.map(
 						(x) =>
@@ -61,23 +74,27 @@ export default class R4PageSettings extends R4Page {
 			</section>
 		`
 	}
+
+	renderAppearance() {
+		return html`
+			<section>
+				<r4-user-account .account=${this.store.userAccount}></r4-user-account>
+			</section>
+		`
+	}
+
 	renderUser() {
 		return html`
 			<section>
-				<h2>Email</h2>
-				<p>
-					You are signed in as <em>${this.store?.user?.email}</em> (<a href="${this.config.href}/sign/out">sign out</a
-					>).
-				</p>
+				<h2>Account</h2>
+				<p>You are signed in as <em>${this.store?.user?.email}</em> (<a href="${this.config.href}/sign/out">sign out</a
+					>).</p>
 				${this.store.user.new_email ? this.renderNewEmail() : null}
-				<r4-email-update email=${this.store.user.email} @submit=${this.changeEmail}></r4-email-update>
-			</section>
-			<section>
-				<h2>Password</h2>
-				<r4-password-update @submit=${this.changePassword}></r4-password-update>
-			</section>
-			<section>
-				<h2>Account management</h2>
+				<details>
+					<summary>Change email or password</summary>
+					<r4-email-update email=${this.store.user.email} @submit=${this.changeEmail}></r4-email-update>
+					<r4-password-update @submit=${this.changePassword}></r4-password-update>
+				</details>
 				<r4-user-delete
 					.user=${this.store.user}
 					.userChannels=${this.store.userChannels}
@@ -86,26 +103,7 @@ export default class R4PageSettings extends R4Page {
 			</section>
 		`
 	}
-	renderNoUser() {
-		return html`
-			<section>
-				<h2>Account</h2>
-				<p>Your are signed out.</p>
-				<ul>
-					<li><a href="${this.config.href}/sign/in">Sign in</a> an existing account</li>
-					<li><a href="${this.config.href}/sign/up">Sign up</a> to register a new account</li>
-					<li><a href="${this.config.hrefMigrate}">Migrate </a> from version 1 to a version 2 radio channel</li>
-				</ul>
-			</section>
-		`
-	}
-	renderAppearance() {
-		return html`
-			<section>
-				<r4-user-account .account=${this.store.userAccount}></r4-user-account>
-			</section>
-		`
-	}
+
 	renderNewEmail() {
 		return html`
 			<mark>
@@ -133,6 +131,10 @@ export default class R4PageSettings extends R4Page {
 				</ul>
 			</section>
 		`
+	}
+
+	renderFooter() {
+		return this.renderAbout()
 	}
 
 	createRenderRoot() {

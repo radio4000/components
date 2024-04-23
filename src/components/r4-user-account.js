@@ -32,14 +32,9 @@ export default class R4UserAccount extends LitElement {
 	}
 	render() {
 		return html`
-			<section>
-				<h3>Theme</h3>
-				${this.account ? this.renderThemes() : 'Sign-in to use themes'}
-			</section>
-			<section>
-				<h3>Color Scheme</h3>
-				${this.account ? this.renderColorScheme() : 'Sign-in to use color schemes'}
-			</section>
+			<h2>Appearance</h2>
+			${this.account ? this.renderThemes() : 'Sign-in to use themes'}
+			${this.account ? this.renderColorSchemes() : 'Sign-in to use color schemes'}
 		`
 	}
 	renderThemes() {
@@ -53,10 +48,10 @@ export default class R4UserAccount extends LitElement {
 	renderThemeOption(theme) {
 		return html` <option value=${theme} ?selected=${this.currentTheme === theme}>${theme}</option> `
 	}
-	renderColorScheme() {
+	renderColorSchemes() {
 		return COLOR_SCHEMES.map((scheme, index) => {
 			// reset the color scheme value for "os" scheme
-			const value = index === 0 ? '' : scheme
+			// const value = index === 0 ? '' : scheme
 			const disabled = this.account.color_scheme === scheme
 			return html` <button value=${scheme} @click="${this.onColorScheme}" ?disabled=${disabled}>${scheme}</button> `
 		})
