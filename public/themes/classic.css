@@ -308,6 +308,8 @@ r4-track-create {
 
 	label {
 		display: block;
+		font-weight: bold;
+		font-size: calc(16/18*1rem);
 	}
 	input[type='text'],
 	input[type='url'],
