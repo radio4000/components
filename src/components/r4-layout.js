@@ -18,8 +18,6 @@ export default class R4Layout extends LitElement {
 		this.uiStates = UI_STATES
 		this.uiState = this.uiStates.Dock
 		document.addEventListener('fullscreenchange', this.onFullscreen.bind(this))
-
-		this.topObserver = this.initTopOberserver()
 	}
 
 	disconnectedCallback() {
@@ -29,24 +27,6 @@ export default class R4Layout extends LitElement {
 	willUpdate(changedProps) {
 		changedProps.has('isPlaying') && this.onIsPlaying()
 		changedProps.has('uiState') && this.onUiState()
-	}
-
-	initTopOberserver() {
-		/* check if the player at the top of the viewport/screen */
-		const observer = new IntersectionObserver(
-			([e]) => {
-				if (e.intersectionRatio === 1) {
-					this.isTop = true
-				} else {
-					this.isTop = false
-				}
-			},
-			{
-				threshold: [1],
-			},
-		)
-		observer.observe(this)
-		return observer
 	}
 
 	onIsPlaying() {
