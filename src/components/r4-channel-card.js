@@ -36,29 +36,19 @@ export default class R4ChannelCard extends LitElement {
 
 	render() {
 		if (!this.channel) {
-			return html`Loading...`
+			return html`<r4-loading></r4-loading>`
 		}
 		return html`
 			<r4-channel-card-inner>
-			<a href="${this.url}">
-				${this.renderAvatar()}
-			</a>
-			<r4-button-play .channel=${this.channel}></r4-button-play>
-			<r4-channel-card-body>
-				<a href="${this.url}">
-					<r4-channel-name>${this.channel.name}</r4-channel-name>
-					<r4-channel-slug>@${this.channel.slug}</r4-channel-slug>
-				</a>
-				${this.renderDescription()}
-				${this.renderUrl()}
-			</r4-channel-card-body>
-			<r4-actions hidden>
-				<menu>
-					<li><a href="${this.channelOrigin + '/feed'}">Feed</a></li>
-					<li><a href="${this.channelOrigin + '/following'}">Following</a></li>
-					<li><button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button></li>
-				</menu>
-			</r4-actions>
+				<a href="${this.url}"> ${this.renderAvatar()} </a>
+				<r4-button-play .channel=${this.channel}></r4-button-play>
+				<r4-channel-card-body>
+					<a href="${this.url}">
+						<r4-channel-name>${this.channel.name}</r4-channel-name>
+						<r4-channel-slug>@${this.channel.slug}</r4-channel-slug>
+					</a>
+					${this.renderDescription()} ${this.renderUrl()}
+				</r4-channel-card-body>
 			</r4-channel-card-inner>
 		`
 	}

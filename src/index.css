@@ -199,6 +199,7 @@ r4-layout::part(playback-details) {
 	flex-direction: column;
 	height: 100%;
 	align-items: flex-end;
+	align-self: flex-end;
 }
 r4-layout::part(playback-summary) {
 	cursor: pointer;
@@ -311,17 +312,6 @@ r4-layout[ui-state='dock']::part(playback) {
 		height: calc(100vh - calc(var(--s) * 1.5));
 	}
 }
-
-/* keep panel over the playback */
-r4-layout[ui-state='minimize']::part(panel),
-r4-layout[ui-state='dock']::part(panel) {
-	z-index: 1;
-	/* background-color: var(--c-bg); */
-}
-
-/*
-	can start targetting "more specific customization"
-*/
 
 /* make the panel min height, the viewport, so "route change" don't make the UI jump */
 /* r4-layout [slot='menu'] {} */
@@ -566,6 +556,9 @@ r4-track-tags a::before {
 r4-actions details {
 	position: relative;
 }
+r4-actions details[open] {
+	background-color: var(--c-bg-overlay);
+}
 /* Hide dropdown when not open */
 r4-actions details:not([open]) menu {
 	display: none;
@@ -583,7 +576,7 @@ r4-actions details menu {
 	align-items: stretch;
 	list-style: none;
 	padding: 0;
-	background-color: var(--bg-overlay, rgba(255, 255, 255, 0.9));
+	background-color: inherit;
 	border: 1px solid var(--c-border, rgb(216, 216, 216));
 	border-radius: var(--s-radius);
 	box-shadow: var(--c-shadow-modal);
