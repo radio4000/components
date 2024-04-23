@@ -68,10 +68,9 @@ export default class R4Router extends LitElement {
 
 	// Called by page.js when a route is matched.
 	renderRoute(route, ctx) {
-		const {page} = route
 		this.params = ctx.params
 		this.searchParams = ctx.searchParams
-		this.componentName = `r4-page-${page}`
+		this.componentName = `r4-page-${route.page}`
 		// Schedules a new render.
 		this.requestUpdate()
 	}

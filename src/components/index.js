@@ -2,10 +2,10 @@
  * Here we import (and re-export) all components, and register all custom elements.
  * except for R4Components, which is only used for the demo page.
  */
-
 import R4Actions from './r4-actions.js'
 import R4App from './r4-app.js'
 import R4AppMenu from './r4-app-menu.js'
+import R4CommandMenu from './r4-command-menu.js'
 import R4Avatar from './r4-avatar.js'
 import R4AvatarUpdate from './r4-avatar-update.js'
 import R4AvatarUpload from './r4-avatar-upload.js'
@@ -53,6 +53,7 @@ import R4Icon from './r4-icon.js'
 
 customElements.define('r4-actions', R4Actions)
 customElements.define('r4-app', R4App)
+customElements.define('r4-command-menu', R4CommandMenu)
 customElements.define('r4-app-menu', R4AppMenu)
 customElements.define('r4-avatar', R4Avatar)
 customElements.define('r4-avatar-update', R4AvatarUpdate)
@@ -104,6 +105,7 @@ export default {
 	R4Actions,
 	R4App,
 	R4AppMenu,
+	R4CommandMenu,
 	R4Avatar,
 	R4AvatarUpdate,
 	R4AvatarUpload,
