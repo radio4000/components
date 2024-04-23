@@ -36,6 +36,7 @@ export default class R4ChannelShare extends HTMLElement {
 	get slug() {
 		return this.getAttribute('slug')
 	}
+
 	get trackId() {
 		return this.getAttribute('track-id')
 	}
@@ -59,6 +60,7 @@ export default class R4ChannelShare extends HTMLElement {
 		}
 		return url
 	}
+
 	get trackOrigin() {
 		return `${this.origin}/${this.trackId}`
 	}
@@ -83,11 +85,11 @@ export default class R4ChannelShare extends HTMLElement {
 		return `<a href="${this.origin}"><img width="30" src="${this.iconOrigin}" title="${this.slug}@r4" alt="${this.slug}@r4"></a>`
 	}
 
-	attributeChangedCallback(attrName) {
-		if (this.constructor.observedAttributes.indexOf(attrName) > -1) {
-			/* this.render() */
-		}
-	}
+	// attributeChangedCallback(attrName) {
+	// 	if (this.constructor.observedAttributes.indexOf(attrName) > -1) {
+	// 		/* this.render() */
+	// 	}
+	// }
 
 	async connectedCallback() {
 		this.render()
@@ -121,6 +123,7 @@ export default class R4ChannelShare extends HTMLElement {
 		}
 		return $sharer
 	}
+
 	onInputClick({target}) {
 		target && target.select()
 	}

@@ -348,13 +348,10 @@ r4-query {
 	menu {
 		order: 2;
 		justify-self: flex-start;
-		li {
+		li,
+		fieldset {
 			margin: 0;
 		}
-	}
-
-	details {
-		padding-top: 1.3rem;
 	}
 }
 
