@@ -73,11 +73,6 @@ r4-app img {
 r4-app a {
 	color: var(--c-link);
 }
-
-r4-app h1 {
-	color: var(--c-headlines);
-}
-
 r4-app section {
 	margin-top: var(--s);
 	margin-bottom: var(--s);
@@ -591,8 +586,7 @@ r4-actions details menu {
 	background-color: var(--bg-overlay, rgba(255, 255, 255, 0.9));
 	border: 1px solid var(--c-border, rgb(216, 216, 216));
 	border-radius: var(--s-radius);
-	box-shadow: var(--box-shadow, rgba(0, 0, 0, 0.1) 0px 3px 12px);
-	/* box-shadow: rgb(48, 54, 61) 0px 0px 0px 1px, rgba(1, 4, 9, 0.85) 0px 16px 32px; */
+	box-shadow: var(--c-shadow-modal);
 	position: absolute;
 	top: 100%;
 	right: 1rem;

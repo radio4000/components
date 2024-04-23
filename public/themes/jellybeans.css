@@ -68,6 +68,7 @@ r4-app {
 	/* hmm */
 	/* background-image: linear-gradient(hsla(0, 0%, 60%, 0.1) 0.15%, transparent 5%); */
 	/* background-size: 100% var(--s); */
+	--c-shadow-button: rgba(0, 0, 0, 0.1) 0px 2px 4px;
 }
 
 r4-app[color-scheme='os'],
@@ -78,7 +79,7 @@ r4-app[color-scheme='light'] {
 	--c-fg: var(--c-gray9);
 	--c-link: var(--c-blue6);
 	--c-border: var(--c-gray3);
-	--c-headlines: var(--c-red6);
+	--c-accent: var(--c-red6);
 }
 
 r4-app[color-scheme='dark'] {
@@ -88,11 +89,14 @@ r4-app[color-scheme='dark'] {
 	--c-fg: var(--c-gray1);
 	--c-link: var(--c-blue4);
 	--c-border: var(--c-gray7);
-	--c-headlines: var(--c-red5);
+	--c-accent: var(--c-red5);
 }
 
 /* Different defaults */
 r4-app {
+	h1 {
+		color: var(--c-accent);
+	}
 	h1,
 	h2,
 	h3,
@@ -166,7 +170,7 @@ r4-app button {
 	font-size: 1rem;
 	background: var(--c-bg3);
 	border: 1px solid var(--c-gray6);
-	box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+	box-shadow: var(--c-shadow-button);
 }
 r4-app button:not(disabled):hover,
 r4-app select:not(disabled):hover {
