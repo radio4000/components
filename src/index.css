@@ -197,7 +197,6 @@ r4-layout::part(playback-details) {
 	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
-	height: 100%;
 	align-items: flex-end;
 }
 r4-layout::part(playback-summary) {
@@ -228,7 +227,7 @@ r4-layout::part(playback-status) {
 	display: flex;
 	flex-grow: 1;
 	align-self: center;
-	padding: calc(var(--s) / 3);
+	padding: calc(var(--s) / 4);
 	opacity: 0.3;
 }
 r4-layout::part(playback-status)::before {
@@ -315,11 +314,19 @@ r4-layout[ui-state='dock']::part(playback) {
 		bottom: auto;
 		max-height: 100vh;
 	}
+	r4-layout[ui-state='dock']::part(playback-summary) {
+		position: absolute;
+		top: 0;
+		right: 0;
+		z-index: 1;
+		border-radius: 0.3rem;
+		border: 1px solid var(--c-border);
+	}
 	r4-layout[is-playing][ui-state='dock'] r4-player {
 		min-width: 30vw;
 	}
 	r4-layout [slot='player'] {
-		height: calc(100vh - calc(var(--s) * 1.5));
+		height: 100%;
 	}
 }
 
