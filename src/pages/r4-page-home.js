@@ -50,6 +50,7 @@ export default class R4PageHome extends R4Page {
 	renderBetaNote() {
 		return html`
 			<section>
+				<r4-favicon></r4-favicon>
 				<dialog open inline>
 					<p>Welcome to the new <r4-title></r4-title>, version 2 (<strong>v2</strong>).</p>
 					<p>
