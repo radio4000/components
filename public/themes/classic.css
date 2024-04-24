@@ -99,6 +99,10 @@ r4-app a {
 		color: var(--c-dark--accent);
 	}
 }
+r4-app a:hover,
+r4-app a:active {
+	text-decoration: underline;
+}
 
 r4-app a:has(r4-avatar) {
 	background: none;
@@ -187,15 +191,12 @@ r4-page-header {
 	align-items: center;
 	& h1 {
 		margin: 0;
-		margin-right: calc(var(--s) / 2);
-		/* so it aligns well with other menu elements */
-		line-height: 1;
+		& + * {
+			margin-left: var(--s);
+		}
 	}
 	& menu {
-		align-items: center;
-		& li {
-			margin: calc(var(--s) / 4);
-		}
+		align-items: stretch;
 	}
 	& r4-channel-card {
 		margin: calc(var(--s) / 2) 0;
@@ -206,12 +207,53 @@ r4-page-header {
 	}
 }
 
-/* Differentiate channels and track lists by using a grid */
+/* Main menu */
+r4-app-menu {
+	/* so it aligns left */
+	display: flex;
+}
+
+/* Nav menus */
+r4-app menu {
+	border: 1px solid var(--c-border);
+	margin: calc(var(--s) / 4);
+	border-radius: var(--s-radius);
+}
+r4-app menu li {
+	margin: 0;
+	align-items: center;
+}
+r4-app menu a {
+	padding: calc(var(--s) / 2);
+	text-decoration: none;
+	background: none;
+	display: flex;
+	align-items: center;
+	height: 100%;
+}
+r4-app menu h1 a {
+	/* large enough already */
+	padding-top: 0;
+	padding-bottom: 0;
+}
+r4-app menu a[aria-current] {
+	background-color: var(--c-bg2);
+}
+r4-app-menu a {
+	background: none;
+}
+
+/* pages */
 r4-page-explore r4-list:has(r4-channel-card) {
+	/* Differentiate channels and track lists by using a grid */
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
 	gap: var(--s);
 	align-items: stretch;
+}
+r4-page-channel-track r4-track a {
+	/* we're on this tracck's page */
+	text-decoration: underline;
 }
 
 r4-page-add r4-page-header {
@@ -221,40 +263,6 @@ r4-page-add r4-page-header {
 r4-page-add r4-page-header menu {
 	display: none;
 }
-
-/* Nav menus */
-r4-app menu li {
-	margin: calc(var(--s) / 4);
-}
-r4-app menu a {
-	padding: calc(var(--s) / 4);
-	text-decoration: none;
-	background: none;
-}
-r4-app menu a[aria-current] {
-	text-decoration: underline;
-}
-
-/* Main menu */
-r4-app-menu {
-	display: inline-block;
-	border: 1px solid var(--c-border);
-	margin: calc(var(--s) / 4);
-	border-radius: var(--s-radius);
-}
-r4-app-menu menu li {
-	margin: 0;
-}
-r4-app-menu a {
-	background: none;
-}
-r4-app-menu a[aria-current] {
-	color: var(--c-fg);
-	background-color: var(--c-bg2);
-	text-decoration: none;
-}
-
-/* pages */
 r4-page-home {
 	justify-content: center;
 	align-items: center;
@@ -267,7 +275,7 @@ r4-page-home {
 	}
 }
 r4-page-channel {
-	r4-list:has(r4-track) {
+	& r4-list:has(r4-track) {
 		max-width: 50rem;
 	}
 }
@@ -379,7 +387,8 @@ r4-supabase-filter-search {
 		margin: 0;
 	}
 }
-r4-supabase-modifiers {
+r4-supabase-modifiers,
+r4-supabase-filters {
 	& form {
 		display: flex;
 		flex-wrap: wrap;
@@ -391,8 +400,8 @@ r4-supabase-modifiers {
 	}
 	& legend {
 		position: absolute;
-		top: calc(var(--s) / 8 * -1);
-		left: calc(var(--s) / 4 * -1);
+		top: 0;
+		left: 0;
 		font-size: 0.7rem;
 		background-color: var(--c-bg);
 		border: 1px solid var(--c-border);
