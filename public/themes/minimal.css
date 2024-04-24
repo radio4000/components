@@ -3,18 +3,22 @@
 /* Like all other themes, it does build on top of index.css from this repo. */
 
 r4-app {
-	--c-fg: var(--c-light);
-	--c-bg: var(--c-dark);
+	--c-dark: black;
+	--c-light: white;
+	--s: 0.5rem;
 }
 
 r4-app[color-scheme='os'],
 r4-app[color-scheme='light'] {
-	--c-light: white;
-	--c-dark: black;
+	--c-bg: var(--c-light);
+	--c-fg: var(--c-dark);
 }
 
 r4-app[color-scheme='dark'] {
-	--c-light: black;
-	--c-dark: white;
+	--c-bg: var(--c-dark);
+	--c-fg: var(--c-light);
 }
 
+r4-app a {
+	padding: calc(var(--s) / 2);
+}

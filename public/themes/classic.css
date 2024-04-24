@@ -164,9 +164,19 @@ r4-app h3 {
 	margin-top: 0;
 }
 
+r4-layout::part(menu) {
+	order: 1;
+	z-index: 2;
+	position: sticky;
+	bottom: 0;
+	overflow-x: auto;
+}
 r4-layout::part(panel) {
 	background-color: var(--c-bg);
 	/* z-index: 1; */
+}
+r4-layout [slot='main'] {
+	z-index: 1;
 }
 
 r4-layout::part(playback-summary) {
@@ -181,10 +191,10 @@ r4-page-main section h2 {
 	align-self: flex-start;
 	background-color: var(--c-bg);
 }
-r4-page-main {
-	margin-left: var(--s);
-	margin-right: var(--s);
-	z-index: 1;
+r4-page-main,
+r4-page-footer {
+	padding-left: var(--s);
+	padding-right: var(--s);
 }
 r4-page-main,
 r4-page-footer,
@@ -222,6 +232,7 @@ r4-app-menu {
 	/* so it aligns left */
 	display: flex;
 }
+
 r4-app-menu menu {
 	background-color: var(--c-bg);
 }

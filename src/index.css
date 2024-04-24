@@ -45,9 +45,13 @@ r4-app ol {
 	margin: 0;
 	padding: 0 0 var(--s) 2rem;
 }
+r4-app-menu {
+	background-color: var(--c-bg);
+}
 r4-app-menu li {
 	display: inline-flex;
 }
+
 r4-app menu {
 	margin: 0;
 	padding: 0;
@@ -151,14 +155,6 @@ r4-layout::part(main) {
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
-}
-
-r4-layout::part(menu) {
-	order: 1;
-	z-index: 1;
-	position: sticky;
-	bottom: 0;
-	overflow-x: auto;
 }
 
 r4-router > * {
@@ -303,12 +299,13 @@ r4-layout::part(panel) {
 r4-layout::part(playback) {
 	position: sticky;
 	top: 0;
+	z-index: 2;
 }
 r4-layout::part(menu) {
 	z-index: 2;
 }
 r4-layout [slot='main'] {
-	z-index: 1;
+	z-index: 0;
 }
 r4-layout header[slot='menu'] {
 	position: sticky;
@@ -375,7 +372,7 @@ r4-map .ol-viewport {
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
-	margin: 0;
+	padding: 0;
 }
 r4-map .ol-viewport {
 	min-height: 30vh;

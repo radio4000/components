@@ -10,11 +10,6 @@ r4-app {
 
 /* color schemes */
 r4-app[color-scheme='os'] {
-	--c-bg: initial;
-	--c-fg: initial;
-	--c-link: initial;
-	--c-menu-bg: initial;
-	--c-form-bg: initial;
 }
 r4-app[color-scheme='dark'] {
 	color-scheme: dark;
@@ -33,11 +28,23 @@ r4-app[color-scheme='light'] {
 	--c-form-bg: var(--c-intense);
 }
 
-/* app */
+/* app scheme theming */
 r4-app:not([color-scheme='os']) a {
 	text-decoration: none;
 	color: var(--c-link);
 }
+
+/* app layout */
+r4-page-header,
+r4-page-main section h2 {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	align-self: flex-start;
+	background-color: var(--c-bg);
+}
+
+/* app components */
 r4-app h1,
 r4-app h2,
 r4-app h3 {
@@ -53,7 +60,7 @@ r4-app menu a {
 	padding: calc(var(--s) / 2);
 }
 r4-app a[aria-current='page'] {
-	background-color: transparent;
+	background-color: var(--c-bg);
 }
 r4-app[color-scheme='os'] a[aria-current='page'] {
 	text-decoration: none;
@@ -72,7 +79,6 @@ r4-app summary {
 r4-app form {
 	max-width: calc(var(--s) * 100);
 	padding: var(--s);
-	background-color: var(--c-form-bg);
 	border-radius: calc(var(--s) / 3);
 }
 r4-app summary,
@@ -82,6 +88,7 @@ r4-app form label {
 }
 r4-app fieldset {
 	display: flex;
+	margin: calc(var(--s) / 3);
 }
 r4-app input,
 r4-app textarea {
@@ -92,38 +99,12 @@ r4-app textarea {
 	resize: vertical;
 }
 
-/* pages */
-r4-page-add r4-page-header {
-	order: 1;
-}
-r4-page-add r4-page-header menu {
-	display: none;
-}
-
 /* components */
-r4-page-header:not(:empty) {
-	padding: var(--s);
-}
 r4-page-header h1 {
 	margin-bottom: 0;
 }
 r4-list-item + r4-list-item {
 	margin-top: var(--s);
-}
-r4-track-title::before,
-r4-track-description::before,
-r4-track-discogs-url::before,
-r4-track-mentions menu::before,
-r4-track-tags menu::before,
-r4-channel-slug::before,
-r4-channel-description::before,
-r4-channel-url::before {
-	content: '—';
-	display: inline;
-	float: left;
-	padding-left: var(--s);
-	padding-right: var(--s);
-	color: var(--c-fg);
 }
 r4-track-mentions a::before,
 r4-track-tags a::before {
@@ -132,14 +113,15 @@ r4-track-tags a::before {
 r4-query {
 	display: flex;
 	flex-wrap: wrap;
-	align-items: center;
-	padding: calc(var(--s) / 2);
 }
 r4-button-play {
 	margin: calc(var(--s) / 2);
 }
 
-r4-app r4-layout::part(controls-button) {
+r4-layout::part(controls-button) {
 	padding: var(--s);
 	margin-left: calc(var(--s) / 2);
+}
+r4-layout::part(playback-summary) {
+	background-color: var(--c-menu-bg);
 }
