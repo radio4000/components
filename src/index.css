@@ -393,8 +393,7 @@ r4-page-channel-tracks r4-supabase-select {
 }
 
 /* Hide query ui on /:slug page */
-r4-page-channel menu:has(r4-supabase-filter-search),
-r4-page-channel details:has(r4-supabase-query) {
+r4-page-channel r4-query {
 	display: none;
 }
 
