@@ -193,7 +193,7 @@ r4-page-channel-tracks r4-page-header {
 }
 
 r4-page-main {
-	height: 100%;
+	flex-grow: 1;
 }
 
 /* same size header */
@@ -390,8 +390,7 @@ r4-app summary {
 	padding: calc(var(--s) / 4);
 }
 r4-app form slot[name='submit'] fieldset:last-of-type {
-	justify-content: flex-end;
-	margin: calc(var(--s) / 2);
+	margin: var(--s);
 }
 
 /* Vertical track form layout */
@@ -458,14 +457,6 @@ r4-page-explore r4-list:has(r4-channel-card) {
 r4-page-channel-track r4-track a {
 	/* we're on this tracck's page */
 	text-decoration: underline;
-}
-
-r4-page-add r4-page-header {
-	order: 1;
-}
-
-r4-page-add r4-page-header menu {
-	display: none;
 }
 r4-page-home {
 	justify-content: center;

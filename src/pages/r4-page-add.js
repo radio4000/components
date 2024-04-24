@@ -54,11 +54,24 @@ export default class R4PageAdd extends BaseChannel {
 			this.focus()
 		}
 	}
+	renderHeader() {
+		return html`
+			<menu>
+				<li>
+					<h1><a aria href="${this.config.href}/${this.selectedSlug}">Add track</a></h1>
+				</li>
+				<li>
+					<a aria href="${this.config.href}/${this.selectedSlug}">${this.selectedSlug}</a>
+				</li>
+			</menu>
+		`
+	}
 	renderMain() {
 		return [this.renderAdd(), this.lastAddedTrack ? this.renderLastAddedTrack() : null]
 	}
 	renderAdd() {
 		return html`
+			<p>Add a new track by linking to the URL address to a media.</p>
 			<r4-track-create
 				channel-id=${this.selectedId}
 				url=${this.searchParams.get('url')}
