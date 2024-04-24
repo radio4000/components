@@ -44,7 +44,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 		return html`
 			<menu>
 				<li><a href=${this.channelOrigin}>@${this.slug}</a></li>
-				<li><r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play></li>
 				<li>
 					<r4-query
 						.defaultFilters=${[{operator: 'eq', column: 'slug', value: this.channel?.slug}]}
@@ -61,6 +60,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 						label="Play results"
 					></r4-button-play>
 				</li>
+				<li><r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play></li>
 			</menu>
 		`
 	}
