@@ -43,15 +43,10 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 		return html`
 			<menu>
-				<li><a href=${this.channelOrigin}>@${this.slug}</a></li>
 				<li>
-					<r4-query
-						.defaultFilters=${[{operator: 'eq', column: 'slug', value: this.channel?.slug}]}
-						.initialQuery=${this.query}
-						.searchParams=${this.searchParams}
-						@data=${this.handleData}
-					></r4-query>
+					<h1><a href=${this.channelOrigin}>${this.slug}</a></h1>
 				</li>
+				<li><r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play></li>
 				<li>
 					<r4-button-play
 						.tracks=${this.tracks}
@@ -60,7 +55,14 @@ export default class R4PageChannelTracks extends BaseChannel {
 						label="Play results"
 					></r4-button-play>
 				</li>
-				<li><r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play></li>
+				<li>
+					<r4-query
+						.defaultFilters=${[{operator: 'eq', column: 'slug', value: this.channel?.slug}]}
+						.initialQuery=${this.query}
+						.searchParams=${this.searchParams}
+						@data=${this.handleData}
+					></r4-query>
+				</li>
 			</menu>
 		`
 	}

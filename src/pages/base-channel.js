@@ -150,7 +150,7 @@ export default class BaseChannel extends R4Page {
 		return html`
 			<menu>
 				<li>
-					<a aria-current=${this.isCurrent(o)} href=${o}>@${this.channel.slug}</a>
+					<h1><a aria-current=${this.isCurrent(o)} href=${o}>${this.channel.slug}</a></h1>
 				</li>
 				<li>
 					<a aria-current=${this.isCurrent(o + '/tracks')} href=${o + '/tracks'}>Tracks</a>

@@ -186,15 +186,24 @@ r4-page-header {
 	flex-wrap: wrap;
 	align-items: center;
 	& h1 {
+		margin: 0;
 		margin-right: var(--s);
+		/* so it aligns well with other menu elements */
+		line-height: 1;
 	}
-}
-r4-page-header r4-channel-card {
-	margin: calc(var(--s) / 2) 0;
-	flex-grow: 1;
-	flex-shrink: 0;
-	max-width: 50rem;
-	order: 1;
+	& menu {
+		align-items: center;
+		& li {
+			margin: calc(var(--s) / 4);
+		}
+	}
+	& r4-channel-card {
+		margin: calc(var(--s) / 2) 0;
+		flex-grow: 1;
+		flex-shrink: 0;
+		max-width: 50rem;
+		order: 1;
+	}
 }
 
 /* Differentiate channels and track lists by using a grid */
@@ -218,7 +227,7 @@ r4-app menu li {
 	margin: calc(var(--s) / 4);
 }
 r4-app menu a {
-	padding: calc(var(--s) / 2) calc(var(--s) / 2);
+	padding: calc(var(--s) / 4);
 	text-decoration: none;
 	background: none;
 }
@@ -257,12 +266,6 @@ r4-page-home {
 		}
 	}
 }
-
-/* Channel menu */
-r4-page-header menu li {
-	margin: calc(var(--s) / 4);
-}
-
 r4-page-channel {
 	r4-list:has(r4-track) {
 		max-width: 50rem;
@@ -367,6 +370,9 @@ r4-query {
 			margin: 0;
 		}
 	}
+	& fieldset {
+		padding: calc(var(--s) / 2);
+	}
 }
 r4-supabase-filter-search {
 	& fieldset {
@@ -385,7 +391,7 @@ r4-supabase-modifiers {
 	}
 	& legend {
 		position: absolute;
-		top: calc(var(--s) / 2 * -1);
+		top: calc(var(--s) / 8 * -1);
 		left: calc(var(--s) / 4 * -1);
 		font-size: 0.7rem;
 		background-color: var(--c-bg);
