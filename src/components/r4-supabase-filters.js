@@ -100,7 +100,9 @@ export default class R4SupabaseFilters extends LitElement {
 		return html`
 			<fieldset>
 				<legend>${index + 1}</legend>
-				<button @click=${() => this.removeFilter(index)} destructive>x</button>
+				<button @click=${() => this.removeFilter(index)} destructive>
+					<r4-icon name="remove"></r4-icon>
+				</button>
 			</fieldset>
 			<fieldset name="column">
 				<legend>Column</legend>

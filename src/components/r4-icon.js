@@ -27,4 +27,5 @@ const ICONS = {
 	player_fullscreen: '⛶', // ⌆
 	follow: '☆',
 	unfollow: '★',
+	remove: 'x',
 }
