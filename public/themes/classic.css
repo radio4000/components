@@ -158,6 +158,12 @@ r4-app {
 	}
 }
 
+r4-app h1,
+r4-app h2,
+r4-app h3 {
+	margin-top: 0;
+}
+
 r4-layout::part(panel) {
 	background-color: var(--c-bg);
 	/* z-index: 1; */

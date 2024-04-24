@@ -320,6 +320,7 @@ r4-layout header[slot='menu'] {
 		top: 0;
 		bottom: auto;
 		max-height: 100vh;
+		z-index: 1;
 	}
 	r4-layout[ui-state='dock']::part(playback-summary) {
 		position: absolute;
