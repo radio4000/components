@@ -177,15 +177,17 @@ r4-layout::part(playback-summary) {
 }
 
 /* pages */
-r4-page-header:has(r4-channel-card) {
-	display: flex;
-	flex-direction: column;
-}
 r4-page-header {
 	position: sticky;
 	top: 0;
 	z-index: 1;
 	background-color: var(--c-bg);
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	& h1 {
+		margin-right: var(--s);
+	}
 }
 r4-page-header r4-channel-card {
 	margin: calc(var(--s) / 2) 0;
@@ -193,10 +195,6 @@ r4-page-header r4-channel-card {
 	flex-shrink: 0;
 	max-width: 50rem;
 	order: 1;
-}
-
-r4-page-header h1 {
-	margin: calc(var(--s) / 2) 0;
 }
 
 /* Differentiate channels and track lists by using a grid */
@@ -370,10 +368,29 @@ r4-query {
 		}
 	}
 }
-
 r4-supabase-filter-search {
 	& fieldset {
 		margin: 0;
+	}
+}
+r4-supabase-modifiers {
+	& form {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	& fieldset {
+		flex-wrap: nowrap;
+		position: relative;
+		margin: 0;
+	}
+	& legend {
+		position: absolute;
+		top: calc(var(--s) / 2 * -1);
+		left: calc(var(--s) / 4 * -1);
+		font-size: 0.7rem;
+		background-color: var(--c-bg);
+		border: 1px solid var(--c-border);
+		border-radius: 0.3rem;
 	}
 }
 
