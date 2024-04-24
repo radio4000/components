@@ -6,11 +6,11 @@ fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
 			<label for="email">Email</label>
-			<input name="email" type="email" required autocomplete="email" />
+			<input name="email" type="email" required autocomplete="email" placeholder="user@example.com"/>
 		</fieldset>
 		<fieldset>
 			<label for="password">Password</label>
-			<input name="password" type="password" required autocomplete="new-password" />
+			<input name="password" type="password" required autocomplete="new-password" placeholder="new-unique-password"/>
 		</fieldset>
 	</slot>
 `
