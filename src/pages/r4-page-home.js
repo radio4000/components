@@ -8,7 +8,9 @@ export default class R4PageHome extends R4Page {
 	}
 
 	renderHeader() {
-		return html`<a href=${this.config.href}><r4-favicon></r4-favicon></a>`
+		if (!this.store.userChannels?.length) {
+			return html`<a href=${this.config.href}><r4-favicon></r4-favicon></a>`
+		}
 	}
 	renderMain() {
 		return html`
