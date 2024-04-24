@@ -46,6 +46,9 @@ export default class R4SupabaseFilters extends LitElement {
 		if (!this.filters) this.filters = []
 		this.onFilters([...this.filters, newFilter])
 	}
+	clearFilters() {
+		this.onFilters([])
+	}
 
 	updateFilter(index, field, value) {
 		/* replace existing filters, including the new one */
@@ -64,15 +67,23 @@ export default class R4SupabaseFilters extends LitElement {
 
 	render() {
 		return html`
-			<form @submit=${this.onFormSubmit}>
-				${this.filters?.length ? this.renderFilters() : null}
-				<fieldset>
-					<label>
-						<button type="button" @click=${this.addFilter}>Add filter</button>
-					</label>
-				</fieldset>
-			</form>
+			<details>
+				<summary>Filters ${this.filters?.length ? this.renderClear() : null}</summary>
+				<form @submit=${this.onFormSubmit}>
+					${this.filters?.length ? this.renderFilters() : null}
+					<fieldset>
+						<label>
+							<button type="button" @click=${this.addFilter}>Add filter</button>
+						</label>
+					</fieldset>
+				</form>
+			</details>
 		`
+	}
+	renderClear() {
+		return html`<button @click=${this.clearFilters} ?disabled=${!this.filters?.length}>
+			Clear ${this.filters?.length}
+		</button>`
 	}
 
 	renderFilters() {

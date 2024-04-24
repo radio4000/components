@@ -132,10 +132,6 @@ export default class R4BaseQuery extends LitElement {
 		}
 	}
 
-	clearFilters() {
-		this.setQuery({...this.query, filters: []})
-	}
-
 	render() {
 		return html`${this.renderControls()}`
 	}
@@ -159,16 +155,11 @@ export default class R4BaseQuery extends LitElement {
 				count=${this.count}
 				@query=${this.onQuery}
 			></r4-supabase-query>
-			<details>
-				<summary>
-					Filters ${filtersLen ? html`<button @click=${this.clearFilters}>Clear ${filtersLen}</button>` : null}
-				</summary>
-				<r4-supabase-filters
-					table=${this.query.table}
-					.filters=${this.query.filters}
-					@input=${this.onFilters}
-				></r4-supabase-filters>
-			</details>
+			<r4-supabase-filters
+				table=${this.query.table}
+				.filters=${this.query.filters}
+				@input=${this.onFilters}
+			></r4-supabase-filters>
 		`
 	}
 
