@@ -143,10 +143,3 @@ r4-app r4-layout::part(controls-button) {
 	padding: var(--s);
 	margin-left: calc(var(--s) / 2);
 }
-
-/* Hack because slots and flex full height wasn't working*/
-@media (min-width: 70rem) {
-	r4-layout [slot='player'] {
-		height: calc(100vh - calc(var(--s) * 5.1));
-	}
-}

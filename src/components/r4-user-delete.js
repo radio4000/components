@@ -34,9 +34,9 @@ export default class R4UserDelete extends LitElement {
 	render() {
 		if (!this.user) return
 		return html`
-			<form @submit=${this.onSubmit}>
-				<details>
-					<summary>Delete your account?</summary>
+			<details>
+				<summary>Delete your account?</summary>
+				<form @submit=${this.onSubmit}>
 					<p>I confirm that:</p>
 					<p>
 						<label>
@@ -46,8 +46,8 @@ export default class R4UserDelete extends LitElement {
 					</p>
 					${this.userChannels?.length ? this.userChannels.map((c) => this.renderChannelCheckbox(c)) : null}
 					<button type="submit" destructive>Delete my account</button>
-				</details>
-			</form>
+				</form>
+			</details>
 		`
 	}
 

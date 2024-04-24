@@ -37,6 +37,8 @@ r4-app {
 	--s-font: 18px;
 	--s: 1rem;
 	--s-radius: 4px;
+	--s-form: calc(var(--s) * 36);
+	--s-textarea: calc(var(--s) * 10);
 	--font: Maison Neue, system-ui, sans-serif;
 	--s-line-height: 1.3125;
 	--c-light: hsl(0deg 0% 98%);
@@ -77,19 +79,6 @@ r4-app[color-scheme='dark'] {
 	--c-shadow-input: none;
 }
 
-r4-layout::part(menu) {
-	z-index: 2;
-}
-r4-layout [slot='main'] {
-	background-color: var(--c-bg);
-	z-index: 1;
-}
-r4-layout header[slot='menu'] {
-	position: sticky;
-	top: 0;
-	background-color: var(--c-bg);
-}
-
 r4-app a {
 	/* background-color: var(--c-light); */
 	/* padding: calc(var(--s) / 6) calc(var(--s) / 4); */
@@ -124,8 +113,9 @@ r4-app button {
 	box-sizing: border-box;
 	cursor: pointer;
 	line-height: 1;
-	min-height: 2.1em;
-	padding: 0.6em;
+	min-height: calc(var(--s));
+	margin: calc(var(--s) / 4);
+	padding: calc(var(--s) / 2);
 	background-color: var(--c-bg-button);
 	color: var(--c-fg);
 	text-align: center;
@@ -164,13 +154,10 @@ r4-app {
 		border-radius: var(--s-radius);
 		box-shadow: var(--c-shadow-input);
 		font-size: 1rem;
+		flex-grow: 1;
 	}
 }
 
-r4-layout::part(playback) {
-	position: sticky;
-	top: 0;
-}
 r4-layout::part(panel) {
 	background-color: var(--c-bg);
 	/* z-index: 1; */
@@ -180,17 +167,36 @@ r4-layout::part(playback-summary) {
 	background-color: var(--c-bg2);
 }
 
-/* pages */
-r4-page-header {
+r4-page-header,
+r4-page-main section h2 {
 	position: sticky;
 	top: 0;
 	z-index: 1;
+	align-self: flex-start;
 	background-color: var(--c-bg);
+}
+r4-page-main {
+	margin-left: var(--s);
+	margin-right: var(--s);
+	z-index: 1;
+}
+r4-page-main,
+r4-page-header menu,
+r4-app section header {
+	background-color: var(--c-bg);
+}
+r4-page-channels r4-page-header,
+r4-page-channel r4-page-header,
+r4-page-channel-tracks r4-page-header {
+	z-index: 2;
+}
+
+/* same size header */
+r4-page-header {
 	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
 	& h1 {
 		margin: 0;
+		height: 100%;
 		& + * {
 			margin-left: var(--s);
 		}
@@ -198,19 +204,15 @@ r4-page-header {
 	& menu {
 		align-items: stretch;
 	}
-	& r4-channel-card {
-		margin: calc(var(--s) / 2) 0;
-		flex-grow: 1;
-		flex-shrink: 0;
-		max-width: 50rem;
-		order: 1;
-	}
 }
 
 /* Main menu */
 r4-app-menu {
 	/* so it aligns left */
 	display: flex;
+}
+r4-app-menu menu {
+	background-color: var(--c-bg);
 }
 
 /* Nav menus */
@@ -241,43 +243,6 @@ r4-app menu a[aria-current] {
 }
 r4-app-menu a {
 	background: none;
-}
-
-/* pages */
-r4-page-explore r4-list:has(r4-channel-card) {
-	/* Differentiate channels and track lists by using a grid */
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-	gap: var(--s);
-	align-items: stretch;
-}
-r4-page-channel-track r4-track a {
-	/* we're on this tracck's page */
-	text-decoration: underline;
-}
-
-r4-page-add r4-page-header {
-	order: 1;
-}
-
-r4-page-add r4-page-header menu {
-	display: none;
-}
-r4-page-home {
-	justify-content: center;
-	align-items: center;
-	& r4-favicon {
-		display: flex;
-		justify-content: center;
-		& svg {
-			max-width: calc(var(--s) * 2);
-		}
-	}
-}
-r4-page-channel {
-	& r4-list:has(r4-track) {
-		max-width: 50rem;
-	}
 }
 
 /* Channel cards */
@@ -419,27 +384,40 @@ r4-app summary {
 	font-weight: bold;
 	padding: calc(var(--s) / 4);
 }
+r4-app form slot[name='submit'] fieldset:last-of-type {
+	justify-content: flex-end;
+	margin: calc(var(--s) / 2);
+}
 
 /* Vertical track form layout */
-r4-dialog form,
+r4-app form,
 r4-track-create {
-	width: 30rem;
 	max-width: 100%;
-
-	label {
+	& label {
 		display: block;
 		font-weight: bold;
-		font-size: calc(16 / 18 * 1rem);
 	}
 
-	input[type='text'],
-	input[type='url'],
-	textarea {
+	& input[type='text'],
+	& input[type='url'],
+	& textarea {
 		width: 100%;
 	}
 
-	textarea {
-		min-height: 3em;
+	& textarea {
+		min-height: var(--s-textarea);
+	}
+}
+
+r4-sign-in,
+r4-sign-out,
+r4-sign-up,
+r4-page-add {
+	& form {
+		max-width: var(--s-form);
+		& fieldset {
+			margin: calc(var(--s) / 4);
+		}
 	}
 }
 
@@ -462,4 +440,43 @@ r4-page-channel r4-page-header r4-button-play button {
 r4-page-channel r4-page-header r4-button-play button::after {
 	display: inline;
 	content: ' Listen';
+}
+
+/* pages */
+r4-page-explore r4-list:has(r4-channel-card) {
+	/* Differentiate channels and track lists by using a grid */
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+	gap: var(--s);
+	align-items: stretch;
+}
+r4-page-channel-track r4-track a {
+	/* we're on this tracck's page */
+	text-decoration: underline;
+}
+
+r4-page-add r4-page-header {
+	order: 1;
+}
+
+r4-page-add r4-page-header menu {
+	display: none;
+}
+r4-page-home {
+	justify-content: center;
+	& r4-favicon {
+		display: flex;
+		justify-content: center;
+		& svg {
+			max-width: calc(var(--s) * 2);
+		}
+	}
+}
+r4-page-add {
+	justify-content: center;
+}
+r4-page-channel {
+	& r4-list:has(r4-track) {
+		max-width: 50rem;
+	}
 }
