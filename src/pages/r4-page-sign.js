@@ -34,11 +34,15 @@ export default class R4PageSign extends R4Page {
 
 	renderHeader() {
 		return html`
-			<h1>
-				<a href="${this.config.href}/sign/${this.params.method}">
-					Sign-<i>${this.params.method ? this.params.method : null}</i>
-				</a>
-			</h1>
+			<menu>
+				<li>
+					<h1>
+						<a href="${this.config.href}/sign/${this.params.method}">
+							Sign-<i>${this.params.method ? this.params.method : null}</i>
+						</a>
+					</h1>
+				</li>
+			</menu>
 			<p><r4-title></r4-title> user authentication.</p>
 		`
 	}

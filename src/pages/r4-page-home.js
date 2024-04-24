@@ -8,17 +8,13 @@ export default class R4PageHome extends R4Page {
 	}
 
 	renderHeader() {
-		return this.store.user ? this.renderIn() : this.renderOut()
+		return html`<a href=${this.config.href}><r4-favicon></r4-favicon></a>`
 	}
 	renderMain() {
 		return html`
-			${this.store.userChannels?.length ? this.renderUserChannels() : this.renderSignIn()}
-			${this.store.following?.length ? this.renderFollowingChannels() : null}
+			${this.store.userChannels?.length ? this.renderUserChannels() : this.renderBetaNote()}
+			${this.store.following?.length ? this.renderFollowingChannels() : this.renderSignIn()}
 		`
-	}
-	renderIn() {}
-	renderOut() {
-		return this.renderBetaNote()
 	}
 	renderUserChannels() {
 		const {userChannels} = this.store
@@ -55,7 +51,6 @@ export default class R4PageHome extends R4Page {
 	renderBetaNote() {
 		return html`
 			<section>
-				<r4-favicon></r4-favicon>
 				<dialog open inline>
 					<p>
 						Welcome to the new <strong><r4-title></r4-title></strong>, version 2 (<strong>v2</strong>).

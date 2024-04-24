@@ -181,6 +181,7 @@ r4-page-main {
 	z-index: 1;
 }
 r4-page-main,
+r4-page-footer,
 r4-page-header menu,
 r4-app section header {
 	background-color: var(--c-bg);
@@ -189,6 +190,10 @@ r4-page-explore r4-page-header,
 r4-page-channel r4-page-header,
 r4-page-channel-tracks r4-page-header {
 	z-index: 2;
+}
+
+r4-page-main {
+	height: 100%;
 }
 
 /* same size header */
@@ -466,7 +471,7 @@ r4-page-home {
 	justify-content: center;
 	& r4-favicon {
 		display: flex;
-		justify-content: center;
+		padding: var(--s);
 		& svg {
 			max-width: calc(var(--s) * 2);
 		}
