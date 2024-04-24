@@ -5,7 +5,14 @@ import BaseChannel from './base-channel'
 
 export default class R4PageChannelUpdate extends BaseChannel {
 	renderHeader() {
-		return html` <p>Customize <a href=${this.channelOrigin}>${this.params.slug}</a> settings.</p> `
+		return html`
+			<menu>
+				<li>
+					<h1><a href="${this.channelOrigin}/update">Update</a></h1>
+				</li>
+				<li><a href=${this.channelOrigin}>@${this.params.slug}</a></li>
+			</menu>
+		`
 	}
 	renderMain() {
 		const {channel, channelOrigin} = this
