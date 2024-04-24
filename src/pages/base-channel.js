@@ -111,10 +111,11 @@ export default class BaseChannel extends R4Page {
 		if (this.isFirebaseChannel) {
 			return html`
 				<dialog open inline>
+					<p>This Radio4000 channel is from <a href="https://v1.radio4000.com/${this.params.slug}">version 1</a>.</p>
 					<p>
-						This Radio4000 channel is from <a href="https://v1.radio4000.com/${this.params.slug}">version 1</a>. If you
-						are the channel operator, consider importing it to
-						<a href="${this.config.hrefMigrate}/?slug=${this.params.slug}">version 2</a>.
+						If you are the channel operator, consider importing it to
+						<a href="${this.config.hrefMigrate}/?slug=${this.params.slug}">version 2</a>. Until then,
+						${this.params.slug} is in listen only mode.
 					</p>
 					<form method="dialog">
 						<button>Got it!</button>
