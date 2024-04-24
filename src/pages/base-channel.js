@@ -126,7 +126,7 @@ export default class BaseChannel extends R4Page {
 			return this.renderChannelError()
 		}
 		if (this.channel) {
-			return [this.renderChannelCard(), this.renderChannelMenu()]
+			return this.renderChannelMenu()
 		}
 	}
 	renderChannelShare() {
@@ -138,9 +138,6 @@ export default class BaseChannel extends R4Page {
 	}
 	renderChannelError() {
 		return html`<p>404. There is no channel here. Want to <a href="${this.config.href}/new">create one?</a></p>`
-	}
-	renderChannelCard() {
-		return html` <r4-channel-card .channel=${this.channel} origin=${this.channelOrigin}></r4-channel-card> `
 	}
 
 	/** @arg {string} path */

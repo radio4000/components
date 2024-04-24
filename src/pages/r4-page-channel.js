@@ -47,8 +47,14 @@ export default class R4PageChannel extends BaseChannel {
 		}
 		// if (this.channelError) {}
 		if (this.channel) {
-			return html` <section>${this.renderTracksList()}</section> `
+			return html`
+				<section>${this.renderChannelCard()}</section>
+				<section>${this.renderTracksList()}</section>
+			`
 		}
+	}
+	renderChannelCard() {
+		return html` <r4-channel-card .channel=${this.channel} origin=${this.channelOrigin}></r4-channel-card> `
 	}
 
 	renderTracksList() {
