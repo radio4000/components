@@ -7,11 +7,9 @@
   "main": "dist/r4.js",
   "exports": {
     "default": "./dist/r4.js",
-    "styles": "./dist/style.js"
+    "style": "./dist/style.css"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier src --write",
