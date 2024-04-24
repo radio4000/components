@@ -107,16 +107,6 @@ export default class R4SupabaseQuery extends LitElement {
 		this.onQuery()
 	}
 
-	// Also calls onQuery
-	onFilters(event) {
-		event.preventDefault()
-		event.stopPropagation()
-		if (event.detail) {
-			this.filters = event.detail
-			this.onQuery()
-		}
-	}
-
 	onQuery() {
 		this.dispatchEvent(
 			new CustomEvent('query', {
@@ -168,7 +158,6 @@ export default class R4SupabaseQuery extends LitElement {
 					${[this.renderQueryOrderKey(), this.renderOrderConfig(), this.renderQueryPage(), this.renderQueryLimit()]}
 				</form>
 			</r4-supabase-modifiers>
-			<r4-supabase-filters table=${this.table} .filters=${this.filters} @input=${this.onFilters}></r4-supabase-filters>
 		`
 	}
 

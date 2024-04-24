@@ -108,6 +108,13 @@ export default class R4BaseQuery extends LitElement {
 		this.dispatchEvent(new CustomEvent('data', {detail: res}))
 	}
 
+	// Shortcut when no extra logic is needed. Also updates URL params and reloads data.
+	setQuery(query) {
+		this.query = {...this.query, ...query}
+		urlUtils.setSearchParams(this.query)
+		this.debouncedFetchData()
+	}
+
 	onQuery(event) {
 		event.preventDefault()
 		this.setQuery(event.detail)
@@ -118,16 +125,15 @@ export default class R4BaseQuery extends LitElement {
 		const {search} = event.detail
 		this.setQuery({search})
 	}
+	onFilters(event) {
+		event.preventDefault()
+		if (event.detail) {
+			this.setQuery({filters: event.detail})
+		}
+	}
 
 	clearFilters() {
 		this.setQuery({...this.query, filters: []})
-	}
-
-	// Just a shortcut when no extra logic is needed. Also updates URL params and reloads data.
-	setQuery(query) {
-		this.query = {...this.query, ...query}
-		urlUtils.setSearchParams(this.query)
-		this.debouncedFetchData()
 	}
 
 	render() {
@@ -137,30 +143,31 @@ export default class R4BaseQuery extends LitElement {
 	renderControls() {
 		const filtersLen = this.query?.filters?.length
 		return html`
-			<menu>
-				<li>
-					<r4-supabase-filter-search
-						search=${this.query?.search}
-						placeholder=${this.count + ' rows'}
-						@input=${this.onSearch}
-					></r4-supabase-filter-search>
-				</li>
-			</menu>
+			<r4-supabase-filter-search
+				search=${this.query?.search}
+				placeholder=${this.count + ' rows'}
+				@input=${this.onSearch}
+			></r4-supabase-filter-search>
+			<r4-supabase-query
+				table=${this.query?.table}
+				.filters=${this.query?.filters}
+				order-by=${this.query?.orderBy}
+				order=${this.query?.order}
+				search=${this.query?.search}
+				page=${this.query?.page}
+				limit=${this.query?.limit}
+				count=${this.count}
+				@query=${this.onQuery}
+			></r4-supabase-query>
 			<details>
 				<summary>
 					Filters ${filtersLen ? html`<button @click=${this.clearFilters}>Clear ${filtersLen}</button>` : null}
 				</summary>
-				<r4-supabase-query
-					table=${this.query?.table}
-					.filters=${this.query?.filters}
-					order-by=${this.query?.orderBy}
-					order=${this.query?.order}
-					search=${this.query?.search}
-					page=${this.query?.page}
-					limit=${this.query?.limit}
-					count=${this.count}
-					@query=${this.onQuery}
-				></r4-supabase-query>
+				<r4-supabase-filters
+					table=${this.query.table}
+					.filters=${this.query.filters}
+					@input=${this.onFilters}
+				></r4-supabase-filters>
 			</details>
 		`
 	}
