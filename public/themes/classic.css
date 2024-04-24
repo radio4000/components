@@ -91,8 +91,8 @@ r4-layout header[slot='menu'] {
 }
 
 r4-app a {
-	background-color: var(--c-light);
-	padding: calc(var(--s) / 6) calc(var(--s) / 4);
+	/* background-color: var(--c-light); */
+	/* padding: calc(var(--s) / 6) calc(var(--s) / 4); */
 
 	[color-scheme='dark'] & {
 		background: var(--c-dark-lighter);
@@ -187,7 +187,7 @@ r4-page-header {
 	align-items: center;
 	& h1 {
 		margin: 0;
-		margin-right: var(--s);
+		margin-right: calc(var(--s) / 2);
 		/* so it aligns well with other menu elements */
 		line-height: 1;
 	}

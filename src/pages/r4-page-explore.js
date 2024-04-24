@@ -26,7 +26,9 @@ export default class R4PageExplore extends R4Page {
 	render() {
 		return html`
 			<r4-page-header>
-				<h1>Explore</h1>
+				<h1>
+					<a href="${this.config.href}/explore">Explore</a>
+				</h1>
 				<r4-query .initialQuery=${this.query} @data=${this.handleData}></r4-query>
 			</r4-page-header>
 			<r4-page-main>

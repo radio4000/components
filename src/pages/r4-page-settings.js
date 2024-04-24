@@ -25,7 +25,9 @@ export default class R4PageSettings extends R4Page {
 	renderHeader() {
 		const {user} = this.store
 		return html`
-			<h1>Settings</h1>
+			<h1>
+				<a href="${this.config.href}/settings">Settings</a>
+			</h1>
 			<p>Application configuration and user settings.</p>
 		`
 	}
@@ -68,7 +70,7 @@ export default class R4PageSettings extends R4Page {
 						? html`<li>
 								No channels yet. <a href=${this.config.href + '/new'}>Create a new radio</a> or
 								<a href=${this.config.hrefV1}>import from v1</a>.
-						  </li>`
+							</li>`
 						: null}
 				</ul>
 			</section>
@@ -87,8 +89,10 @@ export default class R4PageSettings extends R4Page {
 		return html`
 			<section>
 				<h2>Account</h2>
-				<p>You are signed in as <em>${this.store?.user?.email}</em> (<a href="${this.config.href}/sign/out">sign out</a
-					>).</p>
+				<p>
+					You are signed in as <em>${this.store?.user?.email}</em> (<a href="${this.config.href}/sign/out">sign out</a
+					>).
+				</p>
 				${this.store.user.new_email ? this.renderNewEmail() : null}
 				<details>
 					<summary>Change email or password</summary>

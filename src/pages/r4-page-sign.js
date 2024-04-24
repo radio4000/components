@@ -34,7 +34,11 @@ export default class R4PageSign extends R4Page {
 
 	renderHeader() {
 		return html`
-			<h1>Sign<i>${this.params.method ? this.params.method : null}</i></h1>
+			<h1>
+				<a href="${this.config.href}/sign/${this.params.method}">
+					Sign-<i>${this.params.method ? this.params.method : null}</i>
+				</a>
+			</h1>
 			<p><r4-title></r4-title> user authentication.</p>
 		`
 	}
@@ -82,7 +86,7 @@ export default class R4PageSign extends R4Page {
 		return html`
 			<section>
 				<ul>
-					<li><a href=${this.config.href + '/sign/up'}>Sign up</a> if you don't yet have an account.</li>
+					<li><a href=${this.config.href + '/sign/up'}>Sign up</a> if you don't yet have an account</li>
 					<li>
 						<details>
 							<summary>Forgot password? Sign in with magic link!</summary>
@@ -94,7 +98,7 @@ export default class R4PageSign extends R4Page {
 						</details>
 					</li>
 				</ul>
-				<p>Need help? See chat and email support on <a href=${this.config.href + `/settings`}>settings &rarr;</a></p>
+				<p>Need help? See chat and email support on <a href=${this.config.href + `/settings`}>settings</a></p>
 			</section>
 		`
 	}
@@ -105,14 +109,14 @@ export default class R4PageSign extends R4Page {
 				<ul>
 					<li>
 						<a href=${this.config.href + '/sign/in'}>Sign in</a>
-						if you already have an existing account.
+						if you already have an existing account
 					</li>
 					<li>
 						Sign up first, to <a href="${this.config.hrefMigrate}">import/migrate</a> an existing radio (from the
-						previous <a href="https://v1.radio4000.com">site</a>).
+						previous <a href="https://v1.radio4000.com">site</a>)
 					</li>
 				</ul>
-				<p>Need help? See chat and email support on <a href=${this.config.href + `/settings`}>settings &rarr;</a></p>
+				<p>Need help? See chat and email support on <a href=${this.config.href + `/settings`}>settings</a></p>
 			</section>
 		`
 	}
