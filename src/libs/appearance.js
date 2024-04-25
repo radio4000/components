@@ -1,5 +1,10 @@
 // Each of these correspond to a matching css file in public/themes/.
-export const THEMES = ['classic', 'jellybeans', 'minimal', 'hash']
+export const THEMES = [
+	'classic',
+	// 'jellybeans', // disabled until it gets some love
+	'minimal',
+	'hash'
+]
 
 // We allow the user to choose their prefered appearance as well. It is up to the selected theme to implement.
 export const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
