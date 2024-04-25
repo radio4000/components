@@ -612,6 +612,11 @@ r4-actions summary {
 	list-style: none;
 	font-style: normal;
 	padding: 0 var(--s);
+
+	&::marker,
+	&::-webkit-details-marker {
+		display: none;
+	}
 }
 /* Style like a dropdown menu/overlay/thing */
 r4-actions details menu {
