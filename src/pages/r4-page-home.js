@@ -69,7 +69,7 @@ export default class R4PageHome extends R4Page {
 						All previous radio channels are still available on the
 						<a href="${this.config.hrefV1}">v1</a> website.
 					</p>
-					<p>We hope y'all enjoy, feedbacks' always welcome!</p>
+					<p>Feedbacks and bug reports always welcome!</p>
 				</dialog>
 			</section>
 		`
