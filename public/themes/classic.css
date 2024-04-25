@@ -238,6 +238,8 @@ r4-page-header {
 r4-app-menu {
 	/* so it aligns left */
 	display: flex;
+	flex-wrap: nowrap;
+	overflow-x: auto;
 }
 
 r4-app-menu menu {
