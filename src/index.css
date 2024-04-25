@@ -122,8 +122,8 @@ r4-app select,
 r4-app input,
 r4-app textarea,
 r4-app r4-layout::part(controls-button) {
-	padding-top: calc(var(--s) / 1.7);
-	padding-bottom: calc(var(--s) / 2);
+	padding-top: calc(var(--s) / 2.5);
+	padding-bottom: calc(var(--s) / 3.5);
 	padding-left: calc(var(--s) / 2);
 	padding-right: calc(var(--s) / 2);
 	font-size: 1rem;
