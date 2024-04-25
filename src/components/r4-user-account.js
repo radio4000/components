@@ -25,6 +25,10 @@ export default class R4UserAccount extends LitElement {
 			const {error} = await sdk.supabase.from('accounts').update({color_scheme: value}).eq('id', this.account.id)
 		}
 	}
+	async onForm(event) {
+		event.preventDefault()
+		event.stopPropagation()
+	}
 
 	// Disable shadow DOM
 	createRenderRoot() {
@@ -38,7 +42,7 @@ export default class R4UserAccount extends LitElement {
 	}
 	renderThemes() {
 		return html`
-			<form>
+			<form @submit=${this.onForm}>
 				<fieldset>
 					<label>
 						<legend>Theme</legend>
@@ -56,7 +60,7 @@ export default class R4UserAccount extends LitElement {
 	}
 	renderColorSchemes() {
 		return html`
-			<form>
+			<form @submit=${this.onForm}>
 				<fieldset>
 					<legend>Color scheme</legend>
 					${COLOR_SCHEMES.map(this.renderColorScheme.bind(this))}
