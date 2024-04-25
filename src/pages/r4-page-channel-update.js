@@ -28,6 +28,11 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		const {channel, channelOrigin} = this
 		return html`
 			<section>
+				<header>
+					<h2>Radio channel</h2>
+					<p>Edit the descriptive attributes of the channel.</p>
+				</header>
+
 				<r4-channel-update
 					id=${channel.id}
 					slug=${channel.slug}

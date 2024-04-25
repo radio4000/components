@@ -38,7 +38,13 @@ export default class R4PageSettings extends R4Page {
 
 	renderMain() {
 		if (this.store.user) {
-			return [this.renderUserChannels(), this.renderAppearance(), this.renderAuthentication(), this.renderUserDelete()]
+			return [
+				,
+				this.renderUserChannels(),
+				this.renderAuthentication(),
+				this.renderAppearance(),
+				this.renderUserDelete(),
+			]
 		} else {
 			return [this.renderNoUser()]
 		}
@@ -47,8 +53,10 @@ export default class R4PageSettings extends R4Page {
 	renderNoUser() {
 		return html`
 			<section>
-				<h2>Account</h2>
-				<p>Your are signed out.</p>
+				<header>
+					<h2>Account</h2>
+					<p>Your are signed out.</p>
+				</header>
 				<ul>
 					<li><a href="${this.config.href}/sign/in">Sign in</a> an existing account</li>
 					<li><a href="${this.config.href}/sign/up">Sign up</a> to register a new account</li>
@@ -62,7 +70,9 @@ export default class R4PageSettings extends R4Page {
 		const {userChannels} = this.store
 		return html`
 			<section>
-				<h2>Channel${userChannels?.length > 1 ? 's' : ''}</h2>
+				<header>
+					<h2>Channel${userChannels?.length > 1 ? 's' : ''}</h2>
+				</header>
 				<ul>
 					${userChannels.map(
 						(x) =>
@@ -85,6 +95,10 @@ export default class R4PageSettings extends R4Page {
 	renderAppearance() {
 		return html`
 			<section>
+				<header>
+					<h2>Appearance</h2>
+					<p>Customize the app's look and feel.</p>
+				</header>
 				<r4-user-account .account=${this.store.userAccount}></r4-user-account>
 			</section>
 		`
@@ -93,12 +107,14 @@ export default class R4PageSettings extends R4Page {
 	renderAuthentication() {
 		return html`
 			<section>
-				<h2>Authentication</h2>
-				<p>
-					You are signed-in as <em>${this.store?.user?.email}</em> (<a href="${this.config.href}/sign/out">sign out</a
-					>).
-				</p>
-				${this.store.user.new_email ? this.renderNewEmail() : null}
+				<header>
+					<h2>Authentication (<a href="${this.config.href}/sign/out">Sign out</a>)</h2>
+				</header>
+				<dl>
+					${this.store.user.new_email ? this.renderNewEmail() : null}
+					<dt>Email</dt>
+					<dd>${this.store?.user?.email}</dd>
+				</dl>
 				<details>
 					<summary>Update sign-in email or password</summary>
 					<section>
@@ -114,7 +130,9 @@ export default class R4PageSettings extends R4Page {
 	renderUserDelete() {
 		return html`
 			<section>
-				<h2>User account</h2>
+				<header>
+					<h2>User account</h2>
+				</header>
 				<r4-user-delete
 					.user=${this.store.user}
 					.userChannels=${this.store.userChannels}
@@ -126,17 +144,20 @@ export default class R4PageSettings extends R4Page {
 
 	renderNewEmail() {
 		return html`
-			<mark>
-				<i>${this.store.user.new_email}</i>
-				(waiting for confirmation)
-			</mark>
+			<dt>New email</dt>
+			<dd>
+				<mark>${this.store.user.new_email}</mark>${' '}
+				<i>Click the confirmation link in your Email inbox</i>
+			</dd>
 		`
 	}
 	renderAbout() {
 		return html`
 			<section>
-				<h2>About <r4-title></r4-title> (<r4-title size="small"></r4-title>)</h2>
-				<p>The project is built by and for its users</p>
+				<header>
+					<h2>About <r4-title></r4-title> (<r4-title size="small"></r4-title>)</h2>
+					<p>The project is built by and for its users</p>
+				</header>
 				<ul>
 					<li>Contact by <a href="mailto:contact@radio4000.com">email</a></li>
 					<li>Community <a href="https://matrix.to/#/#radio4000:matrix.org" rel="noreferrer"> chat </a></li>

@@ -22,7 +22,9 @@ export default class R4PageHome extends R4Page {
 		const {userChannels} = this.store
 		return html`
 			<section>
-				<h2>Channel${userChannels?.length > 1 ? 's' : ''}</h2>
+				<header>
+					<h2>Channel${userChannels?.length > 1 ? 's' : ''}</h2>
+				</header>
 				<r4-list> ${userChannels.map((channel) => this.renderChannelCard(channel, this.config.href))} </r4-list>
 			</section>
 		`
@@ -39,7 +41,9 @@ export default class R4PageHome extends R4Page {
 		const {following} = this.store
 		return html`
 			<section>
-				<h2>Network</h2>
+				<header>
+					<h2>Network</h2>
+				</header>
 				<r4-list> ${following?.map((channel) => this.renderChannelCard(channel, this.config.href))} </r4-list>
 			</section>
 		`

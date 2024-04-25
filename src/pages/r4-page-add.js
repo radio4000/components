@@ -71,7 +71,7 @@ export default class R4PageAdd extends BaseChannel {
 	}
 	renderAdd() {
 		return html`
-			<p>Add a new track by linking to the URL address to a media.</p>
+			<p>Add a new track by linking to the URL address of a media.</p>
 			<r4-track-create
 				channel-id=${this.selectedId}
 				url=${this.searchParams.get('url')}

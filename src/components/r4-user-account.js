@@ -32,29 +32,43 @@ export default class R4UserAccount extends LitElement {
 	}
 	render() {
 		return html`
-			<h2>Appearance</h2>
-			${this.account ? this.renderThemes() : 'Sign-in to use themes'}
-			${this.account ? this.renderColorSchemes() : 'Sign-in to use color schemes'}
+			<section>${this.account ? this.renderThemes() : 'Sign-in to use themes'}</section>
+			<section>${this.account ? this.renderColorSchemes() : 'Sign-in to use color schemes'}</section>
 		`
 	}
 	renderThemes() {
 		return html`
-			<select @input=${this.onTheme}>
-				<option disabled="true">${this.currentTheme}</option>
-				${THEMES.map(this.renderThemeOption.bind(this))}
-			</select>
+			<form>
+				<fieldset>
+					<label>
+						<legend>Theme</legend>
+						<select @input=${this.onTheme}>
+							<option disabled="true">${this.currentTheme}</option>
+							${THEMES.map(this.renderThemeOption.bind(this))}
+						</select>
+					</label>
+				</fieldset>
+			</form>
 		`
 	}
 	renderThemeOption(theme) {
 		return html` <option value=${theme} ?selected=${this.currentTheme === theme}>${theme}</option> `
 	}
 	renderColorSchemes() {
-		return COLOR_SCHEMES.map((scheme, index) => {
-			// reset the color scheme value for "os" scheme
-			// const value = index === 0 ? '' : scheme
-			const disabled = this.account.color_scheme === scheme
-			return html` <button value=${scheme} @click="${this.onColorScheme}" ?disabled=${disabled}>${scheme}</button> `
-		})
+		return html`
+			<form>
+				<fieldset>
+					<legend>Color scheme</legend>
+					${COLOR_SCHEMES.map(this.renderColorScheme.bind(this))}
+				</fieldset>
+			</form>
+		`
+	}
+	renderColorScheme(scheme, index) {
+		// reset the color scheme value for "os" scheme
+		// const value = index === 0 ? '' : scheme
+		const disabled = this.account.color_scheme === scheme
+		return html` <button value=${scheme} @click="${this.onColorScheme}" ?disabled=${disabled}>${scheme}</button> `
 	}
 	/* events handler */
 	onTheme({target}) {

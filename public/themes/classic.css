@@ -161,7 +161,7 @@ r4-app {
 r4-app h1,
 r4-app h2,
 r4-app h3 {
-	margin-top: 0;
+	margin: 0;
 }
 
 r4-layout::part(menu) {
@@ -183,13 +183,16 @@ r4-layout::part(playback-summary) {
 	background-color: var(--c-bg2);
 }
 
-r4-page-header,
-r4-page-main section h2 {
+r4-page-header {
 	position: sticky;
 	top: 0;
 	z-index: 1;
 	align-self: flex-start;
 	background-color: var(--c-bg);
+}
+r4-page-header {
+	padding-left: calc(var(--s) / 2);
+	padding-right: calc(var(--s) / 2);
 }
 r4-page-main,
 r4-page-footer {
@@ -206,6 +209,10 @@ r4-page-explore r4-page-header,
 r4-page-channel r4-page-header,
 r4-page-channel-tracks r4-page-header {
 	z-index: 2;
+}
+r4-app section header {
+	padding-top: calc(var(--s) / 2);
+	padding-bottom: calc(var(--s) / 2);
 }
 
 r4-page-main {
@@ -240,7 +247,6 @@ r4-app-menu menu {
 /* Nav menus */
 r4-app menu {
 	border: 1px solid var(--c-border);
-	margin: calc(var(--s) / 4);
 	border-radius: var(--s-radius);
 }
 r4-app menu li {
@@ -408,6 +414,7 @@ r4-app summary {
 }
 r4-app form slot[name='submit'] fieldset:last-of-type {
 	margin: var(--s);
+	justify-content: flex-end;
 }
 
 /* Vertical track form layout */
@@ -434,12 +441,19 @@ r4-sign-in,
 r4-sign-out,
 r4-sign-up,
 r4-page-add {
+	display: flex;
 	& form {
 		max-width: var(--s-form);
+		padding: calc(var(--s) / 2);
+		border: 1px solid var(--c-bg-button2);
+		border-radius: var(--s-radius);
 		& fieldset {
-			margin: calc(var(--s) / 4);
+			margin: calc(var(--s) / 2);
 		}
 	}
+}
+r4-page-add form {
+	border-color: var(--c-purple-light);
 }
 
 /* remove styles that shouldn't touch v1 player */

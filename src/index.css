@@ -84,6 +84,12 @@ r4-app section {
 	margin-top: var(--s);
 	margin-bottom: var(--s);
 }
+r4-app section:first-child:not(:only-child) {
+	margin-top: 0;
+}
+r4-app section:last-child:not(:only-child) {
+	margin-bottom: 0;
+}
 r4-app summary {
 	/* Don't want to select <summaries> text when toggling */
 	user-select: none;
@@ -176,6 +182,7 @@ r4-layout::part(playback) {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-end;
+	z-index: 1;
 }
 @media (max-width: 70rem) {
 	r4-layout::part(playback) {
@@ -295,14 +302,15 @@ r4-layout r4-page-main radio4000-player {
 /* make the "playback" sticky at the top of viewport */
 r4-layout::part(panel) {
 	background-color: var(--c-bg);
+	z-index: 2;
 }
 r4-layout::part(playback) {
 	position: sticky;
 	top: 0;
-	z-index: 2;
+	z-index: 1;
 }
 r4-layout::part(menu) {
-	z-index: 2;
+	z-index: 3;
 }
 r4-layout [slot='main'] {
 	z-index: 0;
