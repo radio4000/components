@@ -164,8 +164,9 @@ export default class R4PageSettings extends R4Page {
 					<p>The (<r4-title size="small"></r4-title>) project is built by and for its users.</p>
 				</header>
 				<ul>
+					<li>Previous site version <a href=${this.config.hrefV1}>v1.radio4000</a></li>
+					<li>Community <a href="https://matrix.to/#/#radio4000:matrix.org" rel="noreferrer"> chat</a> and support</li>
 					<li>Contact by <a href="mailto:contact@radio4000.com">email</a></li>
-					<li>Community <a href="https://matrix.to/#/#radio4000:matrix.org" rel="noreferrer"> chat </a></li>
 					<li>Source <a href="https://github.com/radio4000" rel="noreferrer">code</a></li>
 					<li>
 						Read the
