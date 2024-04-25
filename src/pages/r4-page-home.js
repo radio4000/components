@@ -1,4 +1,4 @@
-import {html} from 'lit'
+import {html, nothing} from 'lit'
 import R4Page from '../components/r4-page.js'
 
 export default class R4PageHome extends R4Page {
@@ -15,7 +15,8 @@ export default class R4PageHome extends R4Page {
 	renderMain() {
 		return html`
 			${this.store.userChannels?.length ? this.renderUserChannels() : this.renderBetaNote()}
-			${this.store.following?.length ? this.renderFollowingChannels() : this.renderSignIn()}
+			${this.store.following?.length ? this.renderFollowingChannels() : nothing}
+			${this.store.user? nothing : this.renderSignIn()}
 		`
 	}
 	renderUserChannels() {
