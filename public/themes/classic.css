@@ -439,13 +439,17 @@ r4-page-channel r4-channel-card r4-button-play button::after {
 }
 
 /* pages */
-r4-page-explore r4-list:has(r4-channel-card) {
-	/* Differentiate channels and track lists by using a grid */
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-	gap: var(--s);
-	align-items: stretch;
+r4-page-home,
+r4-page-explore {
+	r4-list:has(r4-channel-card) {
+		/* Differentiate channels and track lists by using a grid */
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+		gap: var(--s);
+		align-items: stretch;
+	}
 }
+
 r4-page-channel-track r4-track a {
 	/* we're on this tracck's page */
 	text-decoration: underline;
