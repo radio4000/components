@@ -12,7 +12,7 @@ export default class R4Player extends LitElement {
 		tracks: {type: Array},
 		track: {type: String},
 		shuffle: {type: Boolean},
-		config: {type: Object},
+		isPlaying: {type: Boolean},
 	}
 
 	get playlist() {
@@ -40,18 +40,39 @@ export default class R4Player extends LitElement {
 	onPlayerReady() {
 		const $playerRef = this.playerRef.value
 		this.$player = $playerRef.getVueInstance()
+		/** @type {HTMLInputElement} */
 		this.$playButton = $playerRef.querySelector('input.PlayPause-state')
-		if (this.tracks) {
+		if (this.tracks || this.track) {
 			this.play()
 		}
 	}
 
 	willUpdate(changedProps) {
-		if (changedProps.has('tracks') || changedProps.has('track')) {
-			this.play()
+		if (changedProps.has('track')) {
+			// console.log('track changed to', this.track.title)
+			const t  = this.$player.serializeTrack(this.track)
+			this.$player.playTrack(t)
 		}
-		if (changedProps.has('config')) {
-			if (this.config.isPlaying) {
+
+		if (changedProps.has('tracks')) {
+			if (this.tracks?.length) {
+				console.log('updatePlaylist', {before: changedProps.get('tracks'), after: this.tracks})
+				this.$player.updatePlaylist(this.playlist)
+				if (!this.track) {
+					console.log('play last track?')
+					// const t  = this.$player.serializeTrack(this.track || this.tracks.at(-1))
+					// console.log('schedule internal play track', t.title)
+					// this.$player.playTrack(t)
+				}
+			} else {
+				console.log('tracks changed but no tracks')
+				this.$player.updatePlaylist(this.emptyPlaylist)
+			}
+		}
+
+		if (changedProps.has('isPlaying')) {
+			console.log('is playing changed', this.isPlaying)
+			if (this.isPlaying) {
 				this.play()
 			} else {
 				this.pause()
@@ -61,15 +82,8 @@ export default class R4Player extends LitElement {
 
 	play() {
 		if (!this.$player) return
-
-		if (this.tracks?.length) {
-			this.$player.updatePlaylist(this.playlist)
-		} else {
-			this.$player.updatePlaylist(this.emptyPlaylist)
-		}
-
 		if (this.track) {
-			this.$player.trackId = this.track
+			// this.$player.trackId = this.track.id
 			if (this.$playButton.checked === false) {
 				this.$playButton.click()
 			}
