@@ -114,7 +114,6 @@ r4-app button {
 	cursor: pointer;
 	line-height: 1;
 	min-height: calc(var(--s));
-	margin: calc(var(--s) / 4);
 	padding: calc(var(--s) / 2);
 	background-color: var(--c-bg-button);
 	color: var(--c-fg);
@@ -223,7 +222,7 @@ r4-page-main {
 r4-page-header {
 	display: flex;
 	& h1 {
-		font-size: 1em;
+		font-size: 1.2em;
 		margin: 0;
 		height: 100%;
 		& + * {

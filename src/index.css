@@ -120,8 +120,7 @@ r4-app textarea {
 r4-app button,
 r4-app select,
 r4-app input,
-r4-app textarea,
-r4-app r4-layout::part(controls-button) {
+r4-app textarea {
 	padding-top: calc(var(--s) / 2.5);
 	padding-bottom: calc(var(--s) / 3.5);
 	padding-left: calc(var(--s) / 2);

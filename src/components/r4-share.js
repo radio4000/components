@@ -6,7 +6,7 @@ templateChannel.innerHTML = `
 			<input readonly name="channel_url" type="url"/>
 		</fieldset>
 		<fieldset>
-			<label for="channel_iframe" id="channel_iframe">Channel Iframe</label>
+			<label for="channel_iframe" id="channel_iframe">Channel &lt;iframe&gt;</label>
 			<input readonly name="channel_iframe" type="url"/>
 		</fieldset>
 		<fieldset>
