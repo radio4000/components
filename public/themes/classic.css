@@ -38,7 +38,7 @@ r4-app {
 	--s: 1rem;
 	--s-radius: 4px;
 	--s-form: calc(var(--s) * 36);
-	--s-textarea: calc(var(--s) * 10);
+	--s-textarea: calc(var(--s) * 5);
 	--font: Maison Neue, system-ui, sans-serif;
 	--s-line-height: 1.3125;
 	--c-light: hsl(0deg 0% 98%);
@@ -221,6 +221,7 @@ r4-page-main {
 /* same size header */
 r4-page-header {
 	display: flex;
+	flex-wrap: wrap;
 	& h1 {
 		font-size: 1.2em;
 		margin: 0;

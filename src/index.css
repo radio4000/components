@@ -114,7 +114,7 @@ r4-app r4-layout::part(controls-button) {
 	line-height: var(--s-line-height);
 }
 r4-app textarea {
-	min-height: calc(var(--s) * 5);
+	min-height: calc(var(--s) * 3);
 	resize: vertical;
 }
 r4-app button,
