@@ -66,10 +66,11 @@ function removeEmptyKeys(obj) {
 
 /**
  * Create a `R4Query` from URLSearchParams
- * @param {URLSearchParams} searchParams
+ * @param {URLSearchParams} [searchParams]
  * @returns {import("../components/r4-query").R4Query}
  */
 export function getQueryFromUrl(searchParams) {
+	if (!searchParams) searchParams = new URLSearchParams(window.location.search)
 	return removeEmptyKeys({
 		search: searchParams.get('search'),
 		orderBy: searchParams.get('orderBy'),

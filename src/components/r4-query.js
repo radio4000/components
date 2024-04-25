@@ -63,14 +63,14 @@ export default class R4BaseQuery extends LitElement {
 
 	connectedCallback() {
 		// As soon as the DOM is ready, read the URL query params
-		this.query = {...this.initialQuery, ...urlUtils.getQueryFromUrl(new URLSearchParams(location.search))}
+		this.query = {...this.initialQuery, ...urlUtils.getQueryFromUrl()}
 		super.connectedCallback()
 	}
 
 	willUpdate(changedProperties) {
 		// trigger an update if url params changed. to be watched
 		if (changedProperties.has('searchParams')) {
-			this.setQuery(urlUtils.getQueryFromUrl(new URLSearchParams(location.search)))
+			this.setQuery(urlUtils.getQueryFromUrl())
 		}
 	}
 
@@ -125,6 +125,7 @@ export default class R4BaseQuery extends LitElement {
 		const {search} = event.detail
 		this.setQuery({search})
 	}
+
 	onFilters(event) {
 		event.preventDefault()
 		if (event.detail) {
