@@ -28,9 +28,11 @@ export default class R4PageChannelUpdate extends BaseChannel {
 		const {channel, channelOrigin} = this
 		return html`
 			<section>
-				<header>
-					<h2>Radio channel</h2>
-					<p>Edit the descriptive attributes of the channel.</p>
+				<header id="channel">
+					<h2>
+						<a href="#channel">Channel</a>
+					</h2>
+					<p>Edit the public attributes and configuration of the radio channel.</p>
 				</header>
 
 				<r4-channel-update
@@ -45,13 +47,17 @@ export default class R4PageChannelUpdate extends BaseChannel {
 				></r4-channel-update>
 			</section>
 
-			<section>
-				<h2>Avatar</h2>
+			<section id="avatar">
+				<header>
+					<h2><a href="#avatar">Avatar</a></h2>
+				</header>
 				<r4-avatar-update slug=${channel.slug}></r4-avatar-update>
 			</section>
 
-			<section>
-				<h2>Map</h2>
+			<section id="map">
+				<header>
+					<h2><a href="#map">Map</a></h2>
+				</header>
 				<r4-map-position .channel=${channel} @submit=${this.onMapSubmit} href=${this.config.href}></r4-map-position>
 			</section>
 			<section>
