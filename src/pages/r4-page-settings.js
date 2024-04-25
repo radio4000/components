@@ -52,9 +52,9 @@ export default class R4PageSettings extends R4Page {
 
 	renderNoUser() {
 		return html`
-			<section>
+			<section href="account">
 				<header>
-					<h2>Account</h2>
+					<h2><a href="#account">Account</a></h2>
 					<p>Your are signed out.</p>
 				</header>
 				<ul>
@@ -69,9 +69,11 @@ export default class R4PageSettings extends R4Page {
 	renderUserChannels() {
 		const {userChannels} = this.store
 		return html`
-			<section>
+			<section id="channel">
 				<header>
-					<h2>Channel${userChannels?.length > 1 ? 's' : ''}</h2>
+					<h2>
+						<a href="#channel">Channel${userChannels?.length > 1 ? 's' : ''}</a>
+					</h2>
 				</header>
 				<ul>
 					${userChannels.map(
@@ -94,9 +96,9 @@ export default class R4PageSettings extends R4Page {
 
 	renderAppearance() {
 		return html`
-			<section>
+			<section id="appearance">
 				<header>
-					<h2>Appearance</h2>
+					<h2><a href="#appearance">Appearance</a></h2>
 					<p>Customize the app's look and feel.</p>
 				</header>
 				<r4-user-account .account=${this.store.userAccount}></r4-user-account>
@@ -106,9 +108,9 @@ export default class R4PageSettings extends R4Page {
 
 	renderAuthentication() {
 		return html`
-			<section>
+			<section id="authentication">
 				<header>
-					<h2>Authentication (<a href="${this.config.href}/sign/out">Sign out</a>)</h2>
+					<h2><a href="#authentication">Authentication</a> (<a href="${this.config.href}/sign/out">Sign out</a>)</h2>
 				</header>
 				<dl>
 					${this.store.user.new_email ? this.renderNewEmail() : null}
@@ -129,9 +131,10 @@ export default class R4PageSettings extends R4Page {
 	}
 	renderUserDelete() {
 		return html`
-			<section>
+			<section id="account">
 				<header>
-					<h2>User account</h2>
+					<h2><a href="#account">Account</a></h2>
+					<p>User account management.</p>
 				</header>
 				<r4-user-delete
 					.user=${this.store.user}
@@ -153,10 +156,12 @@ export default class R4PageSettings extends R4Page {
 	}
 	renderAbout() {
 		return html`
-			<section>
+			<section id="about">
 				<header>
-					<h2>About <r4-title></r4-title> (<r4-title size="small"></r4-title>)</h2>
-					<p>The project is built by and for its users</p>
+					<h2>
+						<a href="#about">About <r4-title></r4-title></a>
+					</h2>
+					<p>The (<r4-title size="small"></r4-title>) project is built by and for its users.</p>
 				</header>
 				<ul>
 					<li>Contact by <a href="mailto:contact@radio4000.com">email</a></li>

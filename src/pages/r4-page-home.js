@@ -31,16 +31,18 @@ export default class R4PageHome extends R4Page {
 		return html`
 			${this.store.userChannels?.length ? this.renderUserChannels() : this.renderBetaNote()}
 			${this.store.following?.length ? this.renderFollowingChannels() : nothing}
-			${this.store.user? nothing : this.renderSignIn()}
+			${this.store.user ? nothing : this.renderSignIn()}
 		`
 	}
 
 	renderUserChannels() {
 		const {userChannels} = this.store
 		return html`
-			<section>
+			<section id="channels">
 				<header>
-					<h2>Channel${userChannels?.length > 1 ? 's' : ''}</h2>
+					<h2>
+						<a href="#channels">Channel${userChannels?.length > 1 ? 's' : ''}</a>
+					</h2>
 				</header>
 				<r4-list> ${userChannels.map((channel) => this.renderChannelCard(channel, this.config.href))} </r4-list>
 			</section>
@@ -94,9 +96,9 @@ export default class R4PageHome extends R4Page {
 	renderFollowingChannels() {
 		const {following} = this.store
 		return html`
-			<section>
+			<section id="network">
 				<header>
-					<h2>Network</h2>
+					<h2><a href="#network">Network</a></h2>
 				</header>
 				<r4-list> ${following?.map((channel) => this.renderChannelCard(channel, this.config.href))} </r4-list>
 			</section>
