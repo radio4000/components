@@ -128,7 +128,9 @@ export default class R4Track extends LitElement {
 	}
 
 	renderDiscogsUrl() {
-		return html`<r4-track-discogs-url><a href="${this.track.discogs_url}">Discogs</a></r4-track-discogs-url>`
+		return html`<r4-track-discogs-url
+			><a href="${this.track.discogs_url}" target="_blank" rel="noopener noreferrer">Discogs</a></r4-track-discogs-url
+		>`
 	}
 
 	renderTags() {
@@ -143,7 +145,7 @@ export default class R4Track extends LitElement {
 
 	renderMentions() {
 		return html` <r4-track-mentions>
-			<menu> ${this.track.mentions?.map((m) => this.renderMention(m))} </menu>
+			<menu>${this.track.mentions?.map((m) => this.renderMention(m))}</menu>
 		</r4-track-mentions>`
 	}
 
@@ -174,7 +176,7 @@ export default class R4Track extends LitElement {
 									<li>
 										<button type="button" role="menuitem" @click=${() => this.openDialog('delete')}>Delete</button>
 									</li>
-							  `
+								`
 							: null}
 					</menu>
 				</details>

@@ -454,7 +454,7 @@ radio4000-player .PlayerControl-group .Btn {
 /* button + title + actions */
 r4-track {
 	display: grid;
-	grid-template-columns: auto 1fr auto;
+	grid-template-columns: auto 1fr auto auto;
 	gap: 0 calc(var(--s) / 2);
 	align-items: center;
 }
