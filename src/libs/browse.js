@@ -48,7 +48,11 @@ export const supabaseOperators = Object.keys(supabaseOperatorsTable)
  * @param {import('../components/r4-query.js').R4Query} props
  */
 export async function browse(props) {
-	const {table, select, filters, orderBy, order, page = 1, limit = 1} = props
+	const {table, select, filters, orderBy, order, page = 1} = props
+
+	// Make sure limit is not higher than what we have in PostgreSQL row limit.
+	const limit = Math.min(props.limit, 4000)
+
 	if (!table) throw new Error('missing "table" to browse')
 
 	// We add count exact: to get a .total property back in the response. head:false ensures we still get the rows.
@@ -56,6 +60,7 @@ export async function browse(props) {
 		count: 'exact',
 		head: false,
 	})
+
 
 	/*
 		 add filters to the query,
