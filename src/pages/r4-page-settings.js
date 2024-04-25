@@ -58,7 +58,7 @@ export default class R4PageSettings extends R4Page {
 					<p>Your are signed out.</p>
 				</header>
 				<ul>
-					<li><a href="${this.config.href}/sign/in">Sign in</a> an existing account</li>
+					<li><a href="${this.config.href}/sign/in">Sign in</a> to an existing account</li>
 					<li><a href="${this.config.href}/sign/up">Sign up</a> to register a new account</li>
 					<li><a href="${this.config.hrefMigrate}">Migrate </a> from version 1 to a version 2 radio channel</li>
 				</ul>

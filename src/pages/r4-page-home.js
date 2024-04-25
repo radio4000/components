@@ -33,7 +33,7 @@ export default class R4PageHome extends R4Page {
 	renderSignIn() {
 		return html`
 			<p>
-				<a href="${this.config.href}/sign/in">Sign in</a> a user account, to create, import or manage a radio 4000
+				<a href="${this.config.href}/sign/in">Sign in</a> to create, import or manage a radio 4000
 				channel.
 			</p>
 		`
