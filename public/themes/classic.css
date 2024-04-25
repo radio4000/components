@@ -223,6 +223,7 @@ r4-page-main {
 r4-page-header {
 	display: flex;
 	& h1 {
+		font-size: 1em;
 		margin: 0;
 		height: 100%;
 		& + * {
