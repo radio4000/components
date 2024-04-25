@@ -1,7 +1,7 @@
 // Each of these correspond to a matching css file in public/themes/.
 export const THEMES = [
 	'classic',
-	// 'jellybeans', // disabled until it gets some love
+	'jellybeans',
 	'minimal',
 	'hash'
 ]

@@ -107,13 +107,6 @@ r4-app {
 	ol {
 		padding: 0 0 0 2rem;
 	}
-	section {
-		margin-bottom: 2rem;
-	}
-	r4-query {
-		display: block;
-		margin-bottom: 1rem;
-	}
 }
 
 /* Sharede between buttons and text inputs */
@@ -341,23 +334,26 @@ r4-channel-name {
 
 /* Primary menu */
 r4-app-menu {
-	display: block;
-	margin-bottom: var(--s);
-	background: var(--c-link);
+	display: inline-block;
+	margin: 0.5rem;
+	border: 1px solid;
+	border-radius: var(--s-radius);
+	/* background: var(--c-link); */
 	[color-scheme="dark"] & {
-		background: var(--c-gray7);
+		/* background: var(--c-gray7); */
 	}
 }
 r4-app-menu a {
 	font-size: 15px;
 	text-decoration: none;
-	color: var(--c-bg);
+	/* color: var(--c-bg);
 	[color-scheme="dark"] & {
 		color: var(--fg);
-	}
+	} */
 }
 r4-app-menu a[aria-current] {
 	background: color-mix(in oklch, var(--c-link) 100%, white 15%);
+	color: var(--c-bg);
 	[color-scheme="dark"] & {
 		background: color-mix(in oklch, var(--c-link) 100%, black 20%);
 	}
@@ -422,11 +418,25 @@ r4-page-add r4-page-header menu {
 	display: none;
 }
 
+/* Pages have a gap by default */
+r4-page-main,
+r4-page-footer {
+	padding-left: var(--s);
+	padding-right: var(--s);
+}
+
 /* Full-width pages */
 r4-page-channel-tracks,
 r4-page-channel  {
 	r4-page-main {
 		padding-left: 0;
 		padding-right: 0;
+	}
+}
+
+r4-supabase-modifiers,
+r4-supabase-filters {
+	& legend {
+		top: -0.4rem;
 	}
 }

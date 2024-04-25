@@ -673,3 +673,47 @@ r4-command-menu {
 	margin-left: auto;
 	margin-right: auto;
 }
+
+
+/* Puts filters and search in one row */
+r4-query {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	& menu {
+		align-self: flex-start;
+		&:is(li, fieldset) {
+			margin: 0;
+		}
+	}
+	& fieldset {
+		padding: calc(var(--s) / 2);
+	}
+}
+r4-supabase-filter-search {
+	& fieldset {
+		margin: 0;
+	}
+}
+r4-supabase-modifiers,
+r4-supabase-filters {
+	& form {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	& fieldset {
+		flex-wrap: nowrap;
+		position: relative;
+		margin: 0;
+	}
+	& legend {
+		position: absolute;
+		top: 0;
+		left: 0;
+		font-size: 0.7rem;
+		background-color: var(--c-bg);
+		border: 1px solid var(--c-border);
+		border-radius: 0.3rem;
+		z-index: 1;
+	}
+}
