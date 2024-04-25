@@ -426,14 +426,14 @@ radio4000-player .PlayerControl-group .Btn {
 	min-height: 0;
 }
 
-/* Add "Listen" to the play button */
-r4-page-channel r4-page-header r4-channel-name {
+r4-page-channel r4-channel-name {
 	font-size: 1.5rem;
 }
-r4-page-channel r4-page-header r4-button-play button {
+/* Add "Listen" to the play button */
+r4-page-channel r4-channel-card r4-button-play button {
 	font-size: 1.2rem;
 }
-r4-page-channel r4-page-header r4-button-play button::after {
+r4-page-channel r4-channel-card r4-button-play button::after {
 	display: inline;
 	content: ' Listen';
 }
