@@ -3,6 +3,11 @@
 	- required defaults to make the work (though it should without CSS)
 */
 
+/* so on mobile it does not refresh the page */
+html {
+	overscroll-behavior: none;
+}
+
 /* these changes are "user personalisation" for color themes */
 r4-app {
 	--s: 0.5rem;
@@ -673,7 +678,6 @@ r4-command-menu {
 	margin-left: auto;
 	margin-right: auto;
 }
-
 
 /* Puts filters and search in one row */
 r4-query {
