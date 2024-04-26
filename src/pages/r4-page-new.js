@@ -19,22 +19,33 @@ export default class R4PageNew extends R4Page {
 	}
 
 	renderHeader() {
-		return html``
+		return html`
+			<menu>
+				<li>
+					<h1><a href=${this.config.href}>New radio channel</a></h1>
+				</li>
+			</menu>
+		`
 	}
 	renderMain() {
 		return html`
-			<h2>Do you already have a radio channel from the old site?</h2>
-			<ol>
-				<li>
-					Visit <a href="${this.config.hrefMigrate}"><strong>migrate.radio4000</strong></a> to import the existing radio
-					channel.
-				</li>
-			</ol>
-			<p>If you are new here, nevermind that notice and welcome!</p>
-
-			<h1>Create radio channel</h1>
-			<r4-channel-create @submit=${this.onChannelCreate}></r4-channel-create>
-			<p>The slug is what will be used for the URL of your channel. You can always change it later.</p>
+			<section>
+				<header>
+					<p>To create a new <r4-title></r4-title> channel, choose a radio name (it can always be changed later).</p>
+				</header>
+				<r4-channel-create @submit=${this.onChannelCreate} href=${this.config.href}></r4-channel-create>
+			</section>
+			<section>
+				<dialog open inline>
+					<h2>Import radio from v1?</h2>
+					<p>
+						Visit
+						<a href="${this.config.hrefMigrate}"><strong>${new URL(this.config.hrefMigrate).hostname}</strong></a> to
+						import the existing radio channel.
+					</p>
+					<p>If you are new here, nevermind that notice and welcome!</p>
+				</dialog>
+			</section>
 		`
 	}
 

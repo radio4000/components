@@ -725,3 +725,8 @@ r4-supabase-filters {
 		z-index: 1;
 	}
 }
+
+/* hide for UX, and because we don't serialize proper' */
+r4-channel-create slot[name='fields'] fieldset:last-of-type {
+	display: none;
+}

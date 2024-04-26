@@ -401,7 +401,8 @@ r4-track-create {
 r4-sign-in,
 r4-sign-out,
 r4-sign-up,
-r4-page-add {
+r4-page-add,
+r4-page-new {
 	display: flex;
 	& form {
 		max-width: var(--s-form);
