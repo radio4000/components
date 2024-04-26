@@ -257,8 +257,10 @@ export default class R4App extends LitElement {
 		 	const sameName = el.playlist && el.playlist.title === channel?.name
 			if (sameName && el.tracks?.length ) {
 				console.log('same playlist title and we have tracks, skipping update')
-				const randomTrack = el.tracks[Math.floor(Math.random() * el.tracks.length)]
-				el.track = randomTrack
+				// if (!el.track) {
+				// 	const randomTrack = el.tracks[Math.floor(Math.random() * el.tracks.length)]
+				// 	el.track = randomTrack
+				// }
 			} else {
 				const {data} = await sdk.channels.readChannelTracks(slug)
 				tracks = data.reverse().map((track) => {
@@ -267,7 +269,7 @@ export default class R4App extends LitElement {
 				})
 				console.log('setting new playlist tracks', slug, el.tracks?.length, tracks?.length)
 				el.tracks = tracks
-				el.track = tracks.at(-1)
+				el.track = track || tracks.at(-1)
 			}
 		} else if (slug && tracks) {
 			el.tracks = tracks.slice().reverse().map((track) => {
