@@ -58,7 +58,7 @@ export default class R4PageAdd extends BaseChannel {
 		return html`
 			<menu>
 				<li>
-					<h1><a aria href="${this.config.href}/${this.selectedSlug}">Add track</a></h1>
+					<h1><a aria href="${this.config.href}/add?slug=${this.selectedSlug}">Add track</a></h1>
 				</li>
 				<li>
 					<a aria href="${this.config.href}/${this.selectedSlug}">${this.selectedSlug}</a>

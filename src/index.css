@@ -92,12 +92,6 @@ r4-app section {
 	margin-top: var(--s);
 	margin-bottom: var(--s);
 }
-r4-app section:first-child:not(:only-child) {
-	margin-top: 0;
-}
-r4-app section:last-child:not(:only-child) {
-	margin-bottom: 0;
-}
 r4-app summary {
 	/* Don't want to select <summaries> text when toggling */
 	user-select: none;
@@ -507,10 +501,6 @@ r4-channel-card {
 	border-radius: var(--s-radius);
 	container: card / inline-size;
 }
-r4-channel-card-inner {
-	display: flex;
-	flex-flow: column nowrap;
-}
 r4-channel-card r4-avatar {
 	width: 100%;
 }
@@ -518,23 +508,11 @@ r4-channel-card-body {
 	flex: 1;
 	display: block;
 }
-
-/* Horizontal card layout */
-@container card (min-width: 25rem) {
-	r4-channel-card-inner {
-		flex-direction: row;
-		align-items: center;
-		gap: var(--s);
-	}
-	r4-channel-card a:has(r4-avatar) {
-		width: calc(100vmax / 10);
-	}
-}
-
 r4-channel-description {
 	display: block;
 }
 
+/* supabase queries */
 r4-supabase-modifiers form {
 	display: flex;
 	flex-wrap: wrap;

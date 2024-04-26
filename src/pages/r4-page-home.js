@@ -32,6 +32,16 @@ export default class R4PageHome extends R4Page {
 	renderHeader() {
 		if (!this.store.userChannels?.length) {
 			return html`<a href=${this.config.href}><r4-favicon></r4-favicon></a>`
+		} else {
+			return html`
+				<menu>
+					<li>
+						<h1>
+							<a href=${this.config.href}>Dashboard</a>
+						</h1>
+					</li>
+				</menu>
+			`
 		}
 	}
 
