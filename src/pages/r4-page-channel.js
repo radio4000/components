@@ -62,7 +62,6 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	renderTracksList() {
-		console.log(this.tracks)
 		if (this.tracks.length) {
 			return html`
 				<r4-list>
