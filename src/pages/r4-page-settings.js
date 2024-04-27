@@ -161,7 +161,12 @@ export default class R4PageSettings extends R4Page {
 					<h2>
 						<a href="#about">About <r4-title></r4-title></a>
 					</h2>
-					<p>The (<r4-title size="small"></r4-title>) project is built by and for its users.</p>
+					<p>
+						The (<r4-title size="small"></r4-title>) project is built
+						<a href="https://github.com/radio4000/publications/blob/main/radio4000-manifest.md" target="_blank"
+							>by and for its users</a
+						>.
+					</p>
 				</header>
 				<ul>
 					<li>Previous site version <a href=${this.config.hrefV1}>v1.radio4000</a></li>
