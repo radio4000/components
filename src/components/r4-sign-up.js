@@ -98,7 +98,7 @@ export default class R4SignUp extends R4Form {
 			res = await sdk.auth.signUp({
 				email: this.state.email,
 				password: this.state.password,
-				options: {token: this.state.token},
+				options: {captchaToken: this.state.token},
 			})
 
 			if (res.error) {
