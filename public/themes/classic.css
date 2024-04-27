@@ -436,6 +436,13 @@ radio4000-player .Layout .TrackItem {
 radio4000-player .PlayerControl-group .Btn {
 	min-height: 0;
 }
+
+r4-page-channel-tracks r4-page-header h1 a::before,
+r4-page-channel r4-page-header h1 a::before,
+r4-channel-card r4-channel-slug::before {
+	content: '@';
+	font-size: 1em;
+}
 r4-page-channel r4-channel-card {
 	max-width: 50rem;
 }

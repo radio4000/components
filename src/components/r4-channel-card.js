@@ -44,7 +44,7 @@ export default class R4ChannelCard extends LitElement {
 			<r4-channel-card-body>
 				<a href="${this.url}">
 					<r4-channel-name>${this.channel.name}</r4-channel-name>
-					<r4-channel-slug>@${this.channel.slug}</r4-channel-slug>
+					<r4-channel-slug>${this.channel.slug}</r4-channel-slug>
 				</a>
 				${this.renderDescription()} ${this.renderUrl()}
 			</r4-channel-card-body>
