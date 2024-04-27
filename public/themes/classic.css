@@ -123,6 +123,9 @@ r4-app button {
 	&:hover {
 		background-color: var(--c-bg-button2);
 	}
+	&[disabled] {
+		background-color: var(--c-bg);
+	}
 }
 
 r4-app[color-scheme='dark'] button {

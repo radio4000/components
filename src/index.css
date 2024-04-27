@@ -454,6 +454,7 @@ r4-track {
 }
 r4-avatar {
 	display: inline-flex;
+	max-width: calc(var(--s) * 5);
 }
 r4-avatar picture,
 r4-avatar img {
