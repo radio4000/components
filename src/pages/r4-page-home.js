@@ -70,8 +70,8 @@ export default class R4PageHome extends R4Page {
 	renderSignIn() {
 		return html`
 			<p><a href="${this.config.href}/sign/in">Sign in</a> to create, import or manage a radio 4000 channel.</p>
-			${this.latestTracks?.length ? this.renderTracks() : nothing}
 			${this.featuredChannels?.length ? this.renderFeaturedChannels() : nothing}
+			${this.latestTracks?.length ? this.renderTracks() : nothing}
 		`
 	}
 
