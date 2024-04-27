@@ -63,7 +63,7 @@ export default class R4PageSign extends R4Page {
 		// eslint-disable-next-line
 		return html`
 			<section>
-				<${tag} @submit=${this.onSignSubmit} email=${this.email}></${tag}>
+				<${tag} @submit=${this.onSignSubmit} email=${this.email} hcaptcha-site-key=${this.config.hcaptchaSiteKey}></${tag}>
 			</section>
 		`
 	}

@@ -1,7 +1,7 @@
 import {html, LitElement} from 'lit'
 import {ref, createRef} from 'lit/directives/ref.js'
 import pkg from '../../package.json'
-import {sdk} from '../libs/sdk.js'
+import {sdk, HCAPTCHA_SITE_KEY} from '../libs/sdk.js'
 import {UI_STATES} from '../libs/appearance.js'
 import page from 'page/page.mjs'
 import DatabaseListeners from '../libs/db-listeners'
@@ -71,10 +71,14 @@ export default class R4App extends LitElement {
 			href: this.href,
 			hrefV1: 'https://v1.radio4000.com',
 			hrefMigrate: 'https://migrate.radio4000.com',
+			hcaptchaSiteKey: HCAPTCHA_SITE_KEY,
 			client,
 			version: this.version,
 			singleChannel: this.singleChannel,
 			selectedSlug: this.selectedSlug,
+
+			/* maybe move this into a new object? (not config, but "player" or "store");
+				 currently passed to too many things */
 			isPlaying: this.isPlaying,
 			playingChannel: this.playingChannel,
 			playingTracks: this.playingTracks,

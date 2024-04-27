@@ -35,13 +35,14 @@ export default class R4Form extends HTMLElement {
 
 	/* all fieldsets' field names attributes (on input, textarea etc.) */
 	get fieldNames() {
-		if (!this.$fieldsets) return []
-		const names = []
-		this.$fieldsets.forEach(($fieldset) => {
-			let fieldName = $fieldset.querySelector('[name]').getAttribute('name')
-			names.push(fieldName)
-		})
-		return names
+		return Array.from(this.$fieldsets).reduce((acc, $fieldset) => {
+			let fieldName = $fieldset.querySelector('[name]')?.getAttribute('name')
+			if (fieldName) {
+				return [...acc, fieldName]
+			} else {
+				return acc
+			}
+		}, [])
 	}
 
 	attributeChangedCallback(attrName) {
@@ -56,8 +57,7 @@ export default class R4Form extends HTMLElement {
 	}
 
 	init() {
-		this.innerHTML = ''
-		this.append(template.content.cloneNode(true))
+		this.replaceChildren(template.content.cloneNode(true))
 		this.$form = this.querySelector('form')
 		this.$form.addEventListener('submit', this.handleSubmit.bind(this))
 		this.$form.addEventListener('keydown', this.handleKeydown.bind(this))
