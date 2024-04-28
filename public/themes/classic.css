@@ -254,6 +254,7 @@ r4-app menu {
 r4-app menu li {
 	margin: 0;
 	align-items: center;
+	height: 100%;
 }
 r4-app menu a {
 	padding: calc(var(--s) / 2);
