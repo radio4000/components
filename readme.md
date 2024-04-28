@@ -6,7 +6,7 @@ These components can be inserted in the HTML of any web pages, and are made to i
 [@radio4000/sdk](https://github.com/radio4000/sdk), which talks to [@radio4000/supabase](https://github.com/radio4000/supabase).
 
 - [View examples of all components](https://radio4000.github.io/components/examples/)
-- [View example of the `<r4-app>` component](https://beta.radio4000.com)
+- [View example of the `<r4-app>` component](https://radio4000.com)
 
 ## Usage
 
