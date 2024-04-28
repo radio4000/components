@@ -20,7 +20,8 @@
     "dev": "vite --port 4000 --config src/vite/site.config.js",
     "build": "npm run build-website && npm run build-library",
     "build-library": "vite build --config src/vite/lib.config.js",
-    "build-website": "vite build --config src/vite/site.config.js"
+    "build-website": "vite build --config src/vite/site.config.js",
+    "manifest": "npm run custom-elements-manifest analyze --litelement --globs 'src/components/*.js' --exclude 'src/components/r4-app.js' --outdir public"
   },
   "dependencies": {
     "@hcaptcha/vanilla-hcaptcha": "^1.1.0-alpha2",
@@ -34,9 +35,11 @@
     "radio4000-player": "^0.6.24"
   },
   "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.9.8",
     "eslint": "^9.1.1",
     "eslint-plugin-lit": "^1.11.0",
     "eslint-plugin-wc": "^2.1.0",
+    "lit-analyzer": "^2.0.3",
     "prettier": "^3.2.5",
     "recursive-readdir": "^2.2.3",
     "vite": "^5.2.10"
