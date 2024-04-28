@@ -85,7 +85,7 @@ export default class R4PageHome extends R4Page {
 					${this.latestTracks?.map(
 						(track) =>
 							html`<span>
-								<r4-button-play .track=${track}></r4-button-play>
+								<r4-button-play slug=${track.slug} .track=${track}></r4-button-play>
 								<small> ${track.title} (from @${track.slug}) </small>
 							</span>`,
 					)}
