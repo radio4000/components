@@ -32,15 +32,18 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A dropdown menu that\ncloses on ESC\nonly has one open at a time",
+          "description": "A dropdown menu that closes on ESC only has one open at a time",
           "name": "R4Actions",
           "members": [
             {
               "kind": "method",
-              "name": "onKey",
+              "name": "onKeyDown",
               "parameters": [
                 {
-                  "name": "event"
+                  "name": "event",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
                 }
               ]
             },
@@ -53,7 +56,10 @@
               "name": "close",
               "parameters": [
                 {
-                  "name": "details"
+                  "name": "details",
+                  "type": {
+                    "text": "HTMLDetailsElement"
+                  }
                 }
               ]
             },
@@ -86,7 +92,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "The primary menu for <r4-app>",
           "name": "R4AppMenu",
           "members": [
             {
@@ -140,6 +146,7 @@
               "type": {
                 "text": "boolean"
               },
+              "description": "If set to true, renders different menu items",
               "attribute": "auth"
             },
             {
@@ -149,6 +156,7 @@
               "type": {
                 "text": "boolean"
               },
+              "description": "Used to set active link",
               "attribute": "path"
             }
           ],
@@ -172,6 +180,7 @@
               "type": {
                 "text": "boolean"
               },
+              "description": "If set to true, renders different menu items",
               "fieldName": "auth"
             },
             {
@@ -179,6 +188,7 @@
               "type": {
                 "text": "boolean"
               },
+              "description": "Used to set active link",
               "fieldName": "path"
             }
           ],

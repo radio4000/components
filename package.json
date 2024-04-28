@@ -21,7 +21,7 @@
     "build": "npm run build-website && npm run build-library",
     "build-library": "vite build --config src/vite/lib.config.js",
     "build-website": "vite build --config src/vite/site.config.js",
-    "manifest": "npm run custom-elements-manifest analyze --litelement --globs 'src/components/*.js' --exclude 'src/components/r4-app.js' --outdir public"
+    "manifest": "custom-elements-manifest analyze --litelement --globs 'src/components/*.js' --exclude 'src/components/r4-app.js' --outdir public"
   },
   "dependencies": {
     "@hcaptcha/vanilla-hcaptcha": "^1.1.0-alpha2",
