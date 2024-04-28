@@ -236,26 +236,52 @@ export default class R4App extends LitElement {
 
 	async onPlay({detail}) {
 		if (!detail) return this.stop()
+		console.log('onPlay', detail)
+		console.time('onPlay')
 
-		let {channel, tracks, track, search} = detail
+		let {channel, tracks, search} = detail
+		let {track} = detail
 		const el = this.playerRef.value
 
+		if (track?.id) {
+			el.track = track
+			console.log('set track', el.track?.title)
+		} else if (tracks?.length) {
+			el.track = tracks[0]
+			console.log('set track via tracks', el.track?.title)
+		}
+
+		// If we know which channel it is, but don't have any tracks
+		// Load and queue them in player
 		const slug = channel?.slug || track.slug
-		if (!tracks && slug) {
-			const {data} = await sdk.channels.readChannelTracks(slug)
-			tracks = data.reverse().map((track) => {
+		if (slug && !tracks?.length) {
+			console.log('no tracks passed in')
+
+			// Don't load and set tracks if we can avoid it.
+		 	const sameName = el.playlist && el.playlist.title === channel?.name
+			if (sameName && el.tracks?.length ) {
+				console.log('same playlist title and we have tracks, skipping update')
+				// if (!el.track) {
+				// 	const randomTrack = el.tracks[Math.floor(Math.random() * el.tracks.length)]
+				// 	el.track = randomTrack
+				// }
+			} else {
+				const {data} = await sdk.channels.readChannelTracks(slug)
+				tracks = data.reverse().map((track) => {
+					track.body = track.description
+					return track
+				})
+				console.log('setting new playlist tracks', slug, el.tracks?.length, tracks?.length)
+				el.tracks = tracks
+				el.track = track || tracks.at(-1)
+			}
+		} else if (slug && tracks) {
+			el.tracks = tracks.slice().reverse().map((track) => {
 				track.body = track.description
 				return track
 			})
+			el.track = tracks.at(0)
 		}
-
-		el.tracks = tracks || []
-
-		// Update state about what's playing.
-		this.isPlaying = true
-		this.playingChannel = channel
-		this.playingTrack = track
-		this.playingTracks = tracks
 
 		if (channel?.name) {
 			el.setAttribute('name', channel.name)
@@ -276,17 +302,14 @@ export default class R4App extends LitElement {
 			el.removeAttribute('image')
 		}
 
-		if (track?.id) {
-			el.setAttribute('track', track.id)
-		} else if (tracks) {
-			const lastTrack = tracks[tracks.length - 1]
-			if (lastTrack) {
-				el.setAttribute('track', lastTrack.id)
-				this.playingTrack = lastTrack
-			}
-		} else {
-			el.removeAttribute('track')
-		}
+
+		// Update state about what's playing.
+		this.isPlaying = true
+		this.playingChannel = channel
+		this.playingTrack = track
+		this.playingTracks = tracks
+
+		console.timeEnd('onPlay')
 	}
 
 	onTrackChange(event) {
@@ -318,7 +341,7 @@ export default class R4App extends LitElement {
 				<r4-player
 					slot="player"
 					${ref(this.playerRef)}
-					.config=${this.config}
+					.isPlaying=${this.config.isPlaying}
 					@trackchange=${this.onTrackChange}
 				></r4-player>
 				<form slot="playback-controls">${Object.entries(UI_STATES).map(this.renderPlayerUICtrl.bind(this))}</form>

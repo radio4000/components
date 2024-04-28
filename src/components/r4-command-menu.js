@@ -3,7 +3,7 @@ import page from 'page/page.mjs'
 import '../libs/command-menu.js'
 
 /**
- * This is how a "command" looks like
+ * This is how a "command" looks like. See generateCommands() for the actual ones we use.
  * @typedef {Object} Command
  * @property {String} title - The title of the command
  * @property {String} [subtitle] - A description of the command
