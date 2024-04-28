@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit'
-import { sdk } from '@radio4000/sdk'
+import { sdk } from '../libs/sdk'
 
 export default class R4Tuner extends LitElement {
 	static properties = {
@@ -23,8 +23,8 @@ export default class R4Tuner extends LitElement {
 		this.setChannels()
 	}
 
+	// Fetches all channels, adds a "frequency" property and sorts by it.
 	async setChannels() {
-		// Loads channels, sorts by slugs and adds a frequency property.
 		const { data: channels } = await sdk.channels.readChannels()
 
 		for (const c of channels) {
@@ -85,9 +85,9 @@ export default class R4Tuner extends LitElement {
 }
 
 /**
- * Generate a unique frequency based on the channel name and slug.
+ * Generate a unique, deterministic frequency based on the channel name and slug.
  * All frequency values are rounded to one decimal place.
- * Values are deterministic. Values are generated inside a given range.
+ * Values are generated inside a given range.
  * @param {string} channelName
  * @param {string} channelSlug
  * @param {number} minFreq - the minimum frequency
