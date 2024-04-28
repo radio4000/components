@@ -110,6 +110,9 @@ export default class R4SignIn extends R4Form {
 			}
 		} catch (err) {
 			this.handleError(err)
+		} finally {
+			const signupCaptcha = this.querySelector('h-captcha')
+			signupCaptcha.reset()
 		}
 
 		this.enableForm()

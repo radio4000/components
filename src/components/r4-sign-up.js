@@ -105,7 +105,6 @@ export default class R4SignUp extends R4Form {
 				password: this.state.password,
 				options,
 			})
-
 			if (res.error) {
 				if (res.error.message.startsWith('For security purposes, you can only request this after')) {
 					res.error.code = 'email-not-confirmed'
@@ -123,6 +122,9 @@ export default class R4SignUp extends R4Form {
 			}
 		} catch (err) {
 			this.handleError(err)
+		} finally {
+			const signupCaptcha = this.querySelector('h-captcha')
+			signupCaptcha.reset()
 		}
 
 		const {data} = res
