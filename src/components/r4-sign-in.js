@@ -51,7 +51,7 @@ export default class R4SignIn extends R4Form {
 			message: 'The Email & Password combination is incorect',
 		},
 		'captcha-required': {
-			message: 'The Captcha is missing. Please solve it to sign up.',
+			message: 'The Captcha is missing. Please solve it to sign in.',
 		},
 	}
 	connectedCallback() {
