@@ -3,11 +3,12 @@ import {sdk} from '../libs/sdk.js'
 
 /**
  * Renders a button, to play a channel by slug / track (id)
- * 1. pass in a channel `slug` attribute
- * 2. also pass in a `track` object, of this channel's track to play
+ * 1. pass in a `slug` (channel) attribute (causes it to fetch)
+ * 2. pass in a `track` object, of this channel's track to play
+ * 3. pass in a `channel` object to avoid fetching channel
+ * 4. pass in a `tracks` array to use as playlist
  * 3. pass in a "label" string to overwrite the button text contents
  */
-
 export default class R4ButtonPlay extends LitElement {
 	static properties = {
 		label: {type: String},

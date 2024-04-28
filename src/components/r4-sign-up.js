@@ -70,6 +70,7 @@ export default class R4SignUp extends R4Form {
 			this.initCaptcha(siteKey)
 		}
 	}
+
 	initCaptcha(siteKey) {
 		const $signupCaptchaField = captchaFieldTemplate.content.cloneNode(true)
 		const $captchaInput = $signupCaptchaField.querySelector('input')

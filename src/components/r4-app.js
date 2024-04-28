@@ -236,8 +236,6 @@ export default class R4App extends LitElement {
 
 	async onPlay({detail}) {
 		if (!detail) return this.stop()
-		console.log('onPlay', detail)
-		console.time('onPlay')
 
 		let {channel, tracks, search} = detail
 		let {track} = detail
@@ -245,22 +243,18 @@ export default class R4App extends LitElement {
 
 		if (track?.id) {
 			el.track = track
-			console.log('set track', el.track?.title)
 		} else if (tracks?.length) {
 			el.track = tracks[0]
-			console.log('set track via tracks', el.track?.title)
 		}
 
 		// If we know which channel it is, but don't have any tracks
 		// Load and queue them in player
 		const slug = channel?.slug || track.slug
 		if (slug && !tracks?.length) {
-			console.log('no tracks passed in')
 
 			// Don't load and set tracks if we can avoid it.
 		 	const sameName = el.playlist && el.playlist.title === channel?.name
 			if (sameName && el.tracks?.length ) {
-				console.log('same playlist title and we have tracks, skipping update')
 				// if (!el.track) {
 				// 	const randomTrack = el.tracks[Math.floor(Math.random() * el.tracks.length)]
 				// 	el.track = randomTrack
@@ -271,7 +265,6 @@ export default class R4App extends LitElement {
 					track.body = track.description
 					return track
 				})
-				console.log('setting new playlist tracks', slug, el.tracks?.length, tracks?.length)
 				el.tracks = tracks
 				el.track = track || tracks.at(-1)
 			}
@@ -308,8 +301,6 @@ export default class R4App extends LitElement {
 		this.playingChannel = channel
 		this.playingTrack = track
 		this.playingTracks = tracks
-
-		console.timeEnd('onPlay')
 	}
 
 	onTrackChange(event) {

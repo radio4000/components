@@ -49,44 +49,27 @@ export default class R4Player extends LitElement {
 
 	willUpdate(changedProps) {
 		if (changedProps.has('track')) {
-			// console.log('track changed to', this.track.title)
 			const t  = this.$player.serializeTrack(this.track)
 			this.$player.playTrack(t)
 		}
 
 		if (changedProps.has('tracks')) {
 			if (this.tracks?.length) {
-				console.log('updatePlaylist', {before: changedProps.get('tracks'), after: this.tracks})
 				this.$player.updatePlaylist(this.playlist)
-				if (!this.track) {
-					console.log('play last track?')
-					// const t  = this.$player.serializeTrack(this.track || this.tracks.at(-1))
-					// console.log('schedule internal play track', t.title)
-					// this.$player.playTrack(t)
-				}
 			} else {
-				console.log('tracks changed but no tracks')
 				this.$player.updatePlaylist(this.emptyPlaylist)
 			}
 		}
 
 		if (changedProps.has('isPlaying')) {
-			console.log('is playing changed', this.isPlaying)
-			if (this.isPlaying) {
-				this.play()
-			} else {
-				this.pause()
-			}
+			this.isPlaying ? this.play() : this.pause()
 		}
 	}
 
 	play() {
 		if (!this.$player) return
-		if (this.track) {
-			// this.$player.trackId = this.track.id
-			if (this.$playButton.checked === false) {
-				this.$playButton.click()
-			}
+		if (this.track && this.$playButton.checked === false) {
+			this.$playButton.click()
 		}
 	}
 

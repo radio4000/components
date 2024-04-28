@@ -32,7 +32,6 @@
 			const trackId = params.get('track-id')
 
 			const $shares = document.querySelectorAll('r4-share')
-			console.log('yolo', slug, trackId, $shares)
 			$shares.forEach(($share) => {
 				/* replace URL pattern for where the channel `slug`,
 					 should be inserted in the final sharing links */
@@ -43,7 +42,6 @@
 				if (trackId) {
 					$share.setAttribute('track-id', trackId)
 				}
-				console.log($share)
 			})
 		</script>
 	</body>
