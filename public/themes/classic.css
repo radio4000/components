@@ -523,6 +523,10 @@ r4-page-home {
 		}
 	}
 }
+[color-scheme="dark"] r4-favicon svg {
+	fill: var(--c-fg);
+	opacity: 0.3;
+}
 r4-page-add {
 	justify-content: center;
 }
