@@ -1,11 +1,15 @@
 import {LitElement, html, nothing} from 'lit'
 
+/**
+ * The primary menu for <r4-app>
+ */
 export default class R4AppMenu extends LitElement {
 	static properties = {
 		href: {type: String},
 		slug: {type: String},
+		/** If set to true, renders different menu items */
 		auth: {type: Boolean},
-		// Used to set active link.
+		/** Used to set active link	*/
 		path: {type: Boolean, state: true},
 	}
 

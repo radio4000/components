@@ -1,20 +1,19 @@
-import {LitElement, html} from 'lit'
+import {LitElement} from 'lit'
 
 /**
- * A dropdown menu that
- * closes on ESC
- * only has one open at a time
+ * A dropdown menu that closes on ESC only has one open at a time
  */
 export default class R4Actions extends LitElement {
 	// static properties = {}
 
 	connectedCallback() {
-		this.addEventListener('keydown', this.onKey)
+		this.addEventListener('keydown', this.onKeyDown)
 		const details = this.querySelector('details')
 		details && details.addEventListener('toggle', this.onToggle.bind(this))
 	}
 
-	onKey(event) {
+	/** @arg {KeyboardEvent} event */
+	onKeyDown(event) {
 		if (event.key === 'Escape') {
 			const details = this.querySelector('details')
 			if (details.hasAttribute('open')) {
@@ -29,6 +28,7 @@ export default class R4Actions extends LitElement {
 		this.closeCurrentMenu()
 	}
 
+	/** @arg {HTMLDetailsElement} details */
 	close(details) {
 		details.removeAttribute('open')
 		const summary = details.querySelector('summary')

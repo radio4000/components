@@ -2,6 +2,8 @@ import {LitElement, html} from 'lit'
 import {sdk} from '../libs/sdk.js'
 
 /**
+ * @element r4-button-play
+ *
  * Renders a button, to play a channel by slug / track (id)
  * 1. pass in a `slug` (channel) attribute (causes it to fetch)
  * 2. pass in a `track` object, of this channel's track to play

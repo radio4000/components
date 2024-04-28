@@ -11,6 +11,7 @@ const SIZES = {
  * There are two ways to tell the component what to render
  * 1. Pass in an `image` with the Cloudinary image id
  * 2. Pass in a `slug` with the channel slug. This will cause a network request to happen
+ * @element r4-avatar
  */
 export default class R4Avatar extends LitElement {
 	static properties = {

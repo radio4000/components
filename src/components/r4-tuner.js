@@ -1,6 +1,14 @@
 import { LitElement, html } from 'lit'
 import { sdk } from '../libs/sdk'
 
+/*
+ * Renders a RangeInput where all channels are given a unique, custom "frequency".
+ * The idea is to have an alternative, fun way to tune in to radios.
+ *
+ * @element r4-tuner
+ * @attr {Boolean} showSource - explain what this does
+ * @event {selectChannel} fires when the user select a channel
+ **/
 export default class R4Tuner extends LitElement {
 	static properties = {
 		value: { type: Number, reflect: true },
@@ -23,7 +31,8 @@ export default class R4Tuner extends LitElement {
 		this.setChannels()
 	}
 
-	// Fetches all channels, adds a "frequency" property and sorts by it.
+	/** Updates this.channels with ALL channels,
+	 * and adds a "frequency" property to each and sorts by it. */
 	async setChannels() {
 		const { data: channels } = await sdk.channels.readChannels()
 
