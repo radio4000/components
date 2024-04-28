@@ -2,14 +2,16 @@
   "name": "@radio4000/components",
   "description": "Web components for radio4000.com",
   "private": false,
-  "version": "0.1.66",
+  "version": "0.1.67",
   "type": "module",
   "main": "dist/r4.js",
   "exports": {
     ".": "./dist/r4.js",
     "./style": "./dist/style.css"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier src --write",
