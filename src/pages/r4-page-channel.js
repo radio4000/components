@@ -24,9 +24,10 @@ export default class R4PageChannel extends BaseChannel {
 		this.query = {
 			table: 'channel_tracks',
 		}
+		this.tracks = []
 	}
 
-	handleData(event) {
+	onData(event) {
 		this.tracks = event.detail.data
 	}
 
@@ -35,7 +36,7 @@ export default class R4PageChannel extends BaseChannel {
 			<r4-query
 				.defaultFilters=${[{operator: 'eq', column: 'slug', value: this.channel?.slug}]}
 				.initialQuery=${this.query}
-				@data=${this.handleData}
+				@data=${this.onData}
 			></r4-query>
 			${this.channel ? this.renderChannelShare() : null}
 		`
@@ -61,15 +62,24 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	renderTracksList() {
-		if (!this.tracks) return null
-		return html`
-			<r4-list>
-				${repeat(
-					this.tracks,
-					(t) => t.id,
-					(t) => this.renderTrackItem(t),
-				)}
-			</r4-list>
-		`
+		if (this.tracks.length) {
+			return html`
+				<r4-list>
+					${repeat(
+						this.tracks,
+						(t) => t.id,
+						(t) => this.renderTrackItem(t),
+					)}
+				</r4-list>
+			`
+		} else {
+			if (this.canEdit) {
+				return html`
+					<p><a href="${this.config.href}/add?slug=${this.channel.slug}"> Add </a> a first track into the radio.</p>
+				`
+			} else {
+				return html`<p>This channel does not yet have any track.</p>`
+			}
+		}
 	}
 }

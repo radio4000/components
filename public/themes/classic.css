@@ -123,6 +123,9 @@ r4-app button {
 	&:hover {
 		background-color: var(--c-bg-button2);
 	}
+	&[disabled] {
+		background-color: var(--c-bg);
+	}
 }
 
 r4-app[color-scheme='dark'] button {
@@ -189,10 +192,6 @@ r4-page-header {
 	align-self: flex-start;
 	background-color: var(--c-bg);
 }
-r4-page-header {
-	padding-left: calc(var(--s) / 2);
-	padding-right: calc(var(--s) / 2);
-}
 r4-page-main,
 r4-page-footer {
 	padding-left: var(--s);
@@ -223,7 +222,6 @@ r4-page-header {
 	display: flex;
 	flex-wrap: wrap;
 	& h1 {
-		font-size: 1.2em;
 		margin: 0;
 		height: 100%;
 		& + * {
@@ -232,6 +230,7 @@ r4-page-header {
 	}
 	& menu {
 		align-items: stretch;
+		margin: calc(var(--s) / 4);
 	}
 }
 
@@ -276,42 +275,51 @@ r4-app-menu a {
 	background: none;
 }
 
+r4-list-item + r4-list-item {
+	margin-top: calc(var(--s) / 4);
+}
+
+/* elements to text wrap  */
+
+r4-channel-card-body r4-channel-name,
+r4-channel-card-body r4-channel-slug {
+	word-break: break-all;
+	white-space: pre-wrap;
+}
+
 /* Channel cards */
 r4-channel-card {
 	background-color: var(--c-bg2);
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
 }
-
-r4-channel-card r4-channel-slug {
-	display: none;
+r4-channel-card-body {
+	padding: calc(var(--s) / 3);
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+r4-channel-card-body a {
+	color: var(--c-fg);
+	text-decoration: none;
+	padding: calc(var(--s) / 4);
+	display: flex;
+	flex-direction: column;
+}
+r4-channel-card-body r4-channel-name {
+	font-weight: bold;
+}
+r4-channel-card-body r4-channel-slug {
+	color: var(--c-link);
+}
+r4-channel-card-body r4-channel-url a {
+	text-decoration: underline;
 }
 
 r4-channel-card r4-button-play {
-	margin-top: var(--s);
-	margin-left: var(--s);
-}
-
-r4-channel-card-body {
-	padding: var(--s);
-}
-
-/* Tracklists */
-r4-list:has(r4-track) {
-	border: 1px solid var(--c-border);
-	border-radius: var(--s-radius);
-
-	r4-list-item:first-of-type r4-track {
-		border-top-left-radius: var(--s-radius);
-		border-top-right-radius: var(--s-radius);
-	}
-
-	r4-list-item:last-of-type r4-track {
-		border-bottom-left-radius: var(--s-radius);
-		border-bottom-right-radius: var(--s-radius);
-	}
-
-	r4-list-item:not(:last-child) r4-track {
-		border-bottom: 1px solid var(--c-border);
-	}
+	margin: calc(var(--s) / 2);
 }
 
 /* track */
@@ -363,6 +371,58 @@ r4-track[playing] r4-button-play button {
 	border-color: var(--c-purple);
 }
 
+/* Tracklists */
+r4-list:has(r4-track) {
+	border: 1px solid var(--c-border);
+	border-radius: var(--s-radius);
+
+	r4-list-item:first-of-type r4-track {
+		border-top-left-radius: var(--s-radius);
+		border-top-right-radius: var(--s-radius);
+	}
+
+	r4-list-item:last-of-type r4-track {
+		border-bottom-left-radius: var(--s-radius);
+		border-bottom-right-radius: var(--s-radius);
+	}
+
+	r4-list-item:not(:last-child) r4-track {
+		border-bottom: 1px solid var(--c-border);
+	}
+}
+r4-list r4-channel-description {
+	/* overflow: hidden; */
+	/* white-space: nowrap; */
+	/* text-overflow: ellipsis; */
+	/* display: block; */
+	display: none;
+}
+r4-list r4-channel-card r4-button-play {
+	order: -1;
+}
+/* container query for r4-list and its children */
+r4-list:has(r4-channel-card) {
+	container-type: inline-size;
+	/* If the container is larger than 700px */
+}
+@container (min-width: 700px) {
+	r4-list r4-channel-card {
+		& r4-channel-description {
+			overflow: hidden;
+			white-space: initial;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+		}
+	}
+}
+r4-list r4-channel-url {
+	display: none;
+}
+r4-list r4-avatar {
+	max-width: 5rem;
+}
+
 /* Forms */
 r4-app form legend,
 r4-app form label {
@@ -401,7 +461,8 @@ r4-track-create {
 r4-sign-in,
 r4-sign-out,
 r4-sign-up,
-r4-page-add {
+r4-page-add,
+r4-page-new {
 	display: flex;
 	& form {
 		max-width: var(--s-form);
@@ -421,11 +482,19 @@ r4-page-add form {
 radio4000-player .Layout .TrackItem {
 	background-color: inherit;
 }
-
 radio4000-player .PlayerControl-group .Btn {
 	min-height: 0;
 }
 
+r4-page-channel-tracks r4-page-header h1 a::before,
+r4-page-channel r4-page-header h1 a::before,
+r4-channel-card r4-channel-slug::before {
+	content: '@';
+	font-size: 1em;
+}
+r4-page-channel r4-channel-card {
+	max-width: 50rem;
+}
 r4-page-channel r4-channel-name {
 	font-size: 1.5rem;
 }
@@ -433,21 +502,10 @@ r4-page-channel r4-channel-name {
 r4-page-channel r4-channel-card r4-button-play button {
 	font-size: 1.2rem;
 }
+
 r4-page-channel r4-channel-card r4-button-play button::after {
 	display: inline;
 	content: ' Listen';
-}
-
-/* pages */
-r4-page-home,
-r4-page-explore {
-	r4-list:has(r4-channel-card) {
-		/* Differentiate channels and track lists by using a grid */
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-		gap: var(--s);
-		align-items: stretch;
-	}
 }
 
 r4-page-channel-track r4-track a {

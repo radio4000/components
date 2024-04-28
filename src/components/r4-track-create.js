@@ -1,5 +1,5 @@
 import {sdk} from '../libs/sdk.js'
-import mediaUrlParser from 'media-url-parser'
+import {fetchOEmbed} from '../libs/oembed.js'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
@@ -70,7 +70,7 @@ export default class R4TrackCreate extends R4Form {
 		/* if the `url` change, and there is no `title`, set one up */
 		if (name === 'url' && value) {
 			if (!this.state.title) {
-				const {title} = await this.fetchTrackInfo(value)
+				const {title} = await fetchOEmbed(value)
 				if (title) {
 					/* cannot this.setAttribute('title') from here */
 					const $trackTitle = this.querySelector('[name="title"]')
@@ -82,21 +82,6 @@ export default class R4TrackCreate extends R4Form {
 
 		if (name === 'discogsUrl' && value) {
 		}
-	}
-
-	async fetchTrackInfo(mediaUrl) {
-		let trackInfo = {}
-		const data = mediaUrlParser(mediaUrl)
-		if (data.provider === 'youtube' && data.id) {
-			let res
-			try {
-				res = await fetch(`https://api.radio4000.com/api/youtube?id=${data.id}`)
-				trackInfo = await res.json()
-			} catch (error) {
-				//
-			}
-		}
-		return trackInfo
 	}
 
 	async handleSubmit(event) {

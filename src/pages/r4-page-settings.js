@@ -76,14 +76,14 @@ export default class R4PageSettings extends R4Page {
 					</h2>
 				</header>
 				<ul>
-					${userChannels.map(
+					${userChannels?.map(
 						(x) =>
 							html`<li>
 								<a href=${`${this.config.href}/${x.slug}`}>${x.name}</a>
 								(<a href=${`${this.config.href}/${x.slug}/update`}>update</a>)
 							</li>`,
 					)}
-					${!this.store?.userChannels.length
+					${!this.store?.userChannels?.length
 						? html`<li>
 								No channels yet. <a href=${this.config.href + '/new'}>Create a new radio</a> or
 								<a href=${this.config.hrefV1}>import from v1</a>.
@@ -161,7 +161,12 @@ export default class R4PageSettings extends R4Page {
 					<h2>
 						<a href="#about">About <r4-title></r4-title></a>
 					</h2>
-					<p>The (<r4-title size="small"></r4-title>) project is built by and for its users.</p>
+					<p>
+						The (<r4-title size="small"></r4-title>) project is built
+						<a href="https://github.com/radio4000/publications/blob/main/radio4000-manifest.md" target="_blank"
+							>by and for its users</a
+						>.
+					</p>
 				</header>
 				<ul>
 					<li>Previous site version <a href=${this.config.hrefV1}>v1.radio4000</a></li>

@@ -7,6 +7,7 @@ on:
 env:
   VITE_SUPABASE_URL: ${{vars.SUPABASE_URL}}
   VITE_SUPABASE_KEY: ${{vars.SUPABASE_KEY}}
+  VITE_HCAPTCHA_SITE_KEY: ${{vars.HCAPTCHA_SITE_KEY}}
 
 jobs:
   publish:

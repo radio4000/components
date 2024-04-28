@@ -69,15 +69,9 @@ export default class R4CommandMenu extends LitElement {
 		}
 
 		// User-related commands
+		cmds.push({title: 'Settings', subtitle: 'Your account, appearance and customizations', action: () => go('/settings')})
 		if (store?.user) {
-			cmds.push(
-				{
-					title: 'Settings',
-					subtitle: 'Your account, appearance and customizations',
-					action: () => go('/settings'),
-				},
-				{title: 'Sign out', action: () => go('/sign/out')},
-			)
+			cmds.push({title: 'Sign out', action: () => go('/sign/out')})
 		} else {
 			cmds.push(
 				{title: 'Sign up', subtitle: 'Create new radio channel', action: () => go('/sign/up')},

@@ -15,6 +15,21 @@ fieldsTemplate.innerHTML = `
 	</slot>
 `
 
+const captchaFieldTemplate = document.createElement('template')
+captchaFieldTemplate.innerHTML = `
+	<fieldset>
+		<legend>To prevent spam, please solve this captcha.</legend>
+		<input name="token" type="radio" disabled required placeholder="R4_USED_BY_ONVERIFIED"></input>
+		<label for="token">
+			<h-captcha
+				site-key="R4_SET_BY_INIT_CAPTCHA"
+				size="normal"
+				color-
+				tabindex="0"></h-captcha>
+		</label>
+	</fieldset>
+`
+
 export default class R4SignIn extends R4Form {
 	submitText = 'Sign in'
 
@@ -35,6 +50,31 @@ export default class R4SignIn extends R4Form {
 			field: 'email',
 			message: 'The Email & Password combination is incorect',
 		},
+		'captcha-required': {
+			message: 'The Captcha is missing. Please solve it to sign in.',
+		},
+	}
+	connectedCallback() {
+		super.connectedCallback()
+		const siteKey = this.getAttribute('hcaptcha-site-key')
+		if (siteKey) {
+			this.initCaptcha(siteKey)
+		}
+	}
+	initCaptcha(siteKey) {
+		const $signupCaptchaField = captchaFieldTemplate.content.cloneNode(true)
+		const $captchaInput = $signupCaptchaField.querySelector('input')
+		const $signupCaptcha = $signupCaptchaField.querySelector('h-captcha')
+		$signupCaptcha.setAttribute('site-key', siteKey)
+		$signupCaptcha.addEventListener('verified', (e) => {
+			this.state = {...this.state, token: e.token}
+			$captchaInput.checked = true
+		})
+		$signupCaptcha.addEventListener('error', (e) => {
+			$captchaInput.checked = false
+			console.log('error event', {error: e.error})
+		})
+		this.querySelector('slot[name="fields"]').append($signupCaptchaField)
 	}
 
 	async handleSubmit(event) {
@@ -45,14 +85,23 @@ export default class R4SignIn extends R4Form {
 		let res = {}
 		let error = null
 
+		let options = null
+		if (this.state.token) {
+			options = {captchaToken: this.state.token}
+		}
+
 		try {
 			res = await sdk.auth.signIn({
 				email: this.state.email,
 				password: this.state.password,
+				options,
 			})
 			if (res.error) {
 				if (res.error.message === 'Email not confirmed') {
 					res.error.code = 'email-not-confirmed'
+				}
+				if (res.error.message.startsWith('captcha verification process failed')) {
+					res.error.code = 'captcha-required'
 				}
 				if (res.error.message === 'Invalid login credentials') {
 					res.error.code = 'invalid-login-credentials'
@@ -61,6 +110,9 @@ export default class R4SignIn extends R4Form {
 			}
 		} catch (err) {
 			this.handleError(err)
+		} finally {
+			const signupCaptcha = this.querySelector('h-captcha')
+			signupCaptcha.reset()
 		}
 
 		this.enableForm()
