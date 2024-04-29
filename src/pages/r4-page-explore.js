@@ -11,7 +11,10 @@ export default class R4PageExplore extends R4Page {
 
 	constructor() {
 		super()
-		this.query = {table: 'channels'}
+		this.query = {
+			table: 'channels',
+			orderBy: 'updated_at',
+		}
 		this.channels = []
 	}
 
