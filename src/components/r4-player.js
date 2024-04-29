@@ -33,6 +33,7 @@ export default class R4Player extends LitElement {
 				${ref(this.playerRef)}
 				@playerReady=${this.onPlayerReady}
 				@trackChanged=${this.onTrackChanged}
+				platform="true"
 			></radio4000-player>
 		`
 	}
@@ -49,7 +50,7 @@ export default class R4Player extends LitElement {
 
 	willUpdate(changedProps) {
 		if (this.$player && changedProps.has('track')) {
-			const t  = this.$player.serializeTrack(this.track)
+			const t = this.$player.serializeTrack(this.track)
 			this.$player.playTrack(t)
 		}
 
