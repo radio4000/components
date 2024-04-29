@@ -227,7 +227,6 @@ r4-page-header {
 		}
 	}
 	& menu {
-		align-items: stretch;
 		margin: calc(var(--s) / 4);
 	}
 }
@@ -477,6 +476,14 @@ r4-page-add form {
 	border-color: var(--c-purple-light);
 }
 
+r4-supabase-modifiers input[name='page'],
+r4-supabase-modifiers input[name='limit'] {
+	max-width: calc(var(--s) * 6);
+}
+r4-supabase-modifiers fieldset + fieldset {
+	margin-left: calc(var(--s) / 2);
+}
+
 /* remove styles that shouldn't touch v1 player */
 radio4000-player .Layout .TrackItem {
 	background-color: inherit;
@@ -521,7 +528,7 @@ r4-page-home {
 		}
 	}
 }
-[color-scheme="dark"] r4-favicon svg {
+[color-scheme='dark'] r4-favicon svg {
 	fill: var(--c-fg);
 	opacity: 0.3;
 }
