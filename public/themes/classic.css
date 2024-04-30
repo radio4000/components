@@ -219,8 +219,6 @@ r4-page-main {
 
 /* same size header */
 r4-page-header {
-	display: flex;
-	flex-wrap: wrap;
 	& h1 {
 		margin: 0;
 		height: 100%;
