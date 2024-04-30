@@ -257,7 +257,7 @@ r4-app menu li {
 	height: 100%;
 }
 r4-app menu a {
-	padding: calc(var(--s) / 2);
+	padding: calc(var(--s)) calc(var(--s) / 2);
 	text-decoration: none;
 	background: none;
 	display: flex;
