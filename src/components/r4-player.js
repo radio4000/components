@@ -48,12 +48,12 @@ export default class R4Player extends LitElement {
 	}
 
 	willUpdate(changedProps) {
-		if (changedProps.has('track')) {
+		if (this.$player && changedProps.has('track')) {
 			const t  = this.$player.serializeTrack(this.track)
 			this.$player.playTrack(t)
 		}
 
-		if (changedProps.has('tracks')) {
+		if (this.$player && changedProps.has('tracks')) {
 			if (this.tracks?.length) {
 				this.$player.updatePlaylist(this.playlist)
 			} else {
