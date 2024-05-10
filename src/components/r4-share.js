@@ -23,12 +23,16 @@ templateTrack.innerHTML = `
 			<label for="track_url" id="track_url">Track URL</label>
 			<input readonly name="track_url" type="url"/>
 		</fieldset>
+		<fieldset>
+			<label for="media_url" id="media_url">Media URL</label>
+			<input readonly name="media_url" type="url"/>
+		</fieldset>
 	</form>
 `
 
 export default class R4ChannelShare extends HTMLElement {
 	static get observedAttributes() {
-		return ['origin', 'player-origin', 'icon-origin', 'slug', 'track-id']
+		return ['origin', 'player-origin', 'icon-origin', 'slug', 'track-id', 'media-url']
 	}
 
 	/* some attributes, that can be used to fetch model data,
@@ -39,6 +43,10 @@ export default class R4ChannelShare extends HTMLElement {
 
 	get trackId() {
 		return this.getAttribute('track-id')
+	}
+
+	get mediaUrl() {
+		return this.getAttribute('media-url')
 	}
 
 	/* Used to make a link to the ""channel origin", its homepage.
@@ -112,9 +120,10 @@ export default class R4ChannelShare extends HTMLElement {
 
 	buildTemplate() {
 		let $sharer
-		if (this.trackId) {
+		if (this.trackId && this.mediaUrl) {
 			$sharer = templateTrack.content.cloneNode(true)
 			$sharer.querySelector('[name="track_url"]').value = this.trackOrigin
+			$sharer.querySelector('[name="media_url"]').value = this.mediaUrl
 		} else {
 			$sharer = templateChannel.content.cloneNode(true)
 			$sharer.querySelector('[name="channel_url"]').value = this.origin
