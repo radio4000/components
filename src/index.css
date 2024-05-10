@@ -512,6 +512,10 @@ r4-channel-card-body {
 r4-channel-description {
 	display: block;
 }
+r4-channel-card-body r4-channel-url a {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
 
 /* supabase queries */
 r4-supabase-modifiers form {
