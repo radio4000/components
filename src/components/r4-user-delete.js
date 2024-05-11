@@ -21,11 +21,22 @@ export default class R4UserDelete extends LitElement {
 
 	async onSubmit(event) {
 		event.preventDefault()
+
 		if (!window.confirm('Do you really want to delete your account, channels and tracks?')) return
+
+		for (const channel of this.userChannels) {
+			await sdk.channels.deleteChannel(channel.id)
+		}
+
 		const {error} = await sdk.users.deleteUser()
 		if (!error) {
 			console.info('Successfully deleted user account, channels and tracks')
-			// no-need to logout the user, already done by supabase
+			// After deleting, we need to sign out and clear local auth state.
+			await sdk.auth.signOut()
+			for (const key of Object.keys(localStorage)) {
+				const isSupabaseAuthToken = key.startsWith('sb-') && key.endsWith('-auth-token')
+				if (isSupabaseAuthToken) localStorage.removeItem(key)
+			}
 		} else {
 			console.error('Error deleting user account', error)
 		}
