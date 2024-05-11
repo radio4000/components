@@ -75,15 +75,15 @@ export default class R4Admin extends LitElement {
 		}
 	}
 
-	/** Deletes a Supabase auth.user AND any channels they are associated with */
+	/** Deletes a Supabase auth.user AND any channels they are associated with
+	 * @arg {string} id */
 	async deleteUser(id) {
 		const user = this.result.users.find(u => u.id === id)
-		for (const c of user.channels) {
-			const res = this.supabase.from('channels').delete().eq('id', c.id)
-			console.log('deleted channel?', c.name, res)
-		}
+		const userChannelIds = user.channels.map(c => c.id)
+		const res = await this.supabase.from('channels').delete().in('id', userChannelIds)
+		console.log(`delete the user's channels'`, res)
 		const { data, error } = await this.supabase.auth.admin.deleteUser(id)
-		console.log('deleted user?', id, data, error)
+		console.log(`deleted auth.user`, id, data, error)
 	}
 
 	render() {
@@ -99,7 +99,10 @@ export default class R4Admin extends LitElement {
 					<li>user: ${user.id} <button @click=${() => this.deleteUser(user.id)}>Delete user and ${user.channels?.length} channels</button>
 						<ul>
 							${user.channels?.map(x => html`
-								<li>channel: ${x.name}</li>
+								<li>channel:
+								<a href="https://radio4000.com/${x.slug}">
+								${x.name} (@${x.slug})</a>
+								</li>
 							`)}
 						</ul>
 						<hr/>
