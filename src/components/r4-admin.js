@@ -1,6 +1,6 @@
 import {LitElement, html} from 'lit'
 import {createClient} from '@supabase/supabase-js'
-import {sdk} from '../libs/sdk'
+// import {sdk} from '../libs/sdk'
 
 /**
  *
@@ -10,55 +10,15 @@ export default class R4Admin extends LitElement {
 	static properties = {
 		supabaseUrl: {type: String},
 		supabaseServiceRoleKey: {type: String},
+		result: {type: Object},
 		users: {type: Array},
 		channels: {type: Array},
-		loading: {type: Boolean}
 	}
 
 	async connectedCallback() {
 		super.connectedCallback()
 		this.createClient()
 		await this.prepareData()
-		this.loading = false
-	}
-
-	async prepareData() {
-		// const {data: {users}} = await this.supabase.auth.admin.listUsers()
-		// this.users = users
-		// console.log(this.users)
-		// const {data: channels} = await this.supabase.from('channels').select().limit(4000).order('created_at', {ascending: true})
-		// const {data: channels} = await sdk.channels.readChannels()
-		// this.channels = channels
-		// console.log(this.channels)
-		//
-		//
-
-		const { data: users, error: usersError } = await this.supabase
-			.from('accounts')
-			.select('id');
-
-		if (usersError) {
-			console.error('Error fetching users:', usersError);
-		} else {
-			const result = { users: [] };
-
-			for (const user of users) {
-				const { data: channels, error: channelsError } = await this.supabase
-					.from('user_channel')
-					.select(` channels ( id, name, slug) `)
-					.eq('user_id', user.id);
-				if (channelsError) {
-					console.error('Error fetching channels for user:', user.id, channelsError);
-				} else {
-					result.users.push({
-						id: user.id,
-						channels: channels.map(channel => channel.channels),
-					})
-				}
-			}
-			console.log(result)
-			this.users = result.users
-		}
 	}
 
 	createClient() {
@@ -73,18 +33,57 @@ export default class R4Admin extends LitElement {
 			},
 		})
 		// this.sdk = createSdk(this.supabase)
+		window.supabaseAdminClient = this.supabase
+	}
+
+	async prepareData() {
+		// const {data: {users}} = await this.supabase.auth.admin.listUsers()
+		// const {data: channels} = await this.supabase.from('channels').select().limit(4000).order('created_at', {ascending: true})
+		// const {data: channels} = await sdk.channels.readChannels()
+		const {supabase} = this
+
+		const result = { users: [] }
+
+		// Get users with nested channels.
+		const { data: users, error: usersError } = await supabase.from('accounts').select('id')
+		if (usersError) {
+			console.error('Error fetching users:', usersError)
+		} else {
+			for (const user of users) {
+				const { data: channels, error: channelsError } = await supabase
+					.from('user_channel')
+					.select(` channels ( id, name, slug)`)
+					.eq('user_id', user.id)
+				if (channelsError) {
+					console.error('Error fetching channels for user:', user.id, channelsError)
+				} else {
+					result.users.push({
+						id: user.id,
+						channels: channels.map(channel => channel.channels),
+					})
+				}
+			}
+
+			const { data: orphanedChannels} = await supabase.from('orphaned_channels').select('*')
+			result.orphanedChannels = orphanedChannels
+
+			const { data: orphanedTracks} = await supabase.from('orphaned_tracks').select('*')
+			result.orphanedTracks = orphanedTracks
+
+			console.log(result)
+			this.result = result
+		}
 	}
 
 	/** Deletes a Supabase auth.user AND any channels they are associated with */
 	async deleteUser(id) {
-		const user = this.users.find(u => u.id === id)
+		const user = this.result.users.find(u => u.id === id)
 		for (const c of user.channels) {
-			this.supabase.from('channels').delete().eq('id', c.id)
-			console.log('deleted channel', c)
+			const res = this.supabase.from('channels').delete().eq('id', c.id)
+			console.log('deleted channel?', c.name, res)
 		}
-
 		const { data, error } = await this.supabase.auth.admin.deleteUser(id)
-		console.log('deleted user?', data, error)
+		console.log('deleted user?', id, data, error)
 	}
 
 	render() {
@@ -92,35 +91,39 @@ export default class R4Admin extends LitElement {
 		const key = this.supabaseServiceRoleKey
 		if (!url) return html`Missing supabase url`
 		if (!key) return html`Missing supabase service role key`
-		if (this.loading) return html`<p>Loading</p>`
+		if (!this.result) return html`<p>Loading</p>`
 		return html`
-			<h2>${this.users?.length || 0} users</h2>
+			<h2>${this.result.users?.length || 0} users</h2>
 			<ul>
-				${this.users?.map(user => html`
-					<li>${user.id}
-						<menu>
-							<button @click=${() => this.deleteUser(user.id)}>Delete user</button>
-						</menu>
-						<hr/>
-						<h3>${user.channels?.length} channels</h3>
+				${this.result.users?.map(user => html`
+					<li>user: ${user.id} <button @click=${() => this.deleteUser(user.id)}>Delete user and ${user.channels?.length} channels</button>
 						<ul>
 							${user.channels?.map(x => html`
-								<li>${x.name}
-									<menu>
-										<button @click=${() => {}}>todo</button>
-									</menu>
-								</li>
+								<li>channel: ${x.name}</li>
 							`)}
 						</ul>
+						<hr/>
 					</li>
 				`)}
 			</ul>
+			<h2>Orphaned channels</h2>
+			<ul>
+				${this.result.orphanedChannels?.map(x => html`
+					<li>${x.name} <button @click=${() => {}}>delete</button></li>
+				`)}
+			</ul>
+			<h2>Orphaned tracks</h2>
+			<ul>
+				${this.result.orphanedTracks?.map(x => html`
+					<li>${x.title} <button @click=${() => {}}>delete</button></li>
+				`)}
+			</ul>
 		`
-	}
+		}
 
-	// Disable shadow DOM
-	createRenderRoot() {
-		return this
+		// Disable shadow DOM
+		createRenderRoot() {
+			return this
+		}
 	}
-}
 
