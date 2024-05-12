@@ -54,6 +54,7 @@ export default class R4SignIn extends R4Form {
 			message: 'The Captcha is missing. Please solve it to sign in.',
 		},
 	}
+
 	connectedCallback() {
 		super.connectedCallback()
 		const siteKey = this.getAttribute('hcaptcha-site-key')
@@ -61,6 +62,7 @@ export default class R4SignIn extends R4Form {
 			this.initCaptcha(siteKey)
 		}
 	}
+
 	initCaptcha(siteKey) {
 		const $signupCaptchaField = captchaFieldTemplate.content.cloneNode(true)
 		const $captchaInput = $signupCaptchaField.querySelector('input')
@@ -112,7 +114,7 @@ export default class R4SignIn extends R4Form {
 			this.handleError(err)
 		} finally {
 			const signupCaptcha = this.querySelector('h-captcha')
-			signupCaptcha.reset()
+			signupCaptcha?.reset()
 		}
 
 		this.enableForm()

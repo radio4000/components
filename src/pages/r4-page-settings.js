@@ -163,23 +163,36 @@ export default class R4PageSettings extends R4Page {
 					</h2>
 					<p>
 						The (<r4-title size="small"></r4-title>) project is built
-						<a href="https://github.com/radio4000/publications/blob/main/radio4000-manifest.md" target="_blank"
+						<a
+							href="https://github.com/radio4000/publications/blob/main/radio4000-manifest.md"
+							target="_blank"
+							rel="noreferrer noopener"
 							>by and for its users</a
 						>.
 					</p>
 				</header>
 				<ul>
-					<li>Previous site version <a href=${this.config.hrefV1}>v1.radio4000</a></li>
-					<li>Community <a href="https://matrix.to/#/#radio4000:matrix.org" rel="noreferrer"> chat</a> and support</li>
-					<li>Contact by <a href="mailto:contact@radio4000.com">email</a></li>
-					<li>Source <a href="https://github.com/radio4000" rel="noreferrer">code</a></li>
+					<li>
+						Previous site version
+						<a href=${this.config.hrefV1} target="_blank" rel="noreferrer noopener">v1.radio4000</a>
+					</li>
+					<li>
+						Community
+						<a href="https://matrix.to/#/#radio4000:matrix.org" target="_blank" rel="noreferrer noopener"> chat</a> and
+						support
+					</li>
+					<li>Contact by <a href="mailto:contact@radio4000.com" target="_blank" rel="noreferrer noopener">email</a></li>
+					<li>Source <a href="https://github.com/radio4000" target="_blank" rel="noreferrer noopener">code</a></li>
 					<li>
 						Read the
-						<a href="https://github.com/radio4000/publications/blob/main/user-agreement-privacy-policy-terms-of-use.md"
+						<a
+							href="https://github.com/radio4000/publications/blob/main/user-agreement-privacy-policy-terms-of-use.md"
+							target="_blank"
+							rel="noreferrer noopener"
 							>privacy/terms</a
 						>
 					</li>
-					<li>See the <a href="https://blog.radio4000.com/">blog</a></li>
+					<li>See the <a href="https://blog.radio4000.com/" target="_blank" rel="noreferrer noopener">blog</a></li>
 				</ul>
 			</section>
 		`

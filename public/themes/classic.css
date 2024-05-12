@@ -219,8 +219,6 @@ r4-page-main {
 
 /* same size header */
 r4-page-header {
-	display: flex;
-	flex-wrap: wrap;
 	& h1 {
 		margin: 0;
 		height: 100%;
@@ -229,7 +227,6 @@ r4-page-header {
 		}
 	}
 	& menu {
-		align-items: stretch;
 		margin: calc(var(--s) / 4);
 	}
 }
@@ -257,7 +254,7 @@ r4-app menu li {
 	height: 100%;
 }
 r4-app menu a {
-	padding: calc(var(--s) / 2);
+	padding: calc(var(--s)) calc(var(--s) / 2);
 	text-decoration: none;
 	background: none;
 	display: flex;
@@ -479,6 +476,14 @@ r4-page-add form {
 	border-color: var(--c-purple-light);
 }
 
+r4-supabase-modifiers input[name='page'],
+r4-supabase-modifiers input[name='limit'] {
+	max-width: calc(var(--s) * 6);
+}
+r4-supabase-modifiers fieldset + fieldset {
+	margin-left: calc(var(--s) / 2);
+}
+
 /* remove styles that shouldn't touch v1 player */
 radio4000-player .Layout .TrackItem {
 	background-color: inherit;
@@ -523,7 +528,7 @@ r4-page-home {
 		}
 	}
 }
-[color-scheme="dark"] r4-favicon svg {
+[color-scheme='dark'] r4-favicon svg {
 	fill: var(--c-fg);
 	opacity: 0.3;
 }
@@ -533,5 +538,15 @@ r4-page-add {
 r4-page-channel {
 	& r4-list:has(r4-track) {
 		max-width: 50rem;
+	}
+}
+
+r4-map {
+	& r4-channel-card {
+		flex-direction: column;
+		& r4-channel-url a {
+			white-space: pre-wrap;
+			word-break: break-all;
+		}
 	}
 }

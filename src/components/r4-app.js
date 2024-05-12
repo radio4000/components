@@ -179,6 +179,13 @@ export default class R4App extends LitElement {
 			this.followers = []
 			this.following = []
 		} else {
+
+			// Handle case after deleting user
+			const {error: userError} = await sdk.users.readUser()
+			if (userError) {
+				await sdk.auth.signOut()
+			}
+
 			// Refresh user channels
 			this.userChannels = (await sdk.channels.readUserChannels()).data
 			if (this.userChannels?.length && !this.selectedSlug) {
@@ -332,6 +339,7 @@ export default class R4App extends LitElement {
 				<r4-player
 					slot="player"
 					${ref(this.playerRef)}
+					platform="true"
 					.isPlaying=${this.config.isPlaying}
 					@trackchange=${this.onTrackChange}
 				></r4-player>

@@ -98,7 +98,7 @@ export default class R4PageSign extends R4Page {
 								>Enter the email address of the account, to receive a magic link to sign in without password. You can
 								then reset your password from the settings page.</i
 							>
-							<r4-password-reset email=${this.email} @submit=${this.onPasswordReset}></r4-password-reset>
+							<r4-password-reset email=${this.email} @submit=${this.onPasswordReset} hcaptcha-site-key=${this.config.hcaptchaSiteKey}></r4-password-reset>
 						</details>
 					</li>
 				</ul>
