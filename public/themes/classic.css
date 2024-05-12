@@ -1,36 +1,9 @@
 /* A theme resembling classic R4 */
 /* Maison Neue regular/italic + bold/italic from Cloudinary */
-@font-face {
-	font-family: 'Maison Neue';
-	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-book_ee98sm.woff2')
-		format('woff2');
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'Maison Neue';
-	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bookitalic_szjrvl.woff2')
-		format('woff2');
-	font-weight: normal;
-	font-style: italic;
-}
-
-@font-face {
-	font-family: 'Maison Neue';
-	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bold_rvmbzr.woff2')
-		format('woff2');
-	font-weight: bold;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'Maison Neue';
-	src: url('https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bolditalic_awvcg5.woff2')
-		format('woff2');
-	font-weight: bold;
-	font-style: italic;
-}
+@font-face{font-family:"Maison Neue";src:url(https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-book_ee98sm.woff2) format("woff2");font-weight:400;font-style:normal}
+@font-face{font-family:"Maison Neue";src:url(https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bookitalic_szjrvl.woff2) format("woff2");font-weight:400;font-style:italic}
+@font-face{font-family:"Maison Neue";src:url(https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bold_rvmbzr.woff2) format("woff2");font-weight:700;font-style:normal}
+@font-face{font-family:"Maison Neue";src:url(https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bolditalic_awvcg5.woff2) format("woff2");font-weight:700;font-style:italic}
 
 /* the theme */
 r4-app {
@@ -39,7 +12,7 @@ r4-app {
 	--s-radius: 4px;
 	--s-form: calc(var(--s) * 36);
 	--s-textarea: calc(var(--s) * 5);
-	--font: Maison Neue, system-ui, sans-serif;
+	--font: "Maison Neue", system-ui, segoe ui, sans-serif, "Segoe UI Symbol";
 	--s-line-height: 1.3125;
 	--c-light: hsl(0deg 0% 98%);
 	--c-dark: hsl(0deg 0% 8%);
