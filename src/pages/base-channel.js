@@ -34,6 +34,11 @@ export default class BaseChannel extends R4Page {
 		super.connectedCallback()
 	}
 
+	willUpdate(changedProps) {
+		// If the slug changed, check we have the right channel.
+		if (changedProps.get('params')?.slug) this.setChannel()
+	}
+
 	get slug() {
 		return this.config.singleChannel ? this.config.selectedSlug : this.params.slug
 	}

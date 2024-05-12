@@ -57,6 +57,7 @@ export default class R4PageChannel extends BaseChannel {
 			`
 		}
 	}
+
 	renderChannelCard() {
 		return html` <r4-channel-card .channel=${this.channel} origin=${this.channelOrigin}></r4-channel-card> `
 	}
