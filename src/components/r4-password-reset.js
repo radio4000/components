@@ -90,14 +90,13 @@ export default class R4PasswordReset extends R4Form {
 				email: this.state.email,
 				options
 			})
-			console.log('signinwithopts res', options, res)
 			if (res.error) {
 				throw res.error
 			}
 		} catch (error) {
-			console.log('Error password', error, error.message)
+			console.info('Failed to reset password', error, error.message)
 			if (error.message.includes('captcha verification process failed')) {
-				res.error.code = 'captcha-required'
+				error.code = 'captcha-required'
 			}
 			if (error.message.includes('placeholder')) {
 				error.code = 'wrong-pattern'
