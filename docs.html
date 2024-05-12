@@ -20,6 +20,17 @@
 		<!-- 	import apiViewerElement from 'https://cdn.jsdelivr.net/npm/api-viewer-element@1.0.0-pre.10/+esm' -->
 		<!-- </script> -->
 		<style>
+			body {
+					--c-purple: #5d1ae6;
+					font-family: Maison Neue, system-ui, sans-serif;
+			}
+			h2 small a {
+				font-size: 1rem;
+			}
+			h3 {
+				font-size: 1rem;
+				margin-bottom: 0.5rem;
+			}
 			table {
 				border: 1px solid;
 				border-collapse: collapse;
@@ -31,7 +42,7 @@
 			}
 			td,
 			th {
-				padding: 0.5rem;
+				padding: 0.3rem 0.4rem;
 			}
 
 			th {
@@ -40,7 +51,6 @@
 			}
 
 			r4-docs tbody:first-child {
-				border-bottom: 1px solid;
 			}
 
 			r4-docs th {
@@ -52,8 +62,16 @@
 				vertical-align: top;
 			}
 
+			r4-docs tr td {
+			}
+
+			r4-docs tr:nth-child(odd) td {
+				background: #fafafa;
+			}
+
 			r4-docs td:first-child {
 				font-family: monospace;
+				min-width: 14em;
 			}
 
 			r4-docs .ElementNav {
@@ -67,11 +85,30 @@
 				overflow: auto;
 				max-height: 90vh;
 			}
+			a {
+				color: var(--c-purple);
+			}
 			r4-docs article {
-				margin-bottom: 2rem;
+				margin-top: 3rem;
+			}
+			r4-docs article header {
+				position: relative;
+				padding-left: 1rem;
+
+				&::before {
+					position: absolute;
+					left: 0rem;
+					top: 1.3em;
+					content: "";
+					background: var(--c-purple);
+					border-radius: 50%;
+					font-size: 10px;
+					width: 1em;
+					height: 1em;
+				}
 			}
 			r4-docs article main {
-				padding-left: 2rem;
+				padding-left: 3rem;
 			}
 
 			body {

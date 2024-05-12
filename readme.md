@@ -50,6 +50,7 @@ npm run dev
 ```
 
 ### Themes
+
 See the [themes github repo](https://github.com/4www/themes)
 
 ## Build and releases
@@ -73,8 +74,8 @@ To make sure the build workflows:
 
 All components use the @radio4000/sdk. The exact db is configured in https://github.com/radio4000/components/blob/main/src/libs/sdk.js.
 
-
 # Production
+
 Currently deployed on cloudflare pages (which has the env vars manually added).
 
 > Github pages is not used because it does not support SPA redirects
