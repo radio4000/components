@@ -3,7 +3,7 @@ import {createClient} from '@supabase/supabase-js'
 import {sdk} from '../libs/sdk'
 
 /**
- *
+ * To use, be sure to pass in the two supabase keys
  * https://supabase.com/docs/reference/javascript/admin-api
  */
 export default class R4Admin extends LitElement {
@@ -11,14 +11,12 @@ export default class R4Admin extends LitElement {
 		supabaseUrl: {type: String},
 		supabaseServiceRoleKey: {type: String},
 		result: {type: Object},
-		users: {type: Array},
-		channels: {type: Array},
 	}
 
 	async connectedCallback() {
 		super.connectedCallback()
 		this.createClient()
-		await this.prepareData()
+		if (this.supabase) this.prepareData()
 	}
 
 	/** Creates a Supabase client with full admin rights */
@@ -33,7 +31,6 @@ export default class R4Admin extends LitElement {
 				persistSession: false,
 			},
 		})
-		window.supabaseAdminClient = this.supabase
 	}
 
 	/** Sets this.result with all the data we want */
@@ -42,29 +39,12 @@ export default class R4Admin extends LitElement {
 		const result = {users: [], orphanedChannels: [], orphanedTracks: []}
 
 		// Get users with nested channels.
-		// const {data: accounts} = await supabase.from('accounts').select('id')
-		// const {data: channels} = await supabase.from('channels').select().limit(4000).order('created_at', {ascending: true})
-		// const {data: allChannels} = await sdk.channels.readChannels()
-		console.time('fetchting all users')
-		const {
-			data: {users},
-		} = await supabase.auth.admin.listUsers({perPage: 4000})
+		const {data: allChannels} = await supabase.from('user_channel').select('channels(id,name,slug), user_id').limit(4000)
+		const {data: {users}} = await supabase.auth.admin.listUsers({perPage: 4000})
 		result.users = users
-		console.timeEnd('fetchting all users')
-
-		console.time('fetching user channels')
 		for (const user of result.users) {
-			const {data: channels, error: channelsError} = await supabase
-				.from('user_channel')
-				.select(` channels ( id, name, slug)`)
-				.eq('user_id', user.id)
-			if (channelsError) {
-				console.error('Error fetching channels for user:', user.id, channelsError)
-			} else {
-				user.channels = channels.map((channel) => channel.channels)
-			}
+			user.channels = allChannels.filter(c => c.user_id === user.id).map(c => c.channels)
 		}
-		console.timeEnd('fetching user channels')
 
 		const {data: orphanedChannels} = await supabase.from('orphaned_channels').select('*')
 		result.orphanedChannels = orphanedChannels
@@ -122,7 +102,7 @@ export default class R4Admin extends LitElement {
 		const key = this.supabaseServiceRoleKey
 		if (!url) return html`Missing supabase url`
 		if (!key) return html`Missing supabase service role key`
-		if (!this.result) return html`<p>Loading. This will take ~30 seconds</p>`
+		if (!this.result) return html`<r4-loading><r4-loading>`
 		return html`
 			<h2>${this.result.users?.length || 0} users</h2>
 			<ul>
