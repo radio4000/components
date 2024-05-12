@@ -3,7 +3,8 @@ import {createClient} from '@supabase/supabase-js'
 import {sdk} from '../libs/sdk'
 
 /**
- * To use, be sure to pass in the two supabase keys
+ * To use, be sure to pass in the two supabase keys.
+ * Renders an admin dashboard that allows you to combat spam content and more.
  * https://supabase.com/docs/reference/javascript/admin-api
  */
 export default class R4Admin extends LitElement {

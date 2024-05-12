@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+
+		<title>@radio4000/components docs</title>
+		<meta name="description" content="Documentation for Radio4000 web components" />
+
+		<!-- <link rel="stylesheet" href="/src/index.css" /> -->
+		<!-- <script type="module" src="/src/index.js"></script> -->
+		<!-- <script type="module"> -->
+		<!--   import 'api-viewer-element' -->
+		<!-- </script> -->
+		<!-- <script type="module" src="https://unpkg.com/api-viewer-element?module"></script> -->
+		<!-- <script type="module" src="https://cdn.jsdelivr.net/npm/api-viewer-element/+esm"></script> -->
+		<!-- <script type="module" src="https://jspm.dev/api-viewer-element"></script> -->
+		<!-- <script type="module"> -->
+		<!-- 	import apiViewerElement from 'https://cdn.jsdelivr.net/npm/api-viewer-element@1.0.0-pre.10/+esm' -->
+		<!-- </script> -->
+		<style>
+			body {
+					--c-purple: #5d1ae6;
+					font-family: Maison Neue, system-ui, sans-serif;
+			}
+			h2 small a {
+				font-size: 1rem;
+			}
+			h3 {
+				font-size: 1rem;
+				margin-bottom: 0.5rem;
+			}
+			table {
+				border: 1px solid;
+				border-collapse: collapse;
+
+				table {
+					width: 100%;
+					/* border: 0; */
+				}
+			}
+			td,
+			th {
+				padding: 0.3rem 0.4rem;
+			}
+
+			th {
+				text-align: left;
+				border-bottom: 1px solid;
+			}
+
+			r4-docs tbody:first-child {
+			}
+
+			r4-docs th {
+				font-weight: normal;
+				font-style: italic;
+			}
+
+			r4-docs td {
+				vertical-align: top;
+			}
+
+			r4-docs tr td {
+			}
+
+			r4-docs tr:nth-child(odd) td {
+				background: #fafafa;
+			}
+
+			r4-docs td:first-child {
+				font-family: monospace;
+				min-width: 14em;
+			}
+
+			r4-docs .ElementNav {
+				position: fixed;
+				right: 0;
+				top: 0;
+				display: flex;
+				flex-flow: column nowrap;
+				background: #eee;
+				padding: 3px;
+				overflow: auto;
+				max-height: 90vh;
+			}
+			a {
+				color: var(--c-purple);
+			}
+			r4-docs article {
+				margin-top: 3rem;
+			}
+			r4-docs article header {
+				position: relative;
+				padding-left: 1rem;
+
+				&::before {
+					position: absolute;
+					left: 0rem;
+					top: 1.3em;
+					content: "";
+					background: var(--c-purple);
+					border-radius: 50%;
+					font-size: 10px;
+					width: 1em;
+					height: 1em;
+				}
+			}
+			r4-docs article main {
+				padding-left: 3rem;
+			}
+
+			body {
+				/* because fixed nav */
+				margin-right: 12rem;
+			}
+
+			r4-docs:has(input:not(:checked)) {
+				> main {
+					display: grid;
+					grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+					gap: 1rem;
+				}
+				article main {
+					display: none;
+				}
+			}
+			label {
+				user-select: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>R4 custom-elements.json manifest viewer</h1>
+
+		<!-- <api-viewer></api-viewer> -->
+		<r4-docs></r4-docs>
+
+		<script type="module">
+			import {LitElement, html} from 'lit'
+
+			class R4Docs extends LitElement {
+				static properties = {
+					manifest: {type: String},
+					elements: {type: Array},
+				}
+
+				connectedCallback() {
+					super.connectedCallback()
+					fetch('./custom-elements.json')
+						.then((res) => res.json())
+						.then((manifest) => {
+							this.manifest = manifest
+							this.elements = manifest.modules.reduce(
+								(els, module) => els.concat(module.declarations?.filter((dec) => dec.customElement) ?? []),
+								[],
+							)
+							console.log('manifest', manifest)
+							console.log('elements from manifest', this.elements)
+						})
+				}
+
+				render() {
+					const m = this.manifest
+					if (!m) return html`<p>Loading manifest</p>`
+					return html`
+						<p>Got manifest ${m.schemaVersion}.</p>
+						<nav class="ElementNav">
+							<label>Show more <input type="checkbox" checked /></label>
+							${this.elements.map((el) => html`<a href="#${el.name}">${el.name}</a>`)}
+						</nav>
+						<main>${renderManifest(this.elements)}</main>
+						<!--
+				${m.modules.map((module) => this.renderModule(module))}
+				-->
+					`
+				}
+
+				renderModule(module) {
+					return html` <article>
+						<pre>
+path: ${module.path}
+description: ${module.declarations.description}
+declarations: ${module.declarations.map(
+								(d) => html`
+									name: <strong>${d.name}</strong>
+									kind: ${d.kind} description: ${d.description}
+									${d.attributes?.length &&
+									html`attributes:
+									${d.attributes?.map((a) => html` name: ${a.name} type: ${a.type?.text} fieldName: ${a.fieldName} `)}`}
+									members:
+									${d.members?.map(
+										(m) => html`
+											kind: ${m.kind} name: ${m.name} privacy: ${m.privacy} type: ${m.type?.text} attribute:
+											${m.attribute} ${m.readonly && html`readonly`} parameters:
+											${m.parameters?.map((p) => html` name: ${p.name} `)}
+										`,
+									)}
+								`,
+							)}
+exports: ${module.exports?.map((e) => html` ${e.name}: ${e.declaration.name} (${e.declaration.module}) `)}
+
+					</pre
+						>
+					</article>`
+				}
+				createRenderRoot() {
+					return this
+				}
+			}
+			customElements.define('r4-docs', R4Docs)
+
+			/** Accepts a custom-elements.json and returns HTML for all custom elements in it */
+			function renderManifest(elements) {
+				return html`
+					${elements.map(
+						(element) => html`
+							<article id=${element.name}>
+								<header>
+									<h2>
+										&lt;${toKebabCase(element.name)}&gt;
+										<small><a href="/examples/${toKebabCase(element.name)}/">example</a></small>
+									</h2>
+									<div>${element.description}</div>
+								</header>
+								<main>
+									${renderTable('Attributes', ['name', 'description', 'type.text', 'default'], element.attributes)}
+									${renderTable(
+										'Properties',
+										['name', 'attribute', 'description', 'type.text', 'default'],
+										element.members.filter((m) => m.kind === 'field'),
+									)}
+									${renderTable(
+										'Methods',
+										['name', 'parameters', 'description', 'return.type.text'],
+										element.members
+											.filter(
+												(m) => m.kind === 'method',
+												//&& m.privacy !== 'private'
+												//&& m.name[0] !== '_'
+											)
+											.map((m) => ({
+												...m,
+												parameters: renderTable('', ['name', 'description', 'type.text'], m.parameters),
+											})),
+									)}
+									${renderTable('Events', ['name', 'description'], element.events)}
+									${renderTable('Slots', [['name', '(default)'], 'description'], element.slots)}
+									${renderTable('CSS Shadow Parts', ['name', 'description'], element.cssParts)}
+									${renderTable('CSS Custom Properties', ['name', 'description'], element.cssProperties)}
+								</main>
+							</article>
+						`,
+					)}
+				`
+			}
+
+			/** Reads a (possibly deep) path off of an object. */
+			const get = (obj, path) => {
+				let fallback = ''
+				if (Array.isArray(path)) {
+					;[path, fallback] = path
+				}
+				const parts = path.split('.')
+				while (obj && parts.length) {
+					obj = obj[parts.shift()]
+				}
+				return obj == null || obj === '' ? fallback : obj
+			}
+
+			/**  Renders a table of data, plucking the given properties from each item in `data`. */
+			const renderTable = (name, properties, data) => {
+				if (data === undefined || data.length === 0) return ''
+				return html`
+					${name ? html`<h3>${name}</h3>` : ''}
+					<table>
+						<tr>
+							${properties.map((p) => html` <th>${capitalize((Array.isArray(p) ? p[0] : p).split('.')[0])}</th> `)}
+						</tr>
+						${data.map(
+							(i) => html`
+								<tr>
+									${properties.map((p) => html`<td>${get(i, p)}</td>`)}
+								</tr>
+							`,
+						)}
+					</table>
+				`
+			}
+
+			const capitalize = (s) => s[0].toUpperCase() + s.substring(1)
+
+			function toKebabCase(str) {
+				return str
+					.split(/(?=[A-Z])/)
+					.map((word, idx) => {
+						return idx === 0 ? word.toLowerCase() : `-${word.toLowerCase()}`
+					})
+					.join('')
+			}
+		</script>
+	</body>
+</html>
