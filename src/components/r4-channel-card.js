@@ -2,15 +2,14 @@ import {LitElement, html} from 'lit'
 import {sdk} from '../libs/sdk.js'
 
 /**
- * Renders an image in a predefined format for channel avatars.
- * There are two ways to tell the component what to render
- * 1. Pass in an `image` with the Cloudinary image id
- * 2. Pass in a `slug` with the channel slug. This will cause a network request to happen
+ * Renders a linkable preview card for a channel.
  */
 export default class R4ChannelCard extends LitElement {
 	static properties = {
-		slug: {type: String, reflect: true},
 		origin: {type: String},
+		/** If defined, the card will fetch the channel on load and set it. */
+		slug: {type: String, reflect: true},
+		/** A regular R4 channel object */
 		channel: {type: Object, state: true},
 	}
 

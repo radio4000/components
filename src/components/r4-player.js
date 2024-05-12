@@ -88,6 +88,7 @@ export default class R4Player extends LitElement {
 		this.removeAttribute('tracks')
 	}
 
+	/** The `detail` prop contains the track as sent from <radio4000-player> */
 	onTrackChanged(event) {
 		this.dispatchEvent(
 			new CustomEvent('trackchange', {

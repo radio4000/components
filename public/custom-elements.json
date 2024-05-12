@@ -12,7 +12,7 @@
           "type": {
             "text": "object"
           },
-          "default": "{\n\t'r4-actions': R4Actions,\n\t'r4-app': R4App,\n\t'r4-command-menu': R4CommandMenu,\n\t'r4-app-menu': R4AppMenu,\n\t'r4-avatar': R4Avatar,\n\t'r4-avatar-update': R4AvatarUpdate,\n\t'r4-avatar-upload': R4AvatarUpload,\n\t'r4-auth-status': R4AuthStatus,\n\t'r4-button-play': R4ButtonPlay,\n\t'r4-button-follow': R4ButtonFollow,\n\t'r4-channel': R4Channel,\n\t'r4-channel-card': R4ChannelCard,\n\t'r4-channel-create': R4ChannelCreate,\n\t'r4-channel-delete': R4ChannelDelete,\n\t'r4-channel-update': R4ChannelUpdate,\n\t'r4-channel-search': R4ChannelSearch,\n\t'r4-dialog': R4Dialog,\n\t'r4-email-update': R4EmailUpdate,\n\t'r4-favicon': R4Favicon,\n\t'r4-layout': R4Layout,\n\t'r4-loading': R4Loading,\n\t'r4-map': R4Map,\n\t'r4-map-position': R4MapPosition,\n\t'r4-password-update': R4PasswordUpdate,\n\t'r4-password-reset': R4PasswordReset,\n\t'r4-player': R4Player,\n\t'r4-query': R4Query,\n\t'r4-router': R4Router,\n\t'r4-share': R4Share,\n\t'r4-sign-in': R4SignIn,\n\t'r4-sign-out': R4SignOut,\n\t'r4-sign-up': R4SignUp,\n\t'r4-supabase-query': R4SupabaseQuery,\n\t'r4-supabase-filters': R4SupabaseFilters,\n\t'r4-supabase-filter-search': R4SupabaseFilterSearch,\n\t'r4-title': R4Title,\n\t'r4-track': R4Track,\n\t'r4-track-create': R4TrackCreate,\n\t'r4-track-delete': R4TrackDelete,\n\t'r4-track-update': R4TrackUpdate,\n\t'r4-track-search': R4TrackSearch,\n\t'r4-tuner': R4Tuner,\n\t'r4-user': R4User,\n\t'r4-user-delete': R4UserDelete,\n\t'r4-user-account': R4UserAccount,\n\t'r4-user-channels-select': R4UserChannelsSelect,\n\t'r4-pagination': R4Pagination,\n\t'r4-icon': R4Icon,\n}"
+          "default": "{\n\t'r4-actions': R4Actions,\n\t'r4-admin': R4Admin,\n\t'r4-app': R4App,\n\t'r4-command-menu': R4CommandMenu,\n\t'r4-app-menu': R4AppMenu,\n\t'r4-avatar': R4Avatar,\n\t'r4-avatar-update': R4AvatarUpdate,\n\t'r4-avatar-upload': R4AvatarUpload,\n\t'r4-auth-status': R4AuthStatus,\n\t'r4-button-play': R4ButtonPlay,\n\t'r4-button-follow': R4ButtonFollow,\n\t'r4-channel': R4Channel,\n\t'r4-channel-card': R4ChannelCard,\n\t'r4-channel-create': R4ChannelCreate,\n\t'r4-channel-delete': R4ChannelDelete,\n\t'r4-channel-update': R4ChannelUpdate,\n\t'r4-channel-search': R4ChannelSearch,\n\t'r4-dialog': R4Dialog,\n\t'r4-email-update': R4EmailUpdate,\n\t'r4-favicon': R4Favicon,\n\t'r4-layout': R4Layout,\n\t'r4-loading': R4Loading,\n\t'r4-map': R4Map,\n\t'r4-map-position': R4MapPosition,\n\t'r4-password-update': R4PasswordUpdate,\n\t'r4-password-reset': R4PasswordReset,\n\t'r4-player': R4Player,\n\t'r4-query': R4Query,\n\t'r4-router': R4Router,\n\t'r4-share': R4Share,\n\t'r4-sign-in': R4SignIn,\n\t'r4-sign-out': R4SignOut,\n\t'r4-sign-up': R4SignUp,\n\t'r4-supabase-query': R4SupabaseQuery,\n\t'r4-supabase-filters': R4SupabaseFilters,\n\t'r4-supabase-filter-search': R4SupabaseFilterSearch,\n\t'r4-title': R4Title,\n\t'r4-track': R4Track,\n\t'r4-track-create': R4TrackCreate,\n\t'r4-track-delete': R4TrackDelete,\n\t'r4-track-update': R4TrackUpdate,\n\t'r4-track-search': R4TrackSearch,\n\t'r4-tuner': R4Tuner,\n\t'r4-user': R4User,\n\t'r4-user-delete': R4UserDelete,\n\t'r4-user-account': R4UserAccount,\n\t'r4-user-channels-select': R4UserChannelsSelect,\n\t'r4-pagination': R4Pagination,\n\t'r4-icon': R4Icon,\n}"
         }
       ],
       "exports": [
@@ -65,7 +65,8 @@
             },
             {
               "kind": "method",
-              "name": "closeCurrentMenu"
+              "name": "closeCurrentMenu",
+              "description": "Closes all open r4-action menus on the page"
             }
           ],
           "superclass": {
@@ -82,6 +83,125 @@
           "declaration": {
             "name": "R4Actions",
             "module": "src/components/r4-actions.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/r4-admin.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "To use, be sure to pass in the two supabase keys.\nRenders an admin dashboard that allows you to combat spam content and more.\nhttps://supabase.com/docs/reference/javascript/admin-api",
+          "name": "R4Admin",
+          "members": [
+            {
+              "kind": "method",
+              "name": "createClient",
+              "description": "Creates a Supabase client with full admin rights"
+            },
+            {
+              "kind": "method",
+              "name": "prepareData",
+              "description": "Sets this.result with all the data we want"
+            },
+            {
+              "kind": "method",
+              "name": "deleteUser",
+              "parameters": [
+                {
+                  "name": "id",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Deletes a Supabase auth.user AND any channels they are associated with"
+            },
+            {
+              "kind": "method",
+              "name": "deleteChannelAndTracks",
+              "parameters": [
+                {
+                  "name": "channel"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "isPotentiallySpam",
+              "parameters": [
+                {
+                  "name": "user"
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "supabaseUrl",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "supabaseUrl"
+            },
+            {
+              "kind": "field",
+              "name": "supabaseServiceRoleKey",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "supabaseServiceRoleKey"
+            },
+            {
+              "kind": "field",
+              "name": "result",
+              "privacy": "public",
+              "type": {
+                "text": "object"
+              },
+              "attribute": "result"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "supabaseUrl",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "supabaseUrl"
+            },
+            {
+              "name": "supabaseServiceRoleKey",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "supabaseServiceRoleKey"
+            },
+            {
+              "name": "result",
+              "type": {
+                "text": "object"
+              },
+              "fieldName": "result"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "R4Admin",
+            "module": "src/components/r4-admin.js"
           }
         }
       ]
@@ -642,7 +762,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Renders a button, to play a channel by slug / track (id)\n1. pass in a `slug` (channel) attribute (causes it to fetch)\n2. pass in a `track` object, of this channel's track to play\n3. pass in a `channel` object to avoid fetching channel\n4. pass in a `tracks` array to use as playlist\n3. pass in a \"label\" string to overwrite the button text contents",
           "name": "R4ButtonPlay",
           "members": [
             {
@@ -786,7 +906,6 @@
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "r4-button-play",
           "customElement": true
         }
       ],
@@ -807,7 +926,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Renders an image in a predefined format for channel avatars.\nThere are two ways to tell the component what to render\n1. Pass in an `image` with the Cloudinary image id\n2. Pass in a `slug` with the channel slug. This will cause a network request to happen",
+          "description": "Renders a linkable preview card for a channel.",
           "name": "R4ChannelCard",
           "members": [
             {
@@ -833,16 +952,6 @@
             },
             {
               "kind": "field",
-              "name": "slug",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "slug",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "origin",
               "privacy": "public",
               "type": {
@@ -852,22 +961,27 @@
             },
             {
               "kind": "field",
+              "name": "slug",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "description": "If defined, the card will fetch the channel on load and set it.",
+              "attribute": "slug",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "channel",
               "privacy": "public",
               "type": {
                 "text": "object"
               },
+              "description": "A regular R4 channel object",
               "attribute": "channel"
             }
           ],
           "attributes": [
-            {
-              "name": "slug",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "slug"
-            },
             {
               "name": "origin",
               "type": {
@@ -876,10 +990,19 @@
               "fieldName": "origin"
             },
             {
+              "name": "slug",
+              "type": {
+                "text": "string"
+              },
+              "description": "If defined, the card will fetch the channel on load and set it.",
+              "fieldName": "slug"
+            },
+            {
               "name": "channel",
               "type": {
                 "text": "object"
               },
+              "description": "A regular R4 channel object",
               "fieldName": "channel"
             }
           ],
@@ -1607,11 +1730,13 @@
             {
               "kind": "field",
               "name": "origin",
+              "description": "Used to make a link to the channel's homepage.\nIt could point to different URL schemes:\n- on root: https://radio.example.org/\n- on subpage: https://music.example.org/test-radio-2\n- in query parameter: https://example.org/?radio=test-radio-4\nTo handle all case, we replace the `{{slug}}` token in the string",
               "readonly": true
             },
             {
               "kind": "field",
               "name": "id",
+              "description": "some attributes, that can be used to fetch model data,\nand are unique to the channel",
               "readonly": true
             },
             {
@@ -1621,7 +1746,8 @@
             },
             {
               "kind": "field",
-              "name": "channel"
+              "name": "channel",
+              "description": "the model data, when fetched, or set from outside"
             },
             {
               "kind": "method",
@@ -2337,9 +2463,17 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "This element can be used to render a predefined icon.\nSet the `name` attribute and the element will update the `icon` attribute.",
           "name": "R4Icon",
           "members": [
+            {
+              "kind": "field",
+              "name": "ICONS",
+              "type": {
+                "text": "object"
+              },
+              "default": "{\n\t\tsearch: '🔍',\n\t\tmap: '🗺️',\n\t\tmap_position: '✵',\n\t\tglobe: '🌍',\n\t\tdark: '🌘',\n\t\tlight: '🌖',\n\t\tplayer_status: '♫',\n\t\tplayer_close: 'x',\n\t\tplayer_dock: '⌃',\n\t\tplayer_minimize: '⌄',\n\t\tplayer_fullscreen: '⛶', // ⌆\n\t\tfollow: '☆',\n\t\tunfollow: '★',\n\t\tremove: 'x',\n\t}"
+            },
             {
               "kind": "field",
               "name": "name",
@@ -3114,11 +3248,20 @@
               "type": {
                 "text": "object"
               },
-              "default": "{\n\t\tdefault: {\n\t\t\tmessage: 'Unhandled error',\n\t\t},\n\t}",
+              "default": "{\n\t\tdefault: {\n\t\t\tmessage: 'Unhandled error',\n\t\t},\n\t\t'captcha-required': {\n\t\t\tmessage: 'The Captcha is missing. Please solve it to sign in.',\n\t\t},\n\t}",
               "inheritedFrom": {
                 "name": "R4Form",
                 "module": "src/components/r4-form.js"
               }
+            },
+            {
+              "kind": "method",
+              "name": "initCaptcha",
+              "parameters": [
+                {
+                  "name": "siteKey"
+                }
+              ]
             },
             {
               "kind": "method",
@@ -3570,7 +3713,8 @@
                 {
                   "name": "event"
                 }
-              ]
+              ],
+              "description": "The `detail` prop contains the track as sent from <radio4000-player>"
             },
             {
               "kind": "field",
@@ -4763,6 +4907,11 @@
             },
             {
               "kind": "field",
+              "name": "mediaUrl",
+              "readonly": true
+            },
+            {
+              "kind": "field",
               "name": "origin",
               "readonly": true
             },
@@ -4820,6 +4969,9 @@
             },
             {
               "name": "track-id"
+            },
+            {
+              "name": "media-url"
             }
           ],
           "superclass": {
@@ -7499,7 +7651,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Hello this is the r4-user component description",
           "name": "R4User",
           "members": [
             {

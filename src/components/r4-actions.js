@@ -36,6 +36,7 @@ export default class R4Actions extends LitElement {
 		this.closeCurrentMenu(details)
 	}
 
+	/** Closes all open r4-action menus on the page */
 	closeCurrentMenu() {
 		const details = this.querySelector('details')
 		if (!details.hasAttribute('open')) return
@@ -46,19 +47,6 @@ export default class R4Actions extends LitElement {
 			}
 		}
 	}
-
-	// render() {
-	// 	return html`
-	// 		<details>
-	// 			<summary>⏷</summary>
-	//
-	// 			<menu>
-	// 				<li><button>One</button></li>
-	// 				<li><a href="#">One</a></li>
-	// 			</menu>
-	// 		</details>
-	// 	`
-	// }
 
 	createRenderRoot() {
 		return this
