@@ -12,7 +12,7 @@
           "type": {
             "text": "object"
           },
-          "default": "{\n\t'r4-actions': R4Actions,\n\t'r4-admin': R4Admin,\n\t'r4-app': R4App,\n\t'r4-command-menu': R4CommandMenu,\n\t'r4-app-menu': R4AppMenu,\n\t'r4-avatar': R4Avatar,\n\t'r4-avatar-update': R4AvatarUpdate,\n\t'r4-avatar-upload': R4AvatarUpload,\n\t'r4-auth-status': R4AuthStatus,\n\t'r4-button-play': R4ButtonPlay,\n\t'r4-button-follow': R4ButtonFollow,\n\t'r4-channel': R4Channel,\n\t'r4-channel-card': R4ChannelCard,\n\t'r4-channel-create': R4ChannelCreate,\n\t'r4-channel-delete': R4ChannelDelete,\n\t'r4-channel-update': R4ChannelUpdate,\n\t'r4-channel-search': R4ChannelSearch,\n\t'r4-dialog': R4Dialog,\n\t'r4-email-update': R4EmailUpdate,\n\t'r4-favicon': R4Favicon,\n\t'r4-layout': R4Layout,\n\t'r4-loading': R4Loading,\n\t'r4-map': R4Map,\n\t'r4-map-position': R4MapPosition,\n\t'r4-password-update': R4PasswordUpdate,\n\t'r4-password-reset': R4PasswordReset,\n\t'r4-player': R4Player,\n\t'r4-query': R4Query,\n\t'r4-router': R4Router,\n\t'r4-share': R4Share,\n\t'r4-sign-in': R4SignIn,\n\t'r4-sign-out': R4SignOut,\n\t'r4-sign-up': R4SignUp,\n\t'r4-supabase-query': R4SupabaseQuery,\n\t'r4-supabase-filters': R4SupabaseFilters,\n\t'r4-supabase-filter-search': R4SupabaseFilterSearch,\n\t'r4-title': R4Title,\n\t'r4-track': R4Track,\n\t'r4-track-create': R4TrackCreate,\n\t'r4-track-delete': R4TrackDelete,\n\t'r4-track-update': R4TrackUpdate,\n\t'r4-track-search': R4TrackSearch,\n\t'r4-tuner': R4Tuner,\n\t'r4-user': R4User,\n\t'r4-user-delete': R4UserDelete,\n\t'r4-user-account': R4UserAccount,\n\t'r4-user-channels-select': R4UserChannelsSelect,\n\t'r4-pagination': R4Pagination,\n\t'r4-icon': R4Icon,\n}"
+          "default": "{ 'r4-actions': R4Actions, 'r4-admin': R4Admin, 'r4-app': R4App, 'r4-command-menu': R4CommandMenu, 'r4-app-menu': R4AppMenu, 'r4-avatar': R4Avatar, 'r4-avatar-update': R4AvatarUpdate, 'r4-avatar-upload': R4AvatarUpload, 'r4-auth-status': R4AuthStatus, 'r4-button-play': R4ButtonPlay, 'r4-button-follow': R4ButtonFollow, 'r4-channel': R4Channel, 'r4-channel-card': R4ChannelCard, 'r4-channel-create': R4ChannelCreate, 'r4-channel-delete': R4ChannelDelete, 'r4-channel-update': R4ChannelUpdate, 'r4-channel-search': R4ChannelSearch, 'r4-dialog': R4Dialog, 'r4-email-update': R4EmailUpdate, 'r4-favicon': R4Favicon, 'r4-layout': R4Layout, 'r4-loading': R4Loading, 'r4-map': R4Map, 'r4-map-position': R4MapPosition, 'r4-password-update': R4PasswordUpdate, 'r4-password-reset': R4PasswordReset, 'r4-player': R4Player, 'r4-query': R4Query, 'r4-router': R4Router, 'r4-share': R4Share, 'r4-sign-in': R4SignIn, 'r4-sign-out': R4SignOut, 'r4-sign-up': R4SignUp, 'r4-supabase-query': R4SupabaseQuery, 'r4-supabase-filters': R4SupabaseFilters, 'r4-supabase-filter-search': R4SupabaseFilterSearch, 'r4-title': R4Title, 'r4-track': R4Track, 'r4-track-create': R4TrackCreate, 'r4-track-delete': R4TrackDelete, 'r4-track-update': R4TrackUpdate, 'r4-track-search': R4TrackSearch, 'r4-tuner': R4Tuner, 'r4-user': R4User, 'r4-user-delete': R4UserDelete, 'r4-user-account': R4UserAccount, 'r4-user-channels-select': R4UserChannelsSelect, 'r4-pagination': R4Pagination, 'r4-icon': R4Icon, }"
         }
       ],
       "exports": [
@@ -1061,7 +1061,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{\n\t\tdefault: {\n\t\t\tmessage: 'Unhandled error',\n\t\t},\n\t\t'slug-exists-firebase': {\n\t\t\tmessage: 'This slug is already in use by an other channel',\n\t\t\tfield: 'slug',\n\t\t},\n\t\t23502: {\n\t\t\tmessage: 'Fill out the slug field',\n\t\t\tfield: 'slug'\n\t\t},\n\t\t23514: {\n\t\t\tmessage: 'The slug needs to be between 3 and 40 characters',\n\t\t\tfield: 'slug',\n\t\t},\n\t\t23505: {\n\t\t\tmessage: 'The slug is already in use by an other channel',\n\t\t\tfield: 'slug',\n\t\t},\n\t\t42501: {\n\t\t\tmessage: 'Sign in to create a channel',\n\t\t\tfield: 'slug',\n\t\t},\n\t\t'sign-in': {\n\t\t\tmessage: 'You need to sign in to create a radio channel',\n\t\t},\n\t}",
+              "default": "{ default: { message: 'Unhandled error', }, 'slug-exists-firebase': { message: 'This slug is already in use by an other channel', field: 'slug', }, 23502: { message: 'Fill out the slug field', field: 'slug' }, 23514: { message: 'The slug needs to be between 3 and 40 characters', field: 'slug', }, 23505: { message: 'The slug is already in use by an other channel', field: 'slug', }, 42501: { message: 'Sign in to create a channel', field: 'slug', }, 'sign-in': { message: 'You need to sign in to create a radio channel', }, }",
               "inheritedFrom": {
                 "name": "R4Form",
                 "module": "src/components/r4-form.js"
@@ -1280,7 +1280,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{\n\t\t'default': {\n\t\t\tmessage: 'Unhandled error',\n\t\t\tfield: null,\n\t\t},\n\t\t'confirmation': {\n\t\t\tmessage: 'Please confirm deletion',\n\t\t\tfield: 'confirmation',\n\t\t},\n\t\t23503: {\n\t\t\tmessage: 'You appear to want to delete a channel that still has some tracks. Delete all tracks first.',\n\t\t}\n\t}",
+              "default": "{ 'default': { message: 'Unhandled error', field: null, }, 'confirmation': { message: 'Please confirm deletion', field: 'confirmation', }, 23503: { message: 'You appear to want to delete a channel that still has some tracks. Delete all tracks first.', } }",
               "inheritedFrom": {
                 "name": "R4Form",
                 "module": "src/components/r4-form.js"
@@ -1504,7 +1504,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{\n\t\tdefault: {\n\t\t\tmessage: 'Unhandled error',\n\t\t},\n\t\t'22P02': {\n\t\t\tmessage: 'invalid input syntax for type uuid',\n\t\t\tfield: 'id',\n\t\t},\n\t\t23514: {\n\t\t\tmessage: 'The slug needs to be between 5 and 40 characters',\n\t\t\tfield: 'slug',\n\t\t},\n\t\t23505: {\n\t\t\tmessage: 'The slug needs to be unique amond all channels',\n\t\t\tfield: 'slug',\n\t\t},\n\t\t404: {\n\t\t\tmessage: 'This channel does not exist',\n\t\t\tfield: 'id',\n\t\t},\n\t}",
+              "default": "{ default: { message: 'Unhandled error', }, '22P02': { message: 'invalid input syntax for type uuid', field: 'id', }, 23514: { message: 'The slug needs to be between 5 and 40 characters', field: 'slug', }, 23505: { message: 'The slug needs to be unique amond all channels', field: 'slug', }, 404: { message: 'This channel does not exist', field: 'id', }, }",
               "inheritedFrom": {
                 "name": "R4Form",
                 "module": "src/components/r4-form.js"
@@ -2043,7 +2043,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{\n\t\tdefault: {\n\t\t\tmessage: 'Unhandled error',\n\t\t},\n\t}",
+              "default": "{ default: { message: 'Unhandled error', }, }",
               "inheritedFrom": {
                 "name": "R4Form",
                 "module": "src/components/r4-form.js"
@@ -2269,7 +2269,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{\n\t\tsmall: smallSvg,\n\t\tmedium: mediumSvg,\n\t}"
+              "default": "{ small: smallSvg, medium: mediumSvg, }"
             }
           ],
           "attributes": [
@@ -2333,7 +2333,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{\n\t\tdefault: {\n\t\t\tmessage: 'Unhandled error',\n\t\t\tfield: null,\n\t\t},\n\t}"
+              "default": "{ default: { message: 'Unhandled error', field: null, }, }"
             },
             {
               "kind": "field",
@@ -2472,7 +2472,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{\n\t\tsearch: '🔍',\n\t\tmap: '🗺️',\n\t\tmap_position: '✵',\n\t\tglobe: '🌍',\n\t\tdark: '🌘',\n\t\tlight: '🌖',\n\t\tplayer_status: '♫',\n\t\tplayer_close: 'x',\n\t\tplayer_dock: '⌃',\n\t\tplayer_minimize: '⌄',\n\t\tplayer_fullscreen: '⛶', // ⌆\n\t\tfollow: '☆',\n\t\tunfollow: '★',\n\t\tremove: 'x',\n\t}"
+              "default": "{ search: '🔍', map: '🗺️', map_position: '✵', globe: '🌍', dark: '🌘', light: '🌖', player_status: '♫', player_close: 'x', player_dock: '⌃', player_minimize: '⌄', player_fullscreen: '⛶', // ⌆ follow: '☆', unfollow: '★', remove: 'x', }"
             },
             {
               "kind": "field",
@@ -3248,7 +3248,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{\n\t\tdefault: {\n\t\t\tmessage: 'Unhandled error',\n\t\t},\n\t\t'captcha-required': {\n\t\t\tmessage: 'The Captcha is missing. Please solve it to sign in.',\n\t\t},\n\t}",
+              "default": "{ default: { message: 'Unhandled error', }, 'captcha-required': { message: 'The Captcha is missing. Please solve it to sign in.', }, }",
               "inheritedFrom": {
                 "name": "R4Form",
                 "module": "src/components/r4-form.js"
@@ -3476,7 +3476,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{\n\t\tdefault: {\n\t\t\tmessage: 'Unhandled error',\n\t\t},\n\t\t'new-password-different': {\n\t\t\tmessage: 'New password should be different from the old password',\n\t\t},\n\t\t'password-too-short': {\n\t\t\tmessage: 'New password should be at least 6 characters',\n\t\t},\n\t\t'wrong-pattern': {\n\t\t\tmessage: 'Error during password storage. Password seems too complex (maybe too long or the characters used)',\n\t\t},\n\t}",
+              "default": "{ default: { message: 'Unhandled error', }, 'new-password-different': { message: 'New password should be different from the old password', }, 'password-too-short': { message: 'New password should be at least 6 characters', }, 'wrong-pattern': { message: 'Error during password storage. Password seems too complex (maybe too long or the characters used)', }, }",
               "inheritedFrom": {
                 "name": "R4Form",
                 "module": "src/components/r4-form.js"
@@ -5019,7 +5019,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{\n\t\tdefault: {\n\t\t\tmessage: 'Unhandled error',\n\t\t},\n\t\t'email-not-confirmed': {\n\t\t\tfield: 'email',\n\t\t\tmessage: 'Email must be confirmed to login (check your inbox)',\n\t\t},\n\t\t'invalid-login-credentials': {\n\t\t\tfield: 'email',\n\t\t\tmessage: 'The Email & Password combination is incorect',\n\t\t},\n\t\t'captcha-required': {\n\t\t\tmessage: 'The Captcha is missing. Please solve it to sign in.',\n\t\t},\n\t}",
+              "default": "{ default: { message: 'Unhandled error', }, 'email-not-confirmed': { field: 'email', message: 'Email must be confirmed to login (check your inbox)', }, 'invalid-login-credentials': { field: 'email', message: 'The Email & Password combination is incorect', }, 'captcha-required': { message: 'The Captcha is missing. Please solve it to sign in.', }, }",
               "inheritedFrom": {
                 "name": "R4Form",
                 "module": "src/components/r4-form.js"
@@ -5247,7 +5247,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{\n\t\t'default': {\n\t\t\tmessage: 'Unhandled error',\n\t\t},\n\t\t'not-signed-in': {\n\t\t\tmessage: 'Not currently signed in a user'\n\t\t}\n\t}",
+              "default": "{ 'default': { message: 'Unhandled error', }, 'not-signed-in': { message: 'Not currently signed in a user' } }",
               "inheritedFrom": {
                 "name": "R4Form",
                 "module": "src/components/r4-form.js"
@@ -5466,7 +5466,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{\n\t\tdefault: {\n\t\t\tmessage: 'Unhandled error',\n\t\t},\n\t\t'email-not-confirmed': {\n\t\t\tfield: 'email',\n\t\t\tmessage: \"You're signed up, confirm your email to login \",\n\t\t},\n\t\t'invalid-login-credentials': {\n\t\t\tfield: 'email',\n\t\t\tmessage: 'The email & password combination is incorrect',\n\t\t},\n\t\t'email-rate-limit': {\n\t\t\tmessage: 'Rate limit exceeded. Wait five minutes before trying again',\n\t\t},\n\t\t'password-too-short': {\n\t\t\tfield: 'password',\n\t\t\tmessage: 'Password should be at least 6 characters',\n\t\t},\n\t\t'captcha-required': {\n\t\t\tmessage: 'The Captcha is missing. Please solve it to sign up.',\n\t\t},\n\t}",
+              "default": "{ default: { message: 'Unhandled error', }, 'email-not-confirmed': { field: 'email', message: \"You're signed up, confirm your email to login \", }, 'invalid-login-credentials': { field: 'email', message: 'The email & password combination is incorrect', }, 'email-rate-limit': { message: 'Rate limit exceeded. Wait five minutes before trying again', }, 'password-too-short': { field: 'password', message: 'Password should be at least 6 characters', }, 'captcha-required': { message: 'The Captcha is missing. Please solve it to sign up.', }, }",
               "inheritedFrom": {
                 "name": "R4Form",
                 "module": "src/components/r4-form.js"
@@ -6266,7 +6266,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{\n\t\tdefault: {\n\t\t\tmessage: 'Unhandled error',\n\t\t},\n\t}",
+              "default": "{ default: { message: 'Unhandled error', }, }",
               "inheritedFrom": {
                 "name": "R4Form",
                 "module": "src/components/r4-form.js"
@@ -6496,7 +6496,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{\n\t\tdefault: {\n\t\t\tmessage: 'Unhandled error',\n\t\t\tfield: null,\n\t\t},\n\t\tconfirmation: {\n\t\t\tmessage: 'Really sure to delete this track?',\n\t\t\tfield: 'confirmation',\n\t\t},\n\t}",
+              "default": "{ default: { message: 'Unhandled error', field: null, }, confirmation: { message: 'Really sure to delete this track?', field: 'confirmation', }, }",
               "inheritedFrom": {
                 "name": "R4Form",
                 "module": "src/components/r4-form.js"
@@ -6715,7 +6715,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{\n\t\t'default': {\n\t\t\tmessage: 'Unhandled error',\n\t\t},\n\t}",
+              "default": "{ 'default': { message: 'Unhandled error', }, }",
               "inheritedFrom": {
                 "name": "R4Form",
                 "module": "src/components/r4-form.js"
