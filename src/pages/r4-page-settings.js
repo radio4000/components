@@ -32,7 +32,6 @@ export default class R4PageSettings extends R4Page {
 					</h1>
 				</li>
 			</menu>
-			<p>Application configuration and user settings.</p>
 		`
 	}
 
@@ -55,13 +54,13 @@ export default class R4PageSettings extends R4Page {
 			<section href="account">
 				<header>
 					<h2><a href="#account">Account</a></h2>
-					<p>Your are signed out.</p>
+					<p>With a Radio4000 account you can create your own radio, save your favorites and customize it as you wish.</p>
 				</header>
 				<ul>
-					<li><a href="${this.config.href}/sign/in">Sign in</a> to an existing account</li>
-					<li><a href="${this.config.href}/sign/up">Sign up</a> to register a new account</li>
-					<li><a href="${this.config.hrefMigrate}">Migrate </a> from version 1 to a version 2 radio channel</li>
+					<li><a href="${this.config.href}/sign/in">Sign in to your account</a></li>
+					<li><a href="${this.config.href}/sign/up">Create new account</a></li>
 				</ul>
+				<p>Already have a radio from the old site? <a href="${this.config.hrefMigrate}">Migrate</a> from version 1 to a version 2 radio channel.</p>
 			</section>
 		`
 	}
@@ -129,6 +128,7 @@ export default class R4PageSettings extends R4Page {
 			</section>
 		`
 	}
+
 	renderUserDelete() {
 		return html`
 			<section id="account">

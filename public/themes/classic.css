@@ -71,10 +71,6 @@ r4-app a:has(r4-avatar) {
 	padding: initial;
 }
 
-r4-app li {
-	/* margin-bottom: calc(var(--s) / 3); */
-}
-
 /* Default button */
 r4-app button {
 	display: inline-block;
@@ -123,6 +119,7 @@ r4-app {
 	[type='tel'],
 	[type='text'],
 	[type='url'],
+	[type='number'],
 	textarea {
 		background-color: var(--c-bg-input);
 		border: 1px solid var(--c-border);
@@ -221,11 +218,6 @@ r4-app menu {
 	border: 1px solid var(--c-border);
 	border-radius: var(--s-radius);
 }
-r4-app menu li {
-	margin: 0;
-	align-items: center;
-	height: 100%;
-}
 r4-app menu a {
 	padding: calc(var(--s)) calc(var(--s) / 2);
 	text-decoration: none;
@@ -246,12 +238,7 @@ r4-app-menu a {
 	background: none;
 }
 
-r4-list-item + r4-list-item {
-	margin-top: calc(var(--s) / 4);
-}
-
 /* elements to text wrap  */
-
 r4-channel-card-body r4-channel-name,
 r4-channel-card-body r4-channel-slug {
 	word-break: break-all;
@@ -405,7 +392,7 @@ r4-app summary {
 	padding: calc(var(--s) / 4);
 }
 r4-app form slot[name='submit'] fieldset:last-of-type {
-	margin: var(--s);
+	margin: var(--s) calc(var(--s) / 2) calc(var(--s) / 2) var(--s);
 	justify-content: flex-end;
 }
 
