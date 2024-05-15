@@ -88,11 +88,11 @@ export default class R4Admin extends LitElement {
 
 	isPotentiallySpam(user) {
 		const domains = [
-			'connectmailhub.com',
-			'rocketpostbox.com',
 			'clearmailhub.com',
+			'connectmailhub.com',
 			'emailnestpro.com',
 			'inboxmasters.com',
+			'rocketpostbox.com',
 			'trustymailpro.com',
 		]
 		return domains.some((ltd) => user.email.includes(ltd))
