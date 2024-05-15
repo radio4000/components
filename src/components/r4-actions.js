@@ -1,76 +1,55 @@
-export default class R4Actions extends HTMLElement {
-	/* move the children elements into the select */
+import {LitElement} from 'lit'
+
+/**
+ * A dropdown menu that closes on ESC only has one open at a time
+ */
+export default class R4Actions extends LitElement {
+	// static properties = {}
+
 	connectedCallback() {
-		this.$select = document.createElement('select')
-		this.$select.addEventListener('input', this.onInput.bind(this))
+		this.addEventListener('keydown', this.onKeyDown)
+		const details = this.querySelector('details')
+		details && details.addEventListener('toggle', this.onToggle.bind(this))
+	}
 
-		Object.keys(this.children).forEach(() => {
-			const $option = this.children[0]
-
-			/* the default option has no value, used as title */
-			if (!$option.value) {
-				$option.defaultSelected = true
-				$option.disabled = true
+	/** @arg {KeyboardEvent} event */
+	onKeyDown(event) {
+		if (event.key === 'Escape') {
+			const details = this.querySelector('details')
+			if (details.hasAttribute('open')) {
+				this.close(details)
+				event.preventDefault()
+				event.stopPropagation()
 			}
-			this.$select.append($option)
-		})
-		this.append(this.$select)
-	}
-
-	onInput(event) {
-		event.stopPropagation()
-		event.preventDefault()
-
-		const inputEvent = new CustomEvent('input', {
-			bubbles: true,
-			detail: event.target.value
-		})
-		this.dispatchEvent(inputEvent)
-		this.resetSelect()
-	}
-	resetSelect() {
-		this.$select.querySelector('option').selected = true
-	}
-
-	/*
-		 actions, are the value="" attribute,
-		 can be called from outside */
-
-	/* check for known actions this component can handle;
-	 returns true if can handle */
-	checkAction(optionValue) {
-		if (!optionValue) return
-		/* is the command prefixed by "visit-" ? */
-		const visitCommand = optionValue.split('visit-')
-		if (visitCommand.length === 2) {
-			this.visit(visitCommand[1])
-			return true
 		}
-		return false
 	}
 
-	/* visit-{page} */
-	visit(visitAction) {
-		let url
+	onToggle() {
+		this.closeCurrentMenu()
+	}
 
-		/* is it a known page */
-		if (visitAction === 'home') {
-			url = `/`
-		} else {
-			/* or a component page */
-			url = `/examples/r4-${visitAction}`
+	/** @arg {HTMLDetailsElement} details */
+	close(details) {
+		details.removeAttribute('open')
+		const summary = details.querySelector('summary')
+		if (summary) summary.focus()
+		this.closeCurrentMenu(details)
+	}
+
+	/** Closes all open r4-action menus on the page */
+	closeCurrentMenu() {
+		const details = this.querySelector('details')
+		if (!details.hasAttribute('open')) return
+		for (const menu of document.querySelectorAll('r4-actions details[open] > menu')) {
+			const opened = menu.closest('details')
+			if (opened && opened !== details && !opened.contains(details)) {
+				opened.removeAttribute('open')
+			}
 		}
-		this.navigate(url)
 	}
 
-	/*
-		 commands,
-		 are the results to actions
-	 */
-
-	/* navigate to a URL in the app;
- should use the app router (page.js) if any */
-	navigate(url) {
-		window.location.href = url
+	createRenderRoot() {
+		return this
 	}
 }
+

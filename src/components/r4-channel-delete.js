@@ -1,4 +1,4 @@
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
@@ -10,7 +10,7 @@ fieldsTemplate.innerHTML = `
 		</fieldset>
 		<fieldset>
 			<label for="confirmation">Confirmation</label>
-			<input name="confirmation" type="checkbox" required/>
+			<input id="confirmation" name="confirmation" type="checkbox" required/>
 		</fieldset>
 	</slot>
 `

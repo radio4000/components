@@ -1,10 +1,16 @@
 import {html, LitElement} from 'lit'
 import {ref, createRef} from 'lit/directives/ref.js'
-import {sdk} from '@radio4000/sdk'
+import pkg from '../../package.json'
+import {sdk, HCAPTCHA_SITE_KEY} from '../libs/sdk.js'
+import {UI_STATES} from '../libs/appearance.js'
 import page from 'page/page.mjs'
 import DatabaseListeners from '../libs/db-listeners'
 import Cache from '../libs/cache.js'
 import '../pages/'
+import ROUTES_CMS from '../data/routes-cms.json'
+import ROUTES_SINGLE from '../data/routes-single.json'
+import {THEMES, prefersDark} from '../libs/appearance.js'
+import {createImage} from './r4-avatar.js'
 
 
 export default class R4App extends LitElement {
@@ -13,6 +19,7 @@ export default class R4App extends LitElement {
 	static properties = {
 		// public
 		singleChannel: {type: Boolean, reflect: true, attribute: 'single-channel'},
+		cdn: {type: String, reflect: true},
 		// the channel slug
 		selectedSlug: {type: String, reflect: true, attribute: 'channel'},
 		href: {
@@ -28,13 +35,20 @@ export default class R4App extends LitElement {
 
 		/* state */
 		user: {type: Object, state: true},
+		userAccount: {type: Object, state: true},
 		userChannels: {type: Array || null, state: true},
 		followers: {type: Array || null, state: true},
 		following: {type: Array || null, state: true},
 		didLoad: {type: Boolean, state: true},
 
 		isPlaying: {type: Boolean, attribute: 'is-playing', reflects: true},
+		playingChannel: {type: Object},
+		playingTracks: {type: Array},
+		playingTrack: {type: Object},
 
+		version: {type: String, reflect: true},
+		theme: {type: String, reflect: true},
+		colorScheme: {type: String, attribute: 'color-scheme', reflect: true},
 
 		/* state for global usage */
 		store: {type: Object, state: true},
@@ -45,25 +59,34 @@ export default class R4App extends LitElement {
 	get store() {
 		return {
 			user: this.user,
+			userAccount: this.userAccount,
 			userChannels: this.userChannels,
 			followers: this.followers,
 			following: this.following,
-			cache: this.cache
+			cache: this.cache,
+			selectedChannel: this.selectedChannel,
 		}
-	}
-	set store(val) {
-		// do nothing
 	}
 
 	get config() {
+		const client = this.href?.split('://')[1]
 		return {
-			singleChannel: this.singleChannel,
 			href: this.href,
+			hrefV1: 'https://v1.radio4000.com',
+			hrefMigrate: 'https://migrate.radio4000.com',
+			hcaptchaSiteKey: HCAPTCHA_SITE_KEY,
+			client,
+			version: this.version,
+			singleChannel: this.singleChannel,
 			selectedSlug: this.selectedSlug,
+
+			/* maybe move this into a new object? (not config, but "player" or "store");
+				 currently passed to too many things */
+			isPlaying: this.isPlaying,
+			playingChannel: this.playingChannel,
+			playingTracks: this.playingTracks,
+			playingTrack: this.playingTrack,
 		}
-	}
-	set config(val) {
-		// do nothing
 	}
 
 	get selectedChannel() {
@@ -71,49 +94,111 @@ export default class R4App extends LitElement {
 		return this.userChannels.find((c) => c.slug === this.selectedSlug)
 	}
 
+	// Allows loading the CSS themes from different sources.
+	get themeHref() {
+		const file = `${this.theme}.css`
+		if (this.cdn?.length > 4) {
+			return `${this.cdn}/dist/themes/${file}`
+		} else if (this.cdn) {
+			return `https://cdn.jsdelivr.net/npm/@radio4000/components@${this.version || 'latest'}/dist/themes/${file}`
+		} else {
+			return `/themes/${file}`
+		}
+	}
+
 	constructor() {
 		super()
-		this.cache = new Cache()
+		// Set current version
+		this.version = pkg.version
+		// Set default theme.
+		this.theme = THEMES[0]
+    this.cache = new Cache()
 	}
 
 	async connectedCallback() {
 		super.connectedCallback()
 
 		this.listeners = new DatabaseListeners(this)
-		this.listeners.addEventListener('auth', async (event) => {
-			this.user = event.detail.user
-			this.refreshUserData()
-			if (event.detail === 'PASSWORD_RECOVERY') this.passwordRecovery()
+		this.listeners.addEventListener('auth', async ({detail}) => {
+			const sameUser = (this.user && this.user.id) === (detail.user && detail.user.id)
+			if (
+				detail.eventType === 'INITIAL_SESSION' ||
+				(detail.eventType === 'SIGNED_IN' && !sameUser) ||
+				detail.eventType === 'SIGNED_OUT'
+			) {
+				this.user = detail.user
+				this.refreshUserData()
+				this.refreshUserAccount()
+			} else {
+				// same user, no need to update
+			}
+
+			if (detail === 'PASSWORD_RECOVERY') {
+				this.passwordRecovery()
+			}
 		})
-		this.listeners.addEventListener('user-channels', (event) => {
-			if (event.detail.eventType === 'INSERT' || event.detail.eventType === 'DELETE') {
+		this.listeners.addEventListener('user-channels', ({detail}) => {
+			if (['INSERT', 'DELETE', 'UPDATE'].includes(detail.eventType)) {
 				this.refreshUserData()
 			}
 		})
-		this.listeners.addEventListener('followers', (event) => {
-			if (event.detail.eventType === 'INSERT' || event.detail.eventType === 'DELETE') {
+		this.listeners.addEventListener('followers', ({detail}) => {
+			if (['INSERT', 'DELETE', 'UPDATE'].includes(detail.eventType)) {
 				this.refreshUserData()
+			}
+		})
+		this.listeners.addEventListener('user-account', ({detail}) => {
+			if (['INSERT', 'DELETE', 'UPDATE'].includes(detail.eventType)) {
+				this.refreshUserAccount(detail.new)
 			}
 		})
 	}
 
+	async refreshUserAccount(newAccount) {
+		if (this.user && newAccount) {
+			this.userAccount = newAccount
+		}
+		if (this.user && !this.store.userAccount) {
+			const {data, error} = await sdk.supabase.from('accounts').select('*').eq('id', this.user.id).single()
+			if (data) {
+				this.userAccount = data
+			} else if (error) {
+				// create user account (should be in DB auto when creating account)
+				this.userAccount = await sdk.supabase.from('accounts').insert({id: this.user.id}).single()
+			}
+		}
+		this.setTheme()
+	}
+
 	async refreshUserData() {
 		// Ensure it doesn't run multiple times in parallel.
-		if (this.refreshUserData.running) return
+		if (this.refreshUserData.running) {
+			return
+		}
 		this.refreshUserData.running = true
 
-		// Refresh user theme settings
-		this.setTheme()
-
 		if (!this.user) {
-			this.userChannels = undefined
-			this.followers = undefined
-			this.following = undefined
+			if (!this.singleChannel) this.selectedSlug = null
+			this.userChannels = []
+			this.followers = []
+			this.following = []
 		} else {
+
+			// Handle case after deleting user
+			const {error: userError} = await sdk.users.readUser()
+			if (userError) {
+				await sdk.auth.signOut()
+			}
+
 			// Refresh user channels
 			this.userChannels = (await sdk.channels.readUserChannels()).data
-			if (this.userChannels && !this.selectedSlug) {
+			if (this.userChannels?.length && !this.selectedSlug) {
 				this.selectedSlug = this.userChannels[0].slug
+			}
+
+			// On deleted channel
+			if (!this.userChannels?.length && this.selectedSlug) {
+				this.selectedSlug = null
 			}
 
 			// Set followers and following
@@ -139,63 +224,17 @@ export default class R4App extends LitElement {
 	}
 
 	async setTheme() {
-		// From local storage
-		let theme = localStorage.getItem('r4.theme')
-		// From database
-		if (!theme && this.user) {
-			const {data: account} = await sdk.supabase.from('accounts').select('theme').eq('id', this.user.id).single()
-			theme = account.theme
+		if (this.store.userAccount?.theme) {
+			this.theme = this.store.userAccount.theme
+		} else {
+			this.theme = THEMES[0]
 		}
-		// From OS settings
-		if (!theme) {
-			const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-			theme = prefersDark ? 'dark' : 'light'
+		if (this.store.userAccount?.color_scheme) {
+			this.colorScheme = this.store.userAccount.color_scheme
+		} else {
+			// From OS settings
+			this.colorScheme = prefersDark ? 'dark' : 'light'
 		}
-		this.setAttribute('color-scheme', theme)
-	}
-
-	render() {
-		if (!this.didLoad) return html`<progress value=${0} max="100"></progress> `
-		return html`
-			<r4-layout @r4-play=${this.onPlay} ?is-playing=${this.isPlaying}>
-				${!this.config.singleChannel ? this.renderMenu() : null}
-				<main slot="main">${this.renderRouter()}</main>
-				<r4-player
-					slot="player"
-					${ref(this.playerRef)}
-					?is-playing=${this.isPlaying}
-					@trackchanged=${this.onTrackChange}
-				></r4-player>
-			</r4-layout>
-		`
-	}
-
-	/* the default routers:
-	 - one for the channel in CMS mode (all channels are accessible)
-	 - one for when only one channel should be displayed in the UI
- */
-	renderRouter() {
-		const routerData = {store: this.store, config: this.config}
-		return this.singleChannel ? renderRouterSingleChannel(routerData) : renderRouterCMS(routerData)
-	}
-
-	renderMenu() {
-		const user = this.user
-		const href = this.config?.href
-		return html`
-			<header slot="menu">
-				<menu>
-					<a href=${href + '/'}><r4-title small></r4-title></a>
-					<a href=${href + '/explore'}>Explore</a>
-					${!user ? html`<a href=${href + '/sign/up'}>Create radio</a>` : ''}
-					${!user ? html`<a href=${href + '/sign/in'}>My radio</a>` : ''}
-					${this.userChannels?.length
-						? html`<a href=${href + '/' + this.selectedSlug}>@${this.selectedChannel.slug}</a>`
-						: ''}
-					${this.userChannels?.length ? html`<a href=${href + '/settings'}>Settings</a>` : ''}
-				</menu>
-			</header>
-		`
 	}
 
 	onChannelSelect({detail}) {
@@ -206,27 +245,46 @@ export default class R4App extends LitElement {
 		}
 	}
 
-	async onPlay(event) {
-		const {detail} = event
-		if (!detail) {
-			return this.stop()
-		}
+	async onPlay({detail}) {
+		if (!detail) return this.stop()
 
-		const {channel, track} = detail
-		let {tracks} = detail
+		let {channel, tracks, search} = detail
+		let {track} = detail
 		const el = this.playerRef.value
 
-		this.isPlaying = true
-
-		if (!tracks && channel?.slug) {
-			const {data: channelTracks} = await sdk.channels.readChannelTracks(channel.slug)
-			tracks = channelTracks.reverse()
+		if (track?.id) {
+			el.track = track
+		} else if (tracks?.length) {
+			el.track = tracks[0]
 		}
 
-		if (tracks) {
-			el.tracks = tracks
-		} else {
-			el.tracks = []
+		// If we know which channel it is, but don't have any tracks
+		// Load and queue them in player
+		const slug = channel?.slug || track.slug
+		if (slug && !tracks?.length) {
+
+			// Don't load and set tracks if we can avoid it.
+		 	const sameName = el.playlist && el.playlist.title === channel?.name
+			if (sameName && el.tracks?.length ) {
+				// if (!el.track) {
+				// 	const randomTrack = el.tracks[Math.floor(Math.random() * el.tracks.length)]
+				// 	el.track = randomTrack
+				// }
+			} else {
+				const {data} = await sdk.channels.readChannelTracks(slug)
+				tracks = data.reverse().map((track) => {
+					track.body = track.description
+					return track
+				})
+				el.tracks = tracks
+				el.track = track || tracks.at(-1)
+			}
+		} else if (slug && tracks) {
+			el.tracks = tracks.slice().reverse().map((track) => {
+				track.body = track.description
+				return track
+			})
+			el.track = tracks.at(0)
 		}
 
 		if (channel?.name) {
@@ -235,25 +293,30 @@ export default class R4App extends LitElement {
 			el.removeAttribute('name')
 		}
 
+		if (search) {
+			el.setAttribute('query', search)
+		} else {
+			el.removeAttribute('query')
+		}
+
 		if (channel?.image) {
-			const imageUrl = channel.image
+			const imageUrl = createImage(channel.image)
 			el.setAttribute('image', imageUrl)
 		} else {
 			el.removeAttribute('image')
 		}
 
-		if (track?.id) {
-			el.setAttribute('track', track.id)
-		} else if (tracks) {
-			const lastTrack = tracks[tracks.length - 1]
-			el.setAttribute('track', lastTrack.id)
-		} else {
-			el.removeAttribute('track')
-		}
+
+		// Update state about what's playing.
+		this.isPlaying = true
+		this.playingChannel = channel
+		this.playingTrack = track
+		this.playingTracks = tracks
 	}
 
 	onTrackChange(event) {
-		console.log(event.detail)
+		this.playingTrack = event.detail[0].track
+		// add to history?
 	}
 
 	stop() {
@@ -265,51 +328,66 @@ export default class R4App extends LitElement {
 		el.removeAttribute('track')
 		el.removeAttribute('image')
 		el.removeAttribute('name')
+		el.removeAttribute('query')
 		el.removeAttribute('tracks')
+	}
+
+	render() {
+		if (!this.didLoad) {
+			return html`<r4-layout><r4-loading slot="main"></r4-loading></r4-layout>`
+		}
+		return html`
+			<r4-layout @r4-play=${this.onPlay} ?is-playing=${this.isPlaying}>
+				${!this.config.singleChannel ? this.renderMenu() : null}
+				<main slot="main">${this.renderRouter()}</main>
+				<r4-player
+					slot="player"
+					${ref(this.playerRef)}
+					platform="true"
+					.isPlaying=${this.config.isPlaying}
+					@trackchange=${this.onTrackChange}
+				></r4-player>
+				<form slot="playback-controls">${Object.entries(UI_STATES).map(this.renderPlayerUICtrl.bind(this))}</form>
+			</r4-layout>
+			<r4-command-menu modal .config=${this.config} .store=${this.store}></r4-command-menu>
+			<link rel="stylesheet" href=${this.themeHref} />
+		`
+	}
+
+	/* the default routers:
+		 - one for the channel in CMS mode (all channels are accessible)
+		 - one for when only one channel should be displayed in the UI
+	 */
+	renderRouter() {
+		if (this.singleChannel) {
+			return html`
+				<r4-router name="channel" .store=${this.store} .config=${this.config} .routes=${ROUTES_SINGLE}></r4-router>
+			`
+		} else {
+			return html`
+				<r4-router name="application" .store=${this.store} .config=${this.config} .routes=${ROUTES_CMS}> </r4-router>
+			`
+		}
+	}
+
+	renderMenu() {
+		return html`
+			<header slot="menu">
+				<r4-app-menu ?auth=${this.store?.user} href=${this.config?.href} slug=${this.selectedSlug}></r4-app-menu>
+			</header>
+		`
+	}
+
+	renderPlayerUICtrl(uiState) {
+		const [value, name] = uiState
+		return html`
+			<button value=${value} title=${name} name=${name} type="submit">
+				<r4-icon name="player_${name}"></r4-icon>
+			</button>
+		`
 	}
 
 	createRenderRoot() {
 		return this
 	}
-}
-
-function renderRouterSingleChannel({store, config}) {
-	return html`
-		<r4-router name="channel" .store=${store} .config=${config}>
-			<r4-route path="/sign/:method" page="sign"></r4-route>
-			<r4-route path="/" page="channel"></r4-route>
-			<r4-route path="/player" page="channel-player"></r4-route>
-			<r4-route path="/tracks" page="channel-tracks"></r4-route>
-			<r4-route path="/tracks/:track_id" page="channel-track"></r4-route>
-			<r4-route path="/followers" page="channel-followers"></r4-route>
-			<r4-route path="/following" page="channel-followings"></r4-route>
-			<r4-route path="/add" page="add"></r4-route>
-			<r4-route path="/settings" page="settings"></r4-route>
-		</r4-router>
-	`
-}
-
-function renderRouterCMS({store, config}) {
-	return html`
-		<r4-router name="application" .store=${store} .config=${config}>
-			<r4-route path="/" page="home"></r4-route>
-			<r4-route path="/explore" page="explore"></r4-route>
-			<r4-route path="/sign" page="sign"></r4-route>
-			<r4-route path="/sign/:method" page="sign"></r4-route>
-			<r4-route path="/add" page="add"></r4-route>
-			<r4-route path="/new" page="new"></r4-route>
-			<r4-route path="/settings" page="settings"></r4-route>
-			<r4-route path="/map" page="map"></r4-route>
-			<r4-route path="/search" page="search"></r4-route>
-			<r4-route path="/playground/:color" page="playground"></r4-route>
-			<r4-route path="/:slug" page="channel"></r4-route>
-			<r4-route path="/:slug/feed" page="channel-feed"></r4-route>
-			<r4-route path="/:slug/update" page="channel-update"></r4-route>
-			<r4-route path="/:slug/player" page="channel-player"></r4-route>
-			<r4-route path="/:slug/tracks" page="channel-tracks"></r4-route>
-			<r4-route path="/:slug/tracks/:track_id" page="channel-track"></r4-route>
-			<r4-route path="/:slug/followers" page="channel-followers"></r4-route>
-			<r4-route path="/:slug/following" page="channel-followings"></r4-route>
-		</r4-router>
-	`
 }

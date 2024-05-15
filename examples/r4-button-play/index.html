@@ -7,13 +7,13 @@
 
 		<title>r4-button-play</title>
 		<meta name="description" content="r4-button-play" />
-		<link rel="stylesheet" href="/styles/index.css" />
+
 		<script type="module" src="/src/index.js"></script>
 	</head>
 
 	<body>
-		<p>The r4-button-play component renders a button that will play a channel by it slug, or a specific track from that channel, by its id.</p>
-		<p>It is also possible to pass it directly a <code>.channel</code> object.</p>
+		<p>The r4-button-play component renders a button that can initiate playback in multiple ways: pass in a channel `slug`, a `channel` object, a `track` object or even a `tracks` list.</p>
+		<p>If you fetched the channel already, pass it it so it doesn't have to fetch it again.</p>
 
 		<r4-button-play slug="oskar"></r4-button-play>
 

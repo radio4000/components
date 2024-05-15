@@ -1,0 +1,210 @@
+/* vars */
+r4-app {
+	/* colors */
+	--c-light: cornsilk;
+	--c-dark: black;
+	--c-dim: dimgray;
+	--c-intense: chartreuse;
+	--c-moderate: rebeccapurple;
+	--s-container: 50rem;
+	--s-form: 35rem;
+	--s-radius: calc(var(--s) / 3);
+}
+
+/* color schemes */
+r4-app[color-scheme='os'] {
+}
+r4-app[color-scheme='dark'] {
+	color-scheme: dark;
+	--c-bg: var(--c-dark);
+	--c-fg: var(--c-light);
+	--c-link: var(--c-intense);
+	--c-menu-bg: var(--c-dim);
+	--c-form-bg: var(--c-dim);
+}
+r4-app[color-scheme='light'] {
+	color-scheme: light;
+	--c-bg: var(--c-light);
+	--c-fg: var(--c-dark);
+	--c-link: var(--c-moderate);
+	--c-menu-bg: var(--c-intense);
+	--c-form-bg: var(--c-intense);
+}
+
+/* app scheme theming */
+r4-app:not([color-scheme='os']) a {
+	text-decoration: none;
+	color: var(--c-link);
+}
+
+/* app layout */
+r4-page-header,
+r4-page-main section h2 {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	align-self: flex-start;
+	background-color: var(--c-bg);
+}
+
+/* app components */
+r4-app h1,
+r4-app h2,
+r4-app h3 {
+	font-size: 1.3rem;
+	margin-top: 0;
+}
+
+r4-app menu li {
+	padding: calc(var(--s) / 3);
+}
+r4-app menu a {
+	background-color: var(--c-menu-bg);
+	padding: calc(var(--s) / 2);
+}
+r4-app a[aria-current='page'] {
+	background-color: var(--c-bg);
+}
+r4-app[color-scheme='os'] a[aria-current='page'] {
+	text-decoration: none;
+}
+
+r4-app ul li + li,
+r4-app ol li + li {
+	margin-top: var(--s);
+}
+
+r4-app details[open],
+r4-app summary {
+	padding: calc(var(--s));
+}
+
+r4-app form {
+	max-width: calc(var(--s) * 100);
+	padding: var(--s);
+	border-radius: var(--s-radius);
+}
+r4-app summary,
+r4-app form legend,
+r4-app form label {
+	font-style: italic;
+}
+r4-app fieldset {
+	display: flex;
+	margin: calc(var(--s) / 3);
+	position: relative;
+}
+r4-app fieldset legend {
+	position: absolute;
+	top: -0.7rem;
+	left: 0;
+	font-size: 0.7rem;
+}
+r4-app input,
+r4-app textarea {
+	flex-grow: 1;
+}
+r4-app textarea {
+	min-height: calc(var(--s) * 5);
+	resize: vertical;
+}
+
+/* components */
+r4-page-header h1 {
+	margin-bottom: 0;
+}
+r4-list {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: var(--s-container);
+}
+r4-list-item + r4-list-item {
+	margin-top: var(--s);
+}
+r4-track-mentions a::before,
+r4-track-tags a::before {
+	color: var(--c-bg);
+}
+r4-query {
+	display: flex;
+	flex-wrap: wrap;
+}
+r4-button-play {
+	margin: calc(var(--s) / 2);
+}
+r4-layout::part(menu) {
+	order: 1;
+}
+r4-layout::part(controls-button) {
+	padding: var(--s);
+	margin-left: calc(var(--s) / 2);
+}
+r4-layout::part(playback-summary) {
+	background-color: var(--c-menu-bg);
+}
+
+r4-layout::part(menu) {
+	position: sticky;
+	bottom: 0;
+}
+r4-router > * {
+	justify-content: center;
+}
+r4-page-main,
+r4-page-footer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	& section {
+		width: 100%;
+		max-width: var(--s-container);
+	}
+}
+r4-page-main {
+	flex-grow: 1;
+}
+
+r4-page-home {
+	& section header {
+		position: sticky;
+		top: 0;
+		z-index: 1;
+	}
+}
+
+r4-track-create,
+r4-sign-in,
+r4-sign-out,
+r4-sign-up,
+r4-page-add {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	& form {
+		max-width: var(--s-form);
+		width: 100%;
+		padding: calc(var(--s) / 2);
+		border: 1px solid var(--c-fg);
+		border-radius: var(--s-radius);
+		& fieldset {
+			margin: calc(var(--s) / 2);
+		}
+	}
+}
+r4-page-add form {
+	border-color: var(--c-theme);
+}
+
+r4-app form slot[name='submit'] fieldset:last-of-type {
+	margin: var(--s);
+	justify-content: flex-end;
+}
+
+r4-page-map {
+	& r4-map {
+		width: 100%;
+		height: 100%;
+	}
+}

@@ -1,3 +1,5 @@
+.env
+
 # Logs
 logs
 *.log
@@ -11,6 +13,7 @@ node_modules
 dist
 dist-ssr
 dist-lib
+dist-website
 *.local
 
 # Editor directories and files
@@ -19,3 +22,4 @@ dist-lib
 .idea
 .DS_Store
 TAGS
+bun.lockb

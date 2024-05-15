@@ -1,11 +1,11 @@
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 
 export default class R4Channel extends HTMLElement {
 	static get observedAttributes() {
 		return ['origin', 'id', 'slug', 'channel']
 	}
 
-	/* Used to make a link to the channel's homepage.
+	/** Used to make a link to the channel's homepage.
 		 It could point to different URL schemes:
 		 - on root: https://radio.example.org/
 		 - on subpage: https://music.example.org/test-radio-2
@@ -22,7 +22,7 @@ export default class R4Channel extends HTMLElement {
 		return url
 	}
 
-	/* some attributes, that can be used to fetch model data,
+	/** some attributes, that can be used to fetch model data,
 		 and are unique to the channel */
 	get id() {
 		return this.getAttribute('id')
@@ -31,7 +31,7 @@ export default class R4Channel extends HTMLElement {
 		return this.getAttribute('slug')
 	}
 
-	/* the model data, when fetched, or set from outside */
+	/** the model data, when fetched, or set from outside */
 	get channel() {
 		return JSON.parse(this.getAttribute('channel'))
 	}

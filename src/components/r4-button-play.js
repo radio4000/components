@@ -1,28 +1,31 @@
 import {LitElement, html} from 'lit'
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 
 /**
  * Renders a button, to play a channel by slug / track (id)
- * 1. pass in a channel `slug` attribute
- * 2. also pass in a `track` object, of this channel's track to play
+ * 1. pass in a `slug` (channel) attribute (causes it to fetch)
+ * 2. pass in a `track` object, of this channel's track to play
+ * 3. pass in a `channel` object to avoid fetching channel
+ * 4. pass in a `tracks` array to use as playlist
  * 3. pass in a "label" string to overwrite the button text contents
  */
-
 export default class R4ButtonPlay extends LitElement {
 	static properties = {
-		/* a channel's slug */
-		slug: {type: String, reflect: true},
-
-		/* a track object */
-		track: {type: Object},
-
-		/* or tracks list */
-		tracks: {type: Array},
-
 		label: {type: String},
 
+		/* a channel's slug */
+		slug: {type: String, reflect: true},
+		/* a track object */
+		track: {type: Object},
+		/* or tracks list */
+		tracks: {type: Array},
 		/* the channel data object */
 		channel: {type: Object, state: true},
+		/* a user search query */
+		search: {type: String},
+		/* the filters used by a user */
+		filters: {type: Array},
+		playing: {type: Boolean, reflect: true},
 	}
 
 	async connectedCallback() {
@@ -40,13 +43,15 @@ export default class R4ButtonPlay extends LitElement {
 				channel: this.channel,
 				track: this.track,
 				tracks: this.tracks,
+				search: this.search,
+				filters: this.filters,
 			},
 		})
 		this.dispatchEvent(playEvent)
 	}
 
 	render() {
-		return html`<button @click=${this.play}>▶${this.label}</button>`
+		return html`<button @click=${this.play} ?disabled=${this.playing}>▶${this.label}</button>`
 	}
 
 	createRenderRoot() {

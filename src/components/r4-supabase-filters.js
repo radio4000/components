@@ -3,35 +3,32 @@ import {supabaseOperators} from '../libs/browse.js'
 import dbSchema from '../libs/db-schemas.js'
 const {tables} = dbSchema
 
-/*
-	 supabase-filters
-	 to manage "filters" applied by the supabase sdk on a `supabase.from()`
+/**
+ * @typedef {object} QueryFilter
+ * @prop {string} column
+ * @prop {string} operator
+ * @prop {string} value
+ */
+
+/**
+ * An interface to create and manage filters for the Supabase SDK (`supabase.from()...`)
+ * Fires @input event whenever any filter is created or changed.
  */
 export default class R4SupabaseFilters extends LitElement {
 	static properties = {
+		// Name of the SQL table to filter
 		table: {type: String, reflect: true},
 		filters: {type: Array, reflect: true, state: true},
 	}
 
-	constructor() {
-		super()
-		this.table = ''
-		// this.filters = []
-	}
-
-	updated(attr) {
-		/* always update the list when any attribute change
-			 for some attribute, first clear the existing search query */
-		if (attr.get('filters')) this.onFilters()
-	}
-
-	async onFilters() {
-		/* if (!this.table) return */
-		const filtersEvent = new CustomEvent('filters', {
-			bubbles: true,
-			detail: this.filters,
-		})
-		this.dispatchEvent(filtersEvent)
+	// Called when any filter is added, updated or removed
+	onFilters(updatedFilters) {
+		this.dispatchEvent(
+			new CustomEvent('input', {
+				bubbles: true,
+				detail: updatedFilters, //?.filter((filter) => !!filter),
+			}),
+		)
 	}
 
 	onFormSubmit(event) {
@@ -46,19 +43,22 @@ export default class R4SupabaseFilters extends LitElement {
 			column: this.filters?.at(0)?.column || tables[this.table].columns[0],
 			value: '',
 		}
-		const filters = this.filters || []
-		this.filters = [...filters || [], newFilter]
+		if (!this.filters) this.filters = []
+		this.onFilters([...this.filters, newFilter])
 	}
-
-	removeFilter(index) {
-		this.filters = this.filters.filter((_, i) => i !== index)
+	clearFilters() {
+		this.onFilters([])
 	}
 
 	updateFilter(index, field, value) {
 		/* replace existing filters, including the new one */
 		const newFilters = [...this.filters]
 		newFilters[index][field] = value
-		this.filters = newFilters
+		this.onFilters(newFilters)
+	}
+
+	removeFilter(index) {
+		this.onFilters(this.filters.filter((_, i) => i !== index))
 	}
 
 	createRenderRoot() {
@@ -67,70 +67,60 @@ export default class R4SupabaseFilters extends LitElement {
 
 	render() {
 		return html`
-			<form @submit=${this.onFormSubmit}>
-				<fieldset>
-					<label>Filters
-					<button @click=${this.addFilter}>+</button>
-</label>
+			<details>
+				<summary>Filters ${this.filters?.length ? this.renderClear() : null}</summary>
+				<form @submit=${this.onFormSubmit}>
 					${this.filters?.length ? this.renderFilters() : null}
-				</fieldset>
-			</form>
+					<fieldset>
+						<label>
+							<button type="button" @click=${this.addFilter}>Add filter</button>
+						</label>
+					</fieldset>
+				</form>
+			</details>
 		`
+	}
+	renderClear() {
+		return html`<button @click=${this.clearFilters} ?disabled=${!this.filters?.length}>
+			Clear ${this.filters?.length}
+		</button>`
 	}
 
 	renderFilters() {
 		/* some table need default filters, channel_track, a "channel", to get the tracks of
 			 (might be multiple channels? ex. "all tracks with #dub from @x & @y") */
 		const renderFilterItem = (filter, index) => {
-			return html`
-				<li>
-					<fieldset>
-						${this.renderFilter(filter, index)}
-						<button @click=${() => this.removeFilter(index)}>␡</button>
-					</fieldset>
-				</li>
-			`
+			return html` <fieldset>${this.renderFilter(filter, index)}</fieldset> `
 		}
-
-		return html`<ul>
-			${this.filters.map(renderFilterItem.bind(this))}
-		</ul>`
+		return this.filters.map(renderFilterItem.bind(this))
 	}
 
 	renderFilter(filter, index) {
 		const allFilterOptions = [...tables[this.table].columns, ...(tables[this.table]?.junctions || [])]
 		return html`
 			<fieldset>
-				<label>
-					Column
-					<select @input=${(e) => this.updateFilter(index, 'column', e.target.value)}>
-						${this.table
-							? allFilterOptions.map((column) => this.renderOption(column, {selected: column === filter.column}))
-							: null}
-					</select>
-				</label>
+				<legend>${index + 1}</legend>
+				<button @click=${() => this.removeFilter(index)} destructive>
+					<r4-icon name="remove"></r4-icon>
+				</button>
 			</fieldset>
-
-			<fieldset>
-				<label>
-					Operator
-					<select @input=${(e) => this.updateFilter(index, 'operator', e.target.value)}>
-						${supabaseOperators.map((operator) =>
-							this.renderOption(operator, {selected: operator === filter.operator})
-						)}
-					</select>
-				</label>
+			<fieldset name="column">
+				<legend>Column</legend>
+				<select @input=${(e) => this.updateFilter(index, 'column', e.target.value)}>
+					${this.table
+						? allFilterOptions.map((column) => this.renderOption(column, {selected: column === filter.column}))
+						: null}
+				</select>
 			</fieldset>
-
-			<fieldset>
-				<label>
-					Value
-					<input
-						type="text"
-						@input=${(e) => this.updateFilter(index, 'value', e.target.value)}
-						.value=${filter.value}
-					/>
-				</label>
+			<fieldset name="operator">
+				<legend>Operator</legend>
+				<select @input=${(e) => this.updateFilter(index, 'operator', e.target.value)}>
+					${supabaseOperators.map((operator) => this.renderOption(operator, {selected: operator === filter.operator}))}
+				</select>
+			</fieldset>
+			<fieldset name="value">
+				<legend>Value</legend>
+				<input type="text" @input=${(e) => this.updateFilter(index, 'value', e.target.value)} .value=${filter.value} />
 			</fieldset>
 		`
 	}

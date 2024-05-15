@@ -1,6 +1,14 @@
 import { LitElement, html } from 'lit'
-import { sdk } from '@radio4000/sdk'
+import { sdk } from '../libs/sdk'
 
+/*
+ * Renders a RangeInput where all channels are given a unique, custom "frequency".
+ * The idea is to have an alternative, fun way to tune in to radios.
+ *
+ * @element r4-tuner
+ * @attr {Boolean} showSource - explain what this does
+ * @event {selectChannel} fires when the user select a channel
+ **/
 export default class R4Tuner extends LitElement {
 	static properties = {
 		value: { type: Number, reflect: true },
@@ -23,8 +31,9 @@ export default class R4Tuner extends LitElement {
 		this.setChannels()
 	}
 
+	/** Updates this.channels with ALL channels,
+	 * and adds a "frequency" property to each and sorts by it. */
 	async setChannels() {
-		// Loads channels, sorts by slugs and adds a frequency property.
 		const { data: channels } = await sdk.channels.readChannels()
 
 		for (const c of channels) {
@@ -85,9 +94,9 @@ export default class R4Tuner extends LitElement {
 }
 
 /**
- * Generate a unique frequency based on the channel name and slug.
+ * Generate a unique, deterministic frequency based on the channel name and slug.
  * All frequency values are rounded to one decimal place.
- * Values are deterministic. Values are generated inside a given range.
+ * Values are generated inside a given range.
  * @param {string} channelName
  * @param {string} channelSlug
  * @param {number} minFreq - the minimum frequency

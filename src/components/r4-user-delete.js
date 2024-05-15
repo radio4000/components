@@ -1,5 +1,5 @@
 import {LitElement, html} from 'lit'
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 
 /**
  * Renders a <form> to delete the user account, channels and tracks.
@@ -21,23 +21,33 @@ export default class R4UserDelete extends LitElement {
 
 	async onSubmit(event) {
 		event.preventDefault()
+
 		if (!window.confirm('Do you really want to delete your account, channels and tracks?')) return
+
+		for (const channel of this.userChannels) {
+			await sdk.channels.deleteChannel(channel.id)
+		}
+
 		const {error} = await sdk.users.deleteUser()
 		if (!error) {
-			console.log('Successfully deleted user account, channels and tracks')
+			console.info('Successfully deleted user account, channels and tracks')
+			// After deleting, we need to sign out and clear local auth state.
 			await sdk.auth.signOut()
-			window.location.reload()
+			for (const key of Object.keys(localStorage)) {
+				const isSupabaseAuthToken = key.startsWith('sb-') && key.endsWith('-auth-token')
+				if (isSupabaseAuthToken) localStorage.removeItem(key)
+			}
 		} else {
-			console.log('Error deleting user account', error)
+			console.error('Error deleting user account', error)
 		}
 	}
 
 	render() {
 		if (!this.user) return
 		return html`
-			<form @submit=${this.onSubmit}>
-				<details>
-					<summary>Delete your account?</summary>
+			<details>
+				<summary>Delete your account?</summary>
+				<form @submit=${this.onSubmit}>
 					<p>I confirm that:</p>
 					<p>
 						<label>
@@ -46,9 +56,9 @@ export default class R4UserDelete extends LitElement {
 						</label>
 					</p>
 					${this.userChannels?.length ? this.userChannels.map((c) => this.renderChannelCheckbox(c)) : null}
-					<button type="submit" role="destructive">Delete my account</button>
-				</details>
-			</form>
+					<button type="submit" destructive>Delete my account</button>
+				</form>
+			</details>
 		`
 	}
 

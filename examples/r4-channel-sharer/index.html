@@ -1,35 +1,29 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width">
-	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+		<title>r4-channel-sharer</title>
+		<meta name="description" content="r4-channel-sharer" />
 
-	<title>r4-channel-sharer</title>
-	<meta name="description" content="r4-channel-sharer">
-	<link rel="stylesheet" href="/styles/index.css" />
-	<script type="module" src="/src/index.js"></script>
-</head>
+		<script type="module" src="/src/index.js"></script>
+	</head>
 
-<body>
-	<menu>
-		<li>
-			Enter a channel <a href="?slug=">slug</a> as a url parameter, to create a widget to share this channel
-		</li>
-	</menu>
-	<r4-channel-sharer></r4-channel-sharer>
-</body>
+	<body>
+		<menu>
+			<li>Enter a channel <a href="?slug=">slug</a> as a url parameter, to create a widget to share this channel</li>
+		</menu>
+		<r4-share></r4-share>
+	</body>
 
-<script>
-	const params = new URLSearchParams(window.location.search)
-	const slug = params.get('slug')
+	<script>
+		const params = new URLSearchParams(window.location.search)
+		const slug = params.get('slug')
 
-	const $channelSharer = document.querySelector('r4-channel-sharer')
-	slug && $channelSharer.setAttribute('slug', slug)
-	slug && $channelSharer.setAttribute(
-		'origin', `${window.origin + '/{{slug}}'}`
-	)
-</script>
-
+		const $channelSharer = document.querySelector('r4-channel-sharer')
+		slug && $channelSharer.setAttribute('slug', slug)
+		slug && $channelSharer.setAttribute('origin', `${window.origin + '/{{slug}}'}`)
+	</script>
 </html>

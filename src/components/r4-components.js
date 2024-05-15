@@ -3,55 +3,42 @@
 	 It is intended as a way to introduce and navigate all r4 components..
  */
 
-import Components from './index.js'
+import {LitElement, html} from 'lit'
+import componentDefinitions from '../index.js'
 
-const ComponentRoot = 'R4'
-
-const camelToDash = str => {
-	return str.replace(/([A-Z])/g, val => `-${val.toLowerCase()}`)
-}
-
-const slugFromName = componentName => {
-	const camelName = componentName.split(ComponentRoot)[1]
-	const dashName = camelToDash(camelName)
-	return ComponentRoot.toLowerCase() + dashName
-}
-
-class R4Components extends HTMLElement {
-	get components() {
-		return Object.keys(Components).filter((exportClass) => {
-			return exportClass.startsWith(ComponentRoot)
-		}).map(componentName => {
-			const Component = Components[componentName]
-			const config = {
-				name: componentName,
-				HTMLElement: Component,
-				slug: slugFromName(componentName)
-			}
-			return config
-		})
+export default class R4Components extends LitElement {
+	static properties = {
+		components: {type: Object},
 	}
-	connectedCallback() {
-		if (this.components && this.components.length) {
-			this.render()
-		}
+	static shadowRootOptions = {...LitElement.shadowRootOptions, mode: 'open'}
+
+	buildComponents(definitions) {
+		return Object.entries(definitions).map(([cTag, cDef]) => ({
+			name: cDef,
+			slug: cTag,
+		}))
+	}
+	async connectedCallback() {
+		super.connectedCallback()
+		this.components = this.buildComponents(componentDefinitions)
 	}
 	render() {
-		const $menu = document.createElement('menu')
-		this.components.forEach(component => {
-			const $li = document.createElement('li')
-			$li.innerHTML = `
-				<a href="/examples/${component.slug}/">${component.name}</a>
-				<small><a href="${`https://github.com/radio4000/components/blob/main/src/components/${component.slug}.js`}">(source)</a></small>
-			`
-			$menu.append($li)
-		})
-		this.append($menu)
+		return html`
+			<ul>
+				${this.components?.map(this.renderComponent.bind(this))}
+			</ul>
+		`
 	}
-}
-
-customElements.define('r4-components', R4Components)
-
-export default {
-	R4Components
+	renderComponent(component) {
+		return html`
+			<li>
+				<a href="/examples/${component.slug}/">${component.slug}</a>
+				<small
+					><a href="${`https://github.com/radio4000/components/blob/main/src/components/${component.slug}.js`}"
+						>(source)</a
+					></small
+				>
+			</li>
+		`
+	}
 }

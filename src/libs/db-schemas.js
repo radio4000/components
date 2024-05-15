@@ -1,7 +1,7 @@
 /* Supabase table data */
 const supabaseTables = {
 	channels: {
-		columns: ['created_at', 'updated_at', 'slug', 'name', 'description', 'coordinates', 'url', 'firebase', 'id', 'fts'],
+		columns: ['created_at', 'updated_at', 'slug', 'name', 'description', 'coordinates', 'url', 'firebase', 'id', 'fts', 'image'],
 		selects: ['*', 'id'],
 	},
 	tracks: {

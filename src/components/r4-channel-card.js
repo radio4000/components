@@ -1,17 +1,16 @@
-import { LitElement, html } from 'lit'
-import { sdk } from '@radio4000/sdk'
+import {LitElement, html} from 'lit'
+import {sdk} from '../libs/sdk.js'
 
 /**
- * Renders an image in a predefined format for channel avatars.
- * There are two ways to tell the component what to render
- * 1. Pass in an `image` with the Cloudinary image id
- * 2. Pass in a `slug` with the channel slug. This will cause a network request to happen
+ * Renders a linkable preview card for a channel.
  */
 export default class R4ChannelCard extends LitElement {
 	static properties = {
-		slug: { type: String, reflect: true },
-		origin: { type: String },
-		channel: { type: Object, state: true },
+		origin: {type: String},
+		/** If defined, the card will fetch the channel on load and set it. */
+		slug: {type: String, reflect: true},
+		/** A regular R4 channel object */
+		channel: {type: Object, state: true},
 	}
 
 	get url() {
@@ -21,7 +20,7 @@ export default class R4ChannelCard extends LitElement {
 	async connectedCallback() {
 		super.connectedCallback()
 		if (this.slug) {
-			const { data } = await sdk.channels.readChannel(this.slug)
+			const {data} = await sdk.channels.readChannel(this.slug)
 			this.channel = data
 		}
 	}
@@ -29,26 +28,46 @@ export default class R4ChannelCard extends LitElement {
 	play() {
 		const playEvent = new CustomEvent('r4-play', {
 			bubbles: true,
-			detail: { channel: this.channel },
+			detail: {channel: this.channel},
 		})
 		this.dispatchEvent(playEvent)
 	}
 
 	render() {
-		const { channel } = this
-		if (!channel) return html`Loading...`
+		if (!this.channel) {
+			return html`<r4-loading></r4-loading>`
+		}
 		return html`
-			<r4-button-play .channel=${channel}></r4-button-play>
-			<a href="${this.url}">
-				<r4-avatar image=${channel.image}></r4-avatar>
-				<r4-name role="heading" aria-level="3">${channel.name}</r4-name>
-				<r4-slug>@${channel.slug}</r4-slug>
-			</a>
-			<r4-description>${channel.description}</r4-description>
+			<a href="${this.url}"> ${this.renderAvatar()} </a>
+			<r4-button-play .channel=${this.channel}></r4-button-play>
+			<r4-channel-card-body>
+				<a href="${this.url}">
+					<r4-channel-name>${this.channel.name}</r4-channel-name>
+					<r4-channel-slug>${this.channel.slug}</r4-channel-slug>
+				</a>
+				${this.renderDescription()} ${this.renderUrl()}
+			</r4-channel-card-body>
 		`
 	}
-
-	// Disable shadow DOM
+	renderDescription() {
+		if (this.channel.description) {
+			return html`<r4-channel-description> ${this.channel.description} </r4-channel-description>`
+		}
+	}
+	renderAvatar() {
+		if (this.channel.image) {
+			return html`<r4-avatar size="medium" image=${this.channel.image}></r4-avatar>`
+		}
+	}
+	renderUrl() {
+		if (this.channel.url && this.channel.url.startsWith('https://')) {
+			return html`
+				<r4-channel-url>
+					<a target="_blank" ref="norel noreferer" href=${this.channel.url}> ${this.channel.url} </a>
+				</r4-channel-url>
+			`
+		}
+	}
 	createRenderRoot() {
 		return this
 	}

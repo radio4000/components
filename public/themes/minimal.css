@@ -1,0 +1,45 @@
+/* Nothing here. This is like not choosing a theme. */
+
+/* Like all other themes, it does build on top of index.css from this repo. */
+
+r4-app {
+	--c-dark: black;
+	--c-light: white;
+	--s: 0.5rem;
+}
+
+r4-app[color-scheme='os'],
+r4-app[color-scheme='light'] {
+	--c-bg: var(--c-light);
+	--c-fg: var(--c-dark);
+}
+
+r4-app[color-scheme='dark'] {
+	--c-bg: var(--c-dark);
+	--c-fg: var(--c-light);
+}
+
+r4-app a {
+	padding: calc(var(--s) / 2);
+}
+
+r4-page-main {
+	padding: var(--s);
+}
+r4-page-main fieldset {
+	margin: var(--s);
+}
+
+r4-list-item {
+	margin: var(--s);
+}
+
+r4-channel-card {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+r4-channel-card r4-button-play {
+	order: -1;
+}

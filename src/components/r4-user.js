@@ -1,5 +1,8 @@
-import {sdk} from '@radio4000/sdk'
+import {sdk} from '../libs/sdk.js'
 
+/**
+ * Hello this is the r4-user component description
+ * */
 export default class R4User extends HTMLElement {
 	static get observedAttributes() {
 		return ['user', 'error']

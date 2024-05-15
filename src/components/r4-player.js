@@ -6,12 +6,25 @@ export default class R4Player extends LitElement {
 	playerRef = createRef()
 
 	static properties = {
-		name: {type: String}, // of the context
+		name: {type: String},
+		query: {type: String},
 		image: {type: String},
 		tracks: {type: Array},
 		track: {type: String},
-		isPlaying: {type: Boolean, attribute: 'is-playing', reflect: true},
 		shuffle: {type: Boolean},
+		isPlaying: {type: Boolean},
+	}
+
+	get playlist() {
+		return {
+			title: this.name,
+			image: this.image,
+			tracks: this.tracks,
+			query: this.query,
+		}
+	}
+	get emptyPlaylist() {
+		return {tracks: []}
 	}
 
 	render() {
@@ -19,7 +32,8 @@ export default class R4Player extends LitElement {
 			<radio4000-player
 				${ref(this.playerRef)}
 				@playerReady=${this.onPlayerReady}
-				@trackChanged=${this.onTrackChange}
+				@trackChanged=${this.onTrackChanged}
+				platform="true"
 			></radio4000-player>
 		`
 	}
@@ -27,70 +41,60 @@ export default class R4Player extends LitElement {
 	onPlayerReady() {
 		const $playerRef = this.playerRef.value
 		this.$player = $playerRef.getVueInstance()
+		/** @type {HTMLInputElement} */
 		this.$playButton = $playerRef.querySelector('input.PlayPause-state')
-		if (this.tracks) {
+		if (this.tracks || this.track) {
 			this.play()
 		}
 	}
 
 	willUpdate(changedProps) {
-		if (changedProps.has('tracks') || changedProps.has('track')) {
-			this.play()
+		if (this.$player && changedProps.has('track')) {
+			const t = this.$player.serializeTrack(this.track)
+			this.$player.playTrack(t)
 		}
-		if (changedProps.has('isPlaying')) {
-			if (this.isPlaying) {
-				this.play()
+
+		if (this.$player && changedProps.has('tracks')) {
+			if (this.tracks?.length) {
+				this.$player.updatePlaylist(this.playlist)
 			} else {
-				this.pause()
+				this.$player.updatePlaylist(this.emptyPlaylist)
 			}
+		}
+
+		if (changedProps.has('isPlaying')) {
+			this.isPlaying ? this.play() : this.pause()
 		}
 	}
 
 	play() {
 		if (!this.$player) return
-
-		if (this.tracks?.length) {
-			const playlist = {
-				title: this.name,
-				image: this.image,
-				tracks: this.tracks,
-			}
-			this.$player.updatePlaylist(playlist)
-		} else {
-			this.$player.updatePlaylist({tracks: []})
-		}
-
-		if (this.track) {
-			this.$player.trackId = this.track
-			if (this.$playButton.checked === false) {
-				this.$playButton.click()
-			}
+		if (this.track && this.$playButton.checked === false) {
+			this.$playButton.click()
 		}
 	}
 
 	pause() {
-		/* click the radio400-player button */
-		// when in play mode, toggle pause
-		if (this.$playButton.checked === true) {
+		if (this.$playButton?.checked === true) {
 			this.$playButton.click()
 		}
 	}
 
 	stop() {
-		const el = this
-		el.removeAttribute('track')
-		el.removeAttribute('image')
-		el.removeAttribute('name')
-		el.removeAttribute('tracks')
+		this.removeAttribute('track')
+		this.removeAttribute('image')
+		this.removeAttribute('name')
+		this.removeAttribute('query')
+		this.removeAttribute('tracks')
 	}
 
-	onTrackChange(event) {
-		console.log('trackchange', event.detail)
+	/** The `detail` prop contains the track as sent from <radio4000-player> */
+	onTrackChanged(event) {
 		this.dispatchEvent(
 			new CustomEvent('trackchange', {
 				bubbles: true,
 				detail: event.detail,
-			})
+			}),
 		)
 	}
 

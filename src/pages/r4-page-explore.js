@@ -1,66 +1,64 @@
-import {html, LitElement} from 'lit'
+import {html} from 'lit'
 import {repeat} from 'lit/directives/repeat.js'
-import {query} from '../libs/browse'
-import urlUtils from '../libs/url-utils'
+import R4Page from '../components/r4-page.js'
 
-export default class R4PageExplore extends LitElement {
+export default class R4PageExplore extends R4Page {
 	static properties = {
 		config: {type: Object},
-		searchParams: {type: Object, state: true},
-		channels: {type: Array, state: true},
-		count: {type: Number},
+		query: {type: Object},
+		channels: {type: Array},
+	}
+
+	constructor() {
+		super()
+		this.query = {
+			table: 'channels',
+			orderBy: 'updated_at',
+			limit: 100
+		}
+		this.channels = []
 	}
 
 	get channelOrigin() {
 		return `${this.config.href}/{{slug}}`
 	}
 
-	async onQuery(event) {
-		const q = event.detail
-		urlUtils.updateSearchParams(q, ['table', 'select'])
-		const res = await query(q)
-		this.count = res.count
-		this.channels = res.data
-		this.lastQuery = q
+	handleData(event) {
+		this.channels = event.detail.data
 	}
 
 	render() {
 		return html`
-			<header>
-				<nav>
-					<nav-item><code>/</code>explore</nav-item>
-					<nav-item>
-						<code>></code>
-						<a href=${`${this.config.href}/search`}>Search</a> +
-						<a href=${`${this.config.href}/map`}>Map</a>
-					</nav-item>
-				</nav>
-				<h1>Explore radio channels</h1>
-			</header>
-			<main>
-				<r4-supabase-query
-					table="channels"
-					page=${this.searchParams.get('page')}
-					limit=${this.searchParams.get('limit')}
-					count=${this.count}
-					order-by=${this.searchParams.get('order-by')}
-					order-config=${this.searchParams.get('order-config')}
-					filters=${this.searchParams.get('filters')}
-					@query=${this.onQuery}
-				></r4-supabase-query>
-
-				<ul list>
-					${repeat(
-						this.channels || [],
-						(c) => c.id,
-						(c) => html`<li><r4-channel-card .channel=${c} origin=${this.channelOrigin}></r4-channel-card></li>`
-					)}
-				</ul>
-			</main>
+			<r4-page-header>
+				<menu>
+					<li>
+						<h1>
+							<a href="${this.config.href}/explore">Explore</a>
+						</h1>
+					</li>
+					<li>
+						<r4-query .initialQuery=${this.query} @data=${this.handleData}></r4-query>
+					</li>
+				</menu>
+			</r4-page-header>
+			<r4-page-main>
+				<section>
+					<r4-list>${this.renderListItems()}</r4-list>
+				</section>
+			</r4-page-main>
 		`
 	}
 
-	createRenderRoot() {
-		return this
+	renderListItems() {
+		if (!this.channels?.length) return html`No channels found.`
+		return repeat(
+			this.channels || [],
+			(c) => c.id,
+			(c) => html`
+				<r4-list-item>
+					<r4-channel-card .channel=${c} origin=${this.channelOrigin}></r4-channel-card>
+				</r4-list-item>
+			`,
+		)
 	}
 }

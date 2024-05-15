@@ -3,15 +3,6 @@ import {html, literal, unsafeStatic} from 'lit/static-html.js'
 import page from 'page/page.mjs'
 
 /**
-Here is an example of how the r4-router works.
-
-<r4-router>
-	<r4-route page="/animals"></r4-route>
-	<r4-route page="/colors/:color"></r4-route>
-</r4-router>
-
-The `page` attribute decides which web component to render. It requires the name to be: `r4-page-${page}`.
-
 All routes are passed the following props:
 - `store` - the global store
 - `config` - the config object
@@ -26,13 +17,13 @@ export default class R4Router extends LitElement {
 	static properties = {
 		store: {type: Object, state: true},
 		config: {type: Object, state: true},
+		routes: {type: Array, state: true},
 	}
 
 	/* used to setup the base of the url handled by page.js router */
 	get pathname() {
 		const href = this.config.href || window.location.href
-		const name = new URL(href).pathname
-		return name
+		return new URL(href).pathname
 	}
 
 	connectedCallback() {
@@ -53,13 +44,15 @@ export default class R4Router extends LitElement {
 	}
 
 	setupRoutes() {
-		const $routes = this.querySelectorAll('r4-route')
-		$routes.forEach(this.setupRoute.bind(this))
+		if (this.routes?.length) {
+			this.routes.forEach(this.setupRoute.bind(this))
+		}
 	}
 
-	setupRoute($route) {
-		page($route.getAttribute('path'), this.parseContext.bind(this), (ctx) => this.renderRoute($route, ctx))
-		page.exit($route.getAttribute('path'), (ctx, next) => this.unrenderRoute($route, ctx, next))
+	setupRoute(route) {
+		const {path} = route
+		page(path, this.parseContext.bind(this), (ctx) => this.renderRoute(route, ctx))
+		page.exit(path, (ctx, next) => this.unrenderRoute(route, ctx, next))
 	}
 
 	parseContext(ctx, next) {
@@ -74,10 +67,10 @@ export default class R4Router extends LitElement {
 	}
 
 	// Called by page.js when a route is matched.
-	renderRoute($route, ctx) {
+	renderRoute(route, ctx) {
 		this.params = ctx.params
 		this.searchParams = ctx.searchParams
-		this.componentName = `r4-page-${$route.getAttribute('page')}`
+		this.componentName = `r4-page-${route.page}`
 		// Schedules a new render.
 		this.requestUpdate()
 	}
@@ -86,11 +79,12 @@ export default class R4Router extends LitElement {
 		if (!this.componentName) return
 		const tag = literal`${unsafeStatic(this.componentName)}`
 		// eslint-disable-next-line
-		const $pageDom = html`<${tag} .store=${this.store} .config=${this.config} .searchParams=${this.searchParams} .params=${this.params}></${tag}>`
+		const $pageDom = html`<${tag} .store=${this.store} .config=${this.config} .params=${this.params} .searchParams=${this.searchParams}></${tag}>`
 		return $pageDom
 	}
 
-	unrenderRoute($route, ctx, next) {
+	unrenderRoute(route, ctx, next) {
+		/* console.info('unrender route', route, ctx) */
 		next()
 	}
 

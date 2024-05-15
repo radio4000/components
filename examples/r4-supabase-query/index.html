@@ -6,7 +6,7 @@
 		<link rel="icon" href="data:;base64,iVBORw0KGgo=">
 		<title>r4-supabase-query</title>
 		<meta name="description" content="r4-supabase-query">
-		<link rel="stylesheet" href="/styles/index.css" />
+		<!--  -->
 		<script type="module" src="/src/index.js"></script>
 
 		<style>
@@ -51,8 +51,8 @@
 		</menu>
 
 		<details open>
-			<summary>Universal db query, controls the URL too</summary>
-			<r4-supabase-query id="everything"></r4-supabase-query>
+			<summary>Universal db query</summary>
+			<r4-supabase-query id="everything" table="channels"></r4-supabase-query>
 			<textarea name="everything" readonly></textarea>
 		</details>
 
@@ -66,41 +66,19 @@
 			<textarea name="ko002" readonly></textarea>
 		</details>
 
-
 		<script type="module">
 			import R4SupabaseQuery from '../../src/components/r4-supabase-query.js'
 			import urlUtils from '../../src/libs/url-utils.js'
 
-			const {
-				getElementProperties,
-				propertiesToSearch,
-				propertiesFromSearch,
-			} = urlUtils
-
 			const $examples = document.querySelectorAll('r4-supabase-query')
-			const elementProperties = getElementProperties(R4SupabaseQuery)
 
 			const onQuery = function (event) {
-				const {target, detail} = event
-
-				const urlSearch = propertiesToSearch(elementProperties, detail)
-				const urlSearchString = `?${urlSearch.toString()}`
-				window.history.replaceState(null, null, urlSearchString)
-
-				document.querySelector(`textarea[name="${target.id}"]`)
-							.innerText = JSON.stringify(detail.data)
+				document.querySelector(`textarea[name="${event.target.id}"]`).innerText = JSON.stringify(event.detail)
 			}
 
 			$examples.forEach(($example) => {
 				$example.addEventListener('query', onQuery)
 			})
-
-			const initialProperties = propertiesFromSearch(elementProperties)
-			if (initialProperties) {
-				initialProperties.map(prop => {
-					$examples[0].setAttribute(prop.attribute, prop.value)
-				})
-			}
 		</script>
 	</body>
 

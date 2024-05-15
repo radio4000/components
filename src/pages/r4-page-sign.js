@@ -1,71 +1,27 @@
 import page from 'page/page.mjs'
-import { LitElement } from 'lit'
-import { html, literal, unsafeStatic } from 'lit/static-html.js'
+import {html, literal, unsafeStatic} from 'lit/static-html.js'
+import R4Page from '../components/r4-page.js'
 
-export default class R4PageSign extends LitElement {
+export default class R4PageSign extends R4Page {
 	static properties = {
-		params: { type: Object, state: true },
-		config: { type: Object, state: true },
-		store: { type: Object, state: true },
+		/* props */
+		params: {type: Object, state: true},
+		config: {type: Object, state: true},
+		store: {type: Object, state: true},
+
+		/* state */
+		user: {type: Object, state: true},
+		showConfirmEmail: {type: Boolean, state: true},
 	}
 
-	render() {
-		const { method } = this.params
-		return html`
-			<header>
-				<h1>Sign ${method ? method : null}</h1>
-			</header>
-			<main>${method ? this.renderMethodPage(method) : this.renderMethodSelection()}</main>
-			${this.renderAside()}
-		`
-	}
-	renderMethodPage(method) {
-		const tag = literal`r4-sign-${unsafeStatic(method)}`
-		// eslint-disable-next-line
-		return html`<${tag} @submit=${this.onSignSubmit}></${tag}>`
+	get showConfirm() {
+		return this.showConfirmEmail && this.params.method === 'up'
 	}
 
-	renderMethodSelection() {
-		return html`
-			<aside>
-				<p>To use <r4-title></r4-title>, sign into your user account.</p>
-				<r4-menu direction="row">
-					<a href=${`${this.config.href}/sign`}>sign</a>
-					<a href=${`${this.config.href}/sign/up`}>up</a>
-					<a href=${`${this.config.href}/sign/in`}>in</a>
-					<a href=${`${this.config.href}/sign/out`}>out</a>
-				</r4-menu>
-			</aside>
-		`
+	get email() {
+		return this.user?.email
 	}
 
-	renderAside() {
-		if (this.params.method === 'in') {
-			return html`<details>
-				<summary>Forgot your password?</summary>
-				<br />
-				<p>Enter your email address below and we’ll send you password reset instructions.</p>
-				<r4-reset-password></r4-reset-password>
-			</details>`
-		}
-	}
-
-	/* submitting the curent methods's form */
-	onSignSubmit({ detail: { data } }) {
-		if (this.params.method === 'in' && data && data.user) {
-			page('/')
-		}
-		if (this.params.method === 'out') {
-			page('/')
-		}
-	}
-
-	/* no shadow dom */
-	createRenderRoot() {
-		return this
-	}
-
-	/* handy redirects */
 	connectedCallback() {
 		super.connectedCallback()
 		if (this.store.user && this.params.method === 'in') {
@@ -75,4 +31,134 @@ export default class R4PageSign extends LitElement {
 			page('/sign/in')
 		}
 	}
+
+	renderHeader() {
+		return html`
+			<menu>
+				<li>
+					<h1>
+						<a href="${this.config.href}/sign/${this.params.method}">
+							Sign-<i>${this.params.method ? this.params.method : null}</i>
+						</a>
+					</h1>
+				</li>
+			</menu>
+			<p><r4-title></r4-title> user authentication.</p>
+		`
+	}
+
+	renderMain() {
+		const {method} = this.params
+		return html`
+			${method ? this.renderMethodPage(method) : this.renderMethodSelection()}
+			${this.showConfirm ? this.renderConfirmEmail() : null}
+		`
+	}
+
+	renderMethodPage(method) {
+		if (this.showConfirm) {
+			return null
+		}
+		const tag = literal`r4-sign-${unsafeStatic(method)}`
+		// eslint-disable-next-line
+		return html`
+			<section>
+				<${tag} @submit=${this.onSignSubmit} email=${this.email} hcaptcha-site-key=${this.config.hcaptchaSiteKey}></${tag}>
+			</section>
+		`
+	}
+
+	renderMethodSelection() {
+		return html`
+			<ol>
+				<li><a href=${this.config.href + '/sign/up'}>sign-up (new account)</a></li>
+				<li><a href=${this.config.href + '/sign/in'}>sign-in (existing account)</a></li>
+				<li><a href=${this.config.href + '/sign/out'}>sign-out (logout account)</a></li>
+			</ol>
+		`
+	}
+
+	renderFooter() {
+		if (this.params.method === 'in') {
+			return this.renderSignInFooter()
+		} else if (this.params.method === 'up') {
+			return this.renderSignOutFooter()
+		}
+	}
+
+	renderSignInFooter() {
+		return html`
+			<section>
+				<ul>
+					<li><a href=${this.config.href + '/sign/up'}>Sign up</a> if you don't yet have an account</li>
+					<li>
+						<details>
+							<summary>Forgot password? Sign in with magic link!</summary>
+							<i
+								>Enter the email address of the account, to receive a magic link to sign in without password. You can
+								then reset your password from the settings page.</i
+							>
+							<r4-password-reset email=${this.email} @submit=${this.onPasswordReset} hcaptcha-site-key=${this.config.hcaptchaSiteKey}></r4-password-reset>
+						</details>
+					</li>
+				</ul>
+				<p>Need help? See chat and email support on <a href=${this.config.href + `/settings`}>settings</a></p>
+			</section>
+		`
+	}
+
+	renderSignOutFooter() {
+		return html`
+			<section>
+				<ul>
+					<li>
+						<a href=${this.config.href + '/sign/in'}>Sign in</a>
+						if you already have an existing account
+					</li>
+					<li>
+						Sign up first, to <a href="${this.config.hrefMigrate}">import/migrate</a> an existing radio (from the
+						previous <a href="https://v1.radio4000.com">site</a>)
+					</li>
+				</ul>
+				<p>Need help? See chat and email support on <a href=${this.config.href + `/settings`}>settings</a></p>
+			</section>
+		`
+	}
+
+	renderConfirmEmail() {
+		return html`
+			<section>
+				<h3>Account created!</h3>
+				<p>Check your email inbox for a confirmation link from <r4-title></r4-title>.</p>
+				<p>
+					When the email's account is confirmed,
+					<a href=${this.config.href + '/sign/in'}>sign-in</a>
+					to get started.
+				</p>
+				<p>
+					Also
+					<a href=${this.config.href + '/sign/in'}>sign-in with "magic link" </a>
+					if you cannot find the confirmation email.
+				</p>
+			</section>
+		`
+	}
+
+	/* submitting the curent methods's form */
+	onSignSubmit({detail: {data}}) {
+		if (data?.user) {
+			this.user = data.user
+		}
+		if (this.params.method === 'up' && data?.user?.id) {
+			this.showConfirmEmail = true
+		}
+		if (this.params.method === 'in' && data && data.user) {
+			page('/')
+		}
+		if (this.params.method === 'out') {
+			page('/')
+		}
+	}
+
+	onPasswordReset(event) {}
 }

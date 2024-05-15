@@ -1,96 +1,100 @@
-import R4SupabaseQuery from '../components/r4-supabase-query'
-
-/*
-	 this file are utilities to manipulate URL, and URLSearchParams;
-	 because of how things are witter in code:
-	 - web-components attributes are dashed-case
-	 - web-components properties are camelCase
-	 - url search params are used to store properties values in URL,
-	 and retrieve them to be set as attributes on the components
- */
-
-/*
-	 Get LitElement.properties that can go to URLSearchParams
-	 if `ElementClass.properties[name].searchParam === true`
-	 will return a config object for each of the Element's property
- */
-export function getElementProperties(ElementClass) {
-	if (!ElementClass || !ElementClass.properties) return
-	const elementProperties = Object.entries(ElementClass.properties)
-		.map(([propertyName, propertyConfig]) => {
-			const propertyAttribute = propertyConfig.attribute || propertyName
-			return {
-				name: propertyName,
-				attribute: propertyAttribute,
-				attributeType: propertyConfig.type.name,
-				searchParam: propertyConfig.searchParam ? propertyAttribute : null,
-				value: null,
-			}
-		})
-		.filter((property) => property.searchParam)
-	return elementProperties
-}
-
-/* From a LitElement properties, and a data object,
-	 will return a URLSearchParam ready to go into a URL.
-	 Can be used to turn a web-component's output (dataObj),
-	 into URLSearchParams (so element state is in the current URL) */
-export function propertiesToSearch(elementProperties, dataObj) {
-	const searchParams = new URLSearchParams()
-	elementProperties.forEach((elementProperty) => {
-		const {name, searchParam, attributeType} = elementProperty
-		const paramValue = dataObj[name]
-		if (paramValue) {
-			if (['Object', 'Array'].includes(attributeType)) {
-				if (attributeType === 'Array' && paramValue.length === 0) return
-				searchParams.set(searchParam, JSON.stringify(paramValue))
-			} else {
-				searchParams.set(searchParam, paramValue)
-			}
-		}
-	})
-	return searchParams
-}
-
-/* Retrieves a web-component's (initial) attributes' values,
-   from the current browser URL, using the elementProperties as mapping */
-export function propertiesFromSearch(elementProperties) {
-	const searchParams = new URLSearchParams(window.location.search)
-	return elementProperties.map((elementProperty) => {
-		const {searchParam} = elementProperty
-		if (searchParams.has(searchParam)) {
-			if (['Object', 'Array'].includes(elementProperty.attributeType)) {
-				let jsonValue
-				try {
-					jsonValue = JSON.parse(searchParams.get(searchParam))
-				} catch (e) {
-					//
-				}
-				elementProperty.value = jsonValue
-			} else {
-				elementProperty.value = searchParams.get(searchParam)
-			}
-		}
-		return elementProperty
-	})
-}
+// Params we allow in the URL.
+const R4_QUERY_PARAMS = [
+	'table',
+	'select',
+	'page',
+	'limit',
+	'search',
+	'filter',
+	'filters',
+	'orderBy',
+	'order',
+	//'orderConfig',
+]
 
 /**
  * Sets URL search params from a query object
- * @param {R4Query} query - object with all the query params to be
- * @param {Array.<string>} excludeList - list of properties not to include in the URL
+ * It will only set params in the `includeList` list.
+ * It won't set params in the `excludeList` list.
+ * @param {import("../components/r4-query").R4Query} query - object with all the query params to be
+ * @param {{includeList?: String[], excludeList?: String[]}} [options]
  */
-export function updateSearchParams(query, excludeList = []) {
-	const props = getElementProperties(R4SupabaseQuery).filter(({name}) => !excludeList.includes(name))
-	const searchParams = propertiesToSearch(props, query)
+export function setSearchParams(query, options = {}) {
+	const searchParams = new URLSearchParams(location.search)
+	const includeList = options.includeList || R4_QUERY_PARAMS
+	const excludeList = options.excludeList || ['table', 'select']
+
+	for (const [key, value] of Object.entries(query)) {
+		// Ensure the key is valid, and not exluded.
+		if (!includeList.includes(key) || excludeList.includes(key)) continue
+
+		if (Array.isArray(value)) {
+			// If non-empty array, stringify and set
+			if (value.length) {
+				searchParams.set(key, JSON.stringify(value))
+			} else {
+				// if empty, remove from url
+				searchParams.delete(key)
+			}
+		} else {
+			if (value) {
+				// strings and numbers can just be set
+				searchParams.set(key, value)
+			} else {
+				searchParams.delete(key)
+			}
+		}
+	}
 	const searchParamsString = `?${searchParams.toString()}`
 	const search = decodeURIComponent(searchParamsString)
 	window.history.replaceState(null, null, search)
 }
 
+/**
+ * Remove entries from an object with empty values and empty arrays.
+ * Useful to avoid setting empty strings "" or arrays [] in the URL
+ * @param {object} obj
+ */
+function removeEmptyKeys(obj) {
+	return Object.fromEntries(
+		Object.entries(obj).filter(([, value]) => {
+			// if (Array.isArray(value)) return value.length
+			return !!value
+		}),
+	)
+}
+
+/**
+ * Create a `R4Query` from URLSearchParams
+ * @param {URLSearchParams} [searchParams]
+ * @returns {import("../components/r4-query").R4Query}
+ */
+export function getQueryFromUrl(searchParams) {
+	if (!searchParams) searchParams = new URLSearchParams(window.location.search)
+	return removeEmptyKeys({
+		search: searchParams.get('search'),
+		orderBy: searchParams.get('orderBy'),
+		order: searchParams.get('order'),
+		page: searchParams.get('page'),
+		limit: searchParams.get('limit'),
+		// Either as ?filter={}&filter={}
+		// filters: searchParams.getAll('filter').map(x => JSON.parse(x)),
+		// ... or filters=[{}, {}]
+		filters: JSON.parse(searchParams.get('filters')),
+	})
+}
+
+export function createSearchFilter(search) {
+	return {
+		column: 'fts',
+		operator: 'textSearch',
+		value: `'${search}':*`,
+	}
+}
+
 export default {
-	getElementProperties,
-	propertiesToSearch,
-	propertiesFromSearch,
-	updateSearchParams,
+	setSearchParams,
+	removeEmptyKeys,
+	getQueryFromUrl,
+	createSearchFilter,
 }
