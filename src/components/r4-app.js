@@ -234,9 +234,12 @@ export default class R4App extends LitElement {
 
 	onChannelSelect({detail: channel}) {
 		if (channel) {
-			const {slug} = channel
-			this.selectedSlug = slug
-			/* page(`/${this.selectedSlug}`) */
+			if (this.selectedSlug === channel.slug) {
+				/* page(`/${this.selectedSlug}`) */
+			} else {
+				this.selectedSlug = channel.slug
+				this.refreshUserData()
+			}
 		}
 	}
 

@@ -69,7 +69,11 @@ export default class R4PageHome extends R4Page {
 
 	renderSignIn() {
 		return html`
-			<p><a href="${this.config.href}/sign/in">Sign in to your existing account</a> or <a href="${this.config.href}/sign/up">register a new account</a> to create, import or manage a Radio4000 channel.</p>
+			<p>
+				<a href="${this.config.href}/sign/in">Sign in to your existing account</a> or
+				<a href="${this.config.href}/sign/up">register a new account</a> to create, import or manage a Radio4000
+				channel.
+			</p>
 			${this.featuredChannels?.length ? this.renderFeaturedChannels() : nothing}
 			${this.latestTracks?.length ? this.renderTracks() : nothing}
 		`
@@ -132,9 +136,7 @@ export default class R4PageHome extends R4Page {
 					<p>
 						Welcome to the new <strong><r4-title></r4-title></strong>, version 2 (<strong>v2</strong>).
 					</p>
-					<p>
-						To import a radio channel from v1 to v2, <a href="${this.config.hrefMigrate}">migrate</a>.
-					</p>
+					<p>To import a radio channel from v1 to v2, <a href="${this.config.hrefMigrate}">migrate</a>.</p>
 					<p>
 						All previous radio channels are still available on the
 						<a href="${this.config.hrefV1}">v1</a> website.

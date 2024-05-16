@@ -8,9 +8,13 @@ export default class R4AppUserMenu extends LitElement {
 		return this
 	}
 	static properties = {
+		/* props */
 		href: {type: String},
 		channel: {type: Object || null},
 		channels: {type: Array || null},
+
+		/* state */
+		path: {type: String, state: true},
 	}
 	constructor() {
 		super()
@@ -34,28 +38,31 @@ export default class R4AppUserMenu extends LitElement {
 	}
 
 	render() {
-		console.log('channels', this.channels, this.channel)
 		const {href, path} = this
 		return html`
 			<menu>
-				<li>${this.renderChannel()}</li>
 				<li>${this.channel ? this.renderAdd() : null}</li>
+				<li>${this.renderChannelLinks()}</li>
+				<li>${this.channels ? this.renderChannelSelect() : null}</li>
 			</menu>
 		`
 	}
-	renderChannel() {
+	renderChannelLinks() {
+		if (this.channel) {
+			return html`<a aria-current=${this.isCurrent(`/${this.channel.slug}`)} href=${this.href + '/' + this.channel.slug}
+				>@${this.channel.slug}</a
+			>`
+		} else {
+			return html`<a aria-current=${this.isCurrent('/new')} href=${this.href + '/new'}>New radio</a>`
+		}
+	}
+	renderChannelSelect() {
 		if (this.channels) {
 			return html`<r4-user-channels-select
 				.channels=${this.channels}
 				.channel=${this.channel}
 				@select=${this.onChannelSelect}
 			></r4-user-channels-select>`
-		} else if (this.channel) {
-			return html`<a aria-current=${this.isCurrent(`/${this.channel.slug}`)} href=${this.href + '/' + this.channel.slug}
-				>@${this.channel.slug}</a
-			>`
-		} else {
-			return html`<a aria-current=${this.isCurrent('/new')} href=${this.href + '/new'}>New radio</a>`
 		}
 	}
 	renderAdd() {

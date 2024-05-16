@@ -664,6 +664,10 @@ r4-app r4-app-menu r4-title::after {
 	content: '.v2';
 }
 
+r4-app r4-app-user-menu menu {
+	flex-wrap: nowrap;
+}
+
 /* icon done in css and unicode ascii only */
 r4-icon[icon]::before {
 	content: attr(icon);

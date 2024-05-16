@@ -25,7 +25,7 @@ export default class R4UserChannelsSelect extends LitElement {
 			<label>
 				<select @change=${this.onSelect} title="Selected Radio">
 					<optgroup label="Selected">
-						<option>${this.channel.slug}</option>
+						<option value=${this.channel.id}>${this.channel.slug}</option>
 					</optgroup>
 					<optgroup label="Channels">${this._renderOptions()}</optgroup>
 				</select>
