@@ -43,7 +43,7 @@ r4-page-main section h2 {
 	position: sticky;
 	top: 0;
 	z-index: 1;
-	align-self: flex-start;
+	align-self: center;
 	background-color: var(--c-bg);
 }
 
@@ -112,6 +112,10 @@ r4-app textarea {
 /* components */
 r4-page-header h1 {
 	margin-bottom: 0;
+}
+r4-app-menu {
+	display: flex;
+	justify-content: center;
 }
 r4-list {
 	display: flex;
