@@ -5,11 +5,13 @@ import {sdk, HCAPTCHA_SITE_KEY} from '../libs/sdk.js'
 import {UI_STATES} from '../libs/appearance.js'
 import page from 'page/page.mjs'
 import DatabaseListeners from '../libs/db-listeners'
+import Cache from '../libs/cache.js'
 import '../pages/'
 import ROUTES_CMS from '../data/routes-cms.json'
 import ROUTES_SINGLE from '../data/routes-single.json'
 import {THEMES, prefersDark} from '../libs/appearance.js'
 import {createImage} from './r4-avatar.js'
+
 
 export default class R4App extends LitElement {
 	playerRef = createRef()
@@ -61,6 +63,7 @@ export default class R4App extends LitElement {
 			userChannels: this.userChannels,
 			followers: this.followers,
 			following: this.following,
+			cache: this.cache,
 			selectedChannel: this.selectedChannel,
 		}
 	}
@@ -109,6 +112,7 @@ export default class R4App extends LitElement {
 		this.version = pkg.version
 		// Set default theme.
 		this.theme = THEMES[0]
+    this.cache = new Cache()
 	}
 
 	async connectedCallback() {
