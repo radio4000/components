@@ -356,6 +356,10 @@ r4-layout [slot='player'] {
 	flex: 1;
 }
 
+r4-layout header[slot='menu'] {
+	display: flex;
+}
+
 r4-router {
 	flex-grow: 1;
 	display: flex;
@@ -616,6 +620,13 @@ r4-actions details menu {
 }
 r4-actions details menu li {
 	margin: 0;
+}
+r4-user-channels-select {
+	height: 100%;
+	display: flex;
+	& label {
+		display: flex;
+	}
 }
 /* By default the dropdown is right-aligned, here it is left-aligned */
 r4-app r4-actions[left] menu {

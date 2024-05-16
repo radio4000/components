@@ -179,7 +179,6 @@ export default class R4App extends LitElement {
 			this.followers = []
 			this.following = []
 		} else {
-
 			// Handle case after deleting user
 			const {error: userError} = await sdk.users.readUser()
 			if (userError) {
@@ -233,11 +232,11 @@ export default class R4App extends LitElement {
 		}
 	}
 
-	onChannelSelect({detail}) {
-		if (detail.channel) {
-			const {slug} = detail.channel
+	onChannelSelect({detail: channel}) {
+		if (channel) {
+			const {slug} = channel
 			this.selectedSlug = slug
-			page(`/${this.selectedSlug}`)
+			/* page(`/${this.selectedSlug}`) */
 		}
 	}
 
@@ -258,10 +257,9 @@ export default class R4App extends LitElement {
 		// Load and queue them in player
 		const slug = channel?.slug || track.slug
 		if (slug && !tracks?.length) {
-
 			// Don't load and set tracks if we can avoid it.
-		 	const sameName = el.playlist && el.playlist.title === channel?.name
-			if (sameName && el.tracks?.length ) {
+			const sameName = el.playlist && el.playlist.title === channel?.name
+			if (sameName && el.tracks?.length) {
 				// if (!el.track) {
 				// 	const randomTrack = el.tracks[Math.floor(Math.random() * el.tracks.length)]
 				// 	el.track = randomTrack
@@ -276,10 +274,13 @@ export default class R4App extends LitElement {
 				el.track = track || tracks.at(-1)
 			}
 		} else if (slug && tracks) {
-			el.tracks = tracks.slice().reverse().map((track) => {
-				track.body = track.description
-				return track
-			})
+			el.tracks = tracks
+				.slice()
+				.reverse()
+				.map((track) => {
+					track.body = track.description
+					return track
+				})
 			el.track = tracks.at(0)
 		}
 
@@ -301,7 +302,6 @@ export default class R4App extends LitElement {
 		} else {
 			el.removeAttribute('image')
 		}
-
 
 		// Update state about what's playing.
 		this.isPlaying = true
@@ -338,10 +338,10 @@ export default class R4App extends LitElement {
 				<main slot="main">${this.renderRouter()}</main>
 				<r4-player
 					slot="player"
-					${ref(this.playerRef)}
 					platform="true"
 					.isPlaying=${this.config.isPlaying}
 					@trackchange=${this.onTrackChange}
+					${ref(this.playerRef)}
 				></r4-player>
 				<form slot="playback-controls">${Object.entries(UI_STATES).map(this.renderPlayerUICtrl.bind(this))}</form>
 			</r4-layout>
@@ -369,7 +369,13 @@ export default class R4App extends LitElement {
 	renderMenu() {
 		return html`
 			<header slot="menu">
-				<r4-app-menu ?auth=${this.store?.user} href=${this.config?.href} slug=${this.selectedSlug}></r4-app-menu>
+				<r4-app-menu ?auth=${this.store?.user} href=${this.config?.href}></r4-app-menu>
+				<r4-app-user-menu
+					href=${this.config?.href}
+					.channel=${this.store.selectedChannel}
+					.channels=${this.store.userChannels}
+					@select=${this.onChannelSelect}
+				></r4-app-user-menu>
 			</header>
 		`
 	}
