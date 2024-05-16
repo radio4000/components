@@ -6,6 +6,7 @@ import R4Actions from './r4-actions.js'
 import R4Admin from './r4-admin.js'
 import R4App from './r4-app.js'
 import R4AppMenu from './r4-app-menu.js'
+import R4AppUserMenu from './r4-app-user-menu.js'
 import R4CommandMenu from './r4-command-menu.js'
 import R4Avatar from './r4-avatar.js'
 import R4AvatarUpdate from './r4-avatar-update.js'
@@ -57,6 +58,7 @@ const componentDefinitions = {
 	'r4-app': R4App,
 	'r4-command-menu': R4CommandMenu,
 	'r4-app-menu': R4AppMenu,
+	'r4-app-user-menu': R4AppUserMenu,
 	'r4-avatar': R4Avatar,
 	'r4-avatar-update': R4AvatarUpdate,
 	'r4-avatar-upload': R4AvatarUpload,
