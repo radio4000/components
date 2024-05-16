@@ -12,3 +12,30 @@ export function formatDate(dateStr) {
 	const formattedDate = formatter.format(date)
 	return formattedDate
 }
+
+export function substractDays(dateString, days = 0) {
+	const date = new Date(dateString)
+	date.setDate(date.getDate() - days)
+	return date
+}
+
+// Check if the date is fresher than 1 month
+export function isFreshDate(updatedAt) {
+	const trackDate = new Date(updatedAt)
+	const today = new Date()
+
+	// Calculate the date one month ago
+	const oneMonthAgo = new Date(today)
+	oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1)
+
+	// Check if the track was updated within the last month
+	return trackDate >= oneMonthAgo && trackDate <= today
+}
+
+export function relativeDate(dateString) {
+	const date = new Date(dateString)
+	const today = new Date()
+	const diffTime = Math.abs(today - date)
+	const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+	return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`
+}

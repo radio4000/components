@@ -3,6 +3,9 @@ import {sdk} from '../libs/sdk.js'
 import R4Page from '../components/r4-page.js'
 
 export default class BaseChannel extends R4Page {
+	createRenderRoot() {
+		return this
+	}
 	static properties = {
 		channel: {type: Object, state: true},
 		channelError: {type: Object, state: true},
@@ -102,10 +105,6 @@ export default class BaseChannel extends R4Page {
 			this.isFirebaseChannel = false
 			this.channel = data
 		}
-	}
-
-	createRenderRoot() {
-		return this
 	}
 
 	renderAside() {

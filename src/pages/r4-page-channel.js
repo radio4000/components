@@ -1,6 +1,7 @@
 import {html} from 'lit'
 import {repeat} from 'lit/directives/repeat.js'
 import BaseChannel from './base-channel'
+import {formatDate, isFreshDate, relativeDate} from '../libs/date.js'
 
 export default class R4PageChannel extends BaseChannel {
 	static properties = {
@@ -51,6 +52,7 @@ export default class R4PageChannel extends BaseChannel {
 			return html`
 				<section>${this.renderChannelCard()}</section>
 				<section>${this.renderTracksList()}</section>
+				<section>${this.renderTimes()}</section>
 				<section>
 					<button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button>
 				</section>
@@ -82,5 +84,16 @@ export default class R4PageChannel extends BaseChannel {
 				return html`<p>This channel does not yet have any track.</p>`
 			}
 		}
+	}
+	renderTimes() {
+		const lastTrack = this.tracks[0]
+		if (!lastTrack) return
+		const doms = []
+		if (isFreshDate(lastTrack.updated_at)) {
+			doms.push(html`Last updated <date>${relativeDate(lastTrack?.updated_at)}</date>.`)
+			doms.push(' ')
+		}
+		doms.push(html`Brodcasting since <date>${formatDate(this.channel?.created_at)}</date>.`)
+		return html`<i>${doms}</i>`
 	}
 }
