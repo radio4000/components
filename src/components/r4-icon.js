@@ -10,6 +10,7 @@ export default class R4Icon extends HTMLElement {
 		globe: '🌍',
 		dark: '🌘',
 		light: '🌖',
+		play: '▶',
 		player_status: '♫',
 		player_close: 'x',
 		player_dock: '⌃',

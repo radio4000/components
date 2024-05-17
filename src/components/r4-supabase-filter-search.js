@@ -12,7 +12,8 @@ export default class R4SupabaseFilterSearch extends LitElement {
 		return html`
 			<form>
 				<fieldset>
-					<label>Search
+					<label>
+						<legend>Search</legend>
 						<input
 							type="search"
 							placeholder=${this.placeholder || 'search'}
@@ -33,7 +34,7 @@ export default class R4SupabaseFilterSearch extends LitElement {
 			new CustomEvent('input', {
 				bubbles: false,
 				detail: {filter: createSearchFilter(this.search), search: this.search},
-			})
+			}),
 		)
 	}
 

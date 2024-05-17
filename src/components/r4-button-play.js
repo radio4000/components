@@ -51,7 +51,9 @@ export default class R4ButtonPlay extends LitElement {
 	}
 
 	render() {
-		return html`<button @click=${this.play} ?disabled=${this.playing}>▶${this.label}</button>`
+		return html`<button @click=${this.play} ?disabled=${this.playing}>
+			<r4-icon name="play"></r4-icon>${this.label}
+		</button>`
 	}
 
 	createRenderRoot() {

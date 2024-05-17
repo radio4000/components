@@ -11,7 +11,7 @@ fieldsTemplate.innerHTML = `
 		</fieldset>
 		<fieldset>
 			<label for="url">URL</label>
-			<input name="url" type="url" required placeholder="Link to a YouTube, Soundcloud, Vimeo… media" />
+			<input name="url" type="url" required placeholder="Link to the media (youtube, soundcloud, vimeo, file…)" title="Add the address to a media (youtube, soundcloud, vimeo etc.)"/>
 		</fieldset>
 		<fieldset>
 			<label for="title" title="After pasting a URL the title will write itself">Title</label>

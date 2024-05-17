@@ -235,9 +235,7 @@ r4-page-header {
 	& h1 {
 		margin: 0;
 		height: 100%;
-		& + * {
-			margin-left: var(--s);
-		}
+		font-size: clamp(1rem, 4vmin, 2rem);
 	}
 	& menu {
 		margin: calc(var(--s) / 4);
@@ -416,7 +414,6 @@ r4-list r4-avatar {
 /* Forms */
 r4-app form legend,
 r4-app form label {
-	margin-right: var(--s);
 	font-weight: bold;
 }
 r4-app summary {
@@ -570,7 +567,6 @@ r4-page-channel {
 			& button::after {
 				display: inline;
 				content: 'Listen';
-				margin-left: calc(var(--s) / 2);
 			}
 		}
 		& r4-avatar {

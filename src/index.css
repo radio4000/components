@@ -649,6 +649,11 @@ r4-app r4-actions a {
 r4-app r4-actions button {
 	flex: 1;
 }
+r4-button-play {
+	& r4-icon {
+		padding: calc(var(--s) / 3);
+	}
+}
 
 /* beta logo */
 r4-app r4-app-menu r4-title::before,
@@ -698,6 +703,7 @@ r4-supabase-filter-search {
 		margin: 0;
 	}
 }
+r4-supabase-filter-search,
 r4-supabase-modifiers,
 r4-supabase-filters {
 	& form {
@@ -718,6 +724,7 @@ r4-supabase-filters {
 		border: 1px solid var(--c-border);
 		border-radius: 0.3rem;
 		z-index: 1;
+		transform: translate(-20%, -20%);
 	}
 }
 
