@@ -63,7 +63,7 @@ export default class R4ChannelCard extends LitElement {
 		if (this.channel.url && this.channel.url.startsWith('https://')) {
 			return html`
 				<r4-channel-url>
-					<a target="_blank" ref="norel noreferer" href=${this.channel.url}> ${this.channel.url} </a>
+					<a target="_blank" ref="norel noreferer nofollow" href=${this.channel.url}> ${this.channel.url} </a>
 				</r4-channel-url>
 			`
 		}
