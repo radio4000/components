@@ -129,7 +129,9 @@ export default class R4Track extends LitElement {
 
 	renderDiscogsUrl() {
 		return html`<r4-track-discogs-url
-			><a href="${this.track.discogs_url}" target="_blank" rel="noopener noreferrer">Discogs</a></r4-track-discogs-url
+			><a href="${this.track.discogs_url}" target="_blank" rel="noopener noreferrer nofollow"
+				>Discogs</a
+			></r4-track-discogs-url
 		>`
 	}
 
