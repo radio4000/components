@@ -45,7 +45,11 @@ export default class R4PageChannelTracks extends BaseChannel {
 		return html`
 			<menu>
 				<li>
-					<h1><a href=${this.channelOrigin}>${this.slug}</a></h1>
+					<h1>
+						<a href=${this.channelOrigin}>
+							<r4-channel-slug> ${this.slug} </r4-channel-slug>
+						</a>
+					</h1>
 				</li>
 				<li><r4-button-play .channel=${this.channel} label=" Play all"></r4-button-play></li>
 				<li>
