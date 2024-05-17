@@ -218,6 +218,18 @@ r4-layout radio4000-player {
 r4-layout r4-player radio4000-player .Layout {
 	border-color: var(--c-link);
 }
+r4-layout {
+	&[is-playing]::part(playback) {
+		transform: translate(0) scale(1);
+	}
+	&::part(playback) {
+		transition: all 222ms ease-in-out;
+		transform: translate(100%) scale(0.9);
+	}
+	&::part(panel) {
+		transition: all 333ms ease-in-out;
+	}
+}
 
 r4-layout::part(playback-status) {
 	display: flex;
@@ -260,9 +272,6 @@ r4-layout::part(playback-menu) {
 	padding: 0;
 	display: flex;
 }
-
-/* by default, make the playback menu inline (mobile first) */
-/* r4-layout::part(playback-menu) {} */
 
 /*
 	ui-state = minimize
