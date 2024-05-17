@@ -149,8 +149,8 @@ r4-app textarea {
 	background: var(--c-bg2);
 	font-size: 14px;
 
-	 &:hover {
-		 /* background-color: var(--c-bg3); */
+	&:hover {
+		/* background-color: var(--c-bg3); */
 	}
 }
 
@@ -291,7 +291,7 @@ r4-list-item r4-track {
 r4-list-item r4-track:hover {
 	background-color: color-mix(in oklch, var(--c-bg) 100%, black 2%);
 }
-[color-scheme="dark"] r4-list-item r4-track:hover {
+[color-scheme='dark'] r4-list-item r4-track:hover {
 	background-color: color-mix(in oklch, var(--c-bg) 100%, white 8%);
 }
 r4-list-item r4-actions {
@@ -333,16 +333,18 @@ r4-channel-name {
 }
 
 /* Primary menu */
+r4-app-user-menu,
 r4-app-menu {
 	display: inline-block;
 	margin: 0.5rem;
 	border: 1px solid;
 	border-radius: var(--s-radius);
 	/* background: var(--c-link); */
-	[color-scheme="dark"] & {
+	[color-scheme='dark'] & {
 		/* background: var(--c-gray7); */
 	}
 }
+r4-app-user-menu a,
 r4-app-menu a {
 	font-size: 15px;
 	text-decoration: none;
@@ -351,15 +353,20 @@ r4-app-menu a {
 		color: var(--fg);
 	} */
 }
+r4-app-user-menu a[aria-current],
 r4-app-menu a[aria-current] {
 	background: color-mix(in oklch, var(--c-link) 100%, white 15%);
 	color: var(--c-bg);
-	[color-scheme="dark"] & {
+	[color-scheme='dark'] & {
 		background: color-mix(in oklch, var(--c-link) 100%, black 20%);
 	}
 }
+r4-app-user-menu select {
+	height: 100%;
+}
 
 /* Ordinary menus */
+r4-app-user-menu a,
 r4-app-menu a,
 r4-page-header > menu a {
 	padding: calc(var(--s) / 3) calc(var(--s) / 3);
@@ -427,7 +434,7 @@ r4-page-footer {
 
 /* Full-width pages */
 r4-page-channel-tracks,
-r4-page-channel  {
+r4-page-channel {
 	r4-page-main {
 		padding-left: 0;
 		padding-right: 0;
