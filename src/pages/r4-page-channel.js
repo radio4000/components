@@ -98,7 +98,11 @@ export default class R4PageChannel extends BaseChannel {
 		doms.push(
 			html`<p>
 				Broadcasting since
-				<date time=${since} title="${since}, ${sinceRelative}">${relativeDateSolar(this.channel.created_at)}</date>.
+				<date
+					time=${since}
+					title="Broacasting since ${since}, ${sinceRelative}; with love, from earth 🏴 🌬️ 📻 🌊 🌍 🪐 ✨"
+					>${relativeDateSolar(this.channel.created_at)}</date
+				>.
 			</p>`,
 		)
 		return doms
