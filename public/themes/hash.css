@@ -4,16 +4,16 @@ r4-app {
 	--c-light: cornsilk;
 	--c-dark: black;
 	--c-dim: dimgray;
-	--c-intense: chartreuse;
-	--c-moderate: rebeccapurple;
-	--s-container: 50rem;
+	--c-intense: #00ff00;
+	--c-moderate: #ff00ff;
+	--s-container: 65rem;
 	--s-form: 35rem;
 	--s-radius: calc(var(--s) / 3);
+	--s-font: 16px;
 }
 
 /* color schemes */
-r4-app[color-scheme='os'] {
-}
+r4-app[color-scheme='os'],
 r4-app[color-scheme='dark'] {
 	color-scheme: dark;
 	--c-bg: var(--c-dark);
@@ -21,6 +21,8 @@ r4-app[color-scheme='dark'] {
 	--c-link: var(--c-intense);
 	--c-menu-bg: var(--c-dim);
 	--c-form-bg: var(--c-dim);
+	--c-bg--channel-card: var(--c-dim);
+	--c-bg--track: var(--c-dim);
 }
 r4-app[color-scheme='light'] {
 	color-scheme: light;
@@ -29,12 +31,16 @@ r4-app[color-scheme='light'] {
 	--c-link: var(--c-moderate);
 	--c-menu-bg: var(--c-intense);
 	--c-form-bg: var(--c-intense);
+	--c-bg--channel-card: var(--c-intense);
+	--c-bg--track: var(--c-intense);
 }
 
 /* app scheme theming */
-r4-app:not([color-scheme='os']) a {
-	text-decoration: none;
-	color: var(--c-link);
+r4-app {
+	& a {
+		text-decoration: none;
+		color: var(--c-link);
+	}
 }
 
 /* app layout */
@@ -55,12 +61,18 @@ r4-app h3 {
 	margin-top: 0;
 }
 
-r4-app menu li {
-	padding: calc(var(--s) / 3);
+r4-app menu {
+	justify-content: center;
+	& li {
+		padding: calc(var(--s) / 3);
+	}
+	& a {
+		background-color: var(--c-menu-bg);
+		padding: calc(var(--s) / 2);
+	}
 }
-r4-app menu a {
-	background-color: var(--c-menu-bg);
-	padding: calc(var(--s) / 2);
+r4-app r4-app-user-menu menu {
+	flex-wrap: wrap;
 }
 r4-app a[aria-current='page'] {
 	background-color: var(--c-bg);
@@ -81,7 +93,7 @@ r4-app summary {
 
 r4-app form {
 	max-width: calc(var(--s) * 100);
-	padding: var(--s);
+	padding: calc(var(--s) / 2);
 	border-radius: var(--s-radius);
 }
 r4-app summary,
@@ -113,18 +125,51 @@ r4-app textarea {
 r4-page-header h1 {
 	margin-bottom: 0;
 }
+r4-page-header menu {
+	justify-content: center;
+}
 r4-app-menu {
 	display: flex;
 	justify-content: center;
+	background-color: transparent;
 }
+
 r4-list {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
 	max-width: var(--s-container);
+	& r4-channel-card {
+		& r4-channel-url {
+			display: none;
+		}
+	}
 }
 r4-list-item + r4-list-item {
 	margin-top: var(--s);
+}
+r4-track {
+	border: 1px solid transparent;
+	background-color: var(--c-bg--track);
+	padding: calc(var(--s) / 2);
+}
+r4-track-body {
+	display: flex;
+	flex-direction: column;
+}
+r4-track-title {
+	font-weight: bold;
+	flex-grow: 1;
+}
+r4-track-description {
+	word-break: break-word;
+	& a {
+		padding: calc(var(--s) / 3);
+		color: var(--c-fg);
+		text-decoration: underline;
+		text-underline-offset: calc(var(--s) / 2);
+		text-decoration-color: var(--c-link);
+	}
 }
 r4-track-mentions a::before,
 r4-track-tags a::before {
@@ -133,6 +178,7 @@ r4-track-tags a::before {
 r4-query {
 	display: flex;
 	flex-wrap: wrap;
+	justify-content: center;
 }
 r4-button-play {
 	margin: calc(var(--s) / 2);
@@ -145,12 +191,18 @@ r4-layout::part(controls-button) {
 	margin-left: calc(var(--s) / 2);
 }
 r4-layout::part(playback-summary) {
-	background-color: var(--c-menu-bg);
+	background-color: var(--c-bg);
 }
 
 r4-layout::part(menu) {
 	position: sticky;
 	bottom: 0;
+}
+r4-layout header[slot='menu'] {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	background-color: var(--c-bg);
 }
 r4-router > * {
 	justify-content: center;
@@ -164,6 +216,10 @@ r4-page-footer {
 	& section {
 		width: 100%;
 		max-width: var(--s-container);
+		padding: calc(var(--s) / 2);
+		&:not(:only-child) {
+			flex-grow: 1;
+		}
 	}
 }
 r4-page-main {
@@ -186,9 +242,9 @@ r4-page-add {
 	width: 100%;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	& form {
 		max-width: var(--s-form);
-		width: 100%;
 		padding: calc(var(--s) / 2);
 		border: 1px solid var(--c-fg);
 		border-radius: var(--s-radius);
@@ -210,5 +266,26 @@ r4-page-map {
 	& r4-map {
 		width: 100%;
 		height: 100%;
+	}
+}
+
+r4-channel-card {
+	display: flex;
+	align-items: stretch;
+	border: 1px solid var(--c-fg);
+	background: var(--c-bg--channel-card);
+	& r4-button-play {
+		order: -1;
+		display: flex;
+		justify-content: center;
+	}
+	& r4-avatar {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		padding: calc(var(--s) / 2);
+	}
+	& r4-channel-name {
+		font-weight: bold;
 	}
 }

@@ -93,7 +93,7 @@ export default class R4PageChannel extends BaseChannel {
 			doms.push(html`Last updated <date>${relativeDate(lastTrack?.updated_at)}</date>.`)
 			doms.push(' ')
 		}
-		doms.push(html`Brodcasting since <date>${formatDate(this.channel?.created_at)}</date>.`)
+		doms.push(html`Broadcasting since <date>${formatDate(this.channel?.created_at)}</date>.`)
 		return html`<i>${doms}</i>`
 	}
 }

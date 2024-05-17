@@ -1,19 +1,44 @@
 /* A theme resembling classic R4 */
 /* Maison Neue regular/italic + bold/italic from Cloudinary */
-@font-face{font-family:"Maison Neue";src:url(https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-book_ee98sm.woff2) format("woff2");font-weight:400;font-style:normal}
-@font-face{font-family:"Maison Neue";src:url(https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bookitalic_szjrvl.woff2) format("woff2");font-weight:400;font-style:italic}
-@font-face{font-family:"Maison Neue";src:url(https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bold_rvmbzr.woff2) format("woff2");font-weight:700;font-style:normal}
-@font-face{font-family:"Maison Neue";src:url(https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bolditalic_awvcg5.woff2) format("woff2");font-weight:700;font-style:italic}
+@font-face {
+	font-family: 'Maison Neue';
+	src: url(https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-book_ee98sm.woff2) format('woff2');
+	font-weight: 400;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Maison Neue';
+	src: url(https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bookitalic_szjrvl.woff2)
+		format('woff2');
+	font-weight: 400;
+	font-style: italic;
+}
+@font-face {
+	font-family: 'Maison Neue';
+	src: url(https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bold_rvmbzr.woff2) format('woff2');
+	font-weight: 700;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Maison Neue';
+	src: url(https://res.cloudinary.com/radio4000/raw/upload/v1492541388/maisonneueweb-bolditalic_awvcg5.woff2)
+		format('woff2');
+	font-weight: 700;
+	font-style: italic;
+}
 
 /* the theme */
 r4-app {
+	--font: 'Maison Neue', system-ui, segoe ui, sans-serif, 'Segoe UI Symbol';
 	--s-font: 18px;
 	--s: 1rem;
+	--s-line-height: 1.3125;
 	--s-radius: 4px;
 	--s-form: calc(var(--s) * 36);
 	--s-textarea: calc(var(--s) * 5);
-	--font: "Maison Neue", system-ui, segoe ui, sans-serif, "Segoe UI Symbol";
-	--s-line-height: 1.3125;
+	--s-container: 75rem;
+	--s-container--list: 50rem;
+	--s-container--channel-card: 45rem;
 	--c-light: hsl(0deg 0% 98%);
 	--c-dark: hsl(0deg 0% 8%);
 	--c-purple: #5d1ae6;
@@ -74,7 +99,6 @@ r4-app a:has(r4-avatar) {
 /* Default button */
 r4-app button {
 	display: inline-block;
-	font-size: calc(16 / 18 * 1rem);
 	font-weight: bold;
 	border: 1px solid var(--c-border);
 	border-radius: var(--s-radius);
@@ -150,6 +174,10 @@ r4-layout::part(panel) {
 r4-layout [slot='main'] {
 	z-index: 1;
 }
+r4-layout header[slot='menu'] {
+	z-index: 1;
+	justify-content: center;
+}
 
 r4-layout::part(playback-summary) {
 	background-color: var(--c-bg2);
@@ -161,11 +189,27 @@ r4-page-header {
 	z-index: 1;
 	align-self: flex-start;
 	background-color: var(--c-bg);
+	align-self: center;
+}
+r4-page-main {
+	flex-grow: 1;
 }
 r4-page-main,
 r4-page-footer {
 	padding-left: var(--s);
 	padding-right: var(--s);
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	& section {
+		max-width: var(--s-container);
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 }
 r4-page-main,
 r4-page-footer,
@@ -181,10 +225,7 @@ r4-page-channel-tracks r4-page-header {
 r4-app section header {
 	padding-top: calc(var(--s) / 2);
 	padding-bottom: calc(var(--s) / 2);
-}
-
-r4-page-main {
-	flex-grow: 1;
+	text-align: center;
 }
 
 /* same size header */
@@ -203,7 +244,6 @@ r4-page-header {
 
 /* Main menu */
 r4-app-menu {
-	/* so it aligns left */
 	display: flex;
 }
 
@@ -217,9 +257,11 @@ r4-app-menu menu {
 r4-app menu {
 	border: 1px solid var(--c-border);
 	border-radius: var(--s-radius);
+
+	justify-content: center;
 }
 r4-app menu a {
-	padding: calc(var(--s)) calc(var(--s) / 2);
+	padding: calc(var(--s) / 2) calc(var(--s) / 3);
 	text-decoration: none;
 	background: none;
 	display: flex;
@@ -236,6 +278,10 @@ r4-app menu a[aria-current] {
 }
 r4-app-menu a {
 	background: none;
+}
+
+r4-query {
+	justify-content: center;
 }
 
 /* elements to text wrap  */
@@ -283,19 +329,9 @@ r4-channel-card r4-button-play {
 /* track */
 r4-track {
 	padding: calc(var(--s) / 2);
-	r4-app[color-scheme='light'] & {
-		background-color: var(--c-bg2);
-	}
+	background-color: var(--c-bg2);
 }
 
-@media (max-width: 600px) {
-	r4-track-body {
-		font-size: calc(15 / 16 * 1rem);
-	}
-}
-r4-track-body {
-	font-size: calc(16 / 18 * 1rem);
-}
 r4-track a {
 	background-color: transparent;
 	text-decoration: none;
@@ -303,6 +339,7 @@ r4-track a {
 
 r4-track-title a {
 	padding: 0;
+	/* font-weight: bold; */
 }
 
 r4-track-title a,
@@ -311,7 +348,6 @@ r4-track-title a,
 }
 
 r4-track-description {
-	font-size: calc(16 / 16 * 1em);
 	display: block;
 	word-break: break-word;
 	color: var(--c-fg2);
@@ -357,22 +393,6 @@ r4-list r4-channel-description {
 }
 r4-list r4-channel-card r4-button-play {
 	order: -1;
-}
-/* container query for r4-list and its children */
-r4-list:has(r4-channel-card) {
-	container-type: inline-size;
-	/* If the container is larger than 700px */
-}
-@container (min-width: 700px) {
-	r4-list r4-channel-card {
-		& r4-channel-description {
-			overflow: hidden;
-			white-space: initial;
-			display: -webkit-box;
-			-webkit-box-orient: vertical;
-			-webkit-line-clamp: 2;
-		}
-	}
 }
 r4-list r4-channel-url {
 	display: none;
@@ -456,28 +476,8 @@ r4-page-channel-tracks r4-page-header h1 a::before,
 r4-page-channel r4-page-header h1 a::before,
 r4-channel-card r4-channel-slug::before {
 	content: '@';
-	font-size: 1em;
-}
-r4-page-channel r4-channel-card {
-	max-width: 50rem;
-}
-r4-page-channel r4-channel-name {
-	font-size: 1.5rem;
-}
-/* Add "Listen" to the play button */
-r4-page-channel r4-channel-card r4-button-play button {
-	font-size: 1.2rem;
 }
 
-r4-page-channel r4-channel-card r4-button-play button::after {
-	display: inline;
-	content: ' Listen';
-}
-
-r4-page-channel-track r4-track a {
-	/* we're on this tracck's page */
-	text-decoration: underline;
-}
 r4-page-home {
 	justify-content: center;
 	& r4-favicon {
@@ -497,16 +497,77 @@ r4-page-add {
 }
 r4-page-channel {
 	& r4-list:has(r4-track) {
-		max-width: 50rem;
+		max-width: var(--s-container--list);
+		width: 100%;
+	}
+	& r4-channel-card r4-button-play {
+		& button::after {
+			display: inline;
+			content: ' Listen';
+		}
+	}
+	& r4-channel-card {
+		max-width: var(--s-container--channel-card);
+		background-color: transparent;
+		border: none;
+		& r4-channel-card-body {
+			flex-direction: column;
+			flex-basis: 100%;
+			background-color: var(--c-bg2);
+			padding: var(--s);
+			& r4-channel-description {
+				align-self: flex-start;
+			}
+			& > a {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				width: 100%;
+			}
+			& r4-channel-url {
+				font-style: italic;
+			}
+			& r4-channel-slug {
+				padding: calc(var(--s) / 3);
+				color: var(--c-fg);
+			}
+		}
+		& r4-avatar {
+			transform: translate(calc(var(--s) * -1), calc(var(--s) * 1));
+		}
+		& r4-channel-name {
+			/* color: var(--c-link); */
+			font-size: 2em;
+		}
+		& r4-channel-url {
+			align-self: flex-start;
+			& a {
+				text-decoration: none;
+				padding-left: 0;
+			}
+		}
 	}
 }
-
 r4-map {
 	& r4-channel-card {
 		flex-direction: column;
+		max-width: calc(var(--s-container--channel-card) / 2);
 		& r4-channel-url a {
 			white-space: pre-wrap;
 			word-break: break-all;
 		}
+	}
+}
+r4-page-channel-followers,
+r4-page-channel-followings,
+r4-page-home,
+r4-page-explore {
+	& r4-list {
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	& r4-list-item {
+		margin: calc(var(--s) / 3);
 	}
 }

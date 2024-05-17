@@ -50,7 +50,7 @@ export default class R4AppUserMenu extends LitElement {
 	renderChannelLinks() {
 		if (this.channel) {
 			return html`<a aria-current=${this.isCurrent(`/${this.channel.slug}`)} href=${this.href + '/' + this.channel.slug}
-				>@${this.channel.slug}</a
+				>${this.channel.slug}</a
 			>`
 		} else {
 			return html`<a aria-current=${this.isCurrent('/new')} href=${this.href + '/new'}>New radio</a>`
