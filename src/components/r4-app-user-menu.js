@@ -43,7 +43,7 @@ export default class R4AppUserMenu extends LitElement {
 			<menu>
 				<li>${this.channel ? this.renderAdd() : null}</li>
 				<li>${this.renderChannelLinks()}</li>
-				<li>${this.channels ? this.renderChannelSelect() : null}</li>
+				<li>${this.channels.length > 1 ? this.renderChannelSelect() : null}</li>
 			</menu>
 		`
 	}
