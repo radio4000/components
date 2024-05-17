@@ -14,7 +14,7 @@ export default class R4PageExplore extends R4Page {
 		this.query = {
 			table: 'channels',
 			orderBy: 'updated_at',
-			limit: 100
+			limit: 15,
 		}
 		this.channels = []
 	}

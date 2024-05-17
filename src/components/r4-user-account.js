@@ -36,8 +36,8 @@ export default class R4UserAccount extends LitElement {
 	}
 	render() {
 		return html`
-			<section>${this.account ? this.renderThemes() : 'Sign-in to use themes'}</section>
-			<section>${this.account ? this.renderColorSchemes() : 'Sign-in to use color schemes'}</section>
+			<article>${this.account ? this.renderThemes() : 'Sign-in to use themes'}</article>
+			<article>${this.account ? this.renderColorSchemes() : 'Sign-in to use color schemes'}</article>
 		`
 	}
 	renderThemes() {

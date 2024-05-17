@@ -37,13 +37,7 @@ export default class R4PageSettings extends R4Page {
 
 	renderMain() {
 		if (this.store.user) {
-			return [
-				,
-				this.renderUserChannels(),
-				this.renderAuthentication(),
-				this.renderAppearance(),
-				this.renderUserDelete(),
-			]
+			return [, this.renderChannels(), this.renderAuthentication(), this.renderAppearance(), this.renderUserDelete()]
 		} else {
 			return [this.renderNoUser()]
 		}
@@ -54,43 +48,51 @@ export default class R4PageSettings extends R4Page {
 			<section href="account">
 				<header>
 					<h2><a href="#account">Account</a></h2>
-					<p>With a Radio4000 account you can create your own radio, save your favorites and customize it as you wish.</p>
+					<p>
+						With a Radio4000 account you can create your own radio, save your favorites and customize it as you wish.
+					</p>
 				</header>
 				<ul>
 					<li><a href="${this.config.href}/sign/in">Sign in to your account</a></li>
 					<li><a href="${this.config.href}/sign/up">Create new account</a></li>
 				</ul>
-				<p>Already have a radio from the old site? <a href="${this.config.hrefMigrate}">Migrate</a> from version 1 to a version 2 radio channel.</p>
+				<p>
+					Already have a radio from the old site? <a href="${this.config.hrefMigrate}">Migrate</a> from version 1 to a
+					version 2 radio channel.
+				</p>
 			</section>
 		`
 	}
 
-	renderUserChannels() {
-		const {userChannels} = this.store
+	renderChannels() {
 		return html`
 			<section id="channel">
 				<header>
 					<h2>
-						<a href="#channel">Channel${userChannels?.length > 1 ? 's' : ''}</a>
+						<a href="#channel">Channel${this.store.userChannels?.length > 1 ? 's' : ''}</a>
 					</h2>
 				</header>
-				<ul>
-					${userChannels?.map(
-						(x) =>
-							html`<li>
-								<a href=${`${this.config.href}/${x.slug}`}>${x.name}</a>
-								(<a href=${`${this.config.href}/${x.slug}/update`}>update</a>)
-							</li>`,
-					)}
-					${!this.store?.userChannels?.length
-						? html`<li>
-								No channels yet. <a href=${this.config.href + '/new'}>Create a new radio</a> or
-								<a href=${this.config.hrefV1}>import from v1</a>.
-							</li>`
-						: null}
-				</ul>
+				<r4-list> ${!this.store.userChannels?.length ? this.renderNoChannel() : this.renderUserChannels()} </r4-list>
 			</section>
 		`
+	}
+	renderNochannel() {
+		return html`
+			<r4-list-item>
+				<p>No channels yet.</p>
+				<p><a href=${this.config.href + '/new'}>Create a new radio</a>.</p>
+				<p><a href=${this.config.hrefV1}>Import existing radio from v1</a>.</p>
+			</r4-list-item>
+		`
+	}
+	renderUserChannels() {
+		return this.store.userChannels.map(
+			(channel) => html`
+				<r4-list-item>
+					<r4-channel-card .channel=${channel} origin="${this.config.href}/${channel.slug}"></r4-channel-card>
+				</r4-list-item>
+			`,
+		)
 	}
 
 	renderAppearance() {
@@ -116,15 +118,8 @@ export default class R4PageSettings extends R4Page {
 					<dt>Email</dt>
 					<dd>${this.store?.user?.email}</dd>
 				</dl>
-				<details>
-					<summary>Update sign-in email or password</summary>
-					<section>
-						<r4-email-update email=${this.store.user.email} @submit=${this.changeEmail}></r4-email-update>
-					</section>
-					<section>
-						<r4-password-update @submit=${this.changePassword}></r4-password-update>
-					</section>
-				</details>
+				<r4-email-update email=${this.store.user.email} @submit=${this.changeEmail}></r4-email-update>
+				<r4-password-update @submit=${this.changePassword}></r4-password-update>
 			</section>
 		`
 	}

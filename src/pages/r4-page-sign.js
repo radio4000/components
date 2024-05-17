@@ -94,11 +94,13 @@ export default class R4PageSign extends R4Page {
 					<li>
 						<details>
 							<summary>Forgot password? Sign in with magic link!</summary>
-							<i
-								>Enter the email address of the account, to receive a magic link to sign in without password. You can
-								then reset your password from the settings page.</i
-							>
-							<r4-password-reset email=${this.email} @submit=${this.onPasswordReset} hcaptcha-site-key=${this.config.hcaptchaSiteKey}></r4-password-reset>
+							<p>Enter the email address of the account, to receive a magic link to sign in without password.</p>
+							<p>It is then possible to reset the password from the settings page.</p>
+							<r4-password-reset
+								email=${this.email}
+								@submit=${this.onPasswordReset}
+								hcaptcha-site-key=${this.config.hcaptchaSiteKey}
+							></r4-password-reset>
 						</details>
 					</li>
 				</ul>
@@ -117,10 +119,10 @@ export default class R4PageSign extends R4Page {
 					</li>
 					<li>
 						Sign up first, to <a href="${this.config.hrefMigrate}">import/migrate</a> an existing radio (from the
-						previous <a href="https://v1.radio4000.com">site</a>)
+						<a href="https://v1.radio4000.com">version 1</a> of <r4-title></r4-title>).
 					</li>
 				</ul>
-				<p>Need help? See chat and email support on <a href=${this.config.href + `/settings`}>settings</a></p>
+				<p>Need help? See chat and email support on the <a href=${this.config.href + `/settings`}>settings</a> page.</p>
 			</section>
 		`
 	}
