@@ -86,8 +86,8 @@ r4-app a {
 	}
 }
 r4-app section {
-	margin-top: var(--s);
-	margin-bottom: var(--s);
+	padding-top: var(--s);
+	padding-bottom: var(--s);
 }
 r4-app summary {
 	/* Don't want to select <summaries> text when toggling */
@@ -724,4 +724,10 @@ r4-supabase-filters {
 /* hide for UX, and because we don't serialize proper' */
 r4-channel-create slot[name='fields'] fieldset:last-of-type {
 	display: none;
+}
+
+h-captcha {
+	& iframe {
+		width: 100% !important;
+	}
 }

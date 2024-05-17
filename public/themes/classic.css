@@ -151,6 +151,7 @@ r4-app {
 		box-shadow: var(--c-shadow-input);
 		font-size: 1rem;
 		flex-grow: 1;
+		width: 100%;
 	}
 }
 
@@ -176,7 +177,8 @@ r4-layout [slot='main'] {
 }
 r4-layout header[slot='menu'] {
 	z-index: 1;
-	justify-content: center;
+	justify-content: flex-start;
+	width: 100%;
 }
 
 r4-layout::part(playback-summary) {
@@ -504,6 +506,12 @@ radio4000-player .PlayerControl-group .Btn {
 r4-channel-slug::before {
 	content: '@';
 }
+r4-channel-slug {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: clamp(calc(var(--s) * 10), calc(var(--s) * 30), 50vmin);
+	overflow: hidden;
+}
 
 r4-page-home {
 	justify-content: center;
@@ -630,6 +638,10 @@ r4-page-channel-update {
 }
 
 h-captcha {
-	padding: var(--s);
+	padding-top: var(--s);
+	padding-bottom: var(--s);
 	display: inline-flex;
+}
+label[for='token'] input[name='token'] {
+	display: none;
 }

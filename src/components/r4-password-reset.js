@@ -16,8 +16,8 @@ const captchaFieldTemplate = document.createElement('template')
 captchaFieldTemplate.innerHTML = `
 	<fieldset>
 		<legend>To prevent spam, please solve this captcha.</legend>
-		<input name="token" type="radio" disabled required placeholder="R4_USED_BY_ONVERIFIED"></input>
 		<label for="token">
+			<input name="token" type="radio" disabled required placeholder="R4_USED_BY_ONVERIFIED"></input>
 			<h-captcha
 				site-key="R4_SET_BY_INIT_CAPTCHA"
 				size="normal"
@@ -68,7 +68,6 @@ export default class R4PasswordReset extends R4Form {
 		this.querySelector('slot[name="fields"]').append($signupCaptchaField)
 	}
 
-
 	async handleSubmit(event) {
 		event.preventDefault()
 		event.stopPropagation()
@@ -88,7 +87,7 @@ export default class R4PasswordReset extends R4Form {
 		try {
 			res = await sdk.supabase.auth.signInWithOtp({
 				email: this.state.email,
-				options
+				options,
 			})
 			if (res.error) {
 				throw res.error

@@ -19,8 +19,8 @@ const captchaFieldTemplate = document.createElement('template')
 captchaFieldTemplate.innerHTML = `
 	<fieldset>
 		<legend>To prevent spam, please solve this captcha.</legend>
-		<input name="token" type="radio" disabled required placeholder="R4_USED_BY_ONVERIFIED"></input>
 		<label for="token">
+			<input name="token" type="radio" disabled required placeholder="R4_USED_BY_ONVERIFIED"></input>
 			<h-captcha
 				site-key="R4_SET_BY_INIT_CAPTCHA"
 				size="normal"

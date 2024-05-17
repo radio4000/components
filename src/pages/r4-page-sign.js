@@ -119,7 +119,7 @@ export default class R4PageSign extends R4Page {
 					</li>
 					<li>
 						Sign up first, to <a href="${this.config.hrefMigrate}">import/migrate</a> an existing radio (from the
-						<a href="https://v1.radio4000.com">version 1</a> of <r4-title></r4-title>).
+						<a href="https://v1.radio4000.com" target="_blank">version 1</a> of <r4-title></r4-title>).
 					</li>
 				</ul>
 				<p>Need help? See chat and email support on the <a href=${this.config.href + `/settings`}>settings</a> page.</p>

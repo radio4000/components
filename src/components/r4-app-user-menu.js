@@ -55,7 +55,13 @@ export default class R4AppUserMenu extends LitElement {
 				</a>
 			`
 		} else {
-			return html`<a aria-current=${this.isCurrent('/new')} href=${this.href + '/new'}>New radio</a>`
+			return html`<a
+				aria-current=${this.isCurrent('/new')}
+				href=${this.href + '/new'}
+				title="Sign in a user account to create a new radio"
+			>
+				<r4-channel-slug>new</r4-channel-slug>
+			</a>`
 		}
 	}
 	renderChannelSelect() {
