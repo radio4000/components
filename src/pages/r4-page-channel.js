@@ -1,7 +1,7 @@
 import {html} from 'lit'
 import {repeat} from 'lit/directives/repeat.js'
 import BaseChannel from './base-channel'
-import {formatDate, isFreshDate, relativeDate} from '../libs/date.js'
+import {formatDate, isFreshDate, relativeDate, relativeDateSolar} from '../libs/date.js'
 
 export default class R4PageChannel extends BaseChannel {
 	static properties = {
@@ -52,10 +52,10 @@ export default class R4PageChannel extends BaseChannel {
 			return html`
 				<section>${this.renderChannelCard()}</section>
 				<section>${this.renderTracksList()}</section>
-				<section>${this.renderTimes()}</section>
 				<section>
 					<button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button>
 				</section>
+				<section>${this.renderTimes()}</section>
 			`
 		}
 	}
@@ -90,10 +90,17 @@ export default class R4PageChannel extends BaseChannel {
 		if (!lastTrack) return
 		const doms = []
 		if (isFreshDate(lastTrack.updated_at)) {
-			doms.push(html`Last updated <date>${relativeDate(lastTrack?.updated_at)}</date>.`)
+			doms.push(html`<p>Last updated <date>${relativeDate(lastTrack?.updated_at)}</date>.</p>`)
 			doms.push(' ')
 		}
-		doms.push(html`Broadcasting since <date>${formatDate(this.channel?.created_at)}</date>.`)
-		return html`<i>${doms}</i>`
+		const since = formatDate(this.channel.created_at)
+		const sinceRelative = relativeDate(this.channel.created_at)
+		doms.push(
+			html`<p>
+				Broadcasting since
+				<date time=${since} title="${since}, ${sinceRelative}">${relativeDateSolar(this.channel.created_at)}</date>.
+			</p>`,
+		)
+		return doms
 	}
 }

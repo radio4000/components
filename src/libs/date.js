@@ -39,3 +39,20 @@ export function relativeDate(dateString) {
 	const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 	return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`
 }
+
+export function relativeDateSolar(dateString) {
+	const date = new Date(dateString)
+	const today = new Date()
+
+	const diffTime = Math.abs(today - date)
+	const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+
+	const years = Math.floor(diffDays / 365)
+	const remainingDays = diffDays % 365
+
+	const yearsString = years ? `${years} sun orbit${years > 1 ? 's' : ''}` : ''
+	const andString = years && remainingDays ? ', ' : ''
+	const daysString = `${remainingDays} earth rotation${remainingDays > 1 ? 's' : ''}`
+
+	return `${yearsString}${andString}${daysString}`
+}
