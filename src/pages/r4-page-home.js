@@ -74,6 +74,8 @@ export default class R4PageHome extends R4Page {
 				<a href="${this.config.href}/sign/up">register a new account</a> to create, import or manage a Radio4000
 				channel.
 			</p>
+		`
+		return html`
 			${this.featuredChannels?.length ? this.renderFeaturedChannels() : nothing}
 			${this.latestTracks?.length ? this.renderTracks() : nothing}
 		`
@@ -133,15 +135,17 @@ export default class R4PageHome extends R4Page {
 		return html`
 			<section>
 				<dialog open inline>
+					<p>Welcome to <r4-title></r4-title> version 2 (v2).</p>
 					<p>
-						Welcome to the new <strong><r4-title></r4-title></strong>, version 2 (<strong>v2</strong>).
+						<a href="${this.config.hrefMigrate}">Import your radio channel</a> from
+						<a href="${this.config.hrefV1}">version 1</a> (v1).
 					</p>
-					<p>To import a radio channel from v1 to v2, <a href="${this.config.hrefMigrate}">migrate</a>.</p>
 					<p>
-						All previous radio channels are still available on the
-						<a href="${this.config.hrefV1}">v1</a> website.
+						Need help? Have feedback? Found a bug? want to contribute? Get
+						<a href="https://matrix.to/#/#radio4000:matrix.org" target="_blank" rel="noreferrer noopener"
+							>community chat support</a
+						>!
 					</p>
-					<p>Feedbacks and bug reports always welcome!</p>
 				</dialog>
 			</section>
 		`
