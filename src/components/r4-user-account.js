@@ -44,13 +44,13 @@ export default class R4UserAccount extends LitElement {
 		return html`
 			<form @submit=${this.onForm}>
 				<fieldset>
-					<label>
-						<legend>Theme</legend>
-						<select @input=${this.onTheme}>
-							<option disabled="true">${this.currentTheme}</option>
-							${THEMES.map(this.renderThemeOption.bind(this))}
-						</select>
-					</label>
+					<legend>
+						<label for="theme"> Theme </label>
+					</legend>
+					<select @input=${this.onTheme} id="theme">
+						<option disabled="true">${this.currentTheme}</option>
+						${THEMES.map(this.renderThemeOption.bind(this))}
+					</select>
 				</fieldset>
 			</form>
 		`

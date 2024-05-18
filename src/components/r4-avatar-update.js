@@ -10,7 +10,7 @@ export default class AvatarUpdate extends LitElement {
 		// Decides which channel to update.
 		slug: {type: String},
 		// The image id from Cloudinary.
-		image: {type: String, state: true},
+		image: {type: String, reflect: true},
 	}
 	async onUpload({detail}) {
 		this.image = detail.public_id
@@ -21,16 +21,21 @@ export default class AvatarUpdate extends LitElement {
 		const {error} = await sdk.supabase.from('channels').update({image: this.image}).eq('slug', this.slug)
 	}
 	render() {
-		return html`
-			${this.image ? this.renderAvatar() : null} ${!this.image ? this.renderUpload() : null}
-			${this.image ? this.renderDelete() : null}
-		`
-	}
-	renderAvatar() {
-		return html`<r4-avatar slug=${this.slug} image=${this.image} size="small"></r4-avatar>`
+		return html` ${this.image ? this.renderAvatar() : this.renderUpload()} `
 	}
 	renderUpload() {
 		return html`<r4-avatar-upload tags=${this.slug} @upload=${this.onUpload}></r4-avatar-upload>`
+	}
+	renderAvatar() {
+		return html`
+			<form>
+				<fieldset>
+					<legend>Image</legend>
+					<r4-avatar slug=${this.slug} image=${this.image}></r4-avatar>
+				</fieldset>
+				<fieldset>${this.renderDelete()}</fieldset>
+			</form>
+		`
 	}
 	renderDelete() {
 		return html`<button type="button" @click=${this.onDelete} destructive>Delete avatar</button>`

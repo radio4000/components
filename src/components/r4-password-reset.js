@@ -15,7 +15,7 @@ fieldsTemplate.innerHTML = `
 const captchaFieldTemplate = document.createElement('template')
 captchaFieldTemplate.innerHTML = `
 	<fieldset>
-		<legend>To prevent spam, please solve this captcha.</legend>
+		<legend>Captcha</legend>
 		<label for="token">
 			<input name="token" type="radio" disabled required placeholder="R4_USED_BY_ONVERIFIED"></input>
 			<h-captcha

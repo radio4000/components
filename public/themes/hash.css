@@ -104,7 +104,6 @@ r4-app summary {
 }
 
 r4-app form {
-	max-width: calc(var(--s) * 100);
 	padding: calc(var(--s) / 2);
 	border-radius: var(--s-radius);
 }
@@ -262,7 +261,6 @@ r4-page-add {
 	align-items: center;
 	justify-content: center;
 	& form {
-		max-width: var(--s-form);
 		padding: calc(var(--s) / 2);
 		border: 1px solid var(--c-fg);
 		border-radius: var(--s-radius);
@@ -276,7 +274,6 @@ r4-page-add form {
 }
 
 r4-app form slot[name='submit'] fieldset:last-of-type {
-	margin: var(--s);
 	justify-content: flex-end;
 }
 

@@ -51,7 +51,7 @@ export default class R4PageChannelUpdate extends BaseChannel {
 				<header>
 					<h2><a href="#avatar">Avatar</a></h2>
 				</header>
-				<r4-avatar-update slug=${channel.slug}></r4-avatar-update>
+				<r4-avatar-update slug=${channel.slug} image=${channel.image}></r4-avatar-update>
 			</section>
 
 			<section id="map">

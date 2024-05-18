@@ -5,11 +5,15 @@ const fieldsTemplate = document.createElement('template')
 fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
-			<label for="email">Email</label>
+			<legend>
+				<label for="email">Email</label>
+			</legend>
 			<input name="email" type="email" autocomplete="username" required placeholder="user@example.com"/>
 		</fieldset>
 		<fieldset>
-			<label for="password">Password</label>
+			<legend>
+				<label for="password">Password</label>
+			</legend>
 			<input name="password" type="password" autocomplete="current-password" required placeholder="my-private-password"/>
 		</fieldset>
 	</slot>
@@ -18,7 +22,7 @@ fieldsTemplate.innerHTML = `
 const captchaFieldTemplate = document.createElement('template')
 captchaFieldTemplate.innerHTML = `
 	<fieldset>
-		<legend>To prevent spam, please solve this captcha.</legend>
+		<legend>Captcha</legend>
 		<label for="token">
 			<input name="token" type="radio" disabled required placeholder="R4_USED_BY_ONVERIFIED"></input>
 			<h-captcha

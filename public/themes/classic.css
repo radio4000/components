@@ -98,7 +98,8 @@ r4-app a:has(r4-avatar) {
 }
 
 /* Default button */
-r4-app button {
+r4-app button,
+r4-app r4-dialog::part(button) {
 	display: inline-block;
 	font-weight: bold;
 	border: 1px solid var(--c-border);
@@ -133,17 +134,28 @@ r4-button-play button:active {
 
 /* Text inputs */
 r4-app {
-	& :is(input, textarea, select, button),
-	& ::part(button) {
-		background-color: var(--c-bg-input);
-		border: 1px solid var(--c-border);
-		border-radius: var(--s-radius);
-		font-size: 1rem;
+	& form {
+		border: 1px solid transparent;
+		transition: all 222ms ease-in-out;
+		&:focus-within {
+			border-color: var(--c-border);
+			background-color: var(--c-bg-input);
+			& button {
+				background-color: var(--c-bg);
+			}
+		}
+		& :is(input, textarea, select, button) {
+			background-color: var(--c-bg-input);
+			border: 1px solid var(--c-border);
+			border-radius: var(--s-radius);
+			font-size: 1rem;
+			flex-grow: 1;
+		}
 	}
-	& ::part(dialog) {
+	& r4-dialog::part(dialog) {
 		background-color: var(--c-bg);
 	}
-	& ::part(form) {
+	& r4-dialog::part(form) {
 		padding: var(--s);
 		display: flex;
 		justify-content: flex-end;
@@ -411,7 +423,6 @@ r4-app form label {
 	font-weight: bold;
 }
 r4-app summary {
-	font-weight: bold;
 	padding: calc(var(--s) / 4);
 }
 r4-app form slot[name='submit'] fieldset:last-of-type {
@@ -454,13 +465,20 @@ r4-dialog {
 	& form {
 		max-width: var(--s-form);
 		padding: calc(var(--s) / 2);
-		border: 1px solid var(--c-bg-button2);
 		border-radius: var(--s-radius);
 		& fieldset {
 			margin: calc(var(--s) / 1);
 		}
 	}
 }
+r4-sign-in,
+r4-sign-out,
+r4-sign-up {
+	& form {
+		border: 1px solid var(--c-border);
+	}
+}
+
 r4-page-add form {
 	border-color: var(--c-purple-light);
 }
@@ -506,6 +524,15 @@ r4-channel-slug {
 	text-overflow: ellipsis;
 	max-width: clamp(calc(var(--s) * 10), calc(var(--s) * 30), 50vmin);
 	overflow: hidden;
+}
+
+r4-avatar-update {
+	& fieldset {
+		justify-content: center;
+	}
+	& legend {
+		text-align: center;
+	}
 }
 
 r4-page-home {
@@ -584,23 +611,25 @@ r4-page-channel {
 	}
 }
 r4-map {
-	& r4-map-popup code {
-		font-size: var(--s-font-s1);
-	}
-	& r4-map-popup dialog {
+	& r4-map-popup dialog[inline] {
 		max-width: calc(var(--s-container--channel-card) / 2.5);
+		margin: calc(var(--s) / 3);
+	}
+	& r4-channel-card-body {
+		justify-content: center;
 	}
 	& r4-channel-card {
 		flex-direction: column;
-		& r4-channel-url a {
-			white-space: pre-wrap;
-			word-break: break-all;
+		justify-content: center;
+		& r4-channel-url {
+			display: none;
 		}
 	}
 }
 r4-page-channel-followers,
 r4-page-channel-followings,
 r4-page-home,
+r4-page-add,
 r4-page-explore,
 r4-page-settings {
 	& r4-list {
@@ -640,12 +669,6 @@ r4-page-settings {
 			background-color: var(--c-bg2);
 		}
 	}
-}
-
-h-captcha {
-	padding-top: var(--s);
-	padding-bottom: var(--s);
-	display: inline-flex;
 }
 label[for='token'] input[name='token'] {
 	display: none;

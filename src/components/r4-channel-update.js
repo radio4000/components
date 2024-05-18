@@ -1,40 +1,38 @@
 import {sdk} from '../libs/sdk.js'
 import R4Form from './r4-form.js'
 
-const positionStep = 0.0000001
-const positionMin = -120
-const positionMax = 120
-
 const fieldsTemplate = document.createElement('template')
 fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
-			<label for="id" required>ID</label>
+			<legend>
+				<label for="id" required>ID</label>
+			</legend>
 			<input name="id" type="text" readonly/>
 		</fieldset>
 		<fieldset>
-			<label for="name">Name</label>
+			<legend>
+				<label for="name">Name</label>
+			</legend>
 			<input name="name" type="text"/>
 		</fieldset>
 		<fieldset>
-			<label for="slug">Slug</label>
+			<legend>
+				<label for="slug">Slug</label>
+			</legend>
 			<input name="slug" type="text" required minlength="3" />
 		</fieldset>
 		<fieldset>
-			<label for="description">Description</label>
+			<legend>
+				<label for="description">Description</label>
+			</legend>
 			<textarea name="description"></textarea>
 		</fieldset>
 		<fieldset>
-			<label for="url">URL</label>
+			<legend>
+				<label for="url">URL</label>
+			</legend>
 			<input name="url" type="url"/>
-		</fieldset>
-		<fieldset>
-			<label for="longitude">Longitude</label>
-			<input name="longitude" type="number" step="${positionStep}" min="${positionMin}" max="${positionMax}"/>
-		</fieldset>
-		<fieldset>
-			<label for="latitude">Latitude</label>
-			<input name="latitude" type="number" step="${positionStep}"/>
 		</fieldset>
 	</slot>
 `

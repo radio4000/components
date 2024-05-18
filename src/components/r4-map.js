@@ -27,7 +27,7 @@ useGeographic()
 export default class R4Map extends LitElement {
 	static properties = {
 		// The slug of a channel to select initially
-		slug: {type: String, state: true},
+		slug: {type: String},
 
 		// List of channels with coordinates.
 		channels: {type: Array, state: true},
@@ -43,8 +43,6 @@ export default class R4Map extends LitElement {
 		latitude: {type: Number},
 		zoom: {type: Number},
 
-		clickedCoordinates: {type: Array, state: true},
-
 		// For building the channel origin URL.
 		href: {type: String},
 
@@ -58,13 +56,6 @@ export default class R4Map extends LitElement {
 	get channelOrigin() {
 		const href = this.href || window.location
 		return `${href}/${this.channel.slug}`
-	}
-
-	showPopupForChannel(channel) {
-		const coordinate = [channel.longitude, channel.latitude]
-		this.clickedCoordinate = coordinate
-		this.overlay.setPosition(coordinate)
-		this.requestUpdate()
 	}
 
 	constructor() {
@@ -87,9 +78,6 @@ export default class R4Map extends LitElement {
 			this.channels = data.filter((c) => c.longitude && c.latitude)
 		}
 		this.markers = this.channels?.map((c) => this.createMarker([c.longitude, c.latitude], c))
-		if (this.channel) {
-			this.showPopupForChannel(this.channel)
-		}
 	}
 
 	willUpdate(changedProperties) {
@@ -153,6 +141,7 @@ export default class R4Map extends LitElement {
 	}
 
 	createMarker(coordinate, details) {
+		const active = details.slug === this.slug
 		const feature = new Feature({
 			geometry: new Point(coordinate),
 			details,
@@ -166,7 +155,7 @@ export default class R4Map extends LitElement {
 					width: 2,
 				}),
 				fill: new Fill({
-					color: 'darkviolet',
+					color: active ? 'hotpink' : 'darkviolet',
 				}),
 			}),
 		})
@@ -181,8 +170,6 @@ export default class R4Map extends LitElement {
 	}
 
 	onClick(event) {
-		const coordinate = event.coordinate
-		this.clickedCoordinate = coordinate
 		this.dispatchEvent(
 			new CustomEvent('r4-map-click', {
 				bubbles: true,
@@ -202,9 +189,7 @@ export default class R4Map extends LitElement {
 			// Schedule a re-render so we see the clicked channel.
 			this.channel = details
 			const coordinate = [details.longitude, details.latitude]
-			this.clickedCoordinate = coordinate
 			this.overlay.setPosition(coordinate)
-			this.requestUpdate()
 		}
 	}
 
@@ -213,10 +198,7 @@ export default class R4Map extends LitElement {
 			<main></main>
 			<r4-map-popup class="ol-popup">
 				<button class="ol-popup-closer">✖</button>
-				<dialog open inline>
-					${this.channel ? this.renderChannel() : null}
-					<code>${toStringHDMS(this.clickedCoordinate)}</code>
-				</dialog>
+				<dialog open inline>${this.channel ? this.renderChannel() : null}</dialog>
 			</r4-map-popup>
 		`
 	}

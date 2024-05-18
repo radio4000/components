@@ -220,11 +220,11 @@ r4-layout r4-player radio4000-player .Layout {
 }
 r4-layout {
 	&::part(playback) {
-		transition: all 222ms ease-in-out;
-		transform: translateY(-100%) scale(0.9);
+		transition: all 133ms ease-in-out;
+		transform: translateY(-500%) scale(0.95);
 	}
 	&::part(panel) {
-		transition: all 333ms ease-in-out;
+		transition: all 222ms ease-in-out;
 	}
 	&[is-playing]::part(playback) {
 		transform: translate(0) scale(1);
@@ -487,6 +487,7 @@ r4-list-item {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	margin-bottom: calc(var(--s) / 3);
 }
 r4-list-item r4-track {
 	flex: 1;

@@ -6,7 +6,7 @@ fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
 			<label for="id">ID</label>
-			<input name="id" type="text" required/>
+			<input name="id" type="text" required disabled/>
 		</fieldset>
 		<fieldset>
 			<label for="url">URL</label>
@@ -22,7 +22,7 @@ fieldsTemplate.innerHTML = `
 		</fieldset>
 		<fieldset>
 			<label for="discogsUrl">Discogs URL</label>
-			<input name="discogsUrl" type="url"/>
+			<input name="discogsUrl" type="url" placeholder="Discogs release URL"/>
 		</fieldset>
 	</slot>
 `
@@ -36,7 +36,7 @@ export default class R4TrackUpdate extends R4Form {
 	}
 
 	errors = {
-		'default': {
+		default: {
 			message: 'Unhandled error',
 		},
 	}
