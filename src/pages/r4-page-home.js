@@ -70,10 +70,10 @@ export default class R4PageHome extends R4Page {
 	renderSignIn() {
 		return html`
 			<p>
-				<a href="${this.config.href}/sign/in">Sign in to your existing account</a> or
-				<a href="${this.config.href}/sign/up">register a new account</a> to create, import or manage a Radio4000
-				channel.
+				<a href="${this.config.href}/sign/in">Sign in</a> or <a href="${this.config.href}/sign/up">sign up</a> for a new
+				(v2) account.
 			</p>
+			<p><a href="${this.config.href}/explore">Explore</a> radio channels.</p>
 		`
 		return html`
 			${this.featuredChannels?.length ? this.renderFeaturedChannels() : nothing}
@@ -134,17 +134,26 @@ export default class R4PageHome extends R4Page {
 	renderBetaNote() {
 		return html`
 			<section>
-				<dialog open inline>
-					<p>Welcome to <r4-title></r4-title> version 2 (v2).</p>
+				<header>
 					<p>
-						<a href="${this.config.hrefMigrate}">Import your radio channel</a> from
-						<a href="${this.config.hrefV1}">version 1</a> (v1).
+						<center>Welcome to <r4-title></r4-title> <strong>version 2</strong> (v2).</center>
 					</p>
+				</header>
+				<dialog open inline>
 					<p>
-						Need help? Have feedback? Found a bug? want to contribute? Get
-						<a href="https://matrix.to/#/#radio4000:matrix.org" target="_blank" rel="noreferrer noopener"
-							>community chat support</a
-						>!
+						<center>
+							<strong> Can't find an existing Radio? </strong>
+						</center>
+					</p>
+					<menu>
+						<li>
+							<a href="${this.config.hrefMigrate}">Import a radio from version 1</a> (previous website,
+							<a href="${this.config.hrefV1}" target="_blank">v1</a>).
+						</li>
+					</menu>
+					<p>Need help? Have feedback? Found a bug? Want to contribute?</p>
+					<p>
+						<center><a href="${this.config.href}/settings#about">Get in touch</a>!</center>
 					</p>
 				</dialog>
 			</section>

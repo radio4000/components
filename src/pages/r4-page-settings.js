@@ -48,18 +48,13 @@ export default class R4PageSettings extends R4Page {
 			<section href="account">
 				<header>
 					<h2><a href="#account">Account</a></h2>
-					<p>
-						With a Radio4000 account you can create your own radio, save your favorites and customize it as you wish.
-					</p>
+					<p>Manage and explore radio channels with a Radio4000 account.</p>
 				</header>
-				<ul>
-					<li><a href="${this.config.href}/sign/in">Sign in to your account</a></li>
-					<li><a href="${this.config.href}/sign/up">Create new account</a></li>
-				</ul>
-				<p>
-					Already have a radio from the old site? <a href="${this.config.hrefMigrate}">Migrate</a> from version 1 to a
-					version 2 radio channel.
-				</p>
+				<menu>
+					<li><a href="${this.config.href}/sign/in">Sign in</a> (manage radio)</li>
+					<li><a href="${this.config.href}/sign/up">Sign up</a> (create new account)</li>
+				</menu>
+				<p>Can't find your existing radio? <a href="${this.config.hrefMigrate}">Import radio from version1</a> site.</p>
 			</section>
 		`
 	}
@@ -162,25 +157,14 @@ export default class R4PageSettings extends R4Page {
 					<h2>
 						<a href="#about">About <r4-title></r4-title></a>
 					</h2>
-					<p>
-						The (<r4-title size="small"></r4-title>) project is built
-						<a
-							href="https://github.com/radio4000/publications/blob/main/radio4000-manifest.md"
-							target="_blank"
-							rel="noreferrer noopener"
-							>by and for its users</a
-						>.
-					</p>
+					<p>Information and contact.</p>
 				</header>
 				<ul>
 					<li>
-						Previous site version
-						<a href=${this.config.hrefV1} target="_blank" rel="noreferrer noopener">v1.radio4000</a>
-					</li>
-					<li>
 						Community
-						<a href="https://matrix.to/#/#radio4000:matrix.org" target="_blank" rel="noreferrer noopener"> chat</a> and
-						support
+						<a href="https://matrix.to/#/#radio4000:matrix.org" target="_blank" rel="noreferrer noopener"
+							>chat and support</a
+						>
 					</li>
 					<li>Contact by <a href="mailto:contact@radio4000.com" target="_blank" rel="noreferrer noopener">email</a></li>
 					<li>Source <a href="https://github.com/radio4000" target="_blank" rel="noreferrer noopener">code</a></li>
@@ -194,6 +178,10 @@ export default class R4PageSettings extends R4Page {
 						>
 					</li>
 					<li>See the <a href="https://blog.radio4000.com/" target="_blank" rel="noreferrer noopener">blog</a></li>
+					<li>
+						Previous site <a href=${this.config.hrefV1} target="_blank" rel="noreferrer noopener">v1.radio4000</a>
+					</li>
+					<li><a href=${this.config.hrefMigrate} target="_blank" rel="noreferrer noopener">Import/migrate</a> radio</li>
 				</ul>
 			</section>
 		`

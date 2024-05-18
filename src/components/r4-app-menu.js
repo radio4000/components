@@ -26,7 +26,7 @@ export default class R4AppMenu extends LitElement {
 		return html`
 			<menu>
 				<li>
-					<a aria-current=${this.isCurrent('/')} href=${href + '/'}><r4-title size="small"></r4-title></a>
+					<a aria-current=${this.isCurrent('/')} href=${href + '/'}>Home</a>
 				</li>
 				<li><a aria-current=${this.isCurrent('/explore')} href=${href + '/explore'}>Explore</a></li>
 				<li><a aria-current=${this.isCurrent('/map')} href=${href + '/map'}>Map</a></li>
