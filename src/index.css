@@ -219,15 +219,22 @@ r4-layout r4-player radio4000-player .Layout {
 	border-color: var(--c-link);
 }
 r4-layout {
-	&[is-playing]::part(playback) {
-		transform: translate(0) scale(1);
-	}
 	&::part(playback) {
 		transition: all 222ms ease-in-out;
-		transform: translate(100%) scale(0.9);
+		transform: translateY(-100%) scale(0.9);
 	}
 	&::part(panel) {
 		transition: all 333ms ease-in-out;
+	}
+	&[is-playing]::part(playback) {
+		transform: translate(0) scale(1);
+	}
+}
+@media (min-width: 70rem) {
+	r4-layout {
+		&::part(playback) {
+			transform: translateX(100%) scale(0.9);
+		}
 	}
 }
 
@@ -243,9 +250,7 @@ r4-layout::part(playback-status)::before {
 }
 r4-layout[is-playing]::part(playback-status)::before {
 	color: var(--c-purple);
-	r4-app[color-scheme='dark'] & {
-		color: hotpink;
-	}
+	opacity: 1;
 }
 r4-app[color-scheme='dark'] {
 	.TrackItem.active,
@@ -397,12 +402,7 @@ r4-map .ol-viewport {
 r4-map .ol-viewport {
 	min-height: 30vh;
 }
-r4-map r4-channel-card {
-	background-color: var(--c-bg);
-	padding: calc(var(--s) / 2);
-	max-width: calc(100vw / 2);
-	border: 1px solid var(--c-fg);
-}
+
 r4-page-map r4-supabase-query fieldset[name='table'],
 r4-page-map r4-supabase-query fieldset[name='select'],
 r4-page-map r4-supabase-query fieldset[name='orderBy'],

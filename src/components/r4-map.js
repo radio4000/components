@@ -26,6 +26,9 @@ useGeographic()
  */
 export default class R4Map extends LitElement {
 	static properties = {
+		// The slug of a channel to select initially
+		slug: {type: String, state: true},
+
 		// List of channels with coordinates.
 		channels: {type: Array, state: true},
 
@@ -38,6 +41,7 @@ export default class R4Map extends LitElement {
 		// Optional, initial map position
 		longitude: {type: Number},
 		latitude: {type: Number},
+		zoom: {type: Number},
 
 		clickedCoordinates: {type: Array, state: true},
 
@@ -51,6 +55,18 @@ export default class R4Map extends LitElement {
 		url: {type: Boolean, attribute: 'url'},
 	}
 
+	get channelOrigin() {
+		const href = this.href || window.location
+		return `${href}/${this.channel.slug}`
+	}
+
+	showPopupForChannel(channel) {
+		const coordinate = [channel.longitude, channel.latitude]
+		this.clickedCoordinate = coordinate
+		this.overlay.setPosition(coordinate)
+		this.requestUpdate()
+	}
+
 	constructor() {
 		super()
 		// Default values
@@ -59,14 +75,10 @@ export default class R4Map extends LitElement {
 		this.markers = []
 	}
 
-	get channelOrigin() {
-		const href = this.href || window.location
-		return `${href}/${this.channel.slug}`
-	}
-
 	async firstUpdated() {
 		this.createMap()
 		this.isReady = true
+		this.zoom = !this.zoom && this.longitude ? 6 : 2
 
 		// Fetch channels and set markers for each.
 		if (!this.channels) {
@@ -75,6 +87,9 @@ export default class R4Map extends LitElement {
 			this.channels = data.filter((c) => c.longitude && c.latitude)
 		}
 		this.markers = this.channels?.map((c) => this.createMarker([c.longitude, c.latitude], c))
+		if (this.channel) {
+			this.showPopupForChannel(this.channel)
+		}
 	}
 
 	willUpdate(changedProperties) {
@@ -117,7 +132,7 @@ export default class R4Map extends LitElement {
 			layers: [rasterLayer],
 			view: new View({
 				center: [this.longitude, this.latitude],
-				zoom: this.longitude ? 6 : 2,
+				zoom: this.zoom,
 			}),
 			overlays: [this.overlay],
 		})
