@@ -52,7 +52,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 					</h1>
 				</li>
 				<li>
-					<form>
+					<form @submit=${(event) => event.preventDefault()}>
 						<fieldset>
 							<r4-button-play .channel=${this.channel} label="all"></r4-button-play>
 							<r4-button-play
