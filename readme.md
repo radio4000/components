@@ -49,6 +49,10 @@ npm install
 npm run dev
 ```
 
+### Linting
+
+Use `npm run lint` to check the project for potential code problems and style using eslint. It's configured to look out for web components, lit and jsdoc.
+
 ### Themes
 
 See the [themes github repo](https://github.com/4www/themes)
