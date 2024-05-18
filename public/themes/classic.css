@@ -39,6 +39,7 @@ r4-app {
 	--s-container: 75rem;
 	--s-container--list: 50rem;
 	--s-container--channel-card: 45rem;
+	--s-font-s1: 0.8rem;
 	--c-light: hsl(0deg 0% 98%);
 	--c-dark: hsl(0deg 0% 8%);
 	--c-purple: #5d1ae6;
@@ -130,28 +131,22 @@ r4-button-play button:active {
 	top: 1px;
 }
 
-r4-app select {
-	border-radius: var(--s-radius);
-	border-color: var(--c-border);
-}
-
 /* Text inputs */
 r4-app {
-	[type='email'],
-	[type='password'],
-	[type='search'],
-	[type='tel'],
-	[type='text'],
-	[type='url'],
-	[type='number'],
-	textarea {
+	& :is(input, textarea, select, button),
+	& ::part(button) {
 		background-color: var(--c-bg-input);
 		border: 1px solid var(--c-border);
 		border-radius: var(--s-radius);
-		box-shadow: var(--c-shadow-input);
 		font-size: 1rem;
-		flex-grow: 1;
-		width: 100%;
+	}
+	& ::part(dialog) {
+		background-color: var(--c-bg);
+	}
+	& ::part(form) {
+		padding: var(--s);
+		display: flex;
+		justify-content: flex-end;
 	}
 }
 
@@ -215,8 +210,7 @@ r4-page-footer {
 }
 r4-page-main,
 r4-page-footer,
-r4-page-header menu,
-r4-app section header {
+r4-page-header menu {
 	background-color: var(--c-bg);
 }
 r4-page-explore r4-page-header,
@@ -422,7 +416,10 @@ r4-app summary {
 }
 r4-app form slot[name='submit'] fieldset:last-of-type {
 	margin: var(--s) calc(var(--s) / 2) calc(var(--s) / 2) var(--s);
-	justify-content: flex-end;
+	justify-content: center;
+}
+r4-app form button {
+	margin: calc(var(--s) / 5);
 }
 
 /* Vertical track form layout */
@@ -450,7 +447,8 @@ r4-sign-out,
 r4-password-reset,
 r4-sign-up,
 r4-page-add,
-r4-page-new {
+r4-page-new,
+r4-dialog {
 	display: flex;
 	justify-content: center;
 	& form {
@@ -586,6 +584,9 @@ r4-page-channel {
 	}
 }
 r4-map {
+	& r4-map-popup code {
+		font-size: var(--s-font-s1);
+	}
 	& r4-map-popup dialog {
 		max-width: calc(var(--s-container--channel-card) / 2.5);
 	}
@@ -600,7 +601,8 @@ r4-map {
 r4-page-channel-followers,
 r4-page-channel-followings,
 r4-page-home,
-r4-page-explore {
+r4-page-explore,
+r4-page-settings {
 	& r4-list {
 		flex-direction: row;
 		flex-wrap: wrap;
@@ -630,6 +632,13 @@ r4-page-channel-update {
 	}
 	& fieldset {
 		margin: var(--s);
+	}
+}
+r4-page-settings {
+	& r4-page-footer {
+		& section {
+			background-color: var(--c-bg2);
+		}
 	}
 }
 

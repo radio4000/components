@@ -67,7 +67,10 @@ export default class R4UserDelete extends LitElement {
 			<p>
 				<label>
 					<input type="checkbox" name=${`deleteChannel_${c.slug}`} required />
-					<a href=${this.href + '/' + c.slug}>${c.slug}</a> and all its tracks will be lost</label
+					<a href=${this.href + '/' + c.slug}>
+						<r4-channel-slug> ${c.slug} </r4-channel-slug>
+					</a>
+					and all its tracks will be lost</label
 				>
 			</p>
 		`

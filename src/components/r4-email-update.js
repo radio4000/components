@@ -5,7 +5,9 @@ const fieldsTemplate = document.createElement('template')
 fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
-			<label for="email">Change email</label>
+			<legend>
+				<label for="email">Change email</label>
+			</legend>
 			<input type="email" autocomplete="username" name="email" required />
 		</fieldset>
 	</slot>

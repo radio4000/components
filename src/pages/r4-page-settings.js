@@ -113,11 +113,15 @@ export default class R4PageSettings extends R4Page {
 				<header>
 					<h2><a href="#authentication">Authentication</a> (<a href="${this.config.href}/sign/out">Sign out</a>)</h2>
 				</header>
-				<dl>
-					${this.store.user.new_email ? this.renderNewEmail() : null}
-					<dt>Email</dt>
-					<dd>${this.store?.user?.email}</dd>
-				</dl>
+				<r4-email-display>
+					<form>
+						${this.store.user.new_email ? this.renderNewEmail() : null}
+						<fieldset>
+							<legend>Email</legend>
+							<input disabled value=${this.store?.user?.email} />
+						</fieldset>
+					</form>
+				</r4-email-display>
 				<r4-email-update email=${this.store.user.email} @submit=${this.changeEmail}></r4-email-update>
 				<r4-password-update @submit=${this.changePassword}></r4-password-update>
 			</section>
@@ -142,11 +146,13 @@ export default class R4PageSettings extends R4Page {
 
 	renderNewEmail() {
 		return html`
-			<dt>New email</dt>
-			<dd>
-				<mark>${this.store.user.new_email}</mark>${' '}
-				<i>Click the confirmation link in your Email inbox</i>
-			</dd>
+			<fieldset>
+				<legend>New email</legend>
+				<p><mark>${this.store.user.new_email}</mark>${' '}</p>
+				<p>
+					<i>Click the confirmation link sent to this Email inbox, to validate the Email change</i>
+				</p>
+			</fieldset>
 		`
 	}
 	renderAbout() {

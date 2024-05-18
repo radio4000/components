@@ -5,8 +5,13 @@ const fieldsTemplate = document.createElement('template')
 fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
-			<label for="password">Update password</label>
+			<legend>
+					<label for="password">
+						Update password
+					</label>
+			</legend>
 			<input type="password" name="password" required autocomplete="new-password" placeholder="*new*unique*password*"/>
+		</fieldset>
 	</slot>
 `
 

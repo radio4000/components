@@ -456,6 +456,10 @@ radio4000-player .PlayerControl-group .Btn {
 	border-color: var(--c-link);
 }
 
+r4-app radio4000-player .Tracklist-controls .Btn--locateTrack {
+	background-color: inherit;
+}
+
 /* button + title + actions */
 r4-track {
 	display: grid;
@@ -493,15 +497,6 @@ r4-avatar-upload form {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-}
-
-r4-channel-delete,
-r4-email-update,
-r4-password-update {
-	display: flex;
-	& form {
-		display: flex;
-	}
 }
 
 /* Default, portrait card layout */

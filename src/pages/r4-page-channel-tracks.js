@@ -51,14 +51,18 @@ export default class R4PageChannelTracks extends BaseChannel {
 						</a>
 					</h1>
 				</li>
-				<li><r4-button-play .channel=${this.channel} label="all"></r4-button-play></li>
 				<li>
-					<r4-button-play
-						.tracks=${this.tracks}
-						.channel=${this.channel}
-						.filters=${this.filters}
-						label="results"
-					></r4-button-play>
+					<form>
+						<fieldset>
+							<r4-button-play .channel=${this.channel} label="all"></r4-button-play>
+							<r4-button-play
+								.tracks=${this.tracks}
+								.channel=${this.channel}
+								.filters=${this.filters}
+								label="results"
+							></r4-button-play>
+						</fieldset>
+					</form>
 				</li>
 				<li>
 					<r4-query

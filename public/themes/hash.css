@@ -4,12 +4,15 @@ r4-app {
 	--c-light: cornsilk;
 	--c-dark: black;
 	--c-dim: dimgray;
+	--c-dark-dim: darkslategray;
+	--c-light-dim: lightgray;
 	--c-intense: #00ff00;
 	--c-moderate: #ff00ff;
 	--s-container: 65rem;
 	--s-form: 35rem;
 	--s-radius: calc(var(--s) / 3);
 	--s-font: 16px;
+	--s-font-s1: 0.7rem;
 }
 
 /* color schemes */
@@ -23,6 +26,7 @@ r4-app[color-scheme='dark'] {
 	--c-form-bg: var(--c-dim);
 	--c-bg--channel-card: var(--c-dim);
 	--c-bg--track: var(--c-dim);
+	--c-bg--inputs: var(--c-dark-dim);
 }
 r4-app[color-scheme='light'] {
 	color-scheme: light;
@@ -33,6 +37,7 @@ r4-app[color-scheme='light'] {
 	--c-form-bg: var(--c-intense);
 	--c-bg--channel-card: var(--c-intense);
 	--c-bg--track: var(--c-intense);
+	--c-bg--inputs: var(--c-light-dim);
 }
 
 /* app scheme theming */
@@ -44,8 +49,7 @@ r4-app {
 }
 
 /* app layout */
-r4-page-header,
-r4-page-main section h2 {
+r4-page-header {
 	position: sticky;
 	top: 0;
 	z-index: 1;
@@ -59,6 +63,11 @@ r4-app h2,
 r4-app h3 {
 	font-size: 1.3rem;
 	margin-top: 0;
+}
+r4-app {
+	& :is(button, select, input, textarea, summary) {
+		background-color: var(--c-bg--inputs);
+	}
 }
 
 r4-app menu {
@@ -86,9 +95,12 @@ r4-app ol li + li {
 	margin-top: var(--s);
 }
 
-r4-app details[open],
+/* overwrite "default" styles */
+r4-app r4-actions details[open] menu {
+	background-color: var(--c-bg);
+}
 r4-app summary {
-	padding: calc(var(--s));
+	padding: calc(var(--s) / 2);
 }
 
 r4-app form {
@@ -101,16 +113,23 @@ r4-app form legend,
 r4-app form label {
 	font-style: italic;
 }
+r4-app form button {
+	margin: calc(var(--s) / 2);
+}
 r4-app fieldset {
 	display: flex;
 	margin: calc(var(--s) / 3);
 	position: relative;
 }
-r4-app fieldset legend {
-	position: absolute;
-	top: -0.7rem;
-	left: 0;
-	font-size: 0.7rem;
+r4-app {
+	& :is(r4-supabase-filter-search, r4-supabase-query) {
+		& r4-supabase-filter-search {
+			position: absolute;
+			top: -0.3em;
+			left: 0;
+			font-size: var(--s-font-s1);
+		}
+	}
 }
 r4-app input,
 r4-app textarea {
@@ -167,7 +186,7 @@ r4-track-description {
 		padding: calc(var(--s) / 3);
 		color: var(--c-fg);
 		text-decoration: underline;
-		text-underline-offset: calc(var(--s) / 2);
+		text-underline-offset: calc(var(--s) / 3);
 		text-decoration-color: var(--c-link);
 	}
 }
@@ -225,12 +244,11 @@ r4-page-footer {
 r4-page-main {
 	flex-grow: 1;
 }
-
-r4-page-home {
-	& section header {
-		position: sticky;
-		top: 0;
-		z-index: 1;
+r4-page-settings {
+	& section {
+		border: 1px solid var(--c-bg--inputs);
+		padding: var(--s);
+		margin: var(--s);
 	}
 }
 
@@ -268,6 +286,28 @@ r4-page-map {
 		height: 100%;
 	}
 }
+r4-page-channel {
+	& r4-channel-card {
+		& r4-button-play {
+			order: 1;
+			& button::after {
+				content: 'Listen';
+			}
+		}
+	}
+}
+
+r4-map {
+	& r4-channel-card {
+		max-width: 25rem;
+		& r4-channel-url {
+			display: none;
+		}
+	}
+	& code {
+		font-size: var(--s-font-s1);
+	}
+}
 
 r4-channel-card {
 	display: flex;
@@ -288,4 +328,21 @@ r4-channel-card {
 	& r4-channel-name {
 		font-weight: bold;
 	}
+	& r4-channel-card-body {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+}
+
+/* slug as channel alias, with a max-width */
+r4-channel-slug::before {
+	content: '@';
+}
+r4-channel-slug {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: clamp(calc(var(--s) * 10), calc(var(--s) * 30), 50vmin);
+	overflow: hidden;
 }
