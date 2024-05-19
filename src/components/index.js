@@ -20,6 +20,7 @@ import R4ChannelCreate from './r4-channel-create.js'
 import R4ChannelDelete from './r4-channel-delete.js'
 import R4ChannelUpdate from './r4-channel-update.js'
 import R4Dialog from './r4-dialog.js'
+import R4DiscogsResource from './r4-discogs-resource.js'
 import R4EmailUpdate from './r4-email-update.js'
 import R4Favicon from './r4-favicon.js'
 import R4Layout from './r4-layout.js'
@@ -72,6 +73,7 @@ const componentDefinitions = {
 	'r4-channel-update': R4ChannelUpdate,
 	'r4-channel-search': R4ChannelSearch,
 	'r4-dialog': R4Dialog,
+	'r4-discogs-resource': R4DiscogsResource,
 	'r4-email-update': R4EmailUpdate,
 	'r4-favicon': R4Favicon,
 	'r4-layout': R4Layout,

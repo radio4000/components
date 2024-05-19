@@ -1,5 +1,7 @@
 import {sdk} from '../libs/sdk.js'
 import {fetchOEmbed} from '../libs/oembed.js'
+import {mediaUrlParser} from 'media-url-parser'
+import {parseUrl as parseDiscogsUrl, fetchDiscogsInfo, buildSearchUrl} from '../libs/discogs.js'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
@@ -24,6 +26,7 @@ fieldsTemplate.innerHTML = `
 		<fieldset>
 			<label for="discogsUrl" title="Add the Discogs release URL related to the track. Eg: https://www.discogs.com/Jennifer-Lara-I-Am-In-Love/master/541751">Discogs URL</label>
 			<input name="discogsUrl" type="url" placeholder="URL to a Discogs release" />
+			<r4-discogs-resource url=""></r4-discogs-resource>
 		</fieldset>
 	</slot>
 `
@@ -79,8 +82,20 @@ export default class R4TrackCreate extends R4Form {
 				}
 			}
 		}
-
-		if (name === 'discogsUrl' && value) {
+		if (name === 'title' && value) {
+			const search = buildSearchUrl(value)
+			console.log('search url', search)
+		}
+		if (name === 'discogsUrl') {
+			const $discogs = this.querySelector('r4-discogs-resource')
+			if (value) {
+				const discogsInfo = parseDiscogsUrl(value)
+				if (discogsInfo.id && discogsInfo.type) {
+					$discogs.setAttribute('url', value)
+				}
+			} else {
+				$discogs.removeAttribute('url')
+			}
 		}
 	}
 

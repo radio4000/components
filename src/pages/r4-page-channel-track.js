@@ -3,6 +3,9 @@ import BaseChannelTrack from './base-channel-track'
 
 export default class R4PageChannelTrack extends BaseChannelTrack {
 	renderMain() {
+		return [this.buildTrack(), this.buildDiscogs()]
+	}
+	buildTrack() {
 		return html`
 			<section>
 				<r4-track
@@ -14,5 +17,10 @@ export default class R4PageChannelTrack extends BaseChannelTrack {
 				></r4-track>
 			</section>
 		`
+	}
+	buildDiscogs() {
+		if (this.track.discogs_url) {
+			return html`<r4-discogs-resource url=${this.track.discogs_url} full="true"></r4-discogs-resource>`
+		}
 	}
 }
