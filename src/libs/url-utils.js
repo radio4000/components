@@ -16,7 +16,7 @@ const R4_QUERY_PARAMS = [
  * Sets URL search params from a query object
  * It will only set params in the `includeList` list.
  * It won't set params in the `excludeList` list.
- * @param {import("../components/r4-query").R4Query} query - object with all the query params to be
+ * @param {import('../components/r4-query.js').R4QueryObject} query - object with all the query params to be
  * @param {{includeList?: String[], excludeList?: String[]}} [options]
  */
 export function setSearchParams(query, options = {}) {
@@ -71,7 +71,7 @@ function removeEmptyKeys(obj) {
 /**
  * Create a `R4Query` from URLSearchParams
  * @param {URLSearchParams} [searchParams]
- * @returns {import("../components/r4-query").R4Query}
+ * @returns {import("../components/r4-query").R4QueryObject}
  */
 export function getQueryFromUrl(searchParams) {
 	if (!searchParams) searchParams = new URLSearchParams(window.location.search)

@@ -30,7 +30,7 @@ export default class R4SupabaseQuery extends LitElement {
 		return Math.round(count / limit) + 1
 	}
 
-	/** @type {import('./r4-query.js').R4Query} */
+	/** @type {import('./r4-query.js').R4QueryObject} */
 	get query() {
 		return urlUtils.removeEmptyKeys({
 			table: this.table,

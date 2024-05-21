@@ -4,7 +4,7 @@ import urlUtils from '../libs/url-utils.js'
 import {browse} from '../libs/browse.js'
 
 /**
- * @typedef {object} R4Query
+ * @typedef {object} R4QueryObject
  * @prop {string} [table] - table name
  * @prop {string} [select] - sql query to select columns
  * @prop {string} [search] - search query
@@ -23,7 +23,9 @@ import {browse} from '../libs/browse.js'
  * @prop {string} value - value
  */
 
-/** Adds all the neccessary things to query the database with search, filters, ordering and pagination. Builds upon <r4-supabase-query> and <r4-supabase-filter>. */
+/** Adds all the neccessary things to query the database with search, filters, ordering and pagination. Builds upon <r4-supabase-query> and <r4-supabase-filter>.
+ * @fires data - after any data is fetched
+ */
 export default class R4Query extends LitElement {
 	static properties = {
 		// pass these down
@@ -73,9 +75,9 @@ export default class R4Query extends LitElement {
 	}
 
 	/**
-	 * Essentially this.query + this.defaultFilters
-	 * This exists in order to apply query changes that won't appear in the UI.
-	 * @returns {R4Query}
+	 * Combines the initial query with the query from the URL.
+	 * This exists in order to apply query changes that won't appear in the UI/search params.
+	 * @returns {R4QueryObject}
 	 */
 	get browseQuery() {
 		const q = {...this.query}
@@ -108,7 +110,10 @@ export default class R4Query extends LitElement {
 		this.dispatchEvent(new CustomEvent('data', {detail: res}))
 	}
 
-	// Shortcut when no extra logic is needed. Also updates URL params and reloads data.
+	/**
+	 * Shortcut when no extra logic is needed. Also updates URL params and reloads data.
+	 * @param {R4QueryObject} query
+	 */
 	setQuery(query) {
 		console.log('setQuery', this.query, query)
 		this.query = {...this.query, ...query}

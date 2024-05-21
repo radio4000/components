@@ -2,7 +2,7 @@ r4-supabase-query
 	connectedCallback
 		setInitialValues()
 		@query(query) -> r4-query.onQuery()
-		
+
 r4-query
 	connectedCallback
 		this.query = initialQuery + query from URL
@@ -10,4 +10,12 @@ r4-query
 		this.query = {...this.query, ...newQuery}
 		urlUtils.setSearchParams(this.query)
 		this.debouncedFetchData()
-		
+
+Flexibile views
+	Base query as defined by?
+		Filters (type + filters +_ operators)
+		Display Options (let's you group and order items in your view, switch between grid and list layouts)
+			Grouping: select "No grouping", "Year", "Season", "Month"
+			Ordering: Last created, last updated, title?
+			Row Properties: Title, Description,
+		Search (list specific)
