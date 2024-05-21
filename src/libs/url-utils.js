@@ -20,6 +20,7 @@ const R4_QUERY_PARAMS = [
  * @param {{includeList?: String[], excludeList?: String[]}} [options]
  */
 export function setSearchParams(query, options = {}) {
+	console.log('setting search params')
 	const searchParams = new URLSearchParams(location.search)
 	const includeList = options.includeList || R4_QUERY_PARAMS
 	const excludeList = options.excludeList || ['table', 'select']
@@ -57,9 +58,12 @@ export function setSearchParams(query, options = {}) {
  */
 function removeEmptyKeys(obj) {
 	return Object.fromEntries(
-		Object.entries(obj).filter(([, value]) => {
+		Object.entries(obj).filter(([key, value]) => {
 			// if (Array.isArray(value)) return value.length
-			return !!value
+			if (!Boolean(value)) {
+				// console.log('removed empty key', key, value)
+			}
+			return Boolean(value)
 		}),
 	)
 }

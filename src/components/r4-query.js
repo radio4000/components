@@ -3,9 +3,6 @@ import debounce from 'lodash.debounce'
 import urlUtils from '../libs/url-utils.js'
 import {browse} from '../libs/browse.js'
 
-// This is not in use anywhere.
-// It is a sketch for later.
-
 /**
  * @typedef {object} R4Query
  * @prop {string} [table] - table name
@@ -26,10 +23,8 @@ import {browse} from '../libs/browse.js'
  * @prop {string} value - value
  */
 
-/**
- * Adds all the neccessary things to query the database with search, filters, ordering and pagination.
- */
-export default class R4BaseQuery extends LitElement {
+/** Adds all the neccessary things to query the database with search, filters, ordering and pagination. Builds upon <r4-supabase-query> and <r4-supabase-filter>. */
+export default class R4Query extends LitElement {
 	static properties = {
 		// pass these down
 		initialQuery: {type: Object},
@@ -52,6 +47,8 @@ export default class R4BaseQuery extends LitElement {
 
 		/** @type {R4Query} */
 		this.initialQuery = {}
+
+		/** @type {R4Query} */
 		this.query = {}
 
 		/** @type {R4Filter[]} */
@@ -62,15 +59,16 @@ export default class R4BaseQuery extends LitElement {
 	}
 
 	connectedCallback() {
+		super.connectedCallback()
 		// As soon as the DOM is ready, read the URL query params
 		this.query = {...this.initialQuery, ...urlUtils.getQueryFromUrl()}
-		super.connectedCallback()
 	}
 
 	willUpdate(changedProperties) {
 		// trigger an update if url params changed. to be watched
 		if (changedProperties.has('searchParams')) {
-			this.setQuery(urlUtils.getQueryFromUrl())
+			// console.log('has searchParams, setting query from url')
+			// this.setQuery(urlUtils.getQueryFromUrl())
 		}
 	}
 
@@ -96,6 +94,8 @@ export default class R4BaseQuery extends LitElement {
 	}
 
 	async fetchData() {
+		console.log('would fetch data', this.browseQuery)
+		return
 		const res = await browse(this.browseQuery)
 
 		// reset pagination while searching?
@@ -110,6 +110,7 @@ export default class R4BaseQuery extends LitElement {
 
 	// Shortcut when no extra logic is needed. Also updates URL params and reloads data.
 	setQuery(query) {
+		console.log('setQuery', this.query, query)
 		this.query = {...this.query, ...query}
 		urlUtils.setSearchParams(this.query)
 		this.debouncedFetchData()
@@ -121,6 +122,7 @@ export default class R4BaseQuery extends LitElement {
 	}
 
 	onSearch(event) {
+		console.log('onSearch', event.detail)
 		event.preventDefault()
 		const {search} = event.detail
 		this.setQuery({search})
@@ -128,6 +130,7 @@ export default class R4BaseQuery extends LitElement {
 
 	onFilters(event) {
 		event.preventDefault()
+		console.log('onFilters', event.detail)
 		if (event.detail) {
 			this.setQuery({filters: event.detail})
 		}

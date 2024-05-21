@@ -1,0 +1,13 @@
+r4-supabase-query
+	connectedCallback
+		setInitialValues()
+		@query(query) -> r4-query.onQuery()
+		
+r4-query
+	connectedCallback
+		this.query = initialQuery + query from URL
+	onQuery(newQuery)
+		this.query = {...this.query, ...newQuery}
+		urlUtils.setSearchParams(this.query)
+		this.debouncedFetchData()
+		

@@ -4,16 +4,14 @@ import urlUtils from '../libs/url-utils.js'
 
 const {tables, tableNames} = dbSchema
 
-const debug = false
-
-/*
-	 list-channels, default `page="1"`, `limit="1"`;
-	 its attributes are bound to the supabase sdk table (data model) query values
+/**
+ * Renders a form UI that allows you to construct a "query" object you can use to query the Supabase SDK.
+ * @fires query - any time an input is changed this fires.
  */
 export default class R4SupabaseQuery extends LitElement {
 	static properties = {
 		count: {type: Number},
-		/* supabase query parameters */
+		/* Supabase query parameters */
 		table: {type: String, reflect: true},
 		select: {type: String},
 		filters: {type: Array, reflect: true},
@@ -21,7 +19,7 @@ export default class R4SupabaseQuery extends LitElement {
 		orderConfig: {type: Object, attribute: 'order-config', reflect: true},
 		page: {type: Number, reflect: true},
 		limit: {type: Number, reflect: true},
-		/* custom parameters that map to the supabase ones */
+		/* Custom properties that map to the ones from Supabase */
 		order: {type: String, reflect: true},
 		search: {type: String, reflect: true},
 	}
@@ -40,33 +38,37 @@ export default class R4SupabaseQuery extends LitElement {
 			filters: this.filters,
 			orderBy: this.orderBy,
 			order: this.order,
-			search: this.search,
-			// orderConfig: this.orderConfig,
 			page: this.page,
 			limit: this.limit,
+			search: this.search,
 		})
+	}
+
+	constructor() {
+		super()
+		this.setInitialValues()
 	}
 
 	connectedCallback() {
 		super.connectedCallback()
-		this.setInitialValues()
-		this.onQuery()
+		this.dispatchQuery()
 	}
 
 	updated(attr) {
-		if (attr.get('table')) this.cleanQuery()
+		if (attr.get('table')) {
+			this.cleanQuery()
+		}
 		// Avoid double-fetch when count is passed back down.
 		// if (attr.get('count') === 0) return
 	}
 
 	/* set the correct component initial values, for each table's capacities */
 	setInitialValues() {
-		if (!this.table) this.table = tables[0]
-		if (!this.order) this.order = 'desc'
-		if (!this.orderConfig) this.orderConfig = {ascending: false}
-		if (!this.page) this.page = 1
-		if (!this.limit) this.limit = 10
-		if (!this.filters) this.filters = []
+		this.order = 'desc'
+		this.orderConfig = {ascending: false}
+		this.page = 1
+		this.limit = 10
+		this.filters = []
 
 		const tableData = tables[this.table]
 		this.select = this.select || tableData?.selects[0] || '*'
@@ -78,16 +80,18 @@ export default class R4SupabaseQuery extends LitElement {
 		} else {
 			this.orderBy = this.orderBy || tableData?.columns[0]
 		}
+
+		console.log('initial query values', this.query)
 	}
 
-	// Also calls onQuery
+	// Also calls dispatchQuery
 	onInput(event) {
 		event.stopPropagation()
 		event.preventDefault()
-		const {name, value, valueAsNumber, type: inputType, checked} = event.target
-
+		const {type, name, value, valueAsNumber, checked} = event.target
+		// console.log('onInput', type, name, value, valueAsNumber, checked)
 		/* handle correctly input type="number" */
-		if (inputType === 'number') {
+		if (type === 'number') {
 			this[name] = valueAsNumber
 		} else if (name === 'order') {
 			/* this is a input[checkbox] and setting, inside a nested Object */
@@ -104,10 +108,11 @@ export default class R4SupabaseQuery extends LitElement {
 		} else if (name) {
 			this[name] = value
 		}
-		this.onQuery()
+
+		this.dispatchQuery()
 	}
 
-	onQuery() {
+	dispatchQuery() {
 		this.dispatchEvent(
 			new CustomEvent('query', {
 				bubbles: true,
@@ -124,8 +129,9 @@ export default class R4SupabaseQuery extends LitElement {
 	/*
 		 "cleans" (as in "reset to correct values")
 		 the components attributes, when the table change;
-		 is triggered before invoquing "onQuery"*/
+		 is triggered before invoquing "dispatchQuery"*/
 	cleanQuery() {
+		console.log('cleanQuery')
 		this.page = 1
 		if (!this.table) {
 			// handle the case where there is no table selected; to display no result problably, or error
