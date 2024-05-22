@@ -48,12 +48,22 @@
 			<li>Fires an "input" event anytime a filter is set or updated.</li>
 		</menu>
 
+		<h2>With no attributes</h2>
+		<r4-supabase-filters></r4-supabase-filters>
+		<h2>With table=tracks</h2>
 		<r4-supabase-filters table="tracks"></r4-supabase-filters>
+		<h2>With channel_tracks and .filters predefined</h2>
+		<r4-supabase-filters table="channel_tracks"></r4-supabase-filters>
 
 		<script type="module">
 			import R4SupabaseFilters from '../../src/components/r4-supabase-filters.js'
 
 			const $examples = document.querySelectorAll('r4-supabase-filters')
+
+			$examples[2].filters = [
+				{column: 'title', operator: 'neq', value: 'Michael Jackson - Beat It'},
+				{column: 'slug', operator: 'eq', value: 'nomads'}]
+
 			$examples.forEach(($example) => {
 				$example.addEventListener('input', (event) => {
 					console.log('filter example changed', event.detail)

@@ -81,9 +81,10 @@
 				display: flex;
 				flex-flow: column nowrap;
 				background: #eee;
-				padding: 3px;
+				padding: 5px;
 				overflow: auto;
 				max-height: 90vh;
+				font-size: 14px;
 			}
 			a {
 				color: var(--c-purple);
@@ -98,7 +99,7 @@
 				&::before {
 					position: absolute;
 					left: 0rem;
-					top: 1.3em;
+					top: 1.1em;
 					content: "";
 					background: var(--c-purple);
 					border-radius: 50%;
@@ -169,7 +170,7 @@
 						<p>Got manifest ${m.schemaVersion}.</p>
 						<nav class="ElementNav">
 							<label>Show more <input type="checkbox" checked /></label>
-							${this.elements.map((el) => html`<a href="#${el.name}">${el.name}</a>`)}
+							${this.elements.map((el) => html`<a href="#${el.name}">${toKebabCase(el.name)}</a>`)}
 						</nav>
 						<main>${renderManifest(this.elements)}</main>
 						<!--

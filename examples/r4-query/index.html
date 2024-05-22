@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+		<title>r4-query</title>
+		<meta name="description" content="r4-query" />
+		<script type="module" src="/src/index.js"></script>
+		<style>
+			body r4-query {
+				display: block;
+			}
+			:root {
+				--s: 1rem;
+				--c-bg: white;
+				--c-border: gray;
+			}
+		</style>
+	</head>
+	<body>
+
+		<p>The <code>r4-query</dode> component combines <code>r4-supabase-filter-search</code>, <code>r4-supabase-filters</code> and <code>r4-supabase-query</code> elements to provide a reusable way to create infinitely complex queries with full flexibiltity for adding filters and search.</p>
+		<p>We catch events from the three child elements:</p>
+		<ul>
+			<li>search -> @input</li>
+			<li>filters -> @input</li>
+			<li>query -> @query</li>
+		</ul>
+		<p>The component does NOT render any results.</p>
+		<p>Finally, we emit a "data" event whenever new data is available.</p>
+		<hr/>
+		<details open>
+			<summary>default, no attributes</summary>
+			<r4-query></r4-query>
+		</details>
+		<script type="module">
+			const el = document.querySelector('r4-query')
+			if (el) {
+				el.initialQuery = {table: 'channel_tracks', limit: 5}
+				el.defaultFilters = [{column: 'slug', operator: 'eq', value: 'oskar'}]
+				el.fetchData()
+				el.addEventListener('data', (event) => {
+					console.log('data event caught', event.detail)
+				})
+			}
+		</script>
+	</body>
+</html>
