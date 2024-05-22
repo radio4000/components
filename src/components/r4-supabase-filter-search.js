@@ -1,11 +1,17 @@
 import {LitElement, html} from 'lit'
 import {createSearchFilter} from '../libs/url-utils.js'
 
-// Renders a search input, and fires @input event with a Supabase SDK search filter.
+/** Renders a search input
+ * @fires input - in event.details find the search value and Supabase SDK filter. */
 export default class R4SupabaseFilterSearch extends LitElement {
 	static properties = {
-		search: {type: String},
+		value: {type: String},
 		placeholder: {type: String},
+	}
+
+	constructor() {
+		super()
+		this.placeholder = 'Search'
 	}
 
 	render() {
@@ -14,12 +20,7 @@ export default class R4SupabaseFilterSearch extends LitElement {
 				<fieldset>
 					<label>
 						<legend>Search</legend>
-						<input
-							type="search"
-							placeholder=${this.placeholder || 'search'}
-							@input=${this.onInput}
-							value=${this.search}
-						/>
+						<input type="search" placeholder=${this.placeholder} value=${this.value} @input=${this.onInput} />
 					</label>
 				</fieldset>
 			</form>
@@ -29,11 +30,14 @@ export default class R4SupabaseFilterSearch extends LitElement {
 	async onInput(event) {
 		event.preventDefault()
 		event.stopPropagation()
-		this.search = event.target.value
+		this.value = event.target.value
 		this.dispatchEvent(
 			new CustomEvent('input', {
 				bubbles: false,
-				detail: {filter: createSearchFilter(this.search), search: this.search},
+				detail: {
+					filter: createSearchFilter(this.value),
+					search: this.value,
+				},
 			}),
 		)
 	}
