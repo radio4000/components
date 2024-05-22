@@ -30,12 +30,14 @@ export default class R4PageChannelTracks extends BaseChannel {
 			table: 'channel_tracks',
 			/* to fit in "one screen size, and browse by page" */
 			limit: 10,
+			orderBy: 'created_at',
+			order: 'desc'
 		}
 	}
 
 	handleData(event) {
-		const {data: tracks, count} = event.detail
-		this.tracks = tracks
+		const {data, count} = event.detail
+		this.tracks = data
 		this.count = count
 	}
 

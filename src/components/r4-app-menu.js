@@ -15,6 +15,7 @@ export default class R4AppMenu extends LitElement {
 		super()
 		// Set "path" on every navigation.
 		window?.navigation?.addEventListener('navigate', (e) => {
+			// causes a lit warning about scheduled updates
 			this.path = e.destination.url.replace(this.href, '').split('?')[0]
 		})
 	}

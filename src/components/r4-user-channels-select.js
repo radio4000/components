@@ -1,13 +1,12 @@
 import {LitElement, html} from 'lit'
-import {sdk} from '../libs/sdk.js'
 
 export default class R4UserChannelsSelect extends LitElement {
 	createRenderRoot() {
 		return this
 	}
 	static properties = {
-		channel: {type: Object || null},
-		channels: {type: Array || null},
+		channel: {type: Object},
+		channels: {type: Array},
 	}
 	onSelect(event) {
 		event.stopPropagation()

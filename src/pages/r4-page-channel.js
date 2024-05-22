@@ -6,13 +6,15 @@ import {formatDate, isFreshDate, relativeDate, relativeDateSolar} from '../libs/
 export default class R4PageChannel extends BaseChannel {
 	static properties = {
 		tracks: {type: Array, state: true},
+
 		// from base channel
-		// channel: {type: Object, state: true},
-		// channelError: {type: Object, state: true},
-		// canEdit: {type: Boolean, state: true},
-		// alreadyFollowing: {type: Boolean, state: true},
-		// followsYou: {type: Boolean, state: true},
-		// isFirebaseChannel: {type: Boolean, state: true},
+		channel: {type: Object, state: true},
+		channelError: {type: Object, state: true},
+		canEdit: {type: Boolean, state: true},
+		alreadyFollowing: {type: Boolean, state: true},
+		followsYou: {type: Boolean, state: true},
+		isFirebaseChannel: {type: Boolean, state: true},
+
 		// from router
 		params: {type: Object, state: true},
 		store: {type: Object, state: true},
@@ -22,13 +24,12 @@ export default class R4PageChannel extends BaseChannel {
 
 	constructor() {
 		super()
-		this.query = {
-			table: 'channel_tracks',
-		}
 		this.tracks = []
+		// this schedules a second update somehow, need to investigate
+		this.query = {table: 'channel_tracks', limit: 10, orderBy: 'created_at', order: 'desc'}
 	}
 
-	onData(event) {
+	handleData(event) {
 		this.tracks = event.detail.data
 	}
 
@@ -37,7 +38,7 @@ export default class R4PageChannel extends BaseChannel {
 			<r4-query
 				.defaultFilters=${[{operator: 'eq', column: 'slug', value: this.channel?.slug}]}
 				.initialQuery=${this.query}
-				@data=${this.onData}
+				@data=${this.handleData}
 			></r4-query>
 			${this.channel ? this.renderChannelShare() : null}
 		`
@@ -85,6 +86,7 @@ export default class R4PageChannel extends BaseChannel {
 			}
 		}
 	}
+
 	renderTimes() {
 		const lastTrack = this.tracks[0]
 		if (!lastTrack) return

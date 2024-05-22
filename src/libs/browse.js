@@ -64,7 +64,7 @@ export async function browse(props) {
 
 	/*
 		 add filters to the query,
-		 but first, only keep those with "known supabase oprators";
+		 but first, only keep those with "known supabase operators";
 		 Security: we don't want `supabse.sdk.select().[operator]()`,
 		 to execute "anything"the user might inject in the interface;
 		 - the "filter.value" always is a string, from the related `input`

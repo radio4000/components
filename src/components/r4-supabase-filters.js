@@ -1,6 +1,7 @@
 import {LitElement, html} from 'lit'
 import {supabaseOperators} from '../libs/browse.js'
 import dbSchema from '../libs/db-schemas.js'
+
 const {tables} = dbSchema
 
 /**
@@ -21,8 +22,16 @@ export default class R4SupabaseFilters extends LitElement {
 		filters: {type: Array, reflect: true, state: true},
 	}
 
-	// Called when any filter is added, updated or removed
+	constructor() {
+		super()
+		this.filters = []
+	}
+
+	/** Called when any filter is added, updated or removed
+	 * @param {QueryFilter[]} updatedFilters
+	 */
 	onFilters(updatedFilters) {
+		this.filters = updatedFilters
 		this.dispatchEvent(
 			new CustomEvent('input', {
 				bubbles: true,
@@ -38,16 +47,15 @@ export default class R4SupabaseFilters extends LitElement {
 
 	/* create a new filter with "sane defaults" */
 	addFilter() {
+		if (!this.table)  throw new Error('Missing "table" attribute')
+		if (!this.filters) this.filters = []
+
 		const newFilter = {
 			operator: this.filters?.at(0)?.operator || supabaseOperators[0],
 			column: this.filters?.at(0)?.column || tables[this.table].columns[0],
 			value: '',
 		}
-		if (!this.filters) this.filters = []
 		this.onFilters([...this.filters, newFilter])
-	}
-	clearFilters() {
-		this.onFilters([])
 	}
 
 	updateFilter(index, field, value) {
@@ -59,6 +67,10 @@ export default class R4SupabaseFilters extends LitElement {
 
 	removeFilter(index) {
 		this.onFilters(this.filters.filter((_, i) => i !== index))
+	}
+
+	clearFilters() {
+		this.onFilters([])
 	}
 
 	createRenderRoot() {
@@ -80,6 +92,7 @@ export default class R4SupabaseFilters extends LitElement {
 			</details>
 		`
 	}
+
 	renderClear() {
 		return html`<button @click=${this.clearFilters} ?disabled=${!this.filters?.length}>
 			Clear ${this.filters?.length}
@@ -96,7 +109,6 @@ export default class R4SupabaseFilters extends LitElement {
 	}
 
 	renderFilter(filter, index) {
-		const allFilterOptions = [...tables[this.table].columns, ...(tables[this.table]?.junctions || [])]
 		return html`
 			<fieldset>
 				<legend>${index + 1}</legend>
@@ -108,7 +120,7 @@ export default class R4SupabaseFilters extends LitElement {
 				<legend>Column</legend>
 				<select @input=${(e) => this.updateFilter(index, 'column', e.target.value)}>
 					${this.table
-						? allFilterOptions.map((column) => this.renderOption(column, {selected: column === filter.column}))
+						? [...tables[this.table].columns, ...(tables[this.table]?.junctions || [])].map((column) => this.renderOption(column, {selected: column === filter.column}))
 						: null}
 				</select>
 			</fieldset>

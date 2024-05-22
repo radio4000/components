@@ -6,7 +6,7 @@ const {tables, tableNames} = dbSchema
 
 /**
  * Renders a form UI that allows you to construct a "query" object you can use to query the Supabase SDK.
- * @fires query - any time an input is changed this fires.
+ * @fires query - fires on connect + any time an input is changed.
  */
 export default class R4SupabaseQuery extends LitElement {
 	static properties = {
@@ -18,7 +18,7 @@ export default class R4SupabaseQuery extends LitElement {
 		orderBy: {type: String, attribute: 'order-by', reflect: true},
 		orderConfig: {type: Object, attribute: 'order-config', reflect: true},
 		page: {type: Number, reflect: true},
-		limit: {type: Number, reflect: true},
+		limit: {type: Number, reflect: true}, // also known as "per p[age"
 		/* Custom properties that map to the ones from Supabase */
 		order: {type: String, reflect: true},
 		search: {type: String, reflect: true},
@@ -51,7 +51,8 @@ export default class R4SupabaseQuery extends LitElement {
 
 	connectedCallback() {
 		super.connectedCallback()
-		this.dispatchQuery()
+		// console.log('r4-supabase-query:connected->dispatching query', this.query)
+		// this.dispatchQuery()
 	}
 
 	updated(attr) {
@@ -64,15 +65,21 @@ export default class R4SupabaseQuery extends LitElement {
 
 	/* set the correct component initial values, for each table's capacities */
 	setInitialValues() {
+		// sorting
 		this.order = 'desc'
 		this.orderConfig = {ascending: false}
+		this.orderBy = 'created_at'
+
+		// pagination
 		this.page = 1
 		this.limit = 10
+
+		// filters
 		this.filters = []
 
+		// if (!this.table) console.warn('missing table')
 		const tableData = tables[this.table]
 		this.select = this.select || tableData?.selects[0] || '*'
-
 		if (tableData?.junctions) {
 			const [foreignTable, foreignColumn] = tableData.junctions[0].split('.')
 			this.orderBy = this.orderBy || foreignColumn
@@ -80,8 +87,6 @@ export default class R4SupabaseQuery extends LitElement {
 		} else {
 			this.orderBy = this.orderBy || tableData?.columns[0]
 		}
-
-		console.log('initial query values', this.query)
 	}
 
 	// Also calls dispatchQuery

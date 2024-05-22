@@ -28,49 +28,55 @@ import {browse} from '../libs/browse.js'
  */
 export default class R4Query extends LitElement {
 	static properties = {
-		// pass these down
+		// public aka pass these down
 		initialQuery: {type: Object},
+		/** The default filters are not visible to the user */
 		defaultFilters: {type: Array},
 		searchParams: {type: Object},
-		// inside we have
+		// private e.g. don't set these from the outside
 		query: {type: Object, state: true},
-		data: {type: Array, state: true},
 		count: {type: Number, state: true},
+		data: {type: Array, state: true},
 	}
 
 	constructor() {
 		super()
+
+		/** @type {R4QueryObject} */
+		this.initialQuery = {}
+
+		/** @type {R4Filter[]} */
+		this.defaultFilters = []
+
+		/** @type {R4QueryObject} */
+		this.query = {}
+
+		/** A debounced version of fetchData() */
+		this.debouncedFetchData = debounce(() => this.fetchData(), 400, {leading: false, trailing: true})
 
 		/** The amount of rows returned by fetchData */
 		this.count = 0
 
 		/** The latest data from fetchData */
 		this.data = []
-
-		/** @type {R4Query} */
-		this.initialQuery = {}
-
-		/** @type {R4Query} */
-		this.query = {}
-
-		/** @type {R4Filter[]} */
-		this.defaultFilters = []
-
-		/** A debounced version of fetchData() */
-		this.debouncedFetchData = debounce(() => this.fetchData(), 400, {leading: true, trailing: true})
 	}
 
 	connectedCallback() {
 		super.connectedCallback()
 		// As soon as the DOM is ready, read the URL query params
-		this.query = {...this.initialQuery, ...urlUtils.getQueryFromUrl()}
+		const queryFromUrl = urlUtils.getQueryFromUrl()
+		if (this.initialQuery) {
+			this.setQuery(Object.assign(this.initialQuery, queryFromUrl))
+		} else {
+			this.setQuery(queryFromUrl)
+		}
 	}
 
 	willUpdate(changedProperties) {
 		// trigger an update if url params changed. to be watched
 		if (changedProperties.has('searchParams')) {
-			// console.log('has searchParams, setting query from url')
-			// this.setQuery(urlUtils.getQueryFromUrl())
+			console.log('willUpdate has searchParams')
+			this.setQuery(urlUtils.getQueryFromUrl())
 		}
 	}
 
@@ -79,58 +85,59 @@ export default class R4Query extends LitElement {
 	 * This exists in order to apply query changes that won't appear in the UI/search params.
 	 * @returns {R4QueryObject}
 	 */
-	get browseQuery() {
-		const q = {...this.query}
+	get finalQuery() {
+		const q = {...this.initialQuery, ...this.query, ...urlUtils.getQueryFromUrl()}
+
 		// Apply default filters if there are some.
 		if (q.filters?.length) {
 			q.filters = [...q.filters, ...this.defaultFilters]
 		} else {
 			q.filters = this.defaultFilters
 		}
-		// Apply search filter if there is a search query.
+
+		// Translate any search query into a proper "search filter" syntax"
 		if (this.query.search) {
 			if (!q.filters) q.filters = []
 			q.filters = [...q.filters, urlUtils.createSearchFilter(this.query.search)]
 		}
+
 		return q
 	}
 
 	async fetchData() {
-		console.log('would fetch data', this.browseQuery)
-		return
-		const res = await browse(this.browseQuery)
-
+		console.log('fetchData', this.finalQuery)
+		const res = await browse(this.finalQuery)
 		// reset pagination while searching?
 		if (res.error?.code === 'PGRST103') {
 			this.setQuery({page: 1, limit: 10})
 		}
-
 		this.count = res.count
 		this.data = res.data
 		this.dispatchEvent(new CustomEvent('data', {detail: res}))
 	}
 
 	/**
-	 * Shortcut when no extra logic is needed. Also updates URL params and reloads data.
+	 * Sets the query, updates the URL params and fetches data.
 	 * @param {R4QueryObject} query
 	 */
 	setQuery(query) {
-		console.log('setQuery', this.query, query)
+		console.log('setQuery', query, {previousQuery: this.query})
 		this.query = {...this.query, ...query}
-		urlUtils.setSearchParams(this.query)
 		this.debouncedFetchData()
+		// Triggers a second update warning?
+		urlUtils.setSearchParams(this.query)
 	}
 
 	onQuery(event) {
 		event.preventDefault()
+		console.log('onQuery', event.detail)
 		this.setQuery(event.detail)
 	}
 
 	onSearch(event) {
-		console.log('onSearch', event.detail)
 		event.preventDefault()
-		const {search} = event.detail
-		this.setQuery({search})
+		console.log('onSearch', event.detail)
+		this.setQuery({search: event.detail.search})
 	}
 
 	onFilters(event) {
@@ -142,33 +149,37 @@ export default class R4Query extends LitElement {
 	}
 
 	render() {
-		return html`${this.renderControls()}`
-	}
-
-	renderControls() {
-		const filtersLen = this.query?.filters?.length
+		// return html`<pre>
+  //   initial query: ${JSON.stringify(this.initialQuery)}
+  //   default filters: ${JSON.stringify(this.defaultFilters)}
+  //   query: ${JSON.stringify(this.query)}
+  //   final query: ${JSON.stringify(this.finalQuery)}
+  //   </pre
+		// 	>`
 		return html`
 			<r4-supabase-filter-search
-				search=${this.query?.search}
+				value=${this.finalQuery?.search}
 				placeholder=${this.count + ' rows'}
 				@input=${this.onSearch}
 			></r4-supabase-filter-search>
-			<r4-supabase-query
-				table=${this.query?.table}
-				.filters=${this.query?.filters}
-				order-by=${this.query?.orderBy}
-				order=${this.query?.order}
-				search=${this.query?.search}
-				page=${this.query?.page}
-				limit=${this.query?.limit}
-				count=${this.count}
-				@query=${this.onQuery}
-			></r4-supabase-query>
+
 			<r4-supabase-filters
-				table=${this.query.table}
+				table=${this.finalQuery.table}
 				.filters=${this.query.filters}
 				@input=${this.onFilters}
 			></r4-supabase-filters>
+
+			<r4-supabase-query
+				table=${this.finalQuery.table}
+				order-by=${this.finalQuery.orderBy}
+				order=${this.finalQuery.order}
+				search=${this.finalQuery.search}
+				page=${this.finalQuery.page}
+				limit=${this.finalQuery.limit}
+				count=${this.count}
+				.filters=${this.query.filters}
+				@query=${this.onQuery}
+			></r4-supabase-query>
 		`
 	}
 

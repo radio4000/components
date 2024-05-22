@@ -10,8 +10,8 @@ export default class R4AppUserMenu extends LitElement {
 	static properties = {
 		/* props */
 		href: {type: String},
-		channel: {type: Object || null},
-		channels: {type: Array || null},
+		channel: {type: Object},
+		channels: {type: Array},
 
 		/* state */
 		path: {type: String, state: true},
@@ -19,6 +19,7 @@ export default class R4AppUserMenu extends LitElement {
 	constructor() {
 		super()
 		window?.navigation?.addEventListener('navigate', (e) => {
+			// causes a lit warning about scheduled updates
 			this.path = e.destination.url.replace(this.href, '').split('?')[0]
 		})
 	}

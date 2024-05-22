@@ -27,6 +27,7 @@ export default class BaseChannel extends R4Page {
 
 		// Set "path" active navigation. Maybe this should be on the router?
 		window?.navigation?.addEventListener('navigate', (e) => {
+			// causes a lit warning about scheduled updates
 			this.path = e.destination.url.split('?')[0]
 		})
 		if (!this.path) this.path = window.location.href

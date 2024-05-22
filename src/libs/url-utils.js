@@ -20,7 +20,7 @@ const R4_QUERY_PARAMS = [
  * @param {{includeList?: String[], excludeList?: String[]}} [options]
  */
 export function setSearchParams(query, options = {}) {
-	console.log('setting search params')
+	console.log('setSearchParams')
 	const searchParams = new URLSearchParams(location.search)
 	const includeList = options.includeList || R4_QUERY_PARAMS
 	const excludeList = options.excludeList || ['table', 'select']
@@ -48,6 +48,7 @@ export function setSearchParams(query, options = {}) {
 	}
 	const searchParamsString = `?${searchParams.toString()}`
 	const search = decodeURIComponent(searchParamsString)
+	if (search === '?') return // if empty, no need to set
 	window.history.replaceState(null, null, search)
 }
 
@@ -79,8 +80,8 @@ export function getQueryFromUrl(searchParams) {
 		search: searchParams.get('search'),
 		orderBy: searchParams.get('orderBy'),
 		order: searchParams.get('order'),
-		page: searchParams.get('page'),
-		limit: searchParams.get('limit'),
+		page: Number(searchParams.get('page')),
+		limit: Number(searchParams.get('limit')),
 		// Either as ?filter={}&filter={}
 		// filters: searchParams.getAll('filter').map(x => JSON.parse(x)),
 		// ... or filters=[{}, {}]
