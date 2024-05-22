@@ -17,7 +17,9 @@ const {tables} = dbSchema
  */
 export default class R4SupabaseFilters extends LitElement {
 	static properties = {
-		// Name of the SQL table to filter
+		// Whether the <details> is open or not
+		open: {type: Boolean},
+		// Name of the SQL table to filter (required)
 		table: {type: String, reflect: true},
 		filters: {type: Array, reflect: true, state: true},
 	}
@@ -79,7 +81,7 @@ export default class R4SupabaseFilters extends LitElement {
 
 	render() {
 		return html`
-			<details>
+			<details ?open=${this.open}>
 				<summary>Filters ${this.filters?.length ? this.renderClear() : null}</summary>
 				<form @submit=${this.onFormSubmit}>
 					${this.filters?.length ? this.renderFilters() : null}

@@ -3,9 +3,12 @@
 	- required defaults to make the work (though it should without CSS)
 */
 
-/* so on mobile it does not refresh the page */
 html {
+	/* so on mobile it does not refresh the page */
 	overscroll-behavior: none;
+
+	/* --c-bg: white; */
+	/* --c-border: black; */
 }
 
 /* these changes are "user personalisation" for color themes */
