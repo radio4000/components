@@ -80,15 +80,15 @@ export default class R4TrackCreate extends R4Form {
 			if (!this.state.title) {
 				const {title} = await fetchOEmbed(value)
 				if (title) {
-					/* cannot this.setAttribute('title') from here */
+					this.state = {...this.state, title}
 					const $trackTitle = this.querySelector('[name="title"]')
 					$trackTitle.value = title
-					$trackTitle.dispatchEvent(new Event('input')) // trigger value change
 				}
 			}
 		}
 		if (name === 'title' && value) {
 			const search = buildSearchUrl(value)
+			console.log('search url', search)
 		}
 		if (name === 'discogs_url') {
 			const $discogs = this.querySelector('r4-discogs-resource')

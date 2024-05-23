@@ -20,14 +20,21 @@ const buildApiUrl = ({type, id}) => {
 	return new URL(`${type}s/${id}`, `https://${DISCOGS_API_URL}`).href
 }
 
-/* parses a discogs release URL */
+/* parses a discogs release URL;
+	 Ex:
+	 - https://www.discogs.com/release/13304754-%EB%B0%95%ED%98%9C%EC%A7%84-Park-Hye-Jin-If-U-Want-It (new)
+	 - https://www.discogs.com/Diego-The-Persuasion-Channel/release/17335 (legacy)
+ */
 export const parseUrl = (url) => {
 	const discogsUrl = new URL(url)
 	if (discogsUrl.hostname.endsWith(DISCOGS_URL)) {
 		const pathes = discogsUrl.pathname.slice(1).split('/')
-		const type = pathes[0]
-		const id = pathes[1].split('-')[0]
-		if (DiscogsResourceTypes.includes(type)) {
+		const type = [pathes[0], pathes[1]].find((typeInPath) => {
+			return DiscogsResourceTypes.includes(typeInPath)
+		})
+		if (type) {
+			const typeInPathIndex = pathes.indexOf(type)
+			const id = pathes.slice(typeInPathIndex + 1)[0].split('-')[0]
 			return {id, type}
 		}
 	}
