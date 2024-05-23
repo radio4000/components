@@ -61,7 +61,11 @@ export default class R4DiscogsResource extends HTMLElement {
 	async fetchResource(url) {
 		const discogsInfo = parseDiscogsUrl(url)
 		if (discogsInfo.id && discogsInfo.type) {
-			return fetchDiscogs(discogsInfo)
+			try {
+				return fetchDiscogs(discogsInfo)
+			} catch (e) {
+				console.error('Erorr fetching discogs', e)
+			}
 		}
 	}
 	render(resource, full = this.full, suggestions = this.suggestions) {
