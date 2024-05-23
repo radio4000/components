@@ -52,7 +52,7 @@ export default class R4Query extends LitElement {
 		this.query = {}
 
 		/** A debounced version of fetchData() */
-		this.debouncedFetchData = debounce(() => this.fetchData(), 400, {leading: false, trailing: true})
+		this.debouncedFetchData = debounce(() => this.fetchData(), 400, {leading: true, trailing: true})
 
 		/** The amount of rows returned by fetchData */
 		this.count = 0
@@ -63,20 +63,25 @@ export default class R4Query extends LitElement {
 
 	connectedCallback() {
 		super.connectedCallback()
-		// As soon as the DOM is ready, read the URL query params
 		const queryFromUrl = urlUtils.getQueryFromUrl()
-		if (this.initialQuery) {
-			this.setQuery(Object.assign(this.initialQuery, queryFromUrl))
-		} else {
-			this.setQuery(queryFromUrl)
-		}
+		const hasUrlQuery = Boolean(Object.keys(queryFromUrl).length)
+		// console.log('connected fetched', this.initialQuery, {hasUrlQuery})
+		// if (this.initialQuery && !hasUrlQuery) {
+		this.setQuery(this.initialQuery)
+		// }
 	}
 
 	willUpdate(changedProperties) {
-		// trigger an update if url params changed. to be watched
+		/* If the search params changed, as they do when you navigate, we want to update the query object with the new values. However, this also triggers on first load, causing an uneccesary fetchData call. */
 		if (changedProperties.has('searchParams')) {
-			// console.log('willUpdate has searchParams')
-			this.setQuery(urlUtils.getQueryFromUrl())
+			const urlQuery = urlUtils.getQueryFromUrl()
+			const a = JSON.stringify(this.query)
+			const b = JSON.stringify(urlQuery)
+			// console.log('willUpdate', a, b)
+			if (a !== b) {
+				// console.log('willUpdate search params triggered query update')
+				this.setQuery(urlQuery)
+			}
 		}
 	}
 
