@@ -103,7 +103,7 @@ export default class R4Track extends LitElement {
 					id=${this.track.id}
 					url=${this.track.url}
 					title=${this.track.title}
-					discogsUrl=${this.track.discogsUrl}
+					discogs_url=${this.track.discogs_url}
 					description=${this.track.description}
 					@submit=${this.onUpdate}
 				></r4-track-update>

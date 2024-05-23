@@ -38,7 +38,7 @@ const addTagsToDescription = (description = '', tags = []) => {
 
 export default class R4TrackCreate extends R4Form {
 	static get observedAttributes() {
-		return ['channel-id', 'url', 'title']
+		return ['channel_id', 'url', 'title']
 	}
 
 	submitText = 'Add track'
