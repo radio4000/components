@@ -33,7 +33,6 @@ export const getOEmbedUrl = (urlAddress) => {
 
 export const fetchOEmbed = (mediaProviderUrl) => {
 	const oEmbedUrl = getOEmbedUrl(mediaProviderUrl)
-	console.log('oEmbedUrl', oEmbedUrl)
 	if (oEmbedUrl) {
 		const data = fetch(oEmbedUrl).then((res) => res.json())
 		return data

@@ -1,5 +1,7 @@
 import {sdk} from '../libs/sdk.js'
 import {fetchOEmbed} from '../libs/oembed.js'
+import {mediaUrlParser} from 'media-url-parser'
+import {parseUrl as parseDiscogsUrl, buildSearchUrl} from '../libs/discogs.js'
 import R4Form from './r4-form.js'
 
 const fieldsTemplate = document.createElement('template')
@@ -22,15 +24,21 @@ fieldsTemplate.innerHTML = `
 			<textarea name="description" placeholder="Fantastic track #fantastic"></textarea>
 		</fieldset>
 		<fieldset>
-			<label for="discogsUrl" title="Add the Discogs release URL related to the track. Eg: https://www.discogs.com/Jennifer-Lara-I-Am-In-Love/master/541751">Discogs URL</label>
-			<input name="discogsUrl" type="url" placeholder="URL to a Discogs release" />
+			<label for="discogs_url" title="Add the Discogs release URL related to the track. Eg: https://www.discogs.com/Jennifer-Lara-I-Am-In-Love/master/541751">Discogs URL</label>
+			<input name="discogs_url" type="url" placeholder="URL to a Discogs release" />
+			<r4-discogs-resource url=""></r4-discogs-resource>
 		</fieldset>
 	</slot>
 `
 
+const addTagsToDescription = (description = '', tags = []) => {
+	const tagsText = tags.map((tag) => `#${tag}`).join(' ')
+	return [description, tagsText].join(' ').trim()
+}
+
 export default class R4TrackCreate extends R4Form {
 	static get observedAttributes() {
-		return ['channel-id', 'url', 'title']
+		return ['channel_id', 'url', 'title']
 	}
 
 	submitText = 'Add track'
@@ -72,15 +80,28 @@ export default class R4TrackCreate extends R4Form {
 			if (!this.state.title) {
 				const {title} = await fetchOEmbed(value)
 				if (title) {
-					/* cannot this.setAttribute('title') from here */
+					this.state = {...this.state, title}
 					const $trackTitle = this.querySelector('[name="title"]')
 					$trackTitle.value = title
-					$trackTitle.dispatchEvent(new Event('input')) // trigger value change
 				}
 			}
 		}
-
-		if (name === 'discogsUrl' && value) {
+		if (name === 'title' && value) {
+			const search = buildSearchUrl(value)
+			console.log('search url', search)
+		}
+		if (name === 'discogs_url') {
+			const $discogs = this.querySelector('r4-discogs-resource')
+			if (value) {
+				const discogsInfo = parseDiscogsUrl(value)
+				if (discogsInfo.id && discogsInfo.type) {
+					$discogs.setAttribute('url', value)
+					$discogs.setAttribute('suggestions', 'true')
+					$discogs.addEventListener('suggestion', this.handleDiscogsSuggestion.bind(this))
+				}
+			} else {
+				$discogs.removeAttribute('url')
+			}
 		}
 	}
 
@@ -90,12 +111,16 @@ export default class R4TrackCreate extends R4Form {
 		this.disableForm()
 		let res = {}
 		let error = null
+		const {channel_id, url, title, description, discogs_url, discogs_tags} = this.state
+
+		const fullDesc = addTagsToDescription(description, discogs_tags)
+
 		try {
-			res = await sdk.tracks.createTrack(this.state.channel_id, {
-				url: this.state.url,
-				title: this.state.title,
-				description: this.state.description,
-				discogs_url: this.state.discogsUrl,
+			res = await sdk.tracks.createTrack(channel_id, {
+				url,
+				title,
+				discogs_url,
+				description: fullDesc,
 			})
 			if (res.error) {
 				error = res
@@ -114,5 +139,11 @@ export default class R4TrackCreate extends R4Form {
 			error,
 			data,
 		})
+	}
+	handleDiscogsSuggestion(event) {
+		this.state = {
+			...this.state,
+			discogs_tags: event.detail,
+		}
 	}
 }

@@ -1,35 +1,31 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width">
-	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+		<title>r4-track-create</title>
+		<meta name="description" content="r4-track-create" />
 
-	<title>r4-track-create</title>
-	<meta name="description" content="r4-track-create">
+		<script type="module" src="/src/index.js"></script>
+	</head>
 
-	<script type="module" src="/src/index.js"></script>
-</head>
+	<body>
+		<menu>
+			<li>Select the <a href="../r4-user-channels-select/">channel</a> to which you want to add a track</li>
+			<li>
+				Add the <a href="?url=https://www.youtube.com/watch?v=f7xB2fFk1tQ">URL</a> of the track you would like to add
+			</li>
+		</menu>
 
-<body>
-	<menu>
-		<li>
-			Select the <a href="../r4-user-channels-select">channel</a> to which you want to add a track
-		</li>
-		<li>
-			Add the <a href="?url=https://www.youtube.com/watch?v=f7xB2fFk1tQ">URL</a> of the track you would like to add
-		</li>
-	</menu>
+		<r4-track-create></r4-track-create>
 
-	<r4-track-create></r4-track-create>
-
-	<script>
-		function handleSubmit({detail}) {
-			console.log('Create did submit', detail)
-		}
-		document.querySelector('r4-track-create').addEventListener('submit', handleSubmit)
-	</script>
-</body>
-
+		<script>
+			function handleSubmit({detail}) {
+				console.log('Create did submit', detail)
+			}
+			document.querySelector('r4-track-create').addEventListener('submit', handleSubmit)
+		</script>
+	</body>
 </html>

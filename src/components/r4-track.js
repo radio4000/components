@@ -90,14 +90,15 @@ export default class R4Track extends LitElement {
 		}
 
 		return html`
-			<r4-button-play .channel=${this.channel} .track=${this.track}></r4-button-play>
+			<r4-button-play .channel=${this.channel} .track=${this.track} ?disabled=${!this.track.url}></r4-button-play>
 			<r4-track-body>
 				<r4-track-title>${this.renderTitle()}</r4-track-title>
 				${this.track.description ? this.renderDescription() : null}
 			</r4-track-body>
 			${this.track.discogs_url ? this.renderDiscogsUrl() : null}
 			${this.track?.DISABLEDtags?.length ? this.renderTags() : null}
-			${this.track?.DISABLEDmentions?.length ? this.renderMentions() : null} ${this.renderMenu()}
+			${this.track?.DISABLEDmentions?.length ? this.renderMentions() : null}
+      ${this.renderMenu()}
 			${this.menuOpen
 				? html`
 						<r4-dialog name="update">
@@ -106,25 +107,30 @@ export default class R4Track extends LitElement {
 								id=${this.track.id}
 								url=${this.track.url}
 								title=${this.track.title}
-								discogsUrl=${this.track.discogsUrl}
+								discogs_url=${this.track.discogs_url}
 								description=${this.track.description}
 								@submit=${this.onUpdate}
 							></r4-track-update>
 						</r4-dialog>
 						<r4-dialog name="delete">
-							<r4-track-delete id=${this.track.id} @submit=${this.onDelete}></r4-track-delete>
+							<r4-track-delete slot="dialog" id=${this.track.id} @submit=${this.onDelete}></r4-track-delete>
 						</r4-dialog>
 						<r4-dialog name="share">
-							<r4-share
-								slot="dialog"
-								origin=${this.origin}
-								track-id=${this.track.id}
-								media-url=${this.track.url}
-							></r4-share>
+							${this.renderShare()}
 						</r4-dialog>
 					`
 				: null}
 		`
+	}
+	renderShare() {
+		if (this.track.url) {
+			return html`<r4-share-track
+				slot="dialog"
+				href=${this.href}
+				origin=${this.origin}
+				.track=${this.track}
+			></r4-share-track>`
+		}
 	}
 
 	renderTitle() {
