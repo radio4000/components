@@ -487,7 +487,6 @@ r4-list-item {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	margin-bottom: calc(var(--s) / 3);
 }
 r4-list-item r4-track {
 	flex: 1;
