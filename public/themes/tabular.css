@@ -236,7 +236,7 @@ r4-supabase-modifiers select[name="orderBy"] {
 	width: 5em;
 }
 r4-supabase-modifiers input[name="limit"] {
-	width: 3.2em;
+	width: 4.3em;
 }
 r4-supabase-filters,
 fieldset[name="page"] {
