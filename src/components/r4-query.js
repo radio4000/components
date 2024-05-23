@@ -1,5 +1,6 @@
 import {LitElement, html} from 'lit'
 import debounce from 'lodash.debounce'
+import isEqual from 'lodash.isequal'
 import urlUtils from '../libs/url-utils.js'
 import {browse} from '../libs/browse.js'
 
@@ -68,9 +69,9 @@ export default class R4BaseQuery extends LitElement {
 	}
 
 	willUpdate(changedProperties) {
-		// trigger an update if url params changed. to be watched
 		if (changedProperties.has('searchParams')) {
-			this.setQuery(urlUtils.getQueryFromUrl())
+			const urlQuery = urlUtils.getQueryFromUrl()
+			this.setQuery(urlQuery)
 		}
 	}
 
@@ -97,22 +98,33 @@ export default class R4BaseQuery extends LitElement {
 		return q
 	}
 
+	/** Fetches whatever this.browseQuery defines. It will skip fetching if the query has not changed. */
 	async fetchData() {
+		// skip double-update if we already fetched this query
+		const sameQuery = isEqual(this.browseQuery, this._fetchDataPreviousQuery)
+		if (sameQuery) return
+
+		// actually fetch
 		const res = await browse(this.browseQuery)
+		this._fetchDataPreviousQuery = this.browseQuery
 
 		// reset pagination while searching?
 		if (res.error?.code === 'PGRST103') {
 			this.setQuery({page: 1, limit: 10})
 		}
 
+		// update state
 		this.count = res.count
 		this.data = res.data
+
+		// let people know
 		this.dispatchEvent(new CustomEvent('data', {detail: res}))
 	}
 
-	// Shortcut when no extra logic is needed. Also updates URL params and reloads data.
-	setQuery(query) {
-		this.query = {...this.query, ...query}
+	/** Shortcut when no extra logic is needed. Also updates URL params and reloads data.
+	 	@param {R4Query} query */
+	setQuery(query = {}) {
+		this.query = {...this.query, ...urlUtils.getQueryFromUrl(), ...query}
 		this.debouncedFetchData()
 		urlUtils.setSearchParams(this.query)
 	}
