@@ -60,7 +60,8 @@ r4-app {
 
 r4-app[color-scheme='os'],
 r4-app[color-scheme='light'] {
-	--c-border: whitesmoke;
+	/* --c-border: whitesmoke; */
+	--c-border: hsl(40, 6%, 85%);
 	--c-fg: hsl(40, 6%, 5%);
 	--c-fg2: color-mix(in oklch, var(--c-fg) 100%, white 50%);
 	--c-bg: hsl(40, 6%, 90%);
@@ -464,7 +465,7 @@ r4-dialog {
 	display: flex;
 	justify-content: center;
 	& form {
-		max-width: var(--s-form);
+		width: var(--s-form);
 		padding: calc(var(--s) / 2);
 		border-radius: var(--s-radius);
 		& fieldset {
