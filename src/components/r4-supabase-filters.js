@@ -68,7 +68,7 @@ export default class R4SupabaseFilters extends LitElement {
 	render() {
 		return html`
 			<details>
-				<summary>Filters ${this.filters?.length ? this.renderClear() : null}</summary>
+				<summary>Filter ${this.filters?.length ? this.renderClear() : null}</summary>
 				<form @submit=${this.onFormSubmit}>
 					${this.filters?.length ? this.renderFilters() : null}
 					<fieldset>

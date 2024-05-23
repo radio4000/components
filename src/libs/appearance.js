@@ -3,6 +3,7 @@ export const THEMES = [
 	'classic',
 	'jellybeans',
 	'minimal',
+	'tabular',
 	'hash'
 ]
 

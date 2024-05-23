@@ -8,6 +8,13 @@ html {
 	overscroll-behavior: none;
 }
 
+r4-app,
+r4-app *,
+r4-app *::before,
+r4-app *::after {
+	box-sizing: border-box;
+}
+
 /* these changes are "user personalisation" for color themes */
 r4-app {
 	--s: 0.5rem;
@@ -41,10 +48,6 @@ r4-app {
 }
 
 /* Defaults */
-r4-app,
-r4-app * {
-	box-sizing: border-box;
-}
 r4-app ul,
 r4-app ol {
 	margin: 0;
@@ -121,6 +124,7 @@ r4-app textarea {
 r4-app fieldset {
 	border: none;
 	padding: 0;
+	margin: 0;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -463,10 +467,14 @@ r4-app radio4000-player .Tracklist-controls .Btn--locateTrack {
 /* button + title + actions */
 r4-track {
 	display: grid;
-	grid-template-columns: auto 1fr auto auto;
+	grid-template-columns: auto minmax(0, 1fr) auto auto;
 	gap: 0 calc(var(--s) / 2);
 	align-items: center;
 }
+r4-track:has(r4-track-discogs-url) {
+	grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+}
+
 r4-avatar {
 	display: inline-flex;
 	max-width: calc(var(--s) * 5);
@@ -487,9 +495,13 @@ r4-list-item {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	/* Improves performance by allowing the browser to "lazy render" if possible */
+	/* content-visibility: auto; */
+	/* contain-intrinsic-size: 1px 2rem; */
 }
 r4-list-item r4-track {
 	flex: 1;
+	/* contain: content; */
 }
 
 r4-avatar-update,
@@ -567,6 +579,9 @@ r4-dialog::part(dialog)::backdrop {
 r4-app dialog[inline] {
 	position: relative;
 	margin: var(--s);
+}
+r4-track-description {
+	word-break: break-word;
 }
 
 /* Hashtags and mentions */
@@ -729,6 +744,7 @@ r4-supabase-filters {
 		border-radius: 0.3rem;
 		z-index: 1;
 		transform: translate(-20%, -20%);
+		white-space: nowrap;
 	}
 }
 
@@ -743,12 +759,3 @@ h-captcha {
 	}
 }
 
-r4-list-item {
-	/* Improves performance by allowing the browser to "lazy render" if possible */
-	/* content-visibility: auto; */
-	/* contain-intrinsic-size: 1px 2rem; */
-}
-
-r4-track {
-	/* contain: content; */
-}
