@@ -15,6 +15,8 @@ export default class R4Track extends LitElement {
 		playing: {type: Boolean, reflect: true},
 		canEdit: {type: Boolean},
 		link: {type: Boolean},
+		/* Used to conditionally render the dialogs only when the menu is open. The value syncs with the menu. Do not set it. */
+		menuOpen: {type: Boolean, state: true},
 	}
 
 	constructor() {
@@ -95,25 +97,31 @@ export default class R4Track extends LitElement {
 			</r4-track-body>
 			${this.track.discogs_url ? this.renderDiscogsUrl() : null}
 			${this.track?.DISABLEDtags?.length ? this.renderTags() : null}
-			${this.track?.DISABLEDmentions?.length ? this.renderMentions() : null} ${this.renderMenu()}
+			${this.track?.DISABLEDmentions?.length ? this.renderMentions() : null}
+			${this.renderMenu()}
 
-			<r4-dialog name="update">
-				<r4-track-update
-					slot="dialog"
-					id=${this.track.id}
-					url=${this.track.url}
-					title=${this.track.title}
-					discogs_url=${this.track.discogs_url}
-					description=${this.track.description}
-					@submit=${this.onUpdate}
-				></r4-track-update>
-			</r4-dialog>
-			<r4-dialog name="delete">
-				<r4-track-delete slot="dialog" id=${this.track.id} @submit=${this.onDelete}></r4-track-delete>
-			</r4-dialog>
-			<r4-dialog name="share"> ${this.renderShare()} </r4-dialog>
+			${this.menuOpen
+				? html`
+					<r4-dialog name="update">
+						<r4-track-update
+							slot="dialog"
+							id=${this.track.id}
+							url=${this.track.url}
+							title=${this.track.title}
+							discogs_url=${this.track.discogs_url}
+							description=${this.track.description}
+							@submit=${this.onUpdate}
+						></r4-track-update>
+					</r4-dialog>
+					<r4-dialog name="delete">
+						<r4-track-delete slot="dialog" id=${this.track.id} @submit=${this.onDelete}></r4-track-delete>
+					</r4-dialog>
+					<r4-dialog name="share"> ${this.renderShare()} </r4-dialog>
+					`
+				: null}
 		`
 	}
+
 	renderShare() {
 		if (this.track.url) {
 			return html`<r4-share-track
@@ -165,10 +173,14 @@ export default class R4Track extends LitElement {
 		return html`<li><a href="${url}" label>${slug}</a></li>`
 	}
 
+	onMenuToggle(event) {
+		this.menuOpen = event.target.open
+	}
+
 	renderMenu() {
 		return html`
 			<r4-actions>
-				<details>
+				<details @toggle=${this.onMenuToggle}>
 					<summary>
 						<svg aria-viewBox="0 0 16 16" width="16" height="16" fill="currentColor">
 							<path
