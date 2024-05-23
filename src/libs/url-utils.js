@@ -75,8 +75,8 @@ export function getQueryFromUrl(searchParams) {
 		search: searchParams.get('search'),
 		orderBy: searchParams.get('orderBy'),
 		order: searchParams.get('order'),
-		page: searchParams.get('page'),
-		limit: searchParams.get('limit'),
+		page: Number(searchParams.get('page')),
+		limit: Number(searchParams.get('limit')),
 		// Either as ?filter={}&filter={}
 		// filters: searchParams.getAll('filter').map(x => JSON.parse(x)),
 		// ... or filters=[{}, {}]

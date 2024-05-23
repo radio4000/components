@@ -29,7 +29,9 @@ export default class R4PageChannelTracks extends BaseChannel {
 		this.query = {
 			table: 'channel_tracks',
 			/* to fit in "one screen size, and browse by page" */
-			limit: 10,
+			limit: 50,
+			orderBy: 'created_at',
+			order: 'desc'
 		}
 	}
 

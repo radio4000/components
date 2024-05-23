@@ -57,14 +57,14 @@ export default class R4BaseQuery extends LitElement {
 		/** @type {R4Filter[]} */
 		this.defaultFilters = []
 
-		/** A debounced version of fetchData() */
+		/** A debounced version */
 		this.debouncedFetchData = debounce(() => this.fetchData(), 400, {leading: true, trailing: true})
 	}
 
 	connectedCallback() {
+		super.connectedCallback()
 		// As soon as the DOM is ready, read the URL query params
 		this.query = {...this.initialQuery, ...urlUtils.getQueryFromUrl()}
-		super.connectedCallback()
 	}
 
 	willUpdate(changedProperties) {
@@ -81,6 +81,8 @@ export default class R4BaseQuery extends LitElement {
 	 */
 	get browseQuery() {
 		const q = {...this.query}
+		// const q = {...this.initialQuery, ...this.query, ...urlUtils.getQueryFromUrl()}
+
 		// Apply default filters if there are some.
 		if (q.filters?.length) {
 			q.filters = [...q.filters, ...this.defaultFilters]
@@ -111,8 +113,8 @@ export default class R4BaseQuery extends LitElement {
 	// Shortcut when no extra logic is needed. Also updates URL params and reloads data.
 	setQuery(query) {
 		this.query = {...this.query, ...query}
-		urlUtils.setSearchParams(this.query)
 		this.debouncedFetchData()
+		urlUtils.setSearchParams(this.query)
 	}
 
 	onQuery(event) {
