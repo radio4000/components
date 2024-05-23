@@ -105,8 +105,10 @@ export default class R4DiscogsResource extends HTMLElement {
 	buildCard(resource) {
 		return this.buildTitle(resource)
 	}
-	buildTitle({title, artists_sort}) {
-		return `${artists_sort} — ${title}`
+	buildTitle(resource) {
+		const {title, artists_sort, artists} = resource
+		console.log('resource', resource)
+		return `${artists_sort || artists.map((a) => a.name).join(',')} — ${title}`
 	}
 	buildFull(resource) {
 		const anchor = document.createElement('a')
