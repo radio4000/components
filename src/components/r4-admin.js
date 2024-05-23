@@ -12,6 +12,7 @@ export default class R4Admin extends LitElement {
 		supabaseUrl: {type: String},
 		supabaseServiceRoleKey: {type: String},
 		result: {type: Object},
+		showAllUsers: {type: Boolean},
 	}
 
 	async connectedCallback() {
@@ -104,10 +105,12 @@ export default class R4Admin extends LitElement {
 		if (!url) return html`Missing supabase url`
 		if (!key) return html`Missing supabase service role key`
 		if (!this.result) return html`<r4-loading><r4-loading>`
+		const users = this.showAllUsers ? this.result.users : this.result.users.filter((u) => u.channels?.length)
 		return html`
 			<h2>${this.result.users?.length || 0} users</h2>
+			<p><label>Show users without channels <input type="checkbox" @change=${(e) => {this.showAllUsers = !this.showAllUsers}} /></label></p>
 			<ul>
-				${this.result.users?.map(
+				${users?.map(
 					(user) => html`
 						<li>
 							${this.isPotentiallySpam(user) ? html`🍅` : null} ${user.email}
