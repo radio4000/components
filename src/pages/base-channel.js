@@ -145,7 +145,7 @@ export default class BaseChannel extends R4Page {
 		return html`<p>404. There is no channel here. Want to <a href="${this.config.href}/new">create one?</a></p>`
 	}
 
-	/** @arg {string} path */
+	/** @param {string} path */
 	isCurrent(path) {
 		return this.path === path ? 'page' : nothing
 	}
@@ -240,9 +240,9 @@ export default class BaseChannel extends R4Page {
 		const name = target.getAttribute('name')
 		if (name === 'track') {
 			if (this.config.singleChannel) {
-				page('/track')
+				window.page('/track')
 			} else {
-				page(`/${this.params.slug}/tracks`)
+				window.page(`/${this.params.slug}/tracks`)
 			}
 		}
 	}

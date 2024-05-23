@@ -9,7 +9,9 @@
     ".": "./dist/r4.js",
     "./style": "./dist/style.css"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier src --write",
@@ -34,9 +36,12 @@
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.10.2",
-    "eslint": "^9.2.0",
+    "@eslint/js": "^9.3.0",
+    "eslint": "^9.3.0",
+    "eslint-plugin-jsdoc": "^48.2.5",
     "eslint-plugin-lit": "^1.13.0",
     "eslint-plugin-wc": "^2.1.0",
+    "globals": "^15.2.0",
     "lit-analyzer": "^2.0.3",
     "prettier": "^3.2.5",
     "recursive-readdir": "^2.2.3",

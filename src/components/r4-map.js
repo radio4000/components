@@ -104,7 +104,7 @@ export default class R4Map extends LitElement {
 
 		/**
 		 * Add a click handler to hide the popup.
-		 * @return {boolean} Don't follow the href.
+		 * @returns {boolean} Don't follow the href.
 		 */
 		popupButton.onclick = () => {
 			this.overlay.setPosition(undefined)
