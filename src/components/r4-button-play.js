@@ -13,6 +13,8 @@ export default class R4ButtonPlay extends LitElement {
 	static properties = {
 		label: {type: String},
 
+		/* disable if no url to play */
+		disabled: {type: Boolean},
 		/* a channel's slug */
 		slug: {type: String, reflect: true},
 		/* a track object */
@@ -51,7 +53,7 @@ export default class R4ButtonPlay extends LitElement {
 	}
 
 	render() {
-		return html`<button @click=${this.play} ?disabled=${this.playing}>
+		return html`<button @click=${this.play} ?disabled=${this.playing || this.disabled}>
 			<r4-icon name="play"></r4-icon>${this.label}
 		</button>`
 	}

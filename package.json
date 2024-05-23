@@ -56,11 +56,5 @@
   "bugs": {
     "url": "https://github.com/radio4000/components/issues"
   },
-  "homepage": "https://github.com/radio4000/components#readme",
-  "prettier": {
-    "semi": false,
-    "singleQuote": true,
-    "bracketSpacing": false,
-    "printWidth": 120
-  }
+  "homepage": "https://github.com/radio4000/components#readme"
 }
