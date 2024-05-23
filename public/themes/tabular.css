@@ -81,9 +81,6 @@ r4-app {
 		> a:first-child {
 			min-width: 2rem;
 		}
-		r4-avatar {
-			max-width: 2rem;
-		}
 		r4-channel-slug,
 		r4-channel-description,
 		r4-channel-url {
@@ -159,7 +156,10 @@ r4-page-header menu {
 }
 
 /* lists of cards and tracks */
-r4-channel-card,
+r4-channel-card {
+	/* padding-left: 0.5rem; */
+	/* min-height: 2rem; */
+}
 r4-list-item {
 	padding-left: 0.5rem;
 	min-height: 2rem;
@@ -198,5 +198,45 @@ r4-app form {
 	& textarea {
 		min-height: var(--s-textarea);
 	}
+}
+
+r4-avatar {
+	max-width: none;
+}
+r4-list r4-avatar {
+	max-width: 2rem;
+}
+
+/* Pixel fun */
+li:has(r4-query),
+li r4-query {
+	flex: 1;
+}
+r4-page-channel r4-page-header li:nth-child(6) {
+	margin-right: auto;
+}
+r4-page-channel r4-page-header li:nth-child(8) {
+	/* hide add button because its in header, too */
+	display: none;
+}
+r4-page-channel r4-page-header r4-channel-card r4-avatar {
+	max-width: none;
+	/* max-width: 100%; */
+}
+r4-supabase-query {
+	margin-left: auto;
+}
+r4-supabase-filter-search input[type="search"] {
+	width: 7rem;
+}
+r4-supabase-modifiers select[name="orderBy"] {
+	width: 5em;
+}
+r4-supabase-modifiers input[name="limit"] {
+	width: 3.2em;
+}
+r4-supabase-filters,
+fieldset[name="page"] {
+	display: none;
 }
 

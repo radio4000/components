@@ -741,6 +741,7 @@ r4-supabase-filters {
 		border-radius: 0.3rem;
 		z-index: 1;
 		transform: translate(-20%, -20%);
+		white-space: nowrap;
 	}
 }
 
