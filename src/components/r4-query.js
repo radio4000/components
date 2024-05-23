@@ -75,7 +75,7 @@ export default class R4Query extends LitElement {
 	willUpdate(changedProperties) {
 		// trigger an update if url params changed. to be watched
 		if (changedProperties.has('searchParams')) {
-			console.log('willUpdate has searchParams')
+			// console.log('willUpdate has searchParams')
 			this.setQuery(urlUtils.getQueryFromUrl())
 		}
 	}
@@ -105,7 +105,6 @@ export default class R4Query extends LitElement {
 	}
 
 	async fetchData() {
-		console.log('fetchData', this.finalQuery)
 		const res = await browse(this.finalQuery)
 		// reset pagination while searching?
 		if (res.error?.code === 'PGRST103') {
@@ -121,28 +120,23 @@ export default class R4Query extends LitElement {
 	 * @param {R4QueryObject} query
 	 */
 	setQuery(query) {
-		console.log('setQuery', query, {previousQuery: this.query})
 		this.query = {...this.query, ...query}
 		this.debouncedFetchData()
-		// Triggers a second update warning?
 		urlUtils.setSearchParams(this.query)
 	}
 
 	onQuery(event) {
 		event.preventDefault()
-		console.log('onQuery', event.detail)
 		this.setQuery(event.detail)
 	}
 
 	onSearch(event) {
 		event.preventDefault()
-		console.log('onSearch', event.detail)
 		this.setQuery({search: event.detail.search})
 	}
 
 	onFilters(event) {
 		event.preventDefault()
-		console.log('onFilters', event.detail)
 		if (event.detail) {
 			this.setQuery({filters: event.detail})
 		}

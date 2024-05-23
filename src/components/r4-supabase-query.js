@@ -49,11 +49,10 @@ export default class R4SupabaseQuery extends LitElement {
 		this.setInitialValues()
 	}
 
-	connectedCallback() {
-		super.connectedCallback()
-		// console.log('r4-supabase-query:connected->dispatching query', this.query)
+	// connectedCallback() {
+		// super.connectedCallback()
 		// this.dispatchQuery()
-	}
+	// }
 
 	updated(attr) {
 		if (attr.get('table')) {
@@ -77,7 +76,6 @@ export default class R4SupabaseQuery extends LitElement {
 		// filters
 		this.filters = []
 
-		// if (!this.table) console.warn('missing table')
 		const tableData = tables[this.table]
 		this.select = this.select || tableData?.selects[0] || '*'
 		if (tableData?.junctions) {
@@ -94,7 +92,6 @@ export default class R4SupabaseQuery extends LitElement {
 		event.stopPropagation()
 		event.preventDefault()
 		const {type, name, value, valueAsNumber, checked} = event.target
-		// console.log('onInput', type, name, value, valueAsNumber, checked)
 		/* handle correctly input type="number" */
 		if (type === 'number') {
 			this[name] = valueAsNumber
@@ -136,7 +133,6 @@ export default class R4SupabaseQuery extends LitElement {
 		 the components attributes, when the table change;
 		 is triggered before invoquing "dispatchQuery"*/
 	cleanQuery() {
-		console.log('cleanQuery')
 		this.page = 1
 		if (!this.table) {
 			// handle the case where there is no table selected; to display no result problably, or error
