@@ -494,15 +494,9 @@ r4-list-item {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-<<<<<<< HEAD
-	margin-bottom: calc(var(--s) / 3);
 	/* Improves performance by allowing the browser to "lazy render" if possible */
 	/* content-visibility: auto; */
 	/* contain-intrinsic-size: 1px 2rem; */
-||||||| 80c107d
-	margin-bottom: calc(var(--s) / 3);
-=======
->>>>>>> main
 }
 r4-list-item r4-track {
 	flex: 1;
@@ -761,12 +755,3 @@ h-captcha {
 	}
 }
 
-r4-list-item {
-	/* Improves performance by allowing the browser to "lazy render" if possible */
-	/* content-visibility: auto; */
-	/* contain-intrinsic-size: 1px 2rem; */
-}
-
-r4-track {
-	/* contain: content; */
-}

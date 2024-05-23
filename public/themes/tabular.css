@@ -39,7 +39,7 @@ r4-app {
 	--c-fg: hsl(0deg 0% 0%);
 	--c-bg2: color-mix(in oklch, var(--c-bg) 100%, var(--c-fg) 50%);
 	--c-fg2: color-mix(in oklch, var(--c-fg) 100%, var(--c-fg) 50%);
-	--c-light: color-mix(in oklch, var(--c-bg) 100%, var(--c-fg) 7%);
+	--c-light: color-mix(in oklch, var(--c-bg) 100%, var(--c-fg) 5%);
 	--c-border: hsl(0deg 0% 0%);
 	--c-bg-overlay: gray;
 }
@@ -153,6 +153,7 @@ r4-app menu {
 }
 r4-page-header menu {
 	padding: 0.5rem;
+	gap: 1rem;
 }
 
 /* lists of cards and tracks */
