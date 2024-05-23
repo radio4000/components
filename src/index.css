@@ -743,14 +743,10 @@ h-captcha {
 	}
 }
 
-r4-list {
-	/* containt: content; */
-}
-
 r4-list-item {
 	/* Improves performance by allowing the browser to "lazy render" if possible */
-	content-visibility: auto;
-	contain-intrinsic-size: 1px 2rem;
+	/* content-visibility: auto; */
+	/* contain-intrinsic-size: 1px 2rem; */
 }
 
 r4-track {
