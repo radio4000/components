@@ -137,6 +137,7 @@ r4-layout header[slot='menu'] {
 	justify-content: space-between;
 }
 r4-layout main[slot='main'] {
+	background: var(--c-bg);
 	/* border: 1px solid var(--c-border); */
 	/* border-top: 0; */
 	/* position: relative; */
@@ -230,7 +231,7 @@ r4-supabase-query {
 	margin-left: auto;
 }
 r4-supabase-filter-search input[type="search"] {
-	width: 7rem;
+	width: 8rem;
 }
 r4-supabase-modifiers select[name="orderBy"] {
 	width: 5em;
