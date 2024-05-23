@@ -466,10 +466,14 @@ r4-app radio4000-player .Tracklist-controls .Btn--locateTrack {
 /* button + title + actions */
 r4-track {
 	display: grid;
-	grid-template-columns: auto 1fr auto auto;
+	grid-template-columns: auto minmax(0, 1fr) auto auto;
 	gap: 0 calc(var(--s) / 2);
 	align-items: center;
 }
+r4-track:has(r4-track-discogs-url) {
+	grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+}
+
 r4-avatar {
 	display: inline-flex;
 	max-width: calc(var(--s) * 5);
@@ -760,3 +764,4 @@ r4-list-item {
 r4-track {
 	/* contain: content; */
 }
+
