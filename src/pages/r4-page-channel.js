@@ -51,12 +51,16 @@ export default class R4PageChannel extends BaseChannel {
 			return html`
 				<section>${this.renderChannelCard()}</section>
 				<section>${this.renderTracksList()}</section>
-				<section>
-					<button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button>
-				</section>
-				<section>${this.renderTimes()}</section>
 			`
 		}
+	}
+
+	renderFooter() {
+		return html`
+			<section>
+				<button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button>
+			</section>
+			<section>${this.renderTimes()}</section>`
 	}
 
 	renderChannelCard() {
