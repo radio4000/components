@@ -124,6 +124,7 @@ r4-app textarea {
 r4-app fieldset {
 	border: none;
 	padding: 0;
+	margin: 0;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
