@@ -37,18 +37,17 @@ r4-app {
 	/* --c-shadow-modal: 0 3px 12px rgba(0, 0, 0, 0.1); */
 	--c-bg: hsl(0deg 0% 95%);
 	--c-fg: hsl(0deg 0% 0%);
-	--c-bg2: color-mix(in oklch, var(--c-bg) 100%, white 50%);
-	--c-fg2: color-mix(in oklch, var(--c-fg) 100%, white 50%);
-	--c-light: color-mix(in oklch, var(--c-bg) 100%, black 7%);
+	--c-bg2: color-mix(in oklch, var(--c-bg) 100%, var(--c-fg) 50%);
+	--c-fg2: color-mix(in oklch, var(--c-fg) 100%, var(--c-fg) 50%);
+	--c-light: color-mix(in oklch, var(--c-bg) 100%, var(--c-fg) 7%);
 	--c-border: hsl(0deg 0% 0%);
-
 	--c-bg-overlay: gray;
 }
 
 r4-app[color-scheme='dark'] {
 	--c-bg: hsl(0deg 0% 5%);
 	--c-fg: hsl(0deg 0% 100%);
-	--c-border: hsl(0deg 0% 0%);
+	--c-border: hsl(0deg 0% 100%);
 }
 
 r4-app {
@@ -101,9 +100,6 @@ r4-app {
 	r4-layout header[slot='menu'] menu li {
 		min-height: 2rem;
 	}
-	r4-layout header[slot='menu'] menu a {
-		/* padding: 0 0.5rem; */
-	}
 
 	/* no margins */
 	button,
@@ -137,28 +133,36 @@ r4-app {
 }
 
 r4-layout header[slot='menu'] {
-	border: 1px solid;
+	/* border: 1px solid var(--c-border); */
 	gap: var(--s);
 	justify-content: space-between;
 }
 r4-layout main[slot='main'] {
-	border: 1px solid var(--c-border);
-	border-top: 0;
-	position: relative;
-	z-index: 4;
+	/* border: 1px solid var(--c-border); */
+	/* border-top: 0; */
+	/* position: relative; */
+	/* z-index: 4; */
 }
+r4-page-main {
+	/* border-top: 1px solid var(--c-border); */
+}
+r4-page-footer {
+	/* border-top: 1px solid var(--c-border); */
+	padding: 0.5rem;
+}
+
 r4-app menu {
 	gap: 0.5rem;
 }
 r4-page-header menu {
 	padding: 0.5rem;
 }
-r4-page-main {
-	border-top: 1px solid var(--c-border);
-}
-r4-page-footer {
-	border-top: 1px solid var(--c-border);
-	padding: 0.5rem;
+
+/* lists of cards and tracks */
+r4-channel-card,
+r4-list-item {
+	padding-left: 0.5rem;
+	min-height: 2rem;
 }
 r4-list-item:nth-child(odd) {
 	background: var(--c-light);
@@ -168,17 +172,9 @@ r4-track-body {
 	white-space: nowrap;
 	overflow: hidden;
 }
-
 r4-actions summary {
 	padding: 0 0.2rem;
 }
-
-r4-channel-card,
-r4-list-item {
-	padding-left: 2px;
-	min-height: 2rem;
-}
-
 r4-button-play button {
 	min-height: 1rem;
 }
