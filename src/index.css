@@ -8,6 +8,13 @@ html {
 	overscroll-behavior: none;
 }
 
+r4-app,
+r4-app *,
+r4-app *::before,
+r4-app *::after {
+	box-sizing: border-box;
+}
+
 /* these changes are "user personalisation" for color themes */
 r4-app {
 	--s: 0.5rem;
@@ -41,10 +48,6 @@ r4-app {
 }
 
 /* Defaults */
-r4-app,
-r4-app * {
-	box-sizing: border-box;
-}
 r4-app ul,
 r4-app ol {
 	margin: 0;
