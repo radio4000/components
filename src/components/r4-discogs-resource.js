@@ -1,12 +1,21 @@
-import {parseUrl as parseDiscogsUrl, fetchDiscogs, extractSuggestions} from '../libs/discogs.js'
+import {
+	parseUrl as parseDiscogsUrl,
+	fetchDiscogs,
+	extractSuggestions,
+	resourceToChannel,
+	resourceTrackToR4Track,
+} from '../libs/discogs.js'
 
 export default class R4DiscogsResource extends HTMLElement {
 	static get observedAttributes() {
-		return ['url']
+		return ['url', 'href']
 	}
 	/* props */
 	get url() {
 		return this.getAttribute('url')
+	}
+	get href() {
+		return this.getAttribute('href')
 	}
 	get full() {
 		return this.getAttribute('full') === 'true'
@@ -59,7 +68,7 @@ export default class R4DiscogsResource extends HTMLElement {
 		const doms = []
 		if (resource) {
 			if (full) {
-				doms.push(this.buildFull(resource))
+				doms.push(...this.buildFull(resource))
 			} else {
 				doms.push(this.buildCard(resource))
 			}
@@ -69,19 +78,7 @@ export default class R4DiscogsResource extends HTMLElement {
 		}
 		this.replaceChildren(...doms)
 	}
-	buildCard({title, artists_sort}) {
-		return `${title} (artists_sort)`
-	}
-	buildFull(resource) {
-		const {uri} = resource
-		const anchor = document.createElement('a')
-		anchor.textContent = this.buildCard(resource)
-		anchor.setAttribute('href', uri)
-		anchor.setAttribute('target', '_blank')
-		return anchor
-	}
 	buildSuggestions(resource) {
-		console.log('resource', resource)
 		const suggestions = extractSuggestions(resource)
 			.filter((res) => !!res)
 			.map(this.buildSuggestion.bind(this))
@@ -100,5 +97,34 @@ export default class R4DiscogsResource extends HTMLElement {
 		const label = document.createElement('label')
 		label.replaceChildren(input, suggestion)
 		return label
+	}
+	buildCard(resource) {
+		return this.buildTitle(resource)
+	}
+	buildTitle({title, artists_sort}) {
+		return `${artists_sort} — ${title}`
+	}
+	buildFull(resource) {
+		const anchor = document.createElement('a')
+		anchor.textContent = this.buildCard(resource)
+		anchor.setAttribute('href', resource.uri)
+		anchor.setAttribute('target', '_blank')
+		const trackList = this.buildTracklist(resource)
+		return [anchor, trackList]
+	}
+	buildTracklist(resource) {
+		const {tracklist, videos, title} = resource
+		const $list = document.createElement('r4-list')
+		const $tracklist = tracklist?.map((track) => {
+			const $listItem = document.createElement('r4-list-item')
+			const $track = document.createElement('r4-track')
+			$track.setAttribute('href', this.href)
+			$track.track = resourceTrackToR4Track(track, resource)
+			$track.channel = resourceToChannel(resource)
+			$listItem.append($track)
+			return $listItem
+		})
+		$list.append(...$tracklist)
+		return $list
 	}
 }

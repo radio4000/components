@@ -88,7 +88,7 @@ export default class R4Track extends LitElement {
 		}
 
 		return html`
-			<r4-button-play .channel=${this.channel} .track=${this.track}></r4-button-play>
+			<r4-button-play .channel=${this.channel} .track=${this.track} ?disabled=${!this.track.url}></r4-button-play>
 			<r4-track-body>
 				<r4-track-title>${this.renderTitle()}</r4-track-title>
 				${this.track.description ? this.renderDescription() : null}
@@ -111,10 +111,18 @@ export default class R4Track extends LitElement {
 			<r4-dialog name="delete">
 				<r4-track-delete slot="dialog" id=${this.track.id} @submit=${this.onDelete}></r4-track-delete>
 			</r4-dialog>
-			<r4-dialog name="share">
-				<r4-share slot="dialog" origin=${this.origin} track-id=${this.track.id} media-url=${this.track.url}></r4-share>
-			</r4-dialog>
+			<r4-dialog name="share"> ${this.renderShare()} </r4-dialog>
 		`
+	}
+	renderShare() {
+		if (this.track.url) {
+			return html`<r4-share-track
+				slot="dialog"
+				href=${this.href}
+				origin=${this.origin}
+				.track=${this.track}
+			></r4-share-track>`
+		}
 	}
 
 	renderTitle() {

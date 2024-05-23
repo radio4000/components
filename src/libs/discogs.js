@@ -3,6 +3,17 @@ export const DISCOGS_API_URL = 'api.discogs.com'
 export const DiscogsResourceTypes = ['release', 'master']
 export const DiscogsSearchResourceTypes = [...DiscogsResourceTypes, 'artist', 'label', 'all']
 
+/* fetch a discogs release/master from the API */
+export const fetchDiscogs = async ({id, type = DiscogsResourceTypes[0]}) => {
+	let url = buildApiUrl({type, id})
+	let response = await fetch(url)
+	let data = await response.json()
+	if (data.errors) {
+		throw new Error(data.errors)
+	}
+	return data
+}
+
 /* builds the URL to get a resource from the API  */
 const buildApiUrl = ({type, id}) => {
 	/* add a "s" for the plural form of the ressource */
@@ -43,12 +54,20 @@ export const buildSearchUrl = (query, type) => {
 	return url.href
 }
 
-export const fetchDiscogs = async ({id, type = DiscogsResourceTypes[0]}) => {
-	let url = buildApiUrl({type, id})
-	let response = await fetch(url)
-	let data = await response.json()
-	if (data.errors) {
-		throw new Error(data.errors)
+export const resourceToChannel = (resource) => {
+	return {
+		name: resource.title,
+		slug: `r4-discogs-${resource.id}`,
 	}
-	return data
+}
+export const resourceTrackToR4Track = (resourceTrack, resource) => {
+	const video = resource.videos.find((video) => {
+		const videoTitle = video.title.toLowerCase().trim()
+		return videoTitle.indexOf(resourceTrack.title.toLowerCase().trim()) > -1
+	})
+	return {
+		title: resourceTrack.title,
+		url: video?.uri,
+		discogs_url: resource.uri,
+	}
 }

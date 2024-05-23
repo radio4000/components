@@ -89,7 +89,6 @@ export default class R4TrackCreate extends R4Form {
 		}
 		if (name === 'title' && value) {
 			const search = buildSearchUrl(value)
-			console.log('search url', search)
 		}
 		if (name === 'discogs_url') {
 			const $discogs = this.querySelector('r4-discogs-resource')

@@ -19,8 +19,12 @@ export default class R4PageChannelTrack extends BaseChannelTrack {
 		`
 	}
 	buildDiscogs() {
-		if (this.track.discogs_url) {
-			return html`<r4-discogs-resource url=${this.track.discogs_url} full="true"></r4-discogs-resource>`
+		if (this.track?.discogs_url) {
+			return html`<r4-discogs-resource
+				url=${this.track.discogs_url}
+				href=${this.config.href}
+				full="true"
+			></r4-discogs-resource>`
 		}
 	}
 }

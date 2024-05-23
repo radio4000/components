@@ -33,7 +33,8 @@ import R4PasswordReset from './r4-password-reset.js'
 import R4Query from './r4-query.js'
 import R4Router from './r4-router.js'
 import {R4ChannelSearch, R4TrackSearch} from './r4-search.js'
-import R4Share from './r4-share.js'
+import R4ShareChannel from './r4-share-channel.js'
+import R4ShareTrack from './r4-share-track.js'
 import R4SignIn from './r4-sign-in.js'
 import R4SignOut from './r4-sign-out.js'
 import R4SignUp from './r4-sign-up.js'
@@ -85,7 +86,8 @@ const componentDefinitions = {
 	'r4-player': R4Player,
 	'r4-query': R4Query,
 	'r4-router': R4Router,
-	'r4-share': R4Share,
+	'r4-share-channel': R4ShareChannel,
+	'r4-share-track': R4ShareTrack,
 	'r4-sign-in': R4SignIn,
 	'r4-sign-out': R4SignOut,
 	'r4-sign-up': R4SignUp,
