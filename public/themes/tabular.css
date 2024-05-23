@@ -38,7 +38,7 @@ r4-app {
 	--c-bg: hsl(0deg 0% 95%);
 	--c-fg: hsl(0deg 0% 0%);
 	--c-bg2: color-mix(in oklch, var(--c-bg) 100%, var(--c-fg) 50%);
-	--c-fg2: color-mix(in oklch, var(--c-fg) 100%, var(--c-fg) 50%);
+	--c-fg2: color-mix(in oklch, var(--c-fg) 100%, var(--c-bg) 80%);
 	--c-light: color-mix(in oklch, var(--c-bg) 100%, var(--c-fg) 5%);
 	--c-border: hsl(0deg 0% 0%);
 	--c-bg-overlay: gray;
@@ -85,9 +85,10 @@ r4-app {
 		r4-channel-url {
 			display: none;
 		}
-		r4-channel-description {
-			opacity: 0.7;
-		}
+	}
+	r4-channel-description,
+	r4-track-description {
+		color: var(--c-fg2);
 	}
 	r4-query {
 		& fieldset {
@@ -239,7 +240,7 @@ r4-supabase-modifiers select[name="orderBy"] {
 r4-supabase-modifiers input[name="limit"] {
 	width: 4.3em;
 }
-r4-supabase-filters,
+r4-supabase-filters {}
 fieldset[name="page"] {
 	display: none;
 }
@@ -253,6 +254,37 @@ r4-page-settings  {
 		section header h2 {
 			margin: 1rem 0 0.5rem;
 		}
+	}
+}
+
+r4-track-description a {
+	padding-left: calc(var(--s) / 4);
+	padding-right: calc(var(--s) / 4);
+}
+
+r4-page-header {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	background-color: var(--c-bg);
+	border-bottom: 1px solid var(--c-border);
+}
+
+r4-page-channel r4-page-main r4-channel-card r4-channel-name {
+	font-size: 4vw;
+	font-weight: bold;
+}
+
+/* Tracklist counter */
+r4-list:has(r4-track) {
+	counter-reset: tracks;
+
+	r4-list-item::before {
+		content: counter(tracks) "";
+		counter-increment: tracks;
+		font-size: 9px;
+		width: 2rem; /* big enough for four digits */
+		position: relative;
 	}
 }
 

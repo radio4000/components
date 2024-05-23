@@ -580,6 +580,9 @@ r4-app dialog[inline] {
 	position: relative;
 	margin: var(--s);
 }
+r4-track-description {
+	word-break: break-word;
+}
 
 /* Hashtags and mentions */
 r4-track-mentions a::before,
@@ -756,10 +759,3 @@ h-captcha {
 	}
 }
 
-r4-page-header {
-	position: sticky;
-	top: 0;
-	z-index: 1;
-	background-color: var(--c-bg);
-	border-bottom: 1px solid var(--c-border);
-}

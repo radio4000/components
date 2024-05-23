@@ -92,13 +92,17 @@ export default class R4PageChannelTracks extends BaseChannel {
 					(t) => t.id,
 					(t) => this.renderTrackItem(t),
 				)}
-			</r4-list> `
-		} else {
+			</r4-list>
+			<p>${this.tracks.length}/${this.count} tracks (<a href="?limit=4000">load all</a>)</p>
+				`
+		} else if (!this.tracks) {
 			return html`
 				<r4-list>
 					<r4-list-item>No tracks found for this query</r4-list-item>
 				</r4-list>
 			`
+		} else {
+			return html`Loading`
 		}
 	}
 

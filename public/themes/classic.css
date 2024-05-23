@@ -360,8 +360,6 @@ r4-track-title a,
 }
 
 r4-track-description {
-	display: block;
-	word-break: break-word;
 	color: var(--c-fg2);
 	font-style: italic;
 }
