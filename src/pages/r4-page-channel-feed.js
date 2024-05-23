@@ -99,7 +99,7 @@ export default class R4PageChannelFeed extends BaseChannel {
 /**
  * Sorts and groups tracks by date and slug.
  * @param {Array} tracks
- * @returns {Array.<{slug: String, tracks: Array}>} groups
+ * @returns {Array.<{slug: string, tracks: Array}>} groups
  */
 function groupTracks(tracks) {
 	const groups = []

@@ -21,8 +21,8 @@ fieldsTemplate.innerHTML = `
 			<textarea name="description"></textarea>
 		</fieldset>
 		<fieldset>
-			<label for="discogsUrl">Discogs URL</label>
-			<input name="discogsUrl" type="url" placeholder="Discogs release URL"/>
+			<label for="discogs_url">Discogs URL</label>
+			<input name="discogs_url" type="url" placeholder="Discogs release URL"/>
 		</fieldset>
 	</slot>
 `
@@ -46,11 +46,11 @@ export default class R4TrackUpdate extends R4Form {
 		event.stopPropagation()
 
 		this.disableForm()
-		const {id, url, title, description, discogsUrl} = this.state
+		const {id, url, title, description, discogs_url} = this.state
 		let res = {}
 		let error = null
 		try {
-			res = await sdk.tracks.updateTrack(id, {url, title, description, discogs_url: discogsUrl})
+			res = await sdk.tracks.updateTrack(id, {url, title, description, discogs_url})
 			if (res.error) {
 				error = res.error
 				throw error

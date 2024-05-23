@@ -7,7 +7,7 @@ export default class R4Loading extends HTMLElement {
 		return this.getAttribute('text')
 	}
 	set text(text) {
-		return this.setAttribute('text', text)
+		this.setAttribute('text', text)
 	}
 	get value() {
 		return Number(this.getAttribute('value'))

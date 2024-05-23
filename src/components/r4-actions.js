@@ -12,7 +12,7 @@ export default class R4Actions extends LitElement {
 		details && details.addEventListener('toggle', this.onToggle.bind(this))
 	}
 
-	/** @arg {KeyboardEvent} event */
+	/** @param {KeyboardEvent} event */
 	onKeyDown(event) {
 		if (event.key === 'Escape') {
 			const details = this.querySelector('details')
@@ -28,7 +28,7 @@ export default class R4Actions extends LitElement {
 		this.closeCurrentMenu()
 	}
 
-	/** @arg {HTMLDetailsElement} details */
+	/** @param {HTMLDetailsElement} details */
 	close(details) {
 		details.removeAttribute('open')
 		const summary = details.querySelector('summary')
@@ -52,4 +52,3 @@ export default class R4Actions extends LitElement {
 		return this
 	}
 }
-

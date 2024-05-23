@@ -120,6 +120,7 @@ r4-app r4-dialog::part(button) {
 	}
 	&[disabled] {
 		background-color: var(--c-bg);
+		opacity: 0.7;
 	}
 }
 

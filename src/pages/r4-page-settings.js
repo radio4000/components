@@ -37,7 +37,7 @@ export default class R4PageSettings extends R4Page {
 
 	renderMain() {
 		if (this.store.user) {
-			return [, this.renderChannels(), this.renderAuthentication(), this.renderAppearance(), this.renderUserDelete()]
+			return [this.renderChannels(), this.renderAuthentication(), this.renderAppearance(), this.renderUserDelete()]
 		} else {
 			return [this.renderNoUser()]
 		}
