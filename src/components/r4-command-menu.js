@@ -5,9 +5,9 @@ import '../libs/command-menu.js'
 /**
  * This is how a "command" looks like. See generateCommands() for the actual ones we use.
  * @typedef {Object} Command
- * @property {String} title - The title of the command
- * @property {String} [subtitle] - A description of the command
- * @property {String} [shortcut] - A keyboard shortcut, e.g. "Ctrl+K"
+ * @property {string} title - The title of the command
+ * @property {string} [subtitle] - A description of the command
+ * @property {string} [shortcut] - A keyboard shortcut, e.g. "Ctrl+K"
  * @property {Function} [action] - The function to call when the command is selected
  * @property {Array<Command>} [children] - A list of child commands
  */
@@ -25,7 +25,7 @@ export default class R4CommandMenu extends LitElement {
 		return html`<command-menu modal .commands=${this.generateCommands()}></command-menu>`
 	}
 
-	/** @arg {string} route */
+	/** @param {string} route */
 	go(route) {
 		page.redirect(route)
 	}

@@ -17,7 +17,7 @@ const R4_QUERY_PARAMS = [
  * It will only set params in the `includeList` list.
  * It won't set params in the `excludeList` list.
  * @param {import("../components/r4-query").R4Query} query - object with all the query params to be
- * @param {{includeList?: String[], excludeList?: String[]}} [options]
+ * @param {{includeList?: string[], excludeList?: string[]}} [options]
  */
 export function setSearchParams(query, options = {}) {
 	const searchParams = new URLSearchParams(location.search)

@@ -4,10 +4,10 @@ import fuzzysort from 'fuzzysort'
 // copy pasted from github.com/oskarrough/command-menu
 
 /**
- * @typedef {Object} Command
- * @property {String} title - The title of the command
- * @property {String} [subtitle] - A description of the command
- * @property {String} [shortcut] - A keyboard shortcut, e.g. "Ctrl+K"
+ * @typedef {object} Command
+ * @property {string} title - The title of the command
+ * @property {string} [subtitle] - A description of the command
+ * @property {string} [shortcut] - A keyboard shortcut, e.g. "Ctrl+K"
  * @property {Function} [action] - The function to call when the command is selected
  * @property {Array<Command>} [children] - A list of child commands
  */

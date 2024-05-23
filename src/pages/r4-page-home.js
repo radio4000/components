@@ -75,10 +75,10 @@ export default class R4PageHome extends R4Page {
 			</p>
 			<p><a href="${this.config.href}/explore">Explore</a> radio channels.</p>
 		`
-		return html`
-			${this.featuredChannels?.length ? this.renderFeaturedChannels() : nothing}
-			${this.latestTracks?.length ? this.renderTracks() : nothing}
-		`
+		// return html`
+		// 	${this.featuredChannels?.length ? this.renderFeaturedChannels() : nothing}
+		// 	${this.latestTracks?.length ? this.renderTracks() : nothing}
+		// `
 	}
 
 	renderTracks() {

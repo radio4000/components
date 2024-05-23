@@ -58,7 +58,7 @@ export default class R4Admin extends LitElement {
 	}
 
 	/** Deletes a Supabase auth.user AND any channels they are associated with
-	 * @arg {string} id */
+	 * @param {string} id */
 	async deleteUser(id) {
 		const user = this.result.users.find((u) => u.id === id)
 
