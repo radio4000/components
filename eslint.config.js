@@ -1,10 +1,14 @@
 import globals from 'globals'
 import js from '@eslint/js'
-import jsdoc from 'eslint-plugin-jsdoc'
+// import jsdoc from 'eslint-plugin-jsdoc'
 import pluginLit from 'eslint-plugin-lit'
 import {configs as wcConfigs} from 'eslint-plugin-wc'
 
 export default [
+  js.configs.recommended, // eslint recommended
+  // jsdoc.configs['flat/recommended'], // for jsdoc
+  wcConfigs['flat/recommended'], // for web components
+  pluginLit.configs['flat/recommended'], // for lit elements
   {
     languageOptions: {
       globals: globals.browser,
@@ -14,8 +18,4 @@ export default [
       'no-unused-vars': 'off',
     },
   },
-  js.configs.recommended, // eslint recommended
-  jsdoc.configs['flat/recommended'], // for jsdoc
-  wcConfigs['flat/recommended'], // for web components
-  pluginLit.configs['flat/recommended'], // for lit elements
 ]
