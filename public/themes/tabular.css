@@ -1,0 +1,206 @@
+html {
+	font-size: 13px;
+}
+
+r4-app {
+	--font: system-ui, segoe ui, sans-serif, 'Segoe UI Symbol';
+	--s-font: 13px;
+	--s: 1rem;
+	--s-line-height: 1.5;
+	--s-radius: 0;
+
+	/* background-image: linear-gradient(hsla(0, 0%, 60%, 0.5) 0.15%, transparent 5%); */
+	/* background-size: 100% calc(var(--s-font) * var(--s-line-height)); */
+	/* background-size: 100% var(--s); */
+
+	/* --s-form: calc(var(--s) * 36); */
+	/* --s-textarea: calc(var(--s) * 5); */
+	/* --s-container: 75rem; */
+	/* --s-container--list: 50rem; */
+	/* --s-container--channel-card: 45rem; */
+	/* --s-font-s1: 0.8rem; */
+	/* --c-light: hsl(0deg 0% 98%); */
+	/* --c-dark: hsl(0deg 0% 8%); */
+	--c-purple: #5d1ae6;
+	/* --c-purple-light: #999fff; */
+	/* --c-light--accent: var(--c-purple); */
+	/* --c-dark--accent: #9c8fff; */
+	/* --c-dark-lighter: hsl(0deg 2.6% 13%); */
+	--c-link: var(--c-fg);
+
+	/* /1* new vars *1/ */
+	/* --c-bg-button: hsl(0, 0%, 98%); */
+	/* --c-bg-button2: color-mix(in oklch, var(--c-bg-button) 50%, white 80%); */
+	/* --c-bg-input: hsl(0deg 0% 98%); */
+	/* --c-shadow-input: 1px 2px 2px #e7e6e4 inset; */
+	/* --c-shadow-button: 0 3px 0 -1px rgba(204, 204, 204, 0.9); */
+	/* --c-shadow-modal: 0 3px 12px rgba(0, 0, 0, 0.1); */
+	--c-bg: hsl(0deg 0% 95%);
+	--c-fg: hsl(0deg 0% 0%);
+	--c-bg2: color-mix(in oklch, var(--c-bg) 100%, white 50%);
+	--c-fg2: color-mix(in oklch, var(--c-fg) 100%, white 50%);
+	--c-light: color-mix(in oklch, var(--c-bg) 100%, black 7%);
+	--c-border: hsl(0deg 0% 0%);
+
+	--c-bg-overlay: gray;
+}
+
+r4-app[color-scheme='dark'] {
+	--c-bg: hsl(0deg 0% 5%);
+	--c-fg: hsl(0deg 0% 100%);
+	--c-border: hsl(0deg 0% 0%);
+}
+
+r4-app {
+	/* remove things from index.css */
+	menu {
+		background: none;
+	}
+	section {
+		padding: 0;
+	}
+	r4-list-item {
+		margin: 0;
+	}
+	r4-app-menu,
+	r4-app menu,
+	r4-layout::part(panel) {
+		background: none;
+	}
+
+	r4-app-menu {
+		margin-left: 0.5rem;
+	}
+
+	r4-channel-card {
+		display: flex;
+		flex-flow: row nowrap;
+		align-items: center;
+		border: 0;
+		background: none;
+		gap: 0.5rem;
+		> a:first-child {
+			min-width: 2rem;
+		}
+		r4-avatar {
+			max-width: 2rem;
+		}
+		r4-channel-slug,
+		r4-channel-description,
+		r4-channel-url {
+			display: none;
+		}
+	}
+	r4-query {
+		& fieldset {
+			padding: 0;
+			padding-top: 0.5rem;
+		}
+	}
+
+	r4-layout header[slot='menu'] menu li {
+		min-height: 2rem;
+	}
+	r4-layout header[slot='menu'] menu a {
+		/* padding: 0 0.5rem; */
+	}
+
+	/* no margins */
+	button,
+	select,
+	input[type='text'],
+	input[type='number'],
+	input[type='email'],
+	input[type='password'],
+	input[type='search'],
+	input[type='url'],
+	textarea,
+	r4-layout::part(controls-button) {
+		padding: 0;
+		min-height: 2rem;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	p {
+		font-size: 1rem;
+		margin: 0;
+	}
+
+	r4-list r4-channel-title a,
+	r4-list r4-track-title a {
+		text-decoration: none;
+	}
+}
+
+r4-layout header[slot='menu'] {
+	border: 1px solid;
+	gap: var(--s);
+	justify-content: space-between;
+}
+r4-layout main[slot='main'] {
+	border: 1px solid var(--c-border);
+	border-top: 0;
+	position: relative;
+	z-index: 4;
+}
+r4-app menu {
+	gap: 0.5rem;
+}
+r4-page-header menu {
+	padding: 0.5rem;
+}
+r4-page-main {
+	border-top: 1px solid var(--c-border);
+}
+r4-page-footer {
+	border-top: 1px solid var(--c-border);
+	padding: 0.5rem;
+}
+r4-list-item:nth-child(odd) {
+	background: var(--c-light);
+}
+r4-track-body {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+r4-actions summary {
+	padding: 0 0.2rem;
+}
+
+r4-channel-card,
+r4-list-item {
+	padding-left: 2px;
+	min-height: 2rem;
+}
+
+r4-button-play button {
+	min-height: 1rem;
+}
+
+/* Forms */
+r4-app form legend,
+r4-app form label {
+	font-weight: bold;
+}
+r4-app form slot[name='submit'] fieldset:last-of-type {
+	justify-content: flex-start;
+}
+r4-app form {
+	& input[type='text'],
+	& input[type='email'],
+	& input[type='password'],
+	& input[type='url'],
+	& textarea {
+		width: 100%;
+	}
+	& textarea {
+		min-height: var(--s-textarea);
+	}
+}
+
