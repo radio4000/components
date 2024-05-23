@@ -1,15 +1,38 @@
-import {parseUrl as parseDiscogsUrl, fetchDiscogs} from '../libs/discogs.js'
+import {parseUrl as parseDiscogsUrl, fetchDiscogs, extractSuggestions} from '../libs/discogs.js'
 
 export default class R4DiscogsResource extends HTMLElement {
 	static get observedAttributes() {
 		return ['url']
 	}
+	/* props */
 	get url() {
 		return this.getAttribute('url')
 	}
 	get full() {
 		return this.getAttribute('full') === 'true'
 	}
+	get suggestions() {
+		return this.getAttribute('suggestions') === 'true'
+	}
+
+	/* helpers */
+	get allValues() {
+		return Array.from(this.querySelectorAll('input[type=checkbox]:checked')).map((input) => input.value)
+	}
+
+	/* event handlers */
+	onSuggestion(event) {
+		event.preventDefault()
+		event.stopPropagation()
+		this.dispatchEvent(
+			new CustomEvent('suggestion', {
+				bubbles: true,
+				detail: this.allValues,
+			}),
+		)
+	}
+
+	/* lifecycle */
 	async attributeChangedCallback(name, oldVal, newVal) {
 		if (name === 'url') {
 			if (newVal) {
@@ -32,16 +55,19 @@ export default class R4DiscogsResource extends HTMLElement {
 			return fetchDiscogs(discogsInfo)
 		}
 	}
-	render(resource, full = this.full) {
+	render(resource, full = this.full, suggestions = this.suggestions) {
+		const doms = []
 		if (resource) {
 			if (full) {
-				this.replaceChildren(this.buildFull(resource))
+				doms.push(this.buildFull(resource))
 			} else {
-				this.replaceChildren(this.buildCard(resource))
+				doms.push(this.buildCard(resource))
 			}
-		} else {
-			this.replaceChildren('')
 		}
+		if (suggestions) {
+			doms.push(this.buildSuggestions(resource))
+		}
+		this.replaceChildren(...doms)
 	}
 	buildCard({title, artists_sort}) {
 		return `${title} (artists_sort)`
@@ -53,5 +79,26 @@ export default class R4DiscogsResource extends HTMLElement {
 		anchor.setAttribute('href', uri)
 		anchor.setAttribute('target', '_blank')
 		return anchor
+	}
+	buildSuggestions(resource) {
+		console.log('resource', resource)
+		const suggestions = extractSuggestions(resource)
+			.filter((res) => !!res)
+			.map(this.buildSuggestion.bind(this))
+		const fieldset = document.createElement('fieldset')
+		const legend = document.createElement('legend')
+		legend.textContent = 'Suggested tags'
+		fieldset.append(legend, ...suggestions)
+		return fieldset
+	}
+	buildSuggestion(suggestion) {
+		const input = document.createElement('input')
+		input.setAttribute('type', 'checkbox')
+		input.setAttribute('value', suggestion)
+		input.setAttribute('name', 'tags')
+		input.addEventListener('input', this.onSuggestion.bind(this))
+		const label = document.createElement('label')
+		label.replaceChildren(input, suggestion)
+		return label
 	}
 }
