@@ -12,7 +12,7 @@ r4-app {
 	--font: system-ui, sans-serif;
 	--s-font: 16px;
 	--s: 1rem;
-	--s-radius: 4px;
+	--s-radius: 3px;
 	--s-line-height: 1.3125;
 
 	--c-gray1: hsl(50 14% 96%);

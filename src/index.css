@@ -129,20 +129,14 @@ r4-app fieldset {
 	flex-wrap: wrap;
 	align-items: center;
 }
-r4-app summary,
 r4-app button,
 r4-app r4-layout::part(controls-button) {
 	cursor: pointer;
-	/* margin: calc(var(--s) / 10); */
 }
 
 r4-app progress[is='r4-loading'] {
 	align-self: center;
 }
-
-/*
-	the layout
-*/
 
 r4-layout {
 	flex: 1;
@@ -542,10 +536,6 @@ r4-supabase-modifiers form {
 r4-supabase-modifiers input {
 	max-width: calc(var(--s) * 10);
 }
-r4-supabase-modifiers fieldset + fieldset {
-	margin-left: var(--s);
-}
-
 r4-supabase-query {
 	display: flex;
 	flex-direction: column;
@@ -674,20 +664,6 @@ r4-button-play {
 	}
 }
 
-/* beta logo */
-r4-app r4-app-menu r4-title::before,
-r4-app r4-app-menu r4-title::after {
-	font-size: 0.7rem;
-	color: var(--link);
-	font-style: italic;
-}
-r4-app r4-app-menu r4-title::before {
-	content: 'beta.';
-}
-r4-app r4-app-menu r4-title::after {
-	content: '.v2';
-}
-
 r4-app r4-app-user-menu menu {
 	flex-wrap: nowrap;
 }
@@ -728,6 +704,7 @@ r4-supabase-filters {
 	& form {
 		display: flex;
 		flex-wrap: wrap;
+		gap: var(--s);
 	}
 	& fieldset {
 		flex-wrap: nowrap;
