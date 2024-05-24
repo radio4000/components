@@ -530,3 +530,25 @@ r4-page-main > section:first-child r4-list {
 r4-query {
 	gap: var(--s);
 }
+
+@media (max-width: 600px) and (max-height: 800px) {
+	/* fixed bottom app menu */
+	r4-layout header[slot='menu'] {
+		position: fixed;
+		top: auto;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		justify-content: center;
+
+		menu {
+			min-height: 3rem;
+			font-size: 14px;
+			border-top-left-radius: var(--s-radius);
+			border-top-right-radius: var(--s-radius);
+			padding: 0 1rem;
+			background: var(--c-bg2);
+			gap: 1rem;
+		}
+	}
+}
