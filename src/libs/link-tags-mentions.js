@@ -10,11 +10,11 @@ const linkEntitiesRegex = /(^|\s)([#@][a-z\d-]+)/gi
 export function linkEntities(str, href, origin) {
 	if (!origin) return str
 	return str.replace(linkEntitiesRegex, (match, prefix, entity) => {
-		const type = entity.startsWith('#') ? 'hashtag' : 'mention'
+		const type = entity.startsWith('#') ? 'tag' : 'mention'
 		let url = `${origin}?search=${entity.substring(1)}`
 		if (type === 'mention') {
 			url = `${href}/${entity.substring(1)}`
 		}
-		return `<a href="${url}">${entity}</a>`
+		return `<a href="${url}" data-type-${type}>${entity}</a>`
 	})
 }
