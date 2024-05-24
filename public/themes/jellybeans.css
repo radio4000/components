@@ -294,9 +294,6 @@ r4-list-item r4-track:hover {
 [color-scheme='dark'] r4-list-item r4-track:hover {
 	background-color: color-mix(in oklch, var(--c-bg) 100%, white 8%);
 }
-r4-list-item r4-actions {
-	margin-left: auto;
-}
 /* Tracklist layout for smaller screens */
 @media (max-width: 700px) {
 	r4-list-item r4-track-tags,

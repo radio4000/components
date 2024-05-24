@@ -44,7 +44,6 @@ r4-app {
 	--c-dark: hsl(0deg 0% 8%);
 	--c-purple: #5d1ae6;
 	--c-purple-light: #999fff;
-	--c-light--accent: var(--c-purple);
 	--c-dark--accent: #9c8fff;
 	--c-dark-lighter: hsl(0deg 2.6% 13%);
 	--c-link: var(--c-purple);

@@ -26,6 +26,7 @@ export default class R4AppUserMenu extends LitElement {
 	isCurrent(path) {
 		return this.path === path ? 'page' : nothing
 	}
+
 	onChannelSelect(event) {
 		event.stopPropagation()
 		event.preventDefault()
