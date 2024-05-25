@@ -71,7 +71,8 @@ export default class R4PageSettings extends R4Page {
 			</section>
 		`
 	}
-	renderNochannel() {
+
+	renderNoChannel() {
 		return html`
 			<r4-list-item>
 				<p>No channels yet.</p>
@@ -80,6 +81,7 @@ export default class R4PageSettings extends R4Page {
 			</r4-list-item>
 		`
 	}
+
 	renderUserChannels() {
 		return this.store.userChannels.map(
 			(channel) => html`
