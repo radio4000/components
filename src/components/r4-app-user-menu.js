@@ -45,6 +45,7 @@ export default class R4AppUserMenu extends LitElement {
 				<li>${this.channel ? this.renderAdd() : null}</li>
 				<li>${this.renderChannelLinks()}</li>
 				${this.channels.length > 1 ? html`<li>${this.renderChannelSelect()}</li>`: null}
+				<li><a aria-current=${this.isCurrent('/settings')} href=${href + '/settings'}>Settings</a></li>
 			</menu>
 		`
 	}
