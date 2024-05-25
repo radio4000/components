@@ -256,16 +256,11 @@ r4-app {
 }
 
 r4-layout header[slot='menu'] {
-	/* border: 1px solid var(--c-border); */
 	gap: var(--s);
 	justify-content: space-between;
 }
 r4-layout main[slot='main'] {
 	background: var(--c-bg);
-	/* border: 1px solid var(--c-border); */
-	/* border-top: 0; */
-	/* position: relative; */
-	/* z-index: 4; */
 }
 
 r4-page-header {
@@ -276,12 +271,8 @@ r4-page-header {
 	min-height: 2rem;
 }
 
-r4-page-footer {
-	padding: 0.5rem;
-}
-
 r4-app menu {
-	gap: 0.5rem;
+	gap: 0.75rem;
 
 	a[aria-current] {
 		color: var(--c-fg);
@@ -291,7 +282,10 @@ r4-app menu {
 
 r4-page-header menu {
 	padding: 0 0.5rem 0.2rem;
-	gap: 1rem;
+}
+
+r4-page-footer {
+	padding: 0.5rem;
 }
 
 r4-channel-card {
@@ -363,6 +357,7 @@ r4-list r4-avatar {
 li:has(r4-query),
 li r4-query {
 	flex: 1;
+	margin-top: 1rem;
 }
 r4-page-channel r4-page-header li:nth-child(6) {
 	margin-right: auto;
@@ -511,13 +506,8 @@ r4-page-header {
 r4-layout header[slot='menu'] {
 	padding: 0 0.5rem;
 	menu {
-		min-height: 3rem;
+		min-height: 2rem;
 		gap: 1rem;
-		/* font-size: 14px; */
-	}
-
-	menu li {
-		/* min-height: 2rem; */
 	}
 }
 
@@ -588,7 +578,7 @@ r4-app[color-scheme] radio4000-player .Header-media {
 /* black player, not dark */
 r4-app[color-scheme="dark"]  {
 	r4-layout::part(playback-summary) {
-		background: blue;
+		background: black;
 	}
 	radio4000-player {
 		> .Layout[class],
