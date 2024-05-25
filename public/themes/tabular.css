@@ -93,8 +93,8 @@ r4-app[color-scheme='light'] {
 	--c-accent1: var(--red);
 	--c-accent2: var(--brown);
 
-	--dark: rgba(0,0,0,0.5);
-	--light: rgba(255,255,255,0.2);
+	--dark: rgba(0,0,0,0.4);
+	--light: rgba(255,255,255,0.3);
 }
 
 r4-app[color-scheme='dark'] {
@@ -174,19 +174,11 @@ r4-app {
 		background: none;
 	}
 
-	r4-app-menu {
-		margin-left: 0.5rem;
-	}
-
 	r4-query {
 		& fieldset {
 			padding: 0;
 			/* padding-top: 0.5rem; */
 		}
-	}
-
-	r4-layout header[slot='menu'] menu li {
-		min-height: 2rem;
 	}
 
 	/* no margins */
@@ -237,8 +229,14 @@ r4-app {
 	}
 	/* "Buttons" */
 	button,
-	select {
+	select,
+	r4-layout::part(controls-button) {
 		background: var(--c-bg2);
+		cursor: initial;
+
+		&[disabled] {
+			opacity: 0.5;
+		}
 	}
 
 	h1,
@@ -275,11 +273,8 @@ r4-page-header {
 	top: 0;
 	z-index: 1;
 	background-color: var(--c-bg);
+	min-height: 2rem;
 }
-
-/* r4-app[color-scheme="dark"] r4-page-header::after { */
-/* 	background: white; */
-/* } */
 
 r4-page-footer {
 	padding: 0.5rem;
@@ -287,9 +282,15 @@ r4-page-footer {
 
 r4-app menu {
 	gap: 0.5rem;
+
+	a[aria-current] {
+		color: var(--c-fg);
+		text-decoration: none;
+	}
 }
+
 r4-page-header menu {
-	padding: 0.5rem;
+	padding: 0 0.5rem 0.2rem;
 	gap: 1rem;
 }
 
@@ -300,11 +301,12 @@ r4-channel-card {
 	border: 0;
 	background: none;
 	gap: 0.5rem;
+	min-height: 4rem;
+
 	> a:first-child {
 		min-width: 2rem;
 	}
-	r4-channel-slug,
-	r4-channel-url {
+	r4-channel-slug {
 		display: none;
 	}
 }
@@ -392,12 +394,31 @@ r4-supabase-filters {
 		transform: translate(-20%, -50%);
 	}
 }
-r4-query r4-supabase-filters {
-	margin-left: 0.5rem;
+
+r4-query {
+	gap: var(--s);
+
+	r4-supabase-filters {
+		margin-left: 0.5rem;
+	}
+
+	details {
+		--c-shadow-modal: 0 3px 12px rgba(0, 0, 0, 0.1);
+		position: relative;
+
+		&[open] {
+			summary + * {
+				position: absolute;
+				top: 100%;
+				right: 2px;
+				background: var(--c-bg2);
+				padding: 1rem;
+				border: 1px solid var(--c-border);
+				box-shadow: var(--c-shadow-modal);
+			}
+		}
+	}
 }
-/* r4-app fieldset[name="page"] { */
-/* 	display: none; */
-/* } */
 
 /* Text pages */
 r4-page-home,
@@ -406,32 +427,32 @@ r4-page-settings  {
 		/* margin: 0 0.5rem; */
 
 		section header h2 {
-			margin: 1rem 0 0.5rem;
+			margin: 1rem 0 0.5rem 0.5rem;
 		}
 	}
 }
 
-r4-track-description a {
-	padding-left: calc(var(--s) / 4);
-	padding-right: calc(var(--s) / 4);
+r4-list,
+r4-page-channel {
+	a:has(r4-channel-name) {
+		color: var(--c-fg);
+		text-decoration: none;
+	}
 }
-
-/* Tracklist counter */
-r4-list:has(r4-track) {
-	counter-reset: tracks;
-
-	r4-list-item::before {
-		content: counter(tracks) "";
-		counter-increment: tracks;
-		font-size: 9px;
-		width: 2rem; /* big enough for four digits */
-		position: relative;
+/* channels in lists */
+r4-list {
+	r4-channel-card r4-channel-url {
+		display: none;
+	}
+	r4-channel-card-body {
+		line-height: 1.2;
 	}
 }
 
+/* channel on the page */
 r4-page-channel r4-channel-card {
-	a:has(r4-channel-name) {
-		text-decoration: none;
+	r4-avatar {
+		margin: 0.5rem;
 	}
 	r4-channel-name {
 		font-size: clamp(1.5rem, 7vw + 1rem, 3rem);
@@ -461,30 +482,71 @@ r4-page-channel r4-channel-card {
 	}
 }
 
-r4-app[color-scheme] radio4000-player .Header-media {
-	font-size: 4em;
+r4-track-description a {
+	padding-left: calc(var(--s) / 4);
+	padding-right: calc(var(--s) / 4);
+}
+
+/* Tracklist counter */
+r4-list:has(r4-track) {
+	counter-reset: tracks;
+
+	r4-list-item::before {
+		content: counter(tracks) "";
+		counter-increment: tracks;
+		font-size: 9px;
+		width: 2rem; /* big enough for four digits */
+		position: relative;
+	}
 }
 
 r4-layout header[slot='menu'],
-r4-page-header menu {
-	/* font-size: 15px; */
+r4-page-header {
+	background: var(--c-bg2);
+	[color-scheme="dark"] & {
+		background: black;
+	}
 }
 
-r4-query details {
-	--c-shadow-modal: 0 3px 12px rgba(0, 0, 0, 0.1);
-	position: relative;
+r4-layout header[slot='menu'] {
+	padding: 0 0.5rem;
+	menu {
+		min-height: 3rem;
+		gap: 1rem;
+		/* font-size: 14px; */
+	}
 
-	&[open] {
-		summary + * {
-			position: absolute;
-			top: 100%;
-			left: 2px;
-			background: var(--c-bg2);
-			padding: 1rem;
-			border: 1px solid var(--c-border);
-			box-shadow: var(--c-shadow-modal);
-			/* max-width: 4rem; */
+	menu li {
+		/* min-height: 2rem; */
+	}
+}
+
+@media (max-width: 600px) and (max-height: 800px) {
+	/* fixed bottom app menu */
+	r4-layout header[slot='menu'] {
+		position: fixed;
+		top: auto;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		justify-content: center;
+
+		menu {
+			border-top-left-radius: var(--s-radius);
+			border-top-right-radius: var(--s-radius);
 		}
+	}
+}
+
+r4-page-header {
+	&::before,
+	&::after {
+		content: "";
+		display: block;
+	}
+	&::after {
+		border-top: 1px solid var(--dark);
+		border-bottom: 1px solid var(--light);
 	}
 }
 
@@ -504,51 +566,36 @@ r4-list {
 	}
 }
 
-r4-page-header {
-	&::before,
-	&::after {
-		content: "";
-		display: block;
-	}
-	&::after {
-		border-top: 1px solid var(--dark);
-		border-bottom: 1px solid var(--light);
-	}
-}
-
-r4-page-channel r4-channel-card r4-avatar {
-	margin: 8px;
-}
-
-r4-page-main > section:first-child r4-list {
-	border-top: 0;
-	&::before {
-		display: none;
-	}
-}
-
-r4-query {
-	gap: var(--s);
-}
-
-@media (max-width: 600px) and (max-height: 800px) {
-	/* fixed bottom app menu */
-	r4-layout header[slot='menu'] {
-		position: fixed;
-		top: auto;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		justify-content: center;
-
-		menu {
-			min-height: 3rem;
-			font-size: 14px;
-			border-top-left-radius: var(--s-radius);
-			border-top-right-radius: var(--s-radius);
-			padding: 0 1rem;
-			background: var(--c-bg2);
-			gap: 1rem;
+r4-page-explore,
+r4-page-channel-tracks {
+	r4-page-main r4-list:first-child {
+		border-top: 0;
+		&::before {
+			display: none;
 		}
 	}
 }
+
+r4-page-home r4-page-header {
+	/* nothing useful here yet */
+	display: none;
+}
+
+r4-app[color-scheme] radio4000-player .Header-media {
+	font-size: 4em;
+}
+
+/* black player, not dark */
+r4-app[color-scheme="dark"]  {
+	r4-layout::part(playback-summary) {
+		background: blue;
+	}
+	radio4000-player {
+		> .Layout[class],
+		.Header,
+		.PlayerControl-group .Btn {
+			background: black;
+		}
+	}
+
+
