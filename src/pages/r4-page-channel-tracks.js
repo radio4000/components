@@ -80,7 +80,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 
 	renderMain() {
 		if (this.channel) {
-			return this.renderTracksList()
+			return html`<section>${this.renderTracksList()}</section>`
 		}
 	}
 
