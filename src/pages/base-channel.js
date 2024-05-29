@@ -134,13 +134,15 @@ export default class BaseChannel extends R4Page {
 			return this.renderChannelMenu()
 		}
 	}
+
 	renderChannelShare() {
 		return html`
 			<r4-dialog name="share" @close="${this.onDialogClose}">
-				<r4-share slot="dialog" origin="${this.channelOrigin}" slug="${this.channel.slug}"></r4-share>
+				<r4-share-channel slot="dialog" origin="${this.channelOrigin}" .channel=${this.channel}></r4-share-channel>
 			</r4-dialog>
 		`
 	}
+
 	renderChannelError() {
 		return html`<p>404. There is no channel here. Want to <a href="${this.config.href}/new">create one?</a></p>`
 	}

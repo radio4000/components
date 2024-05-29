@@ -7,12 +7,12 @@ export default class R4PageChannel extends BaseChannel {
 	static properties = {
 		tracks: {type: Array, state: true},
 		// from base channel
-		// channel: {type: Object, state: true},
-		// channelError: {type: Object, state: true},
-		// canEdit: {type: Boolean, state: true},
-		// alreadyFollowing: {type: Boolean, state: true},
-		// followsYou: {type: Boolean, state: true},
-		// isFirebaseChannel: {type: Boolean, state: true},
+		channel: {type: Object, state: true},
+		channelError: {type: Object, state: true},
+		canEdit: {type: Boolean, state: true},
+		alreadyFollowing: {type: Boolean, state: true},
+		followsYou: {type: Boolean, state: true},
+		isFirebaseChannel: {type: Boolean, state: true},
 		// from router
 		params: {type: Object, state: true},
 		store: {type: Object, state: true},
@@ -39,6 +39,7 @@ export default class R4PageChannel extends BaseChannel {
 				.initialQuery=${this.query}
 				@data=${this.onData}
 			></r4-query>
+			${this.channel ? this.renderChannelShare() : null}
 		`
 	}
 

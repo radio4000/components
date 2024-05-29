@@ -31,15 +31,15 @@ export default class R4ShareChannel extends LitElement {
 			<form>
 				<fieldset>
 					<label for="channel_url">Channel URL</label>
-					<input readonly name="channel_url" type="url" .value="${channelUrl}" @click="${this.onInputClick}" />
+					<input readonly name="channel_url" type="url" value="${channelUrl}" @click="${this.onInputClick}" />
 				</fieldset>
 				<fieldset>
-					<label for="channel_iframe">Channel <iframe></label>
-					<input readonly name="channel_iframe" type="url" .value="${this.iframeHtml}" @click="${this.onInputClick}" />
+					<label for="channel_iframe">Channel &lt;iframe&gt;</label>
+					<input readonly name="channel_iframe" type="url" value="${this.iframeHtml}" @click="${this.onInputClick}" />
 				</fieldset>
 				<fieldset>
 					<label for="channel_icon">Channel Icon</label>
-					<input readonly name="channel_icon" type="url" .value="${this.iconHtml}" @click="${this.onInputClick}" />
+					<input readonly name="channel_icon" type="url" value="${this.iconHtml}" @click="${this.onInputClick}" />
 				</fieldset>
 			</form>
 		`
