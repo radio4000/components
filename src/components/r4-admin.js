@@ -2,6 +2,15 @@ import {LitElement, html} from 'lit'
 import {createClient} from '@supabase/supabase-js'
 import {sdk} from '../libs/sdk'
 
+export const ONETIME_MAIL_DOMAINS = [
+	'clearmailhub.com',
+	'connectmailhub.com',
+	'emailnestpro.com',
+	'inboxmasters.com',
+	'rocketpostbox.com',
+	'trustymailpro.com',
+]
+
 /**
  * To use, be sure to pass in the two supabase keys.
  * Renders an admin dashboard that allows you to combat spam content and more.
@@ -88,15 +97,7 @@ export default class R4Admin extends LitElement {
 	}
 
 	isPotentiallySpam(user) {
-		const domains = [
-			'clearmailhub.com',
-			'connectmailhub.com',
-			'emailnestpro.com',
-			'inboxmasters.com',
-			'rocketpostbox.com',
-			'trustymailpro.com',
-		]
-		return domains.some((ltd) => user.email.includes(ltd))
+		return ONETIME_MAIL_DOMAINS.some((ltd) => user.email.includes(ltd))
 	}
 
 	render() {

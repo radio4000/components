@@ -1,13 +1,17 @@
 html {
-	font-size: 13px;
+	font-size: 14px;
 }
 
 r4-app {
 	--s: 1rem;
 	--s-radius: 3px;
-	--s-font: 13px;
+	--s-font: 14px;
 	--s-line-height: 1.5;
 	--font: system-ui, segoe ui, sans-serif, 'Segoe UI Symbol';
+	/* textarea height */
+	--s-textarea: 4em;
+	/* width of forms */
+	--s-form: 50ch;
 
 	/* in use */
 	--blue: #7A8DB3;
@@ -95,6 +99,7 @@ r4-app[color-scheme='light'] {
 
 	--dark: rgba(0,0,0,0.4);
 	--light: rgba(255,255,255,0.3);
+	--s-shadow: 	rgba(0, 0, 0, 0.12) 0px 4px 30px, rgba(0, 0, 0, 0.04) 0px 3px 17px, rgba(0, 0, 0, 0.04) 0px 2px 8px, rgba(0, 0, 0, 0.04) 0px 1px 1px;
 }
 
 r4-app[color-scheme='dark'] {
@@ -110,6 +115,7 @@ r4-app[color-scheme='dark'] {
 
 	--dark: rgba(0,0,0,0.8);
 	--light: rgba(255,255,255,0.2);
+	--s-shadow: rgba(0, 0, 0, 0.184) 0px 3px 8px, rgba(0, 0, 0, 0.184) 0px 2px 5px, rgba(0, 0, 0, 0.184) 0px 1px 1px;
 }
 
 r4-list-item:nth-child(odd) {
@@ -183,6 +189,7 @@ r4-app {
 
 	/* no margins */
 	button,
+	r4-dialog::part(button),
 	select,
 	input[type='text'],
 	input[type='number'],
@@ -218,6 +225,7 @@ r4-app {
 			border-color: var(--blue);
 		}
 	}
+
 	/* Text inputs */
 	input[type='text'],
 	input[type='number'],
@@ -227,15 +235,21 @@ r4-app {
 	input[type='url'],
 	textarea {
 	}
+
 	/* "Buttons" */
 	button,
 	select,
+	r4-dialog::part(button),
 	r4-layout::part(controls-button) {
 		background: var(--c-bg2);
 		cursor: initial;
 
 		&[disabled] {
 			opacity: 0.5;
+		}
+
+		&[role=primary] {
+			background: var(--c-accent1);
 		}
 	}
 
@@ -329,21 +343,42 @@ r4-button-play button {
 r4-app form legend,
 r4-app form label {
 	font-weight: bold;
+	color: var(--c-fg);
 }
 r4-app form slot[name='submit'] fieldset:last-of-type {
 	justify-content: flex-start;
 }
 r4-app form {
+	max-width: var(--s-form);
+
+	display: flex;
+	flex-flow: column;
+	gap: 1rem;
+
 	& input[type='text'],
 	& input[type='email'],
 	& input[type='password'],
 	& input[type='url'],
 	& textarea {
-		/* width: 100%; */
+		width: 100%;
 	}
 	& textarea {
 		min-height: var(--s-textarea);
 	}
+}
+
+/* Dialogs */
+r4-dialog::part(dialog) {
+	width: var(--s-form);
+	max-width: calc(100% - 4rem);
+	background: var(--c-bg2);
+	border: 0.5px solid var(--c-border);
+	border-radius: var(--s-radius);
+	box-shadow: var(--s-shadow);
+}
+
+r4-dialog form {
+	margin-top: 1rem;
 }
 
 r4-avatar {
@@ -385,6 +420,9 @@ r4-supabase-modifiers input[name="limit"] {
 r4-supabase-filter-search,
 r4-supabase-modifiers,
 r4-supabase-filters {
+	form {
+		flex-flow: row wrap;
+	}
 	& legend {
 		transform: translate(-20%, -50%);
 	}
@@ -424,6 +462,13 @@ r4-page-settings  {
 		section header h2 {
 			margin: 1rem 0 0.5rem 0.5rem;
 		}
+	}
+}
+
+/* Pages with padding hm */
+r4-page-add {
+	r4-page-main {
+		margin: 1rem;
 	}
 }
 
