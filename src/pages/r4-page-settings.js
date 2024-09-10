@@ -115,7 +115,7 @@ export default class R4PageSettings extends R4Page {
 						${this.store.user.new_email ? this.renderNewEmail() : null}
 						<fieldset>
 							<legend>Email</legend>
-							<input disabled value=${this.store?.user?.email} />
+							<input type="email" disabled value=${this.store?.user?.email} />
 						</fieldset>
 					</form>
 				</r4-email-display>
