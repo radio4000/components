@@ -295,7 +295,8 @@ r4-app menu {
 }
 
 r4-page-header menu {
-	padding: 0 0.5rem 0.2rem;
+	padding: 0 0.5rem 0.5rem;
+	align-items: flex-end;
 }
 
 r4-page-footer {
@@ -326,7 +327,7 @@ r4-track-description {
 /* lists of cards and tracks */
 r4-list-item {
 	padding-left: 0.5rem;
-	min-height: 2rem;
+	min-height: 2.25rem;
 }
 r4-track-body {
 	text-overflow: ellipsis;
@@ -338,6 +339,9 @@ r4-actions summary {
 }
 r4-button-play button {
 }
+r4-actions details menu {
+	gap: 3px;
+}
 
 /* Forms */
 r4-app form legend,
@@ -346,7 +350,7 @@ r4-app form label {
 	color: var(--c-fg);
 }
 r4-app form slot[name='submit'] fieldset:last-of-type {
-	justify-content: flex-start;
+	justify-content: flex-end;
 }
 r4-app form {
 	max-width: var(--s-form);
@@ -632,5 +636,3 @@ r4-app[color-scheme="dark"]  {
 			background: black;
 		}
 	}
-
-
