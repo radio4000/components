@@ -292,6 +292,8 @@ export default class R4Form extends HTMLElement {
 	resetForm() {
 		if (this.$form) {
 			this.$form.reset()
+			this.state.title = ''
+			this.state.url = ''
 		}
 	}
 }
