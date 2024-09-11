@@ -62,11 +62,16 @@ See the [themes github repo](https://github.com/4www/themes)
 To release this package under `@radio4000/components` on NPM, bump the version in package.json, create a commit, tag it. Create a new release on Github and let the Github action publish it.
 
 To make sure the build workflows:
+
 - npm run build
 - npm run dev
-- open http://localhost:4000/tests/dist-test.html
+- open - open http://localhost:4000/ and http://localhost:4000/tests/dist-test.html and click around, see if things work
 
-### Creating a new component
+## Deploying to radio4000.com
+
+To update radio4000.com, update the version of `@radio4000/components` on https://github.com/radio4000/radio4000.com.
+
+## Creating a new component
 
 - create a `./src/components/r4-*.js` file
 - export default HTMLElement
@@ -74,7 +79,7 @@ To make sure the build workflows:
 - create an demo in `./examples/r4-*/index.html`
 - reference the demo HTML page in `./vite.config.js`
 
-### Connection to the Radio4000 database
+## Connection to the Radio4000 database
 
 All components use the @radio4000/sdk. The exact db is configured in https://github.com/radio4000/components/blob/main/src/libs/sdk.js.
 
