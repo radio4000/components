@@ -8,10 +8,6 @@ fieldsTemplate.innerHTML = `
 			<label for="id">ID</label>
 			<input name="id" type="text"/>
 		</fieldset>
-		<fieldset>
-			<label for="confirmation">Confirmation</label>
-			<input name="confirmation" type="checkbox" required/>
-		</fieldset>
 	</slot>
 `
 
@@ -27,10 +23,6 @@ export default class R4TrackDelete extends R4Form {
 		default: {
 			message: 'Unhandled error',
 			field: null,
-		},
-		confirmation: {
-			message: 'Really sure to delete this track?',
-			field: 'confirmation',
 		},
 	}
 
@@ -48,14 +40,7 @@ export default class R4TrackDelete extends R4Form {
 		event.stopPropagation()
 		this.disableForm()
 
-		const {id, confirmation} = this.state
-
-		if (!confirmation) {
-			this.enableForm()
-			return this.handleError({
-				code: 'confirmation',
-			})
-		}
+		const {id} = this.state
 
 		let res
 		try {
