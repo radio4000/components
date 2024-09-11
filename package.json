@@ -26,8 +26,8 @@
   "dependencies": {
     "@hcaptcha/vanilla-hcaptcha": "^1.1.0-alpha2",
     "@radio4000/sdk": "^0.4.11",
-    "fuzzysort": "^3.0.1",
-    "lit": "^3.1.3",
+    "fuzzysort": "^3.0.2",
+    "lit": "^3.2.0",
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
     "media-url-parser": "^0.2.4",
@@ -36,17 +36,17 @@
     "radio4000-player": "^0.6.24"
   },
   "devDependencies": {
-    "@custom-elements-manifest/analyzer": "^0.10.2",
-    "@eslint/js": "^9.4.0",
-    "eslint": "^9.4.0",
-    "eslint-plugin-jsdoc": "^48.2.7",
-    "eslint-plugin-lit": "^1.14.0",
-    "eslint-plugin-wc": "^2.1.0",
-    "globals": "^15.3.0",
+    "@custom-elements-manifest/analyzer": "^0.10.3",
+    "@eslint/js": "^9.10.0",
+    "eslint": "^9.10.0",
+    "eslint-plugin-jsdoc": "^50.2.2",
+    "eslint-plugin-lit": "^1.15.0",
+    "eslint-plugin-wc": "^2.1.1",
+    "globals": "^15.9.0",
     "lit-analyzer": "^2.0.3",
-    "prettier": "^3.3.0",
+    "prettier": "^3.3.3",
     "recursive-readdir": "^2.2.3",
-    "vite": "^5.2.12"
+    "vite": "^5.4.4"
   },
   "repository": {
     "type": "git",
