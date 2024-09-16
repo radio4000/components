@@ -32,6 +32,11 @@ export default class R4PageChannel extends BaseChannel {
 		this.tracks = event.detail.data
 	}
 
+	async onQuery({detail}) {
+		const res = await this.store.cache.get(`${this.params.slug}/latesttracks`, () => query(detail))
+		this.tracks = res.data
+  }
+
 	renderAside() {
 		return html`
 			<r4-query

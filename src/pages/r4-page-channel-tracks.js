@@ -23,7 +23,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 		href: {type: String},
 		origin: {type: String},
 	}
-
+  
 	constructor() {
 		super()
 		this.query = {
@@ -34,6 +34,19 @@ export default class R4PageChannelTracks extends BaseChannel {
 			order: 'desc'
 		}
 	}
+  
+	async onQuery(event) {
+		if (!this.channel) return
+		const q = event.detail
+		urlUtils.updateSearchParams(q, ['table', 'select'])
+		const filtersWithDefaults = [...(q.filters || []), ...this.defaultFilters]
+		q.filters = filtersWithDefaults
+		const key = JSON.stringify(q)
+		const res = await this.store.cache.get(`tracks_${key}`, () => query(q))
+		this.count = res.count
+		this.tracks = res.data
+		this.lastQuery = q
+  }
 
 	handleData(event) {
 		const {data: tracks, count} = event.detail
