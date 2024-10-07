@@ -1,61 +1,59 @@
 {
-  "name": "@radio4000/components",
-  "description": "Web components for radio4000.com",
-  "private": false,
-  "version": "0.2.5",
-  "type": "module",
-  "main": "dist/r4.js",
-  "exports": {
-    ".": "./dist/r4.js",
-    "./style": "./dist/style.css"
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "prettier src --write",
-    "lint": "eslint src",
-    "start": "npm run dev",
-    "dev": "vite --port 4000 --config src/vite/site.config.js",
-    "build": "npm run build-website && npm run build-library",
-    "build-library": "vite build --config src/vite/lib.config.js",
-    "build-website": "vite build --config src/vite/site.config.js",
-    "manifest": "custom-elements-manifest analyze --litelement --globs 'src/components/*.js' --exclude 'src/components/r4-app.js' --outdir public"
-  },
-  "dependencies": {
-    "@hcaptcha/vanilla-hcaptcha": "^1.1.0-alpha2",
-    "@radio4000/sdk": "^0.4.11",
-    "fuzzysort": "^3.0.2",
-    "lit": "^3.2.0",
-    "lodash.debounce": "^4.0.8",
-    "lodash.isequal": "^4.5.0",
-    "media-url-parser": "^0.2.4",
-    "ol": "^9.2.4",
-    "page": "^1.11.6",
-    "radio4000-player": "^0.6.24"
-  },
-  "devDependencies": {
-    "@custom-elements-manifest/analyzer": "^0.10.3",
-    "@eslint/js": "^9.10.0",
-    "eslint": "^9.10.0",
-    "eslint-plugin-jsdoc": "^50.2.2",
-    "eslint-plugin-lit": "^1.15.0",
-    "eslint-plugin-wc": "^2.1.1",
-    "globals": "^15.9.0",
-    "lit-analyzer": "^2.0.3",
-    "prettier": "^3.3.3",
-    "recursive-readdir": "^2.2.3",
-    "vite": "^5.4.4"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/radio4000/components.git"
-  },
-  "author": "radio4000",
-  "license": "GPL-3.0-or-later",
-  "bugs": {
-    "url": "https://github.com/radio4000/components/issues"
-  },
-  "homepage": "https://github.com/radio4000/components#readme"
+	"name": "@radio4000/components",
+	"description": "Web components for radio4000.com",
+	"private": false,
+	"version": "0.2.6",
+	"type": "module",
+	"main": "dist/r4.js",
+	"exports": {
+		".": "./dist/r4.js",
+		"./style": "./dist/style.css"
+	},
+	"files": ["dist"],
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"format": "prettier src --write",
+		"lint": "eslint src",
+		"start": "npm run dev",
+		"dev": "vite --port 4000 --config src/vite/site.config.js",
+		"build": "npm run build-website && npm run build-library",
+		"build-library": "vite build --config src/vite/lib.config.js",
+		"build-website": "vite build --config src/vite/site.config.js",
+		"manifest": "custom-elements-manifest analyze --litelement --globs 'src/components/*.js' --exclude 'src/components/r4-app.js' --outdir public"
+	},
+	"dependencies": {
+		"@hcaptcha/vanilla-hcaptcha": "^1.1.0-alpha2",
+		"@radio4000/sdk": "^0.4.11",
+		"fuzzysort": "^3.0.2",
+		"lit": "^3.2.0",
+		"lodash.debounce": "^4.0.8",
+		"lodash.isequal": "^4.5.0",
+		"media-url-parser": "^0.2.4",
+		"ol": "^9.2.4",
+		"page": "^1.11.6",
+		"radio4000-player": "^0.6.24"
+	},
+	"devDependencies": {
+		"@custom-elements-manifest/analyzer": "^0.10.3",
+		"@eslint/js": "^9.10.0",
+		"eslint": "^9.10.0",
+		"eslint-plugin-jsdoc": "^50.2.2",
+		"eslint-plugin-lit": "^1.15.0",
+		"eslint-plugin-wc": "^2.1.1",
+		"globals": "^15.9.0",
+		"lit-analyzer": "^2.0.3",
+		"prettier": "^3.3.3",
+		"recursive-readdir": "^2.2.3",
+		"vite": "^5.4.4"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/radio4000/components.git"
+	},
+	"author": "radio4000",
+	"license": "GPL-3.0-or-later",
+	"bugs": {
+		"url": "https://github.com/radio4000/components/issues"
+	},
+	"homepage": "https://github.com/radio4000/components#readme"
 }
