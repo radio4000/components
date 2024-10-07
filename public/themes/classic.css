@@ -433,8 +433,7 @@ r4-app form button {
 }
 
 /* Vertical track form layout */
-r4-app form,
-r4-track-create {
+r4-app form {
 	max-width: 100%;
 	& label {
 		display: block;
@@ -462,7 +461,8 @@ r4-dialog {
 	display: flex;
 	justify-content: center;
 	& form {
-		width: var(--s-form);
+		max-width: var(--s-form);
+		width: 100%;
 		padding: calc(var(--s) / 2);
 		border-radius: var(--s-radius);
 		& fieldset {
@@ -477,10 +477,16 @@ r4-sign-up {
 		border: 1px solid var(--c-border);
 	}
 }
-
-r4-page-add form {
-	border-color: var(--c-purple-light);
+r4-track-create {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	& form {
+		border-color: var(--c-purple-light);
+	}
 }
+
 r4-supabase-modifiers,
 r4-supabase-modifiers form,
 r4-supabase-filters,
