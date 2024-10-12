@@ -23,13 +23,10 @@ export default class R4PageChannelFollowings extends BaseChannel {
 	}
 	renderMain() {
 		if (this.channels?.length) {
-			return [this.renderFollowsYou(), this.renderChannels()]
+			return this.renderChannels()
 		} else {
 			return this.renderNoChannels()
 		}
-	}
-	renderFollowsYou() {
-		return html`<section>${this.followsYou ? 'Follows you' : null}</section>`
 	}
 	renderChannels() {
 		return html`
