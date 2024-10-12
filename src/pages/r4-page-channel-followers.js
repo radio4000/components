@@ -6,7 +6,19 @@ import {sdk} from '../libs/sdk.js'
 export default class R4PageChannelFollowers extends BaseChannel {
 	static properties = {
 		channels: {type: Array, state: true},
+		loaded: {type: Boolean}
 	}
+
+	async connectedCallback() {
+		await super.connectedCallback()
+		if (this.channel && !this.channels) {
+			await this.setChannels()
+			this.loaded = true
+		} else {
+			this.loaded = true
+		}
+	}
+
 	async setChannels() {
 		this.channels = (
 			await sdk.supabase
@@ -15,13 +27,9 @@ export default class R4PageChannelFollowers extends BaseChannel {
 				.eq('channel_id.slug', this.channel.slug)
 		).data
 	}
-	async connectedCallback() {
-		await super.connectedCallback()
-		if (this.channel && !this.channels) {
-			await this.setChannels()
-		}
-	}
+
 	renderMain() {
+		if (!this.loaded) return
 		if (this.channels?.length) {
 			return this.renderChannels()
 		} else {

@@ -6,6 +6,7 @@ import {sdk} from '../libs/sdk.js'
 export default class R4PageChannelFollowings extends BaseChannel {
 	static properties = {
 		channels: {type: Array, state: true},
+		loaded: {type: Boolean},
 	}
 	async setChannels() {
 		this.channels = (
@@ -19,17 +20,18 @@ export default class R4PageChannelFollowings extends BaseChannel {
 		await super.connectedCallback()
 		if (this.channel && !this.channels) {
 			await this.setChannels()
+			this.loaded = true
+		} else {
+			this.loaded = true
 		}
 	}
 	renderMain() {
+		if (!this.loaded) return
 		if (this.channels?.length) {
-			return [this.renderFollowsYou(), this.renderChannels()]
+			return this.renderChannels()
 		} else {
 			return this.renderNoChannels()
 		}
-	}
-	renderFollowsYou() {
-		return html`<section>${this.followsYou ? 'Follows you' : null}</section>`
 	}
 	renderChannels() {
 		return html`

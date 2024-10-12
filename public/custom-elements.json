@@ -12,7 +12,7 @@
           "type": {
             "text": "object"
           },
-          "default": "{ 'r4-actions': R4Actions, 'r4-admin': R4Admin, 'r4-app': R4App, 'r4-command-menu': R4CommandMenu, 'r4-app-menu': R4AppMenu, 'r4-avatar': R4Avatar, 'r4-avatar-update': R4AvatarUpdate, 'r4-avatar-upload': R4AvatarUpload, 'r4-auth-status': R4AuthStatus, 'r4-button-play': R4ButtonPlay, 'r4-button-follow': R4ButtonFollow, 'r4-channel': R4Channel, 'r4-channel-card': R4ChannelCard, 'r4-channel-create': R4ChannelCreate, 'r4-channel-delete': R4ChannelDelete, 'r4-channel-update': R4ChannelUpdate, 'r4-channel-search': R4ChannelSearch, 'r4-dialog': R4Dialog, 'r4-email-update': R4EmailUpdate, 'r4-favicon': R4Favicon, 'r4-layout': R4Layout, 'r4-loading': R4Loading, 'r4-map': R4Map, 'r4-map-position': R4MapPosition, 'r4-password-update': R4PasswordUpdate, 'r4-password-reset': R4PasswordReset, 'r4-player': R4Player, 'r4-query': R4Query, 'r4-router': R4Router, 'r4-share': R4Share, 'r4-sign-in': R4SignIn, 'r4-sign-out': R4SignOut, 'r4-sign-up': R4SignUp, 'r4-supabase-query': R4SupabaseQuery, 'r4-supabase-filters': R4SupabaseFilters, 'r4-supabase-filter-search': R4SupabaseFilterSearch, 'r4-title': R4Title, 'r4-track': R4Track, 'r4-track-create': R4TrackCreate, 'r4-track-delete': R4TrackDelete, 'r4-track-update': R4TrackUpdate, 'r4-track-search': R4TrackSearch, 'r4-tuner': R4Tuner, 'r4-user': R4User, 'r4-user-delete': R4UserDelete, 'r4-user-account': R4UserAccount, 'r4-user-channels-select': R4UserChannelsSelect, 'r4-pagination': R4Pagination, 'r4-icon': R4Icon, }"
+          "default": "{ 'r4-actions': R4Actions, 'r4-admin': R4Admin, 'r4-app': R4App, 'r4-command-menu': R4CommandMenu, 'r4-app-menu': R4AppMenu, 'r4-app-user-menu': R4AppUserMenu, 'r4-avatar': R4Avatar, 'r4-avatar-update': R4AvatarUpdate, 'r4-avatar-upload': R4AvatarUpload, 'r4-auth-status': R4AuthStatus, 'r4-button-play': R4ButtonPlay, 'r4-button-follow': R4ButtonFollow, 'r4-channel': R4Channel, 'r4-channel-card': R4ChannelCard, 'r4-channel-create': R4ChannelCreate, 'r4-channel-delete': R4ChannelDelete, 'r4-channel-update': R4ChannelUpdate, 'r4-channel-search': R4ChannelSearch, 'r4-dialog': R4Dialog, 'r4-discogs-resource': R4DiscogsResource, 'r4-email-update': R4EmailUpdate, 'r4-favicon': R4Favicon, 'r4-layout': R4Layout, 'r4-loading': R4Loading, 'r4-map': R4Map, 'r4-map-position': R4MapPosition, 'r4-password-update': R4PasswordUpdate, 'r4-password-reset': R4PasswordReset, 'r4-player': R4Player, 'r4-query': R4Query, 'r4-router': R4Router, 'r4-share-channel': R4ShareChannel, 'r4-share-track': R4ShareTrack, 'r4-sign-in': R4SignIn, 'r4-sign-out': R4SignOut, 'r4-sign-up': R4SignUp, 'r4-supabase-query': R4SupabaseQuery, 'r4-supabase-filters': R4SupabaseFilters, 'r4-supabase-filter-search': R4SupabaseFilterSearch, 'r4-title': R4Title, 'r4-track': R4Track, 'r4-track-create': R4TrackCreate, 'r4-track-delete': R4TrackDelete, 'r4-track-update': R4TrackUpdate, 'r4-track-search': R4TrackSearch, 'r4-tuner': R4Tuner, 'r4-user': R4User, 'r4-user-delete': R4UserDelete, 'r4-user-account': R4UserAccount, 'r4-user-channels-select': R4UserChannelsSelect, 'r4-pagination': R4Pagination, 'r4-icon': R4Icon, }"
         }
       ],
       "exports": [
@@ -92,6 +92,14 @@
       "path": "src/components/r4-admin.js",
       "declarations": [
         {
+          "kind": "variable",
+          "name": "ONETIME_MAIL_DOMAINS",
+          "type": {
+            "text": "array"
+          },
+          "default": "[ 'clearmailhub.com', 'connectmailhub.com', 'emailnestpro.com', 'inboxmasters.com', 'rocketpostbox.com', 'trustymailpro.com', ]"
+        },
+        {
           "kind": "class",
           "description": "To use, be sure to pass in the two supabase keys.\nRenders an admin dashboard that allows you to combat spam content and more.\nhttps://supabase.com/docs/reference/javascript/admin-api",
           "name": "R4Admin",
@@ -163,6 +171,15 @@
                 "text": "object"
               },
               "attribute": "result"
+            },
+            {
+              "kind": "field",
+              "name": "showAllUsers",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "showAllUsers"
             }
           ],
           "attributes": [
@@ -186,6 +203,13 @@
                 "text": "object"
               },
               "fieldName": "result"
+            },
+            {
+              "name": "showAllUsers",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "showAllUsers"
             }
           ],
           "superclass": {
@@ -196,6 +220,14 @@
         }
       ],
       "exports": [
+        {
+          "kind": "js",
+          "name": "ONETIME_MAIL_DOMAINS",
+          "declaration": {
+            "name": "ONETIME_MAIL_DOMAINS",
+            "module": "src/components/r4-admin.js"
+          }
+        },
         {
           "kind": "js",
           "name": "default",
@@ -216,30 +248,16 @@
           "name": "R4AppMenu",
           "members": [
             {
-              "kind": "field",
-              "name": "canAdd",
-              "readonly": true
-            },
-            {
               "kind": "method",
               "name": "isCurrent",
               "parameters": [
                 {
-                  "name": "path"
+                  "name": "path",
+                  "type": {
+                    "text": "string"
+                  }
                 }
               ]
-            },
-            {
-              "kind": "method",
-              "name": "renderNoAuth"
-            },
-            {
-              "kind": "method",
-              "name": "renderAuth"
-            },
-            {
-              "kind": "method",
-              "name": "renderAdd"
             },
             {
               "kind": "field",
@@ -248,35 +266,17 @@
               "type": {
                 "text": "string"
               },
+              "default": "''",
               "attribute": "href"
-            },
-            {
-              "kind": "field",
-              "name": "slug",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "slug"
-            },
-            {
-              "kind": "field",
-              "name": "auth",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "If set to true, renders different menu items",
-              "attribute": "auth"
             },
             {
               "kind": "field",
               "name": "path",
               "privacy": "public",
               "type": {
-                "text": "boolean"
+                "text": "string"
               },
-              "description": "Used to set active link",
+              "default": "''",
               "attribute": "path"
             }
           ],
@@ -286,29 +286,15 @@
               "type": {
                 "text": "string"
               },
+              "default": "''",
               "fieldName": "href"
-            },
-            {
-              "name": "slug",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "slug"
-            },
-            {
-              "name": "auth",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "If set to true, renders different menu items",
-              "fieldName": "auth"
             },
             {
               "name": "path",
               "type": {
-                "text": "boolean"
+                "text": "string"
               },
-              "description": "Used to set active link",
+              "default": "''",
               "fieldName": "path"
             }
           ],
@@ -326,6 +312,142 @@
           "declaration": {
             "name": "R4AppMenu",
             "module": "src/components/r4-app-menu.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/r4-app-user-menu.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "The primary user menu for <r4-app>",
+          "name": "R4AppUserMenu",
+          "members": [
+            {
+              "kind": "method",
+              "name": "isCurrent",
+              "parameters": [
+                {
+                  "name": "path"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onChannelSelect",
+              "parameters": [
+                {
+                  "name": "event"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderChannelLinks"
+            },
+            {
+              "kind": "method",
+              "name": "renderChannelSelect"
+            },
+            {
+              "kind": "method",
+              "name": "renderAdd"
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "path",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "path"
+            },
+            {
+              "kind": "field",
+              "name": "channel",
+              "privacy": "public",
+              "type": {
+                "text": "object"
+              },
+              "attribute": "channel"
+            },
+            {
+              "kind": "field",
+              "name": "channels",
+              "privacy": "public",
+              "type": {
+                "text": "array"
+              },
+              "attribute": "channels"
+            }
+          ],
+          "events": [
+            {
+              "name": "select",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "href"
+            },
+            {
+              "name": "channel",
+              "type": {
+                "text": "object"
+              },
+              "fieldName": "channel"
+            },
+            {
+              "name": "channels",
+              "type": {
+                "text": "array"
+              },
+              "fieldName": "channels"
+            },
+            {
+              "name": "path",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "path"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "R4AppUserMenu",
+            "module": "src/components/r4-app-user-menu.js"
           }
         }
       ]
@@ -410,11 +532,11 @@
             },
             {
               "kind": "method",
-              "name": "renderAvatar"
+              "name": "renderUpload"
             },
             {
               "kind": "method",
-              "name": "renderUpload"
+              "name": "renderAvatar"
             },
             {
               "kind": "method",
@@ -436,7 +558,8 @@
               "type": {
                 "text": "string"
               },
-              "attribute": "image"
+              "attribute": "image",
+              "reflects": true
             }
           ],
           "attributes": [
@@ -694,6 +817,7 @@
               "type": {
                 "text": "boolean"
               },
+              "description": "Whether to render a follow or unfollow state",
               "attribute": "following"
             },
             {
@@ -721,6 +845,7 @@
               "type": {
                 "text": "boolean"
               },
+              "description": "Whether to render a follow or unfollow state",
               "fieldName": "following"
             },
             {
@@ -777,6 +902,15 @@
                 "text": "string"
               },
               "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "disabled"
             },
             {
               "kind": "field",
@@ -851,6 +985,13 @@
                 "text": "string"
               },
               "fieldName": "label"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "disabled"
             },
             {
               "name": "slug",
@@ -2017,6 +2158,146 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/components/r4-discogs-resource.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "R4DiscogsResource",
+          "members": [
+            {
+              "kind": "field",
+              "name": "url",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "full",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "suggestions",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "allValues",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "onSuggestion",
+              "parameters": [
+                {
+                  "name": "event"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "fetchResource",
+              "parameters": [
+                {
+                  "name": "url"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "buildSuggestions",
+              "parameters": [
+                {
+                  "name": "resource"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "buildSuggestion",
+              "parameters": [
+                {
+                  "name": "suggestion"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "buildCard",
+              "parameters": [
+                {
+                  "name": "resource"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "buildTitle",
+              "parameters": [
+                {
+                  "name": "resource"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "buildFull",
+              "parameters": [
+                {
+                  "name": "resource"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "buildTracklist",
+              "parameters": [
+                {
+                  "name": "resource"
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "suggestion",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "url"
+            },
+            {
+              "name": "href"
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "R4DiscogsResource",
+            "module": "src/components/r4-discogs-resource.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/components/r4-email-update.js",
       "declarations": [
         {
@@ -2472,7 +2753,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{ search: '🔍', map: '🗺️', map_position: '✵', globe: '🌍', dark: '🌘', light: '🌖', player_status: '♫', player_close: 'x', player_dock: '⌃', player_minimize: '⌄', player_fullscreen: '⛶', // ⌆ follow: '☆', unfollow: '★', remove: 'x', }"
+              "default": "{ search: '🔍', map: '🗺️', map_position: '✵', globe: '🌍', dark: '🌘', light: '🌖', play: '▶', player_status: '♫', player_close: 'x', player_dock: '⌃', player_minimize: '⌄', player_fullscreen: '⛶', // ⌆ follow: '☆', unfollow: '★', remove: 'x', }"
             },
             {
               "kind": "field",
@@ -2940,6 +3221,15 @@
             },
             {
               "kind": "field",
+              "name": "slug",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "slug"
+            },
+            {
+              "kind": "field",
               "name": "channels",
               "privacy": "public",
               "type": {
@@ -2958,12 +3248,12 @@
             },
             {
               "kind": "field",
-              "name": "clickedCoordinates",
+              "name": "zoom",
               "privacy": "public",
               "type": {
-                "text": "array"
+                "text": "number"
               },
-              "attribute": "clickedCoordinates"
+              "attribute": "zoom"
             },
             {
               "kind": "field",
@@ -3004,6 +3294,13 @@
           ],
           "attributes": [
             {
+              "name": "slug",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "slug"
+            },
+            {
               "name": "channels",
               "type": {
                 "text": "array"
@@ -3042,11 +3339,11 @@
               "fieldName": "latitude"
             },
             {
-              "name": "clickedCoordinates",
+              "name": "zoom",
               "type": {
-                "text": "array"
+                "text": "number"
               },
-              "fieldName": "clickedCoordinates"
+              "fieldName": "zoom"
             },
             {
               "name": "href",
@@ -3879,16 +4176,22 @@
             },
             {
               "kind": "method",
-              "name": "fetchData"
+              "name": "fetchData",
+              "description": "Fetches whatever this.browseQuery defines. It will skip fetching if the query has not changed."
             },
             {
               "kind": "method",
               "name": "setQuery",
               "parameters": [
                 {
-                  "name": "query"
+                  "name": "query",
+                  "default": "{}",
+                  "type": {
+                    "text": "R4Query"
+                  }
                 }
-              ]
+              ],
+              "description": "Shortcut when no extra logic is needed. Also updates URL params and reloads data."
             },
             {
               "kind": "method",
@@ -3976,7 +4279,7 @@
             {
               "kind": "field",
               "name": "debouncedFetchData",
-              "description": "A debounced version of fetchData()"
+              "description": "A debounced version"
             },
             {
               "kind": "field",
@@ -4888,94 +5191,108 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/r4-share.js",
+      "path": "src/components/r4-share-channel.js",
       "declarations": [
         {
           "kind": "class",
           "description": "",
-          "name": "R4ChannelShare",
+          "name": "R4ShareChannel",
           "members": [
             {
               "kind": "field",
-              "name": "slug",
+              "name": "iframeHtml",
               "readonly": true
             },
             {
               "kind": "field",
-              "name": "trackId",
+              "name": "iconHtml",
               "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "mediaUrl",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "origin",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "trackOrigin",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "playerOrigin",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "iconOrigin",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "iframe",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "icon",
-              "readonly": true
-            },
-            {
-              "kind": "method",
-              "name": "buildTemplate"
             },
             {
               "kind": "method",
               "name": "onInputClick",
               "parameters": [
                 {
-                  "name": "{target}"
+                  "name": "event"
                 }
               ]
+            },
+            {
+              "kind": "field",
+              "name": "playerOrigin",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "'https://player.radio4000.com/v2'",
+              "attribute": "player-origin"
+            },
+            {
+              "kind": "field",
+              "name": "iconOrigin",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "'https://assets.radio4000.com/icon-r4.svg'",
+              "attribute": "icon-origin"
+            },
+            {
+              "kind": "field",
+              "name": "channel",
+              "privacy": "public",
+              "type": {
+                "text": "object"
+              },
+              "default": "{}",
+              "attribute": "channel"
+            },
+            {
+              "kind": "field",
+              "name": "origin",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "origin"
             }
           ],
           "attributes": [
             {
-              "name": "origin"
+              "name": "origin",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "origin"
             },
             {
-              "name": "player-origin"
+              "name": "player-origin",
+              "type": {
+                "text": "string"
+              },
+              "default": "'https://player.radio4000.com/v2'",
+              "fieldName": "playerOrigin"
             },
             {
-              "name": "icon-origin"
+              "name": "icon-origin",
+              "type": {
+                "text": "string"
+              },
+              "default": "'https://assets.radio4000.com/icon-r4.svg'",
+              "fieldName": "iconOrigin"
             },
             {
-              "name": "slug"
-            },
-            {
-              "name": "track-id"
-            },
-            {
-              "name": "media-url"
+              "name": "channel",
+              "type": {
+                "text": "object"
+              },
+              "default": "{}",
+              "fieldName": "channel"
             }
           ],
           "superclass": {
-            "name": "HTMLElement"
+            "name": "LitElement",
+            "package": "lit"
           },
           "customElement": true
         }
@@ -4985,8 +5302,107 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "R4ChannelShare",
-            "module": "src/components/r4-share.js"
+            "name": "R4ShareChannel",
+            "module": "src/components/r4-share-channel.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/r4-share-track.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "R4ShareTrack",
+          "members": [
+            {
+              "kind": "field",
+              "name": "trackOriginUrl",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "shareToR4Url",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "onInputClick",
+              "parameters": [
+                {
+                  "name": "event"
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "track",
+              "privacy": "public",
+              "type": {
+                "text": "object"
+              },
+              "default": "{}",
+              "attribute": "track"
+            },
+            {
+              "kind": "field",
+              "name": "origin",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "origin"
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "href"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "origin",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "origin"
+            },
+            {
+              "name": "track",
+              "type": {
+                "text": "object"
+              },
+              "default": "{}",
+              "fieldName": "track"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "href"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "R4ShareTrack",
+            "module": "src/components/r4-share-track.js"
           }
         }
       ]
@@ -6299,6 +6715,15 @@
               }
             },
             {
+              "kind": "method",
+              "name": "handleDiscogsSuggestion",
+              "parameters": [
+                {
+                  "name": "event"
+                }
+              ]
+            },
+            {
               "kind": "field",
               "name": "fieldsTemplate",
               "type": {
@@ -6442,7 +6867,7 @@
           ],
           "attributes": [
             {
-              "name": "channel-id"
+              "name": "channel_id"
             },
             {
               "name": "url"
@@ -6496,7 +6921,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{ default: { message: 'Unhandled error', field: null, }, confirmation: { message: 'Really sure to delete this track?', field: 'confirmation', }, }",
+              "default": "{ default: { message: 'Unhandled error', field: null, }, }",
               "inheritedFrom": {
                 "name": "R4Form",
                 "module": "src/components/r4-form.js"
@@ -6715,7 +7140,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{ 'default': { message: 'Unhandled error', }, }",
+              "default": "{ default: { message: 'Unhandled error', }, }",
               "inheritedFrom": {
                 "name": "R4Form",
                 "module": "src/components/r4-form.js"
@@ -6950,6 +7375,10 @@
             },
             {
               "kind": "method",
+              "name": "renderShare"
+            },
+            {
+              "kind": "method",
               "name": "renderTitle"
             },
             {
@@ -6983,6 +7412,15 @@
               "parameters": [
                 {
                   "name": "slug"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "onMenuToggle",
+              "parameters": [
+                {
+                  "name": "event"
                 }
               ]
             },
@@ -7112,6 +7550,15 @@
                 "text": "boolean"
               },
               "attribute": "canEdit"
+            },
+            {
+              "kind": "field",
+              "name": "menuOpen",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "menuOpen"
             }
           ],
           "events": [
@@ -7193,6 +7640,13 @@
               },
               "default": "true",
               "fieldName": "link"
+            },
+            {
+              "name": "menuOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "fieldName": "menuOpen"
             }
           ],
           "superclass": {
@@ -7506,16 +7960,8 @@
           "name": "R4UserChannelsSelect",
           "members": [
             {
-              "kind": "field",
-              "name": "channel"
-            },
-            {
-              "kind": "field",
-              "name": "channels"
-            },
-            {
               "kind": "method",
-              "name": "onInput",
+              "name": "onSelect",
               "parameters": [
                 {
                   "name": "event"
@@ -7524,32 +7970,54 @@
             },
             {
               "kind": "method",
-              "name": "onAuthStateChange"
+              "name": "_renderOptions"
             },
             {
-              "kind": "method",
-              "name": "refreshUserChannels"
+              "kind": "field",
+              "name": "channel",
+              "privacy": "public",
+              "type": {
+                "text": "object"
+              },
+              "attribute": "channel"
             },
             {
-              "kind": "method",
-              "name": "refreshOptions",
-              "parameters": [
-                {
-                  "name": "channelSlug"
-                }
-              ]
+              "kind": "field",
+              "name": "channels",
+              "privacy": "public",
+              "type": {
+                "text": "array"
+              },
+              "attribute": "channels"
+            }
+          ],
+          "events": [
+            {
+              "name": "select",
+              "type": {
+                "text": "CustomEvent"
+              }
             }
           ],
           "attributes": [
             {
-              "name": "channels"
+              "name": "channel",
+              "type": {
+                "text": "object"
+              },
+              "fieldName": "channel"
             },
             {
-              "name": "channel"
+              "name": "channels",
+              "type": {
+                "text": "array"
+              },
+              "fieldName": "channels"
             }
           ],
           "superclass": {
-            "name": "HTMLElement"
+            "name": "LitElement",
+            "package": "lit"
           },
           "customElement": true
         }

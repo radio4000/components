@@ -6,12 +6,11 @@ export default class BaseChannel extends R4Page {
 	createRenderRoot() {
 		return this
 	}
+
 	static properties = {
 		channel: {type: Object, state: true},
 		channelError: {type: Object, state: true},
 		canEdit: {type: Boolean, state: true},
-		alreadyFollowing: {type: Boolean, state: true},
-		followsYou: {type: Boolean, state: true},
 		isFirebaseChannel: {type: Boolean, state: true},
 		// from router
 		params: {type: Object, state: true},
@@ -68,16 +67,6 @@ export default class BaseChannel extends R4Page {
 	get hasOneChannel() {
 		if (!this.store.user) return false
 		return this.store?.userChannels?.length === 1 ? true : false
-	}
-
-	get alreadyFollowing() {
-		if (!this.store.user) return false
-		return this.store.following?.map((c) => c.slug).includes(this.channel?.slug)
-	}
-
-	get followsYou() {
-		if (!this.store.user) return false
-		return this.store.followers?.map((c) => c.slug).includes(this.config.selectedSlug)
 	}
 
 	// Set channel from the config or URL params.
@@ -181,6 +170,7 @@ export default class BaseChannel extends R4Page {
 			</menu>
 		`
 	}
+
 	renderCoordinates() {
 		const mapUrl = `${this.config.href}/map/?slug=${this.channel.slug}&longitude=${this.coordinates.longitude}&latitude=${this.coordinates.latitude}&zoom=15`
 		return html`
@@ -189,6 +179,7 @@ export default class BaseChannel extends R4Page {
 			</li>
 		`
 	}
+
 	renderAddTrack() {
 		return html`
 			<li>
@@ -196,6 +187,7 @@ export default class BaseChannel extends R4Page {
 			</li>
 		`
 	}
+
 	renderEdit() {
 		return html`
 			<li>
@@ -203,19 +195,22 @@ export default class BaseChannel extends R4Page {
 			</li>
 		`
 	}
+
 	renderSocial() {
 		if (!this.config?.singleChannel && this.store.user) {
+			const isFollower = this.store.following?.map((c) => c.slug).includes(this.channel?.slug)
 			return html`
 				<r4-channel-social>
 					<r4-button-follow
-						?following=${this.alreadyFollowing}
+						?following=${isFollower}
+						.followerChannel=${this.store.selectedChannel}
 						.channel=${this.channel}
-						.userChannel=${this.store.selectedChannel}
 					></r4-button-follow>
 				</r4-channel-social>
 			`
 		}
 	}
+
 	renderChannelImage(image) {
 		if (!image) return null
 		return html` <r4-avatar image=${image} size="small"></r4-avatar> `
