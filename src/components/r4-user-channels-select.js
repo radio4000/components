@@ -1,14 +1,15 @@
 import {LitElement, html} from 'lit'
-import {sdk} from '../libs/sdk.js'
 
 export default class R4UserChannelsSelect extends LitElement {
 	createRenderRoot() {
 		return this
 	}
+
 	static properties = {
-		channel: {type: Object || null},
-		channels: {type: Array || null},
+		channel: {type: Object},
+		channels: {type: Array},
 	}
+
 	onSelect(event) {
 		event.stopPropagation()
 		event.preventDefault()
@@ -20,6 +21,7 @@ export default class R4UserChannelsSelect extends LitElement {
 			}),
 		)
 	}
+
 	render() {
 		return html`
 			<label>
@@ -32,6 +34,7 @@ export default class R4UserChannelsSelect extends LitElement {
 			</label>
 		`
 	}
+
 	_renderOptions() {
 		return this.channels?.map((channel) => {
 			return html` <option value=${channel.id}>${channel.slug}</option> `

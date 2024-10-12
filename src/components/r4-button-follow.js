@@ -3,6 +3,7 @@ import {sdk} from '../libs/sdk.js'
 
 export default class R4ButtonFollow extends LitElement {
 	static properties = {
+		/** Whether to render a follow or unfollow state */
 		following: {type: Boolean},
 		channel: {type: Object, state: true},
 		userChannel: {type: Object, state: true},

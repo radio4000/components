@@ -1,23 +1,30 @@
 import {LitElement, html, nothing} from 'lit'
 
 /**
- * The primary menu for a User of the <r4-app>
+ * The primary user menu for <r4-app>
  */
 export default class R4AppUserMenu extends LitElement {
 	createRenderRoot() {
 		return this
 	}
+
 	static properties = {
 		/* props */
 		href: {type: String},
-		channel: {type: Object || null},
-		channels: {type: Array || null},
+		channel: {type: Object},
+		channels: {type: Array},
 
 		/* state */
 		path: {type: String, state: true},
 	}
+
 	constructor() {
 		super()
+
+		this.href = ''
+		this.path = ''
+
+		// Set "path" on every navigation.
 		window?.navigation?.addEventListener('navigate', (e) => {
 			this.path = e.destination.url.replace(this.href, '').split('?')[0]
 		})
@@ -39,7 +46,7 @@ export default class R4AppUserMenu extends LitElement {
 	}
 
 	render() {
-		const {href, path} = this
+		const {href} = this
 		return html`
 			<menu>
 				<li>${this.channel ? this.renderAdd() : null}</li>
