@@ -12,9 +12,9 @@ export default class R4PageExplore extends R4Page {
 	constructor() {
 		super()
 		this.query = {
-			table: 'channels',
+			table: 'channels_explore',
 			orderBy: 'updated_at',
-			limit: 15,
+			limit: 100,
 		}
 		this.channels = []
 	}
@@ -44,6 +44,8 @@ export default class R4PageExplore extends R4Page {
 			<r4-page-main>
 				<section>
 					<r4-list>${this.renderListItems()}</r4-list>
+					<p>On this page you'll find radio channels with at least one track.<br>
+					Radios that didn't migrate are unfortunately not here, but find them on <a href="https://v1.radio4000.com">v1.radio4000.com</a>.</p>
 				</section>
 			</r4-page-main>
 		`

@@ -4,6 +4,10 @@ const supabaseTables = {
 		columns: ['created_at', 'updated_at', 'slug', 'name', 'description', 'coordinates', 'url', 'firebase', 'id', 'fts', 'image'],
 		selects: ['*', 'id'],
 	},
+	channels_explore: {
+		columns: ['created_at', 'updated_at', 'name'],
+		selects: ['*', 'id'],
+	},
 	tracks: {
 		columns: [
 			'created_at',

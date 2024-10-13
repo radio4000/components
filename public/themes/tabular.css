@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 html {
 	font-size: 14px;
 }
@@ -7,7 +9,7 @@ r4-app {
 	--s-radius: 3px;
 	--s-font: 14px;
 	--s-line-height: 1.5;
-	--font: system-ui, segoe ui, sans-serif, 'Segoe UI Symbol';
+	--font: fira sans, system-ui, segoe ui, sans-serif, 'Segoe UI Symbol';
 	/* textarea height */
 	--s-textarea: 4em;
 	/* width of forms */
@@ -81,8 +83,8 @@ r4-app {
 	--c-neutral-400: #808070;
 	--c-neutral-300: #959682;
 	--c-neutral-200: #babaa6;
-	--c-neutral-100: #e6e6d1;
-	--c-neutral-50: #f2f2dd;
+	--c-neutral-100: hsl(60deg 30% 86%);
+	--c-neutral-50: hsl(60deg 30% 90%);
 }
 
 r4-app[color-scheme='light'] {

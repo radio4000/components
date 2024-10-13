@@ -425,7 +425,7 @@ r4-app summary {
 	padding: calc(var(--s) / 4);
 }
 r4-app form slot[name='submit'] fieldset:last-of-type {
-	margin: var(--s) calc(var(--s) / 2) calc(var(--s) / 2) var(--s);
+	/* margin: var(--s) calc(var(--s) / 2) calc(var(--s) / 2) var(--s); */
 	justify-content: center;
 }
 r4-app form button {
