@@ -100,7 +100,12 @@ export default class BaseChannel extends R4Page {
 		if (this.channel) {
 			return html`
 				<r4-dialog name="share" @close="${this.onDialogClose}">
-					<r4-share-channel slot="dialog" origin="${this.channelOrigin}" .channel=${this.channel}></r4-share-channel>
+					<main slot="dialog">
+						<header>
+							<h3>Share channel</h3>
+						</header>
+						<r4-share-channel origin="${this.channelOrigin}" .channel=${this.channel}></r4-share-channel>
+					</main>
 				</r4-dialog>
 			`
 		}
