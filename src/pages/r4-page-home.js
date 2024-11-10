@@ -65,7 +65,7 @@ export default class R4PageHome extends R4Page {
 				<r4-list>
 					${this.featuredChannels?.map((channel) => this.renderChannelCard(channel, this.config.href))}
 				</r4-list>
-				<p><a href="${this.config.href}/explore">Explore</a> all radio channels.</p>
+				<p><a href="${this.config.href}/explore">Explore</a> all channels.</p>
 			</section>
 		`
 	}
