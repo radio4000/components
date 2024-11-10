@@ -31,8 +31,12 @@ export default class R4PageAdd extends BaseChannel {
 	}
 	async connectedCallback() {
 		super.connectedCallback()
-		if (this.selectedSlug) {
-			this.channel = await this.findSelectedChannel()
+		if (!this.store.user) {
+			page(`/sign/up/`)
+		} else {
+			if (this.selectedSlug) {
+				this.channel = await this.findSelectedChannel()
+			}
 		}
 	}
 	async findSelectedChannel() {
