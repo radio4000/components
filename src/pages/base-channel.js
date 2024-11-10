@@ -175,7 +175,7 @@ export default class BaseChannel extends R4Page {
 		const mapUrl = `${this.config.href}/map/?slug=${this.channel.slug}&longitude=${this.coordinates.longitude}&latitude=${this.coordinates.latitude}&zoom=15`
 		return html`
 			<li>
-				<a href=${mapUrl}><r4-icon name="map_position"></r4-icon></a>
+				<a href=${mapUrl}>Map</a>
 			</li>
 		`
 	}
