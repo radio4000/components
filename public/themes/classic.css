@@ -38,7 +38,7 @@ r4-app {
 	--s-textarea: calc(var(--s) * 5);
 	--s-container: 75rem;
 	--s-container--list: 50rem;
-	--s-container--channel-card: 45rem;
+	--s-container--channel-card: 35rem;
 	--s-font-s1: 0.8rem;
 	--c-light: hsl(0deg 0% 98%);
 	--c-dark: hsl(0deg 0% 8%);
@@ -572,11 +572,17 @@ r4-page-channel-tracks {
 r4-page-channel {
 	& r4-channel-card {
 		max-width: var(--s-container--channel-card);
+		flex-direction: column;
+		flex-wrap: nowrap;
+		& > a {
+			display: flex;
+		}
 		& r4-channel-card-body {
 			flex-basis: 100%;
 			padding: var(--s);
+			flex-direction: column;
 			& r4-channel-description {
-				align-self: flex-start;
+				text-align: center;
 			}
 			& > a {
 				display: flex;
@@ -586,6 +592,8 @@ r4-page-channel {
 			}
 			& r4-channel-url {
 				font-style: italic;
+				width: 100%;
+				text-align: center;
 			}
 			& r4-channel-slug {
 				padding: calc(var(--s) / 3);
@@ -593,13 +601,19 @@ r4-page-channel {
 			}
 		}
 		& r4-button-play {
+			display: flex;
+			width: 100%;
+			justify-content: center;
+			padding: var(--s);
+			order: 3;
 			& button::after {
 				display: inline;
-				content: 'Listen';
+				content: 'Play';
 			}
 		}
 		& r4-avatar {
 			margin: var(--s);
+			max-width: calc(var(--s-container--channel-card) / 2);
 		}
 		& r4-channel-name {
 			/* color: var(--c-link); */
