@@ -50,7 +50,8 @@ r4-app {
 
 	/* new vars */
 	--c-bg-button: hsl(0, 0%, 98%);
-	--c-bg-button2: color-mix(in oklch, var(--c-bg-button) 50%, white 80%);
+	/* --c-bg-button2: color-mix(in oklch, var(--c-bg-button) 50%, white 80%); */
+	--c-bg-button2: gray;
 	--c-bg-input: hsl(0deg 0% 98%);
 	--c-shadow-input: 1px 2px 2px #e7e6e4 inset;
 	--c-shadow-button: 0 3px 0 -1px rgba(204, 204, 204, 0.9);
@@ -132,6 +133,10 @@ r4-app[color-scheme='dark'] button {
 r4-button-play button:active {
 	position: relative;
 	top: 1px;
+}
+
+r4-player {
+	padding: calc(var(--s) / 1.5);
 }
 
 /* Text inputs */
@@ -349,7 +354,9 @@ r4-track a {
 	background-color: transparent;
 	text-decoration: none;
 }
-
+r4-track-title {
+	display: flex;
+}
 r4-track-title a {
 	padding: 0;
 	/* font-weight: bold; */
@@ -478,6 +485,9 @@ r4-sign-up {
 	& form {
 		border: 1px solid var(--c-border);
 	}
+}
+r4-sign-up form {
+	border-color: var(--c-link);
 }
 r4-track-create {
 	display: flex;
@@ -657,6 +667,7 @@ r4-page-settings {
 	}
 	& r4-list-item {
 		margin: calc(var(--s) / 3);
+		flex-grow: 1;
 	}
 }
 
