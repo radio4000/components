@@ -55,8 +55,7 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	renderFooter() {
-		return html`
-			<section>
+		return html` <section>
 				<button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button>
 			</section>
 			<section>${this.renderTimes()}</section>`
@@ -71,11 +70,12 @@ export default class R4PageChannel extends BaseChannel {
 			return html`
 				<r4-list>
 					${repeat(
-						this.tracks,
+						this.tracks.slice(0, 3),
 						(t) => t.id,
 						(t) => this.renderTrackItem(t),
 					)}
 				</r4-list>
+				<p><a href="${this.channelOrigin + '/tracks'}"> Explore tracks </a></p>
 			`
 		} else {
 			if (this.canEdit) {
