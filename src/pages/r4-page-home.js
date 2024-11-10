@@ -59,7 +59,7 @@ export default class R4PageHome extends R4Page {
 			<section id="channels">
 				<header>
 					<h2>
-						<a href="#channels">Channel${userChannels?.length > 1 ? 's' : ''}</a>
+						<a href="#channels">My Channel${userChannels?.length > 1 ? 's' : ''}</a>
 					</h2>
 				</header>
 				<r4-list> ${userChannels.map((channel) => this.renderChannelCard(channel, this.config.href))} </r4-list>
@@ -116,9 +116,9 @@ export default class R4PageHome extends R4Page {
 	renderFollowingChannels() {
 		const {following} = this.store
 		return html`
-			<section id="network">
+			<section id="following">
 				<header>
-					<h2><a href="#network">Network</a></h2>
+					<h2><a href="#following">Following</a></h2>
 				</header>
 				<r4-list> ${following?.map((channel) => this.renderChannelCard(channel, this.config.href))} </r4-list>
 			</section>
@@ -139,23 +139,26 @@ export default class R4PageHome extends R4Page {
 						<center>Welcome to <r4-title></r4-title> <strong>version 2</strong> (v2).</center>
 					</p>
 				</header>
-				<dialog open inline>
-					<p>
-						<center>
-							<strong> Can't find an existing Radio? </strong>
-						</center>
-					</p>
-					<menu>
-						<li>
-							<a href="${this.config.hrefMigrate}">Import a radio from version 1</a> (previous website,
-							<a href="${this.config.hrefV1}" target="_blank">v1</a>).
-						</li>
-					</menu>
-					<p>Need help? Have feedback? Found a bug? Want to contribute?</p>
-					<p>
-						<center><a href="${this.config.href}/settings#about">Get in touch</a>!</center>
-					</p>
-				</dialog>
+				<details>
+					<summary>Joining from version 1?</summary>
+					<dialog open inline>
+						<p>
+							<center>
+								<strong> Can't find an existing Radio? </strong>
+							</center>
+						</p>
+						<menu>
+							<li>
+								<a href="${this.config.hrefMigrate}">Import a radio from version 1</a> (previous website,
+								<a href="${this.config.hrefV1}" target="_blank">v1</a>).
+							</li>
+						</menu>
+						<p>Need help? Have feedback? Found a bug? Want to contribute?</p>
+						<p>
+							<center><a href="${this.config.href}/settings#about">Get in touch</a>!</center>
+						</p>
+					</dialog>
+				</details>
 			</section>
 		`
 	}

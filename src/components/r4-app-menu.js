@@ -35,7 +35,9 @@ export default class R4AppMenu extends LitElement {
 		return html`
 			<menu>
 				<li>
-					<a aria-current=${this.isCurrent('/')} href=${href + '/'} title="Use CTRL/CMD+K to open the command menu">R4</a>
+					<a aria-current=${this.isCurrent('/')} href=${href + '/'} title="Use CTRL/CMD+K to open the command menu"
+						>Dashboard</a
+					>
 				</li>
 				<li><a aria-current=${this.isCurrent('/explore')} href=${href + '/explore'}>Explore</a></li>
 				<li><a aria-current=${this.isCurrent('/map')} href=${href + '/map'}>Map</a></li>
