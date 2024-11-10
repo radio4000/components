@@ -97,7 +97,13 @@ export default class BaseChannel extends R4Page {
 	}
 
 	renderAside() {
-		return html`${this.channel ? this.renderChannelShare() : null}`
+		if (this.channel) {
+			return html`
+				<r4-dialog name="share" @close="${this.onDialogClose}">
+					<r4-share-channel slot="dialog" origin="${this.channelOrigin}" .channel=${this.channel}></r4-share-channel>
+				</r4-dialog>
+			`
+		}
 	}
 
 	renderHeader() {
@@ -122,14 +128,6 @@ export default class BaseChannel extends R4Page {
 		if (this.channel) {
 			return this.renderChannelMenu()
 		}
-	}
-
-	renderChannelShare() {
-		return html`
-			<r4-dialog name="share" @close="${this.onDialogClose}">
-				<r4-share-channel slot="dialog" origin="${this.channelOrigin}" .channel=${this.channel}></r4-share-channel>
-			</r4-dialog>
-		`
 	}
 
 	renderChannelError() {
