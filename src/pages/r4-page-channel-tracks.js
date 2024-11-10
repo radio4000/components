@@ -29,7 +29,7 @@ export default class R4PageChannelTracks extends BaseChannel {
 			/* to fit in "one screen size, and browse by page" */
 			limit: 50,
 			orderBy: 'created_at',
-			order: 'desc'
+			order: 'desc',
 		}
 	}
 
@@ -54,12 +54,11 @@ export default class R4PageChannelTracks extends BaseChannel {
 				<li>
 					<form @submit=${(event) => event.preventDefault()}>
 						<fieldset>
-							<r4-button-play .channel=${this.channel} label="Play radio"></r4-button-play>
 							<r4-button-play
 								.tracks=${this.tracks}
 								.channel=${this.channel}
 								.filters=${this.filters}
-								label="Play results below"
+								label="Play results"
 							></r4-button-play>
 						</fieldset>
 					</form>
@@ -85,14 +84,13 @@ export default class R4PageChannelTracks extends BaseChannel {
 	renderTracksList() {
 		if (this.tracks?.length) {
 			return html`<r4-list>
-				${repeat(
-					this.tracks,
-					(t) => t.id,
-					(t) => this.renderTrackItem(t),
-				)}
-			</r4-list>
-			<p>${this.tracks.length}/${this.count} tracks (<a href="?limit=4000">load all</a>)</p>
-				`
+					${repeat(
+						this.tracks,
+						(t) => t.id,
+						(t) => this.renderTrackItem(t),
+					)}
+				</r4-list>
+				<p>${this.tracks.length}/${this.count} tracks (<a href="?limit=4000">load all</a>)</p> `
 		} else if (!this.tracks) {
 			return html`
 				<r4-list>
