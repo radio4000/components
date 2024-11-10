@@ -31,7 +31,7 @@
 		"media-url-parser": "^0.2.4",
 		"ol": "^9.2.4",
 		"page": "^1.11.6",
-		"radio4000-player": "^0.7.0"
+		"radio4000-player": "^0.7.2"
 	},
 	"devDependencies": {
 		"@custom-elements-manifest/analyzer": "^0.10.3",
