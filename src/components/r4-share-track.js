@@ -15,10 +15,10 @@ export default class R4ShareTrack extends LitElement {
 	}
 
 	get trackOriginUrl() {
-		return `${this.origin}/${this.track.id}`
+		return `${this.origin}${this.track.id}`
 	}
 	get shareToR4Url() {
-		return `${this.href}/add?url=${this.track.url}&discogs_url=${this.track?.discogs_url}`
+		return `${this.href}/add?track_id=${this.track.id}`
 	}
 
 	render() {
@@ -40,9 +40,9 @@ export default class R4ShareTrack extends LitElement {
 				</fieldset>
 				<fieldset>
 					<label for="media_url">Re-post track</label>
-					<p>
+					<span>
 						<a name="r4_add" href="${this.shareToR4Url}">Add to <r4-title></r4-title> channel</a>
-					</p>
+					</span>
 				</fieldset>
 			</form>
 		`

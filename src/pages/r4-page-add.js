@@ -8,7 +8,10 @@ export default class R4PageAdd extends BaseChannel {
 		selectedSlug: {type: String, state: true},
 		selectedId: {type: String, state: true},
 		lastAddedTrack: {type: Object, state: true},
+		originalTrackId: {type: String, state: true},
+		originalTrack: {type: Object, state: true},
 	}
+
 	/* overwritte for the add page */
 	get channelOrigin() {
 		return this.config.singleChannel ? this.config.href : `${this.config.href}/${this.selectedSlug}`
@@ -29,13 +32,55 @@ export default class R4PageAdd extends BaseChannel {
 	get selectedChannelOrigin() {
 		return `${this.config.href}/${this.selectedSlug}`
 	}
+	get originalTrackId() {
+		if (this?.searchParams.has('track_id')) {
+			return this?.searchParams.get('track_id')
+		}
+	}
 	async connectedCallback() {
 		super.connectedCallback()
+
+		this.originalTrack = {}
+
 		if (!this.store.user) {
 			page(`/sign/up/`)
 		} else {
 			if (this.selectedSlug) {
 				this.channel = await this.findSelectedChannel()
+			}
+		}
+
+		if (this.originalTrackId) {
+			const {data: track} = await sdk.tracks.readTrack(this.originalTrackId)
+			if (track) {
+				const {data: channel} = await sdk.supabase
+					.from('channel_track')
+					.select(
+						`
+					channel_id!inner(
+						slug
+					)
+				`,
+					)
+					.eq('track_id', track.id)
+					.single()
+				if (channel) {
+					const {slug: originalChannelSlug} = channel.channel_id
+					this.originalTrack = {
+						url: track.url,
+						title: track.title,
+						discogs_url: track.discogs_url,
+						description: `Thanks @${originalChannelSlug}; ${track.description}`,
+					}
+					console.log(this.originalTrack)
+				}
+			}
+		} else if (this.searchParams.get('url')) {
+			this.originalTrack = {
+				url: this.searchParams.get('url'),
+				title: this.searchParams.get('title'),
+				discogs_url: this.searchParams.get('discogs_url'),
+				description: this.searchParams.get('description'),
 			}
 		}
 	}
@@ -77,27 +122,34 @@ export default class R4PageAdd extends BaseChannel {
 	}
 	renderAdd() {
 		return html`
-			<p>Add a new track by linking to the URL address of a media.</p>
-			<r4-track-create
-				channel_id=${this.selectedId}
-				url=${this.searchParams.get('url')}
-				@submit=${this.onTrackCreate}
-			></r4-track-create>
+			<section>
+				<p>Add a new track by linking to the URL address of a media.</p>
+				<r4-track-create
+					channel_id=${this.selectedId}
+					discogs_url=${this.originalTrack.discogs_url}
+					description=${this.originalTrack.description}
+					title=${this.originalTrack.title}
+					url=${this.originalTrack.url}
+					@submit=${this.onTrackCreate}
+				></r4-track-create>
+			</section>
 		`
 	}
 	renderLastAddedTrack() {
 		return html`
-			<r4-list>
-				<r4-list-item>
-					<r4-track
-						.track=${this.lastAddedTrack}
-						.canEdit="${this.canEdit}"
-						.channel="${this.channel}"
-						href="${this.config.href}"
-						origin="${this.selectedChannelOrigin}/tracks/"
-					></r4-track>
-				</r4-list-item>
-			</r4-list>
+			<section>
+				<r4-list>
+					<r4-list-item>
+						<r4-track
+							.track=${this.lastAddedTrack}
+							.canEdit="${this.canEdit}"
+							.channel="${this.channel}"
+							href="${this.config.href}"
+							origin="${this.selectedChannelOrigin}/tracks/"
+						></r4-track>
+					</r4-list-item>
+				</r4-list>
+			</section>
 		`
 	}
 
