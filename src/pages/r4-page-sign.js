@@ -2,6 +2,12 @@ import page from 'page/page.mjs'
 import {html, literal, unsafeStatic} from 'lit/static-html.js'
 import R4Page from '../components/r4-page.js'
 
+const texts = {
+	up: 'Create a new account',
+	in: 'Use an existing account',
+	out: 'Disconnect the current signed-in account',
+}
+
 export default class R4PageSign extends R4Page {
 	static properties = {
 		/* props */
@@ -60,9 +66,11 @@ export default class R4PageSign extends R4Page {
 			return null
 		}
 		const tag = literal`r4-sign-${unsafeStatic(method)}`
+		const text = texts[method]
 		// eslint-disable-next-line
 		return html`
 			<section>
+				<p>${text}</p>
 				<${tag} @submit=${this.onSignSubmit} email=${this.email} hcaptcha-site-key=${this.config.hcaptchaSiteKey}></${tag}>
 			</section>
 		`
@@ -71,9 +79,9 @@ export default class R4PageSign extends R4Page {
 	renderMethodSelection() {
 		return html`
 			<ol>
-				<li><a href=${this.config.href + '/sign/up'}>sign-up (new account)</a></li>
-				<li><a href=${this.config.href + '/sign/in'}>sign-in (existing account)</a></li>
-				<li><a href=${this.config.href + '/sign/out'}>sign-out (logout account)</a></li>
+				<li><a href=${this.config.href + '/sign/up'}>Sign up</a> a new account</li>
+				<li><a href=${this.config.href + '/sign/in'}>Sign in</a> an existing account</li>
+				<li><a href=${this.config.href + '/sign/out'}>Sign out</a> current account</li>
 			</ol>
 		`
 	}
@@ -104,7 +112,6 @@ export default class R4PageSign extends R4Page {
 						</details>
 					</li>
 				</ul>
-				<p>Need help? See chat and email support on <a href=${this.config.href + `/settings`}>settings</a></p>
 			</section>
 		`
 	}
