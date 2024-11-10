@@ -1,5 +1,6 @@
 import {html} from 'lit'
 import {repeat} from 'lit/directives/repeat.js'
+import {sdk} from '../libs/sdk.js'
 import BaseChannel from './base-channel'
 import {formatDate, isFreshDate, relativeDate, relativeDateSolar} from '../libs/date.js'
 
@@ -20,25 +21,24 @@ export default class R4PageChannel extends BaseChannel {
 
 	constructor() {
 		super()
-		this.query = {
-			table: 'channel_tracks',
-		}
 		this.tracks = []
 	}
 
-	onData(event) {
-		this.tracks = event.detail.data
-	}
-
-	renderAside() {
-		return html`
-			<r4-query
-				.defaultFilters=${[{operator: 'eq', column: 'slug', value: this.channel?.slug}]}
-				.initialQuery=${this.query}
-				@data=${this.onData}
-			></r4-query>
-			${super.renderAside()}
-		`
+	async connectedCallback() {
+		await super.connectedCallback()
+		if (this.channel) {
+			const {data: track} = await sdk.supabase
+				.from('channel_track')
+				.select(`track_id(updated_at)`)
+				.eq('channel_id', this.channel.id)
+				.order('updated_at', {ascending: false})
+				.limit(1)
+				.single()
+			if (track) {
+				console.log(track)
+				this.tracks = [track.track_id]
+			}
+		}
 	}
 
 	renderMain() {
@@ -61,7 +61,7 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	renderTracksList() {
-		if (!this.tracks.length) {
+		if (!this.tracks?.length) {
 			if (this.canEdit) {
 				return html`
 					<p><a href="${this.config.href}/add?slug=${this.channel.slug}"> Add </a> a first track into the radio.</p>
