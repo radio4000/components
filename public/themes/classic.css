@@ -267,10 +267,10 @@ r4-app-user-menu {
 r4-app menu {
 	border: 1px solid var(--c-border);
 	border-radius: var(--s-radius);
-
 	justify-content: center;
 }
 r4-app menu a {
+	white-space: nowrap;
 	padding: calc(var(--s) / 2) calc(var(--s) / 3);
 	text-decoration: none;
 	background: none;
@@ -298,7 +298,7 @@ r4-query {
 r4-channel-card-body r4-channel-name,
 r4-channel-card-body r4-channel-slug {
 	word-break: break-all;
-	white-space: pre-wrap;
+	white-space: nowrap;
 }
 
 /* Channel cards */
