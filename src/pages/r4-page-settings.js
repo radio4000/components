@@ -119,8 +119,14 @@ export default class R4PageSettings extends R4Page {
 						</fieldset>
 					</form>
 				</r4-email-display>
-				<r4-email-update email=${this.store.user.email} @submit=${this.changeEmail}></r4-email-update>
-				<r4-password-update @submit=${this.changePassword}></r4-password-update>
+				<details>
+					<summary>Update email</summary>
+					<r4-email-update email=${this.store.user.email} @submit=${this.changeEmail}></r4-email-update>
+				</details>
+				<details>
+					<summary>Update password</summary>
+					<r4-password-update @submit=${this.changePassword}></r4-password-update>
+				</details>
 			</section>
 		`
 	}
