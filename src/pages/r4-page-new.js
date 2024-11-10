@@ -11,7 +11,7 @@ export default class R4PageNew extends R4Page {
 	connectedCallback() {
 		super.connectedCallback()
 		if (!this.store.user) {
-			page(`/sign/in`)
+			page(`/sign/up`)
 		}
 		if (this.store.userChannels?.length) {
 			page(`/${this.store.userChannels[0].slug}`)
