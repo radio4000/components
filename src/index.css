@@ -249,6 +249,13 @@ r4-layout::part(playback-status)::before {
 r4-layout[is-playing]::part(playback-status)::before {
 	color: var(--c-purple);
 	opacity: 1;
+	animation: rotate 6s infinite linear;
+	transform-origin: center center;
+}
+@keyframes rotate {
+	100% {
+		transform: rotate(360deg);
+	}
 }
 r4-app[color-scheme='dark'] {
 	.TrackItem.active,
@@ -735,4 +742,3 @@ h-captcha {
 		width: 100% !important;
 	}
 }
-
