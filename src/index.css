@@ -44,7 +44,7 @@ r4-app {
 	font-family: var(--font);
 	line-height: var(--s-line-height);
 	overflow-y: auto;
-	max-height: 100vh;
+	max-height: 100dvh;
 }
 
 /* Defaults */
@@ -221,11 +221,11 @@ r4-layout r4-player radio4000-player .Layout {
 }
 r4-layout {
 	&::part(playback) {
-		transition: all 133ms ease-in-out;
+		transition: all 233ms ease-in-out;
 		transform: translateY(-500%) scale(0.95);
 	}
 	&::part(panel) {
-		transition: all 222ms ease-in-out;
+		transition: all 250ms ease-in-out;
 	}
 	&[is-playing]::part(playback) {
 		transform: translate(0) scale(1);
@@ -275,7 +275,7 @@ r4-layout[ui-state='fullscreen']::part(playback-summary) {
 }
 /* and make the player full height */
 r4-layout[ui-state='fullscreen'] radio4000-player {
-	height: 100vh;
+	height: 100dvh;
 }
 
 /* hide the bullets of the playback menu (should all menu?), make it inline by default */
@@ -344,7 +344,7 @@ r4-layout header[slot='menu'] {
 	r4-layout[ui-state='dock']::part(playback) {
 		top: 0;
 		bottom: auto;
-		max-height: 100vh;
+		max-height: 100dvh;
 		z-index: 2;
 	}
 	r4-layout[ui-state='dock']::part(playback-summary) {
