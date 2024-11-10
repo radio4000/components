@@ -11,6 +11,8 @@ export default class R4Player extends LitElement {
 		image: {type: String},
 		tracks: {type: Array},
 		track: {type: String},
+		slug: {type: String},
+		href: {type: String},
 		shuffle: {type: Boolean},
 		isPlaying: {type: Boolean},
 	}
@@ -21,6 +23,7 @@ export default class R4Player extends LitElement {
 			image: this.image,
 			tracks: this.tracks,
 			query: this.query,
+			slug: this.slug,
 		}
 	}
 	get emptyPlaylist() {
@@ -33,6 +36,7 @@ export default class R4Player extends LitElement {
 				${ref(this.playerRef)}
 				@playerReady=${this.onPlayerReady}
 				@trackChanged=${this.onTrackChanged}
+				host-root-url=${this.href + '/'}
 				platform="true"
 			></radio4000-player>
 		`

@@ -287,6 +287,12 @@ export default class R4App extends LitElement {
 			el.track = tracks.at(0)
 		}
 
+		if (slug) {
+			el.setAttribute('slug', slug)
+		} else {
+			el.removeAttribute('slug')
+		}
+
 		if (channel?.name) {
 			el.setAttribute('name', channel.name)
 		} else {
@@ -329,6 +335,7 @@ export default class R4App extends LitElement {
 		el.removeAttribute('name')
 		el.removeAttribute('query')
 		el.removeAttribute('tracks')
+		el.removeAttribute('slug')
 	}
 
 	render() {
@@ -342,6 +349,7 @@ export default class R4App extends LitElement {
 				<r4-player
 					slot="player"
 					platform="true"
+					href=${this.href}
 					.isPlaying=${this.config.isPlaying}
 					@trackchange=${this.onTrackChange}
 					${ref(this.playerRef)}
