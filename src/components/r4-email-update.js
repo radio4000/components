@@ -6,7 +6,7 @@ fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
 			<legend>
-				<label for="email">Change email</label>
+				<label for="email">New email address</label>
 			</legend>
 			<input type="email" autocomplete="username" name="email" required />
 		</fieldset>
