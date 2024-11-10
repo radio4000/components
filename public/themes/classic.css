@@ -297,8 +297,7 @@ r4-query {
 /* elements to text wrap  */
 r4-channel-card-body r4-channel-name,
 r4-channel-card-body r4-channel-slug {
-	word-break: break-all;
-	white-space: nowrap;
+	word-break: break-word;
 }
 
 /* Channel cards */
@@ -327,6 +326,7 @@ r4-channel-card-body r4-channel-name {
 }
 r4-channel-card-body r4-channel-slug {
 	color: var(--c-link);
+	white-space: nowrap;
 }
 r4-channel-card-body r4-channel-url a {
 	text-decoration: underline;
