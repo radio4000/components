@@ -167,6 +167,7 @@ export default class BaseChannel extends R4Page {
 				${this.coordinates && !this.config.singleChannel ? this.renderCoordinates() : null}
 				<li>${this.renderSocial()}</li>
 				${this.canEdit ? [this.renderAddTrack(), this.renderEdit()] : null}
+				<li><button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button></li>
 			</menu>
 		`
 	}

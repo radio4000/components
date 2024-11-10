@@ -37,7 +37,6 @@ export default class R4PageChannel extends BaseChannel {
 				.initialQuery=${this.query}
 				@data=${this.onData}
 			></r4-query>
-			${this.channel ? this.renderChannelShare() : null}
 		`
 	}
 
@@ -50,15 +49,10 @@ export default class R4PageChannel extends BaseChannel {
 			return html`
 				<section>${this.renderChannelCard()}</section>
 				<section>${this.renderTracksList()}</section>
+				<section>${this.renderTimes()}</section>
+				<p><a href="${this.channelOrigin + '/tracks'}"> Explore tracks </a></p>
 			`
 		}
-	}
-
-	renderFooter() {
-		return html` <section>
-				<button type="button" role="menuitem" @click=${() => this.openDialog('share')}>Share</button>
-			</section>
-			<section>${this.renderTimes()}</section>`
 	}
 
 	renderChannelCard() {
@@ -66,18 +60,7 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	renderTracksList() {
-		if (this.tracks.length) {
-			return html`
-				<r4-list>
-					${repeat(
-						this.tracks.slice(0, 3),
-						(t) => t.id,
-						(t) => this.renderTrackItem(t),
-					)}
-				</r4-list>
-				<p><a href="${this.channelOrigin + '/tracks'}"> Explore tracks </a></p>
-			`
-		} else {
+		if (!this.tracks.length) {
 			if (this.canEdit) {
 				return html`
 					<p><a href="${this.config.href}/add?slug=${this.channel.slug}"> Add </a> a first track into the radio.</p>
@@ -92,20 +75,20 @@ export default class R4PageChannel extends BaseChannel {
 		if (!lastTrack) return
 		const doms = []
 		if (isFreshDate(lastTrack.updated_at)) {
-			doms.push(html`<p>Last updated <date>${relativeDate(lastTrack?.updated_at)}</date>.</p>`)
+			doms.push(html`<span>Last updated <date>${relativeDate(lastTrack?.updated_at)}</date>.</span>`)
 			doms.push(' ')
 		}
 		const since = formatDate(this.channel.created_at)
 		const sinceRelative = relativeDate(this.channel.created_at)
 		doms.push(
-			html`<p>
+			html`<span>
 				Broadcasting since
 				<date
 					time=${since}
 					title="Broacasting since ${since}, ${sinceRelative}; with love, from earth 🏴 🌬️ 📻 🌊 🌍 🪐 ✨"
 					>${relativeDateSolar(this.channel.created_at)}</date
 				>.
-			</p>`,
+			</span>`,
 		)
 		return doms
 	}
