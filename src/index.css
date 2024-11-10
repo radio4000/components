@@ -129,8 +129,7 @@ r4-app fieldset {
 	padding: 0;
 	margin: 0;
 	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
+	flex-direction: column;
 }
 r4-app button,
 r4-app r4-layout::part(controls-button) {
@@ -541,6 +540,7 @@ r4-channel-card-body r4-channel-url a {
 /* supabase queries */
 r4-supabase-modifiers form {
 	display: flex;
+	flex-direction: column;
 	flex-wrap: wrap;
 }
 r4-supabase-modifiers input {
@@ -575,6 +575,11 @@ r4-dialog::part(dialog)::backdrop {
 	/* css variables do not seem to work here */
 	background-color: black;
 	opacity: 0.6;
+	width: 100%;
+}
+r4-dialog::part(dialog) {
+	width: 100%;
+	max-width: clamp(50vmax, 50rem, 100%);
 }
 r4-app dialog[inline] {
 	position: relative;
@@ -701,6 +706,9 @@ r4-query {
 	}
 	& fieldset {
 		padding: calc(var(--s) / 3);
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
 	}
 }
 r4-supabase-filter-search {
@@ -713,6 +721,7 @@ r4-supabase-modifiers,
 r4-supabase-filters {
 	& form {
 		display: flex;
+		flex-direction: row;
 		flex-wrap: wrap;
 		gap: var(--s);
 	}

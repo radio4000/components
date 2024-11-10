@@ -106,6 +106,7 @@ r4-app summary {
 r4-app form {
 	padding: calc(var(--s) / 2);
 	border-radius: var(--s-radius);
+	width: 100%;
 }
 r4-app summary,
 r4-app form legend,

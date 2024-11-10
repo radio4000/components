@@ -46,7 +46,6 @@ r4-app {
 	--c-purple-light: #999fff;
 	--c-dark--accent: #9c8fff;
 	--c-dark-lighter: hsl(0deg 2.6% 13%);
-	--c-link: var(--c-purple);
 
 	/* new vars */
 	--c-bg-button: hsl(0, 0%, 98%);
@@ -66,6 +65,7 @@ r4-app[color-scheme='light'] {
 	--c-fg2: color-mix(in oklch, var(--c-fg) 100%, white 50%);
 	--c-bg: hsl(40, 6%, 90%);
 	--c-bg2: color-mix(in oklch, var(--c-bg) 100%, white 50%);
+	--c-link: var(--c-purple);
 }
 
 r4-app[color-scheme='dark'] {
@@ -79,16 +79,9 @@ r4-app[color-scheme='dark'] {
 	--c-bg-button: hsl(0deg 0% 23%);
 	--c-bg-input: hsl(0deg 0% 2%);
 	--c-shadow-input: none;
+	--c-link: var(--c-dark--accent);
 }
 
-r4-app a {
-	/* background-color: var(--c-light); */
-	/* padding: calc(var(--s) / 6) calc(var(--s) / 4); */
-
-	[color-scheme='dark'] & {
-		color: var(--c-dark--accent);
-	}
-}
 r4-app a:hover,
 r4-app a:active {
 	text-decoration: underline;
@@ -470,7 +463,6 @@ r4-dialog {
 	display: flex;
 	justify-content: center;
 	& form {
-		max-width: var(--s-form);
 		width: 100%;
 		padding: calc(var(--s) / 2);
 		border-radius: var(--s-radius);
@@ -506,6 +498,12 @@ r4-supabase-filters form {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+}
+r4-supabase-modifiers,
+r4-supabase-filters {
+	fieldset {
+		flex-direction: row;
+	}
 }
 r4-supabase-filters {
 	& form fieldset:last-of-type {
@@ -589,7 +587,6 @@ r4-page-channel {
 		}
 		& r4-channel-card-body {
 			flex-basis: 100%;
-			padding: var(--s);
 			flex-direction: column;
 			& r4-channel-description {
 				text-align: center;
@@ -703,6 +700,7 @@ r4-page-settings {
 	& r4-password-update,
 	& details {
 		width: 100%;
+		max-width: 40rem;
 	}
 }
 label[for='token'] input[name='token'] {

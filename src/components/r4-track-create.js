@@ -1,6 +1,5 @@
 import {sdk} from '../libs/sdk.js'
 import {fetchOEmbed} from '../libs/oembed.js'
-import {mediaUrlParser} from 'media-url-parser'
 import {parseUrl as parseDiscogsUrl, buildSearchUrl} from '../libs/discogs.js'
 import R4Form from './r4-form.js'
 
