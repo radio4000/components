@@ -37,6 +37,7 @@ export default class R4PageChannel extends BaseChannel {
 				.initialQuery=${this.query}
 				@data=${this.onData}
 			></r4-query>
+			${super.renderAside()}
 		`
 	}
 
