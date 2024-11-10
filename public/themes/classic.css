@@ -677,6 +677,12 @@ r4-page-settings {
 			background-color: var(--c-bg2);
 		}
 	}
+	& r4-email-display,
+	& r4-email-update,
+	& r4-password-update,
+	& details {
+		width: 100%;
+	}
 }
 label[for='token'] input[name='token'] {
 	display: none;
