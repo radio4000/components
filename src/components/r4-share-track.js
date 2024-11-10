@@ -39,7 +39,10 @@ export default class R4ShareTrack extends LitElement {
 					<input readonly name="media_url" type="url" .value="${this.track.url}" @click="${this.onInputClick}" />
 				</fieldset>
 				<fieldset>
-					<a name="r4_add" href="${this.shareToR4Url}">Add to <r4-title></r4-title> channel</a>
+					<label for="media_url">Re-post track</label>
+					<p>
+						<a name="r4_add" href="${this.shareToR4Url}">Add to <r4-title></r4-title> channel</a>
+					</p>
 				</fieldset>
 			</form>
 		`
@@ -47,5 +50,9 @@ export default class R4ShareTrack extends LitElement {
 
 	onInputClick(event) {
 		event.target.select()
+	}
+
+	createRenderRoot() {
+		return this
 	}
 }

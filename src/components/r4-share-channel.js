@@ -34,7 +34,7 @@ export default class R4ShareChannel extends LitElement {
 					<input readonly name="channel_url" type="url" value="${channelUrl}" @click="${this.onInputClick}" />
 				</fieldset>
 				<fieldset>
-					<label for="channel_iframe">Channel &lt;iframe&gt;</label>
+					<label for="channel_iframe">Channel &lt;iframe&gt; embed</label>
 					<input readonly name="channel_iframe" type="url" value="${this.iframeHtml}" @click="${this.onInputClick}" />
 				</fieldset>
 				<fieldset>
@@ -47,5 +47,9 @@ export default class R4ShareChannel extends LitElement {
 
 	onInputClick(event) {
 		event.target.select()
+	}
+
+	createRenderRoot() {
+		return this
 	}
 }
