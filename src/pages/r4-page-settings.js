@@ -50,11 +50,11 @@ export default class R4PageSettings extends R4Page {
 					<h2><a href="#account">Account</a></h2>
 					<p>Manage and explore radio channels with a Radio4000 account.</p>
 				</header>
-				<menu>
-					<li><a href="${this.config.href}/sign/in">Sign in</a> (manage radio)</li>
-					<li><a href="${this.config.href}/sign/up">Sign up</a> (create new account)</li>
-				</menu>
-				<p>Can't find your existing radio? <a href="${this.config.hrefMigrate}">Import radio from version1</a> site.</p>
+				<ol>
+					<li><a href="${this.config.href}/sign/up">Sign up</a> to create an account</li>
+					<li><a href="${this.config.href}/sign/in">Sign in</a> to manage an existing account</li>
+					<li>(version 1) <a href="${this.config.hrefMigrate}">Import radio</a> from the previous site</li>
+				</ol>
 			</section>
 		`
 	}
