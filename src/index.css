@@ -68,8 +68,8 @@ r4-app menu li {
 	display: flex;
 	align-items: center;
 }
-r4-app menu a {
-	white-space: pre;
+r4-app details {
+	cursor: pointer;
 }
 r4-app menu a[aria-current] {
 	/* Use this selector to style active menu items */
