@@ -260,6 +260,7 @@ r4-app-user-menu {
 		background-color: var(--c-bg);
 		flex-wrap: nowrap;
 		overflow-x: auto;
+		font-size: 1.2rem;
 	}
 }
 

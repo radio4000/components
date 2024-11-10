@@ -51,7 +51,7 @@ export default class R4AppUserMenu extends LitElement {
 			<menu>
 				<li>${this.channel ? this.renderAdd() : null}</li>
 				<li>${this.renderChannelLinks()}</li>
-				${this.channels.length > 1 ? html`<li>${this.renderChannelSelect()}</li>`: null}
+				${this.channels.length > 1 ? html`<li>${this.renderChannelSelect()}</li>` : null}
 				<li><a aria-current=${this.isCurrent('/settings')} href=${href + '/settings'}>Settings</a></li>
 			</menu>
 		`
@@ -83,6 +83,8 @@ export default class R4AppUserMenu extends LitElement {
 		}
 	}
 	renderAdd() {
-		return html`<a aria-current=${this.isCurrent('/add')} href=${this.href + '/add?slug=' + this.channel.slug}>Add</a>`
+		return html`<a aria-current=${this.isCurrent('/add')} href=${this.href + '/add?slug=' + this.channel.slug}
+			>Add track</a
+		>`
 	}
 }

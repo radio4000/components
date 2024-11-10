@@ -183,7 +183,7 @@ export default class BaseChannel extends R4Page {
 	renderAddTrack() {
 		return html`
 			<li>
-				<a href="${this.config.href}/add?slug=${this.channel.slug}"> Add </a>
+				<a href="${this.config.href}/add?slug=${this.channel.slug}"> Add track </a>
 			</li>
 		`
 	}

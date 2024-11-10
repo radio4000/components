@@ -7,7 +7,6 @@ export default class R4PageHome extends R4Page {
 		config: {type: Object, state: true},
 		store: {type: Object, state: true},
 		featuredChannels: {type: Array, state: true},
-		latestTracks: {type: Array, state: true},
 	}
 
 	async connectedCallback() {
@@ -16,17 +15,10 @@ export default class R4PageHome extends R4Page {
 		const {data: channels} = await sdk.supabase
 			.from('channels')
 			.select()
-			.limit(10)
+			.like('firebase_id', '%')
+			.limit(3)
 			.order('updated_at', {ascending: false})
 		this.featuredChannels = channels
-
-		const {data: tracks} = await sdk.supabase
-			.from('channel_tracks')
-			.select()
-			.limit(10)
-			.order('created_at', {ascending: false})
-
-		this.latestTracks = tracks
 	}
 
 	renderHeader() {
@@ -49,7 +41,7 @@ export default class R4PageHome extends R4Page {
 		return html`
 			${this.store.userChannels?.length ? this.renderUserChannels() : this.renderBetaNote()}
 			${this.store.following?.length ? this.renderFollowingChannels() : nothing}
-			${this.store.user ? nothing : this.renderSignIn()}
+			${this.store.user && this.featuredChannels ? nothing : this.renderFeaturedChannels()}
 		`
 	}
 
@@ -67,48 +59,13 @@ export default class R4PageHome extends R4Page {
 		`
 	}
 
-	renderSignIn() {
-		return html`
-			<p>
-				<a href="${this.config.href}/sign/in">Sign in</a> or <a href="${this.config.href}/sign/up">sign up</a> for a new
-				(v2) account.
-			</p>
-			<p><a href="${this.config.href}/explore">Explore</a> radio channels.</p>
-		`
-		// return html`
-		// 	${this.featuredChannels?.length ? this.renderFeaturedChannels() : nothing}
-		// 	${this.latestTracks?.length ? this.renderTracks() : nothing}
-		// `
-	}
-
-	renderTracks() {
-		return html`
-			<section>
-				<header>
-					<h2>Lastest tracks</h2>
-				</header>
-				<p>
-					${this.latestTracks?.map(
-						(track) =>
-							html`<span>
-								<r4-button-play slug=${track.slug} .track=${track}></r4-button-play>
-								<small> ${track.title} (from @${track.slug}) </small>
-							</span>`,
-					)}
-				</p>
-			</section>
-		`
-	}
-
 	renderFeaturedChannels() {
 		return html`
 			<section>
-				<header>
-					<h2>Recent radios</h2>
-				</header>
 				<r4-list>
-					${this.featuredChannels.map((channel) => this.renderChannelCard(channel, this.config.href))}
+					${this.featuredChannels?.map((channel) => this.renderChannelCard(channel, this.config.href))}
 				</r4-list>
+				<p><a href="${this.config.href}/explore">Explore</a> all radio channels.</p>
 			</section>
 		`
 	}
@@ -144,18 +101,13 @@ export default class R4PageHome extends R4Page {
 					<dialog open inline>
 						<p>
 							<center>
-								<strong> Can't find an existing Radio? </strong>
+								<strong> Can't find your existing Radio? </strong>
 							</center>
 						</p>
-						<menu>
-							<li>
-								<a href="${this.config.hrefMigrate}">Import a radio from version 1</a> (previous website,
-								<a href="${this.config.hrefV1}" target="_blank">v1</a>).
-							</li>
-						</menu>
-						<p>Need help? Have feedback? Found a bug? Want to contribute?</p>
 						<p>
-							<center><a href="${this.config.href}/settings#about">Get in touch</a>!</center>
+							You can <a href="${this.config.hrefMigrate}">Import your radio</a> from the previous
+							<a href="${this.config.hrefV1}" target="_blank">version 1 (v1)</a> website. If you encounter any issue,
+							<a href="${this.config.href}/settings#about">get in touch</a> for assistance.
 						</p>
 					</dialog>
 				</details>
