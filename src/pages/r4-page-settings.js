@@ -185,11 +185,54 @@ export default class R4PageSettings extends R4Page {
 							>privacy/terms</a
 						>
 					</li>
+					<li>
+						Project's
+						<a
+							href="https://github.com/radio4000/publications/blob/main/radio4000-manifest.md"
+							target="_blank"
+							rel="noreferrer noopener"
+							>manifest</a
+						>
+					</li>
 					<li>See the <a href="https://blog.radio4000.com/" target="_blank" rel="noreferrer noopener">blog</a></li>
 					<li>
 						Previous site <a href=${this.config.hrefV1} target="_blank" rel="noreferrer noopener">v1.radio4000</a>
 					</li>
-					<li><a href=${this.config.hrefMigrate} target="_blank" rel="noreferrer noopener">Import/migrate</a> radio</li>
+					<li>
+						<a href=${this.config.hrefMigrate} target="_blank" rel="noreferrer noopener">Migrate/Import v1</a> radio
+						channel
+					</li>
+					<li>
+						<details>
+							<summary>Mobile devices</summary>
+							<p>
+								<r4-title></r4-title> offers no mobile application that could be installable from a proprietary app
+								store. Nonetheless, it should be possible to use the website using a modern web browser on any devices.
+							</p>
+							<p>
+								<a
+									href="https://blog.radio4000.com/posts/use-radio4000-on-mobile-android-firefox-and-lock-the-screen"
+									target="_blank"
+									rel="noreferrer noopener"
+									>Prevent mobile lock scren to stop the video</a
+								>
+								on Android using the
+								<a href="https://www.mozilla.org/firefox" target="_blank" rel="noreferrer noopener">Firefox browser</a>
+								with the
+								<a
+									href="https://addons.mozilla.org/en-US/firefox/addon/video-background-play-fix/"
+									target="_blank"
+									rel="noreferrer noopener"
+									>Video Background Play Fix
+								</a>
+								addon.
+							</p>
+							<p>
+								It is also possible to install this website as a web application, from a web browser's settings,
+								clicking the "add to home screen" button.
+							</p>
+						</details>
+					</li>
 				</ul>
 			</section>
 		`
