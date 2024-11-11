@@ -196,9 +196,8 @@ r4-page-header {
 	position: sticky;
 	top: 0;
 	z-index: 1;
-	align-self: flex-start;
 	background-color: var(--c-bg);
-	align-self: center;
+	width: 100%;
 }
 r4-page-main {
 	flex-grow: 1;
@@ -270,7 +269,10 @@ r4-app-user-menu {
 r4-app menu {
 	border: 1px solid var(--c-border);
 	border-radius: var(--s-radius);
-	justify-content: center;
+	/* justify-content: center; */
+}
+r4-app li:has(r4-query) {
+	margin-left: auto;
 }
 r4-app menu a {
 	white-space: nowrap;
