@@ -30,7 +30,7 @@
 /* the theme */
 r4-app {
 	--font: 'Maison Neue', system-ui, segoe ui, sans-serif, 'Segoe UI Symbol';
-	--s-font: 18px;
+	--s-font: 16px;
 	--s: 1rem;
 	--s-line-height: 1.3125;
 	--s-radius: calc(var(--s) / 4);
@@ -40,7 +40,7 @@ r4-app {
 	--s-container--list: 50rem;
 	--s-container--channel-card: 35rem;
 	--s-font-s1: 0.8rem;
-	--c-light: hsl(0deg 0% 98%);
+	--c-light: hsl(0deg 1% 88%);
 	--c-dark: hsl(0deg 0% 8%);
 	--c-purple: #5d1ae6;
 	--c-purple-light: #999fff;
