@@ -64,7 +64,7 @@ export default class R4PageSettings extends R4Page {
 			<section id="channel">
 				<header>
 					<h2>
-						<a href="#channel">Channel${this.store.userChannels?.length > 1 ? 's' : ''}</a>
+						<a href="#channel">My Channel${this.store.userChannels?.length > 1 ? 's' : ''}</a>
 					</h2>
 				</header>
 				<r4-list> ${!this.store.userChannels?.length ? this.renderNoChannel() : this.renderUserChannels()} </r4-list>
