@@ -556,6 +556,17 @@ r4-channel-card-body r4-channel-url a {
 }
 
 /* supabase queries */
+r4-supabase-modifiers,
+r4-supabase-filters {
+	form {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	fieldset {
+		flex-direction: row;
+	}
+}
 r4-supabase-modifiers form {
 	display: flex;
 	flex-direction: column;
@@ -578,6 +589,8 @@ r4-supabase-query[table='channel_tracks'] fieldset[name='orderBy'] option[value=
 }
 
 r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='fts'],
+r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='discogs_url'],
+r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='description'],
 r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='id'],
 r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='firebase'],
 r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='coordinates'],
@@ -741,7 +754,6 @@ r4-supabase-filters {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
-		gap: var(--s);
 	}
 	& fieldset {
 		flex-wrap: nowrap;

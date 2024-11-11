@@ -485,20 +485,6 @@ r4-track-create {
 	}
 }
 
-r4-supabase-modifiers,
-r4-supabase-modifiers form,
-r4-supabase-filters,
-r4-supabase-filters form {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-}
-r4-supabase-modifiers,
-r4-supabase-filters {
-	fieldset {
-		flex-direction: row;
-	}
-}
 r4-supabase-filters {
 	& form fieldset:last-of-type {
 		width: 100%;
