@@ -205,8 +205,8 @@ r4-page-main {
 }
 r4-page-main,
 r4-page-footer {
-	padding-left: var(--s);
-	padding-right: var(--s);
+	padding-left: calc(var(--s) / 1.5);
+	padding-right: calc(var(--s) / 1.5);
 	align-items: center;
 	flex-direction: column;
 	justify-content: center;
@@ -247,7 +247,7 @@ r4-page-header {
 		font-size: clamp(1rem, 4vmin, 2rem);
 	}
 	& menu {
-		margin: calc(var(--s) / 4);
+		margin: calc(var(--s) / 1.5);
 	}
 }
 
@@ -612,9 +612,9 @@ r4-page-settings {
 		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: center;
+		gap: calc(var(--s) / 1.5);
 	}
 	& r4-list-item {
-		margin: calc(var(--s) / 3);
 		flex-grow: 1;
 	}
 }
@@ -641,11 +641,6 @@ r4-page-channel-update {
 	}
 }
 r4-page-settings {
-	& r4-page-footer {
-		& section {
-			background-color: var(--c-bg2);
-		}
-	}
 	& r4-email-display,
 	& r4-email-update,
 	& r4-password-update,
