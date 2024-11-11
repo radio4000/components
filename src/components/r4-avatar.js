@@ -18,6 +18,7 @@ export default class R4Avatar extends LitElement {
 		image: {type: String},
 		slug: {type: String, reflect: true},
 		size: {type: String, reflect: true},
+		href: {type: String},
 	}
 
 	async connectedCallback() {
@@ -29,7 +30,12 @@ export default class R4Avatar extends LitElement {
 	}
 
 	render() {
-		return ResponsiveCloudinaryImage(this.image, this.size)
+		const img = ResponsiveCloudinaryImage(this.image, this.size)
+		if (this.href) {
+			return LinkWrapper(this.href, img)
+		} else {
+			return img
+		}
 	}
 
 	// Disable shadow DOM
@@ -59,4 +65,7 @@ function ResponsiveCloudinaryImage(id, size = 'medium') {
 			<img src=${createImage(id, size)} alt=${`Avatar for ${id}`} />
 		</picture>
 	`
+}
+function LinkWrapper(href, element) {
+	return html`<a href=${href}>${element}</a>`
 }
