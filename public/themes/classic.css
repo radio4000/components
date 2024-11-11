@@ -385,6 +385,7 @@ r4-list:has(r4-track) {
 	background-color: var(--c-bg2);
 	r4-track {
 		border: none;
+		background-color: transparent;
 	}
 
 	& r4-list-item + r4-list-item r4-track {
