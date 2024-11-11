@@ -172,6 +172,7 @@ r4-app {
 	}
 	section {
 		padding: 0;
+		flex-grow: 1;
 	}
 	r4-list-item {
 		margin: 0;
@@ -309,7 +310,6 @@ r4-channel-card {
 	display: flex;
 	flex-flow: row nowrap;
 	align-items: center;
-	border: 0;
 	background: none;
 	gap: 0.5rem;
 	min-height: 4rem;
@@ -411,6 +411,18 @@ r4-page-channel r4-page-header r4-channel-card r4-avatar {
 	max-width: none;
 	/* max-width: 100%; */
 }
+r4-page-channel r4-page-main {
+	flex-grow: 1;
+	display: flex;
+	& section {
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+	}
+	& p {
+		text-align: center;
+	}
+}
 r4-supabase-query {
 	margin-left: auto;
 }
@@ -469,6 +481,9 @@ r4-page-settings  {
 			margin: 1rem 0 0.5rem 0.5rem;
 		}
 	}
+	section {
+		padding: var(--s);
+	}
 }
 
 /* Pages with padding hm */
@@ -497,6 +512,8 @@ r4-list {
 
 /* channel on the page */
 r4-page-channel r4-channel-card {
+	justify-content: center;
+	flex-direction: column;
 	r4-avatar {
 		margin: 0.5rem;
 	}
@@ -506,6 +523,7 @@ r4-page-channel r4-channel-card {
 	}
 	r4-channel-description {
 		font-size: clamp(1rem, 4vw + 1rem, 1.5rem);
+		text-align: center;
 	}
 	r4-button-play button {
 		font-size: 1.5rem;
@@ -518,13 +536,11 @@ r4-page-channel r4-channel-card {
 	}
 	r4-channel-card-body {
 		padding: 1rem;
-		flex-basis: 100%;
-	}
-}
-
-@media (max-width: 600px) {
-	r4-page-channel r4-channel-card {
+		flex-grow: 0;
+		display: flex;
 		flex-direction: column;
+    justify-content: center;
+    align-items: center;
 	}
 }
 
