@@ -626,7 +626,7 @@ r4-page-settings,
 r4-page-channel-update {
 	& r4-page-main {
 		border: 1px solid var(--c-border);
-		margin: var(--s);
+		margin: calc(var(--s) / 1.5);
 	}
 	& section {
 		min-height: 25vmax;
