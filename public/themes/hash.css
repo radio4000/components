@@ -101,6 +101,7 @@ r4-app r4-actions details[open] menu {
 }
 r4-app summary {
 	padding: calc(var(--s) / 2);
+	margin: calc(var(--s) / 2);
 }
 
 r4-app form {
