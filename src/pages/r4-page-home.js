@@ -100,14 +100,9 @@ export default class R4PageHome extends R4Page {
 					<summary>Joining from version 1?</summary>
 					<dialog open inline>
 						<p>
-							<center>
-								<strong> Can't find your existing Radio? </strong>
-							</center>
-						</p>
-						<p>
-							You can <a href="${this.config.hrefMigrate}">Import your radio</a> from the previous
+							<a href="${this.config.hrefMigrate}">Import your radio</a> from the previous
 							<a href="${this.config.hrefV1}" target="_blank">version 1 (v1)</a> website. If you encounter any issue,
-							<a href="${this.config.href}/settings#about">get in touch</a> for assistance.
+							<a href="${this.config.href}/settings#about">get in touch</a>.
 						</p>
 					</dialog>
 				</details>
