@@ -35,7 +35,6 @@ export default class R4PageChannel extends BaseChannel {
 				.limit(1)
 				.single()
 			if (track) {
-				console.log(track)
 				this.tracks = [track.track_id]
 			}
 		}
@@ -57,14 +56,21 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	renderChannelCard() {
-		return html` <r4-channel-card .channel=${this.channel} origin=${this.channelOrigin}></r4-channel-card> `
+		return html`
+			<r4-channel-card
+				.channel=${this.channel}
+				origin=${this.channelOrigin}
+				href=${this.config.href}
+				full="true"
+			></r4-channel-card>
+		`
 	}
 
 	renderTracksList() {
 		if (!this.tracks?.length) {
 			if (this.canEdit) {
 				return html`
-					<p><a href="${this.config.href}/add?slug=${this.channel.slug}"> Add </a> a first track into the radio.</p>
+					<p><a href="${this.config.href}/add?slug=${this.channel.slug}">Add</a> a first track into the radio.</p>
 				`
 			} else {
 				return html`<p>This channel does not yet have any track.</p>`
