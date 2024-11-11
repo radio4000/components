@@ -1,4 +1,6 @@
 import {LitElement, html} from 'lit'
+import {unsafeHTML} from 'lit/directives/unsafe-html.js'
+import {linkEntities} from '../libs/link-tags-mentions.js'
 import {sdk} from '../libs/sdk.js'
 
 /**
@@ -6,6 +8,9 @@ import {sdk} from '../libs/sdk.js'
  */
 export default class R4ChannelCard extends LitElement {
 	static properties = {
+		/** If true, the card shows all info */
+		full: {type: Boolean},
+		href: {type: String},
 		origin: {type: String},
 		/** If defined, the card will fetch the channel on load and set it. */
 		slug: {type: String, reflect: true},
@@ -38,25 +43,27 @@ export default class R4ChannelCard extends LitElement {
 			return html`<r4-loading></r4-loading>`
 		}
 		return html`
-			<a href="${this.url}"> ${this.renderAvatar()} </a>
 			<r4-button-play .channel=${this.channel}></r4-button-play>
-			<r4-channel-card-body>
+			${this.renderAvatar()}
+			<r4-channel-link>
 				<a href="${this.url}">
 					<r4-channel-name>${this.channel.name}</r4-channel-name>
 					<r4-channel-slug>${this.channel.slug}</r4-channel-slug>
 				</a>
-				${this.renderDescription()} ${this.renderUrl()}
-			</r4-channel-card-body>
+			</r4-channel-link>
+			<r4-channel-card-body> ${this.full ? [this.renderDescription(), this.renderUrl()] : null} </r4-channel-card-body>
 		`
 	}
 	renderDescription() {
 		if (this.channel.description) {
-			return html`<r4-channel-description> ${this.channel.description} </r4-channel-description>`
+			const tracksOrigin = `${this.origin}/tracks`
+			const withLinks = unsafeHTML(linkEntities(this.channel.description, this.href, tracksOrigin))
+			return html`<r4-channel-description> ${withLinks} </r4-channel-description>`
 		}
 	}
 	renderAvatar() {
 		if (this.channel.image) {
-			return html`<r4-avatar size="medium" image=${this.channel.image}></r4-avatar>`
+			return html`<r4-avatar size="medium" image=${this.channel.image} href=${this.url}></r4-avatar>`
 		}
 	}
 	renderUrl() {
