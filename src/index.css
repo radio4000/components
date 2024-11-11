@@ -522,19 +522,37 @@ r4-channel-card {
 	border: 1px solid var(--c-border);
 	border-radius: var(--s-radius);
 }
+r4-channel-link a {
+	padding: calc(var(--s) / 3);
+	text-decoration: none;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+}
 r4-channel-card r4-avatar {
 	width: 100%;
+	display: flex;
+	justify-content: center;
 }
 r4-channel-card-body {
 	flex: 1;
 	display: block;
 }
 r4-channel-description {
-	display: block;
+	/* display: block; */
+}
+r4-channel-description a {
+	display: inline-block;
+	padding: calc(var(--s) / 7) calc(var(--s) / 5);
+	text-decoration: none;
 }
 r4-channel-card-body r4-channel-url a {
 	white-space: pre-wrap;
 	word-break: break-all;
+	text-decoration: none;
 }
 
 /* supabase queries */

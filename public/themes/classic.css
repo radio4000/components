@@ -234,6 +234,9 @@ r4-app section header {
 	padding-top: calc(var(--s) / 2);
 	padding-bottom: calc(var(--s) / 2);
 	text-align: center;
+	h2 a {
+		text-decoration: none;
+	}
 }
 
 /* same size header */
@@ -314,12 +317,8 @@ r4-channel-card-body {
 	flex-wrap: wrap;
 	align-items: center;
 }
-r4-channel-card-body a {
-	color: var(--c-fg);
+r4-channel-card-body > a {
 	text-decoration: none;
-	padding: calc(var(--s) / 4);
-	display: flex;
-	flex-direction: column;
 }
 r4-channel-card-body r4-channel-name {
 	font-weight: bold;
@@ -328,10 +327,12 @@ r4-channel-card-body r4-channel-slug {
 	color: var(--c-link);
 	white-space: nowrap;
 }
-r4-channel-card-body r4-channel-url a {
-	text-decoration: underline;
+r4-channel-description {
+	text-align: center;
 }
-
+r4-channel-name {
+	font-weight: bold;
+}
 r4-channel-card r4-button-play {
 	margin: calc(var(--s) / 2);
 }
@@ -400,13 +401,6 @@ r4-list:has(r4-track) {
 	r4-list-item:not(:last-child) r4-track {
 		border-bottom: 1px solid var(--c-border);
 	}
-}
-r4-list r4-channel-description {
-	/* overflow: hidden; */
-	/* white-space: nowrap; */
-	/* text-overflow: ellipsis; */
-	/* display: block; */
-	display: none;
 }
 r4-list r4-channel-card r4-button-play {
 	order: -1;
@@ -582,30 +576,9 @@ r4-page-channel {
 		max-width: var(--s-container--channel-card);
 		flex-direction: column;
 		flex-wrap: nowrap;
-		& > a {
-			display: flex;
-		}
 		& r4-channel-card-body {
-			flex-basis: 100%;
+			display: flex;
 			flex-direction: column;
-			& r4-channel-description {
-				text-align: center;
-			}
-			& > a {
-				display: flex;
-				flex-wrap: wrap;
-				align-items: center;
-				width: 100%;
-			}
-			& r4-channel-url {
-				font-style: italic;
-				width: 100%;
-				text-align: center;
-			}
-			& r4-channel-slug {
-				padding: calc(var(--s) / 3);
-				color: var(--c-fg);
-			}
 		}
 		& r4-button-play {
 			display: flex;
@@ -623,15 +596,7 @@ r4-page-channel {
 			max-width: calc(var(--s-container--channel-card) / 2);
 		}
 		& r4-channel-name {
-			/* color: var(--c-link); */
 			font-size: 2em;
-		}
-		& r4-channel-url {
-			align-self: flex-start;
-			& a {
-				text-decoration: none;
-				padding-left: 0;
-			}
 		}
 	}
 }
