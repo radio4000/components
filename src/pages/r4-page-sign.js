@@ -98,10 +98,10 @@ export default class R4PageSign extends R4Page {
 		return html`
 			<section>
 				<ul>
-					<li><a href=${this.config.href + '/sign/up'}>Sign up</a> if you don't yet have an account</li>
+					<li><a href=${this.config.href + '/sign/up'}>Sign up</a> for a new account</li>
 					<li>
 						<details>
-							<summary>Forgot password? Sign in with magic link!</summary>
+							<summary>Forgot password? Sign in with magic (email) link!</summary>
 							<p>Enter the email address of the account, to receive a magic link to sign in without password.</p>
 							<p>It is then possible to reset the password from the settings page.</p>
 							<r4-password-reset
