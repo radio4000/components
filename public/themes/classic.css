@@ -30,7 +30,7 @@
 /* the theme */
 r4-app {
 	--font: 'Maison Neue', system-ui, segoe ui, sans-serif, 'Segoe UI Symbol';
-	--s-font: 18px;
+	--s-font: 16px;
 	--s: 1rem;
 	--s-line-height: 1.3125;
 	--s-radius: calc(var(--s) / 4);
@@ -40,7 +40,7 @@ r4-app {
 	--s-container--list: 50rem;
 	--s-container--channel-card: 35rem;
 	--s-font-s1: 0.8rem;
-	--c-light: hsl(0deg 0% 98%);
+	--c-light: hsl(0deg 1% 88%);
 	--c-dark: hsl(0deg 0% 8%);
 	--c-purple: #5d1ae6;
 	--c-purple-light: #999fff;
@@ -196,17 +196,16 @@ r4-page-header {
 	position: sticky;
 	top: 0;
 	z-index: 1;
-	align-self: flex-start;
 	background-color: var(--c-bg);
-	align-self: center;
+	width: 100%;
 }
 r4-page-main {
 	flex-grow: 1;
 }
 r4-page-main,
 r4-page-footer {
-	padding-left: var(--s);
-	padding-right: var(--s);
+	padding-left: calc(var(--s) / 1.5);
+	padding-right: calc(var(--s) / 1.5);
 	align-items: center;
 	flex-direction: column;
 	justify-content: center;
@@ -247,7 +246,7 @@ r4-page-header {
 		font-size: clamp(1rem, 4vmin, 2rem);
 	}
 	& menu {
-		margin: calc(var(--s) / 4);
+		margin: calc(var(--s) / 1.5);
 	}
 }
 
@@ -270,7 +269,10 @@ r4-app-user-menu {
 r4-app menu {
 	border: 1px solid var(--c-border);
 	border-radius: var(--s-radius);
-	justify-content: center;
+	/* justify-content: center; */
+}
+r4-app li:has(r4-query) {
+	margin-left: auto;
 }
 r4-app menu a {
 	white-space: nowrap;
@@ -383,6 +385,7 @@ r4-list:has(r4-track) {
 	background-color: var(--c-bg2);
 	r4-track {
 		border: none;
+		background-color: transparent;
 	}
 
 	& r4-list-item + r4-list-item r4-track {
@@ -612,9 +615,9 @@ r4-page-settings {
 		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: center;
+		gap: calc(var(--s) / 1.5);
 	}
 	& r4-list-item {
-		margin: calc(var(--s) / 3);
 		flex-grow: 1;
 	}
 }
@@ -623,7 +626,7 @@ r4-page-settings,
 r4-page-channel-update {
 	& r4-page-main {
 		border: 1px solid var(--c-border);
-		margin: var(--s);
+		margin: calc(var(--s) / 1.5);
 	}
 	& section {
 		min-height: 25vmax;
@@ -641,11 +644,6 @@ r4-page-channel-update {
 	}
 }
 r4-page-settings {
-	& r4-page-footer {
-		& section {
-			background-color: var(--c-bg2);
-		}
-	}
 	& r4-email-display,
 	& r4-email-update,
 	& r4-password-update,
