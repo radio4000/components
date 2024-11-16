@@ -15,9 +15,10 @@ export default class R4PageHome extends R4Page {
 		const {data: channels} = await sdk.supabase
 			.from('channels')
 			.select()
-			.like('firebase_id', '%')
-			.limit(3)
+			.not('firebase_id', 'is', null)
 			.order('updated_at', {ascending: false})
+			.limit(10)
+
 		this.featuredChannels = channels
 	}
 
