@@ -2,7 +2,7 @@
 	"name": "@radio4000/components",
 	"description": "Web components for radio4000.com",
 	"private": false,
-	"version": "0.2.11",
+	"version": "0.2.12",
 	"type": "module",
 	"main": "dist/r4.js",
 	"exports": {
