@@ -7,7 +7,7 @@ fieldsTemplate.innerHTML = `
 	<slot name="fields">
 		<fieldset>
 			<label for="name">Name</label>
-			<input name="name" type="text" required />
+			<input name="name" type="text" required placeholder="Ex: my new radio" />
 		</fieldset>
 		<fieldset>
 			<label for="slug">Slug</label>

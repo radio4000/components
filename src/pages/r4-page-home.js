@@ -40,7 +40,7 @@ export default class R4PageHome extends R4Page {
 
 	renderMain() {
 		return html`
-			${this.store.userChannels?.length ? this.renderUserChannels() : this.renderBetaNote()}
+			${this.store.userChannels?.length ? this.renderUserChannels() : this.renderNewChannel()}
 			${this.store.following?.length ? this.renderFollowingChannels() : nothing}
 			${this.store.user && this.featuredChannels ? nothing : this.renderFeaturedChannels()}
 		`
@@ -89,7 +89,7 @@ export default class R4PageHome extends R4Page {
 		</r4-list-item>`
 	}
 
-	renderBetaNote() {
+	renderNewChannel() {
 		return html`
 			<section>
 				<header>
@@ -97,16 +97,9 @@ export default class R4PageHome extends R4Page {
 						<center>Welcome to <r4-title></r4-title> <strong>version 2</strong> (v2).</center>
 					</p>
 				</header>
-				<details>
-					<summary>Joining from version 1?</summary>
-					<dialog open inline>
-						<p>
-							<a href="${this.config.hrefMigrate}">Import your radio</a> from the previous
-							<a href="${this.config.hrefV1}" target="_blank">version 1 (v1)</a> website. If you encounter any issue,
-							<a href="${this.config.href}/settings#about">get in touch</a>.
-						</p>
-					</dialog>
-				</details>
+				<menu>
+					<li><a href="${this.config.href}/new">New radio channel</a></li>
+				</menu>
 			</section>
 		`
 	}

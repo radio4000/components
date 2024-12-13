@@ -67,29 +67,31 @@ export default class R4PageSettings extends R4Page {
 						<a href="#channel">My Channel${this.store.userChannels?.length > 1 ? 's' : ''}</a>
 					</h2>
 				</header>
-				<r4-list> ${!this.store.userChannels?.length ? this.renderNoChannel() : this.renderUserChannels()} </r4-list>
+				${!this.store.userChannels?.length ? this.renderNoChannel() : this.renderUserChannels()}
 			</section>
 		`
 	}
 
 	renderNoChannel() {
 		return html`
-			<r4-list-item>
-				<p>No channels yet.</p>
-				<p><a href=${this.config.href + '/new'}>Create a new radio</a>.</p>
-				<p><a href=${this.config.hrefV1}>Import existing radio from v1</a>.</p>
-			</r4-list-item>
+			<div>
+				<p>You don't have a radio channel yet.</p>
+				<menu>
+					<li><a href=${this.config.href + '/new'}>Create new radio channel</a></li>
+				</menu>
+			</div>
 		`
 	}
 
 	renderUserChannels() {
-		return this.store.userChannels.map(
+		const channels = this.store.userChannels.map(
 			(channel) => html`
 				<r4-list-item>
 					<r4-channel-card .channel=${channel} origin="${this.config.href}/${channel.slug}"></r4-channel-card>
 				</r4-list-item>
 			`,
 		)
+		return html`<r4-list>${channels}</r4-list>`
 	}
 
 	renderAppearance() {

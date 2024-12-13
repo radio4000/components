@@ -49,7 +49,6 @@ export default class R4PageChannel extends BaseChannel {
 			return html`
 				<section>
 					${[this.renderChannelCard(), this.renderTracksList(), this.renderTimes()]}
-					<p><a href="${this.channelOrigin + '/tracks'}"> Explore tracks </a></p>
 				</section>
 			`
 		}
@@ -63,11 +62,13 @@ export default class R4PageChannel extends BaseChannel {
 		if (!this.tracks?.length) {
 			if (this.canEdit) {
 				return html`
-					<p><a href="${this.config.href}/add?slug=${this.channel.slug}"> Add </a> a first track into the radio.</p>
+					<p><a href="${this.config.href}/add?slug=${this.channel.slug}"> Add a first track</a> into the radio channel.</p>
 				`
 			} else {
 				return html`<p>This channel does not yet have any track.</p>`
 			}
+		} else {
+			return html`<p><a href="${this.channelOrigin + '/tracks'}"> Explore tracks </a></p>`
 		}
 	}
 	renderTimes() {
