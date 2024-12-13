@@ -1,8 +1,14 @@
 export const PROVIDERS = {
+	/* youtube */
 	'www.youtube.com': 'youtube',
+	'm.youtube.com': 'youtube',
 	'youtube.com': 'youtube',
 	'youtu.be': 'youtube',
+
+	/* soundcloud */
 	'soundcloud.com': 'soundcloud',
+
+	/* vimeo */
 	'vimeo.com': 'vimeo',
 }
 
