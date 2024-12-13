@@ -16,17 +16,20 @@ export default class R4MapPosition extends LitElement {
 	}
 
 	get mapChannels() {
-		return [
-			{
-				...this.channel,
-			},
-			{
+		const channels = []
+		if (this.channel.longitude) {
+			channels.push(this.channel)
+		}
+
+		if (this.newLongitude && this.newLatitude) {
+			channels.push({
 				...this.channel,
 				title: `New position for ${this.channel.slug}`,
 				longitude: this.newLongitude,
 				latitude: this.newLatitude,
-			},
-		]
+			})
+		}
+		return channels
 	}
 
 	onMapClick(event) {

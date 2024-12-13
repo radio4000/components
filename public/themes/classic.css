@@ -534,9 +534,11 @@ r4-channel-slug {
 r4-avatar-update {
 	& fieldset {
 		justify-content: center;
+		align-items: center;
 	}
 	& legend {
 		text-align: center;
+		width: 100%;
 	}
 }
 

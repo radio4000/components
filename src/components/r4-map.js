@@ -64,12 +64,16 @@ export default class R4Map extends LitElement {
 		this.longitude = 0
 		this.latitude = 0
 		this.markers = []
+		this.zoom = 1
 	}
 
 	async firstUpdated() {
 		this.createMap()
 		this.isReady = true
-		this.zoom = !this.zoom && this.longitude ? 6 : 2
+
+		if (!this.zoom) {
+			this.zoom = 1
+		}
 
 		// Fetch channels and set markers for each.
 		if (!this.channels) {
@@ -115,12 +119,14 @@ export default class R4Map extends LitElement {
 		const rasterLayer = new TileLayer({
 			source: new OSM(),
 		})
+
+		console.log(this.channels)
 		this.map = new Map({
 			target: this.querySelector('main'),
 			layers: [rasterLayer],
 			view: new View({
 				center: [this.longitude, this.latitude],
-				zoom: this.zoom || 8,
+				zoom: this.zoom,
 			}),
 			overlays: [this.overlay],
 		})
