@@ -120,7 +120,7 @@ export default class R4Map extends LitElement {
 			layers: [rasterLayer],
 			view: new View({
 				center: [this.longitude, this.latitude],
-				zoom: this.zoom,
+				zoom: this.zoom || 8,
 			}),
 			overlays: [this.overlay],
 		})
