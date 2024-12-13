@@ -355,7 +355,7 @@ r4-layout header[slot='menu'] {
 		border: 1px solid var(--c-border);
 	}
 	r4-layout[is-playing][ui-state='dock'] r4-player {
-		min-width: 30vw;
+		width: 30vw;
 	}
 	r4-layout [slot='player'] {
 		height: 100%;
@@ -522,15 +522,21 @@ r4-channel-card {
 	border: 1px solid var(--c-border);
 	border-radius: var(--s-radius);
 }
-r4-channel-link a {
-	padding: calc(var(--s) / 3);
-	text-decoration: none;
-	text-align: center;
-	display: flex;
-	flex-direction: column;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: center;
+r4-channel-link {
+	flex-grow: 1;
+  display: flex;
+	:is(a) {
+		text-decoration: none;
+		text-align: center;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		:is(r4-channel-slug, r4-channel-name) {
+			padding: calc(var(--s) / 4);
+		}
+	}
 }
 r4-channel-card r4-avatar {
 	width: 100%;
@@ -553,6 +559,9 @@ r4-channel-card-body r4-channel-url a {
 	white-space: pre-wrap;
 	word-break: break-all;
 	text-decoration: none;
+	text-align: center;
+	display: flex;
+	padding: calc(var(--s) / 2);
 }
 
 /* supabase queries */
