@@ -1,10 +1,9 @@
 // Each of these correspond to a matching css file in public/themes/.
 export const THEMES = [
 	'classic',
-	'jellybeans',
-	'minimal',
 	'tabular',
-	'hash'
+	'hash',
+	'minimal',
 ]
 
 // We allow the user to choose their prefered appearance as well. It is up to the selected theme to implement.
