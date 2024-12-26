@@ -120,51 +120,6 @@ r4-app[color-scheme='dark'] {
 	--s-shadow: rgba(0, 0, 0, 0.184) 0px 3px 8px, rgba(0, 0, 0, 0.184) 0px 2px 5px, rgba(0, 0, 0, 0.184) 0px 1px 1px;
 }
 
-r4-list-item:nth-child(odd) {
-	background: var(--c-bg2);
-}
-r4-list-item:hover {
-	background-color: var(--c-light);
-}
-r4-list r4-track r4-button-play button {
-	background: transparent;
-	border: 1px solid transparent;
-
-	&:hover {
-		color: var(--c-link);
-	}
-}
-r4-track-title a {
-	color: inherit;
-}
-
-a[data-type-tag] {
-	color: var(--c-accent1);
-	text-decoration: none;
-}
-
-a[data-type-mention] {
-	color: var(--c-accent2);
-	text-decoration: none;
-}
-
-menu r4-channel-search {
-	position: relative;
-
-	r4-list {
-		position: absolute;
-		width: 100%;
-	}
-
-	label,
-	r4-search-404,
-	r4-channel-description {
-		display: none;
-	}
-}
-
-
-
 r4-app {
 	/* remove things from index.css */
 	menu {
@@ -172,21 +127,15 @@ r4-app {
 	}
 	section {
 		padding: 0;
-		flex-grow: 1;
-	}
-	r4-list-item {
-		margin: 0;
 	}
 	r4-app-menu,
 	r4-app menu,
 	r4-layout::part(panel) {
 		background: none;
 	}
-
 	r4-query {
 		& fieldset {
 			padding: 0;
-			/* padding-top: 0.5rem; */
 		}
 	}
 
@@ -270,7 +219,56 @@ r4-app {
 	r4-list r4-track-title a {
 		text-decoration: none;
 	}
+
+	r4-channel-link {
+		flex-grow: 0;
+	}
 }
+
+r4-list-item:nth-child(odd) {
+	background: var(--c-bg2);
+}
+r4-list-item:hover {
+	background-color: var(--c-light);
+}
+r4-list r4-track r4-button-play button {
+	background: transparent;
+	border: 1px solid transparent;
+
+	&:hover {
+		color: var(--c-link);
+	}
+}
+r4-track-title a {
+	color: inherit;
+}
+
+a[data-type-tag] {
+	color: var(--c-accent1);
+	text-decoration: none;
+}
+
+a[data-type-mention] {
+	color: var(--c-accent2);
+	text-decoration: none;
+}
+
+menu r4-channel-search {
+	position: relative;
+
+	r4-list {
+		position: absolute;
+		width: 100%;
+	}
+
+	label,
+	r4-search-404,
+	r4-channel-description {
+		display: none;
+	}
+}
+
+
 
 r4-layout header[slot='menu'] {
 	gap: var(--s);
@@ -302,10 +300,6 @@ r4-page-header menu {
 	align-items: flex-end;
 }
 
-r4-page-footer {
-	padding: 0.5rem;
-}
-
 r4-channel-card {
 	display: flex;
 	flex-flow: row nowrap;
@@ -313,6 +307,7 @@ r4-channel-card {
 	background: none;
 	gap: 0.5rem;
 	min-height: 4rem;
+	border: 0;
 
 	> a:first-child {
 		min-width: 2rem;
@@ -471,18 +466,25 @@ r4-query {
 	}
 }
 
+r4-page-footer {
+	/* padding: var(--s); */
+}
+
 /* Text pages */
 r4-page-home,
 r4-page-settings  {
 	r4-page-main {
-		/* margin: 0 0.5rem; */
-
 		section header h2 {
-			margin: 1rem 0 0.5rem 0.5rem;
+			margin-left: calc(var(--s) / 2);
+			margin-bottom: calc(var(--s) / 2);
+
+			a {
+				text-decoration: none;
+			}
 		}
 	}
 	section {
-		padding: var(--s);
+		padding: var(--s) 0;
 	}
 }
 
@@ -490,6 +492,15 @@ r4-page-settings  {
 r4-page-add {
 	r4-page-main {
 		margin: 1rem;
+	}
+}
+
+r4-page-settings {
+	section {
+		padding: var(--s);
+	}
+	r4-page-main form {
+		margin: var(--s);
 	}
 }
 
@@ -633,15 +644,6 @@ r4-page-channel-tracks {
 	}
 }
 
-r4-page-home r4-page-header {
-	/* nothing useful here yet */
-	display: none;
-}
-
-r4-app[color-scheme] radio4000-player .Header-media {
-	font-size: 4em;
-}
-
 /* black player, not dark */
 r4-app[color-scheme="dark"]  {
 	r4-layout::part(playback-summary) {
@@ -654,3 +656,5 @@ r4-app[color-scheme="dark"]  {
 			background: black;
 		}
 	}
+}
+
