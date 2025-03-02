@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>r4-share-channel</title>
+		<script type="module" src="/src/index.js"></script>
+	</head>
+	<body>
+		<r4-share-channel></r4-share-channel>
+
+		<script>
+			const params = new URLSearchParams(window.location.search);
+			const slug = params.get('slug') || "example";
+			const shareChannelEl = document.querySelector('r4-share-channel');
+			shareChannelEl.setAttribute('origin', window.location.origin);
+			shareChannelEl.setAttribute('channel', JSON.stringify({ slug }));
+		</script>
+	</body>
+</html>
