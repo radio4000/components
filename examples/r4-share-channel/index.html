@@ -11,9 +11,9 @@
 
 		<script>
 			const params = new URLSearchParams(window.location.search);
-			const slug = params.get('slug') || "example";
+			const slug = params.get('slug') || "example-slug";
 			const shareChannelEl = document.querySelector('r4-share-channel');
-			shareChannelEl.setAttribute('origin', window.location.origin);
+			shareChannelEl.setAttribute('origin', window.location.origin + `/${slug}/`);
 			shareChannelEl.setAttribute('channel', JSON.stringify({ slug }));
 		</script>
 	</body>
