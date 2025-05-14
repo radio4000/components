@@ -619,7 +619,8 @@ r4-dialog::part(dialog)::backdrop {
 }
 r4-dialog::part(dialog) {
 	width: 100%;
-	max-width: clamp(50vmax, 50rem, 100%);
+	max-width: clamp(50vmin, 50rem, 90vmin);
+	padding: 0;
 }
 r4-app dialog[inline] {
 	position: relative;
@@ -647,6 +648,12 @@ r4-track-tags a::before {
 /* <r4-actions> A dropdown with a stacked, vertical menu */
 r4-actions details {
 	position: relative;
+	&[open] {
+		summary {
+			background-color: var(--c-bg-button2);
+			border-radius: 50%;
+		}
+	}
 }
 r4-actions details[open] {
 	background-color: var(--c-bg-overlay);
