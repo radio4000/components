@@ -497,7 +497,7 @@ r4-list {
 r4-list-item {
 	display: flex;
 	flex-direction: row;
-	align-items: center;
+	/* align-items: center; */
 	/* Improves performance by allowing the browser to "lazy render" if possible */
 	/* content-visibility: auto; */
 	/* contain-intrinsic-size: 1px 2rem; */
@@ -516,8 +516,7 @@ r4-avatar-upload form {
 
 /* Default, portrait card layout */
 r4-channel-card {
-	display: block;
-	flex: 1;
+	display: flex;
 	background-color: var(--c-bg);
 	border: 1px solid var(--c-border);
 	border-radius: var(--s-radius);
@@ -527,15 +526,11 @@ r4-channel-link {
 	display: flex;
 	:is(a) {
 		text-decoration: none;
-		text-align: center;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		align-items: center;
 		flex-direction: column;
-		:is(r4-channel-slug, r4-channel-name) {
-			padding: calc(var(--s) / 4);
-		}
+		padding: var(--s);
 	}
 }
 r4-channel-card r4-avatar {
@@ -668,6 +663,8 @@ r4-actions summary {
 	list-style: none;
 	font-style: normal;
 	padding: 0 var(--s);
+	line-height: 0;
+	transition: all 222ms ease-in-out;
 
 	&::marker,
 	&::-webkit-details-marker {
@@ -725,6 +722,12 @@ r4-app r4-actions button {
 r4-button-play {
 	& r4-icon {
 		padding: calc(var(--s) / 3);
+	}
+	r4-channel-card & {
+		height: 100%;
+		& button {
+			height: 100%;
+		}
 	}
 }
 

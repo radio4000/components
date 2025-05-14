@@ -50,7 +50,7 @@ r4-app {
 	/* new vars */
 	--c-bg-button: hsl(0, 0%, 98%);
 	/* --c-bg-button2: color-mix(in oklch, var(--c-bg-button) 50%, white 80%); */
-	--c-bg-button2: gray;
+	--c-bg-button2: lightgray;
 	--c-bg-input: hsl(0deg 0% 98%);
 	--c-shadow-input: 1px 2px 2px #e7e6e4 inset;
 	--c-shadow-button: 0 3px 0 -1px rgba(204, 204, 204, 0.9);
@@ -60,11 +60,11 @@ r4-app {
 r4-app[color-scheme='os'],
 r4-app[color-scheme='light'] {
 	/* --c-border: whitesmoke; */
-	--c-border: hsl(40, 6%, 85%);
+	--c-border: hsl(20, 6%, 80%);
 	--c-fg: hsl(40, 6%, 5%);
 	--c-fg2: color-mix(in oklch, var(--c-fg) 100%, white 50%);
 	--c-bg: hsl(40, 6%, 90%);
-	--c-bg2: color-mix(in oklch, var(--c-bg) 100%, white 50%);
+	--c-bg2: color-mix(in oklch, var(--c-bg) 100%, white 100%);
 	--c-link: var(--c-purple);
 }
 
@@ -74,9 +74,9 @@ r4-app[color-scheme='dark'] {
 	/* --c-fg2: color-mix(in oklch, var(--c-fg) 100%, black 50%); */
 	--c-fg2: gray;
 	--c-bg: var(--c-dark);
-	--c-bg2: var(--c-border);
 	--c-bg2: rgb(0 0 0 / 40%);
-	--c-bg-button: hsl(0deg 0% 23%);
+	--c-bg-button: hsl(0deg 0% 15%);
+	--c-bg-button2: hsl(0deg 0% 35%);
 	--c-bg-input: hsl(0deg 0% 2%);
 	--c-shadow-input: none;
 	--c-link: var(--c-dark--accent);
@@ -109,6 +109,7 @@ r4-app r4-dialog::part(button) {
 	color: var(--c-fg);
 	text-align: center;
 	text-decoration: none;
+	transition: all 111ms ease-in-out;
 
 	&:hover {
 		background-color: var(--c-bg-button2);
@@ -126,10 +127,6 @@ r4-app[color-scheme='dark'] button {
 r4-button-play button:active {
 	position: relative;
 	top: 1px;
-}
-
-r4-player {
-	padding: calc(var(--s) / 1.5);
 }
 
 /* Text inputs */
@@ -249,9 +246,6 @@ r4-page-header {
 		height: 100%;
 		font-size: clamp(1rem, 4vmin, 2rem);
 	}
-	& menu {
-		margin: calc(var(--s) / 1.5);
-	}
 }
 
 /* Main menu */
@@ -314,12 +308,10 @@ r4-channel-delete {
 r4-channel-card {
 	background-color: var(--c-bg2);
 	display: flex;
-	flex-wrap: wrap;
 	align-items: center;
-	justify-content: space-between;
 }
 r4-channel-card-body {
-	padding: calc(var(--s) / 2);
+	padding: calc(var(--s) / 1);
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -339,9 +331,6 @@ r4-channel-description {
 }
 r4-channel-name {
 	font-weight: bold;
-}
-r4-channel-card r4-button-play {
-	margin: calc(var(--s) / 2);
 }
 
 /* track */
@@ -410,9 +399,6 @@ r4-list:has(r4-track) {
 		border-bottom: 1px solid var(--c-border);
 	}
 }
-r4-list r4-channel-card r4-button-play {
-	order: -1;
-}
 r4-list r4-channel-url {
 	display: none;
 }
@@ -426,7 +412,7 @@ r4-app form label {
 	font-weight: bold;
 }
 r4-app summary {
-	padding: calc(var(--s) / 4);
+	padding: calc(var(--s) / 2);
 }
 r4-app form slot[name='submit'] fieldset:last-of-type {
 	/* margin: var(--s) calc(var(--s) / 2) calc(var(--s) / 2) var(--s); */
@@ -513,6 +499,11 @@ r4-supabase-modifiers fieldset + fieldset {
 	margin-left: calc(var(--s) / 2);
 }
 
+/* player */
+r4-layout r4-player {
+	background-color: var(--c-bg2);
+}
+
 /* remove styles that shouldn't touch v1 player */
 radio4000-player .Layout .TrackItem {
 	background-color: inherit;
@@ -572,25 +563,37 @@ r4-page-channel {
 		max-width: var(--s-container--channel-card);
 		flex-direction: column;
 		flex-wrap: nowrap;
+		padding: var(--s);
 		& r4-channel-card-body {
 			display: flex;
 			flex-direction: column;
 		}
+		& r4-avatar {
+			padding: var(--s);
+			max-width: calc(var(--s-container--channel-card) / 2);
+		}
 		& r4-button-play {
+			order: 10;
 			display: flex;
 			width: 100%;
 			justify-content: center;
-			order: 0;
-			& button::after {
-				display: inline;
-				content: 'Play';
+			margin: 0;
+			& button {
+				width: 100%;
+				&::after {
+					display: inline;
+					content: 'Play';
+				}
 			}
 		}
-		& r4-avatar {
-			max-width: calc(var(--s-container--channel-card) / 2);
+		& r4-channel-link {
+			text-align: center;
 		}
 		& r4-channel-name {
 			font-size: 2em;
+		}
+		& r4-channel-slug {
+			padding: calc(var(--s) / 3);
 		}
 	}
 }
@@ -598,6 +601,7 @@ r4-map {
 	& r4-map-popup dialog[inline] {
 		max-width: calc(var(--s-container--channel-card) / 2.5);
 		margin: calc(var(--s) / 3);
+		padding: 0;
 	}
 	& r4-channel-card-body {
 		justify-content: center;
@@ -605,6 +609,8 @@ r4-map {
 	& r4-channel-card {
 		flex-direction: column;
 		justify-content: center;
+		text-align: center;
+		padding: var(--s);
 		& r4-channel-url {
 			display: none;
 		}
@@ -621,9 +627,6 @@ r4-page-settings {
 		flex-wrap: wrap;
 		justify-content: center;
 		gap: calc(var(--s) / 1.5);
-	}
-	& r4-list-item {
-		flex-grow: 1;
 	}
 }
 
