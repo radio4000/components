@@ -357,7 +357,7 @@ r4-layout header[slot='menu'] {
 	r4-layout[is-playing][ui-state='dock'] r4-player {
 		width: 30vw;
 	}
-	r4-layout [slot='player'] {
+	r4-layout:not([ui-state='minimize']) [slot='player'] {
 		height: 100%;
 	}
 }
@@ -524,7 +524,7 @@ r4-channel-card {
 }
 r4-channel-link {
 	flex-grow: 1;
-  display: flex;
+	display: flex;
 	:is(a) {
 		text-decoration: none;
 		text-align: center;
