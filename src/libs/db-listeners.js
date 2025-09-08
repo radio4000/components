@@ -37,7 +37,7 @@ export default class DatabaseListeners extends EventTarget {
 				.subscribe()
 
 			sdk.supabase
-				.channel('yser-account')
+				.channel('user-account')
 				.on(
 					'postgres_changes',
 					{
