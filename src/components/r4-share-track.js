@@ -1,5 +1,8 @@
 import {LitElement, html} from 'lit'
 
+/**
+ * Form with shareable URLs for a track
+ */
 export default class R4ShareTrack extends LitElement {
 	static get properties() {
 		return {

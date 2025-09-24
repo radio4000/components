@@ -16,6 +16,9 @@ fieldsTemplate.innerHTML = `
 	</slot>
 `
 
+/**
+ * Form for creating a new channel
+ */
 export default class R4ChannelCreate extends R4Form {
 	submitText = 'Create channel'
 	constructor() {

@@ -1,6 +1,9 @@
 import {LitElement, html} from 'lit'
 import {sdk} from '../libs/sdk.js'
 
+/**
+ * Button to follow or unfollow a channel
+ */
 export default class R4ButtonFollow extends LitElement {
 	static properties = {
 		/** Whether to render a follow or unfollow state */

@@ -371,7 +371,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Authentication status for the currently signed in user;\nthis component has two slots to render something when signed in or out;\notherwise it renders nothing, but the \"auth\" attribute,\ncan be used to display a feedback to the user.",
           "name": "R4AuthStatus",
           "members": [
             {
@@ -628,7 +628,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Button to follow or unfollow a channel",
           "name": "R4ButtonFollow",
           "members": [
             {
@@ -804,7 +804,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Form for creating a new channel",
           "name": "R4ChannelCreate",
           "members": [
             {
@@ -1032,7 +1032,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Form for deleting a channel with confirmation",
           "name": "R4ChannelDelete",
           "members": [
             {
@@ -1256,7 +1256,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Form for updating channel information",
           "name": "R4ChannelUpdate",
           "members": [
             {
@@ -1498,7 +1498,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Channel info for a list or card",
           "name": "R4Channel",
           "members": [
             {
@@ -1705,7 +1705,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Modal dialog with backdrop click to close and customizable slots",
           "name": "R4Dialog",
           "members": [
             {
@@ -1742,6 +1742,12 @@
               "name": "onClose"
             }
           ],
+          "events": [
+            {
+              "description": "Fired when dialog closes, contains {visible: boolean} in detail",
+              "name": "close"
+            }
+          ],
           "attributes": [
             {
               "name": "visible"
@@ -1770,7 +1776,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Fetches and displays Discogs music data with track suggestions",
           "name": "R4DiscogsResource",
           "members": [
             {
@@ -1927,7 +1933,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Form for updating the user.email field",
           "name": "R4EmailUpdate",
           "members": [
             {
@@ -2156,7 +2162,7 @@
         },
         {
           "kind": "class",
-          "description": "",
+          "description": "Radio4000 favicon/logo in small and medium sizes",
           "name": "R4Favicon",
           "members": [
             {
@@ -2226,7 +2232,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "maybe this is whgy",
+          "description": "Base element for other forms",
           "name": "R4Form",
           "members": [
             {
@@ -2423,7 +2429,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Main layout component with player states and fullscreen support",
           "name": "R4Layout",
           "members": [
             {
@@ -2528,7 +2534,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Loading indicator with progress bar and multilingual messages",
           "name": "R4Loading",
           "members": [
             {
@@ -2874,7 +2880,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Pagination controls that emit query events for parent components to handle data fetching",
           "name": "R4Pagination",
           "members": [
             {
@@ -2917,7 +2923,8 @@
               "name": "query",
               "type": {
                 "text": "CustomEvent"
-              }
+              },
+              "description": "Fired when page changes, contains {page: number, ...lastQuery} in detail"
             }
           ],
           "superclass": {
@@ -2944,7 +2951,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Form for password reset with email and optional captcha",
           "name": "R4PasswordReset",
           "members": [
             {
@@ -3172,7 +3179,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Form for updating user password",
           "name": "R4PasswordUpdate",
           "members": [
             {
@@ -3391,7 +3398,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Wrapper for radio4000-player with playlist and track control",
           "name": "R4Player",
           "members": [
             {
@@ -3466,7 +3473,8 @@
               "name": "trackchange",
               "type": {
                 "text": "CustomEvent"
-              }
+              },
+              "description": "Fired when track changes, contains track data in detail"
             }
           ],
           "superclass": {
@@ -3858,7 +3866,8 @@
               "name": "query",
               "type": {
                 "text": "CustomEvent"
-              }
+              },
+              "description": "Fired on search input, contains search results data in detail"
             }
           ],
           "superclass": {
@@ -4042,6 +4051,7 @@
               "type": {
                 "text": "CustomEvent"
               },
+              "description": "Fired on search input, contains search results data in detail",
               "inheritedFrom": {
                 "name": "R4Search",
                 "module": "src/components/r4-search.js"
@@ -4222,6 +4232,7 @@
               "type": {
                 "text": "CustomEvent"
               },
+              "description": "Fired on search input, contains search results data in detail",
               "inheritedFrom": {
                 "name": "R4Search",
                 "module": "src/components/r4-search.js"
@@ -4263,7 +4274,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Form with shareable URLs and embeds for a channel",
           "name": "R4ShareChannel",
           "members": [
             {
@@ -4348,7 +4359,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Form with shareable URLs for a track",
           "name": "R4ShareTrack",
           "members": [
             {
@@ -4417,7 +4428,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Form for user sign in with email, password, and optional captcha",
           "name": "R4SignIn",
           "members": [
             {
@@ -4645,7 +4656,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Form for signing out the current user",
           "name": "R4SignOut",
           "members": [
             {
@@ -4864,7 +4875,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Form for user sign up with email, password, and captcha",
           "name": "R4SignUp",
           "members": [
             {
@@ -5092,7 +5103,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Search input that fires events with Supabase SDK search filters",
           "name": "R4SupabaseFilterSearch",
           "members": [
             {
@@ -5289,7 +5300,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Component for querying Supabase tables with pagination and filtering",
           "name": "R4SupabaseQuery",
           "members": [
             {
@@ -5438,7 +5449,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Displays Radio4000 title in different sizes",
           "name": "R4Title",
           "members": [
             {
@@ -5488,7 +5499,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Renders a form to create a track.\nSupports channel_id, url and title attrs",
+          "description": "Renders a form to create a track.\nSupports channel_id, url and title attrs\nextends from <r4-form>",
           "name": "R4TrackCreate",
           "members": [
             {
@@ -5727,7 +5738,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Form for deleting a track",
           "name": "R4TrackDelete",
           "members": [
             {
@@ -5946,7 +5957,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Form for updating track information",
           "name": "R4TrackUpdate",
           "members": [
             {
@@ -6165,7 +6176,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Track component with playback controls and metadata display",
           "name": "R4Track",
           "members": [
             {
@@ -6330,7 +6341,8 @@
               "name": "r4-play",
               "type": {
                 "text": "CustomEvent"
-              }
+              },
+              "description": "Fired when track is played, contains track and channel data in detail"
             }
           ],
           "superclass": {
@@ -6436,7 +6448,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "User account settings and theme preferences",
           "name": "R4UserAccount",
           "members": [
             {
@@ -6569,7 +6581,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Select dropdown for choosing between user channels",
           "name": "R4UserChannelsSelect",
           "members": [
             {
@@ -6608,7 +6620,8 @@
               "name": "select",
               "type": {
                 "text": "CustomEvent"
-              }
+              },
+              "description": "Fired when channel is selected, contains selected channel object in detail"
             }
           ],
           "superclass": {

@@ -5,6 +5,9 @@ const SIZES = {
 	medium: 'R4000',
 }
 
+/**
+ * Displays Radio4000 title in different sizes
+ */
 export default class R4Title extends HTMLElement {
 	static get observedAttributes() {
 		return ['size']

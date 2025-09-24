@@ -3,6 +3,10 @@ import {LitElement, html} from 'lit'
 import {unsafeHTML} from 'lit/directives/unsafe-html.js'
 import {linkEntities} from '../libs/link-tags-mentions.js'
 
+/**
+ * Track component with playback controls and metadata display
+ * @fires r4-play - Fired when track is played, contains track and channel data in detail
+ */
 export default class R4Track extends LitElement {
 	static properties = {
 		origin: {type: String},

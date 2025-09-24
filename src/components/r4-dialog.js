@@ -10,6 +10,10 @@ template.innerHTML = `
 	</dialog>
 `
 
+/**
+ * Modal dialog with backdrop click to close and customizable slots
+ * @fires close - Fired when dialog closes, contains {visible: boolean} in detail
+ */
 export default class R4Dialog extends HTMLElement {
 	static get observedAttributes() {
 		return ['visible']

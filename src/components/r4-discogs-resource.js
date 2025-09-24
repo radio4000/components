@@ -6,6 +6,9 @@ import {
 	resourceTrackToR4Track,
 } from '../libs/discogs.js'
 
+/**
+ * Fetches and displays Discogs music data with track suggestions
+ */
 export default class R4DiscogsResource extends HTMLElement {
 	static get observedAttributes() {
 		return ['url', 'href']

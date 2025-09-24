@@ -27,6 +27,9 @@ captchaFieldTemplate.innerHTML = `
 	</fieldset>
 `
 
+/**
+ * Form for password reset with email and optional captcha
+ */
 export default class R4PasswordReset extends R4Form {
 	submitText = 'Send reset password (magic) link'
 

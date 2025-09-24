@@ -1,7 +1,9 @@
 import {LitElement, html} from 'lit'
 import {createSearchFilter} from '../libs/url-utils.js'
 
-// Renders a search input, and fires @input event with a Supabase SDK search filter.
+/**
+ * Search input that fires events with Supabase SDK search filters
+ */
 export default class R4SupabaseFilterSearch extends LitElement {
 	static properties = {
 		search: {type: String},

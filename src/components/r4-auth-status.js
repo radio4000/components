@@ -1,11 +1,11 @@
 import { LitElement, html } from 'lit'
 
-/* Authentication Status for the current signed in user;
-	 this componet has two slots, to render something when signed in or out;
+/**
+ * Authentication status for the currently signed in user;
+	 this component has two slots to render something when signed in or out;
 	 otherwise it renders nothing, but the "auth" attribute,
 	 can be used to display a feedback to the user.
 */
-
 export default class R4AuthStatus extends LitElement {
 	static properties = {
 		auth: { type: Boolean, reflect: true },

@@ -13,6 +13,9 @@ fieldsTemplate.innerHTML = `
 	</slot>
 `
 
+/**
+ * Form for updating the user.email field
+ */
 export default class R4EmailUpdate extends R4Form {
 	submitText = 'Update email'
 

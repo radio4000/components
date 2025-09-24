@@ -11,6 +11,9 @@ fieldsTemplate.innerHTML = `
 	</slot>
 `
 
+/**
+ * Form for deleting a track
+ */
 export default class R4TrackDelete extends R4Form {
 	submitText = 'Delete track'
 
