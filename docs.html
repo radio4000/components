@@ -8,6 +8,12 @@
 		<title>@radio4000/components docs</title>
 		<meta name="description" content="Documentation for Radio4000 web components" />
 
+		<!--
+				This standalone HTML page reads a custom-elements.manifest json file,
+				then renders the docs for the elements in it. Note, in only includes elements where it
+				can parse some jsdoc.
+		-->
+
 		<!-- <link rel="stylesheet" href="/src/index.css" /> -->
 		<!-- <script type="module" src="/src/index.js"></script> -->
 		<!-- <script type="module"> -->
@@ -19,6 +25,7 @@
 		<!-- <script type="module"> -->
 		<!-- 	import apiViewerElement from 'https://cdn.jsdelivr.net/npm/api-viewer-element@1.0.0-pre.10/+esm' -->
 		<!-- </script> -->
+
 		<style>
 			body {
 					--c-purple: #5d1ae6;
@@ -154,7 +161,7 @@
 						.then((manifest) => {
 							this.manifest = manifest
 							this.elements = manifest.modules.reduce(
-								(els, module) => els.concat(module.declarations?.filter((dec) => dec.customElement) ?? []),
+								(els, module) => els.concat(module.declarations?.filter((dec) => dec.kind === 'class' && (dec.customElement || dec.description)) ?? []),
 								[],
 							)
 							console.log('manifest', manifest)

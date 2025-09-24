@@ -10,6 +10,9 @@ template.innerHTML = `
 	</form>
 `
 
+/**
+ * Base element for other forms
+ */
 export default class R4Form extends HTMLElement {
 	/* the attributes of the children class,
 		 that should "re-set" data from attributes */

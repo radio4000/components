@@ -67,6 +67,10 @@
               "kind": "method",
               "name": "closeCurrentMenu",
               "description": "Closes all open r4-action menus on the page"
+            },
+            {
+              "kind": "method",
+              "name": "createRenderRoot"
             }
           ],
           "superclass": {
@@ -104,6 +108,15 @@
           "description": "To use, be sure to pass in the two supabase keys.\nRenders an admin dashboard that allows you to combat spam content and more.\nhttps://supabase.com/docs/reference/javascript/admin-api",
           "name": "R4Admin",
           "members": [
+            {
+              "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ supabaseUrl: {type: String}, supabaseServiceRoleKey: {type: String}, result: {type: Object}, showAllUsers: {type: Boolean}, }"
+            },
             {
               "kind": "method",
               "name": "createClient",
@@ -146,70 +159,12 @@
               ]
             },
             {
-              "kind": "field",
-              "name": "supabaseUrl",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "supabaseUrl"
+              "kind": "method",
+              "name": "render"
             },
             {
-              "kind": "field",
-              "name": "supabaseServiceRoleKey",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "supabaseServiceRoleKey"
-            },
-            {
-              "kind": "field",
-              "name": "result",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "result"
-            },
-            {
-              "kind": "field",
-              "name": "showAllUsers",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "attribute": "showAllUsers"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "supabaseUrl",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "supabaseUrl"
-            },
-            {
-              "name": "supabaseServiceRoleKey",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "supabaseServiceRoleKey"
-            },
-            {
-              "name": "result",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "result"
-            },
-            {
-              "name": "showAllUsers",
-              "type": {
-                "text": "boolean"
-              },
-              "fieldName": "showAllUsers"
+              "kind": "method",
+              "name": "createRenderRoot"
             }
           ],
           "superclass": {
@@ -249,6 +204,19 @@
           "members": [
             {
               "kind": "method",
+              "name": "createRenderRoot"
+            },
+            {
+              "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ href: {type: String}, path: {type: String, state: true}, }"
+            },
+            {
+              "kind": "method",
               "name": "isCurrent",
               "parameters": [
                 {
@@ -260,42 +228,24 @@
               ]
             },
             {
-              "kind": "field",
-              "name": "href",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "href"
+              "kind": "method",
+              "name": "render"
             },
             {
               "kind": "field",
-              "name": "path",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "path"
-            }
-          ],
-          "attributes": [
-            {
               "name": "href",
               "type": {
                 "text": "string"
               },
-              "default": "''",
-              "fieldName": "href"
+              "default": "''"
             },
             {
+              "kind": "field",
               "name": "path",
               "type": {
                 "text": "string"
               },
-              "default": "''",
-              "fieldName": "path"
+              "default": "''"
             }
           ],
           "superclass": {
@@ -327,6 +277,19 @@
           "members": [
             {
               "kind": "method",
+              "name": "createRenderRoot"
+            },
+            {
+              "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ /* props */ href: {type: String}, channel: {type: Object}, channels: {type: Array}, /* state */ path: {type: String, state: true}, }"
+            },
+            {
+              "kind": "method",
               "name": "isCurrent",
               "parameters": [
                 {
@@ -345,6 +308,10 @@
             },
             {
               "kind": "method",
+              "name": "render"
+            },
+            {
+              "kind": "method",
               "name": "renderChannelLinks"
             },
             {
@@ -358,40 +325,18 @@
             {
               "kind": "field",
               "name": "href",
-              "privacy": "public",
               "type": {
                 "text": "string"
               },
-              "default": "''",
-              "attribute": "href"
+              "default": "''"
             },
             {
               "kind": "field",
               "name": "path",
-              "privacy": "public",
               "type": {
                 "text": "string"
               },
-              "default": "''",
-              "attribute": "path"
-            },
-            {
-              "kind": "field",
-              "name": "channel",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "channel"
-            },
-            {
-              "kind": "field",
-              "name": "channels",
-              "privacy": "public",
-              "type": {
-                "text": "array"
-              },
-              "attribute": "channels"
+              "default": "''"
             }
           ],
           "events": [
@@ -400,38 +345,6 @@
               "type": {
                 "text": "CustomEvent"
               }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "href",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "href"
-            },
-            {
-              "name": "channel",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "channel"
-            },
-            {
-              "name": "channels",
-              "type": {
-                "text": "array"
-              },
-              "fieldName": "channels"
-            },
-            {
-              "name": "path",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "path"
             }
           ],
           "superclass": {
@@ -463,6 +376,15 @@
           "members": [
             {
               "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ auth: { type: Boolean, reflect: true }, }"
+            },
+            {
+              "kind": "field",
               "name": "shadowRootOptions",
               "type": {
                 "text": "object"
@@ -471,23 +393,8 @@
               "default": "{ ...LitElement.shadowRootOptions, mode: 'open' }"
             },
             {
-              "kind": "field",
-              "name": "auth",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "attribute": "auth",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "auth",
-              "type": {
-                "text": "boolean"
-              },
-              "fieldName": "auth"
+              "kind": "method",
+              "name": "render"
             }
           ],
           "superclass": {
@@ -518,6 +425,15 @@
           "name": "AvatarUpdate",
           "members": [
             {
+              "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ // Decides which channel to update. slug: {type: String}, // The image id from Cloudinary. image: {type: String, reflect: true}, }"
+            },
+            {
               "kind": "method",
               "name": "onUpload",
               "parameters": [
@@ -532,6 +448,10 @@
             },
             {
               "kind": "method",
+              "name": "render"
+            },
+            {
+              "kind": "method",
               "name": "renderUpload"
             },
             {
@@ -543,39 +463,8 @@
               "name": "renderDelete"
             },
             {
-              "kind": "field",
-              "name": "slug",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "slug"
-            },
-            {
-              "kind": "field",
-              "name": "image",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "image",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "slug",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "slug"
-            },
-            {
-              "name": "image",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "image"
+              "kind": "method",
+              "name": "createRenderRoot"
             }
           ],
           "superclass": {
@@ -606,6 +495,15 @@
           "name": "R4AvatarUpload",
           "members": [
             {
+              "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ tags: {type: String, reflective: true}, loading: {type: Boolean, state: true}, }"
+            },
+            {
               "kind": "method",
               "name": "handleSubmit",
               "parameters": [
@@ -615,38 +513,12 @@
               ]
             },
             {
-              "kind": "field",
-              "name": "tags",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "tags"
+              "kind": "method",
+              "name": "render"
             },
             {
-              "kind": "field",
-              "name": "loading",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "attribute": "loading"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "tags",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "tags"
-            },
-            {
-              "name": "loading",
-              "type": {
-                "text": "boolean"
-              },
-              "fieldName": "loading"
+              "kind": "method",
+              "name": "createRenderRoot"
             }
           ],
           "superclass": {
@@ -678,55 +550,20 @@
           "members": [
             {
               "kind": "field",
-              "name": "image",
-              "privacy": "public",
+              "name": "properties",
               "type": {
-                "text": "string"
+                "text": "object"
               },
-              "attribute": "image"
+              "static": true,
+              "default": "{ image: {type: String}, slug: {type: String, reflect: true}, size: {type: String, reflect: true}, href: {type: String}, }"
             },
             {
-              "kind": "field",
-              "name": "slug",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "slug",
-              "reflects": true
+              "kind": "method",
+              "name": "render"
             },
             {
-              "kind": "field",
-              "name": "size",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "size",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "image",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "image"
-            },
-            {
-              "name": "slug",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "slug"
-            },
-            {
-              "name": "size",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "size"
+              "kind": "method",
+              "name": "createRenderRoot"
             }
           ],
           "superclass": {
@@ -795,12 +632,25 @@
           "name": "R4ButtonFollow",
           "members": [
             {
+              "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ /** Whether to render a follow or unfollow state */ following: {type: Boolean}, followerChannel: {type: Object, state: true}, channel: {type: Object, state: true}, }"
+            },
+            {
               "kind": "method",
               "name": "follow"
             },
             {
               "kind": "method",
               "name": "unfollow"
+            },
+            {
+              "kind": "method",
+              "name": "render"
             },
             {
               "kind": "method",
@@ -811,56 +661,8 @@
               "name": "renderFollow"
             },
             {
-              "kind": "field",
-              "name": "following",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Whether to render a follow or unfollow state",
-              "attribute": "following"
-            },
-            {
-              "kind": "field",
-              "name": "channel",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "channel"
-            },
-            {
-              "kind": "field",
-              "name": "userChannel",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "userChannel"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "following",
-              "type": {
-                "text": "boolean"
-              },
-              "description": "Whether to render a follow or unfollow state",
-              "fieldName": "following"
-            },
-            {
-              "name": "channel",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "channel"
-            },
-            {
-              "name": "userChannel",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "userChannel"
+              "kind": "method",
+              "name": "createRenderRoot"
             }
           ],
           "superclass": {
@@ -891,156 +693,25 @@
           "name": "R4ButtonPlay",
           "members": [
             {
+              "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ label: {type: String}, /* disable if no url to play */ disabled: {type: Boolean}, /* a channel's slug */ slug: {type: String, reflect: true}, /* a track object */ track: {type: Object}, /* or tracks list */ tracks: {type: Array}, /* the channel data object */ channel: {type: Object, state: true}, /* a user search query */ search: {type: String}, /* the filters used by a user */ filters: {type: Array}, playing: {type: Boolean, reflect: true}, }"
+            },
+            {
               "kind": "method",
               "name": "play"
             },
             {
-              "kind": "field",
-              "name": "label",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "label"
+              "kind": "method",
+              "name": "render"
             },
             {
-              "kind": "field",
-              "name": "disabled",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "attribute": "disabled"
-            },
-            {
-              "kind": "field",
-              "name": "slug",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "slug",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "track",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "track"
-            },
-            {
-              "kind": "field",
-              "name": "tracks",
-              "privacy": "public",
-              "type": {
-                "text": "array"
-              },
-              "attribute": "tracks"
-            },
-            {
-              "kind": "field",
-              "name": "channel",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "channel"
-            },
-            {
-              "kind": "field",
-              "name": "search",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "search"
-            },
-            {
-              "kind": "field",
-              "name": "filters",
-              "privacy": "public",
-              "type": {
-                "text": "array"
-              },
-              "attribute": "filters"
-            },
-            {
-              "kind": "field",
-              "name": "playing",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "attribute": "playing",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "label"
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "fieldName": "disabled"
-            },
-            {
-              "name": "slug",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "slug"
-            },
-            {
-              "name": "track",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "track"
-            },
-            {
-              "name": "tracks",
-              "type": {
-                "text": "array"
-              },
-              "fieldName": "tracks"
-            },
-            {
-              "name": "channel",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "channel"
-            },
-            {
-              "name": "search",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "search"
-            },
-            {
-              "name": "filters",
-              "type": {
-                "text": "array"
-              },
-              "fieldName": "filters"
-            },
-            {
-              "name": "playing",
-              "type": {
-                "text": "boolean"
-              },
-              "fieldName": "playing"
+              "kind": "method",
+              "name": "createRenderRoot"
             }
           ],
           "superclass": {
@@ -1072,12 +743,25 @@
           "members": [
             {
               "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ /** If true, the card shows all info */ full: {type: Boolean}, href: {type: String}, origin: {type: String}, /** If defined, the card will fetch the channel on load and set it. */ slug: {type: String, reflect: true}, /** A regular R4 channel object */ channel: {type: Object, state: true}, }"
+            },
+            {
+              "kind": "field",
               "name": "url",
               "readonly": true
             },
             {
               "kind": "method",
               "name": "play"
+            },
+            {
+              "kind": "method",
+              "name": "render"
             },
             {
               "kind": "method",
@@ -1092,59 +776,8 @@
               "name": "renderUrl"
             },
             {
-              "kind": "field",
-              "name": "origin",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "origin"
-            },
-            {
-              "kind": "field",
-              "name": "slug",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "description": "If defined, the card will fetch the channel on load and set it.",
-              "attribute": "slug",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "channel",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "description": "A regular R4 channel object",
-              "attribute": "channel"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "origin",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "origin"
-            },
-            {
-              "name": "slug",
-              "type": {
-                "text": "string"
-              },
-              "description": "If defined, the card will fetch the channel on load and set it.",
-              "fieldName": "slug"
-            },
-            {
-              "name": "channel",
-              "type": {
-                "text": "object"
-              },
-              "description": "A regular R4 channel object",
-              "fieldName": "channel"
+              "kind": "method",
+              "name": "createRenderRoot"
             }
           ],
           "superclass": {
@@ -1896,6 +1529,10 @@
             },
             {
               "kind": "method",
+              "name": "render"
+            },
+            {
+              "kind": "method",
               "name": "renderChannel"
             },
             {
@@ -1944,6 +1581,16 @@
           "name": "R4CommandMenu",
           "members": [
             {
+              "kind": "field",
+              "name": "properties",
+              "static": true,
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "render"
+            },
+            {
               "kind": "method",
               "name": "go",
               "parameters": [
@@ -1964,40 +1611,6 @@
                   "text": "Array.<Command>"
                 }
               }
-            },
-            {
-              "kind": "field",
-              "name": "config",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "config"
-            },
-            {
-              "kind": "field",
-              "name": "store",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "store"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "config",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "config"
-            },
-            {
-              "name": "store",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "store"
             }
           ],
           "superclass": {
@@ -2029,6 +1642,15 @@
           "members": [
             {
               "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ components: {type: Object}, }"
+            },
+            {
+              "kind": "field",
               "name": "shadowRootOptions",
               "type": {
                 "text": "object"
@@ -2047,30 +1669,16 @@
             },
             {
               "kind": "method",
+              "name": "render"
+            },
+            {
+              "kind": "method",
               "name": "renderComponent",
               "parameters": [
                 {
                   "name": "component"
                 }
               ]
-            },
-            {
-              "kind": "field",
-              "name": "components",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "components"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "components",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "components"
             }
           ],
           "superclass": {
@@ -2205,6 +1813,23 @@
               "parameters": [
                 {
                   "name": "url"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "render",
+              "parameters": [
+                {
+                  "name": "resource"
+                },
+                {
+                  "name": "full",
+                  "default": "this.full"
+                },
+                {
+                  "name": "suggestions",
+                  "default": "this.suggestions"
                 }
               ]
             },
@@ -2551,6 +2176,10 @@
                 "text": "object"
               },
               "default": "{ small: smallSvg, medium: mediumSvg, }"
+            },
+            {
+              "kind": "method",
+              "name": "render"
             }
           ],
           "attributes": [
@@ -2597,7 +2226,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "maybe this is whgy",
           "name": "R4Form",
           "members": [
             {
@@ -2799,11 +2428,29 @@
           "members": [
             {
               "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ isPlaying: {type: Boolean, attribute: 'is-playing', reflect: true}, isTop: {type: Boolean}, uiState: {type: String, attribute: 'ui-state', reflect: true}, uiStates: {type: Object}, }"
+            },
+            {
+              "kind": "field",
               "name": "playerRef"
             },
             {
               "kind": "field",
               "name": "detailsRef"
+            },
+            {
+              "kind": "method",
+              "name": "willUpdate",
+              "parameters": [
+                {
+                  "name": "changedProps"
+                }
+              ]
             },
             {
               "kind": "method",
@@ -2828,6 +2475,10 @@
             },
             {
               "kind": "method",
+              "name": "render"
+            },
+            {
+              "kind": "method",
               "name": "renderPlayback"
             },
             {
@@ -2846,72 +2497,11 @@
             {
               "kind": "field",
               "name": "uiStates",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "default": "UI_STATES",
-              "attribute": "uiStates"
+              "default": "UI_STATES"
             },
             {
               "kind": "field",
-              "name": "uiState",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "ui-state",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "isPlaying",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "attribute": "is-playing",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "isTop",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "attribute": "isTop"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "is-playing",
-              "type": {
-                "text": "boolean"
-              },
-              "fieldName": "isPlaying"
-            },
-            {
-              "name": "isTop",
-              "type": {
-                "text": "boolean"
-              },
-              "fieldName": "isTop"
-            },
-            {
-              "name": "ui-state",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "uiState"
-            },
-            {
-              "name": "uiStates",
-              "type": {
-                "text": "object"
-              },
-              "default": "UI_STATES",
-              "fieldName": "uiStates"
+              "name": "uiState"
             }
           ],
           "superclass": {
@@ -2964,6 +2554,16 @@
               "kind": "field",
               "name": "randomSentence",
               "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "render",
+              "parameters": [
+                {
+                  "name": "{text = this.text, value = this.value, max = this.max}",
+                  "default": "{}"
+                }
+              ]
             }
           ],
           "attributes": [
@@ -3002,13 +2602,17 @@
           "members": [
             {
               "kind": "field",
-              "name": "mapChannels",
-              "privacy": "public",
+              "name": "properties",
               "type": {
-                "text": "array"
+                "text": "object"
               },
-              "readonly": true,
-              "attribute": "mapChannels"
+              "static": true,
+              "default": "{ /* public */ channel: {type: Object, state: true}, href: {type: String}, /* state */ newLongitude: {type: Number, state: true}, newLatitude: {type: Number, state: true}, mapChannels: {type: Array, state: true}, }"
+            },
+            {
+              "kind": "field",
+              "name": "mapChannels",
+              "readonly": true
             },
             {
               "kind": "method",
@@ -3038,81 +2642,15 @@
             },
             {
               "kind": "method",
+              "name": "render"
+            },
+            {
+              "kind": "method",
               "name": "renderSubmit"
             },
             {
-              "kind": "field",
-              "name": "channel",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "channel"
-            },
-            {
-              "kind": "field",
-              "name": "href",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "href"
-            },
-            {
-              "kind": "field",
-              "name": "newLongitude",
-              "privacy": "public",
-              "type": {
-                "text": "number"
-              },
-              "attribute": "newLongitude"
-            },
-            {
-              "kind": "field",
-              "name": "newLatitude",
-              "privacy": "public",
-              "type": {
-                "text": "number"
-              },
-              "attribute": "newLatitude"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "channel",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "channel"
-            },
-            {
-              "name": "href",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "href"
-            },
-            {
-              "name": "newLongitude",
-              "type": {
-                "text": "number"
-              },
-              "fieldName": "newLongitude"
-            },
-            {
-              "name": "newLatitude",
-              "type": {
-                "text": "number"
-              },
-              "fieldName": "newLatitude"
-            },
-            {
-              "name": "mapChannels",
-              "type": {
-                "text": "array"
-              },
-              "readonly": true,
-              "fieldName": "mapChannels"
+              "kind": "method",
+              "name": "createRenderRoot"
             }
           ],
           "superclass": {
@@ -3144,8 +2682,30 @@
           "members": [
             {
               "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ // The slug of a channel to select initially slug: {type: String}, // List of channels with coordinates. channels: {type: Array, state: true}, // The channel that is currently selected on the map. channel: {type: Object, state: true}, // List of channels markers \"ol layers\" markers: {type: Array, state: true}, // Optional, initial map position longitude: {type: Number}, latitude: {type: Number}, zoom: {type: Number}, // For building the channel origin URL. href: {type: String}, // True when the map has been created. isReady: {type: Boolean, attribute: 'is-ready', reflect: true}, // Syncs the map state to the URL. False by default. url: {type: Boolean, attribute: 'url'}, }"
+            },
+            {
+              "kind": "field",
               "name": "channelOrigin",
               "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "firstUpdated"
+            },
+            {
+              "kind": "method",
+              "name": "willUpdate",
+              "parameters": [
+                {
+                  "name": "changedProperties"
+                }
+              ]
             },
             {
               "kind": "method",
@@ -3187,101 +2747,47 @@
             },
             {
               "kind": "method",
+              "name": "render"
+            },
+            {
+              "kind": "method",
               "name": "renderChannel"
+            },
+            {
+              "kind": "method",
+              "name": "createRenderRoot"
             },
             {
               "kind": "field",
               "name": "longitude",
-              "privacy": "public",
               "type": {
                 "text": "number"
               },
-              "default": "0",
-              "attribute": "longitude"
+              "default": "0"
             },
             {
               "kind": "field",
               "name": "latitude",
-              "privacy": "public",
               "type": {
                 "text": "number"
               },
-              "default": "0",
-              "attribute": "latitude"
+              "default": "0"
             },
             {
               "kind": "field",
               "name": "markers",
-              "privacy": "public",
               "type": {
                 "text": "array"
               },
-              "default": "[]",
-              "attribute": "markers"
-            },
-            {
-              "kind": "field",
-              "name": "slug",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "slug"
-            },
-            {
-              "kind": "field",
-              "name": "channels",
-              "privacy": "public",
-              "type": {
-                "text": "array"
-              },
-              "attribute": "channels"
-            },
-            {
-              "kind": "field",
-              "name": "channel",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "channel"
+              "default": "[]"
             },
             {
               "kind": "field",
               "name": "zoom",
-              "privacy": "public",
               "type": {
                 "text": "number"
               },
-              "attribute": "zoom"
-            },
-            {
-              "kind": "field",
-              "name": "href",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "href"
-            },
-            {
-              "kind": "field",
-              "name": "isReady",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "attribute": "is-ready",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "url",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "attribute": "url"
+              "default": "1"
             }
           ],
           "events": [
@@ -3290,81 +2796,6 @@
               "type": {
                 "text": "CustomEvent"
               }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "slug",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "slug"
-            },
-            {
-              "name": "channels",
-              "type": {
-                "text": "array"
-              },
-              "fieldName": "channels"
-            },
-            {
-              "name": "channel",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "channel"
-            },
-            {
-              "name": "markers",
-              "type": {
-                "text": "array"
-              },
-              "default": "[]",
-              "fieldName": "markers"
-            },
-            {
-              "name": "longitude",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "fieldName": "longitude"
-            },
-            {
-              "name": "latitude",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "fieldName": "latitude"
-            },
-            {
-              "name": "zoom",
-              "type": {
-                "text": "number"
-              },
-              "fieldName": "zoom"
-            },
-            {
-              "name": "href",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "href"
-            },
-            {
-              "name": "is-ready",
-              "type": {
-                "text": "boolean"
-              },
-              "fieldName": "isReady"
-            },
-            {
-              "name": "url",
-              "type": {
-                "text": "boolean"
-              },
-              "fieldName": "url"
             }
           ],
           "superclass": {
@@ -3396,6 +2827,10 @@
           "members": [
             {
               "kind": "method",
+              "name": "render"
+            },
+            {
+              "kind": "method",
               "name": "renderHeader"
             },
             {
@@ -3409,6 +2844,10 @@
             {
               "kind": "method",
               "name": "renderFooter"
+            },
+            {
+              "kind": "method",
+              "name": "createRenderRoot"
             }
           ],
           "superclass": {
@@ -3439,6 +2878,15 @@
           "name": "R4Pagination",
           "members": [
             {
+              "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ // searchParams: {type: Object, state: true}, page: {type: Number, reflect: true }, lastQuery: {type: Object, state: true}, }"
+            },
+            {
               "kind": "method",
               "name": "prev"
             },
@@ -3456,23 +2904,12 @@
               ]
             },
             {
-              "kind": "field",
-              "name": "page",
-              "privacy": "public",
-              "type": {
-                "text": "number"
-              },
-              "attribute": "page",
-              "reflects": true
+              "kind": "method",
+              "name": "render"
             },
             {
-              "kind": "field",
-              "name": "lastQuery",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "lastQuery"
+              "kind": "method",
+              "name": "createRenderRoot"
             }
           ],
           "events": [
@@ -3481,22 +2918,6 @@
               "type": {
                 "text": "CustomEvent"
               }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "page",
-              "type": {
-                "text": "number"
-              },
-              "fieldName": "page"
-            },
-            {
-              "name": "lastQuery",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "lastQuery"
             }
           ],
           "superclass": {
@@ -3979,6 +3400,15 @@
             },
             {
               "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ name: {type: String}, query: {type: String}, image: {type: String}, tracks: {type: Array}, track: {type: String}, slug: {type: String}, href: {type: String}, shuffle: {type: Boolean}, isPlaying: {type: Boolean}, }"
+            },
+            {
+              "kind": "field",
               "name": "playlist",
               "readonly": true
             },
@@ -3989,7 +3419,20 @@
             },
             {
               "kind": "method",
+              "name": "render"
+            },
+            {
+              "kind": "method",
               "name": "onPlayerReady"
+            },
+            {
+              "kind": "method",
+              "name": "willUpdate",
+              "parameters": [
+                {
+                  "name": "changedProps"
+                }
+              ]
             },
             {
               "kind": "method",
@@ -4014,67 +3457,8 @@
               "description": "The `detail` prop contains the track as sent from <radio4000-player>"
             },
             {
-              "kind": "field",
-              "name": "name",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "name"
-            },
-            {
-              "kind": "field",
-              "name": "query",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "query"
-            },
-            {
-              "kind": "field",
-              "name": "image",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "image"
-            },
-            {
-              "kind": "field",
-              "name": "tracks",
-              "privacy": "public",
-              "type": {
-                "text": "array"
-              },
-              "attribute": "tracks"
-            },
-            {
-              "kind": "field",
-              "name": "track",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "track"
-            },
-            {
-              "kind": "field",
-              "name": "shuffle",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "attribute": "shuffle"
-            },
-            {
-              "kind": "field",
-              "name": "isPlaying",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "attribute": "isPlaying"
+              "kind": "method",
+              "name": "createRenderRoot"
             }
           ],
           "events": [
@@ -4083,57 +3467,6 @@
               "type": {
                 "text": "CustomEvent"
               }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "name"
-            },
-            {
-              "name": "query",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "query"
-            },
-            {
-              "name": "image",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "image"
-            },
-            {
-              "name": "tracks",
-              "type": {
-                "text": "array"
-              },
-              "fieldName": "tracks"
-            },
-            {
-              "name": "track",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "track"
-            },
-            {
-              "name": "shuffle",
-              "type": {
-                "text": "boolean"
-              },
-              "fieldName": "shuffle"
-            },
-            {
-              "name": "isPlaying",
-              "type": {
-                "text": "boolean"
-              },
-              "fieldName": "isPlaying"
             }
           ],
           "superclass": {
@@ -4163,6 +3496,24 @@
           "description": "Adds all the neccessary things to query the database with search, filters, ordering and pagination.",
           "name": "R4BaseQuery",
           "members": [
+            {
+              "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ // pass these down initialQuery: {type: Object}, defaultFilters: {type: Array}, searchParams: {type: Object}, // inside we have query: {type: Object, state: true}, data: {type: Array, state: true}, count: {type: Number, state: true}, }"
+            },
+            {
+              "kind": "method",
+              "name": "willUpdate",
+              "parameters": [
+                {
+                  "name": "changedProperties"
+                }
+              ]
+            },
             {
               "kind": "field",
               "name": "browseQuery",
@@ -4222,73 +3573,62 @@
             },
             {
               "kind": "method",
+              "name": "render"
+            },
+            {
+              "kind": "method",
               "name": "renderControls"
+            },
+            {
+              "kind": "method",
+              "name": "createRenderRoot"
             },
             {
               "kind": "field",
               "name": "count",
-              "privacy": "public",
               "type": {
                 "text": "number"
               },
               "description": "The amount of rows returned by fetchData",
-              "default": "0",
-              "attribute": "count"
+              "default": "0"
             },
             {
               "kind": "field",
               "name": "data",
-              "privacy": "public",
               "type": {
                 "text": "array"
               },
               "description": "The latest data from fetchData",
-              "default": "[]",
-              "attribute": "data"
+              "default": "[]"
             },
             {
               "kind": "field",
               "name": "initialQuery",
-              "privacy": "public",
               "type": {
                 "text": "R4Query"
               },
-              "default": "{}",
-              "attribute": "initialQuery"
+              "default": "{}"
             },
             {
               "kind": "field",
               "name": "query",
-              "privacy": "public",
               "type": {
                 "text": "object"
               },
-              "default": "{}",
-              "attribute": "query"
+              "default": "{}"
             },
             {
               "kind": "field",
               "name": "defaultFilters",
-              "privacy": "public",
               "type": {
                 "text": "R4Filter[]"
               },
-              "default": "[]",
-              "attribute": "defaultFilters"
+              "default": "[]"
             },
             {
               "kind": "field",
               "name": "debouncedFetchData",
               "description": "A debounced version"
-            },
-            {
-              "kind": "field",
-              "name": "searchParams",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "searchParams"
             }
           ],
           "events": [
@@ -4297,57 +3637,6 @@
               "type": {
                 "text": "CustomEvent"
               }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "initialQuery",
-              "type": {
-                "text": "R4Query"
-              },
-              "default": "{}",
-              "fieldName": "initialQuery"
-            },
-            {
-              "name": "defaultFilters",
-              "type": {
-                "text": "R4Filter[]"
-              },
-              "default": "[]",
-              "fieldName": "defaultFilters"
-            },
-            {
-              "name": "searchParams",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "searchParams"
-            },
-            {
-              "name": "query",
-              "type": {
-                "text": "object"
-              },
-              "default": "{}",
-              "fieldName": "query"
-            },
-            {
-              "name": "data",
-              "type": {
-                "text": "array"
-              },
-              "description": "The latest data from fetchData",
-              "default": "[]",
-              "fieldName": "data"
-            },
-            {
-              "name": "count",
-              "type": {
-                "text": "number"
-              },
-              "description": "The amount of rows returned by fetchData",
-              "default": "0",
-              "fieldName": "count"
             }
           ],
           "superclass": {
@@ -4377,6 +3666,15 @@
           "description": "",
           "name": "R4Router",
           "members": [
+            {
+              "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ store: {type: Object, state: true}, config: {type: Object, state: true}, routes: {type: Array, state: true}, }"
+            },
             {
               "kind": "field",
               "name": "pathname",
@@ -4429,6 +3727,10 @@
             },
             {
               "kind": "method",
+              "name": "render"
+            },
+            {
+              "kind": "method",
               "name": "unrenderRoute",
               "parameters": [
                 {
@@ -4443,54 +3745,8 @@
               ]
             },
             {
-              "kind": "field",
-              "name": "store",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "store"
-            },
-            {
-              "kind": "field",
-              "name": "config",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "config"
-            },
-            {
-              "kind": "field",
-              "name": "routes",
-              "privacy": "public",
-              "type": {
-                "text": "array"
-              },
-              "attribute": "routes"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "store",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "store"
-            },
-            {
-              "name": "config",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "config"
-            },
-            {
-              "name": "routes",
-              "type": {
-                "text": "array"
-              },
-              "fieldName": "routes"
+              "kind": "method",
+              "name": "createRenderRoot"
             }
           ],
           "superclass": {
@@ -4522,8 +3778,21 @@
           "members": [
             {
               "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ search: {type: String, reflect: true}, results: {type: Array}, // To construct a link that works where this component is used href: {type: String, reflect: true}, // Only needed for r4-track-search slug: {type: String, reflect: true}, autofocus: {type: Boolean}, }"
+            },
+            {
+              "kind": "field",
               "name": "searchValid",
               "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "firstUpdated"
             },
             {
               "kind": "method",
@@ -4549,6 +3818,10 @@
             },
             {
               "kind": "method",
+              "name": "render"
+            },
+            {
+              "kind": "method",
               "name": "renderResults"
             },
             {
@@ -4560,54 +3833,24 @@
               "name": "renderForm"
             },
             {
+              "kind": "method",
+              "name": "createRenderRoot"
+            },
+            {
               "kind": "field",
               "name": "search",
-              "privacy": "public",
               "type": {
                 "text": "string"
               },
-              "default": "''",
-              "attribute": "search",
-              "reflects": true
+              "default": "''"
             },
             {
               "kind": "field",
               "name": "autofocus",
-              "privacy": "public",
               "type": {
                 "text": "boolean"
               },
-              "default": "false",
-              "attribute": "autofocus"
-            },
-            {
-              "kind": "field",
-              "name": "results",
-              "privacy": "public",
-              "type": {
-                "text": "array"
-              },
-              "attribute": "results"
-            },
-            {
-              "kind": "field",
-              "name": "href",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "href",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "slug",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "slug",
-              "reflects": true
+              "default": "false"
             }
           ],
           "events": [
@@ -4616,45 +3859,6 @@
               "type": {
                 "text": "CustomEvent"
               }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "search",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "search"
-            },
-            {
-              "name": "results",
-              "type": {
-                "text": "array"
-              },
-              "fieldName": "results"
-            },
-            {
-              "name": "href",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "href"
-            },
-            {
-              "name": "slug",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "slug"
-            },
-            {
-              "name": "autofocus",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "autofocus"
             }
           ],
           "superclass": {
@@ -4701,8 +3905,29 @@
             },
             {
               "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ search: {type: String, reflect: true}, results: {type: Array}, // To construct a link that works where this component is used href: {type: String, reflect: true}, // Only needed for r4-track-search slug: {type: String, reflect: true}, autofocus: {type: Boolean}, }",
+              "inheritedFrom": {
+                "name": "R4Search",
+                "module": "src/components/r4-search.js"
+              }
+            },
+            {
+              "kind": "field",
               "name": "searchValid",
               "readonly": true,
+              "inheritedFrom": {
+                "name": "R4Search",
+                "module": "src/components/r4-search.js"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "firstUpdated",
               "inheritedFrom": {
                 "name": "R4Search",
                 "module": "src/components/r4-search.js"
@@ -4744,6 +3969,14 @@
             },
             {
               "kind": "method",
+              "name": "render",
+              "inheritedFrom": {
+                "name": "R4Search",
+                "module": "src/components/r4-search.js"
+              }
+            },
+            {
+              "kind": "method",
               "name": "renderResults",
               "inheritedFrom": {
                 "name": "R4Search",
@@ -4767,15 +4000,20 @@
               }
             },
             {
+              "kind": "method",
+              "name": "createRenderRoot",
+              "inheritedFrom": {
+                "name": "R4Search",
+                "module": "src/components/r4-search.js"
+              }
+            },
+            {
               "kind": "field",
               "name": "search",
-              "privacy": "public",
               "type": {
                 "text": "string"
               },
               "default": "''",
-              "attribute": "search",
-              "reflects": true,
               "inheritedFrom": {
                 "name": "R4Search",
                 "module": "src/components/r4-search.js"
@@ -4784,53 +4022,10 @@
             {
               "kind": "field",
               "name": "autofocus",
-              "privacy": "public",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "attribute": "autofocus",
-              "inheritedFrom": {
-                "name": "R4Search",
-                "module": "src/components/r4-search.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "results",
-              "privacy": "public",
-              "type": {
-                "text": "array"
-              },
-              "attribute": "results",
-              "inheritedFrom": {
-                "name": "R4Search",
-                "module": "src/components/r4-search.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "href",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "href",
-              "reflects": true,
-              "inheritedFrom": {
-                "name": "R4Search",
-                "module": "src/components/r4-search.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "slug",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "slug",
-              "reflects": true,
               "inheritedFrom": {
                 "name": "R4Search",
                 "module": "src/components/r4-search.js"
@@ -4841,65 +4036,6 @@
             "name": "R4Search",
             "module": "src/components/r4-search.js"
           },
-          "attributes": [
-            {
-              "name": "search",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "search",
-              "inheritedFrom": {
-                "name": "R4Search",
-                "module": "src/components/r4-search.js"
-              }
-            },
-            {
-              "name": "results",
-              "type": {
-                "text": "array"
-              },
-              "fieldName": "results",
-              "inheritedFrom": {
-                "name": "R4Search",
-                "module": "src/components/r4-search.js"
-              }
-            },
-            {
-              "name": "href",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "href",
-              "inheritedFrom": {
-                "name": "R4Search",
-                "module": "src/components/r4-search.js"
-              }
-            },
-            {
-              "name": "slug",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "slug",
-              "inheritedFrom": {
-                "name": "R4Search",
-                "module": "src/components/r4-search.js"
-              }
-            },
-            {
-              "name": "autofocus",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "autofocus",
-              "inheritedFrom": {
-                "name": "R4Search",
-                "module": "src/components/r4-search.js"
-              }
-            }
-          ],
           "events": [
             {
               "name": "query",
@@ -4949,8 +4085,29 @@
             },
             {
               "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ search: {type: String, reflect: true}, results: {type: Array}, // To construct a link that works where this component is used href: {type: String, reflect: true}, // Only needed for r4-track-search slug: {type: String, reflect: true}, autofocus: {type: Boolean}, }",
+              "inheritedFrom": {
+                "name": "R4Search",
+                "module": "src/components/r4-search.js"
+              }
+            },
+            {
+              "kind": "field",
               "name": "searchValid",
               "readonly": true,
+              "inheritedFrom": {
+                "name": "R4Search",
+                "module": "src/components/r4-search.js"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "firstUpdated",
               "inheritedFrom": {
                 "name": "R4Search",
                 "module": "src/components/r4-search.js"
@@ -4992,6 +4149,14 @@
             },
             {
               "kind": "method",
+              "name": "render",
+              "inheritedFrom": {
+                "name": "R4Search",
+                "module": "src/components/r4-search.js"
+              }
+            },
+            {
+              "kind": "method",
               "name": "renderResults",
               "inheritedFrom": {
                 "name": "R4Search",
@@ -5015,15 +4180,20 @@
               }
             },
             {
+              "kind": "method",
+              "name": "createRenderRoot",
+              "inheritedFrom": {
+                "name": "R4Search",
+                "module": "src/components/r4-search.js"
+              }
+            },
+            {
               "kind": "field",
               "name": "search",
-              "privacy": "public",
               "type": {
                 "text": "string"
               },
               "default": "''",
-              "attribute": "search",
-              "reflects": true,
               "inheritedFrom": {
                 "name": "R4Search",
                 "module": "src/components/r4-search.js"
@@ -5032,53 +4202,10 @@
             {
               "kind": "field",
               "name": "autofocus",
-              "privacy": "public",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "attribute": "autofocus",
-              "inheritedFrom": {
-                "name": "R4Search",
-                "module": "src/components/r4-search.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "results",
-              "privacy": "public",
-              "type": {
-                "text": "array"
-              },
-              "attribute": "results",
-              "inheritedFrom": {
-                "name": "R4Search",
-                "module": "src/components/r4-search.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "href",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "href",
-              "reflects": true,
-              "inheritedFrom": {
-                "name": "R4Search",
-                "module": "src/components/r4-search.js"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "slug",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "slug",
-              "reflects": true,
               "inheritedFrom": {
                 "name": "R4Search",
                 "module": "src/components/r4-search.js"
@@ -5089,65 +4216,6 @@
             "name": "R4Search",
             "module": "src/components/r4-search.js"
           },
-          "attributes": [
-            {
-              "name": "search",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "search",
-              "inheritedFrom": {
-                "name": "R4Search",
-                "module": "src/components/r4-search.js"
-              }
-            },
-            {
-              "name": "results",
-              "type": {
-                "text": "array"
-              },
-              "fieldName": "results",
-              "inheritedFrom": {
-                "name": "R4Search",
-                "module": "src/components/r4-search.js"
-              }
-            },
-            {
-              "name": "href",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "href",
-              "inheritedFrom": {
-                "name": "R4Search",
-                "module": "src/components/r4-search.js"
-              }
-            },
-            {
-              "name": "slug",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "slug",
-              "inheritedFrom": {
-                "name": "R4Search",
-                "module": "src/components/r4-search.js"
-              }
-            },
-            {
-              "name": "autofocus",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "autofocus",
-              "inheritedFrom": {
-                "name": "R4Search",
-                "module": "src/components/r4-search.js"
-              }
-            }
-          ],
           "events": [
             {
               "name": "query",
@@ -5200,6 +4268,12 @@
           "members": [
             {
               "kind": "field",
+              "name": "properties",
+              "static": true,
+              "readonly": true
+            },
+            {
+              "kind": "field",
               "name": "iframeHtml",
               "readonly": true
             },
@@ -5207,6 +4281,10 @@
               "kind": "field",
               "name": "iconHtml",
               "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "render"
             },
             {
               "kind": "method",
@@ -5218,76 +4296,32 @@
               ]
             },
             {
+              "kind": "method",
+              "name": "createRenderRoot"
+            },
+            {
               "kind": "field",
               "name": "playerOrigin",
-              "privacy": "public",
               "type": {
                 "text": "string"
               },
-              "default": "'https://player.radio4000.com/v2'",
-              "attribute": "player-origin"
+              "default": "'https://player.radio4000.com/v2'"
             },
             {
               "kind": "field",
               "name": "iconOrigin",
-              "privacy": "public",
               "type": {
                 "text": "string"
               },
-              "default": "'https://assets.radio4000.com/icon-r4.svg'",
-              "attribute": "icon-origin"
+              "default": "'https://assets.radio4000.com/icon-r4.svg'"
             },
             {
               "kind": "field",
               "name": "channel",
-              "privacy": "public",
               "type": {
                 "text": "object"
               },
-              "default": "{}",
-              "attribute": "channel"
-            },
-            {
-              "kind": "field",
-              "name": "origin",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "origin"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "origin",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "origin"
-            },
-            {
-              "name": "player-origin",
-              "type": {
-                "text": "string"
-              },
-              "default": "'https://player.radio4000.com/v2'",
-              "fieldName": "playerOrigin"
-            },
-            {
-              "name": "icon-origin",
-              "type": {
-                "text": "string"
-              },
-              "default": "'https://assets.radio4000.com/icon-r4.svg'",
-              "fieldName": "iconOrigin"
-            },
-            {
-              "name": "channel",
-              "type": {
-                "text": "object"
-              },
-              "default": "{}",
-              "fieldName": "channel"
+              "default": "{}"
             }
           ],
           "superclass": {
@@ -5319,6 +4353,12 @@
           "members": [
             {
               "kind": "field",
+              "name": "properties",
+              "static": true,
+              "readonly": true
+            },
+            {
+              "kind": "field",
               "name": "trackOriginUrl",
               "readonly": true
             },
@@ -5326,6 +4366,10 @@
               "kind": "field",
               "name": "shareToR4Url",
               "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "render"
             },
             {
               "kind": "method",
@@ -5337,56 +4381,16 @@
               ]
             },
             {
-              "kind": "field",
-              "name": "track",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "default": "{}",
-              "attribute": "track"
+              "kind": "method",
+              "name": "createRenderRoot"
             },
             {
               "kind": "field",
-              "name": "origin",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "origin"
-            },
-            {
-              "kind": "field",
-              "name": "href",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "href"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "origin",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "origin"
-            },
-            {
               "name": "track",
               "type": {
                 "text": "object"
               },
-              "default": "{}",
-              "fieldName": "track"
-            },
-            {
-              "name": "href",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "href"
+              "default": "{}"
             }
           ],
           "superclass": {
@@ -6092,6 +5096,19 @@
           "name": "R4SupabaseFilterSearch",
           "members": [
             {
+              "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ search: {type: String}, placeholder: {type: String}, }"
+            },
+            {
+              "kind": "method",
+              "name": "render"
+            },
+            {
               "kind": "method",
               "name": "onInput",
               "parameters": [
@@ -6101,22 +5118,8 @@
               ]
             },
             {
-              "kind": "field",
-              "name": "search",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "search"
-            },
-            {
-              "kind": "field",
-              "name": "placeholder",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "placeholder"
+              "kind": "method",
+              "name": "createRenderRoot"
             }
           ],
           "events": [
@@ -6125,22 +5128,6 @@
               "type": {
                 "text": "CustomEvent"
               }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "search",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "search"
-            },
-            {
-              "name": "placeholder",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "placeholder"
             }
           ],
           "superclass": {
@@ -6170,6 +5157,15 @@
           "description": "An interface to create and manage filters for the Supabase SDK (`supabase.from()...`)\nFires",
           "name": "R4SupabaseFilters",
           "members": [
+            {
+              "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ // Name of the SQL table to filter table: {type: String, reflect: true}, filters: {type: Array, reflect: true, state: true}, }"
+            },
             {
               "kind": "method",
               "name": "onFilters",
@@ -6222,6 +5218,14 @@
             },
             {
               "kind": "method",
+              "name": "createRenderRoot"
+            },
+            {
+              "kind": "method",
+              "name": "render"
+            },
+            {
+              "kind": "method",
               "name": "renderClear"
             },
             {
@@ -6251,26 +5255,6 @@
                   "name": "config"
                 }
               ]
-            },
-            {
-              "kind": "field",
-              "name": "table",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "table",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "filters",
-              "privacy": "public",
-              "type": {
-                "text": "array"
-              },
-              "attribute": "filters",
-              "reflects": true
             }
           ],
           "events": [
@@ -6279,22 +5263,6 @@
               "type": {
                 "text": "CustomEvent"
               }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "table",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "table"
-            },
-            {
-              "name": "filters",
-              "type": {
-                "text": "array"
-              },
-              "fieldName": "filters"
             }
           ],
           "superclass": {
@@ -6326,6 +5294,15 @@
           "members": [
             {
               "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ count: {type: Number}, /* supabase query parameters */ table: {type: String, reflect: true}, select: {type: String}, filters: {type: Array, reflect: true}, orderBy: {type: String, attribute: 'order-by', reflect: true}, orderConfig: {type: Object, attribute: 'order-config', reflect: true}, page: {type: Number, reflect: true}, limit: {type: Number, reflect: true}, /* custom parameters that map to the supabase ones */ order: {type: String, reflect: true}, search: {type: String, reflect: true}, }"
+            },
+            {
+              "kind": "field",
               "name": "totalPages",
               "readonly": true
             },
@@ -6336,6 +5313,15 @@
                 "text": "R4Query"
               },
               "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "updated",
+              "parameters": [
+                {
+                  "name": "attr"
+                }
+              ]
             },
             {
               "kind": "method",
@@ -6366,6 +5352,14 @@
             {
               "kind": "method",
               "name": "cleanQuery"
+            },
+            {
+              "kind": "method",
+              "name": "createRenderRoot"
+            },
+            {
+              "kind": "method",
+              "name": "render"
             },
             {
               "kind": "method",
@@ -6410,104 +5404,6 @@
                   "name": "config"
                 }
               ]
-            },
-            {
-              "kind": "field",
-              "name": "count",
-              "privacy": "public",
-              "type": {
-                "text": "number"
-              },
-              "attribute": "count"
-            },
-            {
-              "kind": "field",
-              "name": "table",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "table",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "select",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "select"
-            },
-            {
-              "kind": "field",
-              "name": "filters",
-              "privacy": "public",
-              "type": {
-                "text": "array"
-              },
-              "attribute": "filters",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "orderBy",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "order-by",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "orderConfig",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "order-config",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "page",
-              "privacy": "public",
-              "type": {
-                "text": "number"
-              },
-              "attribute": "page",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "limit",
-              "privacy": "public",
-              "type": {
-                "text": "number"
-              },
-              "attribute": "limit",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "order",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "order",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "search",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "search",
-              "reflects": true
             }
           ],
           "events": [
@@ -6516,78 +5412,6 @@
               "type": {
                 "text": "CustomEvent"
               }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "count",
-              "type": {
-                "text": "number"
-              },
-              "fieldName": "count"
-            },
-            {
-              "name": "table",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "table"
-            },
-            {
-              "name": "select",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "select"
-            },
-            {
-              "name": "filters",
-              "type": {
-                "text": "array"
-              },
-              "fieldName": "filters"
-            },
-            {
-              "name": "order-by",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "orderBy"
-            },
-            {
-              "name": "order-config",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "orderConfig"
-            },
-            {
-              "name": "page",
-              "type": {
-                "text": "number"
-              },
-              "fieldName": "page"
-            },
-            {
-              "name": "limit",
-              "type": {
-                "text": "number"
-              },
-              "fieldName": "limit"
-            },
-            {
-              "name": "order",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "order"
-            },
-            {
-              "name": "search",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "search"
             }
           ],
           "superclass": {
@@ -6630,6 +5454,10 @@
               "kind": "field",
               "name": "text",
               "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "render"
             }
           ],
           "attributes": [
@@ -6660,7 +5488,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "Renders a form to create a track.\nSupports channel_id, url and title attrs",
           "name": "R4TrackCreate",
           "members": [
             {
@@ -7342,13 +6170,25 @@
           "members": [
             {
               "kind": "field",
-              "name": "playing",
-              "privacy": "public",
+              "name": "properties",
               "type": {
-                "text": "boolean"
+                "text": "object"
               },
-              "attribute": "playing",
-              "reflects": true
+              "static": true,
+              "default": "{ origin: {type: String}, href: {type: String}, id: {type: String}, track: {type: Object}, channel: {type: Object}, config: {type: Object}, // from r4-app loading: {type: Boolean, reflect: true, state: true}, playing: {type: Boolean, reflect: true}, canEdit: {type: Boolean}, link: {type: Boolean}, /* Used to conditionally render the dialogs only when the menu is open. The value syncs with the menu. Do not set it. */ menuOpen: {type: Boolean, state: true}, }"
+            },
+            {
+              "kind": "method",
+              "name": "willUpdate",
+              "parameters": [
+                {
+                  "name": "changedProperties"
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "playing"
             },
             {
               "kind": "field",
@@ -7372,6 +6212,10 @@
                   "name": "event"
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "render"
             },
             {
               "kind": "method",
@@ -7469,96 +6313,16 @@
               ]
             },
             {
+              "kind": "method",
+              "name": "createRenderRoot"
+            },
+            {
               "kind": "field",
               "name": "link",
-              "privacy": "public",
               "type": {
                 "text": "boolean"
               },
-              "default": "true",
-              "attribute": "link"
-            },
-            {
-              "kind": "field",
-              "name": "origin",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "origin"
-            },
-            {
-              "kind": "field",
-              "name": "href",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "href"
-            },
-            {
-              "kind": "field",
-              "name": "id",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "id"
-            },
-            {
-              "kind": "field",
-              "name": "track",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "track"
-            },
-            {
-              "kind": "field",
-              "name": "channel",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "channel"
-            },
-            {
-              "kind": "field",
-              "name": "config",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "config"
-            },
-            {
-              "kind": "field",
-              "name": "loading",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "attribute": "loading",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "canEdit",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "attribute": "canEdit"
-            },
-            {
-              "kind": "field",
-              "name": "menuOpen",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "attribute": "menuOpen"
+              "default": "true"
             }
           ],
           "events": [
@@ -7567,86 +6331,6 @@
               "type": {
                 "text": "CustomEvent"
               }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "origin",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "origin"
-            },
-            {
-              "name": "href",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "href"
-            },
-            {
-              "name": "id",
-              "type": {
-                "text": "string"
-              },
-              "fieldName": "id"
-            },
-            {
-              "name": "track",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "track"
-            },
-            {
-              "name": "channel",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "channel"
-            },
-            {
-              "name": "config",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "config"
-            },
-            {
-              "name": "loading",
-              "type": {
-                "text": "boolean"
-              },
-              "fieldName": "loading"
-            },
-            {
-              "name": "playing",
-              "type": {
-                "text": "boolean"
-              },
-              "fieldName": "playing"
-            },
-            {
-              "name": "canEdit",
-              "type": {
-                "text": "boolean"
-              },
-              "fieldName": "canEdit"
-            },
-            {
-              "name": "link",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "true",
-              "fieldName": "link"
-            },
-            {
-              "name": "menuOpen",
-              "type": {
-                "text": "boolean"
-              },
-              "fieldName": "menuOpen"
             }
           ],
           "superclass": {
@@ -7677,6 +6361,15 @@
           "name": "R4Tuner",
           "members": [
             {
+              "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ value: { type: Number, reflect: true }, min: { type: Number, reflect: true }, max: { type: Number, reflect: true }, showSource: { type: Boolean }, channels: { type: Array, state: true }, selectedChannel: { type: Object, state: true }, }"
+            },
+            {
               "kind": "method",
               "name": "setChannels",
               "description": "Updates this.channels with ALL channels,\nand adds a \"frequency\" property to each and sorts by it."
@@ -7691,111 +6384,32 @@
               ]
             },
             {
-              "kind": "field",
-              "name": "value",
-              "privacy": "public",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "attribute": "value",
-              "reflects": true
+              "kind": "method",
+              "name": "render"
             },
             {
               "kind": "field",
-              "name": "min",
-              "privacy": "public",
-              "type": {
-                "text": "number"
-              },
-              "default": "88",
-              "attribute": "min",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "max",
-              "privacy": "public",
-              "type": {
-                "text": "number"
-              },
-              "default": "108",
-              "attribute": "max",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "showSource",
-              "privacy": "public",
-              "type": {
-                "text": "boolean"
-              },
-              "attribute": "showSource"
-            },
-            {
-              "kind": "field",
-              "name": "channels",
-              "privacy": "public",
-              "type": {
-                "text": "array"
-              },
-              "attribute": "channels"
-            },
-            {
-              "kind": "field",
-              "name": "selectedChannel",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "selectedChannel"
-            }
-          ],
-          "attributes": [
-            {
               "name": "value",
               "type": {
                 "text": "number"
               },
-              "default": "0",
-              "fieldName": "value"
+              "default": "0"
             },
             {
+              "kind": "field",
               "name": "min",
               "type": {
                 "text": "number"
               },
-              "default": "88",
-              "fieldName": "min"
+              "default": "88"
             },
             {
+              "kind": "field",
               "name": "max",
               "type": {
                 "text": "number"
               },
-              "default": "108",
-              "fieldName": "max"
-            },
-            {
-              "name": "showSource",
-              "type": {
-                "text": "boolean"
-              },
-              "fieldName": "showSource"
-            },
-            {
-              "name": "channels",
-              "type": {
-                "text": "array"
-              },
-              "fieldName": "channels"
-            },
-            {
-              "name": "selectedChannel",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "selectedChannel"
+              "default": "108"
             }
           ],
           "superclass": {
@@ -7827,6 +6441,15 @@
           "members": [
             {
               "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ /* the account ID is the user ID (relationship) */ account: {type: Object, state: true}, }"
+            },
+            {
+              "kind": "field",
               "name": "currentTheme",
               "readonly": true
             },
@@ -7856,6 +6479,14 @@
                   "name": "event"
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "createRenderRoot"
+            },
+            {
+              "kind": "method",
+              "name": "render"
             },
             {
               "kind": "method",
@@ -7912,24 +6543,6 @@
                   "name": "{target}"
                 }
               ]
-            },
-            {
-              "kind": "field",
-              "name": "account",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "account"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "account",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "account"
             }
           ],
           "superclass": {
@@ -7961,6 +6574,19 @@
           "members": [
             {
               "kind": "method",
+              "name": "createRenderRoot"
+            },
+            {
+              "kind": "field",
+              "name": "properties",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ channel: {type: Object}, channels: {type: Array}, }"
+            },
+            {
+              "kind": "method",
               "name": "onSelect",
               "parameters": [
                 {
@@ -7970,25 +6596,11 @@
             },
             {
               "kind": "method",
+              "name": "render"
+            },
+            {
+              "kind": "method",
               "name": "_renderOptions"
-            },
-            {
-              "kind": "field",
-              "name": "channel",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "channel"
-            },
-            {
-              "kind": "field",
-              "name": "channels",
-              "privacy": "public",
-              "type": {
-                "text": "array"
-              },
-              "attribute": "channels"
             }
           ],
           "events": [
@@ -7997,22 +6609,6 @@
               "type": {
                 "text": "CustomEvent"
               }
-            }
-          ],
-          "attributes": [
-            {
-              "name": "channel",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "channel"
-            },
-            {
-              "name": "channels",
-              "type": {
-                "text": "array"
-              },
-              "fieldName": "channels"
             }
           ],
           "superclass": {
@@ -8043,6 +6639,12 @@
           "name": "R4UserDelete",
           "members": [
             {
+              "kind": "field",
+              "name": "properties",
+              "static": true,
+              "readonly": true
+            },
+            {
               "kind": "method",
               "name": "onSubmit",
               "parameters": [
@@ -8050,6 +6652,10 @@
                   "name": "event"
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "render"
             },
             {
               "kind": "method",
@@ -8061,38 +6667,8 @@
               ]
             },
             {
-              "kind": "field",
-              "name": "user",
-              "privacy": "public",
-              "type": {
-                "text": "object"
-              },
-              "attribute": "user"
-            },
-            {
-              "kind": "field",
-              "name": "userChannels",
-              "privacy": "public",
-              "type": {
-                "text": "array"
-              },
-              "attribute": "userChannels"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "user",
-              "type": {
-                "text": "object"
-              },
-              "fieldName": "user"
-            },
-            {
-              "name": "userChannels",
-              "type": {
-                "text": "array"
-              },
-              "fieldName": "userChannels"
+              "kind": "method",
+              "name": "createRenderRoot"
             }
           ],
           "superclass": {
@@ -8137,6 +6713,10 @@
             {
               "kind": "method",
               "name": "refreshUser"
+            },
+            {
+              "kind": "method",
+              "name": "render"
             },
             {
               "kind": "method",

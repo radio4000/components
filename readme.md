@@ -89,3 +89,4 @@ Currently deployed on cloudflare pages (which has the env vars manually added).
 
 > Github pages is not used because it does not support SPA redirects
 > (like in the public folder for other hosting; @TODO: wait then migrate)
+

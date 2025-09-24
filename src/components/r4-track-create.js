@@ -35,6 +35,11 @@ const addTagsToDescription = (description = '', tags = []) => {
 	return [description, tagsText].join(' ').trim()
 }
 
+/**
+ * Renders a form to create a track.
+ * Supports channel_id, url and title attrs
+ * extends from <r4-form>
+ **/
 export default class R4TrackCreate extends R4Form {
 	static get observedAttributes() {
 		return ['channel_id', 'url', 'title']
