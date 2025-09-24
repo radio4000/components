@@ -15,7 +15,9 @@ fieldsTemplate.innerHTML = `
 	</slot>
 `
 
-
+/**
+ * Form for deleting a channel with confirmation
+ */
 export default class R4ChannelDelete extends R4Form {
 	static get observedAttributes() {
 		return ['id']

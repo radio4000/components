@@ -1,5 +1,8 @@
 import {sdk} from '../libs/sdk.js'
 
+/**
+ * Channel info for a list or card
+ */
 export default class R4Channel extends HTMLElement {
 	static get observedAttributes() {
 		return ['origin', 'id', 'slug', 'channel']

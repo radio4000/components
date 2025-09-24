@@ -15,6 +15,9 @@ fieldsTemplate.innerHTML = `
 	</slot>
 `
 
+/**
+ * Form for updating user password
+ */
 export default class R4PasswordUpdate extends R4Form {
 	submitText = 'Update password'
 

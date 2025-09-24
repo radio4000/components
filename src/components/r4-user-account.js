@@ -2,6 +2,9 @@ import {LitElement, html} from 'lit'
 import {sdk} from '../libs/sdk.js'
 import {THEMES, COLOR_SCHEMES} from '../libs/appearance.js'
 
+/**
+ * User account settings and theme preferences
+ */
 export default class R4UserAccount extends LitElement {
 	static properties = {
 		/* the account ID is the user ID (relationship) */

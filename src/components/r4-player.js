@@ -2,6 +2,10 @@ import 'radio4000-player'
 import {html, LitElement} from 'lit'
 import {ref, createRef} from 'lit/directives/ref.js'
 
+/**
+ * Wrapper for radio4000-player with playlist and track control
+ * @fires trackchange - Fired when track changes, contains track data in detail
+ */
 export default class R4Player extends LitElement {
 	playerRef = createRef()
 

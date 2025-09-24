@@ -160,8 +160,18 @@
 						.then((res) => res.json())
 						.then((manifest) => {
 							this.manifest = manifest
+							// Get all registered component class names from index.js module
+							const indexModule = manifest.modules.find(m => m.path === 'src/components/index.js')
+							const componentDefsStr = indexModule?.declarations?.find(d => d.name === 'componentDefinitions')?.default || ''
+
 							this.elements = manifest.modules.reduce(
-								(els, module) => els.concat(module.declarations?.filter((dec) => dec.kind === 'class' && (dec.customElement || dec.description)) ?? []),
+								(els, module) => els.concat(module.declarations?.filter((dec) => {
+									if (dec.kind !== 'class') return false
+									// Include if it has customElement flag or description
+									if (dec.customElement || dec.description) return true
+									// Also include if it's referenced in componentDefinitions
+									return componentDefsStr.includes(dec.name)
+								}) ?? []),
 								[],
 							)
 							console.log('manifest', manifest)
@@ -230,7 +240,7 @@ exports: ${module.exports?.map((e) => html` ${e.name}: ${e.declaration.name} (${
 										&lt;${toKebabCase(element.name)}&gt;
 										<small><a href="/examples/${toKebabCase(element.name)}/">example</a></small>
 									</h2>
-									<div>${element.description}</div>
+									<p>${element.description}</p>
 								</header>
 								<main>
 									${renderTable('Attributes', ['name', 'description', 'type.text', 'default'], element.attributes)}

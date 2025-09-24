@@ -1,5 +1,9 @@
 import {html, LitElement} from 'lit'
 
+/**
+ * Pagination controls that emit query events for parent components to handle data fetching
+ * @fires query - Fired when page changes, contains {page: number, ...lastQuery} in detail
+ */
 export default class R4Pagination extends LitElement {
 	static properties = {
 		// searchParams: {type: Object, state: true},

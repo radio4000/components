@@ -10,6 +10,9 @@ const debug = false
 	 list-channels, default `page="1"`, `limit="1"`;
 	 its attributes are bound to the supabase sdk table (data model) query values
  */
+/**
+ * Component for querying Supabase tables with pagination and filtering
+ */
 export default class R4SupabaseQuery extends LitElement {
 	static properties = {
 		count: {type: Number},

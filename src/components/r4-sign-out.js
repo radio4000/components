@@ -1,6 +1,9 @@
 import {sdk} from '../libs/sdk.js'
 import R4Form from './r4-form.js'
 
+/**
+ * Form for signing out the current user
+ */
 export default class R4SignOut extends R4Form {
 	submitText = 'Sign out'
 	errors = {

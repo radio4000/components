@@ -1,5 +1,8 @@
 import {LitElement, html} from 'lit'
 
+/**
+ * Form with shareable URLs and embeds for a channel
+ */
 export default class R4ShareChannel extends LitElement {
 	static get properties() {
 		return {

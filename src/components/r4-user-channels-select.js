@@ -1,5 +1,9 @@
 import {LitElement, html} from 'lit'
 
+/**
+ * Select dropdown for choosing between user channels
+ * @fires select - Fired when channel is selected, contains selected channel object in detail
+ */
 export default class R4UserChannelsSelect extends LitElement {
 	createRenderRoot() {
 		return this

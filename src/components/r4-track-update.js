@@ -27,6 +27,9 @@ fieldsTemplate.innerHTML = `
 	</slot>
 `
 
+/**
+ * Form for updating track information
+ */
 export default class R4TrackUpdate extends R4Form {
 	submitText = 'Update track'
 

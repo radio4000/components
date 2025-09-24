@@ -34,6 +34,9 @@ captchaFieldTemplate.innerHTML = `
 	</fieldset>
 `
 
+/**
+ * Form for user sign in with email, password, and optional captcha
+ */
 export default class R4SignIn extends R4Form {
 	submitText = 'Sign in'
 

@@ -1,3 +1,6 @@
+/**
+ * Loading indicator with progress bar and multilingual messages
+ */
 export default class R4Loading extends HTMLElement {
 	static get observedAttributes() {
 		return ['text', 'show-icon']

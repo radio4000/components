@@ -37,6 +37,9 @@ fieldsTemplate.innerHTML = `
 	</slot>
 `
 
+/**
+ * Form for updating channel information
+ */
 export default class R4ChannelUpdate extends R4Form {
 	static get observedAttributes() {
 		return ['id', 'name', 'slug', 'description', 'url', 'longitude', 'latitude']

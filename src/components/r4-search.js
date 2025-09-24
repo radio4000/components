@@ -6,6 +6,7 @@ import {sdk} from '../libs/sdk.js'
  * This is the base class for R4ChannelSearch and R4TrackSearch
  * It actively searches the database on every keypress.
  * See https://supabase.com/docs/guides/database/full-text-search
+ * @fires query - Fired on search input, contains search results data in detail
  */
 export default class R4Search extends LitElement {
 	static properties = {
