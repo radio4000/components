@@ -178,25 +178,7 @@ export default class R4PageSettings extends R4Page {
 					</li>
 					<li>Contact by <a href="mailto:contact@radio4000.com" target="_blank" rel="noreferrer noopener">email</a></li>
 					<li>Source <a href="https://github.com/radio4000" target="_blank" rel="noreferrer noopener">code</a></li>
-					<li>
-						Read the
-						<a
-							href="https://github.com/radio4000/publications/blob/main/user-agreement-privacy-policy-terms-of-use.md"
-							target="_blank"
-							rel="noreferrer noopener"
-							>privacy/terms</a
-						>
-					</li>
-					<li>
-						Project's
-						<a
-							href="https://github.com/radio4000/publications/blob/main/radio4000-manifest.md"
-							target="_blank"
-							rel="noreferrer noopener"
-							>manifest</a
-						>
-					</li>
-					<li>See the <a href="https://blog.radio4000.com/" target="_blank" rel="noreferrer noopener">blog</a></li>
+					<li>Read the <a href="https://blog.radio4000.com/" target="_blank" rel="noreferrer noopener">blog</a></li>
 					<li>
 						Previous site <a href=${this.config.hrefV1} target="_blank" rel="noreferrer noopener">v1.radio4000</a>
 					</li>
