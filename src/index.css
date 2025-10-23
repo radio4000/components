@@ -215,6 +215,10 @@ r4-layout r4-player,
 r4-layout radio4000-player {
 	flex-grow: 1;
 }
+r4-layout::part(playback-panel) {
+	width: 100%;
+	height: 100%;
+}
 r4-layout r4-player radio4000-player .Layout {
 	border-color: var(--c-link);
 }

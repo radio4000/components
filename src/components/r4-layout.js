@@ -11,15 +11,17 @@ export default class R4Layout extends LitElement {
 		isTop: {type: Boolean},
 		uiState: {type: String, attribute: 'ui-state', reflect: true},
 		uiStates: {type: Object},
+    // JS-controlled open/close in place of <details>
+    isPlaybackOpen: {type: Boolean},
 	}
 
 	playerRef = createRef()
-	detailsRef = createRef()
 
 	constructor() {
 		super()
 		this.uiStates = UI_STATES
 		this.uiState = this.uiStates.Dock
+		this.isPlaybackOpen = true
 		document.addEventListener('fullscreenchange', this.onFullscreen.bind(this))
 	}
 
@@ -51,8 +53,9 @@ export default class R4Layout extends LitElement {
 			document.exitFullscreen()
 		}
 
-		if (this.detailsRef.value && this.uiState !== this.uiStates.Close) {
-			this.detailsRef.value.setAttribute('open', true)
+		// ensure player section is visible when not closed
+		if (this.uiState !== this.uiStates.Close) {
+			this.isPlaybackOpen = true
 		}
 
 		// first time you close, it hides player
@@ -65,6 +68,7 @@ export default class R4Layout extends LitElement {
 				this.dispatchEvent(stopPlayEvent)
 				this.isPlaying = false
 			}
+			this.isPlaybackOpen = false
 		}
 	}
 
@@ -84,9 +88,16 @@ export default class R4Layout extends LitElement {
 		const state = stateSlot || stateNonSlotted
 		event.preventDefault()
 		this.uiState = this.uiStates[state]
-		if (!this.detailsRef?.value?.getAttribute('open')) {
-			this.detailsRef?.value?.setAttribute('open', true)
-		}
+		// reveal player area when controls are used
+		this.isPlaybackOpen = true
+	}
+
+	onTogglePlayback = (event) => {
+		// Prevent toggling when clicking interactive controls inside
+		const path = event.composedPath?.() || []
+		const clickedButton = path.find((el) => el?.tagName === 'BUTTON' && el?.getAttribute('name'))
+		if (clickedButton) return
+		this.isPlaybackOpen = !this.isPlaybackOpen
 	}
 	render() {
 		return html`
@@ -106,15 +117,17 @@ export default class R4Layout extends LitElement {
 
 	renderPlayback() {
 		return html`
-			<details open part="playback-details" ${ref(this.detailsRef)}>
-				<summary part="playback-summary">
-					${this.isPlaying ? this.renderPlaybackIcon() : null}
+			<div part="playback-details" ?open=${this.isPlaybackOpen}>
+				<div part="playback-summary">
+					<button part="playback-toggle" @click=${this.onTogglePlayback} aria-expanded=${this.isPlaybackOpen} aria-controls="r4-playback-panel">
+						${this.isPlaying ? this.renderPlaybackIcon() : null}
+					</button>
 					<slot name="playback-controls" @submit=${this.onControlSubmit}>
 						${Object.entries(this.uiStates).map(this.renderUiState.bind(this))}
 					</slot>
-				</summary>
-				<slot name="player"></slot>
-			</details>
+				</div>
+				${this.isPlaybackOpen ? html`<div id="r4-playback-panel" part="playback-panel"><slot name="player"></slot></div>` : null}
+			</div>
 		`
 	}
 	renderPlaybackIcon() {
