@@ -10,14 +10,5 @@
 	{"path": "/search", "page": "search"},
 	{"path": "/about", "page": "about"},
 	{"path": "/:slug", "page": "channel"},
-	{"path": "/:slug/feed", "page": "channel-feed"},
-	{"path": "/:slug/update", "page": "channel-update"},
-	{"path": "/:slug/delete", "page": "channel-delete"},
-	{"path": "/:slug/player", "page": "channel-player"},
-	{"path": "/:slug/tracks", "page": "channel-tracks"},
-	{"path": "/:slug/tracks/:track_id", "page": "channel-track"},
-	{"path": "/:slug/tracks/:track_id/update", "page": "track-update"},
-	{"path": "/:slug/tracks/:track_id/delete", "page": "track-delete"},
-	{"path": "/:slug/followers", "page": "channel-followers"},
-	{"path": "/:slug/following", "page": "channel-followings"}
+	{"path": "/:slug/*", "page": "channel"}
 ]

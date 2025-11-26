@@ -9,6 +9,10 @@ export default class R4PageChannelFollowers extends BaseChannel {
 		loaded: {type: Boolean}
 	}
 
+	renderHeader() {
+		return null
+	}
+
 	async connectedCallback() {
 		await super.connectedCallback()
 		if (this.channel && !this.channels) {

@@ -1,8 +1,8 @@
 import {html} from 'lit'
-import {repeat} from 'lit/directives/repeat.js'
 import {sdk} from '../libs/sdk.js'
 import BaseChannel from './base-channel'
 import {formatDate, isFreshDate, relativeDate, relativeDateSolar} from '../libs/date.js'
+import ROUTES_CHANNEL from '../data/routes-channel.json'
 
 export default class R4PageChannel extends BaseChannel {
 	static properties = {
@@ -46,11 +46,11 @@ export default class R4PageChannel extends BaseChannel {
 		}
 		// if (this.channelError) {}
 		if (this.channel) {
-			return html`
-				<section>
-					${[this.renderChannelCard(), this.renderTracksList(), this.renderTimes()]}
-				</section>
-			`
+			const subrouteActive = this.isSubrouteActive()
+			if (subrouteActive) {
+				return this.renderSubRouter()
+			}
+			return html`<section>${[this.renderChannelCard(), this.renderTracksList(), this.renderTimes()]}</section>`
 		}
 	}
 
@@ -92,5 +92,26 @@ export default class R4PageChannel extends BaseChannel {
 			</span>`,
 		)
 		return html`<p>${doms}</p>`
+	}
+
+	// --- Nested channel subroutes ---
+	isSubrouteActive() {
+		try {
+			const href = this.config?.href || window.location.href
+			const base = new URL(href).pathname || ''
+			const full = window.location.pathname
+			const path = base && full.startsWith(base) ? full.slice(base.length) || '/' : full
+			const root = this.config?.singleChannel ? '/' : `/${this.params?.slug}`
+			if (!this.config?.singleChannel && !this.params?.slug) return false
+			if (path === root || path === root + '/') return false
+			return this.config?.singleChannel ? path !== '/' : path.startsWith(root + '/')
+		} catch {
+			return false
+		}
+	}
+
+	renderSubRouter() {
+		const prefix = this.config?.singleChannel ? '/' : '/:slug'
+		return html`<r4-router prefix="${prefix}" .routes=${ROUTES_CHANNEL} .store=${this.store} .config=${this.config}></r4-router>`
 	}
 }

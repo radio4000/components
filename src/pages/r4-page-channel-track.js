@@ -2,6 +2,9 @@ import {html} from 'lit'
 import BaseChannelTrack from './base-channel-track'
 
 export default class R4PageChannelTrack extends BaseChannelTrack {
+	renderHeader() {
+		return null
+	}
 	renderMain() {
 		return [this.buildTrack(), this.buildDiscogs()]
 	}

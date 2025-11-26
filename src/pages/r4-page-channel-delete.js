@@ -1,8 +1,11 @@
 import {html} from 'lit'
-import page from 'page/page.mjs'
+import page from '../libs/page.js'
 import BaseChannel from './base-channel'
 
 export default class R4PageChannelDelete extends BaseChannel {
+	renderHeader() {
+		return null
+	}
 	renderMain() {
 		if (this.channel) {
 			return html`

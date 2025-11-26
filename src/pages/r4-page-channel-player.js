@@ -3,15 +3,7 @@ import BaseChannel from './base-channel'
 
 export default class R4PageChannelPlayer extends BaseChannel {
 	renderHeader() {
-		if (!this.channel) return
-		return html`
-			<menu>
-				<li>@<a href=${this.channelOrigin}>${this.channel.slug}</a></li>
-				<li>
-					<r4-button-play .channel=${this.channel}></r4-button-play>
-				</li>
-			</menu>
-		`
+		return null
 	}
 	renderMain() {
 		if (!this.channel) return

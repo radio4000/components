@@ -1,6 +1,6 @@
 import {html} from 'lit'
 import {sdk} from '../libs/sdk.js'
-import page from 'page/page.mjs'
+import page from '../libs/page.js'
 import BaseChannel from './base-channel'
 
 export default class BaseChannelTrack extends BaseChannel {
