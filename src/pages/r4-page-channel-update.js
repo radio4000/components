@@ -1,18 +1,11 @@
 import {html} from 'lit'
-import page from 'page/page.mjs'
+import page from '../libs/page.js'
 import {sdk} from '../libs/sdk.js'
 import BaseChannel from './base-channel'
 
 export default class R4PageChannelUpdate extends BaseChannel {
 	renderHeader() {
-		return html`
-			<menu>
-				<li>
-					<h1><a href="${this.channelOrigin}/update">Update</a></h1>
-				</li>
-				<li><a href=${this.channelOrigin}>@${this.params.slug}</a></li>
-			</menu>
-		`
+		return null
 	}
 	renderMain() {
 		const {channel, channelOrigin} = this

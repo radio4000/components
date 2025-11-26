@@ -1,4 +1,5 @@
 import {LitElement, html, nothing} from 'lit'
+import {PathTrackerController} from '../libs/path-tracker-controller.js'
 
 /**
  * The primary menu for <r4-app>
@@ -18,6 +19,8 @@ export default class R4AppMenu extends LitElement {
 
 		this.href = ''
 		this.path = ''
+
+		new PathTrackerController(this)
 
 		// Set "path" on every navigation.
 		window?.navigation?.addEventListener('navigate', (e) => {

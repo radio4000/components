@@ -8,6 +8,10 @@ export default class R4PageChannelFollowings extends BaseChannel {
 		channels: {type: Array, state: true},
 		loaded: {type: Boolean},
 	}
+
+	renderHeader() {
+		return null
+	}
 	async setChannels() {
 		this.channels = (
 			await sdk.supabase

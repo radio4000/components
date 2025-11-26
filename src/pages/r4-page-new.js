@@ -1,5 +1,5 @@
 import {html} from 'lit'
-import page from 'page/page.mjs'
+import page from '../libs/page.js'
 import R4Page from '../components/r4-page.js'
 
 export default class R4PageNew extends R4Page {

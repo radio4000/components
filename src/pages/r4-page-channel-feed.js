@@ -12,6 +12,10 @@ export default class R4PageChannelFeed extends BaseChannel {
 		tracks: {type: Array, state: true},
 		params: {type: Object, state: true},
 	}
+
+	renderHeader() {
+		return null
+	}
 	constructor() {
 		super()
 		this.limit = 200

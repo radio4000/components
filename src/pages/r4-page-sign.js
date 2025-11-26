@@ -1,4 +1,4 @@
-import page from 'page/page.mjs'
+import page from '../libs/page.js'
 import {html, literal, unsafeStatic} from 'lit/static-html.js'
 import R4Page from '../components/r4-page.js'
 

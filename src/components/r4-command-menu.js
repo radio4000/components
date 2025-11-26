@@ -1,5 +1,5 @@
 import {LitElement, html} from 'lit'
-import page from 'page/page.mjs'
+import page from '../libs/page.js'
 import '../libs/command-menu.js'
 
 /**

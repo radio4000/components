@@ -1,5 +1,6 @@
 import {html, nothing} from 'lit'
 import {sdk} from '../libs/sdk.js'
+import page from '../libs/page.js'
 import R4Page from '../components/r4-page.js'
 
 export default class BaseChannel extends R4Page {
@@ -28,7 +29,17 @@ export default class BaseChannel extends R4Page {
 		window?.navigation?.addEventListener('navigate', (e) => {
 			this.path = e.destination.url.split('?')[0]
 		})
+		this._onLocationChange = (event) => {
+			const url = event.detail?.url || window.location.href
+			this.path = url.split('?')[0]
+		}
+		window.addEventListener('r4:location-changed', this._onLocationChange)
 		if (!this.path) this.path = window.location.href
+	}
+
+	disconnectedCallback() {
+		window.removeEventListener('r4:location-changed', this._onLocationChange)
+		super.disconnectedCallback()
 	}
 
 	async connectedCallback() {
@@ -241,9 +252,9 @@ export default class BaseChannel extends R4Page {
 		const name = target.getAttribute('name')
 		if (name === 'track') {
 			if (this.config.singleChannel) {
-				window.page('/track')
+				page('/track')
 			} else {
-				window.page(`/${this.params.slug}/tracks`)
+				page(`/${this.params.slug}/tracks`)
 			}
 		}
 	}
