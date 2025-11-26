@@ -66,6 +66,10 @@ export default class R4SignUp extends R4Form {
 			field: 'password',
 			message: 'Password should be at least 6 characters',
 		},
+		weak_password: {
+			field: 'password',
+			message: 'Password is known to be weak and easy to guess, please choose a different one.',
+		},
 		'captcha-required': {
 			message: 'The Captcha is missing. Please solve it to sign up.',
 		},
