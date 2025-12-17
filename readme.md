@@ -69,7 +69,7 @@ To make sure the build workflows:
 
 ## Deploying to radio4000.com
 
-To update radio4000.com, update the version of `@radio4000/components` on https://github.com/radio4000/radio4000.com.
+To update radio4000.com, publish a new release of `@radio4000/components` and update it in the repo https://github.com/radio4000/radio4000.com.
 
 ## Creating a new component
 
