@@ -36,20 +36,6 @@ export default class R4PageNew extends R4Page {
 				</header>
 				<r4-channel-create @submit=${this.onChannelCreate} href=${this.config.href}></r4-channel-create>
 			</section>
-			<section>
-				<dialog open inline>
-					<h2>Import existing radio from v1?</h2>
-					<p>
-						To import a radio channel from the version 1 website, don't create a new radio channel.
-					</p>
-					<p>
-						Visit the page <a href="${this.config.hrefMigrate}"><strong>${new URL(this.config.hrefMigrate).hostname}</strong></a> and follow the steps (using your v1 and v2 accounts).
-					</p>
-					<form method="dialog" part="form">
-						<button part="button" formmethod="dialog">Close</button>
-					</form>
-				</dialog>
-			</section>
 		`
 	}
 

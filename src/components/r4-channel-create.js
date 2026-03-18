@@ -43,10 +43,6 @@ export default class R4ChannelCreate extends R4Form {
 		default: {
 			message: 'Unhandled error',
 		},
-		'slug-exists-firebase': {
-			message: 'This slug is already in use by an other channel',
-			field: 'slug',
-		},
 		23502: {
 			message: 'Fill out the slug field',
 			field: 'slug'

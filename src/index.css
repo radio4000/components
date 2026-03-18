@@ -608,12 +608,10 @@ r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='fts']
 r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='discogs_url'],
 r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='description'],
 r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='id'],
-r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='firebase'],
 r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='coordinates'],
 r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='id'],
 r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='coordinates'],
-r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='fts'],
-r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='firebase'] {
+r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='fts'] {
 	display: none;
 }
 

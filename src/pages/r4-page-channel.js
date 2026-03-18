@@ -1,5 +1,4 @@
 import {html} from 'lit'
-import {repeat} from 'lit/directives/repeat.js'
 import {sdk} from '../libs/sdk.js'
 import BaseChannel from './base-channel'
 import {formatDate, isFreshDate, relativeDate, relativeDateSolar} from '../libs/date.js'
@@ -11,7 +10,6 @@ export default class R4PageChannel extends BaseChannel {
 		channel: {type: Object, state: true},
 		channelError: {type: Object, state: true},
 		canEdit: {type: Boolean, state: true},
-		isFirebaseChannel: {type: Boolean, state: true},
 		// from router
 		params: {type: Object, state: true},
 		store: {type: Object, state: true},
@@ -41,10 +39,6 @@ export default class R4PageChannel extends BaseChannel {
 	}
 
 	renderMain() {
-		if (this.isFirebaseChannel) {
-			return html` <radio4000-player channel-slug=${this.params.slug}></radio4000-player> `
-		}
-		// if (this.channelError) {}
 		if (this.channel) {
 			return html`
 				<section>

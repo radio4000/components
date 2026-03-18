@@ -70,7 +70,6 @@ export default class R4App extends LitElement {
 		return {
 			href: this.href,
 			hrefV1: 'https://v1.radio4000.com',
-			hrefMigrate: 'https://migrate.radio4000.com',
 			hcaptchaSiteKey: HCAPTCHA_SITE_KEY,
 			client,
 			version: this.version,

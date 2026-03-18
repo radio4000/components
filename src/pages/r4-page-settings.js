@@ -23,7 +23,6 @@ export default class R4PageSettings extends R4Page {
 	}
 
 	renderHeader() {
-		const {user} = this.store
 		return html`
 			<menu>
 				<li>
@@ -53,7 +52,6 @@ export default class R4PageSettings extends R4Page {
 				<ol>
 					<li><a href="${this.config.href}/sign/up">Sign up</a> to create an account</li>
 					<li><a href="${this.config.href}/sign/in">Sign in</a> to manage an existing account</li>
-					<li>(version 1) <a href="${this.config.hrefMigrate}">Import radio</a> from the previous site</li>
 				</ol>
 			</section>
 		`
@@ -181,10 +179,6 @@ export default class R4PageSettings extends R4Page {
 					<li>Read the <a href="https://blog.radio4000.com/" target="_blank" rel="noreferrer noopener">blog</a></li>
 					<li>
 						Previous site <a href=${this.config.hrefV1} target="_blank" rel="noreferrer noopener">v1.radio4000</a>
-					</li>
-					<li>
-						<a href=${this.config.hrefMigrate} target="_blank" rel="noreferrer noopener">Migrate/Import v1</a> radio
-						channel
 					</li>
 					<li>
 						<details>

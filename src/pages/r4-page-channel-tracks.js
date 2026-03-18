@@ -10,7 +10,6 @@ export default class R4PageChannelTracks extends BaseChannel {
 		channel: {type: Object, state: true},
 		channelError: {type: Object, state: true},
 		canEdit: {type: Boolean, state: true},
-		isFirebaseChannel: {type: Boolean, state: true},
 
 		// from router
 		params: {type: Object, state: true},

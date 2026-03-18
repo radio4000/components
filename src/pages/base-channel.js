@@ -11,7 +11,6 @@ export default class BaseChannel extends R4Page {
 		channel: {type: Object, state: true},
 		channelError: {type: Object, state: true},
 		canEdit: {type: Boolean, state: true},
-		isFirebaseChannel: {type: Boolean, state: true},
 		// from router
 		params: {type: Object, state: true},
 		store: {type: Object, state: true},
@@ -76,22 +75,15 @@ export default class BaseChannel extends R4Page {
 		// No need to set again if channel the same channel is loaded.
 		if (this.channel?.slug === slug) return
 
+		this.channelError = null
 		const {data, error} = await sdk.channels.readChannel(slug)
 		this.canEdit = await sdk.channels.canEditChannel(slug)
 
 		if (error) {
-			try {
-				const res = await fetch('https://radio4000.firebaseio.com/channels.json?orderBy="slug"&equalTo="' + slug + '"')
-				const list = await res.json()
-				this.isFirebaseChannel = list[Object.keys(list)[0]]
-			} catch (e) {
-				//
-			}
-			if (!this.isFirebaseChannel) {
-				this.channelError = error
-			}
+			this.channel = null
+			this.channelError = error
 		} else {
-			this.isFirebaseChannel = false
+			this.channelError = null
 			this.channel = data
 		}
 	}
@@ -112,21 +104,6 @@ export default class BaseChannel extends R4Page {
 	}
 
 	renderHeader() {
-		if (this.isFirebaseChannel) {
-			return html`
-				<dialog open inline>
-					<p>This Radio4000 channel is from <a href="https://v1.radio4000.com/${this.params.slug}">version 1</a>.</p>
-					<p>
-						If you are the channel operator, consider importing it to
-						<a href="${this.config.hrefMigrate}/?slug=${this.params.slug}">version 2</a>. Until then,
-						${this.params.slug} is in listen only mode.
-					</p>
-					<form method="dialog">
-						<button>Got it!</button>
-					</form>
-				</dialog>
-			`
-		}
 		if (this.channelError) {
 			return this.renderChannelError()
 		}
