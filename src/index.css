@@ -91,6 +91,14 @@ r4-app a {
 		color: var(--c-fg);
 	}
 }
+r4-app a[target='_blank']::after {
+	content: '↗';
+	display: inline-block;
+	margin-left: calc(var(--s) / 3);
+	font-size: 0.8em;
+	line-height: 1;
+	vertical-align: super;
+}
 r4-app section {
 	padding-top: var(--s);
 	padding-bottom: var(--s);
