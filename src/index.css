@@ -735,6 +735,12 @@ r4-button-play {
 	}
 }
 
+r4-app r4-app-user-menu {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--s);
+}
+
 r4-app r4-app-user-menu menu {
 	flex-wrap: nowrap;
 }

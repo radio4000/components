@@ -382,6 +382,7 @@ export default class R4App extends LitElement {
 			<header slot="menu">
 				<r4-app-menu ?auth=${this.store?.user} href=${this.config?.href}></r4-app-menu>
 				<r4-app-user-menu
+					.auth=${this.store?.user}
 					href=${this.config?.href}
 					.channel=${this.store.selectedChannel}
 					.channels=${this.store.userChannels}
