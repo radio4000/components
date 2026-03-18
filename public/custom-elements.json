@@ -286,7 +286,7 @@
                 "text": "object"
               },
               "static": true,
-              "default": "{ /* props */ href: {type: String}, channel: {type: Object}, channels: {type: Array}, /* state */ path: {type: String, state: true}, }"
+              "default": "{ /* props */ auth: {type: Boolean}, href: {type: String}, channel: {type: Object}, channels: {type: Array}, /* state */ path: {type: String, state: true}, }"
             },
             {
               "kind": "method",
@@ -835,7 +835,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{ default: { message: 'Unhandled error', }, 'slug-exists-firebase': { message: 'This slug is already in use by an other channel', field: 'slug', }, 23502: { message: 'Fill out the slug field', field: 'slug' }, 23514: { message: 'The slug needs to be between 3 and 40 characters', field: 'slug', }, 23505: { message: 'The slug is already in use by an other channel', field: 'slug', }, 42501: { message: 'Sign in to create a channel', field: 'slug', }, 'sign-in': { message: 'You need to sign in to create a radio channel', }, }",
+              "default": "{ default: { message: 'Unhandled error', }, 23502: { message: 'Fill out the slug field', field: 'slug' }, 23514: { message: 'The slug needs to be between 3 and 40 characters', field: 'slug', }, 23505: { message: 'The slug is already in use by an other channel', field: 'slug', }, 42501: { message: 'Sign in to create a channel', field: 'slug', }, 'sign-in': { message: 'You need to sign in to create a radio channel', }, }",
               "inheritedFrom": {
                 "name": "R4Form",
                 "module": "src/components/r4-form.js"
@@ -2439,15 +2439,11 @@
                 "text": "object"
               },
               "static": true,
-              "default": "{ isPlaying: {type: Boolean, attribute: 'is-playing', reflect: true}, isTop: {type: Boolean}, uiState: {type: String, attribute: 'ui-state', reflect: true}, uiStates: {type: Object}, }"
+              "default": "{ isPlaying: {type: Boolean, attribute: 'is-playing', reflect: true}, isTop: {type: Boolean}, uiState: {type: String, attribute: 'ui-state', reflect: true}, uiStates: {type: Object}, // JS-controlled open/close in place of <details> isPlaybackOpen: {type: Boolean}, }"
             },
             {
               "kind": "field",
               "name": "playerRef"
-            },
-            {
-              "kind": "field",
-              "name": "detailsRef"
             },
             {
               "kind": "method",
@@ -2480,6 +2476,10 @@
               ]
             },
             {
+              "kind": "field",
+              "name": "onTogglePlayback"
+            },
+            {
               "kind": "method",
               "name": "render"
             },
@@ -2508,6 +2508,14 @@
             {
               "kind": "field",
               "name": "uiState"
+            },
+            {
+              "kind": "field",
+              "name": "isPlaybackOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true"
             }
           ],
           "superclass": {
@@ -4897,7 +4905,7 @@
               "type": {
                 "text": "object"
               },
-              "default": "{ default: { message: 'Unhandled error', }, 'email-not-confirmed': { field: 'email', message: \"You're signed up, confirm your email to login \", }, 'invalid-login-credentials': { field: 'email', message: 'The email & password combination is incorrect', }, 'email-rate-limit': { message: 'Rate limit exceeded. Wait five minutes before trying again', }, 'password-too-short': { field: 'password', message: 'Password should be at least 6 characters', }, 'captcha-required': { message: 'The Captcha is missing. Please solve it to sign up.', }, }",
+              "default": "{ default: { message: 'Unhandled error', }, 'email-not-confirmed': { field: 'email', message: \"You're signed up, confirm your email to login \", }, 'invalid-login-credentials': { field: 'email', message: 'The email & password combination is incorrect', }, 'email-rate-limit': { message: 'Rate limit exceeded. Wait five minutes before trying again', }, 'password-too-short': { field: 'password', message: 'Password should be at least 6 characters', }, weak_password: { field: 'password', message: 'Password is known to be weak and easy to guess, please choose a different one.', }, 'captcha-required': { message: 'The Captcha is missing. Please solve it to sign up.', }, }",
               "inheritedFrom": {
                 "name": "R4Form",
                 "module": "src/components/r4-form.js"
