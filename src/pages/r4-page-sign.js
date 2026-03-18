@@ -98,7 +98,7 @@ export default class R4PageSign extends R4Page {
 		return html`
 			<section>
 				<ul>
-					<li><a href=${this.config.href + '/sign/up'}>Sign up</a> for a new account, to create or migrate a radio channel</li>
+					<li><a href=${this.config.href + '/sign/up'}>Sign up</a> for a new account, to create a radio channel</li>
 					<li>
 						<details>
 							<summary>Forgot password? Sign in with magic (email) link!</summary>
@@ -120,9 +120,7 @@ export default class R4PageSign extends R4Page {
 		return html`
 			<section>
 				<ul>
-					<li>
-						Sign up to create a new radio, or to <a href="${this.config.hrefMigrate}">migrate an existing radio</a> from <a href="https://v1.radio4000.com" target="_blank">version 1</a> of <r4-title></r4-title>
-					</li>
+					<li>Sign up to create a new radio.</li>
 					<li>
 						<a href=${this.config.href + '/sign/in'}>Sign in</a>
 						if you already have an existing version 2 account

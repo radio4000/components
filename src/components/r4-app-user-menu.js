@@ -10,6 +10,7 @@ export default class R4AppUserMenu extends LitElement {
 
 	static properties = {
 		/* props */
+		auth: {type: Boolean},
 		href: {type: String},
 		channel: {type: Object},
 		channels: {type: Array},
@@ -51,8 +52,16 @@ export default class R4AppUserMenu extends LitElement {
 			<menu>
 				<li>${this.channel ? this.renderAdd() : null}</li>
 				<li>${this.renderChannelLinks()}</li>
-				${this.channels.length > 1 ? html`<li>${this.renderChannelSelect()}</li>` : null}
+				${this.channels?.length > 1 ? html`<li>${this.renderChannelSelect()}</li>` : null}
 				<li><a aria-current=${this.isCurrent('/settings')} href=${href + '/settings'}>Settings</a></li>
+			</menu>
+			${this.auth ? this.renderBetaMenu() : nothing}
+		`
+	}
+	renderBetaMenu() {
+		return html`
+			<menu aria-label="Beta">
+				<li><a href="https://beta.radio4000.com" target="_blank" rel="noopener noreferrer">Beta</a></li>
 			</menu>
 		`
 	}

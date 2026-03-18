@@ -117,7 +117,7 @@ export default class R4Form extends HTMLElement {
 
 		/* overwrite the URL params generated state, by the DOM attributes */
 		fieldNamesPrefill.forEach((fieldName) => {
-			/* firebase data model to html element dom attribute  */
+			/* map DOM attributes into initial form state */
 			const fieldAttributeValue = this.getAttribute(fieldName)
 			if (fieldAttributeValue) {
 				state[fieldName] = fieldAttributeValue

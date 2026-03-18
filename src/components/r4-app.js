@@ -70,7 +70,6 @@ export default class R4App extends LitElement {
 		return {
 			href: this.href,
 			hrefV1: 'https://v1.radio4000.com',
-			hrefMigrate: 'https://migrate.radio4000.com',
 			hcaptchaSiteKey: HCAPTCHA_SITE_KEY,
 			client,
 			version: this.version,
@@ -382,6 +381,7 @@ export default class R4App extends LitElement {
 			<header slot="menu">
 				<r4-app-menu ?auth=${this.store?.user} href=${this.config?.href}></r4-app-menu>
 				<r4-app-user-menu
+					.auth=${this.store?.user}
 					href=${this.config?.href}
 					.channel=${this.store.selectedChannel}
 					.channels=${this.store.userChannels}

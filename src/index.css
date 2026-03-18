@@ -91,6 +91,14 @@ r4-app a {
 		color: var(--c-fg);
 	}
 }
+r4-app a[target='_blank']::after {
+	content: '↗';
+	display: inline-block;
+	margin-left: calc(var(--s) / 3);
+	font-size: 0.8em;
+	line-height: 1;
+	vertical-align: super;
+}
 r4-app section {
 	padding-top: var(--s);
 	padding-bottom: var(--s);
@@ -600,12 +608,10 @@ r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='fts']
 r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='discogs_url'],
 r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='description'],
 r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='id'],
-r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='firebase'],
 r4-supabase-query[table='channels'] fieldset[name='orderBy'] option[value='coordinates'],
 r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='id'],
 r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='coordinates'],
-r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='fts'],
-r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='firebase'] {
+r4-supabase-filters[table='channels'] fieldset[name='column'] option[value='fts'] {
 	display: none;
 }
 
@@ -733,6 +739,12 @@ r4-button-play {
 			height: 100%;
 		}
 	}
+}
+
+r4-app r4-app-user-menu {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--s);
 }
 
 r4-app r4-app-user-menu menu {
