@@ -1,0 +1,7 @@
+# components.radio4000.com is the demo/docs site for @radio4000/components.
+# Examples are fine to index, except /examples/r4-app/ which is the full v2 app
+# and duplicates radio4000.com (v3). It carries a noindex meta tag rather than a
+# Disallow here — crawlers must be able to fetch it to see the noindex.
+
+User-agent: *
+Allow: /
