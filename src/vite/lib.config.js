@@ -11,6 +11,11 @@ export default defineConfig({
 		},
 		rollupOptions: {
 			output: {
+				manualChunks: {
+					ol: ['ol'],
+					supabase: ['@supabase/supabase-js'],
+					r4playerv1: ['radio4000-player']
+				},
 				dir: 'dist',
 			},
 		},
