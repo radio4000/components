@@ -12,7 +12,7 @@
           "type": {
             "text": "object"
           },
-          "default": "{ 'r4-actions': R4Actions, 'r4-admin': R4Admin, 'r4-app': R4App, 'r4-command-menu': R4CommandMenu, 'r4-app-menu': R4AppMenu, 'r4-app-user-menu': R4AppUserMenu, 'r4-avatar': R4Avatar, 'r4-avatar-update': R4AvatarUpdate, 'r4-avatar-upload': R4AvatarUpload, 'r4-auth-status': R4AuthStatus, 'r4-button-play': R4ButtonPlay, 'r4-button-follow': R4ButtonFollow, 'r4-channel': R4Channel, 'r4-channel-card': R4ChannelCard, 'r4-channel-create': R4ChannelCreate, 'r4-channel-delete': R4ChannelDelete, 'r4-channel-update': R4ChannelUpdate, 'r4-channel-search': R4ChannelSearch, 'r4-dialog': R4Dialog, 'r4-discogs-resource': R4DiscogsResource, 'r4-email-update': R4EmailUpdate, 'r4-favicon': R4Favicon, 'r4-layout': R4Layout, 'r4-loading': R4Loading, 'r4-map': R4Map, 'r4-map-position': R4MapPosition, 'r4-password-update': R4PasswordUpdate, 'r4-password-reset': R4PasswordReset, 'r4-player': R4Player, 'r4-query': R4Query, 'r4-router': R4Router, 'r4-share-channel': R4ShareChannel, 'r4-share-track': R4ShareTrack, 'r4-sign-in': R4SignIn, 'r4-sign-out': R4SignOut, 'r4-sign-up': R4SignUp, 'r4-supabase-query': R4SupabaseQuery, 'r4-supabase-filters': R4SupabaseFilters, 'r4-supabase-filter-search': R4SupabaseFilterSearch, 'r4-title': R4Title, 'r4-track': R4Track, 'r4-track-create': R4TrackCreate, 'r4-track-delete': R4TrackDelete, 'r4-track-update': R4TrackUpdate, 'r4-track-search': R4TrackSearch, 'r4-tuner': R4Tuner, 'r4-user': R4User, 'r4-user-delete': R4UserDelete, 'r4-user-account': R4UserAccount, 'r4-user-channels-select': R4UserChannelsSelect, 'r4-pagination': R4Pagination, 'r4-icon': R4Icon, }"
+          "default": "{ 'r4-actions': R4Actions, 'r4-app': R4App, 'r4-command-menu': R4CommandMenu, 'r4-app-menu': R4AppMenu, 'r4-app-user-menu': R4AppUserMenu, 'r4-avatar': R4Avatar, 'r4-avatar-update': R4AvatarUpdate, 'r4-avatar-upload': R4AvatarUpload, 'r4-auth-status': R4AuthStatus, 'r4-button-play': R4ButtonPlay, 'r4-button-follow': R4ButtonFollow, 'r4-channel': R4Channel, 'r4-channel-card': R4ChannelCard, 'r4-channel-create': R4ChannelCreate, 'r4-channel-delete': R4ChannelDelete, 'r4-channel-update': R4ChannelUpdate, 'r4-channel-search': R4ChannelSearch, 'r4-dialog': R4Dialog, 'r4-discogs-resource': R4DiscogsResource, 'r4-email-update': R4EmailUpdate, 'r4-favicon': R4Favicon, 'r4-layout': R4Layout, 'r4-loading': R4Loading, 'r4-map': R4Map, 'r4-map-position': R4MapPosition, 'r4-password-update': R4PasswordUpdate, 'r4-password-reset': R4PasswordReset, 'r4-player': R4Player, 'r4-query': R4Query, 'r4-router': R4Router, 'r4-share-channel': R4ShareChannel, 'r4-share-track': R4ShareTrack, 'r4-sign-in': R4SignIn, 'r4-sign-out': R4SignOut, 'r4-sign-up': R4SignUp, 'r4-supabase-query': R4SupabaseQuery, 'r4-supabase-filters': R4SupabaseFilters, 'r4-supabase-filter-search': R4SupabaseFilterSearch, 'r4-title': R4Title, 'r4-track': R4Track, 'r4-track-create': R4TrackCreate, 'r4-track-delete': R4TrackDelete, 'r4-track-update': R4TrackUpdate, 'r4-track-search': R4TrackSearch, 'r4-tuner': R4Tuner, 'r4-user': R4User, 'r4-user-delete': R4UserDelete, 'r4-user-account': R4UserAccount, 'r4-user-channels-select': R4UserChannelsSelect, 'r4-pagination': R4Pagination, 'r4-icon': R4Icon, }"
         }
       ],
       "exports": [
@@ -87,108 +87,6 @@
           "declaration": {
             "name": "R4Actions",
             "module": "src/components/r4-actions.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/r4-admin.js",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "ONETIME_MAIL_DOMAINS",
-          "type": {
-            "text": "array"
-          },
-          "default": "[ 'clearmailhub.com', 'connectmailhub.com', 'emailnestpro.com', 'inboxmasters.com', 'rocketpostbox.com', 'trustymailpro.com', ]"
-        },
-        {
-          "kind": "class",
-          "description": "To use, be sure to pass in the two supabase keys.\nRenders an admin dashboard that allows you to combat spam content and more.\nhttps://supabase.com/docs/reference/javascript/admin-api",
-          "name": "R4Admin",
-          "members": [
-            {
-              "kind": "field",
-              "name": "properties",
-              "type": {
-                "text": "object"
-              },
-              "static": true,
-              "default": "{ supabaseUrl: {type: String}, supabaseServiceRoleKey: {type: String}, result: {type: Object}, showAllUsers: {type: Boolean}, }"
-            },
-            {
-              "kind": "method",
-              "name": "createClient",
-              "description": "Creates a Supabase client with full admin rights"
-            },
-            {
-              "kind": "method",
-              "name": "prepareData",
-              "description": "Sets this.result with all the data we want"
-            },
-            {
-              "kind": "method",
-              "name": "deleteUser",
-              "parameters": [
-                {
-                  "name": "id",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ],
-              "description": "Deletes a Supabase auth.user AND any channels they are associated with"
-            },
-            {
-              "kind": "method",
-              "name": "deleteChannelAndTracks",
-              "parameters": [
-                {
-                  "name": "channel"
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "isPotentiallySpam",
-              "parameters": [
-                {
-                  "name": "user"
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "render"
-            },
-            {
-              "kind": "method",
-              "name": "createRenderRoot"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "ONETIME_MAIL_DOMAINS",
-          "declaration": {
-            "name": "ONETIME_MAIL_DOMAINS",
-            "module": "src/components/r4-admin.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "R4Admin",
-            "module": "src/components/r4-admin.js"
           }
         }
       ]
@@ -309,6 +207,10 @@
             {
               "kind": "method",
               "name": "render"
+            },
+            {
+              "kind": "method",
+              "name": "renderBetaMenu"
             },
             {
               "kind": "method",

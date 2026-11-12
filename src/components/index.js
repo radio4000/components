@@ -3,7 +3,6 @@
  * Except for R4Components, which is only used and imported on the demo/examples/ page.
  */
 import R4Actions from './r4-actions.js'
-import R4Admin from './r4-admin.js'
 import R4App from './r4-app.js'
 import R4AppMenu from './r4-app-menu.js'
 import R4AppUserMenu from './r4-app-user-menu.js'
@@ -56,7 +55,6 @@ import R4Icon from './r4-icon.js'
 
 const componentDefinitions = {
 	'r4-actions': R4Actions,
-	'r4-admin': R4Admin,
 	'r4-app': R4App,
 	'r4-command-menu': R4CommandMenu,
 	'r4-app-menu': R4AppMenu,
