@@ -39,6 +39,8 @@ jobs:
       - uses: actions/setup-node@v4
       - run: npm install
       - run: npm run build-website
+      # GitHub Pages ignores _redirects; serve r4-app for deep links like /components/examples/r4-app/oskar
+      - run: cp dist-website/examples/r4-app/index.html dist-website/404.html
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
