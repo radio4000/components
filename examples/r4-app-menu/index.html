@@ -30,7 +30,7 @@
 		<script>
 			/* add the "href" attriute to all menu examples */
 			const origin = window.location.origin
-			const href = origin + '/examples/r4-app'
+			const href = origin + '%BASE_URL%examples/r4-app'
 			const $menus = document.querySelectorAll('r4-app-menu')
 			$menus.forEach(($menu) => {
 				$menu.setAttribute('href', href)

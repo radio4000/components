@@ -98,7 +98,7 @@ export default class R4App extends LitElement {
 		} else if (this.cdn) {
 			return `https://cdn.jsdelivr.net/npm/@radio4000/components@${this.version || 'latest'}/dist/themes/${file}`
 		} else {
-			return `/themes/${file}`
+			return `${import.meta.env.BASE_URL}themes/${file}`
 		}
 	}
 

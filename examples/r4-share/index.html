@@ -35,7 +35,7 @@
 			$shares.forEach(($share) => {
 				/* replace URL pattern for where the channel `slug`,
 					 should be inserted in the final sharing links */
-				$share.setAttribute('origin', window.location.origin + '/examples/r4-app/{{slug}}')
+				$share.setAttribute('origin', window.location.origin + '%BASE_URL%examples/r4-app/{{slug}}')
 				if (slug) {
 					$share.setAttribute('slug', slug)
 				}

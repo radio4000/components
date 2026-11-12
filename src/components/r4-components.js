@@ -32,7 +32,7 @@ export default class R4Components extends LitElement {
 	renderComponent(component) {
 		return html`
 			<li>
-				<a href="/examples/${component.slug}/">${component.slug}</a>
+				<a href="${import.meta.env.BASE_URL}examples/${component.slug}/">${component.slug}</a>
 				<small
 					><a href="${`https://github.com/radio4000/components/blob/main/src/components/${component.slug}.js`}"
 						>(source)</a

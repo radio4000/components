@@ -238,7 +238,7 @@ exports: ${module.exports?.map((e) => html` ${e.name}: ${e.declaration.name} (${
 								<header>
 									<h2>
 										&lt;${toKebabCase(element.name)}&gt;
-										<small><a href="/examples/${toKebabCase(element.name)}/">example</a></small>
+										<small><a href="${import.meta.env.BASE_URL}examples/${toKebabCase(element.name)}/">example</a></small>
 									</h2>
 									<p>${element.description}</p>
 								</header>
